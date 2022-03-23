@@ -34,7 +34,13 @@ public class AppController {
   }
 
   @FXML
-  void sr2() {}
+  public void switchToMedicineDelivery(ActionEvent event) throws IOException {
+    root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/MedicineDelivery.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
 
   @FXML
   void sr3() {}
