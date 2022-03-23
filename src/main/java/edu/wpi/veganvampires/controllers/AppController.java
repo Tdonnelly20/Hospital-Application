@@ -60,4 +60,7 @@ public class AppController {
 
   @FXML
   void sr6() {}
+
+  @FXML
+  void sr7() {}
 }
