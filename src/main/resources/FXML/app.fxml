@@ -9,7 +9,7 @@
 <AnchorPane prefHeight="573.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.AppController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="63.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
-      <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="62.0" onAction="#sr1" prefHeight="33.0" prefWidth="131.0" text="Service Request 1">
+      <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="62.0" onAction="#switchToLabRequest" prefHeight="33.0" prefWidth="131.0" text="Lab Request">
          <font>
             <Font size="14.0" />
          </font>
