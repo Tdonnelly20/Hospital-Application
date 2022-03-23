@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -18,6 +22,23 @@
       <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="335.0" text="Interpreter Request Homepage">
          <font>
             <Font size="24.0" />
+         </font>
+      </Label>
+      <JFXComboBox layoutX="14.0" layoutY="108.0" prefHeight="25.0" prefWidth="250.0" promptText="Request">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:id="spanishInterpreterRequest" fx:value="Spanish Interpreter" />
+               <String fx:id="chineseInterpreterRequest" fx:value="Chinese Interpreter" />
+               <String fx:id="portugueseInterpreterRequest" fx:value="Portuguese Interpreter" />
+               <String fx:id="vietnameseInterpreterRequest" fx:value="Vietnamese Interpreter" />
+               <String fx:id="frenchInterpreterRequest" fx:value="French Interpreter" />
+            </FXCollections>
+         </items>
+      </JFXComboBox>
+      <TextField layoutX="356.0" layoutY="108.0" />
+      <Label layoutX="277.0" layoutY="107.0" text="Location:">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
    </children>
