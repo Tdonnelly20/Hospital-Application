@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ColorPicker?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Arc?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.AppController">
+<AnchorPane prefHeight="573.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.AppController">
    <children>
-      <CheckBox layoutX="50.0" layoutY="38.0" mnemonicParsing="false" text="CheckBox" />
-      <ColorPicker layoutX="186.0" layoutY="34.0" />
-      <Arc fill="DODGERBLUE" layoutX="150.0" layoutY="226.0" length="270.0" radiusX="100.0" radiusY="100.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
-      <Text layoutX="279.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BAZINGA" wrappingWidth="154.60546875">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="63.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
+      <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="62.0" onAction="#sr1" prefHeight="33.0" prefWidth="131.0" text="Service Request 1">
          <font>
-            <Font size="35.0" />
+            <Font size="14.0" />
          </font>
-      </Text>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="104.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
+      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="104.0" onAction="#sr2" prefHeight="25.0" prefWidth="141.0" text="Service Request 2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="145.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
+      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="145.0" onAction="#sr3" prefHeight="25.0" prefWidth="141.0" text="Service Request 3">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="186.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
+      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="186.0" onAction="#sr4" prefHeight="25.0" prefWidth="141.0" text="Service Request 4">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="227.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
+      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="227.0" onAction="#sr5" prefHeight="25.0" prefWidth="141.0" text="Service Request 5">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="268.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
+      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="268.0" onAction="#sr6" prefHeight="25.0" prefWidth="141.0" text="Service Request 6">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9dbdd" height="52.0" stroke="BLACK" strokeType="INSIDE" width="919.0" />
+      <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="296.0" text="Service Request Homepage">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
