@@ -43,7 +43,14 @@ public class AppController {
   }
 
   @FXML
-  void sr3() {}
+  public void switchToLanguageInterpreter(ActionEvent event) throws IOException {
+    root =
+        FXMLLoader.load(getClass().getClassLoader().getResource("FXML/LanguageInterpreter.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
 
   @FXML
   void sr4() {}

@@ -8,38 +8,38 @@
 
 <AnchorPane prefHeight="573.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.AppController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="63.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
-      <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="62.0" onAction="#switchToLabRequest" prefHeight="33.0" prefWidth="131.0" text="Lab Request">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="63.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+      <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="62.0" onAction="#switchToLabRequest" prefHeight="33.0" prefWidth="141.0" text="Lab Request">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="104.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
-      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="104.0" onAction="#switchToMedicineDelivery" prefHeight="25.0" prefWidth="141.0" text="Medicine Delivery">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="104.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+      <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="104.0" onAction="#switchToMedicineDelivery" prefHeight="25.0" prefWidth="141.0" text="Medicine Delivery">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="145.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
-      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="145.0" onAction="#sr3" prefHeight="25.0" prefWidth="141.0" text="Service Request 3">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="145.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="145.0" onAction="#switchToLanguageInterpreter" prefHeight="30.0" prefWidth="151.0" text="Language Interpreter">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="186.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
-      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="186.0" onAction="#sr4" prefHeight="25.0" prefWidth="141.0" text="Service Request 4">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="186.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="186.0" onAction="#sr4" prefHeight="30.0" prefWidth="131.0" text="Service Request 4">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="227.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
-      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="227.0" onAction="#sr5" prefHeight="25.0" prefWidth="141.0" text="Service Request 5">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="227.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="227.0" onAction="#sr5" prefHeight="30.0" prefWidth="131.0" text="Service Request 5">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="268.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
-      <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="268.0" onAction="#sr6" prefHeight="25.0" prefWidth="141.0" text="Service Request 6">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="268.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+      <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="268.0" onAction="#sr6" prefHeight="25.0" prefWidth="141.0" text="Service Request 6">
          <font>
             <Font size="14.0" />
          </font>
