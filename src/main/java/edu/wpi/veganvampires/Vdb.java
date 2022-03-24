@@ -18,9 +18,9 @@ public class Vdb {
       String[] data = line.split(splitToken);
       Location newLoc = new Location();
       newLoc.nodeID=data[0];
-      newLoc.xcoord= Integer.valueOf (data[1]);
-      newLoc.ycoord= Integer.valueOf (data[2]);
-      newLoc.floorNum= Integer.valueOf (data[3]);
+      newLoc.xCoord= Integer.valueOf (data[1]);
+      newLoc.yCoord= Integer.valueOf (data[2]);
+      newLoc.floor= Integer.valueOf (data[3]);
       newLoc.building= data[4];
       newLoc.nodeType=data[5];
       newLoc.longName=data[6];

@@ -1,15 +1,10 @@
 package edu.wpi.veganvampires;
 
-public class Location {
-    int nodeID;
+public class Location {//location class that stores info about each location
+    String nodeID;
     int xCoord;
     int yCoord;
     int floor;
-public class Location {//location class that stores info about each location
-    String nodeID;
-    int xcoord;
-    int ycoord;
-    int floorNum;
     String building;
     String nodeType;
     String longName;
@@ -17,7 +12,7 @@ public class Location {//location class that stores info about each location
 
     public Location()
     {
-        nodeID = -1;
+        nodeID = null;
         xCoord = 0;
         yCoord = 0;
         floor = 0;
@@ -27,7 +22,7 @@ public class Location {//location class that stores info about each location
         shortName = null;
     }
 
-    public Location(int nodeID, int xCoord, int yCoord, int floor, String building, String nodeType, String longName, String shortName)
+    public Location(String nodeID, int xCoord, int yCoord, int floor, String building, String nodeType, String longName, String shortName)
     {
         this.nodeID = nodeID;
         this.xCoord = xCoord;
@@ -39,7 +34,7 @@ public class Location {//location class that stores info about each location
         this.shortName = shortName;
     }
 
-    public Location(int nodeID)
+    public Location(String nodeID)
     {
         this.nodeID = nodeID;
     }
