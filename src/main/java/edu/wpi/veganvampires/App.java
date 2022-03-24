@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
 
 @Slf4j
 public class App extends Application {
@@ -51,7 +52,7 @@ public class App extends Application {
       exampleStatement.execute("CREATE TABLE TEST(id int primary key)");
       exampleStatement.execute("INSERT INTO TEST VALUES(2)");
 
-
+      ArrayList<Location> locList = new ArrayList<>();
       Scanner scanner = new Scanner(System.in);
       boolean loop = true;
       int state = 0;
@@ -66,19 +67,26 @@ public class App extends Application {
             String equip = scanner.next();
             Statement newStatement1 = connection.createStatement();
             newStatement1.execute("UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
+            Location newLoc = new Location(ID1);
+            for(Location location : locList)
+            {
+              if(location.nodeID == ID1) location = newLoc;
+            }
             break;
           case 3:
             System.out.println("New location ID?");
             int ID2 = scanner.nextInt();
             Location loc = new Location(ID2);
+            locList.add(loc);
             Statement newStatement2 = connection.createStatement();
-            newStatement2.execute("INSERT INTO Locations VALUES(loc.ID, '')");
+            newStatement2.execute("INSERT INTO Locations VALUES(loc.nodeID, '')");
             break;
           case 4:
             System.out.println("Location ID?");
             int ID3 = scanner.nextInt();
             Statement newStatement3 = connection.createStatement();
             newStatement3.execute("DELETE FROM Locations WHERE Room_Num = ID3");
+            locList.removeIf(location -> location.nodeID == ID3);
             break;
           case 5:
             break;
@@ -99,7 +107,7 @@ public class App extends Application {
     }
     System.out.println("Apache Derby connection established!");
     for (Location location : Vdb.locations) {
-
+        System.out.println("ID: " + location.nodeID);
     }
   }
 

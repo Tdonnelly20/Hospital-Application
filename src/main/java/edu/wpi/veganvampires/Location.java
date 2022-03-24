@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires;
 
-public class Location {//location class that stores info about each location
+public class Location {
+    protected final int ID = 0;//location class that stores info about each location
     int nodeID;
     int xCoord;
     int yCoord;
