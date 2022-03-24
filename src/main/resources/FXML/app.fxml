@@ -33,7 +33,7 @@
          </font>
       </JFXButton>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="9.0" layoutY="227.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
-      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="227.0" onAction="#sr5" prefHeight="30.0" prefWidth="131.0" text="Service Request 5">
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="227.0" onAction="#switchToMealDelivery" prefHeight="30.0" prefWidth="131.0" text="Meal Delivery">
          <font>
             <Font size="14.0" />
          </font>
