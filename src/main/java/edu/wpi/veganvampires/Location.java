@@ -2,7 +2,7 @@ package edu.wpi.veganvampires;
 
 public class Location {
   protected final int ID = 0; // location class that stores info about each location
-  int nodeID;
+  String nodeID;
   int xCoord;
   int yCoord;
   String floor;
@@ -12,7 +12,7 @@ public class Location {
   String shortName;
 
   public Location() {
-    nodeID = 0;
+    nodeID = null;
     xCoord = 0;
     yCoord = 0;
     floor = null;
@@ -23,7 +23,7 @@ public class Location {
   }
 
   public Location(
-      int nodeID,
+      String nodeID,
       int xCoord,
       int yCoord,
       String floor,
@@ -41,7 +41,7 @@ public class Location {
     this.shortName = shortName;
   }
 
-  public Location(int nodeID) {
+  public Location(String nodeID) {
     this.nodeID = nodeID;
   }
 }

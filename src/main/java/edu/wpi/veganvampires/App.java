@@ -78,7 +78,7 @@ public class App extends Application {
             break;
           case 2:
             System.out.println("Location ID?");
-            int ID1 = scanner.nextInt();
+            String ID1 = scanner.next();
             System.out.println("What equipment is at this location?");
             String equip = scanner.next();
             Statement newStatement1 = connection.createStatement();
@@ -91,7 +91,7 @@ public class App extends Application {
             break;
           case 3:
             System.out.println("New location ID?");
-            int ID2 = scanner.nextInt();
+            String ID2 = scanner.next();
             Location loc = new Location(ID2);
             locList.add(loc);
             Statement newStatement2 = connection.createStatement();
@@ -99,7 +99,7 @@ public class App extends Application {
             break;
           case 4:
             System.out.println("Location ID?");
-            int ID3 = scanner.nextInt();
+            String ID3 = scanner.next();
             Statement newStatement3 = connection.createStatement();
             newStatement3.execute("DELETE FROM Locations WHERE Room_Num = ID3");
             locList.removeIf(location -> location.nodeID == ID3);
