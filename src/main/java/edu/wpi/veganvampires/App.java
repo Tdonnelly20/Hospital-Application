@@ -53,8 +53,9 @@ public class App extends Application {
 
 
       Scanner scanner = new Scanner(System.in);
+      boolean loop = true;
       int state = 0;
-      while (true) {
+      while (loop) {
         switch (state) {
           case 1:
             break;
@@ -69,7 +70,7 @@ public class App extends Application {
           case 3:
             System.out.println("New location ID?");
             int ID2 = scanner.nextInt();
-            //Location loc = new Location(ID2);
+            Location loc = new Location(ID2);
             Statement newStatement2 = connection.createStatement();
             newStatement2.execute("INSERT INTO Locations VALUES(loc.ID, '')");
             break;
@@ -80,6 +81,9 @@ public class App extends Application {
             newStatement3.execute("DELETE FROM Locations WHERE Room_Num = ID3");
             break;
           case 5:
+            break;
+          case 6:
+            loop = false;
             break;
           default:
             System.out.println("1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
