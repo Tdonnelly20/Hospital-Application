@@ -17,12 +17,14 @@ public class App extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {}
+  public void start(Stage primaryStage) {
+  }
 
   @Override
   public void stop() {
     log.info("Shutting Down");
   }
+
   public static void main(String[] args) {
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -48,35 +50,45 @@ public class App extends Application {
       Statement exampleStatement = connection.createStatement();
       exampleStatement.execute("CREATE TABLE TEST(id int primary key)");
       exampleStatement.execute("INSERT INTO TEST VALUES(2)");
-    } catch (SQLException e) {
+
+
+      Scanner scanner = new Scanner(System.in);
+      int state = 0;
+      while (true) {
+        switch (state) {
+          case 1:
+            break;
+          case 2:
+            System.out.println("Location ID?");
+            int ID1 = scanner.nextInt();
+            System.out.println("What equipment is at this location?");
+            String equip = scanner.next();
+            Statement newStatement1 = connection.createStatement();
+            newStatement1.execute("INSERT INTO Locations VALUES(ID1, equip)");
+            break;
+          case 3:
+            break;
+          case 4:
+            System.out.println("Location ID?");
+            int ID3 = scanner.nextInt();
+            Statement newStatement3 = connection.createStatement();
+            newStatement3.execute("DELETE FROM Locations WHERE Room_Num = ID3");
+            break;
+          case 5:
+            break;
+          default:
+            System.out.println("1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
+            state = scanner.nextInt();
+        }
+        break;
+      }
+    }
+    catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
       return;
     }
     System.out.println("Apache Derby connection established!");
-
-    Scanner scanner = new Scanner(System.in);
-    int state = 0;
-    while(true) {
-      switch (state) {
-        case 1:
-          break;
-        case 2:
-          break;
-        case 3:
-          break;
-        case 4:
-          System.out.println("Location ID?");
-          int ID = scanner.nextInt();
-
-          break;
-        case 5:
-          break;
-        default:
-          System.out.println("1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-          int x = scanner.nextInt();
-          state = x;
-      }
-    }
   }
 }
+
