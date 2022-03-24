@@ -5,6 +5,11 @@ public class Location {
     int xCoord;
     int yCoord;
     int floor;
+public class Location {//location class that stores info about each location
+    String nodeID;
+    int xcoord;
+    int ycoord;
+    int floorNum;
     String building;
     String nodeType;
     String longName;
