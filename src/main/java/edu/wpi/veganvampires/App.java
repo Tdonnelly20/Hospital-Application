@@ -44,7 +44,7 @@ public class App extends Application {
 
     try {
       // substitute your database name for myDB
-      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true");
+      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       exampleStatement.execute("CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
 
