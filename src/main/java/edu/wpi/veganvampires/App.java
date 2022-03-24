@@ -94,6 +94,10 @@ public class App extends Application {
       return;
     }
     System.out.println("Apache Derby connection established!");
+    for (Location location : Vdb.locations) {
+
+    }
   }
+
 }
 
