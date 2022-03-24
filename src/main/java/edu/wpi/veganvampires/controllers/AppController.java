@@ -34,9 +34,10 @@ public class AppController {
   }
 
   @FXML
-  public void switchToLanguageInterpreter(ActionEvent event) throws IOException {
+  public void switchToMedEquipDelivery(ActionEvent event) throws IOException {
     root =
-        FXMLLoader.load(getClass().getClassLoader().getResource("FXML/LanguageInterpreter.fxml"));
+        FXMLLoader.load(
+            getClass().getClassLoader().getResource("FXML/MedicalEquipmentDelivery.fxml"));
     switchScene(event);
   }
 

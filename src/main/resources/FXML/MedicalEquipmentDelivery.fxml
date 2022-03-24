@@ -27,11 +27,10 @@
       <JFXComboBox layoutX="14.0" layoutY="108.0" prefHeight="25.0" prefWidth="250.0" promptText="Request">
          <items>
             <FXCollections fx:factory="observableArrayList">
-               <String fx:id="spanishInterpreterRequest" fx:value="Spanish Interpreter" />
-               <String fx:id="chineseInterpreterRequest" fx:value="Chinese Interpreter" />
-               <String fx:id="portugueseInterpreterRequest" fx:value="Portuguese Interpreter" />
-               <String fx:id="vietnameseInterpreterRequest" fx:value="Vietnamese Interpreter" />
-               <String fx:id="frenchInterpreterRequest" fx:value="French Interpreter" />
+               <String fx:id="bedRequest" fx:value="Bed" />
+               <String fx:id="xRay" fx:value="Portable X-Ray" />
+               <String fx:id="infusionPump" fx:value="Infusion Pump" />
+               <String fx:id="recliner" fx:value="Patient Recliner" />
             </FXCollections>
          </items>
       </JFXComboBox>
