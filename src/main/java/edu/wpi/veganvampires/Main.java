@@ -2,8 +2,9 @@ package edu.wpi.veganvampires;
 
 public class Main {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     System.out.println("This is master");
-    App.launch(App.class, args);
+    Vdb.CreateDB();
+    // App.launch(App.class, args);
   }
 }
