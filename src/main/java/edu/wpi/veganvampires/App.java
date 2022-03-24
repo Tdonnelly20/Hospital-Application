@@ -1,8 +1,5 @@
 package edu.wpi.veganvampires;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -40,14 +37,13 @@ public class App extends Application {
     }
 
     System.out.println("Apache Derby driver registered!");
-    Connection connection = null;
+    Connection connection;
 
     try {
       // substitute your database name for myDB
       connection = DriverManager.getConnection("jdbc:derby:myDB;create=true");
       Statement exampleStatement = connection.createStatement();
-      exampleStatement.execute("CREATE TABLE TEST(id int primary key)");
-      exampleStatement.execute("INSERT INTO TEST VALUES(2)");
+      exampleStatement.execute("CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
@@ -57,9 +53,33 @@ public class App extends Application {
 
     Scanner scanner = new Scanner(System.in);
     int state = 0;
-    while(true) {
+    boolean flag = true;
+    while(flag) {
       switch (state) {
         case 1:
+          try
+          {
+            Statement stmt = connection.createStatement();
+            String query = "select * from Locations";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next())
+            {
+              System.out.println("ID: " + rs.getString("nodeID"));
+              System.out.println("Coordinates: " + rs.getInt("xCoord") + " " + rs.getInt("yCoord"));
+              System.out.println("Floor: " + rs.getInt("floor"));
+              System.out.println("Building: " + rs.getString("building"));
+              System.out.println("nodeType: " + rs.getString("nodeType"));
+              System.out.println("longName: " + rs.getString("longName"));
+              System.out.println("shortName: " + rs.getString("shortName"));
+              System.out.println(" ");
+            }
+          }
+          catch(Exception e)
+          {
+            System.out.println("Exception occurred");
+          }
+
+
           break;
         case 2:
           break;
@@ -72,10 +92,12 @@ public class App extends Application {
           break;
         case 5:
           break;
+        case 6:
+          flag = false;
+          break;
         default:
           System.out.println("1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-          int x = scanner.nextInt();
-          state = x;
+          state = scanner.nextInt();
       }
     }
   }
