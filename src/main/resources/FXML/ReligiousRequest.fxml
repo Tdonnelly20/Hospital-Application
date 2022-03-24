@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.AppController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9dbdd" height="52.0" stroke="BLACK" strokeType="INSIDE" width="919.0" />
+        <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="296.0" text="Lab Request Homepage">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <JFXComboBox layoutX="44.0" layoutY="168.0" promptText="Request">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:id="Jew" fx:value="Jew" />
+                    <String fx:id="Catholic" fx:value="Catholic" />
+                    <String fx:value="Muslim" fx:id="Muslim" />
+                    <String fx:id="Hinduism" fx:value="Hinduism" />
+                    <String fx:id="Buddhism" fx:value="Buddhism" />
+                </FXCollections>
+            </items>
+        </JFXComboBox>
+        <Button layoutX="733.0" layoutY="489.0" mnemonicParsing="false" text="Send Request">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Button layoutX="44.0" layoutY="85.0" mnemonicParsing="false" onAction="#switchToDefault" text="Service Request Page" textAlignment="CENTER">
+            <font>
+                <Font size="19.0" />
+            </font>
+        </Button>
+        <TextField fx:id="patientID" layoutX="44.0" layoutY="222.0" promptText="Patient ID" />
+        <TextField fx:id="firstName" layoutX="44.0" layoutY="261.0" promptText="Patient First Name" />
+        <TextField fx:id="lastName" layoutX="44.0" layoutY="298.0" promptText="Patient Last Name" />
+    </children>
+
+</AnchorPane>

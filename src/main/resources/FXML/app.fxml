@@ -56,5 +56,11 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1bdb458" height="30.0" layoutX="10.0" layoutY="344.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+      <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="344.0" onAction="#switchToReligiousRequest" prefHeight="25.0" prefWidth="141.0" text="Religious Request">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

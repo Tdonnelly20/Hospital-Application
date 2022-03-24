@@ -81,4 +81,13 @@ public class AppController {
 
   @FXML
   void sr7() {}
+
+  @FXML
+  public void switchToReligiousRequest(ActionEvent event) throws IOException {
+    root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
 }
