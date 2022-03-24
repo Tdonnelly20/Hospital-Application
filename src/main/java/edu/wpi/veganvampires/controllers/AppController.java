@@ -53,7 +53,13 @@ public class AppController {
   }
 
   @FXML
-  void sr4() {}
+  public void switchToSanitationRequests(ActionEvent event) throws IOException {
+    root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/SanitationRequests.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
 
   @FXML
   void sr5() {}
