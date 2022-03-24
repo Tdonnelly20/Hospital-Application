@@ -67,6 +67,11 @@ public class App extends Application {
             newStatement1.execute("INSERT INTO Locations VALUES(ID1, equip)");
             break;
           case 3:
+            System.out.println("New location ID?");
+            int ID = scanner.nextInt();
+            Location loc = new Location(ID);
+            Statement newStatement2 = connection.createStatement();
+            newStatement2.execute("INSERT INTO Locations VALUES(loc.ID, '')");
             break;
           case 4:
             System.out.println("Location ID?");
