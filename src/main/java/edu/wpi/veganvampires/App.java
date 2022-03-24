@@ -1,10 +1,11 @@
 package edu.wpi.veganvampires;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import java.util.ArrayList;
 
 @Slf4j
 public class App extends Application {
@@ -15,8 +16,7 @@ public class App extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {
-  }
+  public void start(Stage primaryStage) {}
 
   @Override
   public void stop() {
@@ -33,7 +33,7 @@ public class App extends Application {
       System.out.println("File | Project Structure, Modules, Dependency tab");
       System.out.println("Add by clicking on the green plus icon on the right of the window");
       System.out.println(
-              "Select JARs or directories. Go to the folder where the database JAR is located");
+          "Select JARs or directories. Go to the folder where the database JAR is located");
       System.out.println("Click OK, now you can compile your program and run it.");
       e.printStackTrace();
       return;
@@ -46,7 +46,8 @@ public class App extends Application {
       // substitute your database name for myDB
       connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
-      exampleStatement.execute("CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+      exampleStatement.execute(
+          "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
 
       ArrayList<Location> locList = new ArrayList<>();
       Scanner scanner = new Scanner(System.in);
@@ -55,15 +56,14 @@ public class App extends Application {
       while (loop) {
         switch (state) {
           case 1:
-            try
-            {
+            try {
               Statement stmt = connection.createStatement();
               String query = "select * from Locations";
               ResultSet rs = stmt.executeQuery(query);
-              while(rs.next())
-              {
+              while (rs.next()) {
                 System.out.println("ID: " + rs.getString("nodeID"));
-                System.out.println("Coordinates: " + rs.getInt("xCoord") + " " + rs.getInt("yCoord"));
+                System.out.println(
+                    "Coordinates: " + rs.getInt("xCoord") + " " + rs.getInt("yCoord"));
                 System.out.println("Floor: " + rs.getInt("floor"));
                 System.out.println("Building: " + rs.getString("building"));
                 System.out.println("nodeType: " + rs.getString("nodeType"));
@@ -71,9 +71,7 @@ public class App extends Application {
                 System.out.println("shortName: " + rs.getString("shortName"));
                 System.out.println(" ");
               }
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
               System.out.println("Exception occurred");
             }
 
@@ -84,7 +82,8 @@ public class App extends Application {
             System.out.println("What equipment is at this location?");
             String equip = scanner.next();
             Statement newStatement1 = connection.createStatement();
-            newStatement1.execute("UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
+            newStatement1.execute(
+                "UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
             Location newLoc = new Location(ID1);
             for (Location location : locList) {
               if (location.nodeID == ID1) location = newLoc;
@@ -113,12 +112,12 @@ public class App extends Application {
             loop = false;
             break;
           default:
-            System.out.println("1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
+            System.out.println(
+                "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
             state = scanner.nextInt();
         }
       }
-    }
-    catch (SQLException e) {
+    } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
       return;
@@ -128,9 +127,7 @@ public class App extends Application {
     }
     System.out.println("Apache Derby connection established!");
     for (Location location : Vdb.locations) {
-        System.out.println("ID: " + location.nodeID);
+      System.out.println("ID: " + location.nodeID);
     }
   }
-
 }
-
