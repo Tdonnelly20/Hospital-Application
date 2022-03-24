@@ -19,4 +19,11 @@ public class App extends Application {
   public void stop() {
     log.info("Shutting Down");
   }
+  public static void main(String[] args) {
+    char state = 'D';
+    switch (state) {
+      default:
+        System.out.print("Menu");
+    }
+  }
 }
