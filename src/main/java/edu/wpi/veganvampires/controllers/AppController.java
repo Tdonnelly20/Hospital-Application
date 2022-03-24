@@ -54,14 +54,21 @@ public class AppController {
   }
 
   @FXML
-  void switchToLaundryRequest(ActionEvent event) throws IOException {
+  public void switchToLaundryRequest(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
     switchScene(event);
   }
 
   @FXML
-  void sr7() {}
+  public void switchToReligiousRequest(ActionEvent event) throws IOException {
+    root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
 
+  @FXML
   void switchScene(ActionEvent event) {
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
