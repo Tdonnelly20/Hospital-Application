@@ -86,9 +86,8 @@ public class App extends Application {
             Statement newStatement1 = connection.createStatement();
             newStatement1.execute("UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
             Location newLoc = new Location(ID1);
-            for(Location location : locList)
-            {
-              if(location.nodeID == ID1) location = newLoc;
+            for (Location location : locList) {
+              if (location.nodeID == ID1) location = newLoc;
             }
             break;
           case 3:
@@ -107,6 +106,8 @@ public class App extends Application {
             locList.removeIf(location -> location.nodeID == ID3);
             break;
           case 5:
+            Vdb newBuffer = new Vdb();
+            newBuffer.CreateDB();
             break;
           case 6:
             loop = false;
@@ -115,13 +116,15 @@ public class App extends Application {
             System.out.println("1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
             state = scanner.nextInt();
         }
-        break;
       }
     }
     catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
       return;
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
     }
     System.out.println("Apache Derby connection established!");
     for (Location location : Vdb.locations) {
