@@ -64,12 +64,12 @@ public class App extends Application {
             System.out.println("What equipment is at this location?");
             String equip = scanner.next();
             Statement newStatement1 = connection.createStatement();
-            newStatement1.execute("INSERT INTO Locations VALUES(ID1, equip)");
+            newStatement1.execute("UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
             break;
           case 3:
             System.out.println("New location ID?");
-            int ID = scanner.nextInt();
-            Location loc = new Location(ID);
+            int ID2 = scanner.nextInt();
+            //Location loc = new Location(ID2);
             Statement newStatement2 = connection.createStatement();
             newStatement2.execute("INSERT INTO Locations VALUES(loc.ID, '')");
             break;
