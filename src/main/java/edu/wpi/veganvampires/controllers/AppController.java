@@ -18,67 +18,53 @@ public class AppController {
   @FXML
   public void switchToDefault(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/app.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   @FXML
   public void switchToLabRequest(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/LabRequest.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   @FXML
   public void switchToMedicineDelivery(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/MedicineDelivery.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   @FXML
   public void switchToLanguageInterpreter(ActionEvent event) throws IOException {
     root =
         FXMLLoader.load(getClass().getClassLoader().getResource("FXML/LanguageInterpreter.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   @FXML
   public void switchToSanitationRequests(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/SanitationRequests.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   @FXML
   public void switchToMealDelivery(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/MealDelivery.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   @FXML
   void switchToLaundryRequest(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
+    switchScene(event);
+  }
+
+  @FXML
+  void sr7() {}
+
+  void switchScene(ActionEvent event) {
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
   }
-
-  @FXML
-  void sr7() {}
 }
