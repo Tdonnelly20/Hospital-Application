@@ -18,15 +18,15 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="573.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.AppController">
+<AnchorPane prefHeight="573.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.AppController">
    <children>
       <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <items>
             <AnchorPane prefHeight="503.0" prefWidth="408.0">
                <children>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="519.3333333333334" prefWidth="393.3333333333333" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="519.0" prefWidth="327.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <VBox alignment="TOP_CENTER" prefHeight="518.0" spacing="40.0" style="-fx-background-color: rgb(228,229,229);">
+                        <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: rgb(228,229,229);">
                            <children>
                               <TextField fx:id="patientID" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                                  <VBox.margin>
@@ -75,7 +75,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="586.0">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="519.3333333333334" prefWidth="576.6666666666666" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="519.3333333333334" prefWidth="592.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fitHeight="382.0" fitWidth="556.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -118,5 +118,10 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <ImageView fitHeight="51.0" fitWidth="38.0" layoutX="871.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
