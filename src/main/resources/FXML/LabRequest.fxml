@@ -28,6 +28,11 @@
                      <content>
                         <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: rgb(228,229,229);">
                            <children>
+                              <Button mnemonicParsing="false" onAction="#switchToDefault" text="Service Request Page" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
                               <TextField fx:id="patientID" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
@@ -57,11 +62,6 @@
                               <Button mnemonicParsing="false" text="Send Request">
                                  <font>
                                     <Font size="18.0" />
-                                 </font>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#switchToDefault" text="Service Request Page" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="19.0" />
                                  </font>
                               </Button>
                            </children>
