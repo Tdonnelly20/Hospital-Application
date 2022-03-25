@@ -16,14 +16,16 @@ public class App extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {}
+  public void start(Stage primaryStage) {
+    this.main();
+  }
 
   @Override
   public void stop() {
     log.info("Shutting Down");
   }
 
-  public static void main(String[] args) {
+  public static void main() {
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -46,9 +48,12 @@ public class App extends Application {
       // substitute your database name for myDB
       connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
-      exampleStatement.execute(
-          "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
-
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
+      if (!set.next()) {
+        exampleStatement.execute(
+            "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+      }
       ArrayList<Location> locList = new ArrayList<>();
       Scanner scanner = new Scanner(System.in);
       boolean loop = true;
@@ -56,23 +61,21 @@ public class App extends Application {
       while (loop) {
         switch (state) {
           case 1:
-            try {
-              Statement stmt = connection.createStatement();
-              String query = "select * from Locations";
-              ResultSet rs = stmt.executeQuery(query);
-              while (rs.next()) {
-                System.out.println("ID: " + rs.getString("nodeID"));
-                System.out.println(
-                    "Coordinates: " + rs.getInt("xCoord") + " " + rs.getInt("yCoord"));
-                System.out.println("Floor: " + rs.getInt("floor"));
-                System.out.println("Building: " + rs.getString("building"));
-                System.out.println("nodeType: " + rs.getString("nodeType"));
-                System.out.println("longName: " + rs.getString("longName"));
-                System.out.println("shortName: " + rs.getString("shortName"));
-                System.out.println(" ");
-              }
-            } catch (Exception e) {
-              System.out.println("Exception occurred");
+            Statement stmt = connection.createStatement();
+            String query = "select * from Locations";
+            ResultSet rs = stmt.executeQuery(query);
+            if (!rs.next()) {
+              System.out.println("No data available");
+            }
+            while (rs.next()) {
+              System.out.println("ID: " + rs.getString("nodeID"));
+              System.out.println("Coordinates: " + rs.getInt("xCoord") + " " + rs.getInt("yCoord"));
+              System.out.println("Floor: " + rs.getInt("floor"));
+              System.out.println("Building: " + rs.getString("building"));
+              System.out.println("nodeType: " + rs.getString("nodeType"));
+              System.out.println("longName: " + rs.getString("longName"));
+              System.out.println("shortName: " + rs.getString("shortName"));
+              System.out.println(" ");
             }
 
             break;
@@ -114,8 +117,9 @@ public class App extends Application {
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-            state = scanner.nextInt();
+            // state = scanner.nextInt();
         }
+        state = scanner.nextInt();
       }
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
