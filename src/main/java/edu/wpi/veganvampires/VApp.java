@@ -1,9 +1,13 @@
 package edu.wpi.veganvampires;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +20,11 @@ public class VApp extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {
+  public void start(Stage primaryStage) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/app.fxml"));
+    Scene scene = new Scene(root);
+    primaryStage.setScene(scene);
+    primaryStage.show();
     this.main();
   }
 
@@ -26,6 +34,7 @@ public class VApp extends Application {
   }
 
   public static void main() {
+
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
