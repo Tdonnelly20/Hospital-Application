@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
@@ -107,7 +109,7 @@
             </items>
         </SplitPane>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#999999" height="52.0" stroke="BLACK" strokeType="INSIDE" width="919.0" />
-        <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="296.0" text="Religious Request Homepage">
+        <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="326.0" text="Sanitation Request Homepage">
             <font>
                 <Font size="24.0" />
             </font>

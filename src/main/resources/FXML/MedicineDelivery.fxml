@@ -129,7 +129,7 @@
             </items>
         </SplitPane>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#999999" height="52.0" stroke="BLACK" strokeType="INSIDE" width="919.0" />
-        <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="296.0" text="Meal Delivery Request">
+        <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="296.0" text="Medicine Delivery Request">
             <font>
                 <Font size="24.0" />
             </font>
