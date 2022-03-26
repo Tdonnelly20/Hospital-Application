@@ -85,7 +85,7 @@
                   <Insets top="15.0" />
                </padding>
             </VBox>
-            <Button fx:id="closeButton" layoutX="4.0" layoutY="449.0" mnemonicParsing="false" onAction="#closeProgram" prefHeight="29.0" prefWidth="129.0" style="-fx-background-color: #5c677d;" text="Close" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="closeButton" layoutX="4.0" layoutY="449.0" mnemonicParsing="false"  prefHeight="29.0" prefWidth="129.0" style="-fx-background-color: #5c677d;" text="Close" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
