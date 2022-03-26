@@ -9,15 +9,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AppController {
+public class ServiceRequestController {
 
   private Stage stage;
   private Scene scene;
   private Parent root;
 
   @FXML
+  public void switchToHome(ActionEvent event) throws IOException {
+    root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/home.fxml"));
+    switchScene(event);
+  }
+
+  @FXML
   public void switchToDefault(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/app.fxml"));
+    root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/serviceRequest.fxml"));
     switchScene(event);
   }
 
