@@ -1,48 +1,31 @@
 package edu.wpi.veganvampires;
 
-import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
-public class Vdb {
-  static List<Location> locations;
+@Slf4j
+public class VApp extends Application {
 
-  public static void CreateDB() throws Exception {
-    String line = ""; // receives a line from br
-    String splitToken = ","; // what we split the csv file with
-    String currentPath = System.getProperty("user.dir");
-    currentPath += "\\src\\main\\java\\edu\\wpi\\veganvampires";
-    System.out.println(currentPath);
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
-    BufferedReader br = new BufferedReader(fr);
-
-    locations = new ArrayList<>();
-
-    String headerLine = br.readLine();
-
-    System.out.println("MAKING");
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data = line.split(splitToken);
-      Location newLoc =
-          new Location(
-              data[0],
-              Integer.valueOf(data[1]),
-              Integer.valueOf(data[2]),
-              data[3],
-              data[4],
-              data[5],
-              data[6],
-              data[7]);
-      locations.add(newLoc);
-    }
-    System.out.println("Database made");
-    V1();
+  @Override
+  public void init() {
+    log.info("Starting Up");
   }
 
-  public static void V1() {
+  @Override
+  public void start(Stage primaryStage) {
+    this.main();
+  }
+
+  @Override
+  public void stop() {
+    log.info("Shutting Down");
+  }
+
+  public static void main() {
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -130,18 +113,13 @@ public class Vdb {
             break;
           case 6:
             loop = false;
-            state = 7;
-            break;
-          case 7:
             break;
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
             // state = scanner.nextInt();
         }
-        if (loop) {
-          state = scanner.nextInt();
-        }
+        state = scanner.nextInt();
       }
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
