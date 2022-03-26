@@ -36,6 +36,12 @@
                                     <Font size="19.0" />
                                  </font>
                               </Button>
+                              <TextField id="Status" fx:id="Status" alignment="CENTER" editable="false" layoutX="41.0" layoutY="130.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
+                              <TextField id="userID" fx:id="userID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="User ID">
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="15.0" />
+                                 </VBox.margin>
+                              </TextField>
                               <TextField id="patientID" fx:id="patientID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
@@ -63,6 +69,11 @@
                                  </items>
                               </JFXComboBox>
                               <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button id="sendRequest" fx:id="Reset" layoutX="95.0" layoutY="391.0" mnemonicParsing="false" onAction="#resetForm" text="Reset">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

@@ -14,15 +14,29 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LabRequestController {
+  @FXML private TextField Status;
+  @FXML private TextField userID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private JFXComboBox dropDown;
   @FXML private Button sendRequest;
+  @FXML private Button Reset;
 
   private Stage stage;
   private Scene scene;
   private Parent root;
+
+  @FXML
+  public void resetForm() {
+    Status.setText("Status: Blank");
+    userID.setText("");
+    patientID.setText("");
+    firstName.setText("");
+    lastName.setText("");
+    dropDown.setValue(null);
+    sendRequest.setDisable(true);
+  }
 
   @FXML
   public void switchToHome(ActionEvent event) throws IOException {
@@ -50,13 +64,22 @@ public class LabRequestController {
   @FXML
   private void validateButton() {
     System.out.println(dropDown.getValue());
-    if (!(patientID.getText().isEmpty())
+    if (!(userID.getText().isEmpty())
+        && !(patientID.getText().isEmpty())
         && !(firstName.getText().isEmpty())
         && !(lastName.getText().isEmpty())
         && !(dropDown.getValue() == null)) {
-      // Information verification needed
+      // Information verification and submission needed
       sendRequest.setDisable(false);
+      Status.setText("Status: Done");
+    } else if (!(userID.getText().isEmpty())
+        || !(patientID.getText().isEmpty())
+        || !(firstName.getText().isEmpty())
+        || !(lastName.getText().isEmpty())
+        || !(dropDown.getValue() == null)) {
+      Status.setText("Status: Processing");
     } else {
+      Status.setText("Status: Blank");
       sendRequest.setDisable(true);
     }
   }
