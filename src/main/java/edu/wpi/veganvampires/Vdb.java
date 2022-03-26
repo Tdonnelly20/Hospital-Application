@@ -130,13 +130,18 @@ public class Vdb {
             break;
           case 6:
             loop = false;
+            state = 7;
+            break;
+          case 7:
             break;
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
             // state = scanner.nextInt();
         }
-        state = scanner.nextInt();
+        if (loop) {
+          state = scanner.nextInt();
+        }
       }
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
