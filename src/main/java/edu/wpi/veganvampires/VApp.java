@@ -55,7 +55,7 @@ public class VApp extends Application {
 
     try {
       // substitute your database name for myDB
-      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
