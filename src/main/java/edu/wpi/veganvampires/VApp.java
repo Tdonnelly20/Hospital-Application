@@ -1,10 +1,12 @@
 package edu.wpi.veganvampires;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,12 +22,20 @@ public class VApp extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/app.fxml"));
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
-    primaryStage.show();
-    this.main();
+  public void start(Stage primaryStage) {
+    try {
+      FXMLLoader loader = new FXMLLoader();
+      URL xmlUrl = getClass().getClassLoader().getResource("FXML/home.fxml");
+      loader.setLocation(xmlUrl);
+      Parent root = loader.load();
+
+      primaryStage.setScene(new Scene(root));
+      primaryStage.show();
+      this.main();
+    } catch (IOException e) {
+      e.printStackTrace();
+      Platform.exit();
+    }
   }
 
   @Override
@@ -55,7 +65,7 @@ public class VApp extends Application {
 
     try {
       // substitute your database name for myDB
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
