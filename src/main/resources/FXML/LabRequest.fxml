@@ -9,6 +9,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -36,7 +38,6 @@
                                     <Font size="19.0" />
                                  </font>
                               </Button>
-                              <TextField id="Status" fx:id="Status" alignment="CENTER" editable="false" layoutX="41.0" layoutY="130.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
                               <TextField id="userID" fx:id="userID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="User ID">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
@@ -68,6 +69,7 @@
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
+                              <TextField id="Status" fx:id="Status" alignment="CENTER" editable="false" layoutX="41.0" layoutY="130.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
                               <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">
                                  <font>
                                     <Font size="18.0" />
@@ -78,6 +80,12 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="C1" />
+                                  <TableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TableView>
                            </children>
                            <padding>
                               <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
