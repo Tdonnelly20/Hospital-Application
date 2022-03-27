@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="573.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.ServiceRequestController">
+    <children>
+        <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <items>
+                <AnchorPane prefHeight="503.0" prefWidth="408.0">
+                    <children>
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="519.0" prefWidth="327.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <content>
+                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: rgb(228,229,229);">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#switchToServiceRequest" text="Service Request Page" textAlignment="CENTER">
+                                            <font>
+                                                <Font size="19.0" />
+                                            </font>
+                                        </Button>
+                                        <TextField fx:id="location" promptText="Location">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <JFXComboBox layoutX="22.0" layoutY="137.0" promptText="Select Hazards">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:id="bloodRequest" fx:value="Blood" />
+                                                    <String fx:id="vomitRequest" fx:value="Vomit" />
+                                                    <String fx:id="fluidRequest" fx:value="Other Bodily Fluids" />
+                                                    <String fx:id="glassRequest" fx:value="Broken Glass" />
+                                                    <String fx:id="generalRequest" fx:value="No Hazard/General Mess" />
+                                                </FXCollections>
+                                            </items>
+                                        </JFXComboBox>
+                                        <TextArea prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextArea>
+                                        <Button mnemonicParsing="false" text="Send Request">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Button>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
+                                    </padding>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="586.0">
+                    <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="519.3333333333334" prefWidth="592.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <ImageView fitHeight="382.0" fitWidth="556.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../01_thefirstfloor.png" />
+                                    </image>
+                                    <VBox.margin>
+                                        <Insets top="15.0" />
+                                    </VBox.margin>
+                                    <viewport>
+                                        <Rectangle2D />
+                                    </viewport>
+                                </ImageView>
+                                <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: rgb(149,182,203);">
+                                    <children>
+                                        <JFXComboBox prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:id="groundFloor" fx:value="Ground Floor" />
+                                                    <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                                    <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                                    <String fx:id="floor1" fx:value="Floor 1" />
+                                                    <String fx:id="floor2" fx:value="Floor 2" />
+                                                    <String fx:id="floor3" fx:value="Floor 3" />
+                                                </FXCollections>
+                                            </items>
+                                        </JFXComboBox>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets left="15.0" top="15.0" />
+                                    </VBox.margin>
+                                </HBox>
+                            </children></VBox>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#999999" height="52.0" stroke="BLACK" strokeType="INSIDE" width="919.0" />
+        <Label layoutX="14.0" layoutY="9.0" prefHeight="35.0" prefWidth="326.0" text="Sanitation Request Homepage">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="51.0" fitWidth="38.0" layoutX="871.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>
