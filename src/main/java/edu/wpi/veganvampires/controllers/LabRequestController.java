@@ -26,7 +26,7 @@ public class LabRequestController extends Controller {
     sendRequest.setDisable(true);
   }
 
-  //Checks to see if the user can submit info
+  // Checks to see if the user can submit info
   @FXML
   private void validateButton() {
     if (!(userID.getText().isEmpty())

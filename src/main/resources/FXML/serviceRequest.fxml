@@ -137,12 +137,12 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="closeButtonMenu" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
