@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Vdb {
   static List<Location> locations;
+  static List<String> equipment;
 
   public static void CreateDB() throws Exception {
     String line = ""; // receives a line from br
@@ -38,6 +39,8 @@ public class Vdb {
               data[7]);
       locations.add(newLoc);
     }
+    fr=new FileReader(currentPath+"\\MedEquipReq.CSV");
+    br = new BufferedReader(fr);
     System.out.println("Database made");
     V1();
   }
