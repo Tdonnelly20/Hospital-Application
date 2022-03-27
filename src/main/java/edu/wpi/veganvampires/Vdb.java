@@ -19,7 +19,7 @@ public class Vdb {
     BufferedReader br = new BufferedReader(fr);
 
     locations = new ArrayList<>();
-    equipment=new ArrayList<>();
+    equipment = new ArrayList<>();
     String headerLine = br.readLine();
 
     while ((line = br.readLine()) != null) // should create a database based on csv file
@@ -37,15 +37,20 @@ public class Vdb {
               data[7]);
       locations.add(newLoc);
     }
-    fr=new FileReader(currentPath+"\\MedEquipReq.CSV");
+
+    fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
     br = new BufferedReader(fr);
+    headerLine = "";
     headerLine = br.readLine();
     line = "";
+
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
-      Equipment e=new Equipment(data[0],data[1],Integer.valueOf(data[2]));
-      equipment.add(e);
+      Equipment t = new Equipment();
+      //why does creating with data not work
+      //Equipment e = new Equipment(data[0], data[1], Integer.valueOf(data[2]));
+      // equipment.add(e);
     }
     System.out.println("Database made");
     V1();
