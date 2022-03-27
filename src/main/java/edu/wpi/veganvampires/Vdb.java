@@ -47,10 +47,8 @@ public class Vdb {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
-      Equipment t = new Equipment();
-      //why does creating with data not work
-      //Equipment e = new Equipment(data[0], data[1], Integer.valueOf(data[2]));
-      // equipment.add(e);
+      Equipment e = new Equipment(data[0], data[1], Integer.valueOf(data[2]));
+      equipment.add(e);
     }
     System.out.println("Database made");
     V1();
