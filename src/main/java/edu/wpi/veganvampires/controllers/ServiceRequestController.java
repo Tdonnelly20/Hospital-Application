@@ -1,3 +1,8 @@
 package edu.wpi.veganvampires.controllers;
 
-public class ServiceRequestController extends Controller {}
+import javafx.stage.Stage;
+
+public class ServiceRequestController extends Controller {
+  @Override
+  public void start(Stage primaryStage) {}
+}

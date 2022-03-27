@@ -1,3 +1,8 @@
 package edu.wpi.veganvampires.controllers;
 
-public class HomeController extends Controller {}
+import javafx.stage.Stage;
+
+public class HomeController extends Controller {
+  @Override
+  public void start(Stage primaryStage) throws Exception {}
+}

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LabRequestController extends Controller {
   @FXML private TextField Status;
@@ -11,9 +12,8 @@ public class LabRequestController extends Controller {
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
-  @FXML private JFXComboBox dropDown;
+  @FXML private JFXComboBox<Object> dropDown;
   @FXML private Button sendRequest;
-  @FXML private Button Reset;
 
   @FXML
   public void resetForm() {
@@ -26,9 +26,9 @@ public class LabRequestController extends Controller {
     sendRequest.setDisable(true);
   }
 
+  //Checks to see if the user can submit info
   @FXML
   private void validateButton() {
-    System.out.println(dropDown.getValue());
     if (!(userID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
         && !(firstName.getText().isEmpty())
@@ -48,4 +48,7 @@ public class LabRequestController extends Controller {
       sendRequest.setDisable(true);
     }
   }
+
+  @Override
+  public void start(Stage primaryStage) {}
 }
