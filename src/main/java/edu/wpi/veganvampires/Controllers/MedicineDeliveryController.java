@@ -3,6 +3,7 @@ package edu.wpi.veganvampires.Controllers;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.Dao.MedicineDeliveryDao;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -16,9 +17,22 @@ public class MedicineDeliveryController extends Controller {
   @FXML private TextField roomNum;
   @FXML private TextField dosage;
   @FXML private JFXComboBox<Object> medicationDropDown;
+  @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
   private static MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
+
+  @FXML
+  private void checkValidation() {
+    if (!(patientID.getText().equals("")
+        || firstName.getText().equals("")
+        || lastName.getText().equals("")
+        || roomNum.getText().equals("")
+        || dosage.getText().equals("")
+        || medicationDropDown.getValue().equals(""))) {
+      sendRequest.setDisable(false);
+    }
+  }
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
@@ -38,7 +52,7 @@ public class MedicineDeliveryController extends Controller {
 
       // Make sure the patient ID is an integer
     } else if (!isInteger(patientID.getText())) {
-      statusLabel.setText("Patient ID must be a number!");
+      statusLabel.setText("Status: Failed. Patient ID must be a number!");
       statusLabel.setTextFill(Color.web("Red"));
 
       // If all conditions pass, create the request
@@ -54,7 +68,7 @@ public class MedicineDeliveryController extends Controller {
           requestDetails.getText());
 
       // Set the label to green, and let the user know it has been processed
-      statusLabel.setText("Processed Successfully");
+      statusLabel.setText("Status: Processed Successfully");
       statusLabel.setTextFill(Color.web("Green"));
 
       // For testing purposes
@@ -79,6 +93,7 @@ public class MedicineDeliveryController extends Controller {
   }
 
   /** Sets all the fields to their default value for another entry */
+  @FXML
   private void resetFields() {
     patientID.setText("");
     firstName.setText("");

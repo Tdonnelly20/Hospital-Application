@@ -34,32 +34,27 @@
                             <content>
                                 <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                     <children>
-                                        <Button mnemonicParsing="false" onAction="#switchToServiceRequest" text="Service Request Page" textAlignment="CENTER">
-                                            <font>
-                                                <Font size="19.0" />
-                                            </font>
-                                        </Button>
-                                        <TextField fx:id="patientID" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
+                                        <TextField fx:id="patientID" onInputMethodTextChanged="#checkValidation" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="firstName" promptText="Patient First Name">
+                                        <TextField fx:id="firstName" onInputMethodTextChanged="#checkValidation" prefHeight="26.0" prefWidth="239.0" promptText="Patient First Name">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="lastName" promptText="Patient Last Name">
+                                        <TextField fx:id="lastName" onInputMethodTextChanged="#checkValidation" promptText="Patient Last Name">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="roomNum" promptText="Room Number">
+                                        <TextField fx:id="roomNum" onInputMethodTextChanged="#checkValidation" promptText="Room Number">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <JFXComboBox fx:id="medicationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" prefHeight="26.0" prefWidth="239.0" promptText="Select Medicine" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                        <JFXComboBox fx:id="medicationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" onInputMethodTextChanged="#checkValidation" prefHeight="26.0" prefWidth="246.0" promptText="Select Medicine" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="tylenolRequest" fx:value="Tylenol" />
@@ -73,18 +68,19 @@
                                     <Insets />
                                  </opaqueInsets>
                                         </JFXComboBox>
-                                        <TextField fx:id="dosage" promptText="Dosage">
+                                        <TextField fx:id="dosage" onInputMethodTextChanged="#checkValidation" prefHeight="26.0" prefWidth="241.0" promptText="Dosage">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextArea fx:id="requestDetails" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
+                                        <TextArea fx:id="requestDetails" onInputMethodTextChanged="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextArea>
-                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Please Enter Required Fields" textAlignment="CENTER" wrapText="true" />
-                                        <Button mnemonicParsing="false" onAction="#validateButton" text="Send Request">
+                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Enter All Fields" textAlignment="CENTER" wrapText="true" />
+                              <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
+                                        <Button fx:id="sendRequest" mnemonicParsing="false" onAction="#validateButton" text="Send Request">
                                             <font>
                                                 <Font size="18.0" />
                                             </font>
