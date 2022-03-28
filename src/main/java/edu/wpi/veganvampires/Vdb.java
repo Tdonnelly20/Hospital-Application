@@ -10,9 +10,7 @@ public class Vdb {
   static List<Location> locations;
   static List<Equipment> equipment;
 
-  public static void CreateDB() throws Exception {
-    String line = ""; // receives a line from br
-    String splitToken = ","; // what we split the csv file with
+  public static String returnPath() {
     String currentPath = System.getProperty("user.dir");
     if (currentPath.contains("TeamVeganVampires")) {
       int position = currentPath.indexOf("TeamVeganVampires") + 17;
@@ -21,13 +19,18 @@ public class Vdb {
       }
       currentPath += "\\src\\main\\resources\\edu\\wpi\\veganvampires";
     }
+    return currentPath;
+  }
+
+  public static void CreateDB() throws Exception {
+    String currentPath = returnPath();
     FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
-
+    String line = ""; // receives a line from br
+    String splitToken = ","; // what we split the csv file with
     locations = new ArrayList<>();
     equipment = new ArrayList<>();
     String headerLine = br.readLine();
-
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
@@ -52,7 +55,8 @@ public class Vdb {
 
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
-      String[] data = line.split(splitToken);
+      String[] data = {"", "", "0"};
+      data = line.split(splitToken);
       Equipment e = new Equipment(data[0], data[1], Integer.valueOf(data[2]));
       equipment.add(e);
     }
@@ -143,8 +147,9 @@ public class Vdb {
             locList.removeIf(location -> location.nodeID == ID3);
             break;
           case 5:
-            Vdb newBuffer = new Vdb();
-            newBuffer.CreateDB();
+            SaveToFile();
+            // Vdb newBuffer = new Vdb();
+            // newBuffer.CreateDB();
             break;
           case 6:
             loop = false;
@@ -173,5 +178,43 @@ public class Vdb {
     for (Location location : Vdb.locations) {
       System.out.println("ID: " + location.nodeID);
     }
+  }
+
+  public static void SaveToFile() throws Exception { // can be used to update CSV file
+    String currentPath = returnPath();
+    FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
+    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
+    for (Location l : locations) {
+      String outputData[] = {
+        l.nodeID,
+        String.valueOf(l.xCoord),
+        String.valueOf(l.yCoord),
+        l.floor,
+        l.building,
+        l.nodeType,
+        l.longName,
+        l.shortName,
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
+    bw = new BufferedWriter(fw);
+    bw.append("Name,Description,Count");
+    for (Equipment e : equipment) {
+      String outputData[] = {e.name, e.description, String.valueOf(e.count)};
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    bw.close();
+    fw.close();
   }
 }
