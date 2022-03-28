@@ -22,7 +22,7 @@ public class Vdb {
 
     String headerLine = br.readLine();
 
-    System.out.println("MAKING");
+    System.out.println("Generating database, please wait...");
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
@@ -39,7 +39,7 @@ public class Vdb {
       locations.add(newLoc);
     }
     System.out.println("Database made");
-    V1();
+    // V1();
   }
 
   public static void V1() {
@@ -73,6 +73,7 @@ public class Vdb {
       }
       ArrayList<Location> locList = new ArrayList<>();
       Scanner scanner = new Scanner(System.in);
+      System.out.println("Apache Derby connection established!");
       boolean loop = true;
       int state = 0;
       while (loop) {
@@ -137,7 +138,7 @@ public class Vdb {
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-            // state = scanner.nextInt();
+            state = scanner.nextInt();
         }
         if (loop) {
           state = scanner.nextInt();
@@ -151,9 +152,9 @@ public class Vdb {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
     }
-    System.out.println("Apache Derby connection established!");
-    for (Location location : Vdb.locations) {
-      System.out.println("ID: " + location.nodeID);
-    }
+
+    // for (Location location : Vdb.locations) {
+    //  System.out.println("ID: " + location.nodeID);
+    //  }
   }
 }
