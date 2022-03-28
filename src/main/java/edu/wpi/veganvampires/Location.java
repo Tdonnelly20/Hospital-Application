@@ -1,5 +1,8 @@
 package edu.wpi.veganvampires;
 
+import lombok.Setter;
+
+@Setter
 public class Location {
   protected final int ID = 0; // location class that stores info about each location
   String nodeID;
