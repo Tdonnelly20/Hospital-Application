@@ -54,7 +54,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <JFXComboBox layoutX="22.0" layoutY="137.0" promptText="Select Medicine">
+                                        <JFXComboBox fx:id="medicationDropDown" layoutX="22.0" layoutY="137.0" promptText="Select Medicine">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="tylenolRequest" fx:value="Tylenol" />
@@ -70,12 +70,13 @@
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextArea prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true">
+                                        <TextArea fx:id="requestDetails" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextArea>
-                                        <Button mnemonicParsing="false" text="Send Request">
+                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Please Enter Required Fields" textAlignment="CENTER" wrapText="true" />
+                                        <Button mnemonicParsing="false" onAction="#validateButton" text="Send Request">
                                             <font>
                                                 <Font size="18.0" />
                                             </font>

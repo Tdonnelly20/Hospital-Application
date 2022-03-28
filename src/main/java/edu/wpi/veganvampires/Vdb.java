@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires;
 
+import edu.wpi.veganvampires.Features.MedicineDelivery;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -156,5 +157,10 @@ public class Vdb {
     // for (Location location : Vdb.locations) {
     //  System.out.println("ID: " + location.nodeID);
     //  }
+  }
+
+  public static void addMedicineDelivery(MedicineDelivery newMedicineDelivery) {
+    // Code for adding a medicine delivery to the database
+    System.out.println("Arrived at database!");
   }
 }

@@ -5,10 +5,15 @@ import java.util.List;
 
 public interface MedicineDeliveryImpl {
 
-  public List<MedicineDelivery> getAllMedicineDeliveries();
+  List<MedicineDelivery> getAllMedicineDeliveries();
 
-  public void addMedicationDelivery(
-      String patientFirstName, String patientLastName, int patientID, String medicineName);
+  void addMedicationDelivery(
+      String patientFirstName,
+      String patientLastName,
+      int patientID,
+      String medicineName,
+      String dosage,
+      String requestDetails);
 
-  public void removeMedicationDelivery();
+  void removeMedicationDelivery();
 }
