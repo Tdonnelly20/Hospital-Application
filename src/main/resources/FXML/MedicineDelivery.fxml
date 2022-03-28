@@ -80,7 +80,7 @@
                                         </TextArea>
                               <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Enter All Fields" textAlignment="CENTER" wrapText="true" />
                               <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
-                                        <Button fx:id="sendRequest" mnemonicParsing="false" onAction="#validateButton" text="Send Request">
+                                        <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#validateButton" text="Send Request">
                                             <font>
                                                 <Font size="18.0" />
                                             </font>
