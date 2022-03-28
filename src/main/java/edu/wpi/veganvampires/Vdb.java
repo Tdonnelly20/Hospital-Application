@@ -64,6 +64,7 @@ public class Vdb {
   }
 
   public static void V1() {
+    /*
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -177,6 +178,8 @@ public class Vdb {
     for (Location location : Vdb.locations) {
       System.out.println("ID: " + location.nodeID);
     }
+    
+     */
   }
 
   public static void SaveToFile() throws Exception { // can be used to update CSV file
