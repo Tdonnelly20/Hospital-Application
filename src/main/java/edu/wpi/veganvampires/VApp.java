@@ -44,7 +44,7 @@ public class VApp extends Application {
   }
 
   public static void main() {
-
+    LocationDAOImpl locDAO = new LocationDAOImpl();
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -77,6 +77,7 @@ public class VApp extends Application {
       Scanner scanner = new Scanner(System.in);
       boolean loop = true;
       int state = 0;
+
       while (loop) {
         switch (state) {
           case 1:
@@ -136,6 +137,7 @@ public class VApp extends Application {
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
+
             // state = scanner.nextInt();
         }
         state = scanner.nextInt();
@@ -149,8 +151,7 @@ public class VApp extends Application {
       e.printStackTrace();
     }
     System.out.println("Apache Derby connection established!");
-    for (Location location : Vdb.locations) {
-      System.out.println("ID: " + location.nodeID);
-    }
+
+    System.out.println(locDAO.getAllLocations());
   }
 }
