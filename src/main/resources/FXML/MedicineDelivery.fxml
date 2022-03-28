@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -9,6 +10,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -16,7 +19,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -57,7 +59,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <JFXComboBox fx:id="medicationDropDown" focusColor="BLACK" layoutX="22.0" layoutY="137.0" promptText="Select Medicine" unFocusColor="#070707">
+                                        <JFXComboBox fx:id="medicationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" prefHeight="26.0" prefWidth="239.0" promptText="Select Medicine" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="tylenolRequest" fx:value="Tylenol" />
@@ -67,6 +69,9 @@
                                                     <String fx:id="cyclosporineRequest" fx:value="Cyclosporine" />
                                                 </FXCollections>
                                             </items>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                                         </JFXComboBox>
                                         <TextField fx:id="dosage" promptText="Dosage">
                                             <VBox.margin>
@@ -97,36 +102,47 @@
                     <children>
                         <VBox alignment="TOP_CENTER" layoutY="20.0" prefHeight="519.3333333333334" prefWidth="592.0" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
                             <children>
-                                <ImageView fitHeight="382.0" fitWidth="556.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../01_thefirstfloor.png" />
-                                    </image>
-                                    <VBox.margin>
-                                        <Insets top="15.0" />
-                                    </VBox.margin>
-                                    <viewport>
-                                        <Rectangle2D />
-                                    </viewport>
-                                </ImageView>
-                                <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: rgb(149,182,203);">
-                                    <children>
-                                        <JFXComboBox prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                            <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                    <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                                    <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                                    <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                                    <String fx:id="floor1" fx:value="Floor 1" />
-                                                    <String fx:id="floor2" fx:value="Floor 2" />
-                                                    <String fx:id="floor3" fx:value="Floor 3" />
-                                                </FXCollections>
-                                            </items>
-                                        </JFXComboBox>
-                                    </children>
-                                    <VBox.margin>
-                                        <Insets left="15.0" top="15.0" />
-                                    </VBox.margin>
-                                </HBox>
+                        <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Map View">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                                    <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                                        <items>
+                                                            <FXCollections fx:factory="observableArrayList">
+                                                                <String fx:id="groundFloor" fx:value="Ground Floor" />
+                                                                <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                                                <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                                                <String fx:id="floor1" fx:value="Floor 1" />
+                                                                <String fx:id="floor2" fx:value="Floor 2" />
+                                                                <String fx:id="floor3" fx:value="Floor 3" />
+                                                            </FXCollections>
+                                                        </items>
+                                                    </JFXComboBox>
+                                                  <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                                      <image>
+                                                          <Image url="@../01_thefirstfloor.png" />
+                                                      </image>
+                                                      <viewport>
+                                                          <Rectangle2D />
+                                                      </viewport>
+                                                  </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Delivery Requests">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXTreeTableView layoutX="25.0" layoutY="20.0" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
                             </children></VBox>
                     </children>
                 </AnchorPane>
