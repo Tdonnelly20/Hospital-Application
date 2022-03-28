@@ -55,5 +55,5 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
   }
 
   @Override
-  public void removeMedicationDelivery() {} //TODO
+  public void removeMedicationDelivery() {} // TODO
 }
