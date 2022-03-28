@@ -14,7 +14,13 @@ public class Vdb {
     String line = ""; // receives a line from br
     String splitToken = ","; // what we split the csv file with
     String currentPath = System.getProperty("user.dir");
-    currentPath += "\\src\\main\\resources\\edu\\wpi\\veganvampires";
+    if (currentPath.contains("TeamVeganVampires")) {
+      int position = currentPath.indexOf("TeamVeganVampires") + 17;
+      if (currentPath.length() > position) {
+        currentPath = currentPath.substring(0, position);
+      }
+      currentPath += "\\src\\main\\resources\\edu\\wpi\\veganvampires";
+    }
     FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
 
