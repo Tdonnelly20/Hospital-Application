@@ -27,19 +27,34 @@
                     <children>
                         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="519.0" prefWidth="327.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <content>
-                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: rgb(228,229,229);">
+                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                     <children>
                                         <Button mnemonicParsing="false" onAction="#switchToServiceRequest" text="Service Request Page" textAlignment="CENTER">
                                             <font>
                                                 <Font size="19.0" />
                                             </font>
                                         </Button>
+                                        <TextField fx:id="patientID" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <TextField fx:id="firstName" promptText="Patient First Name">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <TextField fx:id="lastName" promptText="Patient Last Name">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
                                         <TextField fx:id="location" promptText="Location">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <JFXComboBox layoutX="22.0" layoutY="137.0" promptText="Select Hazards">
+                                        <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" prefHeight="26.0" prefWidth="239.0" promptText="Select Hazards" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="bloodRequest" fx:value="Blood" />
@@ -55,6 +70,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextArea>
+                                        <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Please Enter Required Fields" textAlignment="CENTER" wrapText="true" />
                                         <Button mnemonicParsing="false" text="Send Request">
                                             <font>
                                                 <Font size="18.0" />
