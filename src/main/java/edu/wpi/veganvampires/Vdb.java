@@ -4,7 +4,6 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Vdb {
   static List<Location> locations;
@@ -39,10 +38,9 @@ public class Vdb {
       locations.add(newLoc);
     }
     System.out.println("Database made");
-    V1();
   }
 
-  public static void V1() {
+  /*public static void V1() {
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -63,7 +61,7 @@ public class Vdb {
 
     try {
       // substitute your database name for myDB
-      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
@@ -155,5 +153,5 @@ public class Vdb {
     for (Location location : Vdb.locations) {
       System.out.println("ID: " + location.nodeID);
     }
-  }
+  }*/
 }
