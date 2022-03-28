@@ -178,7 +178,7 @@ public class Vdb {
     for (Location location : Vdb.locations) {
       System.out.println("ID: " + location.nodeID);
     }
-    
+
      */
   }
 
