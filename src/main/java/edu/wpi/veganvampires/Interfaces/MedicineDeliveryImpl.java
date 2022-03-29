@@ -10,7 +10,9 @@ public interface MedicineDeliveryImpl {
   void addMedicationDelivery(
       String patientFirstName,
       String patientLastName,
+      String roomNumber,
       int patientID,
+      int hospitalID,
       String medicineName,
       String dosage,
       String requestDetails);

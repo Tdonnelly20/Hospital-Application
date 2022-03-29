@@ -1,15 +1,19 @@
 package edu.wpi.veganvampires.Features;
 
 public class MedicineDelivery {
-  private final String patientFirstName, patientLastName, medicineName, dosage, requestDetails;
-  private final int patientID;
+  private final String patientFirstName,
+      patientLastName,
+      medicineName,
+      dosage,
+      roomNumber,
+      requestDetails;
+  private final int patientID, hospitalID;
 
   /**
-   * Creates a basic data structure for holding medicine delivery request
-   *
    * @param patientFirstName
    * @param patientLastName
    * @param patientID
+   * @param hospitalID
    * @param medicineName
    * @param dosage
    * @param requestDetails
@@ -17,15 +21,19 @@ public class MedicineDelivery {
   public MedicineDelivery(
       String patientFirstName,
       String patientLastName,
+      String roomNumber,
       int patientID,
+      int hospitalID,
       String medicineName,
       String dosage,
       String requestDetails) {
     this.dosage = dosage;
     this.requestDetails = requestDetails;
+    this.roomNumber = roomNumber;
     this.patientFirstName = patientFirstName;
     this.patientLastName = patientLastName;
     this.patientID = patientID;
+    this.hospitalID = hospitalID;
     this.medicineName = medicineName;
   }
 
@@ -41,6 +49,10 @@ public class MedicineDelivery {
     return patientID;
   }
 
+  public int getHospitalID() {
+    return hospitalID;
+  }
+
   public String getMedicineName() {
     return medicineName;
   }
@@ -51,5 +63,9 @@ public class MedicineDelivery {
 
   public String getRequestDetails() {
     return requestDetails;
+  }
+
+  public String getRoomNumber() {
+    return roomNumber;
   }
 }
