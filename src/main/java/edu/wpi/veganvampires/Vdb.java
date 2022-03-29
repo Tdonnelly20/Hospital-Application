@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires;
 
 import edu.wpi.veganvampires.Features.MedicineDelivery;
+import edu.wpi.veganvampires.Features.SanitationRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -161,6 +162,11 @@ public class Vdb {
 
   public static void addMedicineDelivery(MedicineDelivery newMedicineDelivery) {
     // Code for adding a medicine delivery to the database
+    System.out.println("Arrived at database!");
+  }
+
+  public static void addSanitationRequest(SanitationRequest newSanitationRequest) {
+    // Code for adding a sanitation request to the database
     System.out.println("Arrived at database!");
   }
 }
