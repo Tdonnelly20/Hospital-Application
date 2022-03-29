@@ -1,7 +1,9 @@
 package edu.wpi.veganvampires;
 
-import java.io.*;
-import java.sql.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +25,9 @@ public class Vdb {
 
   public static void CreateDB() throws Exception {
     String currentPath = returnPath();
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
+    FileReader fr = new FileReader(currentPath + "\\LocationsBackup.csv");
     BufferedReader br = new BufferedReader(fr);
-    String line = ""; // receives a line from br
+    String line; // receives a line from br
     String splitToken = ","; // what we split the csv file with
     locations = new ArrayList<>();
     equipment = new ArrayList<>();
@@ -33,11 +35,12 @@ public class Vdb {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
+      for (String wtf : data) System.out.println(wtf);
       Location newLoc =
           new Location(
               data[0],
-              Integer.valueOf(data[1]),
-              Integer.valueOf(data[2]),
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
               data[3],
               data[4],
               data[5],
@@ -48,12 +51,11 @@ public class Vdb {
     fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
     br = new BufferedReader(fr);
     headerLine = br.readLine();
-    line = "";
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
-      String[] data = {"", "", "0"};
+      String[] data;
       data = line.split(splitToken);
-      Equipment e = new Equipment(data[0], data[1], Integer.valueOf(data[2]));
+      Equipment e = new Equipment(data[0], data[1], Integer.parseInt(data[2]));
       equipment.add(e);
     }
     System.out.println("Database made");
@@ -181,12 +183,12 @@ public class Vdb {
 
   public static void SaveToFile() throws Exception { // updates all csv files
     String currentPath = returnPath();
-    FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
+    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
     for (Location l : locations) {
-      String outputData[] = {
+      String[] outputData = {
         l.nodeID,
         String.valueOf(l.xCoord),
         String.valueOf(l.yCoord),
@@ -206,7 +208,7 @@ public class Vdb {
     bw = new BufferedWriter(fw);
     bw.append("Name,Description,Count");
     for (Equipment e : equipment) {
-      String outputData[] = {e.name, e.description, String.valueOf(e.count)};
+      String[] outputData = {e.name, e.description, String.valueOf(e.count)};
       bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
