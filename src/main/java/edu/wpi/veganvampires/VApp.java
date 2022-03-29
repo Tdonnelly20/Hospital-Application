@@ -3,7 +3,6 @@ package edu.wpi.veganvampires;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,7 +30,7 @@ public class VApp extends Application {
 
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
-      this.main();
+      main();
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
@@ -84,7 +83,6 @@ public class VApp extends Application {
           System.out.println("RS " + set.getString(1));
         }
       }
-      ArrayList<Location> locList = new ArrayList<>();
       Scanner scanner = new Scanner(System.in);
       boolean loop = true;
       int state = 0;
@@ -112,21 +110,18 @@ public class VApp extends Application {
           case 2:
             System.out.println("Location ID?");
             String ID1 = scanner.next();
-            System.out.println("What equipment is at this location?");
-            String equip = scanner.next();
             Statement newStatement1 = connection.createStatement();
             newStatement1.execute(
                 "UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
-            Location newLoc = new Location(ID1);
-            for (Location location : locList) {
-              if (location.nodeID == ID1) location = newLoc;
+            for (Location location : locDAO.getAllLocations()) {
+              if (location.nodeID.equals(ID1)) locDAO.updateLocation(location);
             }
             break;
           case 3:
             System.out.println("New location ID?");
             String ID2 = scanner.next();
             Location loc = new Location(ID2);
-            locList.add(loc);
+            locDAO.getAllLocations().add(loc);
             Statement newStatement2 = connection.createStatement();
             newStatement2.execute("INSERT INTO Locations VALUES(loc.nodeID, '')");
             break;
@@ -135,7 +130,7 @@ public class VApp extends Application {
             String ID3 = scanner.next();
             Statement newStatement3 = connection.createStatement();
             newStatement3.execute("DELETE FROM Locations WHERE Room_Num = ID3");
-            locList.removeIf(location -> location.nodeID == ID3);
+            locDAO.getAllLocations().removeIf(location -> location.nodeID.equals(ID3));
             break;
           case 5:
             // Vdb newBuffer = new Vdb();
@@ -143,6 +138,7 @@ public class VApp extends Application {
             // copies all locations from locDAO to Vdblocations, then saves it to file
             Vdb.locations = locDAO.getAllLocations();
             Vdb.SaveToFile();
+            Vdb.CreateDB();
             break;
           case 6:
             loop = false;
@@ -150,8 +146,6 @@ public class VApp extends Application {
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-
-            // state = scanner.nextInt();
         }
         state = scanner.nextInt();
       }
