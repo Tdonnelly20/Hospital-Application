@@ -133,7 +133,6 @@ public class VApp extends Application {
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-
         }
         state = scanner.nextInt();
       }
