@@ -43,7 +43,6 @@ public class SanitationRequest {
     return hazardName;
   }
 
-
   public String getRequestDetails() {
     return requestDetails;
   }
