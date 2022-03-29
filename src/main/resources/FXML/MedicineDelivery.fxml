@@ -24,17 +24,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="693.0" prefWidth="1079.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.MedicineDeliveryController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.MedicineDeliveryController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="514.199951171875" minWidth="10.0" prefWidth="349.6" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="772.4000244140625" minWidth="10.0" prefWidth="687.9999999999999" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="127.00000610351563" minHeight="4.600015068054205" prefHeight="76.80000305175781" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="517.6" minHeight="10.0" prefHeight="508.7999969482422" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="90.0" minHeight="90.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <GridPane alignment="CENTER_RIGHT" prefHeight="76.0" prefWidth="349.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
+      <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="127.0" prefWidth="1066.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="229.4000244140625" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.80002441406253" minWidth="10.0" prefWidth="222.19997558593752" />
@@ -63,7 +63,7 @@
             </Button>
          </children>
       </GridPane>
-      <Pane id="Menu" fx:id="menu" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+      <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
          <children>
             <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -77,27 +77,27 @@
             </Label>
          </children>
       </Pane>
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="368.0" style="-fx-background-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <content>
-            <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+            <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="40.0" style="-fx-background-color: #5c677d;">
                <children>
-                  <TextField fx:id="hospitalID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Hospital ID" />
-                  <TextField fx:id="patientID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
+                  <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Hospital ID" />
+                  <TextField fx:id="patientID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient ID">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="firstName" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="239.0" promptText="Patient First Name">
+                  <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient First Name">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="lastName" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Patient Last Name">
+                  <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient Last Name">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="roomNum" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Room Number">
+                  <TextField fx:id="roomNum" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Room Number">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
@@ -116,12 +116,12 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXComboBox>
-                  <TextField fx:id="dosage" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="241.0" promptText="Dosage">
+                  <TextField fx:id="dosage" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextArea fx:id="requestDetails" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
+                  <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
@@ -140,15 +140,15 @@
             </VBox>
          </content>
       </ScrollPane>
-      <VBox alignment="TOP_CENTER" prefHeight="522.0" prefWidth="491.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <TabPane fx:id="medicineTabPane" prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="medicineTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
                   <Tab text="Map View">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="703.0">
+                        <Pane prefHeight="830.0" prefWidth="1493.0">
                            <children>
-                              <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                              <JFXComboBox layoutX="349.0" layoutY="890.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="groundFloor" fx:value="Ground Floor" />
@@ -160,7 +160,7 @@
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
-                              <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="794.0" fitWidth="825.0" layoutX="349.0" layoutY="54.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../01_thefirstfloor.png" />
                                  </image>
@@ -169,23 +169,23 @@
                                  </viewport>
                               </ImageView>
                            </children>
-                        </AnchorPane>
+                        </Pane>
                      </content>
                   </Tab>
                   <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Delivery Requests">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="8.0" prefHeight="453.0" prefWidth="573.0">
+                              <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="8.0" prefHeight="918.0" prefWidth="1466.0">
                                  <columns>
-                                    <TreeTableColumn fx:id="hospitalIDCol" prefWidth="86.0" text="Hospital ID" />
-                                    <TreeTableColumn fx:id="patientIDCol" prefWidth="64.0" text="Patient ID" />
-                                    <TreeTableColumn fx:id="firstNameCol" prefWidth="75.0" text="First Name" />
-                                    <TreeTableColumn fx:id="lastNameCol" prefWidth="69.0" text="Last Name" />
-                                    <TreeTableColumn fx:id="roomNumberCol" prefWidth="58.0" text="Room #" />
-                                    <TreeTableColumn fx:id="medicineCol" prefWidth="63.0" text="Medicine" />
-                                    <TreeTableColumn fx:id="dosageCol" prefWidth="63.0" text="Dosage" />
-                                    <TreeTableColumn fx:id="otherInfoCol" prefWidth="102.0" text="Other Info" />
+                                    <TreeTableColumn fx:id="hospitalIDCol" prefWidth="97.5999174118042" text="Hospital ID" />
+                                    <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="92.0" text="Patient ID" />
+                                    <TreeTableColumn fx:id="firstNameCol" prefWidth="96.79997253417969" text="First Name" />
+                                    <TreeTableColumn fx:id="lastNameCol" prefWidth="96.79998779296875" text="Last Name" />
+                                    <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="49.60003662109375" text="Room #" />
+                                    <TreeTableColumn fx:id="medicineCol" prefWidth="86.4000244140625" text="Medicine" />
+                                    <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="152.00006103515625" text="Dosage" />
+                                    <TreeTableColumn fx:id="otherInfoCol" prefWidth="798.3999633789062" text="Other Info" />
                                  </columns>
                               </TreeTableView>
                            </children>

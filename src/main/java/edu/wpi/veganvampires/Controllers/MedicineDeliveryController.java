@@ -38,7 +38,6 @@ public class MedicineDeliveryController extends Controller {
   /** Runs whenever we switch to the table, or update a value */
   @FXML
   private void updateTreeTable() {
-
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
