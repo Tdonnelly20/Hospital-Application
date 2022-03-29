@@ -1,5 +1,5 @@
 nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
-vDEPT00101	1617	825	1	Tower	DEPT	Center for International Medicine	CIM
+vDEPT00101, 1617, 825,	1, Tower,	DEPT, Center, for, International, Medicine, CIM,
 vDEPT00201	1610	1120	1	Tower	DEPT	Bretholtz Center for Patients and Families	Bretholtz Center
 vDEPT00301	1721	931	1	Tower	DEPT	Multifaith Chapel	Chapel
 vDEPT00401	1794	1146	1	Tower	DEPT	Sharf Admitting Center	Sharf Center

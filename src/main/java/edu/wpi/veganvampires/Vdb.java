@@ -23,7 +23,7 @@ public class Vdb {
 
   public static void CreateDB() throws Exception {
     String currentPath = returnPath();
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
+    FileReader fr = new FileReader(currentPath + "\\LocationsBackup.csv");
     BufferedReader br = new BufferedReader(fr);
     String line = ""; // receives a line from br
     String splitToken = ","; // what we split the csv file with
@@ -33,6 +33,7 @@ public class Vdb {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
+      for (String wtf : data) System.out.println(wtf);
       Location newLoc =
           new Location(
               data[0],
@@ -181,7 +182,7 @@ public class Vdb {
 
   public static void SaveToFile() throws Exception { // updates all csv files
     String currentPath = returnPath();
-    FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
+    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
