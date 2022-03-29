@@ -24,24 +24,28 @@ public class MedicineDeliveryController extends Controller {
 
   @FXML
   private void validateButton() {
-    if ((patientID.getText().equals("")
-        && firstName.getText().equals("")
-        && lastName.getText().equals("")
-        && roomNum.getText().equals("")
-        && dosage.getText().equals("")
-        && medicationDropDown.getValue().equals("Select Medication"))) {
+    try {
+      if ((patientID.getText().equals("")
+          && firstName.getText().equals("")
+          && lastName.getText().equals("")
+          && roomNum.getText().equals("")
+          && dosage.getText().equals("")
+          && medicationDropDown.getValue().equals("Select Medication"))) {
+        sendRequest.setDisable(true);
+        statusLabel.setText("Status: Blank");
+      } else if ((patientID.getText().equals("")
+          || firstName.getText().equals("")
+          || lastName.getText().equals("")
+          || roomNum.getText().equals("")
+          || dosage.getText().equals("")
+          || medicationDropDown.getValue().equals("Select Medication"))) {
+        sendRequest.setDisable(true);
+        statusLabel.setText("Status: Processing");
+      } else {
+        sendRequest.setDisable(false);
+      }
+    } catch (Exception e) {
       sendRequest.setDisable(true);
-      statusLabel.setText("Status: Blank");
-    } else if ((patientID.getText().equals("")
-        || firstName.getText().equals("")
-        || lastName.getText().equals("")
-        || roomNum.getText().equals("")
-        || dosage.getText().equals("")
-        || medicationDropDown.getValue().equals("Select Medication"))) {
-      sendRequest.setDisable(true);
-      statusLabel.setText("Status: Processing");
-    } else {
-      sendRequest.setDisable(false);
     }
   }
 
