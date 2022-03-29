@@ -1,9 +1,8 @@
 package edu.wpi.veganvampires.Dao;
 
+import edu.wpi.veganvampires.Features.SanitationRequest;
 import edu.wpi.veganvampires.Interfaces.SanitationRequestImpl;
 import edu.wpi.veganvampires.Vdb;
-import edu.wpi.veganvampires.Features.SanitationRequest;
-
 import java.util.ArrayList;
 import java.util.List;
 

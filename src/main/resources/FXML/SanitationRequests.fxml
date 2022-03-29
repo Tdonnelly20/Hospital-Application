@@ -34,27 +34,27 @@
                             <content>
                                 <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                     <children>
-                                        <TextField fx:id="patientID" onInputMethodTextChanged="#checkValidation" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
+                                        <TextField fx:id="patientID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="firstName" onInputMethodTextChanged="#checkValidation" prefHeight="26.0" prefWidth="239.0" promptText="Patient First Name">
+                                        <TextField fx:id="firstName" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="239.0" promptText="Patient First Name">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="lastName" onInputMethodTextChanged="#checkValidation" promptText="Patient Last Name">
+                                        <TextField fx:id="lastName" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Patient Last Name">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="location" onInputMethodTextChanged="#checkValidation" promptText="Location">
+                                        <TextField fx:id="location" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Location">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" onInputMethodTextChanged="#checkValidation" prefHeight="26.0" prefWidth="246.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                        <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="bloodRequest" fx:value="Blood" />
@@ -68,7 +68,7 @@
                                                 <Insets />
                                             </opaqueInsets>
                                         </JFXComboBox>
-                                        <TextArea fx:id="requestDetails" onInputMethodTextChanged="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
+                                        <TextArea fx:id="requestDetails" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
