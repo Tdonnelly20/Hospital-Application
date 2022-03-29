@@ -35,7 +35,6 @@ public class Vdb {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
-      for (String wtf : data) System.out.println(wtf);
       Location newLoc =
           new Location(
               data[0],
