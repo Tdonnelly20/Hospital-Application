@@ -34,18 +34,18 @@
                      <content>
                         <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                            <children>
-                              <TextField fx:id="location" onKeyReleased="#validateButton" promptText="location" />
-                              <JFXComboBox id="dropDown" fx:id="dropDown" onAction="#validateButton" prefHeight="25.0" prefWidth="246.0" promptText="Request" style="-fx-background-color: #FFFFFF;">
+                              <TextField fx:id="pos" onKeyReleased="#validateButton" promptText="location" />
+                              <JFXComboBox id="dropDown" fx:id="dropDown" onAction="#validateButton" prefHeight="25.0" prefWidth="271.0" promptText="Request" style="-fx-background-color: #FFFFFF;">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                       <String fx:id="bloodSampleRequest" fx:value="Blood Sample" />
-                                       <String fx:id="urineSampleRequest" fx:value="Urine Sample" />
-                                       <String fx:value="X-Ray" fx:id="xrayRequest" />
-                                       <String fx:id="catRequest" fx:value="CAT" />
-                                       <String fx:id="mriRequest" fx:value="MRI" />
+                                       <String fx:id="bed" fx:value="Bed" />
+                                       <String fx:id="xRay" fx:value="Portable X-Ray" />
+                                       <String fx:id="infusionPump" fx:value="Infusion Pump" />
+                                       <String fx:id="patientRecliner" fx:value="Patient Recliner" />
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
+                              <TextField fx:id="quant" onKeyReleased="#validateButton" promptText="quantity" />
                               <JFXTextArea fx:id="notes" onKeyReleased="#validateButton" prefWidth="274.0" promptText="notes:" style="-fx-background-color: #FFFFFF;" />
                               <TextField id="Status" fx:id="status" alignment="CENTER" editable="false" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
                               <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">

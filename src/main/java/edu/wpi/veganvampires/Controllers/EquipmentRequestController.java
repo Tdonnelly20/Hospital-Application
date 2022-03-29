@@ -9,16 +9,18 @@ import javafx.stage.Stage;
 
 public class EquipmentRequestController extends Controller {
   @FXML private TextField status;
-  // @FXML private TextField location;
+  @FXML private TextField pos;
   @FXML private JFXComboBox<Object> dropDown;
+  @FXML private TextField quant;
   @FXML private TextArea notes;
   @FXML private Button sendRequest;
 
   @FXML
   private void resetForm() {
     status.setText("Status: Blank");
-    // location.setText("");
+    pos.setText("");
     notes.setText("");
+    quant.setText("");
     dropDown.setValue(null);
     sendRequest.setDisable(true);
   }
@@ -26,16 +28,18 @@ public class EquipmentRequestController extends Controller {
   @FXML
   private void validateButton() {
     if (!(status.getText().isEmpty())
-        // && !(location.getText().isEmpty())
+        && !(pos.getText().isEmpty())
         && !(dropDown.getValue() == null)
-        && !(notes.getText().isEmpty())) {
+        && !(notes.getText().isEmpty())
+        && !(quant.getText().isEmpty())) {
       status.setText("Status: Done");
       sendRequest.setDisable(false);
 
     } else if (!(status.getText().isEmpty())
-        // || !(location.getText().isEmpty())
+        || !(pos.getText().isEmpty())
         || !(dropDown.getValue() == null)
-        || !(notes.getText().isEmpty())) {
+        || !(notes.getText().isEmpty())
+        || !(quant.getText().isEmpty())) {
       status.setText("Status: Processing");
       sendRequest.setDisable(true);
 
