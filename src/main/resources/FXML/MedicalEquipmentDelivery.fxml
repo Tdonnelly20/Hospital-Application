@@ -39,7 +39,7 @@
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="bed" fx:value="Bed" />
-                                       <String fx:id="xRay" fx:value="Portable X-Ray" />
+                                       <String fx:value="Portable X-Ray" fx:id="xRay" />
                                        <String fx:id="infusionPump" fx:value="Infusion Pump" />
                                        <String fx:id="patientRecliner" fx:value="Patient Recliner" />
                                     </FXCollections>
@@ -48,7 +48,7 @@
                               <TextField fx:id="quant" onKeyReleased="#validateButton" promptText="quantity" />
                               <JFXTextArea fx:id="notes" onKeyReleased="#validateButton" prefWidth="274.0" promptText="notes:" style="-fx-background-color: #FFFFFF;" />
                               <TextField id="Status" fx:id="status" alignment="CENTER" editable="false" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
-                              <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">
+                              <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

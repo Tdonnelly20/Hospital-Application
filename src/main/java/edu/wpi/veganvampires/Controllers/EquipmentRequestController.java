@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires.Controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.Dao.EquipmentDeliveryDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -14,6 +15,7 @@ public class EquipmentRequestController extends Controller {
   @FXML private TextField quant;
   @FXML private TextArea notes;
   @FXML private Button sendRequest;
+  private static EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
 
   @FXML
   private void resetForm() {
@@ -31,7 +33,8 @@ public class EquipmentRequestController extends Controller {
         && !(pos.getText().isEmpty())
         && !(dropDown.getValue() == null)
         && !(notes.getText().isEmpty())
-        && !(quant.getText().isEmpty())) {
+        && !(quant.getText().isEmpty())
+        && isInteger(quant.getText())) {
       status.setText("Status: Done");
       sendRequest.setDisable(false);
 
@@ -43,10 +46,24 @@ public class EquipmentRequestController extends Controller {
       status.setText("Status: Processing");
       sendRequest.setDisable(true);
 
+      if (!isInteger(quant.getText()) && !quant.getText().isEmpty()) {
+        status.setText("Status: Quantity is not a number");
+      }
+
     } else {
       status.setText("Status: Blank");
       sendRequest.setDisable(true);
     }
+  }
+
+  @FXML
+  private void sendRequest() {
+    equipmentDeliveryDao.addEquipmentDelivery(
+        pos.getText(),
+        dropDown.getValue().toString(),
+        notes.getText(),
+        Integer.parseInt(quant.getText()));
+    resetForm();
   }
 
   @Override
