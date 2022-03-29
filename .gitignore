@@ -161,4 +161,12 @@ gradle-app.setting
 
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij+all
 
+**/myDB/
+*/myDB/
 /myDB/
+myDB/
+
+**/VDB/
+*/VDB/
+/VDB/
+VDB/
