@@ -3,7 +3,6 @@ package edu.wpi.veganvampires;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.Scanner;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -67,7 +66,7 @@ public class VApp extends Application {
 
     try {
       // substitute your database name for myDB
-      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
@@ -79,10 +78,21 @@ public class VApp extends Application {
         System.out.println("We already got tables?");
         System.out.println("listing tables");
         System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
         while (set.next()) {
           System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
         }
       }
+      /*
       Scanner scanner = new Scanner(System.in);
       boolean loop = true;
       int state = 0;
@@ -149,6 +159,8 @@ public class VApp extends Application {
         }
         state = scanner.nextInt();
       }
+
+       */
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
