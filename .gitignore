@@ -170,3 +170,5 @@ myDB/
 */VDB/
 /VDB/
 VDB/
+.dat
+.log
