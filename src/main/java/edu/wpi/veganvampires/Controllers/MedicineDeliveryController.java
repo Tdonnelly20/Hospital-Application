@@ -90,6 +90,7 @@ public class MedicineDeliveryController extends Controller {
           && medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
+        statusLabel.setTextFill(Color.web("Black"));
       } else if ((hospitalID.getText().equals("")
           || patientID.getText().equals("")
           || firstName.getText().equals("")
@@ -99,6 +100,7 @@ public class MedicineDeliveryController extends Controller {
           || medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
+        statusLabel.setTextFill(Color.web("Black"));
       } else {
         sendRequest.setDisable(false);
       }
@@ -130,10 +132,6 @@ public class MedicineDeliveryController extends Controller {
           medicationDropDown.getValue().toString(),
           dosage.getText(),
           requestDetails.getText());
-
-      // Set the label to green, and let the user know it has been processed
-      statusLabel.setText("Status: Processed Successfully");
-      statusLabel.setTextFill(Color.web("Green"));
 
       // For testing purposes
       System.out.println(
