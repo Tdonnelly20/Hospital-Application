@@ -45,8 +45,8 @@ public class VApp extends Application {
   }
 
   public static void main() {
-    //LocationDAOImpl locDAO = new LocationDAOImpl();
-    //copies the Vdb.locations data to locDAO;
+    // LocationDAOImpl locDAO = new LocationDAOImpl();
+    // copies the Vdb.locations data to locDAO;
     LocationDAOImpl locDAO = new LocationDAOImpl(Vdb.locations);
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -73,8 +73,16 @@ public class VApp extends Application {
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
       if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
         exampleStatement.execute(
             "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+      } else {
+        System.out.println("We already got tables?");
+        System.out.println("listing tables");
+        System.out.println("RS " + set.getString(1));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+        }
       }
       ArrayList<Location> locList = new ArrayList<>();
       Scanner scanner = new Scanner(System.in);
@@ -130,10 +138,10 @@ public class VApp extends Application {
             locList.removeIf(location -> location.nodeID == ID3);
             break;
           case 5:
-            //Vdb newBuffer = new Vdb();
-            //newBuffer.CreateDB();
-            //copies all locations from locDAO to Vdblocations, then saves it to file
-            Vdb.locations=  locDAO.getAllLocations();
+            // Vdb newBuffer = new Vdb();
+            // newBuffer.CreateDB();
+            // copies all locations from locDAO to Vdblocations, then saves it to file
+            Vdb.locations = locDAO.getAllLocations();
             Vdb.SaveToFile();
             break;
           case 6:
