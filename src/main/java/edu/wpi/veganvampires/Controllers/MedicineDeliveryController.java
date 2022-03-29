@@ -154,7 +154,7 @@ public class MedicineDeliveryController extends Controller {
               + "\n\nRequest Details: "
               + requestDetails.getText());
 
-      // resetFields(); // Set all fields to blank for another entry
+      resetFields(); // Set all fields to blank for another entry
       updateTreeTable();
     }
   }
