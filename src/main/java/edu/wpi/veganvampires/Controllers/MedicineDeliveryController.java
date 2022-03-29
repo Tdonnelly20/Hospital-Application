@@ -29,19 +29,19 @@ public class MedicineDeliveryController extends Controller {
         && lastName.getText().equals("")
         && roomNum.getText().equals("")
         && dosage.getText().equals("")
-        && medicationDropDown.getValue().equals(null))) {
-      sendRequest.setDisable(false);
+        && medicationDropDown.getValue().equals("Select Medication"))) {
+      sendRequest.setDisable(true);
       statusLabel.setText("Status: Blank");
     } else if ((patientID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
         || roomNum.getText().equals("")
         || dosage.getText().equals("")
-        || medicationDropDown.getValue().equals(""))) {
-      sendRequest.setDisable(false);
+        || medicationDropDown.getValue().equals("Select Medication"))) {
+      sendRequest.setDisable(true);
       statusLabel.setText("Status: Processing");
     } else {
-      sendRequest.setDisable(true);
+      sendRequest.setDisable(false);
     }
   }
 
@@ -100,8 +100,9 @@ public class MedicineDeliveryController extends Controller {
     lastName.setText("");
     roomNum.setText("");
     dosage.setText("");
-    medicationDropDown.setValue(null);
+    medicationDropDown.setValue("Select Medication");
     requestDetails.setText("");
+    sendRequest.setDisable(true);
   }
 
   @Override

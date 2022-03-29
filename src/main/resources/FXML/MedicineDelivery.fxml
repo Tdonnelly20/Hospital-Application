@@ -78,7 +78,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextArea>
-                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Enter All Fields" textAlignment="CENTER" wrapText="true" />
+                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
                               <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
                                         <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                                             <font>
