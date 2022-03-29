@@ -182,7 +182,7 @@ public class Vdb {
      */
   }
 
-  public static void SaveToFile() throws Exception { // can be used to update CSV file
+  public static void SaveToFile() throws Exception { //updates all csv files
     String currentPath = returnPath();
     FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
     BufferedWriter bw = new BufferedWriter(fw);
