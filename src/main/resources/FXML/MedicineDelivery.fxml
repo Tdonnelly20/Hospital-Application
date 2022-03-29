@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -14,6 +13,8 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -99,7 +100,7 @@
                     <children>
                         <VBox alignment="TOP_CENTER" layoutY="20.0" prefHeight="519.3333333333334" prefWidth="592.0" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
                             <children>
-                        <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane fx:id="medicineTabPane" prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
                             <Tab text="Map View">
                               <content>
@@ -129,11 +130,22 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
-                            <Tab text="Delivery Requests">
+                            <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Delivery Requests">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXTreeTableView fx:id="medicineDeliveryTable" layoutX="25.0" layoutY="20.0" prefHeight="432.0" prefWidth="546.0" />
+                                          <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="8.0" prefHeight="453.0" prefWidth="573.0">
+                                            <columns>
+                                              <TreeTableColumn fx:id="hospitalIDCol" prefWidth="86.0" text="Hospital ID" />
+                                              <TreeTableColumn fx:id="patientIDCol" prefWidth="64.0" text="Patient ID" />
+                                                <TreeTableColumn fx:id="firstNameCol" prefWidth="75.0" text="First Name" />
+                                                <TreeTableColumn fx:id="lastNameCol" prefWidth="69.0" text="Last Name" />
+                                                <TreeTableColumn fx:id="roomNumberCol" prefWidth="58.0" text="Room #" />
+                                                <TreeTableColumn fx:id="medicineCol" prefWidth="63.0" text="Medicine" />
+                                                <TreeTableColumn fx:id="dosageCol" prefWidth="63.0" text="Dosage" />
+                                                <TreeTableColumn fx:id="otherInfoCol" prefWidth="102.0" text="Other Info" />
+                                            </columns>
+                                          </TreeTableView>
                                        </children>
                                     </AnchorPane>
                               </content>

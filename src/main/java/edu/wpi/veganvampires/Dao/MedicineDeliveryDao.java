@@ -35,13 +35,22 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
   public void addMedicationDelivery(
       String patientFirstName,
       String patientLastName,
+      String roomNumber,
       int patientID,
+      int hospitalID,
       String medicineName,
       String dosage,
       String requestDetails) {
     MedicineDelivery newMedicineDelivery =
         new MedicineDelivery(
-            patientFirstName, patientLastName, patientID, medicineName, dosage, requestDetails);
+            patientFirstName,
+            patientLastName,
+            roomNumber,
+            patientID,
+            hospitalID,
+            medicineName,
+            dosage,
+            requestDetails);
 
     System.out.println("Adding to local arraylist...");
     allMedicineDeliveries.add(newMedicineDelivery); // Store a local copy
