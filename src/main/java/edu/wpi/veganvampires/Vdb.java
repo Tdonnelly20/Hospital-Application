@@ -45,13 +45,10 @@ public class Vdb {
               data[7]);
       locations.add(newLoc);
     }
-
     fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
     br = new BufferedReader(fr);
-    headerLine = "";
     headerLine = br.readLine();
     line = "";
-
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = {"", "", "0"};

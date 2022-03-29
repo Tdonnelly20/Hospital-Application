@@ -39,7 +39,8 @@ public class VApp extends Application {
   }
 
   @Override
-  public void stop() {
+  public void stop() throws Exception {
+    Vdb.SaveToFile();
     log.info("Shutting Down");
   }
 
