@@ -97,7 +97,6 @@ public class VApp extends Application {
               System.out.println("shortName: " + rs.getString("shortName"));
               System.out.println(" ");
             }
-
             break;
           case 2:
             System.out.println("Location ID?");
@@ -128,8 +127,9 @@ public class VApp extends Application {
             locList.removeIf(location -> location.nodeID == ID3);
             break;
           case 5:
-            Vdb newBuffer = new Vdb();
-            newBuffer.CreateDB();
+            //Vdb newBuffer = new Vdb();
+            //newBuffer.CreateDB();
+            Vdb.SaveToFile();
             break;
           case 6:
             loop = false;
