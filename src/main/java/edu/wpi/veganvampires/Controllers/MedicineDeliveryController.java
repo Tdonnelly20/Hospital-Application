@@ -23,35 +23,35 @@ public class MedicineDeliveryController extends Controller {
   private static MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
 
   @FXML
-  private void checkValidation() {
-    if (!(patientID.getText().equals("")
+  private void validateButton() {
+    if ((patientID.getText().equals("")
+        && firstName.getText().equals("")
+        && lastName.getText().equals("")
+        && roomNum.getText().equals("")
+        && dosage.getText().equals("")
+        && medicationDropDown.getValue().equals(null))) {
+      sendRequest.setDisable(false);
+      statusLabel.setText("Status: Blank");
+    } else if ((patientID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
         || roomNum.getText().equals("")
         || dosage.getText().equals("")
         || medicationDropDown.getValue().equals(""))) {
       sendRequest.setDisable(false);
+      statusLabel.setText("Status: Processing");
+    } else {
+      sendRequest.setDisable(true);
     }
   }
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
-  private void validateButton() {
-
+  private void sendRequest() {
     // If any field is left blank, (except for request details) throw an error
-    if (patientID.getText().equals("")
-        || firstName.getText().equals("")
-        || lastName.getText().equals("")
-        || roomNum.getText().equals("")
-        || dosage.getText().equals("")
-        || medicationDropDown.getValue().equals("")) {
 
-      // Set the text and color of the status label
-      statusLabel.setText("All fields must be entered!");
-      statusLabel.setTextFill(Color.web("Red"));
-
-      // Make sure the patient ID is an integer
-    } else if (!isInteger(patientID.getText())) {
+    // Make sure the patient ID is an integer
+    if (!isInteger(patientID.getText())) {
       statusLabel.setText("Status: Failed. Patient ID must be a number!");
       statusLabel.setTextFill(Color.web("Red"));
 
