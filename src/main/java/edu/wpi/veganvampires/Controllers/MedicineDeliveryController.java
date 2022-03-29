@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires.Controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTreeTableView;
 import edu.wpi.veganvampires.Dao.MedicineDeliveryDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +13,8 @@ import javafx.stage.Stage;
 
 public class MedicineDeliveryController extends Controller {
   @FXML private TextField patientID;
+  @FXML private TextField hospitalID;
+  @FXML private JFXTreeTableView medicineDeliveryTable;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private TextField roomNum;
@@ -20,12 +23,14 @@ public class MedicineDeliveryController extends Controller {
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
+
   private static MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
 
   @FXML
   private void validateButton() {
     try {
-      if ((patientID.getText().equals("")
+      if ((hospitalID.getText().equals("")
+          && patientID.getText().equals("")
           && firstName.getText().equals("")
           && lastName.getText().equals("")
           && roomNum.getText().equals("")
@@ -33,7 +38,8 @@ public class MedicineDeliveryController extends Controller {
           && medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
-      } else if ((patientID.getText().equals("")
+      } else if ((hospitalID.getText().equals("")
+          || patientID.getText().equals("")
           || firstName.getText().equals("")
           || lastName.getText().equals("")
           || roomNum.getText().equals("")
@@ -55,8 +61,8 @@ public class MedicineDeliveryController extends Controller {
     // If any field is left blank, (except for request details) throw an error
 
     // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText())) {
-      statusLabel.setText("Status: Failed. Patient ID must be a number!");
+    if (!isInteger(patientID.getText()) || !isInteger(hospitalID.getText())) {
+      statusLabel.setText("Status: Failed. Patient/Hospital ID must be a number!");
       statusLabel.setTextFill(Color.web("Red"));
 
       // If all conditions pass, create the request

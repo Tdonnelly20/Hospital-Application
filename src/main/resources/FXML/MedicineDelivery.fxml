@@ -34,6 +34,7 @@
                             <content>
                                 <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                     <children>
+                              <TextField fx:id="hospitalID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Hospital ID" />
                                         <TextField fx:id="patientID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
@@ -132,7 +133,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXTreeTableView layoutX="25.0" layoutY="20.0" />
+                                          <JFXTreeTableView fx:id="medicineDeliveryTable" layoutX="25.0" layoutY="20.0" prefHeight="432.0" prefWidth="546.0" />
                                        </children>
                                     </AnchorPane>
                               </content>
