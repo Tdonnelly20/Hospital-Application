@@ -11,6 +11,10 @@ public class LocationDAOImpl implements LocationDAO {
     locationList = new ArrayList<Location>();
   }
 
+  public LocationDAOImpl(List<Location> list) {
+    locationList = list;
+  }
+
   @Override
   public List<Location> getAllLocations() {
     return locationList;

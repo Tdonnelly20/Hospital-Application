@@ -45,7 +45,9 @@ public class VApp extends Application {
   }
 
   public static void main() {
-    LocationDAOImpl locDAO = new LocationDAOImpl();
+    //LocationDAOImpl locDAO = new LocationDAOImpl();
+    //copies the Vdb.locations data to locDAO;
+    LocationDAOImpl locDAO = new LocationDAOImpl(Vdb.locations);
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -130,6 +132,8 @@ public class VApp extends Application {
           case 5:
             //Vdb newBuffer = new Vdb();
             //newBuffer.CreateDB();
+            //copies all locations from locDAO to Vdblocations, then saves it to file
+            Vdb.locations=  locDAO.getAllLocations();
             Vdb.SaveToFile();
             break;
           case 6:
