@@ -16,7 +16,7 @@ public class LabRequestController extends Controller {
   @FXML private Button sendRequest;
 
   @FXML
-  public void resetForm() {
+  private void resetForm() {
     Status.setText("Status: Blank");
     userID.setText("");
     patientID.setText("");
