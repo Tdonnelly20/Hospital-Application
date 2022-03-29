@@ -34,27 +34,27 @@
                             <content>
                                 <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                     <children>
-                                        <TextField fx:id="patientID" onAction="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
+                                        <TextField fx:id="patientID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="firstName" onAction="#validateButton" prefHeight="26.0" prefWidth="239.0" promptText="Patient First Name">
+                                        <TextField fx:id="firstName" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="239.0" promptText="Patient First Name">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="lastName" onAction="#validateButton" promptText="Patient Last Name">
+                                        <TextField fx:id="lastName" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Patient Last Name">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="roomNum" onAction="#validateButton" promptText="Room Number">
+                                        <TextField fx:id="roomNum" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Room Number">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <JFXComboBox fx:id="medicationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" onInputMethodTextChanged="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Select Medicine" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                        <JFXComboBox fx:id="medicationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Select Medicine" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="tylenolRequest" fx:value="Tylenol" />
@@ -68,7 +68,7 @@
                                     <Insets />
                                  </opaqueInsets>
                                         </JFXComboBox>
-                                        <TextField fx:id="dosage" onAction="#validateButton" onInputMethodTextChanged="#validateButton" prefHeight="26.0" prefWidth="241.0" promptText="Dosage">
+                                        <TextField fx:id="dosage" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="241.0" promptText="Dosage">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
