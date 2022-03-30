@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -23,8 +22,7 @@ public class VApp extends Application {
   public void start(Stage primaryStage) throws Exception {
     try {
       FXMLLoader loader = new FXMLLoader();
-      URL xmlUrl = getClass().getClassLoader().getResource("FXML/home.fxml");
-      loader.setLocation(xmlUrl);
+      loader.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
       Parent root = loader.load();
 
       primaryStage.setScene(new Scene(root));
