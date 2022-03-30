@@ -14,9 +14,9 @@ public class Vdb {
     String line = ""; // receives a line from br
     String splitToken = ","; // what we split the csv file with
     String currentPath = System.getProperty("user.dir");
-    currentPath += "\\src\\main\\java\\edu\\wpi\\veganvampires";
+    currentPath += "/src/main/java/edu/wpi/veganvampires/";
     System.out.println(currentPath);
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
+    FileReader fr = new FileReader(currentPath + "TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
 
     locations = new ArrayList<>();
@@ -183,6 +183,10 @@ public class Vdb {
   }
 
   public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {
+    System.out.println("Arrived at database!");
+  }
+
+  public static void addMealRequest(MealRequest mealRequest) {
     System.out.println("Arrived at database!");
   }
 
