@@ -1,35 +1,47 @@
 package edu.wpi.veganvampires;
 
-import java.io.*;
-import java.sql.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Vdb {
-  static List<Location> locations;
+  protected static ArrayList<Location> locations;
+  protected static ArrayList<EquipmentDelivery> equipment;
+
+  public static String returnPath() {
+    String currentPath = System.getProperty("user.dir");
+    if (currentPath.contains("TeamVeganVampires")) {
+      int position = currentPath.indexOf("TeamVeganVampires") + 17;
+      if (currentPath.length() > position) {
+        currentPath = currentPath.substring(0, position);
+      }
+      currentPath += "\\src\\main\\resources\\edu\\wpi\\veganvampires";
+    }
+    return currentPath;
+  }
 
   public static void CreateDB() throws Exception {
-    String line = ""; // receives a line from br
-    String splitToken = ","; // what we split the csv file with
-    String currentPath = System.getProperty("user.dir");
-    currentPath += "\\src\\main\\java\\edu\\wpi\\veganvampires";
-    System.out.println(currentPath);
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
+    String currentPath = returnPath();
+    FileReader fr = new FileReader(currentPath + "\\LocationsBackup.csv");
     BufferedReader br = new BufferedReader(fr);
-
+    String line; // receives a line from br
+    String splitToken = ","; // what we split the csv file with
     locations = new ArrayList<>();
-
+    equipment = new ArrayList<>();
     String headerLine = br.readLine();
-
-    System.out.println("MAKING");
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
       Location newLoc =
           new Location(
               data[0],
-              Integer.valueOf(data[1]),
-              Integer.valueOf(data[2]),
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
               data[3],
               data[4],
               data[5],
@@ -37,10 +49,34 @@ public class Vdb {
               data[7]);
       locations.add(newLoc);
     }
+    fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
+    br = new BufferedReader(fr);
+    headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data;
+      data = line.split(splitToken);
+      EquipmentDelivery e =
+          new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
+      equipment.add(e);
+    }
     System.out.println("Database made");
+    V1();
   }
 
-  /*public static void V1() {
+  public static Connection Connect() {
+    try {
+      Connection connection = DriverManager.getConnection("jdbc:derby:myDB;", "admin", "admin");
+      return connection;
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static void V1() {
+    /*
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -61,7 +97,7 @@ public class Vdb {
 
     try {
       // substitute your database name for myDB
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
@@ -123,8 +159,9 @@ public class Vdb {
             locList.removeIf(location -> location.nodeID == ID3);
             break;
           case 5:
-            Vdb newBuffer = new Vdb();
-            newBuffer.CreateDB();
+            SaveToFile();
+            // Vdb newBuffer = new Vdb();
+            // newBuffer.CreateDB();
             break;
           case 6:
             loop = false;
@@ -153,5 +190,45 @@ public class Vdb {
     for (Location location : Vdb.locations) {
       System.out.println("ID: " + location.nodeID);
     }
-  }*/
+
+     */
+  }
+
+  public static void SaveToFile() throws Exception { // updates all csv files
+    String currentPath = returnPath();
+    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
+    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
+    for (Location l : locations) {
+      String[] outputData = {
+        l.nodeID,
+        String.valueOf(l.xCoord),
+        String.valueOf(l.yCoord),
+        l.floor,
+        l.building,
+        l.nodeType,
+        l.longName,
+        l.shortName,
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
+    bw = new BufferedWriter(fw);
+    bw.append("Name,Description,Count");
+    for (EquipmentDelivery e : equipment) {
+      String[] outputData = {e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())};
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    bw.close();
+    fw.close();
+  }
 }
