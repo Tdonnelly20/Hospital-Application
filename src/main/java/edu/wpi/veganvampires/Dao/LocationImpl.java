@@ -1,20 +1,21 @@
-package edu.wpi.veganvampires;
+package edu.wpi.veganvampires.Dao;
 
-import edu.wpi.veganvampires.Interfaces.LocationDAO;
+import edu.wpi.veganvampires.Location;
+import edu.wpi.veganvampires.Vdb;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDAOImpl implements LocationDAO {
+public class LocationImpl implements edu.wpi.veganvampires.Interfaces.LocationImpl {
 
   List<Location> locationList;
   Connection connection = Vdb.Connect();
 
-  public LocationDAOImpl() {
+  public LocationImpl() {
     locationList = new ArrayList<>();
   }
 
-  public LocationDAOImpl(List<Location> list) {
+  public LocationImpl(List<Location> list) {
     locationList = list;
   }
 
