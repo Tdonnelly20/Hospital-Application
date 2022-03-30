@@ -29,6 +29,7 @@ public class SanitationRequestController extends Controller {
         || firstName.getText().equals("")
         || lastName.getText().equals("")
         || roomLocation.getText().equals("")
+        || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals(""))) {
       sendRequest.setDisable(false);
     }
@@ -44,6 +45,7 @@ public class SanitationRequestController extends Controller {
         || firstName.getText().equals("")
         || lastName.getText().equals("")
         || roomLocation.getText().equals("")
+        || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals("")) {
 
       // Set the text and color of the status label
