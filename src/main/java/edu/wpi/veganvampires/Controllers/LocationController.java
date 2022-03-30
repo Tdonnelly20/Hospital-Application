@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires.controllers;
+package edu.wpi.veganvampires.Controllers;
 
 import edu.wpi.veganvampires.LocationDAOImpl;
 import javafx.stage.Stage;

@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires;
 
-import java.sql.*;
 import edu.wpi.veganvampires.Interfaces.LocationDAO;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,14 +50,14 @@ public class LocationDAOImpl implements LocationDAO {
         try {
           Statement st = connection.createStatement();
           st.execute(
-          "UPDATE LOCATIONS SET xCoord = location.getXCoord(),"
-              + "yCoord = location.getYCoord(),"
-              + "nodeType = location.getNodeType(),"
-              + "floor =location.getFloor(),"
-              + "building = location.getBuilding(),"
-              + "shortName = location.getShortName(),"
-              + "longName = location.getLongName()"
-              + "WHERE nodeID = location.getNodeID()");
+              "UPDATE LOCATIONS SET xCoord = location.getXCoord(),"
+                  + "yCoord = location.getYCoord(),"
+                  + "nodeType = location.getNodeType(),"
+                  + "floor =location.getFloor(),"
+                  + "building = location.getBuilding(),"
+                  + "shortName = location.getShortName(),"
+                  + "longName = location.getLongName()"
+                  + "WHERE nodeID = location.getNodeID()");
         } catch (SQLException e) {
           System.out.println("Connection failed. Check output console.");
           e.printStackTrace();
