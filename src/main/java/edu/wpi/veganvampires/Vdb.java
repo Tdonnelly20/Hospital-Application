@@ -185,4 +185,8 @@ public class Vdb {
   public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {
     System.out.println("Arrived at database!");
   }
+
+  public static List<Location> getLocations() {
+    return locations;
+  }
 }

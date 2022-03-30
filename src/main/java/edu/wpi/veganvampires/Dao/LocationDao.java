@@ -17,6 +17,8 @@ public class LocationDao implements LocationImpl {
 
   @Override
   public List<Location> getAllLocations() {
+    allLocations = (ArrayList<Location>) Vdb.getLocations();
+
     return allLocations;
   }
 

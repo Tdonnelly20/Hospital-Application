@@ -90,16 +90,17 @@
          <children>
             <TreeTableView fx:id="table" layoutX="42.0" layoutY="50.0" prefHeight="396.0" prefWidth="691.0">
               <columns>
-                <TreeTableColumn fx:id="nodeID" prefWidth="75.0" text="Node ID" />
-                <TreeTableColumn fx:id="y" prefWidth="94.66668701171875" text="X-Coordinate" />
-                  <TreeTableColumn prefWidth="92.66668701171875" text="Y-Coordinate" fx:id="x" />
-                  <TreeTableColumn fx:id="floor" prefWidth="39.333282470703125" text="Floor" />
-                  <TreeTableColumn fx:id="building" prefWidth="75.0" text="Building" />
-                  <TreeTableColumn fx:id="nodeType" prefWidth="75.0" text="Node Type" />
-                  <TreeTableColumn fx:id="shortName" prefWidth="75.0" text="Short Name" />
-                  <TreeTableColumn fx:id="longName" prefWidth="158.6666259765625" text="Long Name" />
+                <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
+                <TreeTableColumn id="xCoord" prefWidth="94.66668701171875" text="X" fx:id="x" />
+                  <TreeTableColumn id="yCoord" fx:id="y" prefWidth="92.66668701171875" text="Y" />
+                  <TreeTableColumn id="Floor" fx:id="floor" prefWidth="39.333282470703125" text="Floor" />
+                  <TreeTableColumn id="Building" fx:id="building" prefWidth="75.0" text="Building" />
+                  <TreeTableColumn id="nodeType" fx:id="nodeType" prefWidth="75.0" text="Node Type" />
+                  <TreeTableColumn id="shortName" fx:id="shortName" prefWidth="75.0" text="Short Name" />
+                  <TreeTableColumn id="longName" fx:id="longName" prefWidth="158.6666259765625" text="Long Name" />
               </columns>
             </TreeTableView>
+            <Button fx:id="refresh" layoutX="42.0" layoutY="14.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
          </children>
       </Pane>
    </children>

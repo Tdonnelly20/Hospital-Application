@@ -7,14 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
 public class LocationController extends Controller {
   private static LocationDao locationDao = new LocationDao();
   @FXML private TreeTableView<Location> table;
-  @FXML private TreeTableColumn<Location, String> nodeID;
-  @FXML private TreeTableColumn<Location, Integer> xCoord;
-  @FXML private TreeTableColumn<Location, Integer> yCoord;
+  @FXML private TreeTableColumn<Location, String> nodeIDCol;
+  @FXML private TreeTableColumn<Location, Integer> x;
+  @FXML private TreeTableColumn<Location, Integer> y;
   @FXML private TreeTableColumn<Location, String> floor;
   @FXML private TreeTableColumn<Location, String> building;
   @FXML private TreeTableColumn<Location, String> nodeType;
@@ -25,22 +26,28 @@ public class LocationController extends Controller {
   public void start(Stage primaryStage) {}
 
   @FXML
-  public void updateTree(Location new_location) {}
-
-  void refresh() {
-    // Get the current list of medicine deliveries from the DAO
+  public void refresh() {
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
+    x.setCellValueFactory(new TreeItemPropertyValueFactory("xCoord"));
+    y.setCellValueFactory(new TreeItemPropertyValueFactory("yCoord"));
+    floor.setCellValueFactory(new TreeItemPropertyValueFactory("Floor"));
+    building.setCellValueFactory(new TreeItemPropertyValueFactory("Building"));
+    nodeType.setCellValueFactory(new TreeItemPropertyValueFactory("nodeType"));
+    shortName.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
+    longName.setCellValueFactory(new TreeItemPropertyValueFactory("longName"));
+    // Get the locations the DAO
     ArrayList<Location> currLocations = (ArrayList<Location>) locationDao.getAllLocations();
 
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
     // Need to make sure the list isn't empty
     if (!currLocations.isEmpty()) {
-
       // for each loop cycling through each location currently entered into the system
-      for (Location delivery : currLocations) {
-        TreeItem<Location> item = new TreeItem(delivery);
+      for (Location pos : currLocations) {
+        TreeItem<Location> item = new TreeItem(pos);
         treeItems.add(item);
       }
+
       // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
       // we get the standard table functionality
       table.setShowRoot(false);
