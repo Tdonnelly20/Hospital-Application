@@ -72,7 +72,7 @@ public class LabRequestController extends Controller {
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     requestedLabCol.setCellValueFactory(new TreeItemPropertyValueFactory("lab"));
 
-    // Get the current list of medicine deliveries from the DAO
+    // Get the current list of lab requests from the DAO
     ArrayList<LabRequest> currLabRequests =
         (ArrayList<LabRequest>) labRequestDao.getAllLabRequests();
 
@@ -82,7 +82,7 @@ public class LabRequestController extends Controller {
     // Need to make sure the list isn't empty
     if (!currLabRequests.isEmpty()) {
 
-      // for each loop cycling through each medicine delivery currently entered into the system
+      // for each loop cycling through each lab request currently entered into the system
       for (LabRequest lab : currLabRequests) {
         TreeItem<LabRequest> item = new TreeItem(lab);
         treeItems.add(item);

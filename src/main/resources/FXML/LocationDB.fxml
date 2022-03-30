@@ -17,6 +17,43 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.LocationController">
    <children>
+      <Pane layoutY="76.0" prefHeight="498.0" prefWidth="139.0" style="-fx-background-color: #5c677d;">
+         <children>
+            <VBox alignment="TOP_CENTER" layoutY="1.0" prefHeight="219.0" prefWidth="139.0" spacing="15.0">
+               <children>
+                  <Button alignment="CENTER" layoutX="15.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToHome" style="-fx-background-color: #5c677d;" text="Home" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </VBox>
+            <Button fx:id="closeButton" layoutX="4.0" layoutY="449.0" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="129.0" style="-fx-background-color: #5c677d;" text="Close" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane layoutX="138.0" layoutY="75.0" prefHeight="498.0" prefWidth="781.0" style="-fx-background-color: rgb(149,182,203);">
+         <children>
+            <TreeTableView fx:id="table" layoutX="42.0" layoutY="50.0" prefHeight="396.0" prefWidth="691.0">
+              <columns>
+                <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
+                <TreeTableColumn id="xCoord" prefWidth="94.66668701171875" text="X" fx:id="x" />
+                  <TreeTableColumn id="yCoord" fx:id="y" prefWidth="92.66668701171875" text="Y" />
+                  <TreeTableColumn id="Floor" fx:id="floor" prefWidth="39.333282470703125" text="Floor" />
+                  <TreeTableColumn id="Building" fx:id="building" prefWidth="75.0" text="Building" />
+                  <TreeTableColumn id="nodeType" fx:id="nodeType" prefWidth="75.0" text="Node Type" />
+                  <TreeTableColumn id="shortName" fx:id="shortName" prefWidth="75.0" text="Short Name" />
+                  <TreeTableColumn id="longName" fx:id="longName" prefWidth="158.6666259765625" text="Long Name" />
+              </columns>
+            </TreeTableView>
+         </children>
+      </Pane>
       <Pane id="Menu" fx:id="menu" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
          <children>
             <GridPane alignment="CENTER_RIGHT" layoutX="492.0" layoutY="-1.0" prefHeight="76.0" prefWidth="379.0">
@@ -58,49 +95,6 @@
                   <Font size="25.0" />
                </font>
             </Label>
-         </children>
-      </Pane>
-      <Pane layoutY="76.0" prefHeight="498.0" prefWidth="139.0" style="-fx-background-color: #5c677d;">
-         <children>
-            <VBox alignment="TOP_CENTER" layoutY="1.0" prefHeight="219.0" prefWidth="139.0" spacing="15.0">
-               <children>
-                  <Button alignment="CENTER" layoutX="15.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToHome" style="-fx-background-color: #5c677d;" text="Home" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#switchToServiceRequest" style="-fx-background-color: #5c677d;" text="Service Requests" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets top="15.0" />
-               </padding>
-            </VBox>
-            <Button fx:id="closeButton" layoutX="4.0" layoutY="449.0" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="129.0" style="-fx-background-color: #5c677d;" text="Close" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
-      <Pane layoutX="138.0" layoutY="75.0" prefHeight="498.0" prefWidth="781.0" style="-fx-background-color: rgb(149,182,203);">
-         <children>
-            <TreeTableView fx:id="table" layoutX="42.0" layoutY="50.0" prefHeight="396.0" prefWidth="691.0">
-              <columns>
-                <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
-                <TreeTableColumn id="xCoord" prefWidth="94.66668701171875" text="X" fx:id="x" />
-                  <TreeTableColumn id="yCoord" fx:id="y" prefWidth="92.66668701171875" text="Y" />
-                  <TreeTableColumn id="Floor" fx:id="floor" prefWidth="39.333282470703125" text="Floor" />
-                  <TreeTableColumn id="Building" fx:id="building" prefWidth="75.0" text="Building" />
-                  <TreeTableColumn id="nodeType" fx:id="nodeType" prefWidth="75.0" text="Node Type" />
-                  <TreeTableColumn id="shortName" fx:id="shortName" prefWidth="75.0" text="Short Name" />
-                  <TreeTableColumn id="longName" fx:id="longName" prefWidth="158.6666259765625" text="Long Name" />
-              </columns>
-            </TreeTableView>
-            <Button fx:id="refresh" layoutX="42.0" layoutY="14.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
          </children>
       </Pane>
    </children>
