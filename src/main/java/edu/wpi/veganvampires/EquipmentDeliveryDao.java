@@ -12,7 +12,12 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
   /** Initialize the array list */
   public EquipmentDeliveryDao() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
-    // TODO: Add info from the database to the local arraylist
+    try{
+      Vdb.CreateDB();
+      allEquipmentDeliveries = Vdb.equipment;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -36,5 +41,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
   }
 
   @Override
-  public void removeEquipmentDelivery() {} // TODO
+  public void removeEquipmentDelivery(String equipment) {
+    allEquipmentDeliveries.removeIf(e -> e.getEquipment().equals(equipment));
+  } // TODO
 }
