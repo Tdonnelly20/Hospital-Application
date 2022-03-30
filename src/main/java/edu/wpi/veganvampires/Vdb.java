@@ -1,8 +1,6 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.Features.EquipmentDelivery;
-import edu.wpi.veganvampires.Features.MedicineDelivery;
-import edu.wpi.veganvampires.Features.SanitationRequest;
+import edu.wpi.veganvampires.Features.*;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -173,6 +171,18 @@ public class Vdb {
 
   public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery) {
     // Code for adding a equipment request to the database
+    System.out.println("Arrived at database!");
+  }
+
+  public static void addLabRequest(LabRequest labRequest) {
+    System.out.println("Arrived at database!");
+  }
+
+  public static void addLocations(Location new_location) {
+    System.out.println("Arrived at database!");
+  }
+
+  public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {
     System.out.println("Arrived at database!");
   }
 }
