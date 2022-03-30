@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Vdb {
   protected static ArrayList<Location> locations;
@@ -54,7 +53,8 @@ public class Vdb {
     {
       String[] data;
       data = line.split(splitToken);
-      EquipmentDelivery e = new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
+      EquipmentDelivery e =
+          new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
       equipment.add(e);
     }
     System.out.println("Database made");

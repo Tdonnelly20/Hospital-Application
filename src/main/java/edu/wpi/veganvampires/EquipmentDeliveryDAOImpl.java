@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires;
 
 import edu.wpi.veganvampires.Interfaces.EquipmentDeliveryDAO;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -11,7 +10,7 @@ public class EquipmentDeliveryDAOImpl implements EquipmentDeliveryDAO {
   /** Initialize the array list */
   public EquipmentDeliveryDAOImpl() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
-    try{
+    try {
       Vdb.CreateDB();
       allEquipmentDeliveries = Vdb.equipment;
     } catch (Exception e) {
@@ -25,7 +24,8 @@ public class EquipmentDeliveryDAOImpl implements EquipmentDeliveryDAO {
   }
 
   @Override
-  public void addEquipmentDelivery(String location, String equipment, String notes, int quantity) throws SQLException {
+  public void addEquipmentDelivery(String location, String equipment, String notes, int quantity)
+      throws SQLException {
     EquipmentDelivery newEquipmentDelivery =
         new EquipmentDelivery(location, equipment, notes, quantity);
 
@@ -40,19 +40,22 @@ public class EquipmentDeliveryDAOImpl implements EquipmentDeliveryDAO {
       Connection connection;
       connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
-      for(EquipmentDelivery e: allEquipmentDeliveries) exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getEquipment())");
+      for (EquipmentDelivery e : allEquipmentDeliveries)
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getEquipment())");
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  private void updateEquipmentDeliveryDB(EquipmentDelivery newEquipmentDelivery) throws SQLException {
+  private void updateEquipmentDeliveryDB(EquipmentDelivery newEquipmentDelivery)
+      throws SQLException {
     try {
       System.out.println("Sending to database...");
       Connection connection;
       connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
-      exampleStatement.execute("INSERT INTO LOCATIONS VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
+      exampleStatement.execute(
+          "INSERT INTO LOCATIONS VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
     } catch (SQLException e) {
       e.printStackTrace();
     }
