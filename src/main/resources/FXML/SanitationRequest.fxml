@@ -42,7 +42,7 @@
                               <TextField fx:id="firstName" onKeyReleased="#checkValidation" promptText="Patient First Name" />
                               <TextField fx:id="lastName" onKeyReleased="#checkValidation" promptText="Patient Last Name" />
                               <TextField fx:id="roomLocation" onKeyReleased="#checkValidation" promptText="Location" />
-                              <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="239.0" promptText="Select Medicine" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                              <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="239.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="bloodRequest" fx:value="Blood" />
