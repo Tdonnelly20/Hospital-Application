@@ -1,10 +1,7 @@
 package edu.wpi.veganvampires.Dao;
 
-
 import edu.wpi.veganvampires.Features.EquipmentDelivery;
 import edu.wpi.veganvampires.Interfaces.EquipmentDeliveryDAO;
-import edu.wpi.veganvampires.Vdb;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -13,13 +10,13 @@ public class EquipmentDeliveryDAOImpl implements EquipmentDeliveryDAO {
 
   /** Initialize the array list */
   public EquipmentDeliveryDAOImpl() {
-    allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
+    /*allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
     try {
       Vdb.CreateDB();
       allEquipmentDeliveries = Vdb.equipment;
     } catch (Exception e) {
       e.printStackTrace();
-    }
+    }*/
   }
 
   @Override

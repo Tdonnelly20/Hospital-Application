@@ -3,7 +3,7 @@ package edu.wpi.veganvampires.Interfaces;
 import edu.wpi.veganvampires.Location;
 import java.util.List;
 
-public interface LocationDAO {
+public interface LocationImpl {
   public List<Location> getAllLocations();
 
   public Location getLocation(Location location);
