@@ -3,8 +3,6 @@ package edu.wpi.veganvampires;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Scanner;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +20,7 @@ public class VApp extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {
+  public void start(Stage primaryStage) throws Exception {
     try {
       FXMLLoader loader = new FXMLLoader();
       URL xmlUrl = getClass().getClassLoader().getResource("FXML/home.fxml");
@@ -31,11 +29,13 @@ public class VApp extends Application {
 
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
-      this.main();
+
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
     }
+    Vdb.CreateDB();
+    // this.main();
   }
 
   @Override
@@ -43,7 +43,7 @@ public class VApp extends Application {
     log.info("Shutting Down");
   }
 
-  public static void main() {
+  /*public static void main() {
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -77,7 +77,7 @@ public class VApp extends Application {
       Scanner scanner = new Scanner(System.in);
       boolean loop = true;
       int state = 0;
-      while (loop) {
+      /*while (loop) {
         switch (state) {
           case 1:
             Statement stmt = connection.createStatement();
@@ -152,5 +152,5 @@ public class VApp extends Application {
     for (Location location : Vdb.locations) {
       System.out.println("ID: " + location.nodeID);
     }
-  }
+  }*/
 }
