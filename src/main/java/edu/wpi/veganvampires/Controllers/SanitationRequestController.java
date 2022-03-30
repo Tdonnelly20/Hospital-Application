@@ -11,10 +11,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class SanitationRequestController extends Controller {
+  @FXML private TextField hospitalID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
-  @FXML private TextField location;
+  @FXML private TextField roomLocation;
   @FXML private JFXComboBox<Object> sanitationDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
@@ -24,9 +25,11 @@ public class SanitationRequestController extends Controller {
   @FXML
   private void checkValidation() {
     if (!(patientID.getText().equals("")
+        || hospitalID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
-        || location.getText().equals("")
+        || roomLocation.getText().equals("")
+        || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals(""))) {
       sendRequest.setDisable(false);
     }
@@ -38,9 +41,11 @@ public class SanitationRequestController extends Controller {
 
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
+        || hospitalID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
-        || location.getText().equals("")
+        || roomLocation.getText().equals("")
+        || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals("")) {
 
       // Set the text and color of the status label
@@ -60,6 +65,8 @@ public class SanitationRequestController extends Controller {
           firstName.getText(),
           lastName.getText(),
           Integer.parseInt(patientID.getText()),
+          Integer.parseInt(hospitalID.getText()),
+          roomLocation.getText(),
           sanitationDropDown.getValue().toString(),
           requestDetails.getText());
 
@@ -72,7 +79,7 @@ public class SanitationRequestController extends Controller {
           "\nPatient ID: "
               + patientID.getText()
               + "\nLocation: "
-              + location.getText()
+              + roomLocation.getText()
               + "\nName: "
               + firstName.getText()
               + "\nLast Name "
@@ -90,9 +97,10 @@ public class SanitationRequestController extends Controller {
   @FXML
   private void resetFields() {
     patientID.setText("");
+    hospitalID.setText("");
     firstName.setText("");
     lastName.setText("");
-    location.setText("");
+    roomLocation.setText("");
     sanitationDropDown.setValue(null);
     requestDetails.setText("");
   }
@@ -112,6 +120,49 @@ public class SanitationRequestController extends Controller {
       return true;
     } catch (NumberFormatException e) {
       return false;
+    }
+  }
+
+  @FXML
+  private void sendRequest() {
+    // If any field is left blank, (except for request details) throw an error
+
+    // Make sure the patient ID is an integer
+    if (!isInteger(patientID.getText()) || !isInteger(hospitalID.getText())) {
+      statusLabel.setText("Status: Failed. Patient/Hospital ID must be a number!");
+      statusLabel.setTextFill(Color.web("Red"));
+
+      // If all conditions pass, create the request
+    } else {
+
+      // Send the request to the Dao pattern
+      SanitationRequestDao.addSanitationRequest(
+          firstName.getText(),
+          lastName.getText(),
+          Integer.parseInt(patientID.getText()),
+          Integer.parseInt(hospitalID.getText()),
+          roomLocation.getText(),
+          sanitationDropDown.getValue().toString(),
+          requestDetails.getText());
+
+      // For testing purposes
+      System.out.println(
+          "\nHospital ID: "
+              + hospitalID.getText()
+              + "\nPatient ID: "
+              + patientID.getText()
+              + "\nRoom #: "
+              + roomLocation.getText()
+              + "\nName: "
+              + firstName.getText()
+              + " "
+              + lastName.getText()
+              + "\nMedication: "
+              + sanitationDropDown.getValue()
+              + "\n\nRequest Details: "
+              + requestDetails.getText());
+
+      resetFields(); // Set all fields to blank for another entry
     }
   }
 }

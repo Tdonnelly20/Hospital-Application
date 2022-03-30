@@ -14,6 +14,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -101,11 +102,17 @@
                                     </AnchorPane>
                                  </content>
                               </Tab>
-                              <Tab text="Delivery Requests">
+                              <Tab onSelectionChanged="#updateTreeTable" text="Delivery Requests">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXTreeTableView layoutX="25.0" layoutY="20.0" />
+                                          <JFXTreeTableView fx:id="equipmentRequestTable" layoutX="25.0" layoutY="20.0" prefHeight="400.0" prefWidth="500.0">
+                                             <columns>
+                                                <TreeTableColumn fx:id="posCol" prefWidth="100.0" text="Location" />
+                                                <TreeTableColumn fx:id="equipCol" prefWidth="140.0" text="Equipment Request" />
+                                                <TreeTableColumn fx:id="quantCol" prefWidth="60.0" text="Quantity" />
+                                                <TreeTableColumn fx:id="notesCol" prefWidth="200.0" text="Notes" />
+                                             </columns></JFXTreeTableView>
                                        </children>
                                     </AnchorPane>
                                  </content>

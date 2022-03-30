@@ -102,7 +102,7 @@ public abstract class Controller extends Application {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(
-                getClass().getClassLoader().getResource("FXML/SanitationRequests.fxml")));
+                getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml")));
     switchScene(event);
   }
 

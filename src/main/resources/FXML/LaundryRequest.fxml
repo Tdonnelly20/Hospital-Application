@@ -69,7 +69,12 @@
                                                 <Font size="18.0" />
                                             </font>
                                         </Button>
-                                        <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Enter All Fields" textAlignment="CENTER" wrapText="true" />
+                              <Button fx:id="Reset" layoutX="96.0" layoutY="456.0" mnemonicParsing="false" onAction="#resetForm" text="Reset">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                                        <Label fx:id="Status" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Enter All Fields" textAlignment="CENTER" wrapText="true" />
                                     </children>
                                     <padding>
                                         <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
