@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vdb {
-  static List<Location> locations;
-  static List<Equipment> equipment;
+  protected static ArrayList<Location> locations;
+  protected static ArrayList<EquipmentDelivery> equipment;
 
   public static String returnPath() {
     String currentPath = System.getProperty("user.dir");
@@ -54,7 +54,7 @@ public class Vdb {
     {
       String[] data;
       data = line.split(splitToken);
-      Equipment e = new Equipment(data[0], data[1], Integer.parseInt(data[2]));
+      EquipmentDelivery e = new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
       equipment.add(e);
     }
     System.out.println("Database made");
@@ -206,8 +206,8 @@ public class Vdb {
     fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
     bw = new BufferedWriter(fw);
     bw.append("Name,Description,Count");
-    for (Equipment e : equipment) {
-      String[] outputData = {e.name, e.description, String.valueOf(e.count)};
+    for (EquipmentDelivery e : equipment) {
+      String[] outputData = {e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())};
       bw.append("\n");
       for (String s : outputData) {
         bw.append(s);

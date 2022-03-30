@@ -9,5 +9,5 @@ public interface EquipmentDeliveryImpl {
 
   void addEquipmentDelivery(String location, String equipment, String notes, int quantity);
 
-  void removeEquipmentDelivery();
+  void removeEquipmentDelivery(String equipment);
 }
