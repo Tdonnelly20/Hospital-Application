@@ -19,7 +19,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.SanitationRequestController">
    <children>
       <SplitPane dividerPositions="0.3503636363636363" layoutX="10.0" layoutY="61.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);">
@@ -38,10 +37,11 @@
                                     <Font size="19.0" />
                                  </font>
                               </Button>
+                              <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Hospital ID" />
                               <TextField fx:id="patientID" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID" />
                               <TextField fx:id="firstName" onKeyReleased="#checkValidation" promptText="Patient First Name" />
                               <TextField fx:id="lastName" onKeyReleased="#checkValidation" promptText="Patient Last Name" />
-                              <TextField fx:id="location" onKeyReleased="#checkValidation" promptText="Location" />
+                              <TextField fx:id="roomLocation" onKeyReleased="#checkValidation" promptText="Location" />
                               <JFXComboBox fx:id="medicationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="239.0" promptText="Select Medicine" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
@@ -53,8 +53,10 @@
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
-                              <TextArea onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
-                              <Button mnemonicParsing="false" text="Send Request">
+                              <TextArea fx:id="details" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
+                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                              <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
+                              <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

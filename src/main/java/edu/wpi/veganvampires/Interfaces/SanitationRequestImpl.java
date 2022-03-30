@@ -11,6 +11,8 @@ public interface SanitationRequestImpl {
       String patientFirstName,
       String patientLastName,
       int patientID,
+      int hospitalID,
+      String roomLocation,
       String hazardName,
       String requestDetails);
 

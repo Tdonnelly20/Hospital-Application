@@ -27,6 +27,8 @@ public class SanitationRequestDao implements SanitationRequestImpl {
    * @param patientFirstName
    * @param patientLastName
    * @param patientID
+   * @param hospitalID
+   * @param roomLocation
    * @param hazardName
    * @param requestDetails
    */
@@ -35,11 +37,19 @@ public class SanitationRequestDao implements SanitationRequestImpl {
       String patientFirstName,
       String patientLastName,
       int patientID,
+      int hospitalID,
       String hazardName,
+      String roomLocation,
       String requestDetails) {
     SanitationRequest newSanitationRequest =
         new SanitationRequest(
-            patientFirstName, patientLastName, patientID, hazardName, requestDetails);
+            patientFirstName,
+            patientLastName,
+            patientID,
+            hospitalID,
+            roomLocation,
+            hazardName,
+            requestDetails);
 
     System.out.println("Adding to local arraylist...");
     allSanitationRequests.add(newSanitationRequest); // Store a local copy

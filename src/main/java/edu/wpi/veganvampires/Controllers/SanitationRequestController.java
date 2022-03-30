@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class SanitationRequestController extends Controller {
+  @FXML private TextField hospitalID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
@@ -24,6 +25,7 @@ public class SanitationRequestController extends Controller {
   @FXML
   private void checkValidation() {
     if (!(patientID.getText().equals("")
+        || hospitalID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
         || roomLocation.getText().equals("")
@@ -38,6 +40,7 @@ public class SanitationRequestController extends Controller {
 
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
+        || hospitalID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
         || roomLocation.getText().equals("")
@@ -60,6 +63,8 @@ public class SanitationRequestController extends Controller {
           firstName.getText(),
           lastName.getText(),
           Integer.parseInt(patientID.getText()),
+          Integer.parseInt(hospitalID.getText()),
+          roomLocation.getText(),
           sanitationDropDown.getValue().toString(),
           requestDetails.getText());
 
@@ -90,6 +95,7 @@ public class SanitationRequestController extends Controller {
   @FXML
   private void resetFields() {
     patientID.setText("");
+    hospitalID.setText("");
     firstName.setText("");
     lastName.setText("");
     roomLocation.setText("");
@@ -112,6 +118,49 @@ public class SanitationRequestController extends Controller {
       return true;
     } catch (NumberFormatException e) {
       return false;
+    }
+  }
+
+  @FXML
+  private void sendRequest() {
+    // If any field is left blank, (except for request details) throw an error
+
+    // Make sure the patient ID is an integer
+    if (!isInteger(patientID.getText()) || !isInteger(hospitalID.getText())) {
+      statusLabel.setText("Status: Failed. Patient/Hospital ID must be a number!");
+      statusLabel.setTextFill(Color.web("Red"));
+
+      // If all conditions pass, create the request
+    } else {
+
+      // Send the request to the Dao pattern
+      SanitationRequestDao.addSanitationRequest(
+          firstName.getText(),
+          lastName.getText(),
+          Integer.parseInt(patientID.getText()),
+          Integer.parseInt(hospitalID.getText()),
+          roomLocation.getText(),
+          sanitationDropDown.getValue().toString(),
+          requestDetails.getText());
+
+      // For testing purposes
+      System.out.println(
+          "\nHospital ID: "
+              + hospitalID.getText()
+              + "\nPatient ID: "
+              + patientID.getText()
+              + "\nRoom #: "
+              + roomLocation.getText()
+              + "\nName: "
+              + firstName.getText()
+              + " "
+              + lastName.getText()
+              + "\nMedication: "
+              + sanitationDropDown.getValue()
+              + "\n\nRequest Details: "
+              + requestDetails.getText());
+
+      resetFields(); // Set all fields to blank for another entry
     }
   }
 }
