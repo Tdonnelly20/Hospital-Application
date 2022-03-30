@@ -14,8 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Vdb {
-  protected static ArrayList<Location> locations;
-  protected static ArrayList<EquipmentDelivery> equipment;
+  public static ArrayList<Location> locations;
+  public static ArrayList<EquipmentDelivery> equipment;
 
   public static String returnPath() {
     String currentPath = System.getProperty("user.dir");
