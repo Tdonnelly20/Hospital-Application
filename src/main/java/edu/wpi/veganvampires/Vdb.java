@@ -1,5 +1,9 @@
 package edu.wpi.veganvampires;
 
+import edu.wpi.veganvampires.Features.EquipmentDelivery;
+import edu.wpi.veganvampires.Features.MedicineDelivery;
+import edu.wpi.veganvampires.Features.ReligiousRequest;
+import edu.wpi.veganvampires.Features.SanitationRequest;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -66,7 +70,8 @@ public class Vdb {
 
   public static Connection Connect() {
     try {
-      Connection connection = DriverManager.getConnection("jdbc:derby:myDB;", "admin", "admin");
+      String URL = "jdbc:derby:VDB;";
+      Connection connection = DriverManager.getConnection(URL, "admin", "admin");
       return connection;
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
@@ -231,4 +236,12 @@ public class Vdb {
     bw.close();
     fw.close();
   }
+
+  public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery) {}
+
+  public static void addMedicineDelivery(MedicineDelivery newMedicineDelivery) {}
+
+  public static void addSanitationRequest(SanitationRequest newSanitationRequest) {}
+
+  public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {}
 }
