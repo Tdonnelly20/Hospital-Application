@@ -24,7 +24,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="573.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.MedicineDeliveryController">
+
+<AnchorPane prefHeight="573.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.SanitationRequestController">
     <children>
         <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <items>
@@ -146,7 +147,7 @@
                         <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="349.0" text="Medicine Delivery Request" textFill="WHITE">
+                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="349.0" text="Sanitation Request" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="25.0" />
                     </font>

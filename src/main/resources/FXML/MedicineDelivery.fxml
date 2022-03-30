@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.MedicineDeliveryController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.MedicineDeliveryController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -34,7 +34,7 @@
     <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="127.0" prefWidth="1066.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
+      <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="521.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="229.4000244140625" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.80002441406253" minWidth="10.0" prefWidth="222.19997558593752" />
@@ -146,7 +146,7 @@
                <tabs>
                   <Tab text="Map View">
                      <content>
-                        <Pane prefHeight="830.0" prefWidth="1493.0">
+                        <Pane prefHeight="571.0" prefWidth="366.0">
                            <children>
                               <JFXComboBox layoutX="349.0" layoutY="890.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                  <items>
@@ -160,7 +160,7 @@
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
-                              <ImageView fitHeight="794.0" fitWidth="825.0" layoutX="349.0" layoutY="54.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="414.0" fitWidth="464.0" layoutX="68.0" layoutY="60.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../01_thefirstfloor.png" />
                                  </image>
@@ -176,16 +176,16 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="8.0" prefHeight="918.0" prefWidth="1466.0">
+                              <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="8.0" prefHeight="553.0" prefWidth="538.0">
                                  <columns>
-                                    <TreeTableColumn fx:id="hospitalIDCol" prefWidth="97.5999174118042" text="Hospital ID" />
-                                    <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="92.0" text="Patient ID" />
-                                    <TreeTableColumn fx:id="firstNameCol" prefWidth="96.79997253417969" text="First Name" />
-                                    <TreeTableColumn fx:id="lastNameCol" prefWidth="96.79998779296875" text="Last Name" />
-                                    <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="49.60003662109375" text="Room #" />
-                                    <TreeTableColumn fx:id="medicineCol" prefWidth="86.4000244140625" text="Medicine" />
-                                    <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="152.00006103515625" text="Dosage" />
-                                    <TreeTableColumn fx:id="otherInfoCol" prefWidth="798.3999633789062" text="Other Info" />
+                                    <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
+                                    <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
+                                    <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
+                                    <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
+                                    <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="55.2000732421875" text="Room #" />
+                                    <TreeTableColumn fx:id="medicineCol" minWidth="0.0" prefWidth="56.7999267578125" text="Medicine" />
+                                    <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Dosage" />
+                                    <TreeTableColumn fx:id="otherInfoCol" prefWidth="64.80001831054688" text="Other Info" />
                                  </columns>
                               </TreeTableView>
                            </children>
