@@ -1,8 +1,6 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.EquipmentDelivery;
 import edu.wpi.veganvampires.Interfaces.EquipmentDeliveryImpl;
-import edu.wpi.veganvampires.Vdb;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +10,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
   /** Initialize the array list */
   public EquipmentDeliveryDao() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
-    try{
+    try {
       Vdb.CreateDB();
       allEquipmentDeliveries = Vdb.equipment;
     } catch (Exception e) {
@@ -37,7 +35,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
 
   private void updateEquipmentDeliveryDB(EquipmentDelivery newEquipmentDelivery) {
     System.out.println("Sending to database...");
-    //Vdb.addEquipmentDelivery(newEquipmentDelivery);
+    // Vdb.addEquipmentDelivery(newEquipmentDelivery);
   }
 
   @Override

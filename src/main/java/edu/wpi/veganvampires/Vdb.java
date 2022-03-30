@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Vdb {
   protected static ArrayList<Location> locations;
@@ -54,11 +56,23 @@ public class Vdb {
     {
       String[] data;
       data = line.split(splitToken);
-      EquipmentDelivery e = new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
+      EquipmentDelivery e =
+          new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
       equipment.add(e);
     }
     System.out.println("Database made");
     V1();
+  }
+
+  public static Connection Connect() {
+    try {
+      Connection connection = DriverManager.getConnection("jdbc:derby:myDB;", "admin", "admin");
+      return connection;
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public static void V1() {
