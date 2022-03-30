@@ -3,19 +3,18 @@ package edu.wpi.veganvampires.Dao;
 import edu.wpi.veganvampires.Location;
 import edu.wpi.veganvampires.Vdb;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class LocationImpl implements edu.wpi.veganvampires.Interfaces.LocationImpl {
+public class LocationDao implements edu.wpi.veganvampires.Interfaces.LocationImpl {
 
   List<Location> locationList;
   Connection connection = Vdb.Connect();
 
-  public LocationImpl() {
-    locationList = new ArrayList<>();
+  public LocationDao() {
+    locationList = Vdb.locations;
   }
 
-  public LocationImpl(List<Location> list) {
+  public LocationDao(List<Location> list) {
     locationList = list;
   }
 

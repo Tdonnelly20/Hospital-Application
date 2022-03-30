@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.Dao.LocationImpl;
+import edu.wpi.veganvampires.Dao.LocationDao;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -46,7 +46,7 @@ public class VApp extends Application {
   public static void main() {
     // LocationDAOImpl locDAO = new LocationDAOImpl();
     // copies the Vdb.locations data to locDAO;
-    LocationImpl locDAO = new LocationImpl(Vdb.locations);
+    LocationDao locDAO = new LocationDao(Vdb.locations);
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");

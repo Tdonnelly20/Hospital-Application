@@ -46,13 +46,14 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
-  // Switches scene to the home page
+  // Switches scene to the location database
   @FXML
   public void switchToLocationDB(ActionEvent event) throws IOException {
-    root =
-        FXMLLoader.load(
-            Objects.requireNonNull(
-                getClass().getClassLoader().getResource("FXML/LocationDB.fxml")));
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDB.fxml"));
+    root = loader.load();
+    LocationController lc = loader.getController();
+    lc.loadTree();
     switchScene(event);
   }
 
