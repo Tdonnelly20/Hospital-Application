@@ -224,9 +224,11 @@ public class Vdb {
     }
     fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
     bw = new BufferedWriter(fw);
-    bw.append("Name,Description,Count");
+    bw.append("Name,Description,Location,Count");
     for (EquipmentDelivery e : equipment) {
-      String[] outputData = {e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())};
+      String[] outputData = {
+        e.getLocation(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
+      };
       bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
