@@ -49,7 +49,7 @@ public class LocationDAOImpl implements LocationDAO {
         locationList.get(i).setLongName(location.getLongName());
         try {
           Statement st = connection.createStatement();
-          /*st.execute(
+          st.execute(
           "UPDATE LOCATIONS SET xCoord = location.getXCoord(),"
               + "yCoord = location.getYCoord(),"
               + "nodeType = location.getNodeType(),"
@@ -57,7 +57,7 @@ public class LocationDAOImpl implements LocationDAO {
               + "building = location.getBuilding(),"
               + "shortName = location.getShortName(),"
               + "longName = location.getLongName()"
-              + "WHERE nodeID = location.getNodeID()");*/
+              + "WHERE nodeID = location.getNodeID()");
         } catch (SQLException e) {
           System.out.println("Connection failed. Check output console.");
           e.printStackTrace();
@@ -74,7 +74,7 @@ public class LocationDAOImpl implements LocationDAO {
         locationList.remove(i);
         try {
           Statement st = connection.createStatement();
-          /* st.execute("DELETE FROM Locations WHERE nodeID = " + location.getNodeID());*/
+          st.execute("DELETE FROM Locations WHERE nodeID = " + location.getNodeID());
         } catch (SQLException e) {
           System.out.println("Connection failed. Check output console.");
           e.printStackTrace();
