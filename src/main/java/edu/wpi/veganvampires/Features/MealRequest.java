@@ -10,13 +10,13 @@ public class MealRequest {
   private final int patientID;
   private final String firstName;
   private final String lastName;
-  private final String food;
+  private final String meal;
 
-  public MealRequest(int userID, int patientID, String firstName, String lastName, String food) {
+  public MealRequest(int userID, int patientID, String firstName, String lastName, String meal) {
     this.userID = userID;
     this.patientID = patientID;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.food = food;
+    this.meal = meal;
   }
 }
