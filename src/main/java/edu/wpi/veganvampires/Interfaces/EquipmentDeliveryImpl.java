@@ -1,13 +1,15 @@
 package edu.wpi.veganvampires.Interfaces;
 
 import edu.wpi.veganvampires.EquipmentDelivery;
-import java.util.List;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
  
 public interface EquipmentDeliveryImpl {
 
-  List<EquipmentDelivery> getAllEquipmentDeliveries();
+  ArrayList<EquipmentDelivery> getAllEquipmentDeliveries();
 
-  void addEquipmentDelivery(String location, String equipment, String notes, int quantity);
+  void addEquipmentDelivery(String location, String equipment, String notes, int quantity) throws SQLException;
 
-  void removeEquipmentDelivery(String equipment);
+  void removeEquipmentDelivery(String equipment) throws SQLException;
 }
