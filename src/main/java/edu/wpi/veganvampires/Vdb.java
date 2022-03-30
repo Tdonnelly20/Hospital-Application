@@ -70,7 +70,8 @@ public class Vdb {
 
   public static Connection Connect() {
     try {
-      Connection connection = DriverManager.getConnection("jdbc:derby:myDB;", "admin", "admin");
+      String URL = "jdbc:derby:VDB;";
+      Connection connection = DriverManager.getConnection(URL, "admin", "admin");
       return connection;
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
