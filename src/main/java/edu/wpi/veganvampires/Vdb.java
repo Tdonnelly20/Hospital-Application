@@ -201,7 +201,7 @@ public class Vdb {
 
   public static void SaveToFile() throws Exception { // updates all csv files
     String currentPath = returnPath();
-    FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
+    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
