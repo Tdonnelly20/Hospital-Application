@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,20 +22,39 @@ public class LocationDAOImpl implements LocationDAO {
   }
 
   @Override
-  public Location getLocation(int ID) {
-    return locationList.get(ID);
+  public Location getLocation(Location location) {
+    for(int i = 0; i < locationList.size(); i++)
+    {
+      if(locationList.get(i).getNodeID().equals(location.getNodeID()))
+      {
+        return locationList.get(i);
+      }
+    }
+    System.out.println("Location not found");
+    return null;
   }
 
   @Override
   public void updateLocation(Location location) {
-    locationList.get(location.ID).setXCoord(location.xCoord);
-    locationList.get(location.ID).setYCoord(location.yCoord);
-    locationList.get(location.ID).setNodeID(location.nodeID);
-    locationList.get(location.ID).setNodeType(location.nodeType);
-    locationList.get(location.ID).setFloor(location.floor);
-    locationList.get(location.ID).setBuilding(location.building);
-    locationList.get(location.ID).setShortName(location.shortName);
-    locationList.get(location.ID).setLongName(location.longName);
+
+    for(int i = 0; i < locationList.size(); i++)
+    {
+      if(locationList.get(i).getNodeID().equals(location.getNodeID()))
+      {
+        locationList.get(i).setXCoord(location.getXCoord());
+        locationList.get(i).setYCoord(location.getYCoord());
+        locationList.get(i).setNodeID(location.getNodeID());
+        locationList.get(i).setNodeType(location.getNodeType());
+        locationList.get(i).setFloor(location.getFloor());
+        locationList.get(i).setBuilding(location.getBuilding());
+        locationList.get(i).setShortName(location.getShortName());
+        locationList.get(i).setLongName(location.getLongName());
+
+
+      }
+    }
+
+
   }
 
   @Override
