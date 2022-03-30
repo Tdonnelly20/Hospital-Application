@@ -31,7 +31,7 @@ public class Vdb {
 
   public static void CreateDB() throws Exception {
     String currentPath = returnPath();
-    FileReader fr = new FileReader(currentPath + "\\LocationsBackup.csv");
+    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
     String line; // receives a line from br
     String splitToken = ","; // what we split the csv file with
@@ -201,7 +201,7 @@ public class Vdb {
 
   public static void SaveToFile() throws Exception { // updates all csv files
     String currentPath = returnPath();
-    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
+    FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
