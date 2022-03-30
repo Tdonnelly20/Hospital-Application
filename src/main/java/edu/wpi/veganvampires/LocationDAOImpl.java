@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires;
 
 import java.sql.*;
+import edu.wpi.veganvampires.Interfaces.LocationDAO;
 import java.util.ArrayList;
 import java.util.List;
 
