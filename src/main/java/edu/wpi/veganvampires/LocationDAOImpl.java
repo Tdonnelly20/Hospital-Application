@@ -1,5 +1,7 @@
 package edu.wpi.veganvampires;
 
+import edu.wpi.veganvampires.Interfaces.LocationDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 

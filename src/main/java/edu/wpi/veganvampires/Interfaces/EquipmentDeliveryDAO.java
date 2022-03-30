@@ -5,7 +5,7 @@ import edu.wpi.veganvampires.EquipmentDelivery;
 import java.sql.SQLException;
 import java.util.ArrayList;
  
-public interface EquipmentDeliveryImpl {
+public interface EquipmentDeliveryDAO {
 
   ArrayList<EquipmentDelivery> getAllEquipmentDeliveries();
 

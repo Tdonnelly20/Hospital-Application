@@ -1,18 +1,15 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.EquipmentDelivery;
-import edu.wpi.veganvampires.Interfaces.EquipmentDeliveryImpl;
-import edu.wpi.veganvampires.Vdb;
+import edu.wpi.veganvampires.Interfaces.EquipmentDeliveryDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
+public class EquipmentDeliveryDAOImpl implements EquipmentDeliveryDAO {
   private static ArrayList<EquipmentDelivery> allEquipmentDeliveries;
 
   /** Initialize the array list */
-  public EquipmentDeliveryDao() {
+  public EquipmentDeliveryDAOImpl() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
     try{
       Vdb.CreateDB();

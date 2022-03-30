@@ -1,4 +1,6 @@
-package edu.wpi.veganvampires;
+package edu.wpi.veganvampires.Interfaces;
+
+import edu.wpi.veganvampires.Location;
 
 import java.util.List;
 
