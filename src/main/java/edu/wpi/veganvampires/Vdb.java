@@ -2,6 +2,7 @@ package edu.wpi.veganvampires;
 
 import edu.wpi.veganvampires.Features.EquipmentDelivery;
 import edu.wpi.veganvampires.Features.MedicineDelivery;
+import edu.wpi.veganvampires.Features.ReligiousRequest;
 import edu.wpi.veganvampires.Features.SanitationRequest;
 import java.io.*;
 import java.sql.*;
@@ -16,9 +17,9 @@ public class Vdb {
     String line = ""; // receives a line from br
     String splitToken = ","; // what we split the csv file with
     String currentPath = System.getProperty("user.dir");
-    currentPath += "\\src\\main\\java\\edu\\wpi\\veganvampires";
+    currentPath += "/src/main/java/edu/wpi/veganvampires/";
     System.out.println(currentPath);
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
+    FileReader fr = new FileReader(currentPath + "TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
 
     locations = new ArrayList<>();
@@ -172,6 +173,11 @@ public class Vdb {
   }
 
   public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery) {
+    // Code for adding a equipment request to the database
+    System.out.println("Arrived at database!");
+  }
+
+  public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {
     // Code for adding a equipment request to the database
     System.out.println("Arrived at database!");
   }

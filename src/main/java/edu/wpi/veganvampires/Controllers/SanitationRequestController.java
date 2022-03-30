@@ -14,7 +14,7 @@ public class SanitationRequestController extends Controller {
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
-  @FXML private TextField location;
+  @FXML private TextField roomLocation;
   @FXML private JFXComboBox<Object> sanitationDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
@@ -26,7 +26,7 @@ public class SanitationRequestController extends Controller {
     if (!(patientID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
-        || location.getText().equals("")
+        || roomLocation.getText().equals("")
         || sanitationDropDown.getValue().equals(""))) {
       sendRequest.setDisable(false);
     }
@@ -40,7 +40,7 @@ public class SanitationRequestController extends Controller {
     if (patientID.getText().equals("")
         || firstName.getText().equals("")
         || lastName.getText().equals("")
-        || location.getText().equals("")
+        || roomLocation.getText().equals("")
         || sanitationDropDown.getValue().equals("")) {
 
       // Set the text and color of the status label
@@ -72,7 +72,7 @@ public class SanitationRequestController extends Controller {
           "\nPatient ID: "
               + patientID.getText()
               + "\nLocation: "
-              + location.getText()
+              + roomLocation.getText()
               + "\nName: "
               + firstName.getText()
               + "\nLast Name "
@@ -92,7 +92,7 @@ public class SanitationRequestController extends Controller {
     patientID.setText("");
     firstName.setText("");
     lastName.setText("");
-    location.setText("");
+    roomLocation.setText("");
     sanitationDropDown.setValue(null);
     requestDetails.setText("");
   }
