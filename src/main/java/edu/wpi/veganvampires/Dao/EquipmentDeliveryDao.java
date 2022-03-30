@@ -30,6 +30,9 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
     updateEquipmentDeliveryDB(newEquipmentDelivery);
   }
 
+  @Override
+  public void removeEquipmentDelivery(String equipment) {}
+
   private void updateEquipmentDeliveryDB(EquipmentDelivery newEquipmentDelivery) {
     System.out.println("Sending to database...");
     Vdb.addEquipmentDelivery(newEquipmentDelivery);
