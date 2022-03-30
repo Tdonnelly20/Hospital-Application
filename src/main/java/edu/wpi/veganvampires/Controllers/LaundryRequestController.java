@@ -1,21 +1,19 @@
 package edu.wpi.veganvampires.Controllers;
 
-import com.jfoenix.controls.JFXComboBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LaundryRequestController extends Controller {
 
+  @FXML private Label Status;
   @FXML private TextField employeeID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private TextField roomNumber;
-  @FXML private TextField details;
-  @FXML private TextField Status;
-  @FXML private JFXComboBox<Object> dropDown;
   @FXML private Button sendRequest;
 
   @FXML
@@ -26,7 +24,6 @@ public class LaundryRequestController extends Controller {
     firstName.setText("");
     lastName.setText("");
     roomNumber.setText("");
-    dropDown.setValue(null);
     sendRequest.setDisable(true);
   }
 
@@ -39,8 +36,8 @@ public class LaundryRequestController extends Controller {
         && !(lastName.getText().isEmpty())
         && !(roomNumber.getText().isEmpty())) {
       // Information verification and submission needed
-      sendRequest.setDisable(false);
       Status.setText("Status: Done");
+      sendRequest.setDisable(false);
 
     } else if ((employeeID.getText().isEmpty())
         || (patientID.getText().isEmpty())
