@@ -1,15 +1,15 @@
-package edu.wpi.veganvampires;
+package edu.wpi.veganvampires.Features;
 
 public class Location {
   protected final int ID = 0; // location class that stores info about each location
-  String nodeID;
-  int xCoord;
-  int yCoord;
-  String floor;
-  String building;
-  String nodeType;
-  String longName;
-  String shortName;
+  public String nodeID;
+  public int xCoord;
+  public int yCoord;
+  public String floor;
+  public String building;
+  public String nodeType;
+  public String longName;
+  public String shortName;
 
   public Location() {
     nodeID = null;
