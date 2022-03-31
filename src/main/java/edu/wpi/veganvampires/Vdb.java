@@ -207,14 +207,14 @@ public class Vdb {
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
     for (Location l : locations) {
       String[] outputData = {
-        l.nodeID,
-        String.valueOf(l.xCoord),
-        String.valueOf(l.yCoord),
-        l.floor,
-        l.building,
-        l.nodeType,
-        l.longName,
-        l.shortName,
+        l.getNodeID(),
+        String.valueOf(l.getXCoord()),
+        String.valueOf(l.getYCoord()),
+        l.getFloor(),
+        l.getBuilding(),
+        l.getNodeType(),
+        l.getLongName(),
+        l.getShortName(),
       };
       bw.append("\n");
       for (String s : outputData) {
