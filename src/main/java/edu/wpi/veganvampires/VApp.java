@@ -27,7 +27,6 @@ public class VApp extends Application {
       loader.setLocation(
           Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
       Parent root = loader.load();
-
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
       main();
