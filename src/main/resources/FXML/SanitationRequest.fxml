@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -10,40 +10,42 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.SanitationRequestController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5c677d;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.SanitationRequestController">
    <children>
-      <SplitPane dividerPositions="0.3503636363636363" layoutX="10.0" layoutY="61.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);">
+      <SplitPane dividerPositions="0.3503636363636363" layoutX="-1.0" layoutY="85.0" prefHeight="498.0" prefWidth="930.0" style="-fx-background-color: rgb(149,182,203);">
          <items>
             <AnchorPane prefHeight="503.0" prefWidth="408.0">
                <children>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="519.0" prefWidth="327.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="519.0" prefWidth="318.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+                        <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                            <padding>
                               <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
                            </padding>
                            <children>
-                              <Button mnemonicParsing="false" onAction="#switchToServiceRequest" text="Service Request Page" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="19.0" />
-                                 </font>
-                              </Button>
-                              <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Hospital ID" />
-                              <TextField fx:id="patientID" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID" />
-                              <TextField fx:id="firstName" onKeyReleased="#checkValidation" promptText="Patient First Name" />
-                              <TextField fx:id="lastName" onKeyReleased="#checkValidation" promptText="Patient Last Name" />
-                              <TextField fx:id="roomLocation" onKeyReleased="#checkValidation" promptText="Location" />
-                              <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="239.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                              <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Hospital ID">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin></TextField>
+                              <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
+                              <TextField fx:id="firstName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient First Name" />
+                              <TextField fx:id="lastName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient Last Name" />
+                              <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Location" />
+                              <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="bloodRequest" fx:value="Blood" />
@@ -70,54 +72,97 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="586.0">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="519.3333333333334" prefWidth="592.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="519.3333333333334" prefWidth="592.0">
                      <children>
-                        <ImageView fitHeight="382.0" fitWidth="556.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../Fake/src/main/resources/01_thefirstfloor.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets top="15.0" />
-                           </VBox.margin>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
-                        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: rgb(149,182,203);">
-                           <children>
-                              <JFXComboBox prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                 <items>
-                                    <FXCollections fx:factory="observableArrayList">
-                                       <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                       <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                       <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                       <String fx:id="floor1" fx:value="Floor 1" />
-                                       <String fx:id="floor2" fx:value="Floor 2" />
-                                       <String fx:id="floor3" fx:value="Floor 3" />
-                                    </FXCollections>
-                                 </items>
-                              </JFXComboBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="15.0" top="15.0" />
-                           </VBox.margin>
-                        </HBox>
+                        <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
+                           <tabs>
+                              <Tab text="Map View">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                             <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                   <String fx:id="groundFloor1" fx:value="Ground Floor" />
+                                                   <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
+                                                   <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
+                                                   <String fx:id="floor11" fx:value="Floor 1" />
+                                                   <String fx:id="floor21" fx:value="Floor 2" />
+                                                   <String fx:id="floor31" fx:value="Floor 3" />
+                                                </FXCollections>
+                                             </items>
+                                          </JFXComboBox>
+                                          <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../01_thefirstfloor.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                              <Tab text="Sanitation Requests">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXTreeTableView layoutX="25.0" layoutY="20.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                           </tabs>
+                        </TabPane>
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#999999" height="52.0" layoutX="10.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="919.0" />
-      <Label layoutX="24.0" layoutY="19.0" prefHeight="35.0" prefWidth="326.0" text="Sanitation Request Homepage">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="51.0" fitWidth="38.0" layoutX="881.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../Fake/src/main/resources/Brigham_and_Womens_Hospital_logo.png" />
-         </image>
-      </ImageView>
+      <Pane id="Menu" fx:id="menu" prefHeight="86.0" prefWidth="930.0" style="-fx-background-color: #012D5Aff;">
+         <children>
+            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="246.0" text="Sanitation Requests" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <GridPane alignment="CENTER_RIGHT" layoutX="-125.0" prefHeight="76.0" prefWidth="349.0" translateX="657.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="119.44442749023438" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="119.44442749023438" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.33331298828125" minWidth="10.0" prefWidth="73.88890584309894" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="20.333335876464844" minHeight="10.0" prefHeight="18.333335876464844" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="32.33332824707031" minHeight="10.0" prefHeight="31.666664123535156" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="142.0" layoutY="27.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
