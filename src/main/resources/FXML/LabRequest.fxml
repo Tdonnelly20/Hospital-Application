@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -13,6 +12,8 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -26,7 +27,7 @@
 <AnchorPane prefHeight="570.0" prefWidth="920.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.LabRequestController">
    <children>
       <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <items>
+         <items>
             <AnchorPane prefHeight="503.0" prefWidth="408.0" style="-fx-background-color: #5c677d;">
                <children>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="23.0" prefHeight="496.0" prefWidth="318.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="23.0">
@@ -53,7 +54,7 @@
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </TextField>
-                              <JFXComboBox id="dropDown" fx:id="dropDown" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Request" style="-fx-background-color: #FFFFFF;">
+                              <JFXComboBox id="dropDown" fx:id="requestedLab" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Select Lab" style="-fx-background-color: #FFFFFF;">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="bloodSampleRequest" fx:value="Blood Sample" />
@@ -65,7 +66,7 @@
                                  </items>
                               </JFXComboBox>
                               <TextField id="Status" fx:id="Status" alignment="CENTER" editable="false" layoutX="41.0" layoutY="130.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
-                              <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">
+                              <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -122,7 +123,15 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXTreeTableView layoutX="25.0" layoutY="20.0" />
+                                          <TreeTableView fx:id="table" layoutX="28.0" layoutY="22.0" prefHeight="417.0" prefWidth="534.0">
+                                             <columns>
+                                                <TreeTableColumn fx:id="userIDCol" prefWidth="75.0" text="User ID" />
+                                                <TreeTableColumn fx:id="patientIDCol" prefWidth="75.0" text="Patient ID" />
+                                                <TreeTableColumn fx:id="firstNameCol" prefWidth="123.33331298828125" text="Patient First Name" />
+                                                <TreeTableColumn fx:id="lastNameCol" prefWidth="124.0" text="Patient Last Name" />
+                                                <TreeTableColumn fx:id="requestedLabCol" prefWidth="134.6666259765625" text="Requested Lab" />
+                                             </columns>
+                                          </TreeTableView>
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -133,7 +142,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-        </items>
+         </items>
       </SplitPane>
       <Pane id="Menu" fx:id="menu" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
          <children>
