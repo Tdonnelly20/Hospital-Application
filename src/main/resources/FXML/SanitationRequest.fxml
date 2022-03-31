@@ -73,7 +73,7 @@
                      <children>
                         <ImageView fitHeight="382.0" fitWidth="556.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../Fake/src/main/resources/01_thefirstfloor.png" />
+                              <Image url="@../../../../../TeamVeganVampires/src/main/resources/01_thefirstfloor.png" />
                            </image>
                            <VBox.margin>
                               <Insets top="15.0" />
@@ -115,7 +115,7 @@
       </Label>
       <ImageView fitHeight="51.0" fitWidth="38.0" layoutX="881.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../Fake/src/main/resources/Brigham_and_Womens_Hospital_logo.png" />
+            <Image url="@../../../../../TeamVeganVampires/src/main/resources/Brigham_and_Womens_Hospital_logo.png" />
          </image>
       </ImageView>
    </children>
