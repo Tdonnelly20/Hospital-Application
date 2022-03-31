@@ -189,4 +189,6 @@ public class Vdb {
   public static List<Location> getLocations() {
     return locations;
   }
+
+  public static void addLaundryRequest(LaundryRequest newLaundryRequest) {}
 }
