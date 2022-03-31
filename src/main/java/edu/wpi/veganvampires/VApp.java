@@ -2,8 +2,8 @@ package edu.wpi.veganvampires;
 
 import edu.wpi.veganvampires.Dao.LocationDao;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +24,8 @@ public class VApp extends Application {
   public void start(Stage primaryStage) {
     try {
       FXMLLoader loader = new FXMLLoader();
-      URL xmlUrl = getClass().getClassLoader().getResource("FXML/home.fxml");
-      loader.setLocation(xmlUrl);
+      loader.setLocation(
+          Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
       Parent root = loader.load();
 
       primaryStage.setScene(new Scene(root));
