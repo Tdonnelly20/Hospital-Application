@@ -1,9 +1,6 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.Features.EquipmentDelivery;
-import edu.wpi.veganvampires.Features.MedicineDelivery;
-import edu.wpi.veganvampires.Features.ReligiousRequest;
-import edu.wpi.veganvampires.Features.SanitationRequest;
+import edu.wpi.veganvampires.Features.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -246,4 +243,6 @@ public class Vdb {
   public static void addSanitationRequest(SanitationRequest newSanitationRequest) {}
 
   public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {}
+
+  public static void addMealRequest(MealRequest mealRequest) {}
 }
