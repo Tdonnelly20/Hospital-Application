@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.Features.*;
+import edu.wpi.veganvampires.objects.*;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
