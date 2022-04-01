@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.Dao.LocationDao;
+import edu.wpi.veganvampires.dao.LocationDao;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Objects;

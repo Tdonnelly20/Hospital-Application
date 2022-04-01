@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.Classes.*;
+import edu.wpi.veganvampires.objects.*;
+import edu.wpi.veganvampires.objects.Location;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;

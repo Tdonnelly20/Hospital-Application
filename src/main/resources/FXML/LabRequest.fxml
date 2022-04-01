@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="570.0" prefWidth="920.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.Controllers.LabRequestController">
+<AnchorPane prefHeight="570.0" prefWidth="920.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LabRequestController">
    <children>
       <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <items>
