@@ -1,8 +1,10 @@
 package edu.wpi.veganvampires.controllers;
 
+import edu.wpi.veganvampires.dao.LaundryRequestDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -14,7 +16,10 @@ public class LaundryRequestController extends Controller {
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private TextField roomNumber;
+  @FXML private TextArea details;
   @FXML private Button sendRequest;
+
+  private static LaundryRequestDao laundryRequestDao;
 
   @FXML
   private void resetForm() {
@@ -24,6 +29,7 @@ public class LaundryRequestController extends Controller {
     firstName.setText("");
     lastName.setText("");
     roomNumber.setText("");
+    details.setText("");
     sendRequest.setDisable(true);
   }
 
@@ -51,6 +57,18 @@ public class LaundryRequestController extends Controller {
       sendRequest.setDisable(true);
       Status.setText("Status: Blank");
     }
+  }
+
+  @FXML
+  private void sendRequest() {
+    laundryRequestDao.addLaundryRequest(
+        employeeID.getText(),
+        patientID.getText(),
+        firstName.getText(),
+        lastName.getText(),
+        Integer.parseInt(roomNumber.getText()),
+        details.getText());
+    resetForm();
   }
 
   @Override

@@ -250,4 +250,6 @@ public class Vdb {
   public static void addMealRequest(MealRequest mealRequest) {}
 
   public static void addLabRequest(LabRequest labRequest) {}
+
+  public static void addLaundryRequest(LaundryRequest newLaundryRequest) {}
 }
