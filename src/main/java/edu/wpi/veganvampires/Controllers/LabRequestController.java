@@ -27,19 +27,6 @@ public class LabRequestController extends Controller {
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private Button sendRequest;
 
-  // Singleton design pattern
-  private static final LabRequestController controller = new LabRequestController();
-
-  private LabRequestController() {}
-
-  private static class SingletonHelper {
-    private static final LabRequestController controller = new LabRequestController();
-  }
-
-  public static LabRequestController getController() {
-    return LabRequestController.SingletonHelper.controller;
-  }
-
   @FXML
   private void resetForm() {
     Status.setText("Status: Blank");
