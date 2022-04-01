@@ -1,6 +1,5 @@
-Name,Description,Location,Count
-room,Portable X-Ray,huh,3,
-hi,Bed,stuff,3,
-brubf,Bed,wbfJWBJE,12,
-Bazearga,Portable X-Ray,Doeasd,12,
-123123,Portable X-Ray,123123,123123,
+Location,Name,Description,Count
+3rd Fl Patient Rooms,Beds,N/a,20
+In-Patient Unit Storage,X-Ray Machine,N/A,1
+Infusion Pumps,Infusion Pumps,N/A,30
+Patient Recliners,Recliner,N/A,6
