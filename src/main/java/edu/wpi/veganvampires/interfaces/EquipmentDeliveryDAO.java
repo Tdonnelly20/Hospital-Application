@@ -1,6 +1,6 @@
-package edu.wpi.veganvampires.Interfaces;
+package edu.wpi.veganvampires.interfaces;
 
-import edu.wpi.veganvampires.EquipmentDelivery;
+import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

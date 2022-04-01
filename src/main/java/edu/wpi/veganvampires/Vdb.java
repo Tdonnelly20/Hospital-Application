@@ -1,5 +1,7 @@
 package edu.wpi.veganvampires;
 
+import edu.wpi.veganvampires.objects.*;
+import edu.wpi.veganvampires.objects.Location;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -10,8 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Vdb {
-  protected static ArrayList<Location> locations;
-  protected static ArrayList<EquipmentDelivery> equipment;
+  public static ArrayList<Location> locations;
+  public static ArrayList<EquipmentDelivery> equipment;
 
   public static String returnPath() {
     String currentPath = System.getProperty("user.dir");
@@ -27,7 +29,7 @@ public class Vdb {
 
   public static void CreateDB() throws Exception {
     String currentPath = returnPath();
-    FileReader fr = new FileReader(currentPath + "\\LocationsBackup.csv");
+    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
     String line; // receives a line from br
     String splitToken = ","; // what we split the csv file with
@@ -66,7 +68,8 @@ public class Vdb {
 
   public static Connection Connect() {
     try {
-      Connection connection = DriverManager.getConnection("jdbc:derby:myDB;", "admin", "admin");
+      String URL = "jdbc:derby:VDB;";
+      Connection connection = DriverManager.getConnection(URL, "admin", "admin");
       return connection;
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
@@ -202,14 +205,14 @@ public class Vdb {
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
     for (Location l : locations) {
       String[] outputData = {
-        l.nodeID,
-        String.valueOf(l.xCoord),
-        String.valueOf(l.yCoord),
-        l.floor,
-        l.building,
-        l.nodeType,
-        l.longName,
-        l.shortName,
+        l.getNodeID(),
+        String.valueOf(l.getXCoord()),
+        String.valueOf(l.getYCoord()),
+        l.getFloor(),
+        l.getBuilding(),
+        l.getNodeType(),
+        l.getLongName(),
+        l.getShortName(),
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -219,9 +222,11 @@ public class Vdb {
     }
     fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
     bw = new BufferedWriter(fw);
-    bw.append("Name,Description,Count");
+    bw.append("Name,Description,Location,Count");
     for (EquipmentDelivery e : equipment) {
-      String[] outputData = {e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())};
+      String[] outputData = {
+        e.getLocation(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
+      };
       bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
@@ -231,4 +236,18 @@ public class Vdb {
     bw.close();
     fw.close();
   }
+
+  public static void addLocation(Location newLocation) {}
+
+  public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery) {}
+
+  public static void addMedicineDelivery(MedicineDelivery newMedicineDelivery) {}
+
+  public static void addSanitationRequest(SanitationRequest newSanitationRequest) {}
+
+  public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {}
+
+  public static void addMealRequest(MealRequest mealRequest) {}
+
+  public static void addLabRequest(LabRequest labRequest) {}
 }

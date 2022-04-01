@@ -1,8 +1,9 @@
 package edu.wpi.veganvampires;
 
+import edu.wpi.veganvampires.dao.LocationDao;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +24,9 @@ public class VApp extends Application {
   public void start(Stage primaryStage) {
     try {
       FXMLLoader loader = new FXMLLoader();
-      URL xmlUrl = getClass().getClassLoader().getResource("FXML/home.fxml");
-      loader.setLocation(xmlUrl);
+      loader.setLocation(
+          Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
       Parent root = loader.load();
-
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
       main();
@@ -45,7 +45,7 @@ public class VApp extends Application {
   public static void main() {
     // LocationDAOImpl locDAO = new LocationDAOImpl();
     // copies the Vdb.locations data to locDAO;
-    LocationDAOImpl locDAO = new LocationDAOImpl(Vdb.locations);
+    LocationDao locDAO = new LocationDao(Vdb.locations);
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");

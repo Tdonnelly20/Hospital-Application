@@ -15,6 +15,21 @@ import javafx.stage.Stage;
 public abstract class Controller extends Application {
   private Parent root;
 
+  /**
+   * Determines if a String is an integer or not
+   *
+   * @param input is a string
+   * @return true if the string is an integer, false if not
+   */
+  public boolean isInteger(String input) {
+    try {
+      Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
   // Closes the program
   @Override
   public void stop() {
@@ -28,6 +43,17 @@ public abstract class Controller extends Application {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
+    switchScene(event);
+  }
+
+  // Switches scene to the location database
+  @FXML
+  public void switchToLocationDB(ActionEvent event) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDB.fxml"));
+    root = loader.load();
+    // LocationController lc = loader.getController();
+    // lc.loadTree();
     switchScene(event);
   }
 
@@ -77,7 +103,7 @@ public abstract class Controller extends Application {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(
-                getClass().getClassLoader().getResource("FXML/SanitationRequests.fxml")));
+                getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml")));
     switchScene(event);
   }
 
@@ -109,6 +135,18 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
     switchScene(event);
+  }
+
+  // Switches scene to the religious request page
+  @FXML
+  public void switchToInternalPatientTransport(ActionEvent event) throws IOException {
+    /*
+    root =
+        FXMLLoader.load(
+            Objects.requireNonNull(
+                getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
+    switchScene(event);
+    * */
   }
 
   // Switches scene to the rootW

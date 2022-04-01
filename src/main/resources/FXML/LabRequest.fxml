@@ -9,35 +9,31 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="573.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LabRequestController">
+<AnchorPane prefHeight="570.0" prefWidth="920.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LabRequestController">
    <children>
       <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <items>
+         <items>
             <AnchorPane prefHeight="503.0" prefWidth="408.0" style="-fx-background-color: #5c677d;">
                <children>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="23.0" prefHeight="496.0" prefWidth="318.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="23.0">
                      <content>
                         <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                            <children>
-                              <Button id="serviceRequest" fx:id="serviceRequest" mnemonicParsing="false" onAction="#switchToServiceRequest" text="Service Request Page" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="19.0" />
-                                 </font>
-                              </Button>
                               <TextField id="userID" fx:id="userID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="User ID">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
@@ -58,7 +54,7 @@
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </TextField>
-                              <JFXComboBox id="dropDown" fx:id="dropDown" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Request" style="-fx-background-color: #FFFFFF;">
+                              <JFXComboBox id="dropDown" fx:id="requestedLab" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Select Lab" style="-fx-background-color: #FFFFFF;">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="bloodSampleRequest" fx:value="Blood Sample" />
@@ -70,7 +66,7 @@
                                  </items>
                               </JFXComboBox>
                               <TextField id="Status" fx:id="Status" alignment="CENTER" editable="false" layoutX="41.0" layoutY="130.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
-                              <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">
+                              <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -80,12 +76,6 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <TableView prefHeight="200.0" prefWidth="200.0">
-                                <columns>
-                                  <TableColumn prefWidth="75.0" text="C1" />
-                                  <TableColumn prefWidth="75.0" text="C2" />
-                                </columns>
-                              </TableView>
                            </children>
                            <padding>
                               <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
@@ -95,44 +85,69 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="586.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="586.0">
                <children>
-                  <VBox alignment="TOP_CENTER" layoutY="23.0" prefHeight="496.0" prefWidth="593.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="23.0">
+                  <VBox alignment="TOP_CENTER" layoutY="20.0" prefHeight="519.3333333333334" prefWidth="592.0" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
                      <children>
-                        <ImageView fitHeight="382.0" fitWidth="556.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../01_thefirstfloor.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets top="15.0" />
-                           </VBox.margin>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
-                        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: rgb(149,182,203);">
-                           <children>
-                              <JFXComboBox prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                 <items>
-                                    <FXCollections fx:factory="observableArrayList">
-                                       <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                       <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                       <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                       <String fx:id="floor1" fx:value="Floor 1" />
-                                       <String fx:id="floor2" fx:value="Floor 2" />
-                                       <String fx:id="floor3" fx:value="Floor 3" />
-                                    </FXCollections>
-                                 </items>
-                              </JFXComboBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="15.0" top="15.0" />
-                           </VBox.margin>
-                        </HBox>
-                     </children></VBox>
+                        <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
+                           <tabs>
+                              <Tab text="Map View">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                             <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                   <String fx:id="groundFloor1" fx:value="Ground Floor" />
+                                                   <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
+                                                   <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
+                                                   <String fx:id="floor11" fx:value="Floor 1" />
+                                                   <String fx:id="floor21" fx:value="Floor 2" />
+                                                   <String fx:id="floor31" fx:value="Floor 3" />
+                                                </FXCollections>
+                                             </items>
+                                          </JFXComboBox>
+                                          <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../01_thefirstfloor.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                              <Tab text="Lab Requests">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TreeTableView id="table" fx:id="table" layoutX="28.0" layoutY="22.0" prefHeight="384.0" prefWidth="534.0">
+                                             <columns>
+                                                <TreeTableColumn id="userID" fx:id="userIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="User ID" />
+                                                <TreeTableColumn id="patientID" fx:id="patientIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Patient ID" />
+                                                <TreeTableColumn editable="false" prefWidth="75.0" text="Patient Name">
+                                                   <columns>
+                                                      <TreeTableColumn id="firstName" fx:id="firstNameCol" editable="false" prefWidth="104.6666259765625" text="First" />
+                                                      <TreeTableColumn id="lastName" fx:id="lastNameCol" editable="false" prefWidth="91.3333740234375" text="Last" />
+                                                   </columns>
+                                                </TreeTableColumn>
+                                                <TreeTableColumn id="eequestedLab" fx:id="requestedLabCol" editable="false" maxWidth="250.0" prefWidth="100.0" text="Requested Lab" />
+                                                <TreeTableColumn id="status" fx:id="statusCol" prefWidth="86.0" text="Status" />
+                                             </columns>
+                                          </TreeTableView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                           </tabs>
+                        </TabPane>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
-        </items>
+         </items>
       </SplitPane>
       <Pane id="Menu" fx:id="menu" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
          <children>

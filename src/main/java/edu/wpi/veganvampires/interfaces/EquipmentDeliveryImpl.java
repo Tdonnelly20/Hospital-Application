@@ -1,6 +1,6 @@
-package edu.wpi.veganvampires.Interfaces;
+package edu.wpi.veganvampires.interfaces;
 
-import edu.wpi.veganvampires.EquipmentDelivery;
+import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import java.util.List;
 
 public interface EquipmentDeliveryImpl {
@@ -10,4 +10,7 @@ public interface EquipmentDeliveryImpl {
   void addEquipmentDelivery(String location, String equipment, String notes, int quantity);
 
   void removeEquipmentDelivery(String equipment);
+
+  void removeEquipmentDelivery() // TODO
+      ;
 }
