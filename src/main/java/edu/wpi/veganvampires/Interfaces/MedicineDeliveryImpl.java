@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.Interfaces;
 
-import edu.wpi.veganvampires.Features.MedicineDelivery;
+import edu.wpi.veganvampires.Classes.MedicineDelivery;
 import java.util.List;
 
 public interface MedicineDeliveryImpl {

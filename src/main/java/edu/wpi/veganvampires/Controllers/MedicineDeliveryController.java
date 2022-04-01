@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.Controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.Classes.MedicineDelivery;
 import edu.wpi.veganvampires.Dao.MedicineDeliveryDao;
-import edu.wpi.veganvampires.Features.MedicineDelivery;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

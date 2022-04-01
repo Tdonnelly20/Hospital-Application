@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.Interfaces;
 
-import edu.wpi.veganvampires.Features.EquipmentDelivery;
+import edu.wpi.veganvampires.Classes.EquipmentDelivery;
 import java.util.List;
 
 public interface EquipmentDeliveryImpl {

@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.Dao;
 
-import edu.wpi.veganvampires.Features.EquipmentDelivery;
+import edu.wpi.veganvampires.Classes.EquipmentDelivery;
 import edu.wpi.veganvampires.Interfaces.EquipmentDeliveryImpl;
 import edu.wpi.veganvampires.Vdb;
 import java.util.ArrayList;

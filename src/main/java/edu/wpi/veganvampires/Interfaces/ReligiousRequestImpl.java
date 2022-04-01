@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.Interfaces;
 
-import edu.wpi.veganvampires.Features.ReligiousRequest;
+import edu.wpi.veganvampires.Classes.ReligiousRequest;
 import java.util.List;
 
 public interface ReligiousRequestImpl {

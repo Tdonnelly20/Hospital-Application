@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.Controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.Classes.EquipmentDelivery;
 import edu.wpi.veganvampires.Dao.EquipmentDeliveryDAOImpl;
-import edu.wpi.veganvampires.Features.EquipmentDelivery;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;

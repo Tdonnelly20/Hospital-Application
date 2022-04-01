@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.Dao;
 
-import edu.wpi.veganvampires.Features.MedicineDelivery;
+import edu.wpi.veganvampires.Classes.MedicineDelivery;
 import edu.wpi.veganvampires.Interfaces.MedicineDeliveryImpl;
 import edu.wpi.veganvampires.Vdb;
 import java.util.ArrayList;
