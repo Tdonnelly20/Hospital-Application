@@ -22,8 +22,8 @@ public class LabRequestDao implements LabRequestImpl {
 
   @Override
   public void addLabRequest(
-      int userID, int patientID, String firstName, String lastName, String lab) {
-    LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab);
+      int userID, int patientID, String firstName, String lastName, String lab, String status) {
+    LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab, status);
 
     System.out.println("Adding to local arraylist...");
     allLabRequests.add(labRequest);

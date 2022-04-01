@@ -72,8 +72,7 @@ public abstract class Controller extends Application {
   public void switchToLabRequest(ActionEvent event) throws IOException {
     root =
         FXMLLoader.load(
-            Objects.requireNonNull(
-                getClass().getClassLoader().getResource("FXML/LabRequest.fxml")));
+            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/LabRequest.fxml")));
     switchScene(event);
   }
 

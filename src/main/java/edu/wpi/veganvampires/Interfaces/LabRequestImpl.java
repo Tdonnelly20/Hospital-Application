@@ -7,7 +7,8 @@ public interface LabRequestImpl {
 
   List<LabRequest> getAllLabRequests();
 
-  void addLabRequest(int userID, int patientID, String firstName, String lastName, String lab);
+  void addLabRequest(
+      int userID, int patientID, String firstName, String lastName, String lab, String status);
 
   void removeLabRequest();
 }

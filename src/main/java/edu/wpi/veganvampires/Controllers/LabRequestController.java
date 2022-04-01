@@ -16,6 +16,7 @@ public class LabRequestController extends Controller {
   @FXML private TreeTableColumn<LabRequest, String> firstNameCol;
   @FXML private TreeTableColumn<LabRequest, String> lastNameCol;
   @FXML private TreeTableColumn<LabRequest, String> requestedLabCol;
+  @FXML private TreeTableColumn<LabRequest, String> statusCol;
 
   private static LabRequestDao labRequestDao = new LabRequestDao();
   @FXML private TextField Status;
@@ -25,6 +26,20 @@ public class LabRequestController extends Controller {
   @FXML private TextField lastName;
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private Button sendRequest;
+
+  //Singleton design pattern
+  private static final LabRequestController controller=new LabRequestController();
+
+  private LabRequestController(){}
+
+  private static class SingletonHelper{
+    private static final LabRequestController controller=new LabRequestController();
+  }
+
+  public static LabRequestController getController(){
+    return LabRequestController.SingletonHelper.controller;
+  }
+
 
   @FXML
   private void resetForm() {
@@ -71,6 +86,7 @@ public class LabRequestController extends Controller {
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     requestedLabCol.setCellValueFactory(new TreeItemPropertyValueFactory("lab"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
 
     // Get the current list of lab requests from the DAO
     ArrayList<LabRequest> currLabRequests =
@@ -115,7 +131,8 @@ public class LabRequestController extends Controller {
           Integer.parseInt(patientID.getText()),
           firstName.getText(),
           lastName.getText(),
-          requestedLab.getValue().toString());
+          requestedLab.getValue().toString(),
+          "Processing");
       resetForm();
       updateTreeTable();
     }
