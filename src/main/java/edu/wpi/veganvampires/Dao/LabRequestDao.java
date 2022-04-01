@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.Dao;
 
-import edu.wpi.veganvampires.Features.LabRequest;
+import edu.wpi.veganvampires.Classes.LabRequest;
 import edu.wpi.veganvampires.Interfaces.LabRequestImpl;
 import edu.wpi.veganvampires.Vdb;
 import java.util.ArrayList;

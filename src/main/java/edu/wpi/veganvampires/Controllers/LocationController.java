@@ -26,7 +26,7 @@ public class LocationController extends Controller {
   public void start(Stage primaryStage) {}
 
   @FXML
-  public void loadTree() {
+  public void updateTreeTable() {
     nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     x.setCellValueFactory(new TreeItemPropertyValueFactory("xCoord"));
     y.setCellValueFactory(new TreeItemPropertyValueFactory("yCoord"));
@@ -35,27 +35,20 @@ public class LocationController extends Controller {
     nodeType.setCellValueFactory(new TreeItemPropertyValueFactory("nodeType"));
     shortName.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
     longName.setCellValueFactory(new TreeItemPropertyValueFactory("longName"));
-    // Get the locations the DAO
-    ArrayList<Location> currLocations = (ArrayList<Location>) locationDao.getAllLocations();
 
-    // Create a list for our tree items
+    ArrayList<Location> currLocations = (ArrayList<Location>) locationDao.getAllLocations();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
-    // Need to make sure the list isn't empty
+
     if (!currLocations.isEmpty()) {
-      // for each loop cycling through each location currently entered into the system
+
       for (Location pos : currLocations) {
         TreeItem<Location> item = new TreeItem(pos);
         treeItems.add(item);
       }
 
-      // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
-      // we get the standard table functionality
       table.setShowRoot(false);
-      // Root is just the first entry in our list
       TreeItem root = new TreeItem(locationDao.getAllLocations().get(0));
-      // Set the root in the table
       table.setRoot(root);
-      // Set the rest of the tree items to the root, including the one we set as the root
       root.getChildren().addAll(treeItems);
     }
   }

@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires.Features;
+package edu.wpi.veganvampires.Classes;
 
 import lombok.Getter;
 import lombok.Setter;

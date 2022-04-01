@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires;
 
-import edu.wpi.veganvampires.Features.*;
+import edu.wpi.veganvampires.Classes.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -235,6 +235,8 @@ public class Vdb {
     bw.close();
     fw.close();
   }
+
+  public static void addLocation(Location newLocation) {}
 
   public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery) {}
 

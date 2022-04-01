@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires.Features;
+package edu.wpi.veganvampires.Classes;
 
 public class EquipmentDelivery {
   private final String location, equipment, notes;

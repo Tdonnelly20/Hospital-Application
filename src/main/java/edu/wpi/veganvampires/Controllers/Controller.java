@@ -52,8 +52,8 @@ public abstract class Controller extends Application {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDB.fxml"));
     root = loader.load();
-    LocationController lc = loader.getController();
-    lc.loadTree();
+    // LocationController lc = loader.getController();
+    // lc.loadTree();
     switchScene(event);
   }
 
@@ -72,7 +72,8 @@ public abstract class Controller extends Application {
   public void switchToLabRequest(ActionEvent event) throws IOException {
     root =
         FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/LabRequest.fxml")));
+            Objects.requireNonNull(
+                getClass().getClassLoader().getResource("FXML/LabRequest.fxml")));
     switchScene(event);
   }
 
@@ -134,6 +135,18 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
     switchScene(event);
+  }
+
+  // Switches scene to the religious request page
+  @FXML
+  public void switchToInternalPatientTransport(ActionEvent event) throws IOException {
+    /*
+    root =
+        FXMLLoader.load(
+            Objects.requireNonNull(
+                getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
+    switchScene(event);
+    * */
   }
 
   // Switches scene to the rootW

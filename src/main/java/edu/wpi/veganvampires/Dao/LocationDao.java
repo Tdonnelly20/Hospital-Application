@@ -1,12 +1,72 @@
 package edu.wpi.veganvampires.Dao;
 
+import edu.wpi.veganvampires.Interfaces.LocationImpl;
 import edu.wpi.veganvampires.Location;
 import edu.wpi.veganvampires.Vdb;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDao implements edu.wpi.veganvampires.Interfaces.LocationImpl {
+public class LocationDao implements LocationImpl {
+  private static ArrayList<Location> locationList;
 
+  public LocationDao() {
+    locationList = new ArrayList<Location>();
+    try {
+      Vdb.CreateDB();
+      locationList = Vdb.locations;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public LocationDao(ArrayList<Location> locations) {
+    locationList = locations;
+  }
+
+  @Override
+  public List<Location> getAllLocations() {
+    return locationList;
+  }
+
+  @Override
+  public void addLocation(Location location) throws SQLException {
+    locationList.add(location);
+  }
+
+  @Override
+  public void deleteLocation(Location location) throws SQLException {
+    locationList.remove(location);
+    updateLocationDB(location.getNodeID());
+  }
+
+  private void updateLocationDB(String location) throws SQLException {
+    try {
+      System.out.println("Sending to database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (Location l : locationList)
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE location.equals(l.getNodeID())");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void updateLocationDB(Location newlocation) throws SQLException {
+    try {
+      System.out.println("Sending to database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (Location l : locationList)
+        exampleStatement.execute(
+            "INSERT INTO LOCATIONS VALUES (newlocation.getNodeID, newlocation.getXCoord(), newlocation.getYCoord(), newlocation.getFloor(), newlocation.getBuilding(), newlocation.getNodeType(), newlocation.getLongName(), newlocation.getShortName())");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+  /*
   List<Location> locationList;
   Connection connection = Vdb.Connect();
 
@@ -82,5 +142,5 @@ public class LocationDao implements edu.wpi.veganvampires.Interfaces.LocationImp
         }
       }
     }
-  }
+  }*/
 }

@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.Controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.Classes.LabRequest;
 import edu.wpi.veganvampires.Dao.LabRequestDao;
-import edu.wpi.veganvampires.Features.LabRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -27,19 +27,18 @@ public class LabRequestController extends Controller {
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private Button sendRequest;
 
-  //Singleton design pattern
-  private static final LabRequestController controller=new LabRequestController();
+  // Singleton design pattern
+  private static final LabRequestController controller = new LabRequestController();
 
-  private LabRequestController(){}
+  private LabRequestController() {}
 
-  private static class SingletonHelper{
-    private static final LabRequestController controller=new LabRequestController();
+  private static class SingletonHelper {
+    private static final LabRequestController controller = new LabRequestController();
   }
 
-  public static LabRequestController getController(){
+  public static LabRequestController getController() {
     return LabRequestController.SingletonHelper.controller;
   }
-
 
   @FXML
   private void resetForm() {

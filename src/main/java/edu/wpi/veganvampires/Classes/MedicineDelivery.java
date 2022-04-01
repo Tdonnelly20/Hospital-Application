@@ -1,36 +1,40 @@
-package edu.wpi.veganvampires.Features;
+package edu.wpi.veganvampires.Classes;
 
-public class SanitationRequest {
-  private final String patientFirstName, patientLastName, roomLocation, hazardName, requestDetails;
+public class MedicineDelivery {
+  private final String patientFirstName,
+      patientLastName,
+      medicineName,
+      dosage,
+      roomNumber,
+      requestDetails;
   private final int patientID, hospitalID;
 
   /**
-   * Creates a basic data structure for holding medicine delivery request
-   *
    * @param patientFirstName
    * @param patientLastName
    * @param patientID
    * @param hospitalID
-   * @param roomLocation
-   * @param hazardName
+   * @param medicineName
+   * @param dosage
    * @param requestDetails
    */
-  public SanitationRequest(
+  public MedicineDelivery(
       String patientFirstName,
       String patientLastName,
+      String roomNumber,
       int patientID,
       int hospitalID,
-      String roomLocation,
-      String hazardName,
+      String medicineName,
+      String dosage,
       String requestDetails) {
-
+    this.dosage = dosage;
     this.requestDetails = requestDetails;
+    this.roomNumber = roomNumber;
     this.patientFirstName = patientFirstName;
     this.patientLastName = patientLastName;
     this.patientID = patientID;
     this.hospitalID = hospitalID;
-    this.hazardName = hazardName;
-    this.roomLocation = roomLocation;
+    this.medicineName = medicineName;
   }
 
   public String getPatientFirstName() {
@@ -49,15 +53,19 @@ public class SanitationRequest {
     return hospitalID;
   }
 
-  public String getHazardName() {
-    return hazardName;
+  public String getMedicineName() {
+    return medicineName;
+  }
+
+  public String getDosage() {
+    return dosage;
   }
 
   public String getRequestDetails() {
     return requestDetails;
   }
 
-  public String getRoomLocation() {
-    return roomLocation;
+  public String getRoomNumber() {
+    return roomNumber;
   }
 }

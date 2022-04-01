@@ -1,14 +1,13 @@
 package edu.wpi.veganvampires.Interfaces;
 
 import edu.wpi.veganvampires.Location;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface LocationImpl {
-  public List<Location> getAllLocations();
+  List<Location> getAllLocations();
 
-  public Location getLocation(Location location);
+  void addLocation(Location location) throws SQLException;
 
-  public void updateLocation(Location location);
-
-  public void deleteLocation(Location location);
+  void deleteLocation(Location location) throws SQLException;
 }
