@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.dao;
 
-import edu.wpi.veganvampires.objects.LabRequest;
-import edu.wpi.veganvampires.interfaces.LabRequestImpl;
 import edu.wpi.veganvampires.Vdb;
+import edu.wpi.veganvampires.interfaces.LabRequestImpl;
+import edu.wpi.veganvampires.objects.LabRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class LabRequestDao implements LabRequestImpl {
 
   @Override
   public void addLabRequest(
-      int userID, int patientID, String firstName, String lastName, String lab) {
-    LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab);
+      int userID, int patientID, String firstName, String lastName, String lab, String status) {
+    LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab, status);
 
     System.out.println("Adding to local arraylist...");
     allLabRequests.add(labRequest);

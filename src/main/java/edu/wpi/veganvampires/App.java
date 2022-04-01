@@ -16,6 +16,7 @@ public class App extends Application {
 
   @Override
   public void stop() {
+    System.out.println(Vdb.locations.size());
     log.info("Shutting Down");
   }
 }

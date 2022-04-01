@@ -1,7 +1,9 @@
 package edu.wpi.veganvampires;
 
+import edu.wpi.veganvampires.dao.LocationDao;
 import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,30 +21,31 @@ public class VApp extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) {
     try {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
+      loader.setLocation(
+          Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
       Parent root = loader.load();
-
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
-
+      main();
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
     }
-    Vdb.CreateDB();
-    // this.main();
   }
 
   @Override
-  public void stop() {
+  public void stop() throws Exception {
+    Vdb.SaveToFile();
     log.info("Shutting Down");
   }
 
-  /*public static void main() {
-
+  public static void main() {
+    // LocationDAOImpl locDAO = new LocationDAOImpl();
+    // copies the Vdb.locations data to locDAO;
+    LocationDao locDAO = new LocationDao(Vdb.locations);
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -68,14 +71,33 @@ public class VApp extends Application {
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
       if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
         exampleStatement.execute(
             "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+      } else {
+        System.out.println("We already got tables?");
+        System.out.println("listing tables");
+        System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
+        }
       }
-      ArrayList<Location> locList = new ArrayList<>();
+      /*
       Scanner scanner = new Scanner(System.in);
       boolean loop = true;
       int state = 0;
-      /*while (loop) {
+
+      while (loop) {
         switch (state) {
           case 1:
             Statement stmt = connection.createStatement();
@@ -94,26 +116,22 @@ public class VApp extends Application {
               System.out.println("shortName: " + rs.getString("shortName"));
               System.out.println(" ");
             }
-
             break;
           case 2:
             System.out.println("Location ID?");
             String ID1 = scanner.next();
-            System.out.println("What equipment is at this location?");
-            String equip = scanner.next();
             Statement newStatement1 = connection.createStatement();
             newStatement1.execute(
                 "UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
-            Location newLoc = new Location(ID1);
-            for (Location location : locList) {
-              if (location.nodeID == ID1) location = newLoc;
+            for (Location location : locDAO.getAllLocations()) {
+              if (location.nodeID.equals(ID1)) locDAO.updateLocation(location);
             }
             break;
           case 3:
             System.out.println("New location ID?");
             String ID2 = scanner.next();
             Location loc = new Location(ID2);
-            locList.add(loc);
+            locDAO.getAllLocations().add(loc);
             Statement newStatement2 = connection.createStatement();
             newStatement2.execute("INSERT INTO Locations VALUES(loc.nodeID, '')");
             break;
@@ -122,11 +140,15 @@ public class VApp extends Application {
             String ID3 = scanner.next();
             Statement newStatement3 = connection.createStatement();
             newStatement3.execute("DELETE FROM Locations WHERE Room_Num = ID3");
-            locList.removeIf(location -> location.nodeID == ID3);
+            locDAO.getAllLocations().removeIf(location -> location.nodeID.equals(ID3));
             break;
           case 5:
-            Vdb newBuffer = new Vdb();
-            newBuffer.CreateDB();
+            // Vdb newBuffer = new Vdb();
+            // newBuffer.CreateDB();
+            // copies all locations from locDAO to Vdblocations, then saves it to file
+            Vdb.locations = locDAO.getAllLocations();
+            Vdb.SaveToFile();
+            Vdb.CreateDB();
             break;
           case 6:
             loop = false;
@@ -134,10 +156,11 @@ public class VApp extends Application {
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-            // state = scanner.nextInt();
         }
         state = scanner.nextInt();
       }
+
+       */
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
@@ -147,8 +170,7 @@ public class VApp extends Application {
       e.printStackTrace();
     }
     System.out.println("Apache Derby connection established!");
-    for (Location location : Vdb.locations) {
-      System.out.println("ID: " + location.nodeID);
-    }
-  }*/
+
+    System.out.println(locDAO.getAllLocations());
+  }
 }

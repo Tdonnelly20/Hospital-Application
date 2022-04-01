@@ -1,37 +1,49 @@
 package edu.wpi.veganvampires;
 
 import edu.wpi.veganvampires.objects.*;
-import java.io.*;
-import java.sql.*;
+import edu.wpi.veganvampires.objects.Location;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class Vdb {
-  static List<Location> locations;
+  public static ArrayList<Location> locations;
+  public static ArrayList<EquipmentDelivery> equipment;
+
+  public static String returnPath() {
+    String currentPath = System.getProperty("user.dir");
+    if (currentPath.contains("TeamVeganVampires")) {
+      int position = currentPath.indexOf("TeamVeganVampires") + 17;
+      if (currentPath.length() > position) {
+        currentPath = currentPath.substring(0, position);
+      }
+      currentPath += "\\src\\main\\resources\\edu\\wpi\\veganvampires";
+    }
+    return currentPath;
+  }
 
   public static void CreateDB() throws Exception {
-    String line = ""; // receives a line from br
-    String splitToken = ","; // what we split the csv file with
-    String currentPath = System.getProperty("user.dir");
-    currentPath += "/src/main/java/edu/wpi/veganvampires/";
-    System.out.println(currentPath);
-    FileReader fr = new FileReader(currentPath + "TowerLocations.csv");
+    String currentPath = returnPath();
+    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
-
+    String line; // receives a line from br
+    String splitToken = ","; // what we split the csv file with
     locations = new ArrayList<>();
-
+    equipment = new ArrayList<>();
     String headerLine = br.readLine();
-
-    System.out.println("Generating database, please wait...");
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
       Location newLoc =
           new Location(
               data[0],
-              Integer.valueOf(data[1]),
-              Integer.valueOf(data[2]),
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
               data[3],
               data[4],
               data[5],
@@ -39,11 +51,35 @@ public class Vdb {
               data[7]);
       locations.add(newLoc);
     }
+    fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
+    br = new BufferedReader(fr);
+    headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data;
+      data = line.split(splitToken);
+      EquipmentDelivery e =
+          new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
+      equipment.add(e);
+    }
     System.out.println("Database made");
-    // V1();
+    V1();
+  }
+
+  public static Connection Connect() {
+    try {
+      String URL = "jdbc:derby:VDB;";
+      Connection connection = DriverManager.getConnection(URL, "admin", "admin");
+      return connection;
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public static void V1() {
+    /*
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -64,7 +100,7 @@ public class Vdb {
 
     try {
       // substitute your database name for myDB
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      connection = DriverManager.getConnection("jdbc:derby:myDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
@@ -74,7 +110,6 @@ public class Vdb {
       }
       ArrayList<Location> locList = new ArrayList<>();
       Scanner scanner = new Scanner(System.in);
-      System.out.println("Apache Derby connection established!");
       boolean loop = true;
       int state = 0;
       while (loop) {
@@ -127,8 +162,9 @@ public class Vdb {
             locList.removeIf(location -> location.nodeID == ID3);
             break;
           case 5:
-            Vdb newBuffer = new Vdb();
-            newBuffer.CreateDB();
+            SaveToFile();
+            // Vdb newBuffer = new Vdb();
+            // newBuffer.CreateDB();
             break;
           case 6:
             loop = false;
@@ -139,7 +175,7 @@ public class Vdb {
           default:
             System.out.println(
                 "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-            state = scanner.nextInt();
+            // state = scanner.nextInt();
         }
         if (loop) {
           state = scanner.nextInt();
@@ -153,46 +189,65 @@ public class Vdb {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
     }
+    System.out.println("Apache Derby connection established!");
+    for (Location location : Vdb.locations) {
+      System.out.println("ID: " + location.nodeID);
+    }
 
-    // for (Location location : Vdb.locations) {
-    //  System.out.println("ID: " + location.nodeID);
-    //  }
+     */
   }
 
-  public static void addMedicineDelivery(MedicineDelivery newMedicineDelivery) {
-    // Code for adding a medicine delivery to the database
-    System.out.println("Arrived at database!");
+  public static void SaveToFile() throws Exception { // updates all csv files
+    String currentPath = returnPath();
+    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
+    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
+    for (Location l : locations) {
+      String[] outputData = {
+        l.getNodeID(),
+        String.valueOf(l.getXCoord()),
+        String.valueOf(l.getYCoord()),
+        l.getFloor(),
+        l.getBuilding(),
+        l.getNodeType(),
+        l.getLongName(),
+        l.getShortName(),
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
+    bw = new BufferedWriter(fw);
+    bw.append("Name,Description,Location,Count");
+    for (EquipmentDelivery e : equipment) {
+      String[] outputData = {
+        e.getLocation(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    bw.close();
+    fw.close();
   }
 
-  public static void addSanitationRequest(SanitationRequest newSanitationRequest) {
-    // Code for adding a sanitation request to the database
-    System.out.println("Arrived at database!");
-  }
+  public static void addLocation(Location newLocation) {}
 
-  public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery) {
-    // Code for adding a equipment request to the database
-    System.out.println("Arrived at database!");
-  }
+  public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery) {}
 
-  public static void addLabRequest(LabRequest labRequest) {
-    System.out.println("Arrived at database!");
-  }
+  public static void addMedicineDelivery(MedicineDelivery newMedicineDelivery) {}
 
-  public static void addLocations(Location new_location) {
-    System.out.println("Arrived at database!");
-  }
+  public static void addSanitationRequest(SanitationRequest newSanitationRequest) {}
 
-  public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {
-    System.out.println("Arrived at database!");
-  }
+  public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {}
 
-  public static void addMealRequest(MealRequest mealRequest) {
-    System.out.println("Arrived at database!");
-  }
+  public static void addMealRequest(MealRequest mealRequest) {}
 
-  public static List<Location> getLocations() {
-    return locations;
-  }
-
-  public static void addLaundryRequest(LaundryRequest newLaundryRequest) {}
+  public static void addLabRequest(LabRequest labRequest) {}
 }

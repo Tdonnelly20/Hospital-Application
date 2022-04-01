@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.dao;
 
-import edu.wpi.veganvampires.objects.EquipmentDelivery;
-import edu.wpi.veganvampires.interfaces.EquipmentDeliveryImpl;
 import edu.wpi.veganvampires.Vdb;
+import edu.wpi.veganvampires.interfaces.EquipmentDeliveryImpl;
+import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +29,9 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
     allEquipmentDeliveries.add(newEquipmentDelivery);
     updateEquipmentDeliveryDB(newEquipmentDelivery);
   }
+
+  @Override
+  public void removeEquipmentDelivery(String equipment) {}
 
   private void updateEquipmentDeliveryDB(EquipmentDelivery newEquipmentDelivery) {
     System.out.println("Sending to database...");

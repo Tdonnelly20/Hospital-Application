@@ -7,14 +7,14 @@ import lombok.Setter;
 @Setter
 public class Location {
   protected final int ID = 0; // location class that stores info about each location
-  public String nodeID;
-  public int xCoord;
-  public int yCoord;
-  public String floor;
-  public String building;
-  public String nodeType;
-  public String longName;
-  public String shortName;
+  private String nodeID;
+  private int xCoord;
+  private int yCoord;
+  private String floor;
+  private String building;
+  private String nodeType;
+  private String longName;
+  private String shortName;
 
   public Location() {
     nodeID = null;

@@ -1,8 +1,9 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
+import edu.wpi.veganvampires.dao.EquipmentDeliveryDAOImpl;
 import edu.wpi.veganvampires.objects.EquipmentDelivery;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -24,7 +25,7 @@ public class EquipmentRequestController extends Controller {
   @FXML private TextArea notes;
   @FXML private Button sendRequest;
 
-  private static EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
+  private static EquipmentDeliveryDAOImpl equipmentDeliveryDao = new EquipmentDeliveryDAOImpl();
 
   @FXML
   private void updateTreeTable() {
@@ -91,13 +92,14 @@ public class EquipmentRequestController extends Controller {
   }
 
   @FXML
-  private void sendRequest() {
+  private void sendRequest() throws SQLException {
     equipmentDeliveryDao.addEquipmentDelivery(
         pos.getText(),
         dropDown.getValue().toString(),
         notes.getText(),
         Integer.parseInt(quant.getText()));
     resetForm();
+    updateTreeTable();
   }
 
   @Override
