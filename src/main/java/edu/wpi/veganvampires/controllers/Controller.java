@@ -1,19 +1,43 @@
 package edu.wpi.veganvampires.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import java.io.IOException;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
   private Parent root;
+
+  @FXML
+  private JFXComboBox floorDropDown =
+      new JFXComboBox<>(
+          FXCollections.observableArrayList(
+              "Ground Floor",
+              "Lower Level 2",
+              "Lower Level 1",
+              "1st Floor",
+              "2nd Floor",
+              "3rd Floor"));
+
+  @FXML private ImageView mapImage;
+
+  @FXML
+  private void checkDropDown() {
+    String url = floorDropDown.getValue().toString() + ".png";
+    mapImage.setImage(new Image(url));
+    System.out.println(floorDropDown.getValue());
+  }
 
   /**
    * Determines if a String is an integer or not
@@ -24,6 +48,21 @@ public abstract class Controller extends Application {
   public boolean isInteger(String input) {
     try {
       Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  /**
+   * Determines if a String is an double or not
+   *
+   * @param input is a string
+   * @return true if the string is an double, false if not
+   */
+  public boolean isDouble(String input) {
+    try {
+      Double.parseDouble(input);
       return true;
     } catch (NumberFormatException e) {
       return false;
@@ -52,8 +91,9 @@ public abstract class Controller extends Application {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDB.fxml"));
     root = loader.load();
-    // LocationController lc = loader.getController();
-    // lc.loadTree();
+    LocationController lc = loader.getController();
+    lc.setElements();
+    lc.resetPage();
     switchScene(event);
   }
 

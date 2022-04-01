@@ -81,7 +81,7 @@
                      <children>
                         <ImageView fitHeight="382.0" fitWidth="556.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../01_thefirstfloor.png" />
+                              <Image url="@../1st Floor.png" />
                            </image>
                            <VBox.margin>
                               <Insets top="15.0" />

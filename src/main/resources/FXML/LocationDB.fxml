@@ -74,7 +74,7 @@
                <children>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="1.0" prefHeight="520.0" prefWidth="318.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                      <content>
-                        <VBox alignment="TOP_CENTER" prefHeight="553.0" prefWidth="303.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+                        <VBox fx:id="vbox" alignment="TOP_CENTER" prefHeight="553.0" prefWidth="303.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                            <padding>
                               <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
                            </padding>
@@ -91,23 +91,23 @@
                            <tabs>
                               <Tab text="Map View">
                                  <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <AnchorPane fx:id="mapPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                          <JFXComboBox fx:id="floorDropDown" layoutX="14.0" layoutY="433.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="groundFloor1" fx:value="Ground Floor" />
-                                                   <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
-                                                   <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
-                                                   <String fx:id="floor11" fx:value="Floor 1" />
-                                                   <String fx:id="floor21" fx:value="Floor 2" />
-                                                   <String fx:id="floor31" fx:value="Floor 3" />
+                                                   <String fx:id="groundFloor" fx:value="Ground Floor" />
+                                                   <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                                   <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                                   <String fx:id="floor1" fx:value="1st Floor" />
+                                                   <String fx:id="floor2" fx:value="2nd Floor" />
+                                                   <String fx:id="floor3" fx:value="3rd Floor" />
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>
-                                          <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="mapImage" fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../01_thefirstfloor.png" />
+                                                <Image url="@../1st Floor.png" />
                                              </image>
                                              <viewport>
                                                 <Rectangle2D />
@@ -124,13 +124,13 @@
                                           <JFXTreeTableView fx:id="table" layoutX="25.0" layoutY="20.0" prefHeight="439.0" prefWidth="539.0">
                                              <columns>
                                                 <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
-                                                <TreeTableColumn id="xCoord" prefWidth="94.66668701171875" text="X" fx:id="x" />
-                                                <TreeTableColumn id="yCoord" fx:id="y" prefWidth="92.66668701171875" text="Y" />
-                                                <TreeTableColumn id="Floor" fx:id="floor" prefWidth="39.333282470703125" text="Floor" />
-                                                <TreeTableColumn id="Building" fx:id="building" prefWidth="75.0" text="Building" />
-                                                <TreeTableColumn id="nodeType" fx:id="nodeType" prefWidth="75.0" text="Node Type" />
-                                                <TreeTableColumn id="shortName" fx:id="shortName" prefWidth="75.0" text="Short Name" />
-                                                <TreeTableColumn id="longName" fx:id="longName" prefWidth="158.6666259765625" text="Long Name" />
+                                                <TreeTableColumn id="xCoord" prefWidth="94.66668701171875" text="X" fx:id="xCol" />
+                                                <TreeTableColumn id="yCoord" fx:id="yCol" prefWidth="92.66668701171875" text="Y" />
+                                                <TreeTableColumn id="Floor" fx:id="floorCol" prefWidth="39.333282470703125" text="Floor" />
+                                                <TreeTableColumn id="Building" fx:id="buildingCol" prefWidth="75.0" text="Building" />
+                                                <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" prefWidth="75.0" text="Node Type" />
+                                                <TreeTableColumn id="shortName" fx:id="shortNameCol" prefWidth="75.0" text="Short Name" />
+                                                <TreeTableColumn id="longName" fx:id="longNameCol" prefWidth="158.6666259765625" text="Long Name" />
                                              </columns>
                                           </JFXTreeTableView>
                                        </children>
