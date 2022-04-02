@@ -1,6 +1,5 @@
 package edu.wpi.veganvampires.dao;
 
-import edu.wpi.veganvampires.Vdb;
 import edu.wpi.veganvampires.interfaces.LaundryRequestImpl;
 import edu.wpi.veganvampires.objects.LaundryRequest;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class LaundryRequestDao implements LaundryRequestImpl {
 
   private void updateLaundryRequestDB(LaundryRequest newLaundryRequest) {
     System.out.println("Sending to database...");
-    Vdb.addLaundryRequest(newLaundryRequest);
+    // Vdb.addLaundryRequest(newLaundryRequest);
   }
 
   @Override
