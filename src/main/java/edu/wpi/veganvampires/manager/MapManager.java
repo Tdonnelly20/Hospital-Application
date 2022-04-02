@@ -8,11 +8,10 @@ import java.util.ArrayList;
 
 // Singleton
 public class MapManager {
-  private static MapManager manager;
   private ArrayList<Floor> floorList;
 
   private MapManager() {
-    floorList = new ArrayList<Floor>();
+    floorList = new ArrayList<>();
     for (int i = 0; i < 6; i++) {
       floorList.add(new Floor());
     }
@@ -54,17 +53,17 @@ public class MapManager {
 
   public Floor getFloor(String str) {
     switch (str) {
-      case "Ground Floor":
+      case "G":
         return floorList.get(0);
-      case "Lower Level 1":
+      case "L1":
         return floorList.get(1);
-      case "Lower Level 2":
+      case "L2":
         return floorList.get(2);
-      case "Floor 1":
+      case "1":
         return floorList.get(3);
-      case "Floor 2":
+      case "2":
         return floorList.get(4);
-      case "Floor 3":
+      case "3":
         return floorList.get(5);
     }
     return null;

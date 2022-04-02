@@ -76,14 +76,16 @@ public abstract class Controller extends Application {
 
   @FXML
   public void populateFloorIconArr() {
-    // mapPane.getChildren().clear();
     System.out.println(1);
-    System.out.println(currFloor == null);
+    mapPane.getChildren().clear();
     System.out.println(2);
-    /*for (Icon icon : currFloor.getIconList()) {
+    for (Icon icon : currFloor.getIconList()) {
+      System.out.println(3);
       System.out.println(icon.getXCoord());
-      // mapPane.getChildren().add(icon.getImage());
-    }*/
+      System.out.println(4);
+      mapPane.getChildren().add(icon.getImage());
+      System.out.println(5);
+    }
   }
 
   private boolean hasIcon(ServiceRequest request) {
