@@ -72,4 +72,8 @@ public class LocationDao implements LocationImpl {
   }
 
   private void updateLocationDB(String nodeID) throws SQLException {}
+
+  public void setAllLocations(ArrayList<Location> locations) {
+    allLocations = locations;
+  }
 }

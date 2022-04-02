@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires.controllers;
 
 import edu.wpi.veganvampires.dao.LocationDao;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Location;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LocationController extends Controller {
-  private static LocationDao locationDao = new LocationDao();
+  private static LocationDao locationDao = Vdb.locationDao;
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
   @FXML private TreeTableColumn<Location, Integer> xCol;
