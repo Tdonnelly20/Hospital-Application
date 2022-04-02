@@ -78,7 +78,7 @@ public abstract class Controller extends Application {
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
     for (Icon icon : currFloor.getIconList()) {
-      icon.setImage(new ImageView("icon.png"));
+
       mapPane.getChildren().add(icon.getImage());
     }
   }

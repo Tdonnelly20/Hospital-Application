@@ -17,25 +17,24 @@ public class MapManager {
     }
     ArrayList<Location> locations = Vdb.locations;
     for (Location l : locations) {
-      Icon icon = new Icon(l);
       switch (l.getFloor()) {
         case "G":
-          floorList.get(0).addIcon(icon);
+          floorList.get(0).addIcon(new Icon(l));
           break;
         case "L1":
-          floorList.get(1).addIcon(icon);
+          floorList.get(1).addIcon(new Icon(l));
           break;
         case "L2":
-          floorList.get(2).addIcon(icon);
+          floorList.get(2).addIcon(new Icon(l));
           break;
         case "1":
-          floorList.get(3).addIcon(icon);
+          floorList.get(3).addIcon(new Icon(l));
           break;
         case "2":
-          floorList.get(4).addIcon(icon);
+          floorList.get(4).addIcon(new Icon(l));
           break;
         case "3":
-          floorList.get(5).addIcon(icon);
+          floorList.get(5).addIcon(new Icon(l));
           break;
       }
     }
