@@ -27,9 +27,9 @@ public class MapManager {
     floorList.add(f2);
     floorList.add(f3);
 
-    for (Location l : Vdb.locationDao.getAllLocations()) {
-      System.out.println("Bazinga");
-
+    ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
+    System.out.println("Iterating through locations of size: " + locations.size());
+    for (Location l : locations) {
       switch (l.getFloor()) {
         case "G":
           floorList.get(0).addIcon(new Icon(l));

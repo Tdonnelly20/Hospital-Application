@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.veganvampires.manager.MapManager;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.ServiceRequest;
@@ -26,7 +26,6 @@ public abstract class Controller extends Application {
   private Parent root;
   ArrayList<Icon> currentIconArr;
   private Floor currFloor;
-  MapManager mapManager = MapManager.getManager();
 
   @FXML private Pane mapPane;
   @FXML private ImageView mapImage;
@@ -51,25 +50,24 @@ public abstract class Controller extends Application {
   }
 
   private void getFloor() {
-    System.out.println("AAAAAAAAAAH");
     switch (floorDropDown.getValue().toString()) {
       case "Ground Floor":
-        currFloor = mapManager.getFloor("G");
+        currFloor = Vdb.mapManager.getFloor("G");
         break;
       case "Lower Level 1":
-        currFloor = mapManager.getFloor("L1");
+        currFloor = Vdb.mapManager.getFloor("L1");
         break;
       case "Lower Level 2":
-        currFloor = mapManager.getFloor("L2");
+        currFloor = Vdb.mapManager.getFloor("L2");
         break;
       case "1st Floor":
-        currFloor = mapManager.getFloor("1");
+        currFloor = Vdb.mapManager.getFloor("1");
         break;
       case "2nd Floor":
-        currFloor = mapManager.getFloor("2");
+        currFloor = Vdb.mapManager.getFloor("2");
         break;
       case "3rd Floor":
-        currFloor = mapManager.getFloor("3");
+        currFloor = Vdb.mapManager.getFloor("3");
         break;
     }
     populateFloorIconArr();

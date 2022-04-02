@@ -3,6 +3,7 @@ package edu.wpi.veganvampires.main;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
+import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
 import java.io.*;
@@ -15,6 +16,7 @@ public class Vdb {
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
+  public static MapManager mapManager;
 
   public enum Database {
     Location,
@@ -239,6 +241,8 @@ public class Vdb {
     }
     locationDao.setAllLocations(locations);
     System.out.println("Location database made");
+
+    mapManager = MapManager.getManager();
   }
 
   /**
