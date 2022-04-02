@@ -22,16 +22,23 @@ public class MapManager {
       switch (l.getFloor()) {
         case "Ground Floor":
           floorList.get(0).addIcon(icon);
+          break;
         case "Lower Level 1":
           floorList.get(1).addIcon(icon);
+          break;
         case "Lower Level 2":
           floorList.get(1).addIcon(icon);
+          break;
         case "Floor 1":
           floorList.get(3).addIcon(icon);
+          break;
         case "Floor 2":
           floorList.get(4).addIcon(icon);
+          break;
         case "Floor 3":
           floorList.get(5).addIcon(icon);
+          System.out.println("HERE");
+          break;
       }
     }
 

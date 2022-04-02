@@ -50,53 +50,39 @@ public abstract class Controller extends Application {
     getFloor();
   }
 
-  private Floor getFloor() {
+  private void getFloor() {
     switch (floorDropDown.getValue().toString()) {
       case "Ground Floor":
         currFloor = mapManager.getFloor("G");
+        break;
       case "Lower Level 1":
         currFloor = mapManager.getFloor("L1");
+        break;
       case "Lower Level 2":
         currFloor = mapManager.getFloor("L2");
+        break;
       case "Floor 1":
         currFloor = mapManager.getFloor("1");
+        break;
       case "Floor 2":
         currFloor = mapManager.getFloor("2");
+        break;
       case "Floor 3":
         currFloor = mapManager.getFloor("3");
+        break;
     }
-    return null;
+    populateFloorIconArr();
   }
 
   @FXML
   public void populateFloorIconArr() {
-    mapPane.getChildren().clear();
-    for (Icon icon : currFloor.getIconList()) {
-      mapPane.getChildren().add(icon.getImage());
-    }
+    // mapPane.getChildren().clear();
+    System.out.println("Size: " + currFloor.getIconList().size());
+    /*for (Icon icon : currFloor.getIconList()) {
+      System.out.println(icon.getXCoord());
+      // mapPane.getChildren().add(icon.getImage());
+    }*/
   }
-
-  @FXML
-  private void populateFloor(ArrayList<ServiceRequest> request, ArrayList<String> requestTypes) {}
-
-  /*  @FXML
-  public void populateFloorIconArr() {
-    for (Location l : Vdb.locations) {
-      if (l.getFloor().equals(getFloor())
-          && !(l.getNodeType().equalsIgnoreCase("HALL")
-              || l.getNodeType().equalsIgnoreCase("ELEV")
-              || l.getNodeType().equalsIgnoreCase("REST")
-              || l.getNodeType().equalsIgnoreCase("BATH")
-              || l.getNodeType().equalsIgnoreCase("EXIT")
-              || l.getNodeType().equalsIgnoreCase("RETL")
-              || l.getNodeType().equalsIgnoreCase("STAI")
-              || l.getNodeType().equalsIgnoreCase("SERV"))) {
-        Icon temp = new Icon(l);
-        mapPane.getChildren().addAll(temp.getImage(), temp.getRectangle());
-        currentIconArr.add(temp);
-      }
-    }
-  }*/
 
   private boolean hasIcon(ServiceRequest request) {
     for (Icon icon : currentIconArr) {

@@ -113,6 +113,7 @@
                                                 <Rectangle2D />
                                              </viewport>
                                           </ImageView>
+                                          <Pane fx:id="mapPane" layoutX="106.0" layoutY="25.0" prefHeight="382.0" prefWidth="385.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>

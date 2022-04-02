@@ -36,7 +36,7 @@ public class Icon {
 
   // Calculates where X and Y should be
   private void setXY(Location location) {
-    this.xCoord = location.getXCoord() - 1464;
-    this.yCoord = location.getYCoord() - 759;
+    this.xCoord = location.getXCoord();
+    this.yCoord = location.getYCoord();
   }
 }
