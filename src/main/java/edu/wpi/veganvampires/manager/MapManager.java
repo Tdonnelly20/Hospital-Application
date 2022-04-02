@@ -20,24 +20,23 @@ public class MapManager {
     for (Location l : locations) {
       Icon icon = new Icon(l);
       switch (l.getFloor()) {
-        case "Ground Floor":
+        case "G":
           floorList.get(0).addIcon(icon);
           break;
-        case "Lower Level 1":
+        case "L1":
           floorList.get(1).addIcon(icon);
           break;
-        case "Lower Level 2":
-          floorList.get(1).addIcon(icon);
+        case "L2":
+          floorList.get(2).addIcon(icon);
           break;
-        case "Floor 1":
+        case "1":
           floorList.get(3).addIcon(icon);
           break;
-        case "Floor 2":
+        case "2":
           floorList.get(4).addIcon(icon);
           break;
-        case "Floor 3":
+        case "3":
           floorList.get(5).addIcon(icon);
-          System.out.println("HERE");
           break;
       }
     }
