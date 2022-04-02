@@ -1,24 +1,20 @@
 package edu.wpi.veganvampires.objects;
 
+import edu.wpi.veganvampires.manager.EmployeeManager;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class LabRequest {
-  private final int userID;
-  private final int patientID;
-  private final String firstName;
-  private final String lastName;
+public class LabRequest extends ServiceRequest {
+  private final Patient patient;
   private final String lab;
-  private final String status;
+  EmployeeManager employeeManager = EmployeeManager.getManager();
 
   public LabRequest(
       int userID, int patientID, String firstName, String lastName, String lab, String status) {
-    this.userID = userID;
-    this.patientID = patientID;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.patient = new Patient(patientID, firstName, lastName);
+    this.patient.addHospitalEmployee(EmployeeManager.getManager().getEmployee(userID));
     this.lab = lab;
     this.status = status;
   }

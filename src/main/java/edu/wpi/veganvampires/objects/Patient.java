@@ -9,14 +9,12 @@ import lombok.Setter;
 @Setter
 public class Patient {
   private int patientID;
-  private int insuranceID;
   private String firstName;
   private String lastName;
   private static List<HospitalEmployee> hospitalEmployeeList = new ArrayList<HospitalEmployee>();
 
-  public Patient(int patientID, int insuranceID, String firstName, String lastName) {
+  public Patient(int patientID, String firstName, String lastName) {
     this.patientID = patientID;
-    this.insuranceID = insuranceID;
     this.firstName = firstName;
     this.lastName = lastName;
   }
