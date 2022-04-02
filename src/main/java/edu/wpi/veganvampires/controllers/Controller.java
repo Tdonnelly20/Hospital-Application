@@ -3,6 +3,8 @@ package edu.wpi.veganvampires.controllers;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.icons.Icon;
 import edu.wpi.veganvampires.main.Vdb;
+import edu.wpi.veganvampires.manager.MapManager;
+import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Location;
 
 import java.io.IOException;
@@ -27,6 +29,7 @@ import javafx.stage.Stage;
 public abstract class Controller extends Application {
   private Parent root;
   ArrayList<Icon> currentIconArr;
+  private Floor currFloor;
 
   @FXML
   private JFXComboBox floorDropDown =
@@ -44,9 +47,18 @@ public abstract class Controller extends Application {
 
   @FXML
   private void checkDropDown() {
+    MapManager manager;
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
     System.out.println(floorDropDown.getValue());
+    switch (floorDropDown.getValue().toString()) {
+      case "Ground Floor":
+      case "Lower Level 1":
+      case "Lower Level 2":
+      case "Floor 1":
+      case "Floor 2":
+      case "Floor 3":
+    }
   }
 
   private String getFloor() {
