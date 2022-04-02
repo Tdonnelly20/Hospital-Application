@@ -1,7 +1,7 @@
-package edu.wpi.veganvampires.Icons;
+package edu.wpi.veganvampires.icons;
 
 import edu.wpi.veganvampires.objects.Location;
-import edu.wpi.veganvampires.objects.Request;
+import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -16,13 +16,13 @@ public class Icon {
   private double yCoord;
   @FXML private ImageView image;
   @FXML private Rectangle rectangle;
-  ArrayList<Request> requestsArr;
+  private ArrayList<ServiceRequest> requestsArr;
 
   public Icon(Location location) {
-    new Icon(location, new ArrayList<Request>());
+    new Icon(location, new ArrayList<ServiceRequest>());
   }
 
-  public Icon(Location location, ArrayList<Request> requestsArr) {
+  public Icon(Location location, ArrayList<ServiceRequest> requestsArr) {
     System.out.println("ICON");
     setXY(location);
     this.requestsArr = requestsArr;

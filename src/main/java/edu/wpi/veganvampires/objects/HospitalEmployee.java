@@ -26,6 +26,8 @@ public abstract class HospitalEmployee {
     this.patientList = patientList;
   }
 
+  public HospitalEmployee() {}
+
   public void addPatient(Patient patient) {
     patientList.add(patient);
   }

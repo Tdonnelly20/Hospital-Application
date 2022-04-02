@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires;
+package edu.wpi.veganvampires.main;
 
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;

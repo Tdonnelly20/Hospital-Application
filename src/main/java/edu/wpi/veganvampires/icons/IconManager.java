@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires.Icons;
+package edu.wpi.veganvampires.icons;
 
 import java.util.ArrayList;
 

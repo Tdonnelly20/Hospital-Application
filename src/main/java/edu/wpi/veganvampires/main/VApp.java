@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires;
+package edu.wpi.veganvampires.main;
 
 import edu.wpi.veganvampires.dao.LocationDao;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires.dao;
 
-import edu.wpi.veganvampires.Vdb;
 import edu.wpi.veganvampires.interfaces.ReligiousRequestImpl;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.ReligiousRequest;
 import java.util.ArrayList;
 import java.util.List;

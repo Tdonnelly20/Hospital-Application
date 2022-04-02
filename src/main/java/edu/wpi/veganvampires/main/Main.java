@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires;
+package edu.wpi.veganvampires.main;
 
 public class Main {
 

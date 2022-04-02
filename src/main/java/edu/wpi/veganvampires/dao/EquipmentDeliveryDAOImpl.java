@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires.dao;
 
-import edu.wpi.veganvampires.Vdb;
 import edu.wpi.veganvampires.interfaces.EquipmentDeliveryDAO;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import java.sql.*;
 import java.util.ArrayList;
