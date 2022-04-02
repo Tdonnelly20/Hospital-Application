@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.LabRequestImpl;
-import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.LabRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ public class LabRequestDao implements LabRequestImpl {
 
   private void updateLabRequest(LabRequest labRequest) {
     System.out.println("Sending to database...");
-    Vdb.addLabRequest(labRequest);
   }
 
   @Override

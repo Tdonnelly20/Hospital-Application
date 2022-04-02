@@ -1,11 +1,10 @@
 package edu.wpi.veganvampires.main;
 
+import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Vdb {
@@ -14,6 +13,20 @@ public class Vdb {
   public static ArrayList<Location> locations;
   public static ArrayList<EquipmentDelivery> equipment;
 
+  public enum Database {
+    Location,
+    EquipmentDelivery,
+    MedicineDelivery,
+    ReligiousRequest,
+    MealRequest,
+    LabRequest,
+    SanitationRequest
+  }
+  /**
+   * Returns the location of the CSVs
+   *
+   * @return currentPath
+   */
   public static String returnPath() {
     String currentPath = System.getProperty("user.dir");
     if (currentPath.contains("TeamVeganVampires")) {
@@ -26,7 +39,81 @@ public class Vdb {
     return currentPath;
   }
 
-  public static void CreateDB() throws Exception {
+  /**
+   * Initializes all databases and connects to them
+   *
+   * @throws Exception
+   */
+  public static void createAllDB() throws Exception {
+    createLocationDB();
+    createEquipmentDB();
+
+    LocationDao locDAO = new LocationDao(Vdb.locations);
+    System.out.println("-------Embedded Apache Derby Connection Testing --------");
+    try {
+      Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+    } catch (ClassNotFoundException e) {
+      System.out.println("Apache Derby Driver not found. Add the classpath to your module.");
+      System.out.println("For IntelliJ do the following:");
+      System.out.println("File | Project Structure, Modules, Dependency tab");
+      System.out.println("Add by clicking on the green plus icon on the right of the window");
+      System.out.println(
+          "Select JARs or directories. Go to the folder where the database JAR is located");
+      System.out.println("Click OK, now you can compile your program and run it.");
+      e.printStackTrace();
+      return;
+    }
+
+    System.out.println("Apache Derby driver registered!");
+    Connection connection;
+
+    try {
+      // substitute your database name for myDB
+      connection = Connect();
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
+        exampleStatement.execute(
+            "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+      } else {
+        System.out.println("We already got tables?");
+        System.out.println("listing tables");
+        System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return;
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+    System.out.println("Apache Derby connection established!");
+
+    System.out.println(locDAO.getAllLocations());
+  }
+
+  /**
+   * Create the location database
+   *
+   * @throws Exception
+   */
+  public static void createLocationDB() throws Exception {
     FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -51,6 +138,11 @@ public class Vdb {
     System.out.println("Location database made");
   }
 
+  /**
+   * Return a connection to the database
+   *
+   * @return
+   */
   public static Connection Connect() {
     try {
       String URL = "jdbc:derby:VDB;";
@@ -63,8 +155,32 @@ public class Vdb {
     }
   }
 
-  public static void SaveToFile() throws Exception { // updates all csv files
-    String currentPath = returnPath();
+  /**
+   * Enter an enumerated type, it will save it
+   *
+   * @param database
+   * @throws Exception
+   */
+  public static void saveToFile(Database database) throws Exception { // updates all csv files
+    switch (database) {
+      case Location:
+        saveToLocationDB();
+        break;
+      case EquipmentDelivery:
+        saveToEquipmentDB();
+        break;
+      default:
+        System.out.println("Unknown enumerated type!");
+        break;
+    }
+  }
+
+  /**
+   * Saves the location DB
+   *
+   * @throws IOException
+   */
+  private static void saveToLocationDB() throws IOException {
     FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
@@ -86,8 +202,16 @@ public class Vdb {
         bw.append(',');
       }
     }
-    fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
-    bw = new BufferedWriter(fw);
+  }
+
+  /**
+   * Saves the equipmentDB
+   *
+   * @throws IOException
+   */
+  private static void saveToEquipmentDB() throws IOException {
+    FileWriter fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
     bw.append("Name,Description,Location,Count");
     for (EquipmentDelivery e : equipment) {
       String[] outputData = {
@@ -103,6 +227,11 @@ public class Vdb {
     fw.close();
   }
 
+  /**
+   * Initialize the equipment database
+   *
+   * @throws IOException
+   */
   public static void createEquipmentDB() throws IOException {
     FileReader fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
     BufferedReader br = new BufferedReader(fr);
@@ -118,19 +247,4 @@ public class Vdb {
     }
     System.out.println("Equipment database made");
   }
-
-  public static void addLocation(Location newLocation) {}
-
-  public static void addEquipmentDelivery(EquipmentDelivery newEquipmentDelivery)
-      throws IOException {}
-
-  public static void addMedicineDelivery(MedicineDelivery newMedicineDelivery) {}
-
-  public static void addSanitationRequest(SanitationRequest newSanitationRequest) {}
-
-  public static void addReligiousRequest(ReligiousRequest newReligiousRequest) {}
-
-  public static void addMealRequest(MealRequest mealRequest) {}
-
-  public static void addLabRequest(LabRequest labRequest) {}
 }

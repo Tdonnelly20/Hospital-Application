@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.SanitationRequestImpl;
-import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.SanitationRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,6 @@ public class SanitationRequestDao implements SanitationRequestImpl {
   // Send to the database
   private void updateSanitationRequestDB(SanitationRequest newSanitationRequest) {
     System.out.println("Sending to database...");
-    Vdb.addSanitationRequest(newSanitationRequest);
   }
 
   @Override

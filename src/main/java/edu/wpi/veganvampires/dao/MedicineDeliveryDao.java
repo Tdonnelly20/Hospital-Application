@@ -3,6 +3,10 @@ package edu.wpi.veganvampires.dao;
 import edu.wpi.veganvampires.interfaces.MedicineDeliveryImpl;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.MedicineDelivery;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +17,6 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
   /** Initialize the arraylist */
   public MedicineDeliveryDao() {
     allMedicineDeliveries = new ArrayList<MedicineDelivery>();
-    // TODO: Add info from the database to the local arraylist
   }
 
   @Override
@@ -54,15 +57,45 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
 
     System.out.println("Adding to local arraylist...");
     allMedicineDeliveries.add(newMedicineDelivery); // Store a local copy
-    updateMedicineDeliveryDB(newMedicineDelivery); // Store on database
+
+    System.out.println("Adding to database");
+    try {
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      exampleStatement.execute(
+          "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails");
+      Vdb.saveToFile(Vdb.Database.MedicineDelivery);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
-  // Send to the database
-  private void updateMedicineDeliveryDB(MedicineDelivery newMedicineDelivery) {
-    System.out.println("Sending to database...");
-    Vdb.addMedicineDelivery(newMedicineDelivery);
-  }
-
+  /**
+   * Remove medication from the arraylist and database
+   *
+   * @param medicineName
+   */
   @Override
-  public void removeMedicationDelivery() {} // TODO
+  public void removeMedicationDelivery(String medicineName) {
+    System.out.println("Removing from arraylist...");
+    allMedicineDeliveries.removeIf(e -> e.getMedicineName().equals(medicineName));
+
+    try {
+      System.out.println("Removing from database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (MedicineDelivery e : allMedicineDeliveries)
+        exampleStatement.execute(
+            "DELETE FROM LOCATIONS WHERE medicineName.equals(e.getMedicineName())");
+
+      Vdb.saveToFile(Vdb.Database.MedicineDelivery);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

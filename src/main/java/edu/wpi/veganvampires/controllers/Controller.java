@@ -4,12 +4,10 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.icons.Icon;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Location;
-
+import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import edu.wpi.veganvampires.objects.ServiceRequest;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.ReligiousRequestImpl;
-import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.ReligiousRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +116,6 @@ public class ReligiousRequestDao implements ReligiousRequestImpl {
   // Send to the database
   private void updateReligiousRequestDB(ReligiousRequest newReligiousRequest) {
     System.out.println("Sending to database...");
-    Vdb.addReligiousRequest(newReligiousRequest);
   }
 
   @Override

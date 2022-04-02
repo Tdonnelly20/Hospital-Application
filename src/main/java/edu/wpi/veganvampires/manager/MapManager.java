@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires.manager;
 
 import edu.wpi.veganvampires.objects.Floor;
-
 import java.util.ArrayList;
 
 // Singleton

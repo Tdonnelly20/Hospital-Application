@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.MealRequestImpl;
-import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.MealRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ public class MealRequestDao implements MealRequestImpl {
 
   private void updateLabRequest(MealRequest mealRequest) {
     System.out.println("Sending to database...");
-    Vdb.addMealRequest(mealRequest);
   }
 
   @Override
