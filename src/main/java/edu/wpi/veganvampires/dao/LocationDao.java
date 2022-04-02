@@ -42,7 +42,10 @@ public class LocationDao implements LocationImpl {
       for (Location l : allLocations)
         exampleStatement.execute(
             "INSERT INTO LOCATIONS VALUES (newlocation.getNodeID, newlocation.getXCoord(), newlocation.getYCoord(), newlocation.getFloor(), newlocation.getBuilding(), newlocation.getNodeType(), newlocation.getLongName(), newlocation.getShortName())");
+      Vdb.saveToFile(Vdb.Database.Location);
     } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -60,8 +63,10 @@ public class LocationDao implements LocationImpl {
       }
 
       allLocations.remove(getLocation(nodeID));
-
+      Vdb.saveToFile(Vdb.Database.Location);
     } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

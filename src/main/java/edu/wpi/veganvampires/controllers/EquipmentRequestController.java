@@ -2,6 +2,7 @@ package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class EquipmentRequestController extends Controller {
   @FXML private TextArea notes;
   @FXML private Button sendRequest;
 
-  private static EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
+  private static EquipmentDeliveryDao equipmentDeliveryDao = Vdb.equipmentDeliveryDao;
 
   @FXML
   private void updateTreeTable() {

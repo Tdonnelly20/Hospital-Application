@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires.main;
 
+import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
@@ -11,7 +12,8 @@ public class Vdb {
   private static final String currentPath = returnPath();
   private static String line; // receives a line from br
   public static ArrayList<Location> locations;
-  public static ArrayList<EquipmentDelivery> equipment;
+  public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
+  public static final LocationDao locationDao = new LocationDao();
 
   public enum Database {
     Location,
@@ -118,7 +120,7 @@ public class Vdb {
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     locations = new ArrayList<>();
-    equipment = new ArrayList<>();
+    // equipment = new ArrayList<>();
     String headerLine = br.readLine();
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
@@ -135,6 +137,7 @@ public class Vdb {
               data[7]);
       locations.add(newLoc);
     }
+    LocationDao locationDao = new LocationDao(locations);
     System.out.println("Location database made");
   }
 
@@ -180,7 +183,7 @@ public class Vdb {
    *
    * @throws IOException
    */
-  private static void saveToLocationDB() throws IOException {
+  public static void saveToLocationDB() throws IOException {
     FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
@@ -213,6 +216,7 @@ public class Vdb {
     FileWriter fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("Name,Description,Location,Count");
+    ArrayList<EquipmentDelivery> equipment = equipmentDeliveryDao.getAllEquipmentDeliveries();
     for (EquipmentDelivery e : equipment) {
       String[] outputData = {
         e.getLocation(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
@@ -232,19 +236,22 @@ public class Vdb {
    *
    * @throws IOException
    */
-  public static void createEquipmentDB() throws IOException {
+  private static void createEquipmentDB() throws IOException {
     FileReader fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
+    ArrayList<EquipmentDelivery> equipment = new ArrayList<>();
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data;
       data = line.split(splitToken);
+      for (String s : data) System.out.println(s);
       EquipmentDelivery e =
           new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
       equipment.add(e);
     }
+    equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
     System.out.println("Equipment database made");
   }
 }

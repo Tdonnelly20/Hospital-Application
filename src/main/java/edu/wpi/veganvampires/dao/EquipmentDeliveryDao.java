@@ -7,11 +7,20 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
+
   private static ArrayList<EquipmentDelivery> allEquipmentDeliveries;
 
   /** Initialize the array list */
   public EquipmentDeliveryDao() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
+  }
+
+  public EquipmentDeliveryDao(ArrayList<EquipmentDelivery> allEquipmentDeliveries) {
+    this.allEquipmentDeliveries = allEquipmentDeliveries;
+  }
+
+  public void setAllEquipmentDeliveries(ArrayList<EquipmentDelivery> equipmentDeliveryArrayList) {
+    allEquipmentDeliveries = equipmentDeliveryArrayList;
   }
 
   /**
@@ -49,8 +58,6 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       exampleStatement.execute(
           "INSERT INTO LOCATIONS VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
-    } catch (SQLException e) {
-      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -78,8 +85,6 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
         exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getEquipment())");
 
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
-    } catch (SQLException e) {
-      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
