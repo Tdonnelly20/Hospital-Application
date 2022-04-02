@@ -137,7 +137,7 @@ public class Vdb {
               data[7]);
       locations.add(newLoc);
     }
-    LocationDao locationDao = new LocationDao(locations);
+    locationDao.setAllLocations(locations);
     System.out.println("Location database made");
   }
 
