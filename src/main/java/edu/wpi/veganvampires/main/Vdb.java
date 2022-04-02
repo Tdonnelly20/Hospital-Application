@@ -216,8 +216,7 @@ public class Vdb {
     FileWriter fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("Name,Description,Location,Count");
-    ArrayList<EquipmentDelivery> equipment = equipmentDeliveryDao.getAllEquipmentDeliveries();
-    for (EquipmentDelivery e : equipment) {
+    for (EquipmentDelivery e : equipmentDeliveryDao.getAllEquipmentDeliveries()) {
       String[] outputData = {
         e.getLocation(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
       };

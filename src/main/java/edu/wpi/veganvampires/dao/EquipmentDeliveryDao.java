@@ -55,9 +55,10 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
     try {
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
+      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
       exampleStatement.execute(
           "INSERT INTO LOCATIONS VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
+
     } catch (Exception e) {
       e.printStackTrace();
     }
