@@ -61,13 +61,13 @@ public abstract class Controller extends Application {
       case "Lower Level 2":
         currFloor = mapManager.getFloor("L2");
         break;
-      case "Floor 1":
+      case "1st Floor":
         currFloor = mapManager.getFloor("1");
         break;
-      case "Floor 2":
+      case "2nd Floor":
         currFloor = mapManager.getFloor("2");
         break;
-      case "Floor 3":
+      case "3rd Floor":
         currFloor = mapManager.getFloor("3");
         break;
     }

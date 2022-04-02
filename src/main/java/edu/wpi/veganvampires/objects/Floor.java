@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Floor {
-  private static String floorName;
+  private String floorName;
   private ArrayList<Icon> iconList;
 
   public Floor(String floorName) {
@@ -19,7 +19,7 @@ public class Floor {
     iconList.add(icon);
   }
 
-  public static String getFloorName() {
+  public String getFloorName() {
     return floorName;
   }
 }
