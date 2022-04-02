@@ -1,6 +1,8 @@
 package edu.wpi.veganvampires.manager;
 
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Floor;
+import edu.wpi.veganvampires.objects.Location;
 import java.util.ArrayList;
 
 // Singleton
@@ -12,6 +14,11 @@ public class MapManager {
     for (int i = 0; i < 6; i++) {
       floorList.add(new Floor());
     }
+    ArrayList<Location> locations = (ArrayList<Location>) Vdb.locations;
+    for (Location l : locations) {
+
+    }
+
     // TODO add locations for floors and name floors
   }
 
