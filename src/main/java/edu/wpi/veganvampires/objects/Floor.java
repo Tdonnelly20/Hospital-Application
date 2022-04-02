@@ -15,7 +15,7 @@ public class Floor {
     iconList = new ArrayList<Icon>();
   }
 
-  public void addIcon(Icon icon){
+  public void addIcon(Icon icon) {
     iconList.add(icon);
   }
 }

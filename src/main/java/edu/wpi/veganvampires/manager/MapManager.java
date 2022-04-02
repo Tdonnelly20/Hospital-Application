@@ -2,6 +2,7 @@ package edu.wpi.veganvampires.manager;
 
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Floor;
+import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
 import java.util.ArrayList;
 
@@ -11,12 +12,13 @@ public class MapManager {
   private ArrayList<Floor> floorList;
 
   private MapManager() {
+    floorList = new ArrayList<Floor>();
     for (int i = 0; i < 6; i++) {
       floorList.add(new Floor());
     }
     ArrayList<Location> locations = (ArrayList<Location>) Vdb.locations;
     for (Location l : locations) {
-
+      Icon icon = new Icon(l);
     }
 
     // TODO add locations for floors and name floors
