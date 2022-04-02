@@ -1,7 +1,6 @@
 package edu.wpi.veganvampires.manager;
 
 import edu.wpi.veganvampires.objects.Floor;
-
 import java.util.ArrayList;
 
 // Singleton
@@ -9,22 +8,22 @@ public class MapManager {
   private static MapManager manager;
   private ArrayList<Floor> floorList;
 
-  private MapManager(){
+  private MapManager() {
     for (int i = 0; i < 6; i++) {
       floorList.add(new Floor());
     }
-    //TODO add locations for floors and name floors
+    // TODO add locations for floors and name floors
   }
 
-  private static class SingletonHelper{
+  private static class SingletonHelper {
     private static final MapManager manager = new MapManager();
   }
 
-  public static MapManager getManager(){
+  public static MapManager getManager() {
     return SingletonHelper.manager;
   }
 
-  public Floor getFloor(String str){
+  public Floor getFloor(String str) {
     switch (str) {
       case "Ground Floor":
         return floorList.get(0);

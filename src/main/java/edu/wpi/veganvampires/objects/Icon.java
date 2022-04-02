@@ -1,7 +1,5 @@
-package edu.wpi.veganvampires.icons;
+package edu.wpi.veganvampires.objects;
 
-import edu.wpi.veganvampires.objects.Location;
-import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;

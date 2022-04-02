@@ -1,19 +1,18 @@
 package edu.wpi.veganvampires.objects;
 
-
-public class EquipmentDelivery extends ServiceRequest{
-  private final Location location;
+public class EquipmentDelivery extends ServiceRequest {
+  private final String location;
   private final String equipment, notes;
   private final int quantity;
 
-  public EquipmentDelivery(Location location, String equipment, String notes, int quantity) {
+  public EquipmentDelivery(String location, String equipment, String notes, int quantity) {
     this.location = location;
     this.equipment = equipment;
     this.notes = notes;
     this.quantity = quantity;
   }
 
-  public Location getLocation() {
+  public String getLocation() {
     return location;
   }
 
