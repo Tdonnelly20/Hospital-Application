@@ -1,9 +1,9 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.veganvampires.icons.Icon;
-import edu.wpi.veganvampires.main.Vdb;
-import edu.wpi.veganvampires.objects.Location;
+import edu.wpi.veganvampires.manager.MapManager;
+import edu.wpi.veganvampires.objects.Floor;
+import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +25,11 @@ import javafx.stage.Stage;
 public abstract class Controller extends Application {
   private Parent root;
   ArrayList<Icon> currentIconArr;
+  private Floor currFloor;
+  MapManager mapManager = MapManager.getManager();
+
+  @FXML private Pane mapPane;
+  @FXML private ImageView mapImage;
 
   @FXML
   private JFXComboBox floorDropDown =
@@ -37,53 +42,45 @@ public abstract class Controller extends Application {
               "2nd Floor",
               "3rd Floor"));
 
-  @FXML private Pane mapPane;
-  @FXML private ImageView mapImage;
-
   @FXML
   private void checkDropDown() {
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
     System.out.println(floorDropDown.getValue());
+    getFloor();
   }
 
-  private String getFloor() {
+  private void getFloor() {
     switch (floorDropDown.getValue().toString()) {
       case "Ground Floor":
-        return "G";
+        currFloor = mapManager.getFloor("G");
+        break;
       case "Lower Level 1":
-        return "L1";
+        currFloor = mapManager.getFloor("L1");
+        break;
       case "Lower Level 2":
-        return "L2";
-      case "Floor 1":
-        return "1";
-      case "Floor 2":
-        return "2";
-      case "Floor 3":
-        return "3";
+        currFloor = mapManager.getFloor("L2");
+        break;
+      case "1st Floor":
+        currFloor = mapManager.getFloor("1");
+        break;
+      case "2nd Floor":
+        currFloor = mapManager.getFloor("2");
+        break;
+      case "3rd Floor":
+        currFloor = mapManager.getFloor("3");
+        break;
     }
-    return "";
+    populateFloorIconArr();
   }
-
-  @FXML
-  private void populateFloor(ArrayList<ServiceRequest> request, ArrayList<String> requestTypes) {}
 
   @FXML
   public void populateFloorIconArr() {
-    for (Location l : Vdb.locations) {
-      if (l.getFloor().equals(getFloor())
-          && !(l.getNodeType().equalsIgnoreCase("HALL")
-              || l.getNodeType().equalsIgnoreCase("ELEV")
-              || l.getNodeType().equalsIgnoreCase("REST")
-              || l.getNodeType().equalsIgnoreCase("BATH")
-              || l.getNodeType().equalsIgnoreCase("EXIT")
-              || l.getNodeType().equalsIgnoreCase("RETL")
-              || l.getNodeType().equalsIgnoreCase("STAI")
-              || l.getNodeType().equalsIgnoreCase("SERV"))) {
-        Icon temp = new Icon(l);
-        mapPane.getChildren().addAll(temp.getImage(), temp.getRectangle());
-        currentIconArr.add(temp);
-      }
+    mapPane.getChildren().clear();
+    System.out.println(currFloor.getFloorName());
+    System.out.println(currFloor.getIconList().size());
+    for (Icon icon : currFloor.getIconList()) {
+      mapPane.getChildren().add(icon.getImage());
     }
   }
 
