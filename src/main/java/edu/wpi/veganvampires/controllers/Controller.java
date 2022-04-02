@@ -1,8 +1,15 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.icons.Icon;
+import edu.wpi.veganvampires.main.Vdb;
+import edu.wpi.veganvampires.objects.Location;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
+
+import edu.wpi.veganvampires.objects.ServiceRequest;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,10 +21,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
   private Parent root;
+  ArrayList<Icon> currentIconArr;
 
   @FXML
   private JFXComboBox floorDropDown =
@@ -30,6 +39,7 @@ public abstract class Controller extends Application {
               "2nd Floor",
               "3rd Floor"));
 
+  @FXML private Pane mapPane;
   @FXML private ImageView mapImage;
 
   @FXML
@@ -39,6 +49,63 @@ public abstract class Controller extends Application {
     System.out.println(floorDropDown.getValue());
   }
 
+  private String getFloor() {
+    switch (floorDropDown.getValue().toString()) {
+      case "Ground Floor":
+        return "G";
+      case "Lower Level 1":
+        return "L1";
+      case "Lower Level 2":
+        return "L2";
+      case "Floor 1":
+        return "1";
+      case "Floor 2":
+        return "2";
+      case "Floor 3":
+        return "3";
+    }
+    return "";
+  }
+
+  @FXML
+  private void populateFloor(ArrayList<ServiceRequest> request, ArrayList<String> requestTypes) {}
+
+  @FXML
+  public void populateFloorIconArr() {
+    for (Location l : Vdb.locations) {
+      if (l.getFloor().equals(getFloor())
+          && !(l.getNodeType().equalsIgnoreCase("HALL")
+              || l.getNodeType().equalsIgnoreCase("ELEV")
+              || l.getNodeType().equalsIgnoreCase("REST")
+              || l.getNodeType().equalsIgnoreCase("BATH")
+              || l.getNodeType().equalsIgnoreCase("EXIT")
+              || l.getNodeType().equalsIgnoreCase("RETL")
+              || l.getNodeType().equalsIgnoreCase("STAI")
+              || l.getNodeType().equalsIgnoreCase("SERV"))) {
+        Icon temp = new Icon(l);
+        mapPane.getChildren().addAll(temp.getImage(), temp.getRectangle());
+        currentIconArr.add(temp);
+      }
+    }
+  }
+
+  private boolean hasIcon(ServiceRequest request) {
+    for (Icon icon : currentIconArr) {
+      if (icon.getRequestsArr().contains(request)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private Icon getIcon(ServiceRequest request) {
+    for (Icon icon : currentIconArr) {
+      if (icon.getRequestsArr().contains(request)) {
+        return icon;
+      }
+    }
+    return null;
+  }
   /**
    * Determines if a String is an integer or not
    *

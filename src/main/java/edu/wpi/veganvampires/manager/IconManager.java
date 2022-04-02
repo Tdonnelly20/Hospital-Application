@@ -1,4 +1,6 @@
-package edu.wpi.veganvampires.icons;
+package edu.wpi.veganvampires.manager;
+
+import edu.wpi.veganvampires.icons.Icon;
 
 import java.util.ArrayList;
 
