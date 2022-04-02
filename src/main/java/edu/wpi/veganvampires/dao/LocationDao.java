@@ -55,8 +55,7 @@ public class LocationDao implements LocationImpl {
 
     try {
       System.out.println("Sending to database...");
-      Connection connection;
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
       for (Location l : allLocations) {
         exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID.equals(l.getNodeID())");

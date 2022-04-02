@@ -225,6 +225,7 @@ public class Vdb {
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
+        System.out.println(s);
       }
     }
     bw.close();
