@@ -2,6 +2,7 @@ package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.LabRequestDao;
+import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.objects.LabRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class LabRequestController extends Controller {
+public class LabRequestController extends Controller implements RequestInterface {
   @FXML private TreeTableView<LabRequest> table;
   @FXML private TreeTableColumn<LabRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<LabRequest, Integer> patientIDCol;
@@ -27,8 +28,9 @@ public class LabRequestController extends Controller {
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private Button sendRequest;
 
+  @Override
   @FXML
-  private void resetForm() {
+  public void resetForm() {
     Status.setText("Status: Blank");
     userID.setText("");
     patientID.setText("");
@@ -39,8 +41,8 @@ public class LabRequestController extends Controller {
   }
 
   // Checks to see if the user can submit info
-  @FXML
-  private void validateButton() {
+  @Override
+  public void validateButton() {
     if (!(userID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
         && !(firstName.getText().isEmpty())
@@ -62,8 +64,8 @@ public class LabRequestController extends Controller {
   }
 
   /** Runs whenever we switch to the table, or update a value */
-  @FXML
-  private void updateTreeTable() {
+  @Override
+  public void updateTreeTable() {
     System.out.println("Here");
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
@@ -102,8 +104,8 @@ public class LabRequestController extends Controller {
     }
   }
 
-  @FXML
-  private void sendRequest() {
+  @Override
+  public void sendRequest() {
     // Make sure the patient ID is an integer
     if (!isInteger(patientID.getText()) || !isInteger(userID.getText())) {
       Status.setText("Status: Failed. Patient/Hospital ID must be a number!");

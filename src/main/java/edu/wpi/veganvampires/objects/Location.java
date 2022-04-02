@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires.objects;
 
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class Location {
   private String nodeType;
   private String longName;
   private String shortName;
+  private ArrayList<ServiceRequest> requests = new ArrayList<ServiceRequest>();
 
   public Location() {
     nodeID = null;

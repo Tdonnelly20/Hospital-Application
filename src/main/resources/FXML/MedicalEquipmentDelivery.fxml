@@ -78,7 +78,7 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                          <JFXComboBox fx:id="floorDropDown" layoutX="14.0" layoutY="433.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                    <String fx:id="groundFloor1" fx:value="Ground Floor" />
@@ -90,9 +90,9 @@
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>
-                                          <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="mapImage" fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../01_thefirstfloor.png" />
+                                                <Image url="@../1st Floor.png" />
                                              </image>
                                              <viewport>
                                                 <Rectangle2D />

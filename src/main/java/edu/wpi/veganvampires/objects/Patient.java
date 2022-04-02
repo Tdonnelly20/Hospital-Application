@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires.objects;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,22 +9,14 @@ import lombok.Setter;
 @Setter
 public class Patient {
   private int patientID;
-  private int insurenceID;
   private String firstName;
   private String lastName;
-  private List<HospitalEmployee> hospitalEmployeeList;
+  private static List<HospitalEmployee> hospitalEmployeeList = new ArrayList<HospitalEmployee>();
 
-  public Patient(
-      int patientID,
-      int insurenceID,
-      String firstName,
-      String lastName,
-      List<HospitalEmployee> hospitalEmployeeList) {
+  public Patient(int patientID, String firstName, String lastName) {
     this.patientID = patientID;
-    this.insurenceID = insurenceID;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.hospitalEmployeeList = hospitalEmployeeList;
   }
 
   public void addHospitalEmployee(HospitalEmployee employee) {
