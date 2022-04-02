@@ -12,9 +12,21 @@ public class MapManager {
 
   private MapManager() {
     floorList = new ArrayList<>();
-    for (int i = 0; i < 6; i++) {
-      floorList.add(new Floor());
-    }
+
+    Floor g = new Floor("G");
+    Floor l1 = new Floor("L1");
+    Floor l2 = new Floor("L2");
+    Floor f1 = new Floor("1");
+    Floor f2 = new Floor("2");
+    Floor f3 = new Floor("3");
+
+    floorList.add(g);
+    floorList.add(l1);
+    floorList.add(l2);
+    floorList.add(f1);
+    floorList.add(f2);
+    floorList.add(f3);
+
     ArrayList<Location> locations = Vdb.locations;
     for (Location l : locations) {
       switch (l.getFloor()) {

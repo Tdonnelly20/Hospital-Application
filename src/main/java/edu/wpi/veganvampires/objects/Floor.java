@@ -10,12 +10,16 @@ public class Floor {
   private static String floorName;
   private ArrayList<Icon> iconList;
 
-  public Floor() {
-    floorName = "";
+  public Floor(String floorName) {
+    this.floorName = floorName;
     iconList = new ArrayList<Icon>();
   }
 
   public void addIcon(Icon icon) {
     iconList.add(icon);
+  }
+
+  public static String getFloorName() {
+    return floorName;
   }
 }
