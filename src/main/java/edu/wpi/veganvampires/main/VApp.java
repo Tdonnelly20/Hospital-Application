@@ -33,6 +33,8 @@ public class VApp extends Application {
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
@@ -42,9 +44,11 @@ public class VApp extends Application {
     log.info("Shutting Down");
   }
 
-  public static void main() {
+  public static void main() throws Exception {
     // LocationDAOImpl locDAO = new LocationDAOImpl();
     // copies the Vdb.locations data to locDAO;
+    Vdb.CreateDB();
+    Vdb.createEquipmentDB();
     LocationDao locDAO = new LocationDao(Vdb.locations);
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -92,75 +96,6 @@ public class VApp extends Application {
           System.out.println("RS " + set.getString(6));
         }
       }
-      /*
-      Scanner scanner = new Scanner(System.in);
-      boolean loop = true;
-      int state = 0;
-
-      while (loop) {
-        switch (state) {
-          case 1:
-            Statement stmt = connection.createStatement();
-            String query = "select * from Locations";
-            ResultSet rs = stmt.executeQuery(query);
-            if (!rs.next()) {
-              System.out.println("No data available");
-            }
-            while (rs.next()) {
-              System.out.println("ID: " + rs.getString("nodeID"));
-              System.out.println("Coordinates: " + rs.getInt("xCoord") + " " + rs.getInt("yCoord"));
-              System.out.println("Floor: " + rs.getInt("floor"));
-              System.out.println("Building: " + rs.getString("building"));
-              System.out.println("nodeType: " + rs.getString("nodeType"));
-              System.out.println("longName: " + rs.getString("longName"));
-              System.out.println("shortName: " + rs.getString("shortName"));
-              System.out.println(" ");
-            }
-            break;
-          case 2:
-            System.out.println("Location ID?");
-            String ID1 = scanner.next();
-            Statement newStatement1 = connection.createStatement();
-            newStatement1.execute(
-                "UPDATE Locations SET Room_Num = ID3, Contents = equip) WHERE Room_Num = ID3");
-            for (Location location : locDAO.getAllLocations()) {
-              if (location.nodeID.equals(ID1)) locDAO.updateLocation(location);
-            }
-            break;
-          case 3:
-            System.out.println("New location ID?");
-            String ID2 = scanner.next();
-            Location loc = new Location(ID2);
-            locDAO.getAllLocations().add(loc);
-            Statement newStatement2 = connection.createStatement();
-            newStatement2.execute("INSERT INTO Locations VALUES(loc.nodeID, '')");
-            break;
-          case 4:
-            System.out.println("Location ID?");
-            String ID3 = scanner.next();
-            Statement newStatement3 = connection.createStatement();
-            newStatement3.execute("DELETE FROM Locations WHERE Room_Num = ID3");
-            locDAO.getAllLocations().removeIf(location -> location.nodeID.equals(ID3));
-            break;
-          case 5:
-            // Vdb newBuffer = new Vdb();
-            // newBuffer.CreateDB();
-            // copies all locations from locDAO to Vdblocations, then saves it to file
-            Vdb.locations = locDAO.getAllLocations();
-            Vdb.SaveToFile();
-            Vdb.CreateDB();
-            break;
-          case 6:
-            loop = false;
-            break;
-          default:
-            System.out.println(
-                "1-Location Information\n2-Change Floor and Type\n3-Enter Location\n4-Delete Location\n5-Save Locations to CSV File\n6-Exit Program");
-        }
-        state = scanner.nextInt();
-      }
-
-       */
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();

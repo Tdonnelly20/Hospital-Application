@@ -3,6 +3,7 @@ package edu.wpi.veganvampires.dao;
 import edu.wpi.veganvampires.interfaces.EquipmentDeliveryImpl;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.EquipmentDelivery;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,8 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
   }
 
   @Override
-  public void addEquipmentDelivery(String location, String equipment, String notes, int quantity) {
+  public void addEquipmentDelivery(String location, String equipment, String notes, int quantity)
+      throws IOException {
     EquipmentDelivery newEquipmentDelivery =
         new EquipmentDelivery(location, equipment, notes, quantity);
 
@@ -33,7 +35,8 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
   @Override
   public void removeEquipmentDelivery(String equipment) {}
 
-  private void updateEquipmentDeliveryDB(EquipmentDelivery newEquipmentDelivery) {
+  private void updateEquipmentDeliveryDB(EquipmentDelivery newEquipmentDelivery)
+      throws IOException {
     System.out.println("Sending to database...");
     Vdb.addEquipmentDelivery(newEquipmentDelivery);
   }
