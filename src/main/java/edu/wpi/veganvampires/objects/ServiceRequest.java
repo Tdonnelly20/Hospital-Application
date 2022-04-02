@@ -6,5 +6,5 @@ public abstract class ServiceRequest {
   private Location location;
   private int userID;
   private String status;
-  private Icon icon; // Tate made me suffer :(
+  private Icon icon;
 }

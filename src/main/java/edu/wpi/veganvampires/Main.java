@@ -1,4 +1,7 @@
-package edu.wpi.veganvampires.main;
+package edu.wpi.veganvampires;
+
+import edu.wpi.veganvampires.main.VApp;
+import edu.wpi.veganvampires.main.Vdb;
 
 public class Main {
 
