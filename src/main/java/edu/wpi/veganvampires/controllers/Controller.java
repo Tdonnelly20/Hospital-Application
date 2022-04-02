@@ -28,6 +28,9 @@ public abstract class Controller extends Application {
   private Floor currFloor;
   MapManager mapManager = MapManager.getManager();
 
+  @FXML private Pane mapPane;
+  @FXML private ImageView mapImage;
+
   @FXML
   private JFXComboBox floorDropDown =
       new JFXComboBox<>(
@@ -38,9 +41,6 @@ public abstract class Controller extends Application {
               "1st Floor",
               "2nd Floor",
               "3rd Floor"));
-
-  @FXML private Pane mapPane;
-  @FXML private ImageView mapImage;
 
   @FXML
   private void checkDropDown() {
@@ -76,15 +76,10 @@ public abstract class Controller extends Application {
 
   @FXML
   public void populateFloorIconArr() {
-    System.out.println(1);
     mapPane.getChildren().clear();
-    System.out.println(2);
     for (Icon icon : currFloor.getIconList()) {
-      System.out.println(3);
-      System.out.println(icon.getXCoord());
-      System.out.println(4);
+      icon.setImage(new ImageView("icon.png"));
       mapPane.getChildren().add(icon.getImage());
-      System.out.println(5);
     }
   }
 

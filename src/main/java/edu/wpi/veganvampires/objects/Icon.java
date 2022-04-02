@@ -25,8 +25,10 @@ public class Icon {
     setXY(location);
     this.requestsArr = requestsArr;
     if (requestsArr.isEmpty()) {
+      System.out.println(1);
       image = new ImageView("icon.png");
     } else {
+      System.out.println(2);
       image = new ImageView("markedIcon.png");
     }
     image.setX(xCoord);
