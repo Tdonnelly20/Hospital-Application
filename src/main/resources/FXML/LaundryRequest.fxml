@@ -108,7 +108,7 @@
                                                         </JFXComboBox>
                                                         <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                                             <image>
-                                                                <Image url="@../01_thefirstfloor.png" />
+                                                                <Image url="@../1st Floor.png" />
                                                             </image>
                                                             <viewport>
                                                                 <Rectangle2D />

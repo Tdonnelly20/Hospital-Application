@@ -2,6 +2,8 @@ package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
+import edu.wpi.veganvampires.interfaces.RequestInterface;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.MedicineDelivery;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -10,7 +12,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MedicineDeliveryController extends Controller {
+public class MedicineDeliveryController extends Controller implements RequestInterface {
 
   @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
   @FXML private TreeTableColumn<MedicineDelivery, Integer> hospitalIDCol;
@@ -33,11 +35,11 @@ public class MedicineDeliveryController extends Controller {
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
 
-  private static MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
+  private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
 
   /** Runs whenever we switch to the table, or update a value */
-  @FXML
-  private void updateTreeTable() {
+  @Override
+  public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
@@ -77,7 +79,7 @@ public class MedicineDeliveryController extends Controller {
   }
 
   @FXML
-  private void validateButton() {
+  public void validateButton() {
 
     try {
       if ((hospitalID.getText().equals("")
@@ -109,8 +111,8 @@ public class MedicineDeliveryController extends Controller {
   }
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
-  @FXML
-  private void sendRequest() {
+  @Override
+  public void sendRequest() {
     // If any field is left blank, (except for request details) throw an error
 
     // Make sure the patient ID is an integer
@@ -151,14 +153,14 @@ public class MedicineDeliveryController extends Controller {
               + "\n\nRequest Details: "
               + requestDetails.getText());
 
-      resetFields(); // Set all fields to blank for another entry
+      resetForm(); // Set all fields to blank for another entry
       updateTreeTable();
     }
   }
 
   /** Sets all the fields to their default value for another entry */
   @FXML
-  private void resetFields() {
+  public void resetForm() {
     patientID.setText("");
     hospitalID.setText("");
     firstName.setText("");

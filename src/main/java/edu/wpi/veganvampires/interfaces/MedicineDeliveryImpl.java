@@ -17,5 +17,5 @@ public interface MedicineDeliveryImpl {
       String dosage,
       String requestDetails);
 
-  void removeMedicationDelivery();
+  void removeMedicationDelivery(String medicineName);
 }

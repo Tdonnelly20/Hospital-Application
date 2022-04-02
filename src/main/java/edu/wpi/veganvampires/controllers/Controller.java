@@ -1,20 +1,105 @@
 package edu.wpi.veganvampires.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.main.Vdb;
+import edu.wpi.veganvampires.objects.Floor;
+import edu.wpi.veganvampires.objects.Icon;
+import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
   private Parent root;
+  ArrayList<Icon> currentIconArr;
+  private Floor currFloor;
 
+  @FXML private Pane mapPane;
+  @FXML private ImageView mapImage;
+
+  @FXML
+  private JFXComboBox floorDropDown =
+      new JFXComboBox<>(
+          FXCollections.observableArrayList(
+              "Ground Floor",
+              "Lower Level 2",
+              "Lower Level 1",
+              "1st Floor",
+              "2nd Floor",
+              "3rd Floor"));
+
+  @FXML
+  private void checkDropDown() {
+    String url = floorDropDown.getValue().toString() + ".png";
+    mapImage.setImage(new Image(url));
+    System.out.println(floorDropDown.getValue());
+    getFloor();
+  }
+
+  private void getFloor() {
+    switch (floorDropDown.getValue().toString()) {
+      case "Ground Floor":
+        currFloor = Vdb.mapManager.getFloor("G");
+        break;
+      case "Lower Level 1":
+        currFloor = Vdb.mapManager.getFloor("L1");
+        break;
+      case "Lower Level 2":
+        currFloor = Vdb.mapManager.getFloor("L2");
+        break;
+      case "1st Floor":
+        currFloor = Vdb.mapManager.getFloor("1");
+        break;
+      case "2nd Floor":
+        currFloor = Vdb.mapManager.getFloor("2");
+        break;
+      case "3rd Floor":
+        currFloor = Vdb.mapManager.getFloor("3");
+        break;
+    }
+    populateFloorIconArr();
+  }
+
+  @FXML
+  public void populateFloorIconArr() {
+    mapPane.getChildren().clear();
+    System.out.println(currFloor.getFloorName());
+    System.out.println(currFloor.getIconList().size());
+    for (Icon icon : currFloor.getIconList()) {
+      mapPane.getChildren().add(icon.getImage());
+    }
+  }
+
+  private boolean hasIcon(ServiceRequest request) {
+    for (Icon icon : currentIconArr) {
+      if (icon.getRequestsArr().contains(request)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private Icon getIcon(ServiceRequest request) {
+    for (Icon icon : currentIconArr) {
+      if (icon.getRequestsArr().contains(request)) {
+        return icon;
+      }
+    }
+    return null;
+  }
   /**
    * Determines if a String is an integer or not
    *
@@ -24,6 +109,21 @@ public abstract class Controller extends Application {
   public boolean isInteger(String input) {
     try {
       Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  /**
+   * Determines if a String is an double or not
+   *
+   * @param input is a string
+   * @return true if the string is an double, false if not
+   */
+  public boolean isDouble(String input) {
+    try {
+      Double.parseDouble(input);
       return true;
     } catch (NumberFormatException e) {
       return false;
@@ -52,8 +152,9 @@ public abstract class Controller extends Application {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDB.fxml"));
     root = loader.load();
-    // LocationController lc = loader.getController();
-    // lc.loadTree();
+    LocationController lc = loader.getController();
+    lc.setElements();
+    lc.resetPage();
     switchScene(event);
   }
 
