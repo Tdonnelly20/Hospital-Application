@@ -16,9 +16,23 @@ public class MapManager {
     for (int i = 0; i < 6; i++) {
       floorList.add(new Floor());
     }
-    ArrayList<Location> locations = (ArrayList<Location>) Vdb.locations;
+    ArrayList<Location> locations = Vdb.locations;
     for (Location l : locations) {
       Icon icon = new Icon(l);
+      switch (l.getFloor()) {
+        case "Ground Floor":
+          floorList.get(0).addIcon(icon);
+        case "Lower Level 1":
+          floorList.get(1).addIcon(icon);
+        case "Lower Level 2":
+          floorList.get(1).addIcon(icon);
+        case "Floor 1":
+          floorList.get(3).addIcon(icon);
+        case "Floor 2":
+          floorList.get(4).addIcon(icon);
+        case "Floor 3":
+          floorList.get(5).addIcon(icon);
+      }
     }
 
     // TODO add locations for floors and name floors
