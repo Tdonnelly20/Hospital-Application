@@ -1,13 +1,9 @@
 package edu.wpi.veganvampires.objects;
 
 public class MedicineDelivery {
-  private final String patientFirstName,
-      patientLastName,
-      medicineName,
-      dosage,
-      roomNumber,
-      requestDetails;
-  private final int patientID, hospitalID;
+  private Patient patient;
+  private HospitalEmployee employee;
+  private String medicineName, dosage, roomNumber, requestDetails;
 
   /**
    * @param patientFirstName
@@ -30,27 +26,25 @@ public class MedicineDelivery {
     this.dosage = dosage;
     this.requestDetails = requestDetails;
     this.roomNumber = roomNumber;
-    this.patientFirstName = patientFirstName;
-    this.patientLastName = patientLastName;
-    this.patientID = patientID;
-    this.hospitalID = hospitalID;
+    patient = new Patient(patientID, patientFirstName, patientLastName);
+    employee = new HospitalEmployee(hospitalID);
     this.medicineName = medicineName;
   }
 
   public String getPatientFirstName() {
-    return patientFirstName;
+    return patient.getFirstName();
   }
 
   public String getPatientLastName() {
-    return patientLastName;
+    return patient.getLastName();
   }
 
   public int getPatientID() {
-    return patientID;
+    return patient.getPatientID();
   }
 
   public int getHospitalID() {
-    return hospitalID;
+    return employee.getHospitalID();
   }
 
   public String getMedicineName() {

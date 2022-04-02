@@ -2,6 +2,7 @@ package edu.wpi.veganvampires.main;
 
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.LocationDao;
+import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
 import java.io.*;
@@ -11,9 +12,9 @@ import java.util.ArrayList;
 public class Vdb {
   private static final String currentPath = returnPath();
   private static String line; // receives a line from br
-  public static ArrayList<Location> locations;
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
+  public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
 
   public enum Database {
     Location,
@@ -49,8 +50,8 @@ public class Vdb {
   public static void createAllDB() throws Exception {
     createLocationDB();
     createEquipmentDB();
+    createMedicineDeliveryDB();
 
-    LocationDao locDAO = new LocationDao(Vdb.locations);
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -107,38 +108,7 @@ public class Vdb {
     }
     System.out.println("Apache Derby connection established!");
 
-    System.out.println(locDAO.getAllLocations());
-  }
-
-  /**
-   * Create the location database
-   *
-   * @throws Exception
-   */
-  public static void createLocationDB() throws Exception {
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
-    BufferedReader br = new BufferedReader(fr);
-    String splitToken = ","; // what we split the csv file with
-    locations = new ArrayList<>();
-    // equipment = new ArrayList<>();
-    String headerLine = br.readLine();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data = line.split(splitToken);
-      Location newLoc =
-          new Location(
-              data[0],
-              Integer.parseInt(data[1]),
-              Integer.parseInt(data[2]),
-              data[3],
-              data[4],
-              data[5],
-              data[6],
-              data[7]);
-      locations.add(newLoc);
-    }
-    locationDao.setAllLocations(locations);
-    System.out.println("Location database made");
+    System.out.println(LocationDao.getAllLocations());
   }
 
   /**
@@ -172,10 +142,103 @@ public class Vdb {
       case EquipmentDelivery:
         saveToEquipmentDB();
         break;
+      case MedicineDelivery:
+        saveToMedicineDeliveryDB();
+        break;
       default:
         System.out.println("Unknown enumerated type!");
         break;
     }
+  }
+
+  /**
+   * Create the medicine delivery database
+   *
+   * @throws Exception
+   */
+  public static void createMedicineDeliveryDB() throws Exception {
+    FileReader fr = new FileReader(currentPath + "\\MedicineDelivery.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
+    // equipment = new ArrayList<>();
+    String headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      MedicineDelivery newDelivery =
+          new MedicineDelivery(
+              data[0],
+              data[1],
+              data[2],
+              Integer.parseInt(data[3]),
+              Integer.parseInt(data[4]),
+              data[5],
+              data[6],
+              data[7]);
+      medicineDeliveries.add(newDelivery);
+    }
+    medicineDeliveryDao.setAllMedicineDeliveries(medicineDeliveries);
+    System.out.println("Medicine delivery database made");
+  }
+
+  private static void saveToMedicineDeliveryDB() throws IOException {
+    FileWriter fw = new FileWriter(currentPath + "\\MedicineDelivery.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    bw.append(
+        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails");
+
+    for (MedicineDelivery medicineDelivery : medicineDeliveryDao.getAllMedicineDeliveries()) {
+      String[] outputData = {
+        medicineDelivery.getPatientFirstName(),
+        medicineDelivery.getPatientLastName(),
+        medicineDelivery.getRoomNumber(),
+        String.valueOf(medicineDelivery.getPatientID()),
+        String.valueOf(medicineDelivery.getHospitalID()),
+        medicineDelivery.getMedicineName(),
+        medicineDelivery.getDosage(),
+        medicineDelivery.getRequestDetails()
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+
+    bw.close();
+    fw.close();
+  }
+
+  /**
+   * Create the location database
+   *
+   * @throws Exception
+   */
+  public static void createLocationDB() throws Exception {
+    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<Location> locations = new ArrayList<>();
+    // equipment = new ArrayList<>();
+    String headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      Location newLoc =
+          new Location(
+              data[0],
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
+              data[3],
+              data[4],
+              data[5],
+              data[6],
+              data[7]);
+      locations.add(newLoc);
+    }
+    locationDao.setAllLocations(locations);
+    System.out.println("Location database made");
   }
 
   /**
@@ -188,7 +251,7 @@ public class Vdb {
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
-    for (Location l : locations) {
+    for (Location l : locationDao.getAllLocations()) {
       String[] outputData = {
         l.getNodeID(),
         String.valueOf(l.getXCoord()),
@@ -205,6 +268,8 @@ public class Vdb {
         bw.append(',');
       }
     }
+    bw.close();
+    fw.close();
   }
 
   /**

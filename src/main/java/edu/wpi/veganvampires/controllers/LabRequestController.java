@@ -42,7 +42,6 @@ public class LabRequestController extends Controller implements RequestInterface
 
   // Checks to see if the user can submit info
   @Override
-  @FXML
   public void validateButton() {
     if (!(userID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
@@ -66,7 +65,6 @@ public class LabRequestController extends Controller implements RequestInterface
 
   /** Runs whenever we switch to the table, or update a value */
   @Override
-  @FXML
   public void updateTreeTable() {
     System.out.println("Here");
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
@@ -107,7 +105,6 @@ public class LabRequestController extends Controller implements RequestInterface
   }
 
   @Override
-  @FXML
   public void sendRequest() {
     // Make sure the patient ID is an integer
     if (!isInteger(patientID.getText()) || !isInteger(userID.getText())) {

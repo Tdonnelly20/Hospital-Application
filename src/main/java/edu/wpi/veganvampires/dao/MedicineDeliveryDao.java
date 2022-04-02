@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MedicineDeliveryDao implements MedicineDeliveryImpl {
   private static ArrayList<MedicineDelivery>
@@ -19,8 +18,12 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
     allMedicineDeliveries = new ArrayList<MedicineDelivery>();
   }
 
+  public void setAllMedicineDeliveries(ArrayList<MedicineDelivery> medicineDeliveries) {
+    allMedicineDeliveries = medicineDeliveries;
+  }
+
   @Override
-  public List<MedicineDelivery> getAllMedicineDeliveries() {
+  public ArrayList<MedicineDelivery> getAllMedicineDeliveries() {
     return allMedicineDeliveries;
   }
 
@@ -62,9 +65,10 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
     try {
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
-      exampleStatement.execute(
-          "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails");
       Vdb.saveToFile(Vdb.Database.MedicineDelivery);
+      // exampleStatement.execute(
+      //    "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID,
+      // hospitalID, medicineName, dosage, requestDetails");
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public abstract class HospitalEmployee {
+public class HospitalEmployee {
   private int hospitalID;
   private String firstName;
   private String lastName;
@@ -24,6 +24,10 @@ public abstract class HospitalEmployee {
     this.lastName = lastName;
     this.degrees = degrees;
     this.patientList = patientList;
+  }
+
+  public HospitalEmployee(int hospitalID) {
+    this.hospitalID = hospitalID;
   }
 
   public HospitalEmployee() {}

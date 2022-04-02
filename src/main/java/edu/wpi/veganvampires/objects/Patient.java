@@ -21,6 +21,13 @@ public class Patient {
     this.lastName = lastName;
   }
 
+  public Patient(int patientID, String firstName, String lastName) {
+    this.patientID = patientID;
+    this.insuranceID = 0;
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
   public void addHospitalEmployee(HospitalEmployee employee) {
     hospitalEmployeeList.add(employee);
   }

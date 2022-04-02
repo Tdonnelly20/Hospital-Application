@@ -51,6 +51,7 @@ public abstract class Controller extends Application {
   }
 
   private void getFloor() {
+    System.out.println("AAAAAAAAAAH");
     switch (floorDropDown.getValue().toString()) {
       case "Ground Floor":
         currFloor = mapManager.getFloor("G");

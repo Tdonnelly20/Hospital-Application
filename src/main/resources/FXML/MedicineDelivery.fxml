@@ -127,7 +127,7 @@
                      </VBox.margin>
                   </TextArea>
                   <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                  <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
+                  <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
                   <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                      <font>
                         <Font size="18.0" />

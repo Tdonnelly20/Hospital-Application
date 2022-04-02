@@ -5,21 +5,15 @@ import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Location;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LocationDao implements LocationImpl {
   private static ArrayList<Location> allLocations;
 
   public LocationDao() {
-    allLocations = new ArrayList<Location>();
+    allLocations = new ArrayList<>();
   }
 
-  public LocationDao(ArrayList<Location> locations) {
-    allLocations = locations;
-  }
-
-  @Override
-  public List<Location> getAllLocations() {
+  public static ArrayList<Location> getAllLocations() {
     return allLocations;
   }
 
@@ -69,8 +63,6 @@ public class LocationDao implements LocationImpl {
       e.printStackTrace();
     }
   }
-
-  private void updateLocationDB(String nodeID) throws SQLException {}
 
   public void setAllLocations(ArrayList<Location> locations) {
     allLocations = locations;

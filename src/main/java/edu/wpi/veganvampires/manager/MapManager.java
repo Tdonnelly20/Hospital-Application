@@ -28,6 +28,8 @@ public class MapManager {
     floorList.add(f3);
 
     for (Location l : Vdb.locationDao.getAllLocations()) {
+      System.out.println("Bazinga");
+
       switch (l.getFloor()) {
         case "G":
           floorList.get(0).addIcon(new Icon(l));

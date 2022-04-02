@@ -28,7 +28,7 @@ public class VApp extends Application {
       Parent root = loader.load();
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
-      main();
+      Vdb.createAllDB();
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
@@ -40,10 +40,5 @@ public class VApp extends Application {
   @Override
   public void stop() throws Exception {
     log.info("Shutting Down");
-  }
-
-  public static void main() throws Exception {
-
-    Vdb.createAllDB();
   }
 }
