@@ -27,8 +27,7 @@ public class MapManager {
     floorList.add(f2);
     floorList.add(f3);
 
-    ArrayList<Location> locations = Vdb.locations;
-    for (Location l : locations) {
+    for (Location l : Vdb.locationDao.getAllLocations()) {
       switch (l.getFloor()) {
         case "G":
           floorList.get(0).addIcon(new Icon(l));
