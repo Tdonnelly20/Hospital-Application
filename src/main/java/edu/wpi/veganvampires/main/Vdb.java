@@ -54,6 +54,7 @@ public class Vdb {
   public static void createAllDB() throws Exception {
     createLocationDB();
     createEquipmentDB();
+    createMedicineDeliveryTable();
     createMedicineDeliveryDB();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
@@ -113,6 +114,47 @@ public class Vdb {
     System.out.println("Apache Derby connection established!");
 
     System.out.println(LocationDao.getAllLocations());
+  }
+
+  public static void createMedicineDeliveryTable() throws SQLException {
+    try {
+      Connection connection = Connect();
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "MEDICINES", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("Creating Medicine Delivery SQL Tables...");
+        exampleStatement.execute(
+            "CREATE TABLE Medicines(patientFirstName char(40), patientLastName char(40), roomNumber char(40), patientID int, hospitalID int, medicineName char(40), dosage char(40), requestDetails char(200))");
+      } else {
+        System.out.println("Found Medicine Delivery SQL Tables!");
+        System.out.println("listing tables...");
+        System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+    System.out.println("Apache Derby connection established!");
+
+    System.out.println(medicineDeliveryDao.getAllMedicineDeliveries());
   }
 
   /**

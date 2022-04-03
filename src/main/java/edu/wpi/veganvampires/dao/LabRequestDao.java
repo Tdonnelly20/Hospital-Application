@@ -21,11 +21,11 @@ public class LabRequestDao implements LabRequestImpl {
     Connection connection = Vdb.Connect();
     Statement newStatement = connection.createStatement();
     newStatement.execute(
-        "CREATE TABLE LAB (UserID int, " +
-                "PatientID int, " +
-                "FirstName String" +
-                "LastName String" +
-                "Lab String");
+        "CREATE TABLE LAB (UserID int, "
+            + "PatientID int, "
+            + "FirstName String"
+            + "LastName String"
+            + "Lab String");
   }
 
   @Override
