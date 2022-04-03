@@ -45,8 +45,8 @@ public class SanitationRequestController extends Controller implements RequestIn
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
-    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("medicineName"));
+    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomLocation"));
+    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazardName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
 
     // Get the current list of medicine deliveries from the DAO
