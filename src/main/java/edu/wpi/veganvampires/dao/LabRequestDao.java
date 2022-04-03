@@ -13,22 +13,9 @@ public class LabRequestDao implements LabRequestImpl {
   /** Initialize the array list */
   public LabRequestDao() throws SQLException {
     allLabRequests = new ArrayList<>();
-    createLabTable();
   }
 
-  public void createLabTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement newStatement = connection.createStatement();
-    newStatement.execute(
-        "CREATE TABLE LABS ("
-            + "UserID int, "
-            + "PatientID int, "
-            + "FirstName char[20],"
-            + "LastName char[20],"
-            + "Lab char[20],"
-            + "Status char[20])");
-  }
+
 
   public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
     allLabRequests = newRequests;
