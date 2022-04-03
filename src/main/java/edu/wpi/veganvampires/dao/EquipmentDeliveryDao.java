@@ -21,6 +21,20 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
 
   public void setAllEquipmentDeliveries(ArrayList<EquipmentDelivery> equipmentDeliveryArrayList) {
     allEquipmentDeliveries = equipmentDeliveryArrayList;
+    try {
+      Connection connect = Vdb.Connect();
+      Statement st = connect.createStatement();
+      for (int i = 0; i < equipmentDeliveryArrayList.size(); i++)
+      {
+        st.execute("INSERT INTO EQUIPMENTDELIVERY VALUES(equipmentDeliveryArrayList.get(i).getLocation()," +
+                "equipmentDeliveryArrayList.get(i).getEquipment()," +
+                "equipmentDeliveryArrayList.get(i).getNotes(), equipmentDeliveryArrayList.get(i).getQuantity())");
+
+      }
+    }
+    catch(SQLException e){
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -57,7 +71,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       Statement exampleStatement = connection.createStatement();
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
       exampleStatement.execute(
-          "INSERT INTO LOCATIONS VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
+          "INSERT INTO EQUIPMENTDELIVERY VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -83,7 +97,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       for (EquipmentDelivery e : allEquipmentDeliveries)
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getEquipment())");
+        exampleStatement.execute("DELETE FROM EQUIPMENTDELIVERY WHERE equipment.equals(e.getEquipment())");
 
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {
