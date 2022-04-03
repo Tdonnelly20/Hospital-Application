@@ -55,6 +55,14 @@ public class LocationController extends Controller {
   @FXML private TextField longName = new TextField();
   @FXML private Text confirmText = new Text("Are you sure?");
 
+  private static class SingletonHelper {
+    private static final LocationController manager = new LocationController();
+  }
+
+  public static LocationController getManager() {
+    return LocationController.SingletonHelper.manager;
+  }
+
   @FXML
   protected void setElements() {
     reset.setOnAction(
