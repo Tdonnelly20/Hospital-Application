@@ -12,20 +12,26 @@ public class LabRequestDao implements LabRequestImpl {
 
   /** Initialize the array list */
   public LabRequestDao() throws SQLException {
-    allLabRequests = new ArrayList<LabRequest>();
+    allLabRequests = new ArrayList<>();
     createLabTable();
-    // TODO: Add info from the database to the local arraylist
   }
 
   public void createLabTable() throws SQLException {
     Connection connection = Vdb.Connect();
+    assert connection != null;
     Statement newStatement = connection.createStatement();
     newStatement.execute(
-        "CREATE TABLE LAB (UserID int, "
+        "CREATE TABLE LABS ("
+            + "UserID int, "
             + "PatientID int, "
-            + "FirstName String"
-            + "LastName String"
-            + "Lab String");
+            + "FirstName char[20],"
+            + "LastName char[20],"
+            + "Lab char[20],"
+            + "Status char[20])");
+  }
+
+  public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
+    allLabRequests = newRequests;
   }
 
   @Override
@@ -40,13 +46,36 @@ public class LabRequestDao implements LabRequestImpl {
 
     System.out.println("Adding to local arraylist...");
     allLabRequests.add(labRequest);
-    updateLabRequest(labRequest);
-  }
+    System.out.println("Adding to database");
+    try {
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement exampleStatement = connection.createStatement();
+      Vdb.saveToFile(Vdb.Database.LabRequest);
+      exampleStatement.execute(
+          "INSERT INTO LABS VALUES (labRequest.getUserID(), labRequest.getPatientID(), labRequest.getFirstName(), labRequest.getLastName(), labRequest.getLab(), labRequest.getStatus() ");
 
-  private void updateLabRequest(LabRequest labRequest) {
-    System.out.println("Sending to database...");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void removeLabRequest() {} // TODO
+  public void removeLabRequest(int userID) {
+    System.out.println("Removing from arraylist...");
+    allLabRequests.removeIf(l -> l.getUserID() == userID);
+
+    try {
+      System.out.println("Removing from database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (LabRequest l : allLabRequests)
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
+
+      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }
