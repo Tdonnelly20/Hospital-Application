@@ -34,7 +34,7 @@ public class MealRequestDao implements MealRequestImpl {
    * @param patientLastName
    * @param patientID
    * @param mealName
-   * @param dosage
+   * @param allergy
    * @param requestDetails
    */
   @Override
@@ -45,7 +45,7 @@ public class MealRequestDao implements MealRequestImpl {
       int patientID,
       int hospitalID,
       String mealName,
-      String dosage,
+      String allergy,
       String requestDetails) {
     MealRequest newMealDelivery =
         new MealRequest(
@@ -55,7 +55,7 @@ public class MealRequestDao implements MealRequestImpl {
             patientID,
             hospitalID,
             mealName,
-            dosage,
+            allergy,
             requestDetails);
 
     System.out.println("Adding to local arraylist...");
@@ -68,7 +68,7 @@ public class MealRequestDao implements MealRequestImpl {
       Vdb.saveToFile(Vdb.Database.MealRequest);
       // exampleStatement.execute(
       //    "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID,
-      // hospitalID, mealName, dosage, requestDetails");
+      // hospitalID, mealName, allergy, requestDetails");
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {

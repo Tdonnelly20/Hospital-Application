@@ -22,7 +22,7 @@ public class MealDeliveryRequestController extends Controller implements Request
   @FXML private TreeTableColumn<MealRequest, String> lastNameCol;
   @FXML private TreeTableColumn<MealRequest, String> roomNumberCol;
   @FXML private TreeTableColumn<MealRequest, String> mealCol;
-  @FXML private TreeTableColumn<MealRequest, String> dosageCol;
+  @FXML private TreeTableColumn<MealRequest, String> allergyCol;
   @FXML private TreeTableColumn<MealRequest, String> otherInfoCol;
 
   @FXML private TextField patientID;
@@ -30,7 +30,7 @@ public class MealDeliveryRequestController extends Controller implements Request
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private TextField roomNum;
-  @FXML private TextField dosage;
+  @FXML private TextField allergy;
   @FXML private JFXComboBox<Object> mealDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
@@ -50,7 +50,7 @@ public class MealDeliveryRequestController extends Controller implements Request
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
     roomNumberCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
     mealCol.setCellValueFactory(new TreeItemPropertyValueFactory("mealName"));
-    dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory("dosage"));
+    allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory("allergy"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
 
     // Get the current list of medicine deliveries from the DAO
@@ -90,7 +90,7 @@ public class MealDeliveryRequestController extends Controller implements Request
           && firstName.getText().equals("")
           && lastName.getText().equals("")
           && roomNum.getText().equals("")
-          && dosage.getText().equals("")
+          && allergy.getText().equals("")
           && mealDropDown.getValue().equals("Select Meal"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
@@ -100,13 +100,14 @@ public class MealDeliveryRequestController extends Controller implements Request
           || firstName.getText().equals("")
           || lastName.getText().equals("")
           || roomNum.getText().equals("")
-          || dosage.getText().equals("")
+          || allergy.getText().equals("")
           || mealDropDown.getValue().equals("Select Meal"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
         statusLabel.setTextFill(Color.web("Black"));
       } else {
         sendRequest.setDisable(false);
+        statusLabel.setText("Status: Done");
       }
     } catch (Exception e) {
       sendRequest.setDisable(true);
@@ -134,7 +135,7 @@ public class MealDeliveryRequestController extends Controller implements Request
           Integer.parseInt(patientID.getText()),
           Integer.parseInt(hospitalID.getText()),
           mealDropDown.getValue().toString(),
-          dosage.getText(),
+          allergy.getText(),
           requestDetails.getText());
 
       // For testing purposes
@@ -151,8 +152,8 @@ public class MealDeliveryRequestController extends Controller implements Request
               + lastName.getText()
               + "\nMedication: "
               + mealDropDown.getValue()
-              + "\nDosage: "
-              + dosage.getText()
+              + "\nAllergy: "
+              + allergy.getText()
               + "\n\nRequest Details: "
               + requestDetails.getText());
 
@@ -169,7 +170,7 @@ public class MealDeliveryRequestController extends Controller implements Request
     firstName.setText("");
     lastName.setText("");
     roomNum.setText("");
-    dosage.setText("");
+    allergy.setText("");
 
     mealDropDown.setValue("Select Meal");
     requestDetails.setText("");

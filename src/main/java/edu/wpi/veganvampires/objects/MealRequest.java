@@ -3,7 +3,7 @@ package edu.wpi.veganvampires.objects;
 public class MealRequest {
   private Patient patient;
   private HospitalEmployee employee;
-  private String mealName, dosage, roomNumber, requestDetails;
+  private String mealName, allergy, roomNumber, requestDetails;
 
   /**
    * @param patientFirstName
@@ -11,7 +11,7 @@ public class MealRequest {
    * @param patientID
    * @param hospitalID
    * @param mealName
-   * @param dosage
+   * @param allergy
    * @param requestDetails
    */
   public MealRequest(
@@ -21,9 +21,9 @@ public class MealRequest {
       int patientID,
       int hospitalID,
       String mealName,
-      String dosage,
+      String allergy,
       String requestDetails) {
-    this.dosage = dosage;
+    this.allergy = allergy;
     this.requestDetails = requestDetails;
     this.roomNumber = roomNumber;
     patient = new Patient(patientID, patientFirstName, patientLastName);
@@ -51,8 +51,8 @@ public class MealRequest {
     return mealName;
   }
 
-  public String getDosage() {
-    return dosage;
+  public String getAllergy() {
+    return allergy;
   }
 
   public String getRequestDetails() {

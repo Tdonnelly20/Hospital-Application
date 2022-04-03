@@ -364,7 +364,7 @@ public class Vdb {
     FileWriter fw = new FileWriter(currentPath + "/MealDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
-        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,mealName,dosage,requestDetails");
+        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,mealName,allergy,requestDetails");
 
     for (MealRequest mealRequest : mealRequestDao.getAllMealDeliveries()) {
       String[] outputData = {
@@ -374,7 +374,7 @@ public class Vdb {
         String.valueOf(mealRequest.getPatientID()),
         String.valueOf(mealRequest.getHospitalID()),
         mealRequest.getMealName(),
-        mealRequest.getDosage(),
+        mealRequest.getAllergy(),
         mealRequest.getRequestDetails()
       };
       bw.append("\n");

@@ -117,7 +117,7 @@
                                 <Insets />
                             </opaqueInsets>
                         </JFXComboBox>
-                        <TextField fx:id="dosage" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage" />
+                        <TextField fx:id="allergy" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Allergies- enter 'none' if you don't have any" />
                         <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
                             <VBox.margin>
                                 <Insets left="15.0" right="15.0" />
@@ -212,7 +212,7 @@
                                                 <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
                                                 <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="55.2000732421875" text="Room #" />
                                                 <TreeTableColumn fx:id="mealCol" minWidth="0.0" prefWidth="56.7999267578125" text="Meal" />
-                                                <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Dosage" />
+                                                <TreeTableColumn fx:id="allergyCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Allergies" />
                                                 <TreeTableColumn fx:id="otherInfoCol" prefWidth="64.80001831054688" text="Other Info" />
                                             </columns>
                                         </TreeTableView>
