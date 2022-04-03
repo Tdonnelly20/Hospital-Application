@@ -139,6 +139,7 @@ public class Vdb {
   public static void saveToFile(Database database) throws Exception { // updates all csv files
     switch (database) {
       case Location:
+        System.out.println("SAVING LOC");
         saveToLocationDB();
         break;
       case EquipmentDelivery:

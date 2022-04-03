@@ -36,6 +36,8 @@ public class LocationController extends Controller {
   private Button loadCSV =
       new Button("Load Backup Locations"); // loads the currently stored csv file
 
+  @FXML private Button saveLocations = new Button("Save To File");
+
   @FXML private Button yesButton = new Button("Yes"); // loads the currently stored csv file
   @FXML private Button noButton = new Button("No"); // loads the currently stored csv file
 
@@ -76,13 +78,9 @@ public class LocationController extends Controller {
           attemptloadCSVFile();
           ;
         });
-    yesButton.setOnAction(
+    saveLocations.setOnAction(
         event -> {
-          try {
-            resetLocationsDB();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
+          saveConfirmation();
         });
     noButton.setOnAction(
         event -> {
@@ -112,7 +110,6 @@ public class LocationController extends Controller {
     longName.setText("");
     submit.setDisable(true);
   }
-
 
   @FXML
   private void setTextFieldActions() {
@@ -155,7 +152,7 @@ public class LocationController extends Controller {
     vbox.getChildren().clear();
     hbox.getChildren().clear();
     setTextFieldPrompts();
-    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation, loadCSV);
+    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation, loadCSV, saveLocations);
   }
 
   @FXML
@@ -196,17 +193,31 @@ public class LocationController extends Controller {
   @FXML
   private void attemptloadCSVFile() {
     setForms();
-    clear.setOnAction(
+    yesButton.setOnAction(
         event -> {
-
-          ;
+          try {
+            Vdb.createLocationDB();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          resetPage();
         });
     vbox.getChildren().addAll(confirmText, yesButton, noButton);
   }
 
   @FXML
-  private void resetLocationsDB() throws Exception {
-    Vdb.createLocationDB();
+  private void saveConfirmation() {
+    setForms();
+    yesButton.setOnAction(
+        event -> {
+          try {
+            Vdb.saveToFile(Vdb.Database.Location);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          resetPage();
+        });
+    vbox.getChildren().addAll(confirmText, yesButton, noButton);
   }
 
   @Override
