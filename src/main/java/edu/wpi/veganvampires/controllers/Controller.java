@@ -2,9 +2,10 @@ package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.main.Vdb;
+import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
-import edu.wpi.veganvampires.objects.ServiceRequest;
+import edu.wpi.veganvampires.objects.Location;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -17,18 +18,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
   private Parent root;
   ArrayList<Icon> currentIconArr;
   private Floor currFloor;
+  @FXML private ImageView tempIcon = new ImageView("icon.png");
+  @FXML VBox content = new VBox(15);
+  @FXML Scene popUpScene = new Scene(content, 300, 300);
+  @FXML Stage popUpStage = new Stage();
 
   @FXML private Pane mapPane;
   @FXML private ImageView mapImage;
+  MapManager mapManager = MapManager.getManager();
 
   @FXML
   private JFXComboBox floorDropDown =
@@ -50,30 +64,40 @@ public abstract class Controller extends Application {
     getFloor();
   }
 
-  private void getFloor() {
+  // Sets the mapImage to the corresponding floor dropdown and returns the floor string
+  private String getFloor() {
+    String result = "";
     switch (floorDropDown.getValue().toString()) {
       case "Ground Floor":
         currFloor = Vdb.mapManager.getFloor("G");
+        result = "G";
         break;
       case "Lower Level 1":
         currFloor = Vdb.mapManager.getFloor("L1");
+        result = "L1";
         break;
       case "Lower Level 2":
         currFloor = Vdb.mapManager.getFloor("L2");
+        result = "L2";
         break;
       case "1st Floor":
         currFloor = Vdb.mapManager.getFloor("1");
+        result = "1";
         break;
       case "2nd Floor":
         currFloor = Vdb.mapManager.getFloor("2");
+        result = "2";
         break;
       case "3rd Floor":
         currFloor = Vdb.mapManager.getFloor("3");
+        result = "3";
         break;
     }
     populateFloorIconArr();
+    return result;
   }
 
+  // Loads the floor's icons
   @FXML
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
@@ -82,23 +106,120 @@ public abstract class Controller extends Application {
     }
   }
 
-  private boolean hasIcon(ServiceRequest request) {
-    for (Icon icon : currentIconArr) {
-      if (icon.getRequestsArr().contains(request)) {
-        return true;
+  // If there is a popup window, close it
+  @FXML
+  public void closePopUp() {
+    if (popUpStage.isShowing()) {
+      popUpStage.close();
+      if (mapPane.getChildren().contains(tempIcon)) {
+        mapPane.getChildren().remove(tempIcon);
       }
     }
-    return false;
   }
 
-  private Icon getIcon(ServiceRequest request) {
-    for (Icon icon : currentIconArr) {
-      if (icon.getRequestsArr().contains(request)) {
-        return icon;
-      }
+  /**
+   * When a place on the map (without an icon) is clicked it will open a popup window and place an
+   * icon where you clicked
+   */
+  @FXML
+  private void paneClicked(MouseEvent event) {
+    content.getChildren().clear();
+    // X and Y coordinates
+    double xPos = event.getX() - 15;
+    double yPos = event.getY() - 25;
+
+    // Form
+    Label header = new Label("Add an icon");
+    header.setPrefWidth(300);
+    header.setTextAlignment(TextAlignment.CENTER);
+    header.setFont(new Font(18));
+    TextField nodeIDField = new TextField();
+    TextField nodeTypeField = new TextField();
+    TextField shortNameField = new TextField();
+    TextField longNameField = new TextField();
+    Button submitIcon = new Button("Add icon");
+    Button clearResponse = new Button("Clear Text");
+    Button closeButton = new Button("Close");
+    HBox hBox = new HBox(submitIcon, clearResponse, closeButton);
+    hBox.setSpacing(15);
+
+    nodeIDField.setPromptText("Node ID");
+    nodeTypeField.setPromptText("Node Type");
+    shortNameField.setPromptText("Short Name");
+    longNameField.setPromptText("Long Name");
+    nodeIDField.setMinWidth(250);
+    nodeTypeField.setMinWidth(250);
+    shortNameField.setMinWidth(250);
+    longNameField.setMinWidth(250);
+    submitIcon.setMinWidth(100);
+    clearResponse.setMinWidth(100);
+
+    submitIcon.setOnAction(
+        event1 -> {
+          if (!nodeIDField.getText().isEmpty()
+              && !nodeTypeField.getText().isEmpty()
+              && !shortNameField.getText().isEmpty()
+              && !longNameField.getText().isEmpty()) {
+            addIcon(
+                new Location(
+                    nodeIDField.getText(),
+                    xPos,
+                    yPos,
+                    getFloor(),
+                    "Tower",
+                    nodeTypeField.getText(),
+                    longNameField.getText(),
+                    shortNameField.getText()));
+          } else {
+            // TODO: Error message and aesthetic shit
+            System.out.println("MISSING FIELD");
+          }
+        });
+    clearResponse.setOnAction(
+        event1 -> {
+          nodeIDField.setText("");
+          nodeTypeField.setText("");
+          shortNameField.setText("");
+          longNameField.setText("");
+        });
+    closeButton.setOnAction(
+        event1 -> {
+          closePopUp();
+        });
+    content
+        .getChildren()
+        .addAll(header, nodeIDField, nodeTypeField, shortNameField, longNameField, hBox);
+    // borderPane.centerProperty().setValue(content);
+
+    // Place Icon
+    if (!mapPane.getChildren().contains(tempIcon)) {
+      tempIcon = new ImageView("icon.png");
+      tempIcon.setX(xPos);
+      tempIcon.setY(yPos);
+      System.out.println("X:" + xPos + " Y:" + yPos);
+      tempIcon.setFitWidth(30);
+      tempIcon.setFitHeight(30);
+      mapPane.getChildren().add(tempIcon);
+    } else {;
+      tempIcon.setX(xPos);
+      tempIcon.setY(yPos);
     }
-    return null;
+
+    // Scene and Stage
+    popUpStage.setAlwaysOnTop(true);
+    popUpStage.setScene(popUpScene);
+    popUpStage.setTitle("Add New Location");
+    popUpStage.show();
   }
+
+  // Adds icon to map
+  private void addIcon(Location location) {
+    popUpStage.close();
+    mapPane.getChildren().remove(tempIcon);
+    mapManager.getFloor(getFloor()).addIcon(new Icon(location));
+    checkDropDown();
+  }
+
   /**
    * Determines if a String is an integer or not
    *
@@ -149,7 +270,7 @@ public abstract class Controller extends Application {
   @FXML
   public void switchToLocationDB(ActionEvent event) throws IOException {
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDB.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
     root = loader.load();
     LocationController lc = loader.getController();
     lc.setElements();
@@ -253,6 +374,7 @@ public abstract class Controller extends Application {
   // Switches scene to the rootW
   @FXML
   void switchScene(ActionEvent event) {
+    closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
