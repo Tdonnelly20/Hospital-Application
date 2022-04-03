@@ -1,7 +1,9 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.LabRequestImpl;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.LabRequest;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +11,21 @@ public class LabRequestDao implements LabRequestImpl {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() {
+  public LabRequestDao() throws SQLException {
     allLabRequests = new ArrayList<LabRequest>();
+    createLabTable();
     // TODO: Add info from the database to the local arraylist
+  }
+
+  public void createLabTable() throws SQLException {
+    Connection connection = Vdb.Connect();
+    Statement newStatement = connection.createStatement();
+    newStatement.execute(
+        "CREATE TABLE LAB (UserID int, " +
+                "PatientID int, " +
+                "FirstName String" +
+                "LastName String" +
+                "Lab String");
   }
 
   @Override
