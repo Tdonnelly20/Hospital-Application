@@ -91,7 +91,7 @@
                            <tabs>
                               <Tab text="Map View">
                                  <content>
-                                    <AnchorPane fx:id="mapPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <JFXComboBox fx:id="floorDropDown" layoutX="14.0" layoutY="433.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>

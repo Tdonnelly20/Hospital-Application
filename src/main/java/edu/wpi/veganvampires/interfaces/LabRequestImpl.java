@@ -10,5 +10,5 @@ public interface LabRequestImpl {
   void addLabRequest(
       int userID, int patientID, String firstName, String lastName, String lab, String status);
 
-  void removeLabRequest(LabRequest req);
+  void removeLabRequest(int userID);
 }

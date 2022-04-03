@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires.main;
 
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
+import edu.wpi.veganvampires.dao.LabRequestDao;
 import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
 import edu.wpi.veganvampires.manager.MapManager;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 public class Vdb {
   private static final String currentPath = returnPath();
   private static String line; // receives a line from br
+
+  // Make all DAO's here, NOT in the controllers
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
@@ -52,6 +55,7 @@ public class Vdb {
   public static void createAllDB() throws Exception {
     createLocationDB();
     createEquipmentDB();
+    createMedicineDeliveryTable();
     createMedicineDeliveryDB();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
@@ -111,6 +115,47 @@ public class Vdb {
     System.out.println("Apache Derby connection established!");
 
     System.out.println(LocationDao.getAllLocations());
+  }
+
+  public static void createMedicineDeliveryTable() throws SQLException {
+    try {
+      Connection connection = Connect();
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "MEDICINES", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("Creating Medicine Delivery SQL Tables...");
+        exampleStatement.execute(
+            "CREATE TABLE Medicines(patientFirstName char(40), patientLastName char(40), roomNumber char(40), patientID int, hospitalID int, medicineName char(40), dosage char(40), requestDetails char(200))");
+      } else {
+        System.out.println("Found Medicine Delivery SQL Tables!");
+        System.out.println("listing tables...");
+        System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+    System.out.println("Apache Derby connection established!");
+
+    System.out.println(medicineDeliveryDao.getAllMedicineDeliveries());
   }
 
   /**
@@ -323,5 +368,30 @@ public class Vdb {
     }
     equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
     System.out.println("Equipment database made");
+  }
+
+  private static void createLabDB() throws IOException {
+    FileReader fr = new FileReader(currentPath + "\\LabRequest.CSV");
+    BufferedReader br = new BufferedReader(fr);
+    String headerLine = br.readLine();
+    String splitToken = ",";
+    ArrayList<LabRequest> labs = new ArrayList<>();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data;
+      data = line.split(splitToken);
+      for (String s : data) System.out.println(s);
+      LabRequest l =
+          new LabRequest(
+              Integer.parseInt(data[0]),
+              Integer.parseInt(data[1]),
+              data[2],
+              data[3],
+              data[4],
+              data[5]);
+      labs.add(l);
+    }
+    LabRequestDao.setAllLabRequests(labs);
+    System.out.println("Lab database made");
   }
 }
