@@ -189,7 +189,7 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/MedicineDelivery.fxml")));
     switchScene(event);
-    checkDropDown();
+    // checkDropDown();
   }
 
   // Switches scene to the medical equipment page
