@@ -30,6 +30,14 @@ public class LocationController extends Controller {
   @FXML private Button addLocation = new Button("Add Location");
   @FXML private Button removeLocation = new Button("Remove Location");
   @FXML private Button updateLocation = new Button("Update Location");
+
+  @FXML
+  private Button loadCSV =
+      new Button("Load Backup Locations"); // loads the currently stored csv file
+
+  @FXML private Button yesButton = new Button("Yes"); // loads the currently stored csv file
+  @FXML private Button noButton = new Button("No"); // loads the currently stored csv file
+
   @FXML private Button submit = new Button("Submit");
   @FXML private Button clear = new Button("Clear");
 
@@ -42,6 +50,8 @@ public class LocationController extends Controller {
   @FXML private TextField nodeType = new TextField();
   @FXML private TextField shortName = new TextField();
   @FXML private TextField longName = new TextField();
+
+  @FXML private TextField confirmText = new TextField();
 
   @FXML
   protected void setElements() {
@@ -60,6 +70,23 @@ public class LocationController extends Controller {
     updateLocation.setOnAction(
         event -> {
           openUpdateLocation();
+        });
+    loadCSV.setOnAction(
+        event -> {
+          attemptloadCSVFile();
+          ;
+        });
+    yesButton.setOnAction(
+        event -> {
+          try {
+            resetLocationsDB();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        });
+    noButton.setOnAction(
+        event -> {
+          resetPage();
         });
     setTextFieldActions();
     setTextFieldPrompts();
@@ -84,6 +111,11 @@ public class LocationController extends Controller {
     shortName.setText("");
     longName.setText("");
     submit.setDisable(true);
+  }
+
+  @FXML
+  private void confirmation() {
+    confirmText.setPromptText("Are you sure?");
   }
 
   @FXML
@@ -127,7 +159,7 @@ public class LocationController extends Controller {
     vbox.getChildren().clear();
     hbox.getChildren().clear();
     setTextFieldPrompts();
-    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation);
+    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation, loadCSV);
   }
 
   @FXML
@@ -163,6 +195,22 @@ public class LocationController extends Controller {
         });
     vbox.getChildren().addAll(hbox, nodeID, x, y, floor, building, nodeType, shortName, longName);
     updateTreeTable();
+  }
+
+  @FXML
+  private void attemptloadCSVFile() {
+    setForms();
+    clear.setOnAction(
+        event -> {
+          confirmation();
+          ;
+        });
+    vbox.getChildren().addAll(yesButton, noButton);
+  }
+
+  @FXML
+  private void resetLocationsDB() throws Exception {
+    Vdb.createLocationDB();
   }
 
   @Override
