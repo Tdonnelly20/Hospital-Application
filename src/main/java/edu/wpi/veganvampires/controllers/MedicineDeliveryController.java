@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class MedicineDeliveryController extends Controller implements RequestInterface {
 
   @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
+
   @FXML private TreeTableColumn<MedicineDelivery, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
@@ -35,9 +36,10 @@ public class MedicineDeliveryController extends Controller implements RequestInt
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
 
+  // MUST take from Vdb, do NOT create
   private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
 
-  /** Runs whenever we switch to the table, or update a value */
+  /** Update the table with values from fields and the DB */
   @Override
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
@@ -78,6 +80,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
     }
   }
 
+  /** Determine whether or not all fields have been filled out, so we can submit the info */
   @FXML
   public void validateButton() {
 

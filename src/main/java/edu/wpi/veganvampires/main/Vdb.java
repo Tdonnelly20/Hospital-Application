@@ -13,6 +13,8 @@ import java.util.ArrayList;
 public class Vdb {
   private static final String currentPath = returnPath();
   private static String line; // receives a line from br
+
+  //Make all DAO's here, NOT in the controllers
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
