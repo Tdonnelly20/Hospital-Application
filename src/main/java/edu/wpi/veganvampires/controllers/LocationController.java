@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LocationController extends Controller {
@@ -50,8 +51,7 @@ public class LocationController extends Controller {
   @FXML private TextField nodeType = new TextField();
   @FXML private TextField shortName = new TextField();
   @FXML private TextField longName = new TextField();
-
-  @FXML private TextField confirmText = new TextField();
+  @FXML private Text confirmText = new Text("Are you sure?");
 
   @FXML
   protected void setElements() {
@@ -113,10 +113,6 @@ public class LocationController extends Controller {
     submit.setDisable(true);
   }
 
-  @FXML
-  private void confirmation() {
-    confirmText.setPromptText("Are you sure?");
-  }
 
   @FXML
   private void setTextFieldActions() {
@@ -202,10 +198,10 @@ public class LocationController extends Controller {
     setForms();
     clear.setOnAction(
         event -> {
-          confirmation();
+
           ;
         });
-    vbox.getChildren().addAll(yesButton, noButton);
+    vbox.getChildren().addAll(confirmText, yesButton, noButton);
   }
 
   @FXML
