@@ -3,7 +3,6 @@ package edu.wpi.veganvampires.dao;
 import edu.wpi.veganvampires.interfaces.LabRequestImpl;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.LabRequest;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +18,19 @@ public class LabRequestDao implements LabRequestImpl {
 
   public void createLabTable() throws SQLException {
     Connection connection = Vdb.Connect();
+    assert connection != null;
     Statement newStatement = connection.createStatement();
     newStatement.execute(
-        "CREATE TABLE LABS (UserID int, " +
-                "PatientID int, " +
-                "FirstName String" +
-                "LastName String" +
-                "Lab String" +
-                "Status String");
+        "CREATE TABLE LABS ("
+            + "UserID int, "
+            + "PatientID int, "
+            + "FirstName char[20],"
+            + "LastName char[20],"
+            + "Lab char[20],"
+            + "Status char[20])");
   }
 
-  public static void setAllLabRequests(ArrayList<LabRequest> newRequests){
+  public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
     allLabRequests = newRequests;
   }
 
@@ -48,16 +49,16 @@ public class LabRequestDao implements LabRequestImpl {
     System.out.println("Adding to database");
     try {
       Connection connection = Vdb.Connect();
+      assert connection != null;
       Statement exampleStatement = connection.createStatement();
       Vdb.saveToFile(Vdb.Database.LabRequest);
       exampleStatement.execute(
-              "INSERT INTO LABS VALUES (labRequest.getUserID(), labRequest.getPatientID(), labRequest.getFirstName(), labRequest.getLastName(), labRequest.getLab(), labRequest.getStatus() ");
+          "INSERT INTO LABS VALUES (labRequest.getUserID(), labRequest.getPatientID(), labRequest.getFirstName(), labRequest.getLastName(), labRequest.getLab(), labRequest.getStatus() ");
 
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
-
 
   @Override
   public void removeLabRequest(int userID) {

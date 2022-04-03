@@ -328,7 +328,6 @@ public class Vdb {
     System.out.println("Equipment database made");
   }
 
-
   private static void createLabDB() throws IOException {
     FileReader fr = new FileReader(currentPath + "\\LabRequest.CSV");
     BufferedReader br = new BufferedReader(fr);
@@ -341,7 +340,13 @@ public class Vdb {
       data = line.split(splitToken);
       for (String s : data) System.out.println(s);
       LabRequest l =
-              new LabRequest(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4], data[5]);
+          new LabRequest(
+              Integer.parseInt(data[0]),
+              Integer.parseInt(data[1]),
+              data[2],
+              data[3],
+              data[4],
+              data[5]);
       labs.add(l);
     }
     LabRequestDao.setAllLabRequests(labs);
