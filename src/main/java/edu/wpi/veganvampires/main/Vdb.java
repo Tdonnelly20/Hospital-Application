@@ -2,6 +2,7 @@ package edu.wpi.veganvampires.main;
 
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.LocationDao;
+import edu.wpi.veganvampires.dao.MealRequestDao;
 import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
 import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.*;
@@ -18,6 +19,7 @@ public class Vdb {
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
+  public static final MealRequestDao mealRequestDao = new MealRequestDao();
   public static MapManager mapManager;
 
   public enum Database {
@@ -41,7 +43,7 @@ public class Vdb {
       if (currentPath.length() > position) {
         currentPath = currentPath.substring(0, position);
       }
-      currentPath += "\\src\\main\\resources\\edu\\wpi\\veganvampires";
+      currentPath += "/src/main/resources/edu/wpi/veganvampires";
     }
     return currentPath;
   }
@@ -162,7 +164,7 @@ public class Vdb {
    * @throws Exception
    */
   public static void createMedicineDeliveryDB() throws Exception {
-    FileReader fr = new FileReader(currentPath + "\\MedicineDelivery.csv");
+    FileReader fr = new FileReader(currentPath + "/MedicineDelivery.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
@@ -188,7 +190,7 @@ public class Vdb {
   }
 
   private static void saveToMedicineDeliveryDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\MedicineDelivery.csv");
+    FileWriter fw = new FileWriter(currentPath + "/MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails");
@@ -221,7 +223,7 @@ public class Vdb {
    * @throws Exception
    */
   public static void createLocationDB() throws Exception {
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
+    FileReader fr = new FileReader(currentPath + "/TowerLocations.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<Location> locations = new ArrayList<>();
@@ -254,7 +256,7 @@ public class Vdb {
    * @throws IOException
    */
   public static void saveToLocationDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
+    FileWriter fw = new FileWriter(currentPath + "/LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
@@ -285,7 +287,7 @@ public class Vdb {
    * @throws IOException
    */
   private static void saveToEquipmentDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
+    FileWriter fw = new FileWriter(currentPath + "/MedEquipReq.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("Name,Description,Location,Count");
     for (EquipmentDelivery e : equipmentDeliveryDao.getAllEquipmentDeliveries()) {
@@ -309,7 +311,7 @@ public class Vdb {
    * @throws IOException
    */
   private static void createEquipmentDB() throws IOException {
-    FileReader fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
+    FileReader fr = new FileReader(currentPath + "/MedEquipReq.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -325,5 +327,64 @@ public class Vdb {
     }
     equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
     System.out.println("Equipment database made");
+  }
+
+  /**
+   * Create the meal delivery database
+   *
+   * @throws Exception
+   */
+  public static void createMealDeliveryDB() throws Exception {
+    FileReader fr = new FileReader(currentPath + "/MealDelivery.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<MealRequest> mealRequests = new ArrayList<>();
+    // equipment = new ArrayList<>();
+    String headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      MealRequest newDelivery =
+          new MealRequest(
+              data[0],
+              data[1],
+              data[2],
+              Integer.parseInt(data[3]),
+              Integer.parseInt(data[4]),
+              data[5],
+              data[6],
+              data[7]);
+      mealRequests.add(newDelivery);
+    }
+    mealRequestDao.setAllMealDeliveries(mealRequests);
+    System.out.println("Meal delivery database made");
+  }
+
+  private static void saveToMealDeliveryDB() throws IOException {
+    FileWriter fw = new FileWriter(currentPath + "/MealDelivery.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    bw.append(
+        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,mealName,dosage,requestDetails");
+
+    for (MealRequest mealRequest : mealRequestDao.getAllMealDeliveries()) {
+      String[] outputData = {
+        mealRequest.getPatientFirstName(),
+        mealRequest.getPatientLastName(),
+        mealRequest.getRoomNumber(),
+        String.valueOf(mealRequest.getPatientID()),
+        String.valueOf(mealRequest.getHospitalID()),
+        mealRequest.getMealName(),
+        mealRequest.getDosage(),
+        mealRequest.getRequestDetails()
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+
+    bw.close();
+    fw.close();
   }
 }
