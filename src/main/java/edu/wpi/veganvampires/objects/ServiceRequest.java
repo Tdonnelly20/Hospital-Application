@@ -6,11 +6,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public abstract class ServiceRequest {
-  private Location location;
-  private Patient patient;
-  private int userID;
-  private String status;
-  private Icon icon;
+  protected Location location;
+  protected Patient patient;
+  protected int userID;
+  protected String status;
+  protected Icon icon;
 
   public String getRequestName() {
     if (patient != null) {
