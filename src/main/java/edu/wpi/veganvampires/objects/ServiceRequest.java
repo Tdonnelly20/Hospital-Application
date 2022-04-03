@@ -8,14 +8,15 @@ import lombok.Setter;
 public abstract class ServiceRequest {
   protected Location location;
   protected Patient patient;
-  protected int userID;
+  protected HospitalEmployee hospitalEmployee;
   protected String status;
   protected Icon icon;
 
   public String getRequestName() {
     if (patient != null) {
+      System.out.println(patient.getLastName() + ", " + patient.getFirstName());
       return patient.getLastName() + ", " + patient.getFirstName();
     }
-    return "" + userID;
+    return "" + hospitalEmployee.getHospitalID();
   }
 }

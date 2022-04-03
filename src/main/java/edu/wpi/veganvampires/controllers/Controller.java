@@ -155,7 +155,6 @@ public abstract class Controller extends Application {
     lc.setElements();
     lc.resetPage();
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the service request page
@@ -166,7 +165,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/serviceRequest.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the lab request page
@@ -188,7 +186,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/MedicineDelivery.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the medical equipment page
@@ -199,7 +196,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/MedicalEquipmentDelivery.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the sanitation page
@@ -210,7 +206,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the meal delivery page
@@ -221,7 +216,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/MealDelivery.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the laundry request page
@@ -232,7 +226,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the religious request page
@@ -243,7 +236,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the religious request page
@@ -255,7 +247,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
     switchScene(event);
-    checkDropDown();
     * */
   }
 

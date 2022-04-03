@@ -22,11 +22,13 @@ public class Icon {
   private ArrayList<ServiceRequest> requestsArr;
 
   public Icon(Location location) {
-    ServiceRequest labRequest = new LabRequest(10, 10, "joe", "johnson", "blood", "done");
+    ServiceRequest labRequest = new LabRequest(1, 1, "joe", "johnson", "blood", "done");
+    ServiceRequest labRequest2 = new LabRequest(2, 2, "jane", "john", "idk", "processing");
     this.xCoord = location.getXCoord();
     this.yCoord = location.getYCoord();
     this.requestsArr = new ArrayList<>();
     requestsArr.add(labRequest);
+    requestsArr.add(labRequest2);
     image = new ImageView("icon.png");
     image.setFitWidth(30);
     image.setFitHeight(30);
