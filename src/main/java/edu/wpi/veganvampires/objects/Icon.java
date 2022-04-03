@@ -26,10 +26,10 @@ public class Icon {
     this.yCoord = location.getYCoord();
     this.requestsArr = new ArrayList<>();
     image = new ImageView("icon.png");
-    image.setFitWidth(40);
-    image.setFitHeight(40);
-    image.setX(xCoord / 1.9);
-    image.setY(yCoord / 2.2);
+    image.setFitWidth(30);
+    image.setFitHeight(30);
+    image.setX(xCoord / 1.5);
+    image.setY(yCoord / 1.5);
     image.setOnMouseClicked(
         event -> {
           // Display requests/info
@@ -65,10 +65,10 @@ public class Icon {
       System.out.println(2);
       image = new ImageView("markedIcon.png");
     }
-    image.setFitWidth(60);
-    image.setFitHeight(60);
-    image.setX(xCoord);
-    image.setY(yCoord);
+      image.setFitWidth(30);
+      image.setFitHeight(30);
+      image.setX(xCoord / 1.5);
+      image.setY(yCoord / 1.5);
     // rectangle = new Rectangle(xCoord, yCoord, image.getFitWidth(), image.getFitHeight());
     image.setOnMouseClicked(
         event -> {

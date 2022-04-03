@@ -41,7 +41,7 @@ public abstract class Controller extends Application {
               "2nd Floor",
               "3rd Floor"));
 
-  /**Checks the value of the floor drop down and matches it with the corresponding map png*/
+  /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   private void checkDropDown() {
     String url = floorDropDown.getValue().toString() + ".png";
@@ -49,7 +49,6 @@ public abstract class Controller extends Application {
     System.out.println(floorDropDown.getValue());
     getFloor();
   }
-
 
   private void getFloor() {
     switch (floorDropDown.getValue().toString()) {
