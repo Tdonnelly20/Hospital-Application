@@ -4,6 +4,7 @@ import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
+import java.awt.*;
 import java.util.ArrayList;
 
 // Singleton

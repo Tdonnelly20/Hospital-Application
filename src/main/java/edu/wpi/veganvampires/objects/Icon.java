@@ -22,9 +22,11 @@ public class Icon {
   private ArrayList<ServiceRequest> requestsArr;
 
   public Icon(Location location) {
+    ServiceRequest labRequest = new LabRequest(10, 10, "joe", "johnson", "blood", "done");
     this.xCoord = location.getXCoord();
     this.yCoord = location.getYCoord();
     this.requestsArr = new ArrayList<>();
+    requestsArr.add(labRequest);
     image = new ImageView("icon.png");
     image.setFitWidth(30);
     image.setFitHeight(30);
@@ -65,10 +67,10 @@ public class Icon {
       System.out.println(2);
       image = new ImageView("markedIcon.png");
     }
-      image.setFitWidth(30);
-      image.setFitHeight(30);
-      image.setX(xCoord / 1.5);
-      image.setY(yCoord / 1.5);
+    image.setFitWidth(30);
+    image.setFitHeight(30);
+    image.setX(xCoord / 1.5);
+    image.setY(yCoord / 1.5);
     // rectangle = new Rectangle(xCoord, yCoord, image.getFitWidth(), image.getFitHeight());
     image.setOnMouseClicked(
         event -> {

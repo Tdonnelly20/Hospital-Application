@@ -59,7 +59,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextArea fx:id="requestDetails" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
+                                        <TextArea fx:id="details" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
