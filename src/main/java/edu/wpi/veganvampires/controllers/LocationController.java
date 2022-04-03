@@ -42,6 +42,14 @@ public class LocationController extends Controller {
   @FXML private TextField shortName = new TextField();
   @FXML private TextField longName = new TextField();
 
+  private static class SingletonHelper {
+    private static final LocationController manager = new LocationController();
+  }
+
+  public static LocationController getManager() {
+    return LocationController.SingletonHelper.manager;
+  }
+
   @FXML
   protected void setElements() {
     reset.setOnAction(
