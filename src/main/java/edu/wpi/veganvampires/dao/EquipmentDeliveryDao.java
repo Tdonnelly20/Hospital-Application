@@ -57,11 +57,12 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       Statement exampleStatement = connection.createStatement();
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
       exampleStatement.execute(
-          "INSERT INTO LOCATIONS VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
+          "INSERT INTO EQUIPMENT VALUES (newEquipmentDelivery.getLocation(),newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEqipmentDelivery.getQuantity()) ");
 
     } catch (Exception e) {
       e.printStackTrace();
     }
+    System.out.println("GOT HERE");
   }
 
   /**
@@ -83,7 +84,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       for (EquipmentDelivery e : allEquipmentDeliveries)
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getEquipment())");
+        exampleStatement.execute("DELETE FROM EQUIPMENT WHERE equipment.equals(e.getEquipment())");
 
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {

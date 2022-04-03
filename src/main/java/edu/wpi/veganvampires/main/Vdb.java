@@ -70,11 +70,10 @@ public class Vdb {
     }
 
     System.out.println("Apache Derby driver registered!");
-    Connection connection;
+    Connection connection = Connect();
 
     try {
       // substitute your database name for myDB
-      connection = Connect();
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
@@ -84,21 +83,6 @@ public class Vdb {
             "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
       } else {
         System.out.println("We already got tables?");
-        System.out.println("listing tables");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-        }
       }
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
@@ -108,8 +92,69 @@ public class Vdb {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
     }
-    System.out.println("Apache Derby connection established!");
+    try {
+      // substitute your database name for myDB
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
+      } else {
+        exampleStatement.execute("DROP TABLE EQUIPMENT");
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return;
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+    // "INSERT INTO EQUIPMENT VALUES
+    // (newEquipmentDelivery.getLocation(),newEquipmentDelivery.getEquipment(),
+    // newEquipmentDelivery.getNotes(), newEqipmentDelivery.getQuantity()) ");
+    // adds stuff from equipmentDAO to EQUIPMENT TABLE
+    ArrayList<EquipmentDelivery> equipment = equipmentDeliveryDao.getAllEquipmentDeliveries();
+    int i = 0;
+    System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
+    String test = "\'";
+    PreparedStatement pSTMT =
+        connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
+    while (equipment.size() > i) {
+      EquipmentDelivery ed = equipment.get(i);
+      System.out.println(
+          "Loc: "
+              + ed.getLocation()
+              + "  Eq: "
+              + ed.getEquipment()
+              + " Notes: "
+              + ed.getNotes()
+              + " QNT : "
+              + ed.getQuantity());
+      pSTMT.setString(1, ed.getLocation());
+      pSTMT.setString(2, ed.getEquipment());
+      pSTMT.setString(3, ed.getNotes());
+      pSTMT.setInt(4, ed.getQuantity());
+      pSTMT.executeUpdate();
+      i++;
+    }
+    Statement exampleStatement = connection.createStatement();
+    System.out.println("BREAK");
+    ResultSet rs = exampleStatement.executeQuery("SELECT * FROM EQUIPMENT");
 
+    System.out.println("Apache Derby connection established!");
+    while (rs.next()) {
+      System.out.println("THIS IS A Equipment");
+      System.out.println("Loc: " + rs.getString("location"));
+      System.out.println("Name: " + rs.getString("name"));
+      System.out.println("Desc: " + rs.getString("description"));
+      System.out.println("CNT: " + rs.getString("count"));
+      System.out.println(" ");
+    }
     System.out.println(LocationDao.getAllLocations());
   }
 
