@@ -73,9 +73,11 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       exampleStatement.execute(
           "INSERT INTO EQUIPMENTDELIVERY VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
 
+      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {
       e.printStackTrace();
     }
+
   }
 
   /**

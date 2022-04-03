@@ -76,8 +76,9 @@ public class LocationDao implements LocationImpl {
                 "locations.get(i).getLongName(), locations.get(i).getShortName())");
 
       }
+      Vdb.saveToFile(Vdb.Database.Location);
     }
-    catch(SQLException e){
+    catch(Exception e){
       e.printStackTrace();
     }
   }
