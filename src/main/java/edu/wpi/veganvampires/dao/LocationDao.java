@@ -66,5 +66,20 @@ public class LocationDao implements LocationImpl {
 
   public void setAllLocations(ArrayList<Location> locations) {
     allLocations = locations;
+    try {
+      Connection connect = Vdb.Connect();
+      Statement st = connect.createStatement();
+      for (int i = 0; i < locations.size(); i++)
+      {
+        st.execute("INSERT INTO LOCATIONS VALUES(locations.get(i).getNodeID(), locations.get(i).getXCoord()," +
+                "locations.get(i).getYCoord(), locations.get(i).getFloor(), locations.get(i).getBuilding(), locations.get(i).getNodeType()," +
+                "locations.get(i).getLongName(), locations.get(i).getShortName())");
+
+      }
+      Vdb.saveToFile(Vdb.Database.Location);
+    }
+    catch(Exception e){
+      e.printStackTrace();
+    }
   }
 }

@@ -19,6 +19,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -116,23 +117,38 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXComboBox>
-                  <TextField fx:id="dosage" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage">
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </TextField>
+                  <TextField fx:id="dosage" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage" />
                   <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextArea>
-                  <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                  <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
-                  <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
+                  <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:id="notStarted" fx:value="Not Started" />
+                           <String fx:id="processing" fx:value="Processing" />
+                           <String fx:id="completed" fx:value="Completed" />
+                        </FXCollections>
+                     </items>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </JFXComboBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
+                        <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="104.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                        <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" prefHeight="21.0" prefWidth="138.0" text="Send Request" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="-10.0" />
+                           </padding>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
@@ -168,6 +184,18 @@
                                     <Rectangle2D />
                                  </viewport>
                               </ImageView>
+                              <JFXComboBox fx:id="floorDropDown" layoutX="23.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:id="groundFloor1" fx:value="Ground Floor" />
+                                       <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
+                                       <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
+                                       <String fx:id="floor11" fx:value="Floor 1" />
+                                       <String fx:id="floor21" fx:value="Floor 2" />
+                                       <String fx:id="floor31" fx:value="Floor 3" />
+                                    </FXCollections>
+                                 </items>
+                              </JFXComboBox>
                            </children>
                         </Pane>
                      </content>

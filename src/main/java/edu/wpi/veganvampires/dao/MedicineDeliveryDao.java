@@ -66,9 +66,8 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
       Vdb.saveToFile(Vdb.Database.MedicineDelivery);
-      // exampleStatement.execute(
-      //    "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID,
-      // hospitalID, medicineName, dosage, requestDetails");
+      exampleStatement.execute(
+          "INSERT INTO MEDICINES VALUES (patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails)");
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {

@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.objects;
 
-public class EquipmentDelivery extends ServiceRequest {
+public class EquipmentDelivery {
   private final String location;
   private final String equipment, notes;
   private final int quantity;
