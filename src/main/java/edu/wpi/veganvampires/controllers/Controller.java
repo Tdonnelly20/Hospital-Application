@@ -77,8 +77,6 @@ public abstract class Controller extends Application {
   @FXML
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
-    System.out.println(currFloor.getFloorName());
-    System.out.println(currFloor.getIconList().size());
     for (Icon icon : currFloor.getIconList()) {
       mapPane.getChildren().add(icon.getImage());
     }

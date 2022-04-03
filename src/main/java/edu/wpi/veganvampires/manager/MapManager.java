@@ -52,8 +52,6 @@ public class MapManager {
           break;
       }
     }
-
-    // TODO add locations for floors and name floors
   }
 
   private static class SingletonHelper {

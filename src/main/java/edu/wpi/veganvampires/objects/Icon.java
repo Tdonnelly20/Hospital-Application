@@ -30,8 +30,8 @@ public class Icon {
     image = new ImageView("icon.png");
     image.setFitWidth(30);
     image.setFitHeight(30);
-    image.setX(xCoord / 1.5);
-    image.setY(yCoord / 1.5);
+    image.setX(xCoord / 600 * 385 - 15);
+    image.setY(yCoord / 600 * 382 - 30);
     image.setOnMouseClicked(
         event -> {
           // Display requests/info
