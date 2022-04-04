@@ -28,6 +28,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
@@ -102,6 +104,8 @@ public abstract class Controller extends Application {
     }
   }
 
+
+  //Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {
     if (!MapManager.getManager().isRequestWindowOpen()) {
@@ -162,7 +166,10 @@ public abstract class Controller extends Application {
                       longNameField.getText(),
                       shortNameField.getText()));
             } else {
-              // TODO: Error message
+              Text missingFields = new Text("Please fill all fields");
+              missingFields.setFill(Color.RED);
+              missingFields.setTextAlignment(TextAlignment.CENTER);
+              MapManager.getManager().getContent().getChildren().add(missingFields);
               System.out.println("MISSING FIELD");
             }
           });
@@ -178,6 +185,7 @@ public abstract class Controller extends Application {
             MapManager.getManager().closePopUp();
             MapManager.getManager().getTempIcon().setVisible(false);
           });
+
       MapManager.getManager()
           .getContent()
           .getChildren()
@@ -207,20 +215,6 @@ public abstract class Controller extends Application {
     MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location));
     MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
-  }
-
-  public boolean mapPaneContains(Icon icon) {
-    return mapPane.getChildren().contains(icon);
-  }
-
-  @FXML
-  public void removeFromMapPane(Node node) {
-    mapPane.getChildren().remove(node);
-  }
-
-  @FXML
-  public void addToMapPane(Node node) {
-    mapPane.getChildren().add(node);
   }
 
   /**

@@ -18,7 +18,7 @@ public class Icon {
   private boolean isMedicalEquipment;
 
   public Icon(Location location) {
-    //TODO: Remove test requests
+    // TODO: Remove test requests
     ServiceRequest l1 = new LabRequest(123, 456, "first", "last", "Blood", "Processing");
     ServiceRequest l2 = new LabRequest(789, 0, "firstName", "surname", "urine", "done");
     System.out.println(l1.getPatient().getFirstName() + " " + l1.getPatient().getLastName());
