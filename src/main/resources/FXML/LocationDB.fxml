@@ -108,7 +108,7 @@
                                                       <Rectangle2D />
                                                    </viewport>
                                                 </ImageView>
-                                                <Pane fx:id="mapPane" prefHeight="470.0" prefWidth="470.0" />
+                                                <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0" />
                                              </children>
                                           </Group>
                                        </children>
