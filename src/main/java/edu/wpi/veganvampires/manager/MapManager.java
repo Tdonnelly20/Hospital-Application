@@ -4,14 +4,35 @@ import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
-import java.awt.*;
+import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.util.ArrayList;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 
-// Singleton
+@Getter
+@Setter
 public class MapManager {
   private ArrayList<Floor> floorList;
+  private boolean isRequestWindowOpen = false;
+  @FXML private ImageView tempIcon = new ImageView("icon.png");
+  @FXML VBox content = new VBox(15);
+  @FXML Scene scene = new Scene(content, 300, 300);
+  @FXML Stage stage = new Stage();
 
   private MapManager() {
+    stage.setMaxHeight(300);
+    stage.setMaxWidth(300);
+    stage.setOnCloseRequest(
+        event -> {
+          tempIcon.setVisible(false);
+        });
     floorList = new ArrayList<>();
 
     Floor g = new Floor("G");
@@ -78,5 +99,32 @@ public class MapManager {
         return floorList.get(5);
     }
     return null;
+  }
+
+  public void closePopUp() {
+    if (stage.isShowing()) {
+      stage.close();
+    }
+  }
+
+
+  //Opens the corresponding icon's request window
+  @FXML
+  public void openIconRequestWindow(Icon icon) {
+    // Display requests/info
+    content.getChildren().clear();
+    stage.setTitle(icon.getLocation().getShortName());
+    if (!stage.isShowing()) {
+      stage.show();
+    }
+
+    Text locationName = new Text(icon.getLocation().getLongName());
+    content.getChildren().add(locationName);
+    for (ServiceRequest request : icon.getRequestsArr()) {
+      Accordion accordion =
+          new Accordion(
+              new TitledPane(request.getRequestName() + ": " + request.getStatus(), null));
+      content.getChildren().add(accordion);
+    }
   }
 }

@@ -6,94 +6,116 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LocationController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LocationController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="90.0" minHeight="90.0" prefHeight="80.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="ALWAYS" />
+   </rowConstraints>
    <children>
-      <Pane id="Menu" fx:id="menu" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+      <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="426.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.vgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="241.11116536458331" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="102.66668701171878" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.80002441406253" minWidth="10.0" prefWidth="146.55558268229169" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.4000305175781" minWidth="10.0" prefWidth="92.77775065104163" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="20.333335876464844" minHeight="10.0" prefHeight="18.333335876464844" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="32.33332824707031" minHeight="10.0" prefHeight="31.666664123535156" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <GridPane alignment="CENTER_RIGHT" layoutX="492.0" layoutY="-1.0" prefHeight="76.0" prefWidth="379.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="119.44442749023438" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="119.44442749023438" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.33331298828125" minWidth="10.0" prefWidth="73.88890584309894" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="152.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-               </children>
-            </GridPane>
-            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="142.0" layoutY="27.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </GridPane>
+      <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+         <children>
+            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                </image>
             </ImageView>
-            <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="224.0" text="Location Database" textFill="WHITE">
+            <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="349.0" text="Location Database" textFill="WHITE">
                <font>
-                  <Font size="25.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <SplitPane dividerPositions="0.3503636363636363" layoutY="75.0" prefHeight="500.0" prefWidth="920.0" style="-fx-background-color: rgb(149,182,203);">
-         <items>
-            <AnchorPane prefHeight="503.0" prefWidth="408.0" style="-fx-background-color: #5c677d;">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255); -fx-border-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <content>
+            <VBox fx:id="vbox" alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="608.0" prefWidth="366.0" spacing="40.0" style="-fx-background-color: #5c677d; -fx-border-color: #5c677d;">
+               <padding>
+                  <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <content>
+            <VBox alignment="TOP_CENTER">
                <children>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="1.0" prefHeight="520.0" prefWidth="318.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
-                     <content>
-                        <VBox fx:id="vbox" alignment="TOP_CENTER" prefHeight="553.0" prefWidth="303.0" spacing="40.0" style="-fx-background-color: #5c677d;">
-                           <padding>
-                              <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
-                           </padding>
-                        </VBox>
-                     </content>
-                  </ScrollPane>
-               </children>
-            </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="538.0" prefWidth="593.0">
-               <children>
-                  <VBox alignment="TOP_CENTER" layoutY="-2.0" prefHeight="543.0" prefWidth="593.0" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                     <children>
-                        <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
-                           <tabs>
-                              <Tab text="Map View">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <TabPane fx:id="medicineTabPane" maxWidth="1.7976931348623157E308" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab text="Map View">
+                           <content>
+                              <Pane maxWidth="1.7976931348623157E308" prefHeight="571.0" prefWidth="366.0" style="-fx-background-color: rgb(149,182,203);">
+                                 <children>
+                                    <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="550.0" prefHeight="470.0">
                                        <children>
-                                          <JFXComboBox fx:id="floorDropDown" layoutX="14.0" layoutY="433.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                          <Group>
+                                             <children>
+                                                <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../2nd Floor.png" />
+                                                   </image>
+                                                   <viewport>
+                                                      <Rectangle2D />
+                                                   </viewport>
+                                                </ImageView>
+                                                <Pane fx:id="mapPane" prefHeight="470.0" prefWidth="470.0" />
+                                             </children>
+                                          </Group>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="550.0">
+                                       <children>
+                                          <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                    <String fx:id="groundFloor" fx:value="Ground Floor" />
@@ -105,46 +127,41 @@
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>
-                                          <ImageView fx:id="mapImage" fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../1st Floor.png" />
-                                             </image>
-                                             <viewport>
-                                                <Rectangle2D />
-                                             </viewport>
-                                          </ImageView>
-                                          <Pane fx:id="mapPane" layoutX="106.0" layoutY="25.0" prefHeight="382.0" prefWidth="385.0" />
                                        </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab onSelectionChanged="#updateTreeTable" text="Data Table">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <JFXTreeTableView fx:id="table" layoutX="25.0" layoutY="20.0" prefHeight="439.0" prefWidth="539.0">
+                                    </HBox>
+                                 </children>
+                              </Pane>
+                           </content>
+                        </Tab>
+                        <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Database">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <JFXTreeTableView fx:id="table" prefHeight="568.0" prefWidth="556.0">
+                                       <columns>
+                                          <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="76.66650390625" text="Node ID" />
+                                          <TreeTableColumn id="xCoord" prefWidth="56.0" text="X" fx:id="xCol" />
+                                          <TreeTableColumn id="yCoord" fx:id="yCol" prefWidth="54.22222900390625" text="Y" />
+                                          <TreeTableColumn id="Floor" fx:id="floorCol" prefWidth="58.888916015625" text="Floor" />
+                                          <TreeTableColumn id="Building" fx:id="buildingCol" prefWidth="79.5555419921875" text="Building" />
+                                          <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" prefWidth="52.22222900390625" text="Node Type" />
+                                          <TreeTableColumn prefWidth="219.77777099609375" text="Name">
                                              <columns>
-                                                <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
-                                                <TreeTableColumn id="xCoord" prefWidth="94.66668701171875" text="X" fx:id="xCol" />
-                                                <TreeTableColumn id="yCoord" fx:id="yCol" prefWidth="92.66668701171875" text="Y" />
-                                                <TreeTableColumn id="Floor" fx:id="floorCol" prefWidth="39.333282470703125" text="Floor" />
-                                                <TreeTableColumn id="Building" fx:id="buildingCol" prefWidth="75.0" text="Building" />
-                                                <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" prefWidth="75.0" text="Node Type" />
-                                                <TreeTableColumn id="shortName" fx:id="shortNameCol" prefWidth="75.0" text="Short Name" />
-                                                <TreeTableColumn id="longName" fx:id="longNameCol" prefWidth="158.6666259765625" text="Long Name" />
+                                                <TreeTableColumn id="shortName" fx:id="shortNameCol" prefWidth="60.0" text="Short" />
+                                                <TreeTableColumn id="longName" fx:id="longNameCol" maxWidth="172.666748046875" prefWidth="109.3333740234375" text="Long" />
                                              </columns>
-                                          </JFXTreeTableView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                           </tabs>
-                        </TabPane>
-                     </children>
-                  </VBox>
+                                          </TreeTableColumn>
+                                       </columns>
+                                    </JFXTreeTableView>
+                                 </children>
+                              </Pane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
                </children>
-            </AnchorPane>
-         </items>
-      </SplitPane>
+            </VBox>
+         </content>
+      </ScrollPane>
    </children>
-</AnchorPane>
+</GridPane>
