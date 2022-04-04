@@ -15,8 +15,6 @@ public class LabRequestDao implements LabRequestImpl {
     allLabRequests = new ArrayList<>();
   }
 
-
-
   public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
     allLabRequests = newRequests;
   }

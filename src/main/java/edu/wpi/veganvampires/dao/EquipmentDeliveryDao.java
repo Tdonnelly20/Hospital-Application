@@ -24,15 +24,13 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
     try {
       Connection connect = Vdb.Connect();
       Statement st = connect.createStatement();
-      for (int i = 0; i < equipmentDeliveryArrayList.size(); i++)
-      {
-        st.execute("INSERT INTO EQUIPMENTDELIVERY VALUES(equipmentDeliveryArrayList.get(i).getLocation()," +
-                "equipmentDeliveryArrayList.get(i).getEquipment()," +
-                "equipmentDeliveryArrayList.get(i).getNotes(), equipmentDeliveryArrayList.get(i).getQuantity())");
-
+      for (int i = 0; i < equipmentDeliveryArrayList.size(); i++) {
+        st.execute(
+            "INSERT INTO EQUIPMENTDELIVERY VALUES(equipmentDeliveryArrayList.get(i).getLocation(),"
+                + "equipmentDeliveryArrayList.get(i).getEquipment(),"
+                + "equipmentDeliveryArrayList.get(i).getNotes(), equipmentDeliveryArrayList.get(i).getQuantity())");
       }
-    }
-    catch(SQLException e){
+    } catch (SQLException e) {
       e.printStackTrace();
     }
   }
@@ -98,7 +96,8 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       Statement exampleStatement = connection.createStatement();
       for (EquipmentDelivery e : allEquipmentDeliveries)
         exampleStatement.execute("DELETE FROM EQUIPMENT WHERE equipment.equals(e.getEquipment())");
-        exampleStatement.execute("DELETE FROM EQUIPMENTDELIVERY WHERE equipment.equals(e.getEquipment())");
+      exampleStatement.execute(
+          "DELETE FROM EQUIPMENTDELIVERY WHERE equipment.equals(e.getEquipment())");
 
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {

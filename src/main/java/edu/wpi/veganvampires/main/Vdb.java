@@ -53,12 +53,13 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-    createLocationDB();
-    createEquipmentDB();
-    createMedicineDeliveryTable();
-    createLabTable();
-    createLabDB();
+    // createLocationDB();
+    // createEquipmentDB();
     createMedicineDeliveryDB();
+    // createLabDB();
+
+    createMedicineDeliveryTable();
+    // createLabTable();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -98,6 +99,7 @@ public class Vdb {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
     }
+
     try {
       // substitute your database name for myDB
       Statement exampleStatement = connection.createStatement();
@@ -162,47 +164,6 @@ public class Vdb {
       System.out.println(" ");
     }
     System.out.println(LocationDao.getAllLocations());
-  }
-
-  public static void createMedicineDeliveryTable() throws SQLException {
-    try {
-      Connection connection = Connect();
-      Statement exampleStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "MEDICINES", new String[] {"TABLE"});
-      if (!set.next()) {
-        System.out.println("Creating Medicine Delivery SQL Tables...");
-        exampleStatement.execute(
-            "CREATE TABLE Medicines(patientFirstName char(40), patientLastName char(40), roomNumber char(40), patientID int, hospitalID int, medicineName char(40), dosage char(40), requestDetails char(200))");
-      } else {
-        System.out.println("Found Medicine Delivery SQL Tables!");
-        System.out.println("listing tables...");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-        }
-      }
-    } catch (SQLException e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-    System.out.println("Apache Derby connection established!");
-
-    System.out.println(medicineDeliveryDao.getAllMedicineDeliveries());
   }
 
   /**
@@ -277,12 +238,111 @@ public class Vdb {
     System.out.println("Medicine delivery database made");
   }
 
+  /**
+   * Create the SQL Table for the medicine delivery service request
+   *
+   * @throws SQLException
+   */
+  public static void createMedicineDeliveryTable() throws SQLException {
+    String query = "";
+    try {
+
+      // Connect to database and find Medicines table
+      Connection connection = Connect();
+      Statement statement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "MEDICINES", new String[] {"TABLE"});
+
+      // Create the table if not created yet, and recreate it if it has already been created...
+      if (!set.next()) {
+        System.out.println("Creating Medicine Delivery SQL Tables...");
+
+        query =
+            "CREATE TABLE Medicines( "
+                + "patientFirstName CHAR(60), "
+                + "patientLastName CHAR(60), "
+                + "roomNumber  CHAR(60), "
+                + "patientID INT, "
+                + "hospitalID INT, "
+                + "medicineName CHAR(40), "
+                + "dosage CHAR(40), "
+                + "requestDetails char(200))";
+
+        statement.execute(query);
+
+      } else {
+        statement.execute("DROP TABLE MEDICINES");
+        System.out.println("Tables already found! Dropping...");
+        createMedicineDeliveryTable();
+        return;
+      }
+
+      String test = "Matt";
+      // Insert a sample entry into the database
+      query =
+          "INSERT INTO Medicines("
+              + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
+              + "('"
+              + test
+              + "', 'Hendrickson', 'Fuller Labs', 123, 123, 'Adderall', '100 mg', 'Taken twice a day') ";
+
+      statement.execute(query);
+
+      // Result must be selected before removing!
+      query =
+          "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
+
+      ResultSet resultSet = statement.executeQuery(query);
+
+      // A string array to contain the names of all the header values so I don't have to type this
+      // bullshit out again
+      String[] headerVals =
+          new String[] {
+            "patientFirstName",
+            "patientLastName",
+            "roomNumber",
+            "patientID",
+            "hospitalID",
+            "medicineName",
+            "dosage",
+            "requestDetails"
+          };
+
+      // Print out the result
+      while (resultSet.next()) {
+        for (int i = 0; i < headerVals.length; i++) {
+          System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
+        }
+        System.out.println();
+      }
+
+      // Remove from table
+      query = "DELETE FROM Medicines WHERE patientFirstName = 'Matt'";
+      int num = statement.executeUpdate(query);
+
+      System.out.println("Number of records deleted are: " + num);
+
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+
+    System.out.println(
+        "Found this many entries in Medicine Delivery CSV: "
+            + medicineDeliveryDao.getAllMedicineDeliveries().size());
+  }
+
   private static void saveToMedicineDeliveryDB() throws IOException {
     FileWriter fw = new FileWriter(currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails");
 
+    // get all medicine deliveries
     for (MedicineDelivery medicineDelivery : medicineDeliveryDao.getAllMedicineDeliveries()) {
       String[] outputData = {
         medicineDelivery.getPatientFirstName(),
@@ -429,13 +489,13 @@ public class Vdb {
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         newStatement.execute(
-                "CREATE TABLE LABS ("
-                        + "UserID int, "
-                        + "PatientID int, "
-                        + "FirstName char[20],"
-                        + "LastName char[20],"
-                        + "Lab char[20],"
-                        + "Status char[20])");
+            "CREATE TABLE LABS ("
+                + "UserID int, "
+                + "PatientID int, "
+                + "FirstName char[20],"
+                + "LastName char[20],"
+                + "Lab char[20],"
+                + "Status char[20])");
       } else {
         System.out.println("We already got tables?");
         System.out.println("listing tables");
