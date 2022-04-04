@@ -67,6 +67,10 @@ public class EquipmentRequestController extends Controller {
 
   @FXML
   private void resetForm() {
+    employeeID.setText("");
+    patientID.setText("");
+    firstName.setText("");
+    lastName.setText("");
     status.setText("Status: Blank");
     pos.setText("");
     notes.setText("");

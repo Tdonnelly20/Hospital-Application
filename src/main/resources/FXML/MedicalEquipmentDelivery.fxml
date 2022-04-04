@@ -99,7 +99,7 @@
                      </VBox.margin>
                   </TextField>
                   <TextField fx:id="pos" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Location" />
-                  <JFXComboBox fx:id="dropDown" layoutX="14.0" layoutY="433.0" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                  <JFXComboBox fx:id="dropDown" layoutX="14.0" layoutY="433.0" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Equipment" style="-fx-background-color: rgb(228,229,229);">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
                            <String fx:id="bed" fx:value="Bed" />
