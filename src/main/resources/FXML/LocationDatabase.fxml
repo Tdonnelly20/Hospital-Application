@@ -12,6 +12,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -88,32 +89,15 @@
       </ScrollPane>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <content>
-            <VBox alignment="TOP_CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="603.0" prefWidth="548.0">
                <children>
-                  <TabPane fx:id="medicineTabPane" maxWidth="1.7976931348623157E308" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="medicineTabPane" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Map View">
                            <content>
-                              <Pane maxWidth="1.7976931348623157E308" prefHeight="571.0" prefWidth="366.0" style="-fx-background-color: rgb(149,182,203);">
+                              <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
                                  <children>
-                                    <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="550.0" prefHeight="470.0">
-                                       <children>
-                                          <Group>
-                                             <children>
-                                                <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../2nd Floor.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D />
-                                                   </viewport>
-                                                </ImageView>
-                                                <Pane fx:id="mapPane" prefHeight="470.0" prefWidth="470.0" />
-                                             </children>
-                                          </Group>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="550.0">
+                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0">
                                        <children>
                                           <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
@@ -129,6 +113,20 @@
                                           </JFXComboBox>
                                        </children>
                                     </HBox>
+                                    <Group layoutX="30.0">
+                                       <children>
+                                          <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../2nd Floor.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                          <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
+                                          <TextArea fx:id="coordinates" layoutX="380.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
+                                       </children>
+                                    </Group>
                                  </children>
                               </Pane>
                            </content>

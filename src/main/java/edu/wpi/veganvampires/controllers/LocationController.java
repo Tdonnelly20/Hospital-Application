@@ -3,9 +3,13 @@ package edu.wpi.veganvampires.controllers;
 import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Location;
+import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -54,6 +58,8 @@ public class LocationController extends Controller {
   @FXML private TextField shortName = new TextField();
   @FXML private TextField longName = new TextField();
   @FXML private Text confirmText = new Text("Are you sure?");
+
+  @FXML private TextArea coordinates = new TextArea();
 
   private static class SingletonHelper {
     private static final LocationController manager = new LocationController();
@@ -286,5 +292,20 @@ public class LocationController extends Controller {
         y.setStyle("-fx-text-fill: black;");
       }
     }
+  }
+
+  // Gets coordinates at any given point on the map
+  // Sets x and y text fields to those coordinates
+  private Point point = new Point();
+  private int xCoord, yCoord;
+
+  @FXML
+  private void mapCoordTracker() {
+    point = MouseInfo.getPointerInfo().getLocation();
+    xCoord = point.x - 712;
+    yCoord = point.y - 230;
+    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
+    x.setText(String.valueOf(xCoord));
+    y.setText(String.valueOf(yCoord));
   }
 }

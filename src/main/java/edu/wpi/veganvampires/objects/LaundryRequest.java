@@ -1,20 +1,17 @@
 package edu.wpi.veganvampires.objects;
 
-import edu.wpi.veganvampires.interfaces.LaundryRequestImpl;
-import java.util.List;
-
-public class LaundryRequest implements LaundryRequestImpl {
-  private final String employeeID, patientID, firstName, lastName, details;
-  private final int roomNumber;
+public class LaundryRequest {
+  String userID, patientID, firstName, lastName, details;
+  int roomNumber;
 
   public LaundryRequest(
-      String employeeID,
+      String userID,
       String patientID,
       String firstName,
       String lastName,
       int roomNumber,
       String details) {
-    this.employeeID = employeeID;
+    this.userID = userID;
     this.patientID = patientID;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -22,20 +19,20 @@ public class LaundryRequest implements LaundryRequestImpl {
     this.details = details;
   }
 
-  public String getEmployeeID() {
-    return employeeID;
+  public String getUserID() {
+    return getUserID();
   }
 
   public String getPatientID() {
     return patientID;
   }
 
-  public String getFirstName() {
-    return firstName;
-  }
-
   public String getLastName() {
     return lastName;
+  }
+
+  public String getFirstName() {
+    return firstName;
   }
 
   public int getRoomNumber() {
@@ -45,21 +42,4 @@ public class LaundryRequest implements LaundryRequestImpl {
   public String getDetails() {
     return details;
   }
-
-  @Override
-  public List<LaundryRequest> getAllLaundryRequests() {
-    return null;
-  }
-
-  @Override
-  public void addLaundryRequest(
-      String employeeID,
-      String patientID,
-      String firstName,
-      String lastName,
-      int roomNumber,
-      String details) {}
-
-  @Override
-  public void removeLaundryRequest() {}
 }

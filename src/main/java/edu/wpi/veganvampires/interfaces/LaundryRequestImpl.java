@@ -1,19 +1,21 @@
 package edu.wpi.veganvampires.interfaces;
 
 import edu.wpi.veganvampires.objects.LaundryRequest;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface LaundryRequestImpl {
 
-  List<LaundryRequest> getAllLaundryRequests();
+  ArrayList<LaundryRequest> getAllLaundryRequests();
 
   void addLaundryRequest(
-      String employeeID,
+      String userID,
       String patientID,
       String firstName,
       String lastName,
       int roomNumber,
-      String details);
+      String details)
+      throws SQLException;
 
-  void removeLaundryRequest();
+  void removeLaundryRequest(String laundry) throws SQLException;
 }

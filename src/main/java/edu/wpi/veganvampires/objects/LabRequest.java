@@ -13,9 +13,13 @@ public class LabRequest extends ServiceRequest {
 
   public LabRequest(
       int userID, int patientID, String firstName, String lastName, String lab, String status) {
+    // this.location = location;
     this.patient = new Patient(patientID, firstName, lastName);
+    // System.out.println(patient.getFirstName() + " " + patient.getLastName());
+    this.hospitalEmployee = new HospitalEmployee(userID);
     this.patient.addHospitalEmployee(EmployeeManager.getManager().getEmployee(userID));
     this.lab = lab;
     this.status = status;
+    this.desc = "Lab Request (" + lab + ")";
   }
 }

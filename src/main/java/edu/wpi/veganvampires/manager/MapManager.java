@@ -1,16 +1,48 @@
 package edu.wpi.veganvampires.manager;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
+import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 
-// Singleton
+@Getter
+@Setter
 public class MapManager {
   private ArrayList<Floor> floorList;
+  private boolean isRequestWindowOpen = false;
+  @FXML private ImageView tempIcon = new ImageView("icon.png");
+  @FXML VBox content = new VBox(15);
+  @FXML Scene scene = new Scene(content, 450, 450);
+  @FXML Stage stage = new Stage();
 
   private MapManager() {
+    stage.setMaxHeight(450);
+    stage.setMaxWidth(450);
+    stage.setMinHeight(450);
+    stage.setMinWidth(450);
+    stage.setAlwaysOnTop(true);
+    stage.setOnCloseRequest(
+        event -> {
+          tempIcon.setVisible(false);
+          isRequestWindowOpen = false;
+        });
     floorList = new ArrayList<>();
 
     Floor g = new Floor("G");
@@ -32,27 +64,25 @@ public class MapManager {
     for (Location l : locations) {
       switch (l.getFloor()) {
         case "G":
-          floorList.get(0).addIcon(new Icon(l));
+          floorList.get(0).addIcon(new Icon(l, false));
           break;
         case "L1":
-          floorList.get(1).addIcon(new Icon(l));
+          floorList.get(1).addIcon(new Icon(l, false));
           break;
         case "L2":
-          floorList.get(2).addIcon(new Icon(l));
+          floorList.get(2).addIcon(new Icon(l, false));
           break;
         case "1":
-          floorList.get(3).addIcon(new Icon(l));
+          floorList.get(3).addIcon(new Icon(l, false));
           break;
         case "2":
-          floorList.get(4).addIcon(new Icon(l));
+          floorList.get(4).addIcon(new Icon(l, false));
           break;
         case "3":
-          floorList.get(5).addIcon(new Icon(l));
+          floorList.get(5).addIcon(new Icon(l, false));
           break;
       }
     }
-
-    // TODO add locations for floors and name floors
   }
 
   private static class SingletonHelper {
@@ -79,5 +109,63 @@ public class MapManager {
         return floorList.get(5);
     }
     return null;
+  }
+
+  public void closePopUp() {
+    if (stage.isShowing()) {
+      isRequestWindowOpen = false;
+      stage.close();
+    }
+  }
+
+  // Opens the corresponding icon's request window
+  @FXML
+  public void openIconRequestWindow(Icon icon) {
+    // Display requests/info
+    content.getChildren().clear();
+    tempIcon.setVisible(false);
+    Label title = new Label(icon.getLocation().getShortName());
+    title.setTextFill(Color.WHITE);
+    title.setFont(new Font("System Bold", 28));
+    HBox titleBox = new HBox(15, title);
+    titleBox.setAlignment(Pos.CENTER);
+    titleBox.setStyle("-fx-background-color: #012D5Aff;");
+    content.getChildren().add(titleBox);
+    VBox vbox = new VBox();
+    vbox.setAlignment(Pos.TOP_LEFT);
+    ObservableList<String> statusStrings = FXCollections.observableArrayList("Processing", "Done");
+    for (ServiceRequest request : icon.getRequestsArr()) {
+      Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
+      Label locationLabel =
+          new Label(
+              "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
+
+      JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
+      updateStatus.setValue(request.getStatus());
+      updateStatus.setOnAction(
+          event -> {
+            request.setStatus(updateStatus.getValue().toString());
+            // TODO: Update request CSV
+          });
+      Accordion accordion =
+          new Accordion(
+              new TitledPane(
+                  request.getRequestName() + ": " + request.getStatus(),
+                  new VBox(15, idLabel, locationLabel, updateStatus)));
+      vbox.getChildren().add(accordion);
+    }
+    content.getChildren().add(vbox);
+    // stage.setTitle(icon.getLocation().getLongName());
+    showPopUp();
+    isRequestWindowOpen = true;
+  }
+
+  @FXML
+  public void showPopUp() {
+
+    stage.setScene(scene);
+    if (!stage.isShowing()) {
+      stage.show();
+    }
   }
 }
