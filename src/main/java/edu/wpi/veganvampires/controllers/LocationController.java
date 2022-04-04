@@ -247,7 +247,7 @@ public class LocationController extends Controller {
   @FXML
   private void mapCoordTracker() {
     point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 742;
+    xCoord = point.x - 712;
     yCoord = point.y - 230;
     coordinates.setText("X: " + xCoord + " Y: " + yCoord);
     x.setText(String.valueOf(xCoord));
