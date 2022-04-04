@@ -99,4 +99,3 @@ public class LaundryRequestDao implements LaundryRequestImpl {
 
     }
 }
-

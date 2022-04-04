@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires.interfaces;
 
+
 import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import edu.wpi.veganvampires.objects.LaundryRequest;
 
@@ -16,6 +17,4 @@ public interface LaundryRequestImpl {
 
     void removeLaundryRequest(String laundry) throws SQLException;
 }
-
-
 

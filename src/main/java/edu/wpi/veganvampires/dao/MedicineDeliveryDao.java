@@ -3,10 +3,7 @@ package edu.wpi.veganvampires.dao;
 import edu.wpi.veganvampires.interfaces.MedicineDeliveryImpl;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.MedicineDelivery;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class MedicineDeliveryDao implements MedicineDeliveryImpl {
@@ -61,14 +58,70 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
     System.out.println("Adding to local arraylist...");
     allMedicineDeliveries.add(newMedicineDelivery); // Store a local copy
 
-    System.out.println("Adding to database");
     try {
-      Connection connection = Vdb.Connect();
-      Statement exampleStatement = connection.createStatement();
+      String query = "";
+
+      // Add to CSV File...
+      System.out.println("Adding to CSV file...");
       Vdb.saveToFile(Vdb.Database.MedicineDelivery);
-      // exampleStatement.execute(
-      //    "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID,
-      // hospitalID, medicineName, dosage, requestDetails");
+
+      // Connecting to DB
+      Connection connection = Vdb.Connect();
+      Statement statement = connection.createStatement();
+
+      query =
+          "INSERT INTO Medicines("
+              + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
+              + "('"
+              + patientFirstName
+              + "', '"
+              + patientLastName
+              + "', '"
+              + roomNumber
+              + "', "
+              + patientID
+              + ", "
+              + hospitalID
+              + ", '"
+              + medicineName
+              + "', '"
+              + dosage
+              + "', '"
+              + requestDetails
+              + "'"
+              + ")";
+
+      System.out.println(query);
+      statement.execute(query);
+
+      // Print out all the current entries...
+      query =
+          "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
+
+      ResultSet resultSet = statement.executeQuery(query);
+
+      // A string array to contain the names of all the header values so I don't have to type this
+      // bullshit out again
+      String[] headerVals =
+          new String[] {
+            "patientFirstName",
+            "patientLastName",
+            "roomNumber",
+            "patientID",
+            "hospitalID",
+            "medicineName",
+            "dosage",
+            "requestDetails"
+          };
+
+      // Print out the result
+      while (resultSet.next()) {
+        for (int i = 0; i < headerVals.length; i++) {
+          System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
+        }
+        System.out.println();
+      }
+
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {

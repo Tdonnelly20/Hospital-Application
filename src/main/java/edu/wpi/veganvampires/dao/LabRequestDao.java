@@ -1,7 +1,9 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.LabRequestImpl;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.LabRequest;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +11,12 @@ public class LabRequestDao implements LabRequestImpl {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() {
-    allLabRequests = new ArrayList<LabRequest>();
-    // TODO: Add info from the database to the local arraylist
+  public LabRequestDao() throws SQLException {
+    allLabRequests = new ArrayList<>();
+  }
+
+  public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
+    allLabRequests = newRequests;
   }
 
   @Override
@@ -26,13 +31,36 @@ public class LabRequestDao implements LabRequestImpl {
 
     System.out.println("Adding to local arraylist...");
     allLabRequests.add(labRequest);
-    updateLabRequest(labRequest);
-  }
+    System.out.println("Adding to database");
+    try {
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement exampleStatement = connection.createStatement();
+      Vdb.saveToFile(Vdb.Database.LabRequest);
+      exampleStatement.execute(
+          "INSERT INTO LABS VALUES (labRequest.getUserID(), labRequest.getPatientID(), labRequest.getFirstName(), labRequest.getLastName(), labRequest.getLab(), labRequest.getStatus() ");
 
-  private void updateLabRequest(LabRequest labRequest) {
-    System.out.println("Sending to database...");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void removeLabRequest() {} // TODO
+  public void removeLabRequest(int userID) {
+    System.out.println("Removing from arraylist...");
+    allLabRequests.removeIf(l -> l.getUserID() == userID);
+
+    try {
+      System.out.println("Removing from database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (LabRequest l : allLabRequests)
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
+
+      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }
