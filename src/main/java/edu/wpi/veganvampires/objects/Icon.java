@@ -15,9 +15,9 @@ public class Icon {
   private double yCoord;
   @FXML private ImageView image;
   private ArrayList<ServiceRequest> requestsArr;
-  private boolean isMedicalEquipment;
+  private boolean isEquipment;
 
-  public Icon(Location location) {
+  public Icon(Location location, boolean isEquipment) {
     // TODO: Remove test requests
     ServiceRequest l1 = new LabRequest(123, 456, "first", "last", "Blood", "Processing");
     ServiceRequest l2 = new LabRequest(789, 0, "firstName", "surname", "urine", "done");
@@ -27,7 +27,11 @@ public class Icon {
     this.requestsArr = new ArrayList<>();
     requestsArr.add(l1);
     requestsArr.add(l2);
-    image = new ImageView("icon.png");
+    if (isEquipment) {
+      image = new ImageView("Equipment.png");
+    } else {
+      image = new ImageView("icon.png");
+    }
     image.setFitWidth(30);
     image.setFitHeight(30);
     image.setX(xCoord / 1.5);

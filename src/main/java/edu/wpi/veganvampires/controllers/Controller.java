@@ -104,8 +104,7 @@ public abstract class Controller extends Application {
     }
   }
 
-
-  //Opens and manages the location adding form
+  // Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {
     if (!MapManager.getManager().isRequestWindowOpen()) {
@@ -212,7 +211,7 @@ public abstract class Controller extends Application {
   private void addIcon(Location location) {
     MapManager.getManager().closePopUp();
     mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
-    MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location));
+    MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location, false));
     MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
   }

@@ -61,22 +61,22 @@ public class MapManager {
     for (Location l : locations) {
       switch (l.getFloor()) {
         case "G":
-          floorList.get(0).addIcon(new Icon(l));
+          floorList.get(0).addIcon(new Icon(l, false));
           break;
         case "L1":
-          floorList.get(1).addIcon(new Icon(l));
+          floorList.get(1).addIcon(new Icon(l, false));
           break;
         case "L2":
-          floorList.get(2).addIcon(new Icon(l));
+          floorList.get(2).addIcon(new Icon(l, false));
           break;
         case "1":
-          floorList.get(3).addIcon(new Icon(l));
+          floorList.get(3).addIcon(new Icon(l, false));
           break;
         case "2":
-          floorList.get(4).addIcon(new Icon(l));
+          floorList.get(4).addIcon(new Icon(l, false));
           break;
         case "3":
-          floorList.get(5).addIcon(new Icon(l));
+          floorList.get(5).addIcon(new Icon(l, false));
           break;
       }
     }
