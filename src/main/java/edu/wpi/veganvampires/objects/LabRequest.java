@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires.objects;
 
 import edu.wpi.veganvampires.manager.EmployeeManager;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +24,6 @@ public class LabRequest extends ServiceRequest {
     this.status = status;
     this.desc = "Lab Request (" + lab + ")";
   }
+
+  public void setAllLocations(ArrayList<LabRequest> labs) {}
 }

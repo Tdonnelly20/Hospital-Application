@@ -11,9 +11,9 @@ public class LabRequestDao implements LabRequestImpl {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() throws SQLException {
+  public LabRequestDao() {
     allLabRequests = new ArrayList<LabRequest>();
-    createLabTable();
+    // createLabTable();
     // TODO: Add info from the database to the local arraylist
   }
 
@@ -38,9 +38,16 @@ public class LabRequestDao implements LabRequestImpl {
       int userID, int patientID, String firstName, String lastName, String lab, String status) {
     LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab, status);
 
-    System.out.println("Adding to local arraylist...");
-    allLabRequests.add(labRequest);
-    updateLabRequest(labRequest);
+    System.out.println("Adding to database");
+    try {
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      Vdb.saveToFile(Vdb.Database.LabRequest);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private void updateLabRequest(LabRequest labRequest) {
@@ -48,5 +55,29 @@ public class LabRequestDao implements LabRequestImpl {
   }
 
   @Override
-  public void removeLabRequest() {} // TODO
+  public void removeLabRequest(String labRequestID) {
+    System.out.println("Removing from arraylist...");
+    allLabRequests.removeIf(e -> e.getLab().equals(labRequestID)); // TODO Fix this
+
+    try {
+      System.out.println("Removing from database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (LabRequest e : allLabRequests)
+        exampleStatement.execute(
+            "DELETE FROM LOCATIONS WHERE medicineName.equals(e.getMedicineName())");
+
+      Vdb.saveToFile(Vdb.Database.LabRequest);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  // TODO
+
+  public void setAllLabRequests(ArrayList<LabRequest> labs) {
+    allLabRequests = labs;
+  }
 }

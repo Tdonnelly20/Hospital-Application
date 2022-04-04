@@ -113,7 +113,7 @@
                                           <Rectangle2D />
                                        </viewport>
                                     </ImageView>
-                                    <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
+                                    <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0" />
                                     <TextArea fx:id="coordinates" layoutX="380.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
                                  </children>
                               </Group>

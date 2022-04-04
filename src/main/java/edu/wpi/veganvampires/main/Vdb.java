@@ -1,9 +1,6 @@
 package edu.wpi.veganvampires.main;
 
-import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
-import edu.wpi.veganvampires.dao.LocationDao;
-import edu.wpi.veganvampires.dao.MealRequestDao;
-import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
+import edu.wpi.veganvampires.dao.*;
 import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
@@ -18,6 +15,7 @@ public class Vdb {
   // Make all DAO's here, NOT in the controllers
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
+  public static final LabRequestDao labRequestDao = new LabRequestDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
   public static final MealRequestDao mealRequestDao = new MealRequestDao();
   public static MapManager mapManager;
@@ -160,6 +158,66 @@ public class Vdb {
         System.out.println("Unknown enumerated type!");
         break;
     }
+  }
+
+  /**
+   * Create the location database
+   *
+   * @throws Exception
+   */
+  public static void createLabRequestDB() throws Exception {
+    FileReader fr = new FileReader(currentPath + "/LabRequest.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<LabRequest> labs = new ArrayList<>();
+    // equipment = new ArrayList<>();
+    String headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      LabRequest newLab =
+          new LabRequest(
+              Integer.parseInt(data[0]),
+              Integer.parseInt(data[1]),
+              data[2],
+              data[3],
+              data[4],
+              data[5]);
+      labs.add(newLab);
+    }
+    labRequestDao.setAllLabRequests(labs);
+    System.out.println("Location database made");
+
+    mapManager = MapManager.getManager();
+  }
+
+  /**
+   * Saves the location DB
+   *
+   * @throws IOException
+   */
+  public static void saveToLabDB() throws IOException {
+    FileWriter fw = new FileWriter(currentPath + "/LabRequestBackup.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
+    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
+    for (LabRequest l : labRequestDao.getAllLabRequests()) {
+      String[] outputData = {
+        l.getLocation().getNodeID(),
+        String.valueOf(l.getHospitalEmployee().getHospitalID()),
+        String.valueOf(l.getPatient().getPatientID()),
+        l.getPatient().getFirstName(),
+        l.getPatient().getLastName(),
+        l.getLab()
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    bw.close();
+    fw.close();
   }
 
   /**
