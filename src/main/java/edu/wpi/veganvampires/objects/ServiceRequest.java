@@ -9,7 +9,7 @@ public abstract class ServiceRequest {
   protected Location location;
   protected Patient patient;
   protected int userID;
-  protected String desc;//Description/type of request ex. Lab Request (Blood)
+  protected String desc; // Description/type of request ex. Lab Request (Blood)
   protected String status;
   protected Icon icon;
 
