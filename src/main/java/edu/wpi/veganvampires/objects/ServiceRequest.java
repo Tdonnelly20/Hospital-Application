@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public abstract class ServiceRequest {
   protected Location location;
-  protected Patient patient;
+  public Patient patient;
   protected HospitalEmployee hospitalEmployee;
   protected String status;
   protected Icon icon;

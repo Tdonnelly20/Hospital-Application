@@ -7,11 +7,14 @@ import edu.wpi.veganvampires.objects.Location;
 import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,15 +26,19 @@ public class MapManager {
   private boolean isRequestWindowOpen = false;
   @FXML private ImageView tempIcon = new ImageView("icon.png");
   @FXML VBox content = new VBox(15);
-  @FXML Scene scene = new Scene(content, 300, 300);
+  @FXML Scene scene = new Scene(content, 450, 450);
   @FXML Stage stage = new Stage();
 
   private MapManager() {
-    stage.setMaxHeight(300);
-    stage.setMaxWidth(300);
+    stage.setMaxHeight(450);
+    stage.setMaxWidth(450);
+    stage.setMinHeight(450);
+    stage.setMinWidth(450);
+    stage.setAlwaysOnTop(true);
     stage.setOnCloseRequest(
         event -> {
           tempIcon.setVisible(false);
+          isRequestWindowOpen = false;
         });
     floorList = new ArrayList<>();
 
@@ -107,24 +114,42 @@ public class MapManager {
     }
   }
 
-
-  //Opens the corresponding icon's request window
+  // Opens the corresponding icon's request window
   @FXML
   public void openIconRequestWindow(Icon icon) {
     // Display requests/info
     content.getChildren().clear();
-    stage.setTitle(icon.getLocation().getShortName());
-    if (!stage.isShowing()) {
-      stage.show();
-    }
-
-    Text locationName = new Text(icon.getLocation().getLongName());
-    content.getChildren().add(locationName);
+    tempIcon.setVisible(false);
+    Label title = new Label(icon.getLocation().getShortName());
+    title.setTextFill(Color.WHITE);
+    title.setFont(new Font("System Bold", 38));
+    HBox titleBox = new HBox(15, title);
+    titleBox.setAlignment(Pos.CENTER);
+    titleBox.setStyle("-fx-background-color: #012D5Aff;");
+    content.getChildren().add(titleBox);
+    VBox vbox = new VBox();
+    vbox.setAlignment(Pos.TOP_LEFT);
     for (ServiceRequest request : icon.getRequestsArr()) {
+      Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
+      // Label locationLabel = new Label("" + request.getLocation());
+
       Accordion accordion =
           new Accordion(
-              new TitledPane(request.getRequestName() + ": " + request.getStatus(), null));
-      content.getChildren().add(accordion);
+              new TitledPane(request.getRequestName() + ": " + request.getStatus(), idLabel));
+      vbox.getChildren().add(accordion);
+    }
+    content.getChildren().add(vbox);
+    stage.setTitle(icon.getLocation().getLongName());
+    showPopUp();
+    isRequestWindowOpen = true;
+  }
+
+  @FXML
+  public void showPopUp() {
+
+    stage.setScene(scene);
+    if (!stage.isShowing()) {
+      stage.show();
     }
   }
 }
