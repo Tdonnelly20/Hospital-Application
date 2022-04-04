@@ -99,7 +99,6 @@ public abstract class Controller extends Application {
     }
   }
 
-
   // Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {

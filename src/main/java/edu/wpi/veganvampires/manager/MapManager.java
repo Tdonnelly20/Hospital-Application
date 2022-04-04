@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -306,6 +305,7 @@ public class MapManager {
         field3.getText(),
         field4.getText());
   }
+
   @FXML
   private void clearPopupForm() {
     field1.setText("");
@@ -315,4 +315,170 @@ public class MapManager {
     buttonBox.getChildren().clear();
     titleBox.getChildren().clear();
   }
+  /*
+
+
+  @FXML
+  private void setUpPopupButtons(MouseEvent event, double xPos, double yPos) {
+    MapManager mapManager = MapManager.getManager();
+    buttonBox.getChildren().addAll(locationButton, equipmentButton, closeButton);
+    buttonBox.setAlignment(Pos.CENTER);
+    locationButton.setOnAction(
+        event1 -> {
+          mapManager.getTempIcon().setImage(new Image("icon.png"));
+          addLocationForm(event, xPos, yPos, false);
+        });
+    equipmentButton.setOnAction(
+        event1 -> {
+          mapManager.getTempIcon().setImage(new Image("Equipment.png"));
+          addLocationForm(event, xPos, yPos, true);
+        });
+    closeButton.setOnAction(
+        event1 -> {
+          mapManager.closePopUp();
+          mapManager.getTempIcon().setVisible(false);
+          clearPopupForm();
+        });
+  }
+
+
+  @FXML
+  private void setUpPopup(MouseEvent event) {
+    MapManager mapManager = MapManager.getManager();
+    mapManager.getContent().getChildren().clear();
+    // Setup
+    double xPos = event.getX() - 15;
+    double yPos = event.getY() - 25;
+    setUpPopupButtons(event, xPos, yPos);
+    setUpPopupText();
+    mapManager.getContent().getChildren().addAll(titleBox, buttonBox);
+    // Place Icon
+    mapManager.getTempIcon().setVisible(true);
+    mapManager.getTempIcon().setX(xPos);
+    mapManager.getTempIcon().setY(yPos);
+    if (!mapPane.getChildren().contains(MapManager.getManager().getTempIcon())) {
+      System.out.println("X:" + xPos + " Y:" + yPos);
+      mapManager.getTempIcon().setFitWidth(30);
+      mapManager.getTempIcon().setFitHeight(30);
+      mapPane.getChildren().add(MapManager.getManager().getTempIcon());
+    }
+  }*/
+  /*
+  @FXML
+  public void openIconFormWindow(MouseEvent event) {
+    MapManager mapManager = MapManager.getManager();
+    System.out.printf(event.getTarget().getClass().getTypeName());
+    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
+      setUpPopup(event);
+      // Scene and Stage
+      mapManager.getStage().setTitle("Add New Location");
+      mapManager.showPopUp();
+    }
+  }
+
+  @FXML
+  private void addLocationForm(MouseEvent event, double xPos, double yPos, boolean isEquipment) {
+    MapManager mapManager = MapManager.getManager();
+    clearPopupForm();
+    // Form
+    field1.setPromptText("Node ID");
+    field2.setPromptText("Node Type");
+    field3.setPromptText("Short Name");
+    field4.setPromptText("Long Name");
+
+    mapManager.getContent().getChildren().addAll(field1, field2, field3, field4);
+    // Place Icon
+    if (isEquipment) {
+      mapManager.getStage().setTitle("Add Equipment");
+    } else {
+      mapManager.getStage().setTitle("Add New Location");
+    }
+
+    if (isEquipment) {
+      submitButton = new Button("Continue");
+    } else {
+      submitButton = new Button("Add icon");
+    }
+    submitButton.setOnAction(
+            event1 -> {
+              if (!field1.getText().isEmpty()
+                      && !field2.getText().isEmpty()
+                      && !field3.getText().isEmpty()
+                      && !field4.getText().isEmpty()) {
+                Location location =
+                        new Location(
+                                field1.getText(),
+                                xPos,
+                                yPos,
+                                getFloor(),
+                                "Tower",
+                                field2.getText(),
+                                field4.getText(),
+                                field3.getText());
+                if (isEquipment) {
+                  addEquipmentForm(location);
+                } else {
+                  addIcon(location, isEquipment);
+                }
+              } else {
+                mapManager.getContent().getChildren().add(missingFields);
+              }
+            });
+
+    title.setText("Please add a location");
+    titleBox.getChildren().add(title);
+    buttonBox.getChildren().clear();
+    buttonBox.getChildren().addAll(submitButton, clearForm, closeButton);
+    mapManager.getContent().getChildren().addAll(titleBox, buttonBox);
+
+    mapPane.getChildren().add(MapManager.getManager().getTempIcon());
+    mapManager.showPopUp();
+  }
+
+  @FXML
+  private void addEquipmentForm(Location location) {
+    MapManager mapManager = MapManager.getManager();
+    clearPopupForm();
+    // Form
+    field1.setPromptText("Node ID");
+    field2.setPromptText("Node Type");
+    field3.setPromptText("Short Name");
+    field4.setPromptText("Long Name");
+
+    mapManager.getContent().getChildren().addAll(field1, field2, field3, field4);
+    // Place Icon
+    mapManager.getStage().setTitle("Add Equipment");
+    submitButton = new Button("Add icon");
+
+    submitButton.setOnAction(
+            event1 -> {
+              if (!field1.getText().isEmpty()
+                      && !field2.getText().isEmpty()
+                      && !field3.getText().isEmpty()
+                      && !field4.getText().isEmpty()) {
+                addIcon(location, true);
+              } else {
+                mapManager.getContent().getChildren().add(missingFields);
+              }
+            });
+
+    title.setText("Please add equipment");
+    titleBox.getChildren().add(title);
+    buttonBox.getChildren().clear();
+    buttonBox.getChildren().addAll(submitButton, clearForm, closeButton);
+    mapManager.getContent().getChildren().addAll(titleBox, buttonBox);
+
+    mapPane.getChildren().add(MapManager.getManager().getTempIcon());
+    mapManager.showPopUp();
+  }
+
+  // Adds icon to map
+  private void addIcon(Location location, Boolean isEquipment) {
+    MapManager.getManager().closePopUp();
+    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
+    MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location, isEquipment));
+    MapManager.getManager().getTempIcon().setVisible(false);
+    checkDropDown();
+  }
+   */
 }
