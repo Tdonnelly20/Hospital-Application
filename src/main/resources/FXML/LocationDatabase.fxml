@@ -22,7 +22,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.CheckComboBox?>
 
 <GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LocationController">
   <columnConstraints>
@@ -89,32 +88,15 @@
       </ScrollPane>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <content>
-            <VBox alignment="TOP_CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="603.0" prefWidth="548.0">
                <children>
-                  <TabPane fx:id="medicineTabPane" maxWidth="1.7976931348623157E308" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="medicineTabPane" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Map View">
                            <content>
-                              <Pane maxWidth="1.7976931348623157E308" prefHeight="571.0" prefWidth="366.0" style="-fx-background-color: rgb(149,182,203);">
+                              <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
                                  <children>
-                                    <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="550.0" prefHeight="470.0">
-                                       <children>
-                                          <Group>
-                                             <children>
-                                                <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../2nd Floor.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D />
-                                                   </viewport>
-                                                </ImageView>
-                                                <Pane fx:id="mapPane" prefHeight="470.0" prefWidth="470.0" />
-                                             </children>
-                                          </Group>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="550.0">
+                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0">
                                        <children>
                                           <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
@@ -128,13 +110,21 @@
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>
-                                          <CheckComboBox>
-                                             <HBox.margin>
-                                                <Insets left="15.0" />
-                                             </HBox.margin>
-                                          </CheckComboBox>
                                        </children>
                                     </HBox>
+                                    <Group layoutX="30.0">
+                                       <children>
+                                          <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../2nd Floor.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                          <Pane fx:id="mapPane" onMouseClicked="#paneClicked" prefHeight="470.0" prefWidth="470.0" />
+                                       </children>
+                                    </Group>
                                  </children>
                               </Pane>
                            </content>
