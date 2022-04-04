@@ -91,7 +91,7 @@
          <content>
             <VBox alignment="TOP_CENTER" prefHeight="603.0" prefWidth="548.0">
                <children>
-                  <TabPane fx:id="medicineTabPane" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Map View">
                            <content>
