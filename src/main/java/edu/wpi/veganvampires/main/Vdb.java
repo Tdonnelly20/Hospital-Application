@@ -55,10 +55,10 @@ public class Vdb {
   public static void createAllDB() throws Exception {
     // createLocationDB();
     // createEquipmentDB();
+    createMedicineDeliveryTable();
     createMedicineDeliveryDB();
     // createLabDB();
 
-    createMedicineDeliveryTable();
     // createLabTable();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
@@ -199,7 +199,7 @@ public class Vdb {
         saveToEquipmentDB();
         break;
       case MedicineDelivery:
-        saveToMedicineDeliveryDB();
+        saveToMedicineDeliveryCSV();
         break;
       default:
         System.out.println("Unknown enumerated type!");
@@ -219,6 +219,13 @@ public class Vdb {
     ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
     // equipment = new ArrayList<>();
     String headerLine = br.readLine();
+
+    String query = "";
+
+    // Connecting to DB
+    Connection connection = Vdb.Connect();
+    Statement statement = connection.createStatement();
+
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
@@ -233,9 +240,60 @@ public class Vdb {
               data[6],
               data[7]);
       medicineDeliveries.add(newDelivery);
+
+      query =
+          "INSERT INTO Medicines("
+              + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
+              + "('"
+              + data[0]
+              + "', '"
+              + data[1]
+              + "', '"
+              + data[2]
+              + "', "
+              + data[3]
+              + ", "
+              + data[4]
+              + ", '"
+              + data[5]
+              + "', '"
+              + data[6]
+              + "', '"
+              + data[7]
+              + "'"
+              + ")";
+
+      System.out.println(query);
+      statement.execute(query);
     }
-    medicineDeliveryDao.setAllMedicineDeliveries(medicineDeliveries);
-    System.out.println("Medicine delivery database made");
+
+    // Print out all the current entries...
+    query =
+        "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
+
+    ResultSet resultSet = statement.executeQuery(query);
+
+    // A string array to contain the names of all the header values so I don't have to type this
+    // bullshit out again
+    String[] headerVals =
+        new String[] {
+          "patientFirstName",
+          "patientLastName",
+          "roomNumber",
+          "patientID",
+          "hospitalID",
+          "medicineName",
+          "dosage",
+          "requestDetails"
+        };
+
+    // Print out the result
+    while (resultSet.next()) {
+      for (int i = 0; i < headerVals.length; i++) {
+        System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
+      }
+      System.out.println();
+    }
   }
 
   /**
@@ -296,7 +354,7 @@ public class Vdb {
 
       // A string array to contain the names of all the header values so I don't have to type this
       // bullshit out again
-      String[] headerVals =
+      String[] headerValues =
           new String[] {
             "patientFirstName",
             "patientLastName",
@@ -310,8 +368,8 @@ public class Vdb {
 
       // Print out the result
       while (resultSet.next()) {
-        for (int i = 0; i < headerVals.length; i++) {
-          System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
+        for (int i = 0; i < headerValues.length; i++) {
+          System.out.print(resultSet.getString(headerValues[i]).trim() + ", ");
         }
         System.out.println();
       }
@@ -336,7 +394,7 @@ public class Vdb {
             + medicineDeliveryDao.getAllMedicineDeliveries().size());
   }
 
-  private static void saveToMedicineDeliveryDB() throws IOException {
+  private static void saveToMedicineDeliveryCSV() throws IOException {
     FileWriter fw = new FileWriter(currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
@@ -354,6 +412,7 @@ public class Vdb {
         medicineDelivery.getDosage(),
         medicineDelivery.getRequestDetails()
       };
+
       bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
