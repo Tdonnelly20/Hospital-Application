@@ -16,6 +16,7 @@ public class LabRequest extends ServiceRequest {
     this.patient = new Patient(patientID, firstName, lastName);
     this.patient.addHospitalEmployee(EmployeeManager.getManager().getEmployee(userID));
     this.lab = lab;
+    this.desc="Lab Request ("+lab+")";
     this.status = status;
   }
 }
