@@ -241,59 +241,20 @@ public class Vdb {
               data[7]);
       medicineDeliveries.add(newDelivery);
 
-      query =
-          "INSERT INTO Medicines("
-              + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
-              + "('"
-              + data[0]
-              + "', '"
-              + data[1]
-              + "', '"
-              + data[2]
-              + "', "
-              + data[3]
-              + ", "
-              + data[4]
-              + ", '"
-              + data[5]
-              + "', '"
-              + data[6]
-              + "', '"
-              + data[7]
-              + "'"
-              + ")";
-
-      System.out.println(query);
-      statement.execute(query);
+      // add to SQL table
+      addToMedicineTable(
+          data[0],
+          data[1],
+          data[2],
+          Integer.parseInt(data[3]),
+          Integer.parseInt(data[4]),
+          data[5],
+          data[6],
+          data[7]);
     }
 
-    // Print out all the current entries...
-    query =
-        "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {
-          "patientFirstName",
-          "patientLastName",
-          "roomNumber",
-          "patientID",
-          "hospitalID",
-          "medicineName",
-          "dosage",
-          "requestDetails"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (int i = 0; i < headerVals.length; i++) {
-        System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
-      }
-      System.out.println();
-    }
+    // Add to local arraylist
+    medicineDeliveryDao.setAllMedicineDeliveries(medicineDeliveries);
   }
 
   /**
@@ -335,51 +296,6 @@ public class Vdb {
         return;
       }
 
-      String test = "Matt";
-      // Insert a sample entry into the database
-      query =
-          "INSERT INTO Medicines("
-              + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
-              + "('"
-              + test
-              + "', 'Hendrickson', 'Fuller Labs', 123, 123, 'Adderall', '100 mg', 'Taken twice a day') ";
-
-      statement.execute(query);
-
-      // Result must be selected before removing!
-      query =
-          "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
-
-      ResultSet resultSet = statement.executeQuery(query);
-
-      // A string array to contain the names of all the header values so I don't have to type this
-      // bullshit out again
-      String[] headerValues =
-          new String[] {
-            "patientFirstName",
-            "patientLastName",
-            "roomNumber",
-            "patientID",
-            "hospitalID",
-            "medicineName",
-            "dosage",
-            "requestDetails"
-          };
-
-      // Print out the result
-      while (resultSet.next()) {
-        for (int i = 0; i < headerValues.length; i++) {
-          System.out.print(resultSet.getString(headerValues[i]).trim() + ", ");
-        }
-        System.out.println();
-      }
-
-      // Remove from table
-      query = "DELETE FROM Medicines WHERE patientFirstName = 'Matt'";
-      int num = statement.executeUpdate(query);
-
-      System.out.println("Number of records deleted are: " + num);
-
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
@@ -388,10 +304,58 @@ public class Vdb {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
     }
+  }
 
-    System.out.println(
-        "Found this many entries in Medicine Delivery CSV: "
-            + medicineDeliveryDao.getAllMedicineDeliveries().size());
+  // A method I (Matt) created to test the Medicine Delivery SQL Table, it is a good reference for
+  // SQL Commands
+  private static void testMedicineDeliverySQLTable() throws SQLException {
+    String query = "";
+    String test = "Matt";
+    Connection connection = Connect();
+    Statement statement = connection.createStatement();
+    // Insert a sample entry into the database
+    query =
+        "INSERT INTO Medicines("
+            + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
+            + "('"
+            + test
+            + "', 'Hendrickson', 'Fuller Labs', 123, 123, 'Adderall', '100 mg', 'Taken twice a day') ";
+
+    statement.execute(query);
+
+    // Result must be selected before removing!
+    query =
+        "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
+
+    ResultSet resultSet = statement.executeQuery(query);
+
+    // A string array to contain the names of all the header values so I don't have to type this
+    // bullshit out again
+    String[] headerValues =
+        new String[] {
+          "patientFirstName",
+          "patientLastName",
+          "roomNumber",
+          "patientID",
+          "hospitalID",
+          "medicineName",
+          "dosage",
+          "requestDetails"
+        };
+
+    // Print out the result
+    while (resultSet.next()) {
+      for (int i = 0; i < headerValues.length; i++) {
+        System.out.print(resultSet.getString(headerValues[i]).trim() + ", ");
+      }
+      System.out.println();
+    }
+
+    // Remove from table
+    query = "DELETE FROM Medicines WHERE patientFirstName = 'Matt'";
+    int num = statement.executeUpdate(query);
+
+    System.out.println("Number of records deleted are: " + num);
   }
 
   private static void saveToMedicineDeliveryCSV() throws IOException {
@@ -422,6 +386,75 @@ public class Vdb {
 
     bw.close();
     fw.close();
+  }
+
+  //Add to Medicine Delivery SQL Table
+  public static void addToMedicineTable(
+      String patientFirstName,
+      String patientLastName,
+      String roomNumber,
+      int patientID,
+      int hospitalID,
+      String medicineName,
+      String dosage,
+      String requestDetails)
+      throws SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    Statement statement = connection.createStatement();
+
+    query =
+        "INSERT INTO Medicines("
+            + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
+            + "('"
+            + patientFirstName
+            + "', '"
+            + patientLastName
+            + "', '"
+            + roomNumber
+            + "', "
+            + patientID
+            + ", "
+            + hospitalID
+            + ", '"
+            + medicineName
+            + "', '"
+            + dosage
+            + "', '"
+            + requestDetails
+            + "'"
+            + ")";
+
+    System.out.println(query);
+    statement.execute(query);
+
+    // Print out all the current entries...
+    query =
+        "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
+
+    ResultSet resultSet = statement.executeQuery(query);
+
+    // A string array to contain the names of all the header values so I don't have to type this
+    // bullshit out again
+    String[] headerVals =
+        new String[] {
+          "patientFirstName",
+          "patientLastName",
+          "roomNumber",
+          "patientID",
+          "hospitalID",
+          "medicineName",
+          "dosage",
+          "requestDetails"
+        };
+
+    // Print out the result
+    while (resultSet.next()) {
+      for (int i = 0; i < headerVals.length; i++) {
+        System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
+      }
+      System.out.println();
+    }
   }
 
   /**
