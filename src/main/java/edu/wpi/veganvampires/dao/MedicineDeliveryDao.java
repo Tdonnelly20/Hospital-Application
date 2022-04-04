@@ -65,65 +65,17 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
       System.out.println("Adding to CSV file...");
       Vdb.saveToFile(Vdb.Database.MedicineDelivery);
 
-      // Connecting to DB
-      Connection connection = Vdb.Connect();
-      Statement statement = connection.createStatement();
+      // Add to SQL Table
+      Vdb.addToMedicineTable(
+          patientFirstName,
+          patientLastName,
+          roomNumber,
+          patientID,
+          hospitalID,
+          medicineName,
+          dosage,
+          requestDetails);
 
-      query =
-          "INSERT INTO Medicines("
-              + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
-              + "('"
-              + patientFirstName
-              + "', '"
-              + patientLastName
-              + "', '"
-              + roomNumber
-              + "', "
-              + patientID
-              + ", "
-              + hospitalID
-              + ", '"
-              + medicineName
-              + "', '"
-              + dosage
-              + "', '"
-              + requestDetails
-              + "'"
-              + ")";
-
-      System.out.println(query);
-      statement.execute(query);
-
-      // Print out all the current entries...
-      query =
-          "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
-
-      ResultSet resultSet = statement.executeQuery(query);
-
-      // A string array to contain the names of all the header values so I don't have to type this
-      // bullshit out again
-      String[] headerVals =
-          new String[] {
-            "patientFirstName",
-            "patientLastName",
-            "roomNumber",
-            "patientID",
-            "hospitalID",
-            "medicineName",
-            "dosage",
-            "requestDetails"
-          };
-
-      // Print out the result
-      while (resultSet.next()) {
-        for (int i = 0; i < headerVals.length; i++) {
-          System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
-        }
-        System.out.println();
-      }
-
-    } catch (SQLException e) {
-      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
