@@ -12,6 +12,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -113,7 +114,8 @@
                                                 <Rectangle2D />
                                              </viewport>
                                           </ImageView>
-                                          <Pane fx:id="mapPane" layoutX="106.0" layoutY="25.0" prefHeight="382.0" prefWidth="385.0" />
+                                          <Pane fx:id="mapPane" layoutX="106.0" layoutY="25.0" onMouseClicked="#mapCoordTracker" prefHeight="382.0" prefWidth="385.0" />
+                                          <TextArea fx:id="coordinates" layoutX="4.0" layoutY="25.0" prefHeight="38.0" prefWidth="97.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
