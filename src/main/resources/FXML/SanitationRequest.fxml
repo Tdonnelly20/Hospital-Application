@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -26,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5c677d;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.SanitationRequestController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5c677d;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.SanitationRequestController">
    <children>
       <SplitPane dividerPositions="0.3503636363636363" layoutX="-1.0" layoutY="85.0" prefHeight="498.0" prefWidth="930.0" style="-fx-background-color: rgb(149,182,203);">
          <items>
@@ -135,7 +134,7 @@
       </SplitPane>
       <Pane id="Menu" fx:id="menu" prefHeight="86.0" prefWidth="930.0" style="-fx-background-color: #012D5Aff;">
          <children>
-            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                </image>

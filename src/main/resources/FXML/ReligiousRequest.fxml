@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="573.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.ReligiousRequestController">
+<AnchorPane prefHeight="573.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.ReligiousRequestController">
     <children>
         <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <items>
@@ -138,7 +138,7 @@
                                                 </AnchorPane>
                                             </content>
                                         </Tab>
-                                        <Tab text="Lab Requests">
+                                        <Tab text="Religious Requests">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                     <children>
@@ -157,12 +157,12 @@
         </SplitPane>
         <Pane id="Menu" fx:id="menu" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
             <children>
-                <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="162.0" text="Lab Request" textFill="WHITE">
+                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="235.0" text="Religious Request" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="25.0" />
                     </font>

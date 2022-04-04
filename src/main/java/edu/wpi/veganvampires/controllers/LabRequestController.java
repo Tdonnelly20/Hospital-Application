@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.LabRequestDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.objects.LabRequest;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -14,6 +13,7 @@ import javafx.stage.Stage;
 
 public class LabRequestController extends Controller implements RequestInterface {
   @FXML private TreeTableView<LabRequest> table;
+  @FXML private TreeTableColumn<LabRequest, Integer> nodeIDCol;
   @FXML private TreeTableColumn<LabRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<LabRequest, Integer> patientIDCol;
   @FXML private TreeTableColumn<LabRequest, String> firstNameCol;
@@ -31,7 +31,7 @@ public class LabRequestController extends Controller implements RequestInterface
     }
   }
 
-  @FXML private TextField Status;
+  @FXML private TextField nodeID;
   @FXML private TextField userID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
@@ -50,7 +50,7 @@ public class LabRequestController extends Controller implements RequestInterface
   @Override
   @FXML
   public void resetForm() {
-    Status.setText("Status: Blank");
+    nodeID.setText("");
     userID.setText("");
     patientID.setText("");
     firstName.setText("");
@@ -62,23 +62,25 @@ public class LabRequestController extends Controller implements RequestInterface
   // Checks to see if the user can submit info
   @Override
   public void validateButton() {
-    if (!(userID.getText().isEmpty())
+    if (!(nodeID.getText().isEmpty())
+        && !(userID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
         && !(firstName.getText().isEmpty())
         && !(lastName.getText().isEmpty())
         && !(requestedLab.getValue().equals("Select Lab"))) {
-      // Information verification and submission needed
       sendRequest.setDisable(false);
-      Status.setText("Status: Done");
-    } else if (!(userID.getText().isEmpty())
-        || !(patientID.getText().isEmpty())
-        || !(firstName.getText().isEmpty())
-        || !(lastName.getText().isEmpty())
-        || !(requestedLab.getValue().equals("Select Lab"))) {
-      Status.setText("Status: Processing");
     } else {
-      Status.setText("Status: Blank");
       sendRequest.setDisable(true);
+    }
+    if (!isInteger(userID.getText()) && !(userID.getText().isEmpty())) {
+      userID.setStyle("-fx-text-fill: red;");
+    } else {
+      userID.setStyle("-fx-text-fill: black;");
+    }
+    if (!isInteger(patientID.getText()) && !(patientID.getText().isEmpty())) {
+      patientID.setStyle("-fx-text-fill: red;");
+    } else {
+      patientID.setStyle("-fx-text-fill: black;");
     }
   }
 
@@ -88,6 +90,7 @@ public class LabRequestController extends Controller implements RequestInterface
     System.out.println("Here");
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("userID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
@@ -126,11 +129,7 @@ public class LabRequestController extends Controller implements RequestInterface
   @Override
   public void sendRequest() {
     // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText()) || !isInteger(userID.getText())) {
-      Status.setText("Status: Failed. Patient/Hospital ID must be a number!");
-
-      // If all conditions pass, create the request
-    } else {
+    if (isInteger(patientID.getText()) && isInteger(userID.getText())) {
       // Send the request to the Dao pattern
       System.out.println(requestedLab.getValue().toString());
       labRequestDao.addLabRequest(
