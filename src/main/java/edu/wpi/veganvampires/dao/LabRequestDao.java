@@ -46,14 +46,12 @@ public class LabRequestDao implements LabRequestImpl {
 
     System.out.println("Adding to local arraylist...");
     allLabRequests.add(labRequest);
-    System.out.println("Adding to database");
+
     try {
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement exampleStatement = connection.createStatement();
+      System.out.println("Adding to CSV");
       Vdb.saveToFile(Vdb.Database.LabRequest);
-      exampleStatement.execute(
-          "INSERT INTO LABS VALUES (labRequest.getUserID(), labRequest.getPatientID(), labRequest.getFirstName(), labRequest.getLastName(), labRequest.getLab(), labRequest.getStatus() ");
+      System.out.println("Adding to database...");
+      Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
 
     } catch (Exception e) {
       e.printStackTrace();

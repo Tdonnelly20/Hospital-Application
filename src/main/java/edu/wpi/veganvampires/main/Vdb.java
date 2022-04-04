@@ -648,6 +648,7 @@ public class Vdb {
           throws SQLException {
     String query = "";
     Connection connection = Vdb.Connect();
+    assert connection != null;
     Statement statement = connection.createStatement();
 
     query =
