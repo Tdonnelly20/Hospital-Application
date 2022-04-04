@@ -1,11 +1,14 @@
 package edu.wpi.veganvampires.manager;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
 import edu.wpi.veganvampires.objects.ServiceRequest;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -130,17 +133,25 @@ public class MapManager {
     content.getChildren().add(titleBox);
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.TOP_LEFT);
+    ObservableList<String> statusStrings = FXCollections.observableArrayList("Processing", "Done");
     for (ServiceRequest request : icon.getRequestsArr()) {
       Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
       Label locationLabel =
           new Label(
               "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
 
+      JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
+      updateStatus.setValue(request.getStatus());
+      updateStatus.setOnAction(
+          event -> {
+            request.setStatus(updateStatus.getValue().toString());
+            // TODO: Update request CSV
+          });
       Accordion accordion =
           new Accordion(
               new TitledPane(
                   request.getRequestName() + ": " + request.getStatus(),
-                  new VBox(15, idLabel, locationLabel)));
+                  new VBox(15, idLabel, locationLabel, updateStatus)));
       vbox.getChildren().add(accordion);
     }
     content.getChildren().add(vbox);
