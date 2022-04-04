@@ -21,18 +21,6 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
 
   public void setAllEquipmentDeliveries(ArrayList<EquipmentDelivery> equipmentDeliveryArrayList) {
     allEquipmentDeliveries = equipmentDeliveryArrayList;
-    try {
-      Connection connect = Vdb.Connect();
-      Statement st = connect.createStatement();
-      for (int i = 0; i < equipmentDeliveryArrayList.size(); i++) {
-        st.execute(
-            "INSERT INTO EQUIPMENTDELIVERY VALUES(equipmentDeliveryArrayList.get(i).getLocation(),"
-                + "equipmentDeliveryArrayList.get(i).getEquipment(),"
-                + "equipmentDeliveryArrayList.get(i).getNotes(), equipmentDeliveryArrayList.get(i).getQuantity())");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
 
   /**
