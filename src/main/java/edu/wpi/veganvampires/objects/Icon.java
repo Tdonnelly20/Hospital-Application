@@ -20,13 +20,23 @@ public class Icon {
   private double yCoord;
   @FXML private ImageView image;
   private ArrayList<ServiceRequest> requestsArr;
-  private boolean isMedicalEquipment;
+  private boolean isEquipment;
 
-  public Icon(Location location) {
+  public Icon(Location location, boolean isEquipment) {
+    // TODO: Remove test requests
+    ServiceRequest l1 = new LabRequest(123, 456, "first", "last", "Blood", "Processing");
+    ServiceRequest l2 = new LabRequest(789, 0, "firstName", "surname", "urine", "done");
+    System.out.println(l1.getPatient().getFirstName() + " " + l1.getPatient().getLastName());
     this.xCoord = location.getXCoord();
     this.yCoord = location.getYCoord();
     this.requestsArr = new ArrayList<>();
-    image = new ImageView("icon.png");
+    requestsArr.add(l1);
+    requestsArr.add(l2);
+    if (isEquipment) {
+      image = new ImageView("Equipment.png");
+    } else {
+      image = new ImageView("icon.png");
+    }
     image.setFitWidth(30);
     image.setFitHeight(30);
     image.setX(xCoord / 1.5);
