@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 public abstract class ServiceRequest {
   protected Location location;
-  protected Patient patient;
-  protected int userID;
-  protected String desc; // Description/type of request ex. Lab Request (Blood)
+  public Patient patient;
+  protected HospitalEmployee hospitalEmployee;
+  protected String desc;
   protected String status;
   protected Icon icon;
 

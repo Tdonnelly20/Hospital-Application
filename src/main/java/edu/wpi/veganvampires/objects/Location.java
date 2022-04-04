@@ -9,8 +9,8 @@ import lombok.Setter;
 public class Location {
   protected final int ID = 0; // location class that stores info about each location
   private String nodeID;
-  private int xCoord;
-  private int yCoord;
+  private double xCoord;
+  private double yCoord;
   private String floor;
   private String building;
   private String nodeType;
@@ -31,8 +31,8 @@ public class Location {
 
   public Location(
       String nodeID,
-      int xCoord,
-      int yCoord,
+      double xCoord,
+      double yCoord,
       String floor,
       String building,
       String nodeType,

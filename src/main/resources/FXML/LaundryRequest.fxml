@@ -34,7 +34,7 @@
                             <content>
                                 <VBox alignment="TOP_CENTER" prefHeight="446.0" prefWidth="304.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                     <children>
-                                        <TextField fx:id="employeeID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Employee ID">
+                                        <TextField fx:id="userID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Employee ID">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
@@ -59,7 +59,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextArea fx:id="requestDetails" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
+                                        <TextArea fx:id="details" prefHeight="40.0" prefWidth="247.0" promptText="Request Details (optional)" wrapText="true">
                                             <VBox.margin>
                                                 <Insets left="15.0" right="15.0" />
                                             </VBox.margin>
