@@ -27,7 +27,7 @@ public class Vdb {
     EquipmentDelivery,
     MedicineDelivery,
     ReligiousRequest,
-    MealRequest,
+    MealDelivery,
     LabRequest,
     SanitationRequest
   }
@@ -57,6 +57,7 @@ public class Vdb {
     createLocationDB();
     createEquipmentDB();
     createMedicineDeliveryDB();
+    createMealDeliveryDB();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -151,6 +152,9 @@ public class Vdb {
         break;
       case MedicineDelivery:
         saveToMedicineDeliveryDB();
+        break;
+      case MealDelivery:
+        saveToMealDeliveryDB();
         break;
       default:
         System.out.println("Unknown enumerated type!");

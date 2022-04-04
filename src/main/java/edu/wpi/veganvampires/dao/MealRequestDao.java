@@ -65,7 +65,7 @@ public class MealRequestDao implements MealRequestImpl {
     try {
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
-      Vdb.saveToFile(Vdb.Database.MealRequest);
+      Vdb.saveToFile(Vdb.Database.MealDelivery);
       // exampleStatement.execute(
       //    "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID,
       // hospitalID, mealName, allergy, requestDetails");
@@ -94,7 +94,7 @@ public class MealRequestDao implements MealRequestImpl {
       for (MealRequest e : allMealDeliveries)
         exampleStatement.execute("DELETE FROM LOCATIONS WHERE mealName.equals(e.getMealName())");
 
-      Vdb.saveToFile(Vdb.Database.MealRequest);
+      Vdb.saveToFile(Vdb.Database.MealDelivery);
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {
