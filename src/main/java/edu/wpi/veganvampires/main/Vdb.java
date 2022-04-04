@@ -388,7 +388,7 @@ public class Vdb {
     fw.close();
   }
 
-  //Add to Medicine Delivery SQL Table
+  // Add to Medicine Delivery SQL Table
   public static void addToMedicineTable(
       String patientFirstName,
       String patientLastName,
@@ -637,57 +637,44 @@ public class Vdb {
     System.out.println("Lab database made");
   }
 
-  //Add to Medicine Delivery SQL Table
+  // Add to Medicine Delivery SQL Table
   public static void addToLabTable(
-          int userID,
-          int patientID,
-          String firstName,
-          String lastName,
-          String lab,
-          String status)
-          throws SQLException {
+      int userID, int patientID, String firstName, String lastName, String lab, String status)
+      throws SQLException {
     String query = "";
     Connection connection = Vdb.Connect();
     Statement statement = connection.createStatement();
 
     query =
-            "INSERT INTO Medicines("
-                    + "userId, patientID, firstName, lastName, lab, status) VALUES "
-                    + "('"
-                    + userID
-                    + "', '"
-                    + patientID
-                    + "', '"
-                    + firstName
-                    + "', "
-                    + lastName
-                    + ", "
-                    + lab
-                    + ", '"
-                    + status
-                    + "'"
-                    + ")";
+        "INSERT INTO Medicines("
+            + "userId, patientID, firstName, lastName, lab, status) VALUES "
+            + "('"
+            + userID
+            + "', '"
+            + patientID
+            + "', '"
+            + firstName
+            + "', "
+            + lastName
+            + ", "
+            + lab
+            + ", '"
+            + status
+            + "'"
+            + ")";
 
     System.out.println(query);
     statement.execute(query);
 
     // Print out all the current entries...
-    query =
-            "SELECT userId, patientID, firstName, lastName, lab, status FROM Medicines";
+    query = "SELECT userId, patientID, firstName, lastName, lab, status FROM Medicines";
 
     ResultSet resultSet = statement.executeQuery(query);
 
     // A string array to contain the names of all the header values so I don't have to type this
     // bullshit out again
     String[] headerVals =
-            new String[] {
-                    "userID",
-                    "patientID",
-                    "firstName",
-                    "lastName",
-                    "lab",
-                    "status"
-            };
+        new String[] {"userID", "patientID", "firstName", "lastName", "lab", "status"};
 
     // Print out the result
     while (resultSet.next()) {
@@ -704,7 +691,12 @@ public class Vdb {
     bw.append("UserID,PatientID,First Name,Last Name,Lab Type,Status");
     for (LabRequest l : labRequestDao.getAllLabRequests()) {
       String[] outputData = {
-              String.valueOf(l.getUserID()), String.valueOf(l.getPatient().getPatientID()), l.getPatient().getFirstName(), l.getPatient().getLastName(), l.getLab(),l.getStatus()
+        //String.valueOf(l.getUserID()),
+        String.valueOf(l.getPatient().getPatientID()),
+        l.getPatient().getFirstName(),
+        l.getPatient().getLastName(),
+        l.getLab(),
+        l.getStatus()
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -717,4 +709,3 @@ public class Vdb {
     fw.close();
   }
 }
-

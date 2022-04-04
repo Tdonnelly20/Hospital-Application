@@ -11,7 +11,7 @@ public class LabRequestDao implements LabRequestImpl {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao(){
+  public LabRequestDao() {
     allLabRequests = new ArrayList<>();
   }
 
@@ -28,7 +28,6 @@ public class LabRequestDao implements LabRequestImpl {
             + "Lab char(20),"
             + "Status char(20))");
   }
-
 
   public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
     allLabRequests = newRequests;
