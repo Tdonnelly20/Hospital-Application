@@ -54,14 +54,13 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-    // createLocationDB();
+
+    createLocationDB();
     createEquipmentDB();
-    createEquipmentTable();
     createMedicineDeliveryTable();
     createMedicineDeliveryDB();
-    // createLabDB();
-    // createLabTable();
-
+    createLabTable();
+    createLabDB();
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -137,6 +136,8 @@ public class Vdb {
       case MedicineDelivery:
         saveToMedicineDeliveryCSV();
         break;
+      case LabRequest:
+        saveToLabDB();
       default:
         System.out.println("Unknown enumerated type!");
         break;
