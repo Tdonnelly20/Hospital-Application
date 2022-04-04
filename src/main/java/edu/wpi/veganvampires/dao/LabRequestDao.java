@@ -48,7 +48,7 @@ public class LabRequestDao implements LabRequestImpl {
   @Override
   public void removeLabRequest(int userID) {
     System.out.println("Removing from arraylist...");
-    allLabRequests.removeIf(l -> l.getUserID() == userID);
+    allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);
 
     try {
       System.out.println("Removing from database...");
