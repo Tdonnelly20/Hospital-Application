@@ -139,7 +139,7 @@ public class MapManager {
       vbox.getChildren().add(accordion);
     }
     content.getChildren().add(vbox);
-    stage.setTitle(icon.getLocation().getLongName());
+    // stage.setTitle(icon.getLocation().getLongName());
     showPopUp();
     isRequestWindowOpen = true;
   }

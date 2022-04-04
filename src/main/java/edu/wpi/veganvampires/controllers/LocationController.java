@@ -243,6 +243,7 @@ public class LocationController extends Controller {
   // Sets x and y text fields to those coordinates
   private Point point = new Point();
   private int xCoord, yCoord;
+
   @FXML
   private void mapCoordTracker() {
     point = MouseInfo.getPointerInfo().getLocation();
@@ -252,5 +253,4 @@ public class LocationController extends Controller {
     x.setText(String.valueOf(xCoord));
     y.setText(String.valueOf(yCoord));
   }
-
 }

@@ -18,6 +18,7 @@ import lombok.Setter;
 public class Icon {
   private double xCoord;
   private double yCoord;
+  private Location location;
   @FXML private ImageView image;
   private ArrayList<ServiceRequest> requestsArr;
   private boolean isEquipment;

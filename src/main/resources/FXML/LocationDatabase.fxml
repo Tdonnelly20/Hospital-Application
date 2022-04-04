@@ -12,6 +12,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -23,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LocationController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LocationController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -122,9 +123,10 @@
                                                 <Rectangle2D />
                                              </viewport>
                                           </ImageView>
-                                          <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0" />
+                                          <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
                                        </children>
                                     </Group>
+                                    <TextArea fx:id="coordinates" layoutX="14.0" layoutY="496.0" prefHeight="48.0" prefWidth="139.0" />
                                  </children>
                               </Pane>
                            </content>
