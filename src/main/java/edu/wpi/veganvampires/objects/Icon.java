@@ -34,8 +34,8 @@ public class Icon {
     }
     image.setFitWidth(30);
     image.setFitHeight(30);
-    image.setX(xCoord / 1.5);
-    image.setY(yCoord / 1.5);
+    image.setX((xCoord / 1.28) - 15);
+    image.setY((yCoord / 1.28) - 15);
     this.location = location;
     image.setOnMouseClicked(
         event -> {

@@ -53,6 +53,7 @@ public abstract class Controller extends Application {
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   private void checkDropDown() {
+    MapManager.getManager().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
     System.out.println(floorDropDown.getValue());

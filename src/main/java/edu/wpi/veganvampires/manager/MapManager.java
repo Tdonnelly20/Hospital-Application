@@ -110,6 +110,7 @@ public class MapManager {
 
   public void closePopUp() {
     if (stage.isShowing()) {
+      isRequestWindowOpen = false;
       stage.close();
     }
   }
@@ -122,7 +123,7 @@ public class MapManager {
     tempIcon.setVisible(false);
     Label title = new Label(icon.getLocation().getShortName());
     title.setTextFill(Color.WHITE);
-    title.setFont(new Font("System Bold", 38));
+    title.setFont(new Font("System Bold", 28));
     HBox titleBox = new HBox(15, title);
     titleBox.setAlignment(Pos.CENTER);
     titleBox.setStyle("-fx-background-color: #012D5Aff;");
@@ -131,11 +132,15 @@ public class MapManager {
     vbox.setAlignment(Pos.TOP_LEFT);
     for (ServiceRequest request : icon.getRequestsArr()) {
       Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
-      // Label locationLabel = new Label("" + request.getLocation());
+      Label locationLabel =
+          new Label(
+              "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
 
       Accordion accordion =
           new Accordion(
-              new TitledPane(request.getRequestName() + ": " + request.getStatus(), idLabel));
+              new TitledPane(
+                  request.getRequestName() + ": " + request.getStatus(),
+                  new VBox(15, idLabel, locationLabel)));
       vbox.getChildren().add(accordion);
     }
     content.getChildren().add(vbox);
