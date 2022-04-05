@@ -8,7 +8,8 @@ public class Equipment {
   private int count;
   private boolean isDirty;
 
-  public Equipment(int ID, Location location, String name, String description, int count, Boolean isDirty) {
+  public Equipment(
+      int ID, Location location, String name, String description, int count, Boolean isDirty) {
     this.location = location;
     this.name = name;
     this.description = description;

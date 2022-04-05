@@ -98,6 +98,7 @@ public class MapManager {
     // TODO Implement equipment csv
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
     ArrayList<EquipmentDelivery> equipment = Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries();
+
     for (Location l : locations) {
       switch (l.getFloor()) {
         case "G":
@@ -120,29 +121,31 @@ public class MapManager {
           break;
       }
     }
-    /*for (EquipmentDelivery e : equipment) {
-      System.out.printf(e.getLocation().getNodeID());
-      switch (e.getLocation().getFloor()) {
+    System.out.println("Size: " + equipment.size());
+    for (EquipmentDelivery e : equipment) {
+      System.out.printf(e.getLocation());
+
+      switch (Vdb.locationDao.getLocation(e.getLocation()).getFloor()) {
         case "G":
-          floorList.get(0).addIcon(new Icon(e.getLocation(), true));
+          floorList.get(0).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
           break;
         case "L1":
-          floorList.get(1).addIcon(new Icon(e.getLocation(), true));
+          floorList.get(1).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
           break;
         case "L2":
-          floorList.get(2).addIcon(new Icon(e.getLocation(), true));
+          floorList.get(2).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
           break;
         case "1":
-          floorList.get(3).addIcon(new Icon(e.getLocation(), true));
+          floorList.get(3).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
           break;
         case "2":
-          floorList.get(4).addIcon(new Icon(e.getLocation(), true));
+          floorList.get(4).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
           break;
         case "3":
-          floorList.get(5).addIcon(new Icon(e.getLocation(), true));
+          floorList.get(5).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
           break;
       }
-    }*/
+    }
   }
 
   /**
