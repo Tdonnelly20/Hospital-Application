@@ -29,30 +29,20 @@ public class LocationDao implements LocationImpl {
   @Override
   public void addLocation(Location location) {
     allLocations.add(location);
+
     try {
       System.out.println("Sending to database...");
-      Connection connection = Vdb.Connect();
-      Statement exampleStatement = connection.createStatement();
-      for (Location l : allLocations)
-        exampleStatement.execute(
-            "INSERT INTO LOCATIONS VALUES ('"
-                + location.getNodeID()
-                + "',"
-                + location.getXCoord()
-                + ","
-                + location.getYCoord()
-                + ",'"
-                + location.getFloor()
-                + "','"
-                + location.getBuilding()
-                + "','"
-                + location.getNodeType()
-                + "','"
-                + location.getLongName()
-                + "','"
-                + location.getShortName()
-                + "')");
       Vdb.saveToFile(Vdb.Database.Location);
+      Vdb.addToLocationsTable(
+          location.getNodeID(),
+          location.getXCoord(),
+          location.getYCoord(),
+          location.getFloor(),
+          location.getBuilding(),
+          location.getNodeType(),
+          location.getLongName(),
+          location.getShortName());
+
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {
@@ -67,51 +57,15 @@ public class LocationDao implements LocationImpl {
         allLocations.remove(i);
       }
     }
-    /*try {
-      System.out.println("Sending to database...");
-      Connection connection = Vdb.Connect();
-      Statement exampleStatement = connection.createStatement();
-      for (Location l : allLocations) {
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID.equals(l.getNodeID())");
-      }
-
-      allLocations.remove(getLocation(nodeID));
-      Vdb.saveToFile(Vdb.Database.Location);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }*/
   }
 
   public void setAllLocations(ArrayList<Location> locations) {
     allLocations = locations;
+
     try {
-      Connection connect = Vdb.Connect();
-      for (int i = 0; i < locations.size(); i++) {
-        Statement st = connect.createStatement();
-        st.execute(
-            "INSERT INTO LOCATIONS VALUES('"
-                + locations.get(i).getNodeID()
-                + "', "
-                + locations.get(i).getXCoord()
-                + ","
-                + locations.get(i).getYCoord()
-                + ",'"
-                + locations.get(i).getFloor()
-                + "','"
-                + locations.get(i).getBuilding()
-                + "','"
-                + locations.get(i).getNodeType()
-                + "','"
-                + locations.get(i).getLongName()
-                + "','"
-                + locations.get(i).getShortName()
-                + "')");
-      }
       Vdb.saveToFile(Vdb.Database.Location);
     } catch (Exception e) {
-      e.printStackTrace();
+
     }
   }
 }
