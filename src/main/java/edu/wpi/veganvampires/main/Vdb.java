@@ -509,7 +509,6 @@ public class Vdb {
   private static void createEquipmentTable() throws Exception {
     Connection connection = Connect();
     try {
-      // substitute your database name for myDB
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
