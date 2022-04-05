@@ -142,7 +142,7 @@
                                           <Insets />
                                        </VBox.margin>
                                     </Button>
-                                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToInternalPatientTransport" prefHeight="87.0" prefWidth="143.0" style="-fx-background-color: #5c677d;" text="Internal Patient Transport" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToInternalPatientTransport" prefHeight="51.0" prefWidth="143.0" style="-fx-background-color: #5c677d;" text="Internal Patient Transport" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>

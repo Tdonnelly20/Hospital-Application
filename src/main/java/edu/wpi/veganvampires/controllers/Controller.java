@@ -347,13 +347,13 @@ public abstract class Controller extends Application {
   // Switches scene to the religious request page
   @FXML
   public void switchToInternalPatientTransport(ActionEvent event) throws IOException {
-    /*
+
     root =
         FXMLLoader.load(
             Objects.requireNonNull(
-                getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
+                getClass().getClassLoader().getResource("FXML/InternalPatientTransport.fxml")));
     switchScene(event);
-    * */
+
   }
 
   // Switches scene to the rootW
