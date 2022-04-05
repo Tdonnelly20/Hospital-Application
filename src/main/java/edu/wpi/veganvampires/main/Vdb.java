@@ -103,9 +103,6 @@ public class Vdb {
       e.printStackTrace();
     }
 
-
-
-
     try {
       // substitute your database name for myDB
       Statement exampleStatement = connection.createStatement();
@@ -476,7 +473,7 @@ public class Vdb {
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         newStatement.execute(
-            "CREATE TABLE Locations(nodeID char(20), xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+            "CREATE TABLE Locations(nodeID char(20), xCoord double, yCoord double, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
         ;
       } else {
         System.out.println("We already got tables?");
@@ -523,8 +520,8 @@ public class Vdb {
       Location newLoc =
           new Location(
               data[0],
-              Integer.parseInt(data[1]),
-              Integer.parseInt(data[2]),
+              Double.parseDouble(data[1]),
+              Double.parseDouble(data[2]),
               data[3],
               data[4],
               data[5],
@@ -571,8 +568,8 @@ public class Vdb {
 
   public static void addToLocationsTable(
       String nodeID,
-      int xCoord,
-      int yCoord,
+      double xCoord,
+      double yCoord,
       String floor,
       String building,
       String nodeType,
