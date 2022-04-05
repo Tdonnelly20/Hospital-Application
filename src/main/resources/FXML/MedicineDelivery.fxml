@@ -117,7 +117,7 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXComboBox>
-                  <TextField fx:id="dosage" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage" />
+                  <TextField fx:id="dosage1" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage" />
                   <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
@@ -126,9 +126,11 @@
                   <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:id="notStarted" fx:value="Not Started" />
-                           <String fx:id="processing" fx:value="Processing" />
-                           <String fx:id="completed" fx:value="Completed" />
+                           <String fx:id="tylenolRequest1" fx:value="Tylenol" />
+                           <String fx:id="morphineRequest1" fx:value="Morphine" />
+                           <String fx:id="epinephrineRequest1" fx:value="Epinephrine" />
+                           <String fx:id="adderallRequest1" fx:value="Adderall" />
+                           <String fx:id="cyclosporineRequest1" fx:value="Cyclosporine" />
                         </FXCollections>
                      </items>
                      <opaqueInsets>

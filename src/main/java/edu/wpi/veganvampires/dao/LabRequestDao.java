@@ -1,9 +1,7 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.LabRequestImpl;
-import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.LabRequest;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,25 +10,8 @@ public class LabRequestDao implements LabRequestImpl {
 
   /** Initialize the array list */
   public LabRequestDao() {
-    allLabRequests = new ArrayList<>();
-  }
-
-  public void createLabTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement newStatement = connection.createStatement();
-    newStatement.execute(
-        "CREATE TABLE LABS ("
-            + "UserID int, "
-            + "PatientID int, "
-            + "FirstName char(20),"
-            + "LastName char(20),"
-            + "Lab char(20),"
-            + "Status char(20))");
-  }
-
-  public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
-    allLabRequests = newRequests;
+    allLabRequests = new ArrayList<LabRequest>();
+    // TODO: Add info from the database to the local arraylist
   }
 
   @Override
@@ -45,34 +26,13 @@ public class LabRequestDao implements LabRequestImpl {
 
     System.out.println("Adding to local arraylist...");
     allLabRequests.add(labRequest);
+    updateLabRequest(labRequest);
+  }
 
-    try {
-      System.out.println("Adding to CSV");
-      Vdb.saveToFile(Vdb.Database.LabRequest);
-      System.out.println("Adding to database...");
-      Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  private void updateLabRequest(LabRequest labRequest) {
+    System.out.println("Sending to database...");
   }
 
   @Override
-  public void removeLabRequest(int userID) {
-    System.out.println("Removing from arraylist...");
-    allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);
-
-    try {
-      System.out.println("Removing from database...");
-      Connection connection;
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
-      Statement exampleStatement = connection.createStatement();
-      for (LabRequest l : allLabRequests)
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
-
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  public void removeLabRequest() {} // TODO
 }
