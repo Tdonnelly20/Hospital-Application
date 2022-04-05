@@ -50,6 +50,11 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
 
     System.out.println("Adding to local arraylist...");
     allEquipmentDeliveries.add(newEquipmentDelivery);
+    try {
+      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
+    } catch (Exception e) {
+
+    }
 
     System.out.println("Adding to database");
     Connection connection = Vdb.Connect();
