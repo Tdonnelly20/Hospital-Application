@@ -80,15 +80,15 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                          <JFXComboBox fx:id="floorDropDown" layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="groundFloor1" fx:value="Ground Floor" />
-                                                   <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
-                                                   <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
-                                                   <String fx:id="floor11" fx:value="Floor 1" />
-                                                   <String fx:id="floor21" fx:value="Floor 2" />
-                                                   <String fx:id="floor31" fx:value="Floor 3" />
+                                                   <String fx:id="groundFloor" fx:value="Ground Floor" />
+                                                   <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                                   <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                                   <String fx:id="floor1" fx:value="1st Floor" />
+                                                   <String fx:id="floor2" fx:value="2nd Floor" />
+                                                   <String fx:id="floor3" fx:value="3rd Floor" />
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>

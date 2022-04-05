@@ -3,43 +3,60 @@ package edu.wpi.veganvampires.objects;
 import edu.wpi.veganvampires.main.Vdb;
 
 public class EquipmentDelivery extends ServiceRequest {
-  int employeeID;
-  int patientID;
-  String patientFirstName;
-  String patientLastName;
   private final String equipment, notes;
   private final int quantity;
 
   public EquipmentDelivery(
-      String nodeID, int userID, String equipment, String notes, int quantity, String status) {
+      int userID, String nodeID, String equipment, String notes, int quantity, String status) {
     this.location = Vdb.locationDao.getLocation(nodeID);
     this.hospitalEmployee = new HospitalEmployee(userID);
-    this.patient = new Patient(123, "James", "Jameson");
+    this.patient = null;
     this.equipment = equipment;
     this.notes = notes;
     this.desc = "Equipment Delivery (" + equipment + ")";
     this.status = status;
     this.quantity = quantity;
-    employeeID = hospitalEmployee.getHospitalID();
-    patientID = patient.getPatientID();
-    patientFirstName = patient.getFirstName();
-    patientLastName = patient.getLastName();
+    this.status = status;
   }
 
-  public int getEmployeeID() {
-    return employeeID;
+  public EquipmentDelivery(
+      int userID,
+      String nodeID,
+      String equipment,
+      String notes,
+      int quantity,
+      String status,
+      int pID) {
+    this.location = Vdb.locationDao.getLocation(nodeID);
+    this.hospitalEmployee = new HospitalEmployee(userID);
+    // this.patient = ;//needs to find patient
+    this.equipment = equipment;
+    this.notes = notes;
+    this.desc = "Equipment Delivery (" + equipment + ")";
+    this.status = status;
+    this.quantity = quantity;
+    this.status = status;
   }
 
-  public int getPatientID() {
-    return patientID;
-  }
-
-  public String getPatientFirstName() {
-    return patientFirstName;
-  }
-
-  public String getPatientLastName() {
-    return patientLastName;
+  public EquipmentDelivery(
+      int userID,
+      String nodeID,
+      String equipment,
+      String notes,
+      int quantity,
+      String status,
+      int pID,
+      String fname,
+      String lname) {
+    this.location = Vdb.locationDao.getLocation(nodeID);
+    this.hospitalEmployee = new HospitalEmployee(userID);
+    this.patient = new Patient(pID, fname, lname);
+    this.equipment = equipment;
+    this.notes = notes;
+    this.desc = "Equipment Delivery (" + equipment + ")";
+    this.status = status;
+    this.quantity = quantity;
+    this.status = status;
   }
 
   public Location getLocation() {
@@ -56,5 +73,9 @@ public class EquipmentDelivery extends ServiceRequest {
 
   public int getQuantity() {
     return quantity;
+  }
+
+  public String getStatus() {
+    return status;
   }
 }

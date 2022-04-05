@@ -36,32 +36,37 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
   /**
    * Adds equipment to the CSV
    *
-   * @param location
+   * @param userID,
+   * @param nodeID
    * @param equipment
    * @param notes
    * @param quantity
+   * @param status
+   * @param pID
+   * @param fname
+   * @param lname
    * @throws SQLException
    */
   @Override
-  public void addEquipmentDelivery(String location, String equipment, String notes, int quantity)
+  public void addEquipmentDelivery(
+      int userID,
+      String nodeID,
+      String equipment,
+      String notes,
+      int quantity,
+      String status,
+      int pID,
+      String fname,
+      String lname)
       throws SQLException {
     EquipmentDelivery newEquipmentDelivery =
-        new EquipmentDelivery(location, 123, equipment, notes, quantity, "no");
+        new EquipmentDelivery(
+            userID, nodeID, equipment, notes, quantity, status, pID, fname, lname);
 
     System.out.println("Adding to local arraylist...");
     allEquipmentDeliveries.add(newEquipmentDelivery);
 
     System.out.println("Adding to database");
-    try {
-      Connection connection = Vdb.Connect();
-      Statement exampleStatement = connection.createStatement();
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
-      exampleStatement.execute(
-          "INSERT INTO LOCATIONS VALUES (newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEquipmentDelivery.getLocation(), newEqipmentDelivery.getQuantity()) ");
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   /**

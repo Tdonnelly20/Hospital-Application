@@ -20,4 +20,12 @@ public abstract class ServiceRequest {
     }
     return desc;
   }
+
+  public HospitalEmployee getEmp() {
+    return hospitalEmployee;
+  }
+
+  public Patient getPatient() {
+    return patient;
+  }
 }

@@ -164,11 +164,14 @@ public class EquipmentRequestController extends Controller {
 
   @FXML
   private void sendRequest() throws SQLException {
+    /*
     equipmentDeliveryDao.addEquipmentDelivery(
         pos.getText(),
         dropDown.getValue().toString(),
         notes.getText(),
         Integer.parseInt(quant.getText()));
+
+     */
     resetForm();
     updateTreeTable();
   }

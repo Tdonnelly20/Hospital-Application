@@ -1,6 +1,1 @@
-NodeId,UserID.Name,Description,Location,Count,Status
-vSERV00301,12,Portable X-Ray,I wanna cry myself to sleep,69,Not Started
-vBATH00103,34,Bed,I wanna cry myself to sleep,69,Processing
-vHALL003L1,56,Needles,I wanna cry myself to sleep,69,Done
-vDEPT002L1,78,a will to live,I wanna cry myself to sleep,69,Done
-vDEPT002L1,420,bruh,I wanna cry myself to sleep,420,Processing
+EmpID,Location,Name,Notes,Count,Status,PatientID,PatientFirstName,PatientLastName
