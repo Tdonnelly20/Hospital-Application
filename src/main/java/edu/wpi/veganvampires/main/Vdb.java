@@ -54,15 +54,13 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
+
     createLocationDB();
     createEquipmentDB();
     createMedicineDeliveryTable();
     createMedicineDeliveryDB();
     createLabTable();
     createLabDB();
-
-
-
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -100,70 +98,6 @@ public class Vdb {
     } catch (Exception e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
-    }
-
-    try {
-      // substitute your database name for myDB
-      Statement exampleStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
-      if (!set.next()) {
-        System.out.println("WE MAKInG TABLES");
-        exampleStatement.execute(
-            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
-      } else {
-        exampleStatement.execute("DROP TABLE EQUIPMENT");
-        exampleStatement.execute(
-            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
-      }
-    } catch (SQLException e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-      return;
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-    // "INSERT INTO EQUIPMENT VALUES
-    // (newEquipmentDelivery.getLocation(),newEquipmentDelivery.getEquipment(),
-    // newEquipmentDelivery.getNotes(), newEqipmentDelivery.getQuantity()) ");
-    // adds stuff from equipmentDAO to EQUIPMENT TABLE
-    ArrayList<EquipmentDelivery> equipment = equipmentDeliveryDao.getAllEquipmentDeliveries();
-    int i = 0;
-    System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
-    String test = "\'";
-    PreparedStatement pSTMT =
-        connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
-    while (equipment.size() > i) {
-      EquipmentDelivery ed = equipment.get(i);
-      System.out.println(
-          "Loc: "
-              + ed.getLocation()
-              + "  Eq: "
-              + ed.getEquipment()
-              + " Notes: "
-              + ed.getNotes()
-              + " QNT : "
-              + ed.getQuantity());
-      pSTMT.setString(1, ed.getLocation());
-      pSTMT.setString(2, ed.getEquipment());
-      pSTMT.setString(3, ed.getNotes());
-      pSTMT.setInt(4, ed.getQuantity());
-      pSTMT.executeUpdate();
-      i++;
-    }
-    Statement exampleStatement = connection.createStatement();
-    System.out.println("BREAK");
-    ResultSet rs = exampleStatement.executeQuery("SELECT * FROM EQUIPMENT");
-
-    System.out.println("Apache Derby connection established!");
-    while (rs.next()) {
-      System.out.println("THIS IS A Equipment");
-      System.out.println("Loc: " + rs.getString("location"));
-      System.out.println("Name: " + rs.getString("name"));
-      System.out.println("Desc: " + rs.getString("description"));
-      System.out.println("CNT: " + rs.getString("count"));
-      System.out.println(" ");
     }
     System.out.println(LocationDao.getAllLocations());
   }
@@ -638,6 +572,71 @@ public class Vdb {
     System.out.println("Equipment database made");
   }
 
+  private static void createEquipmentTable() throws Exception {
+    Connection connection = Connect();
+    try {
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
+      } else {
+        exampleStatement.execute("DROP TABLE EQUIPMENT");
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return;
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+
+    ArrayList<EquipmentDelivery> equipment = equipmentDeliveryDao.getAllEquipmentDeliveries();
+    int i = 0;
+    System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
+    String test = "\'";
+    PreparedStatement pSTMT =
+        connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
+    while (equipment.size() > i) {
+      EquipmentDelivery ed = equipment.get(i);
+      System.out.println(
+          "Loc: "
+              + ed.getLocation()
+              + "  Eq: "
+              + ed.getEquipment()
+              + " Notes: "
+              + ed.getNotes()
+              + " QNT : "
+              + ed.getQuantity());
+      pSTMT.setString(1, ed.getLocation());
+      pSTMT.setString(2, ed.getEquipment());
+      pSTMT.setString(3, ed.getNotes());
+      pSTMT.setInt(4, ed.getQuantity());
+      pSTMT.executeUpdate();
+      i++;
+    }
+
+    Statement exampleStatement = connection.createStatement();
+    System.out.println("BREAK");
+    ResultSet rs = exampleStatement.executeQuery("SELECT * FROM EQUIPMENT");
+
+    System.out.println("Apache Derby connection established!");
+    while (rs.next()) {
+      System.out.println("THIS IS A Equipment");
+      System.out.println("Loc: " + rs.getString("location"));
+      System.out.println("Name: " + rs.getString("name"));
+      System.out.println("Desc: " + rs.getString("description"));
+      System.out.println("CNT: " + rs.getString("count"));
+      System.out.println(" ");
+    }
+    System.out.println("HERE");
+  }
+
   public static void createLabTable() throws SQLException {
 
     try {
@@ -657,23 +656,6 @@ public class Vdb {
                 + "LastName char[20],"
                 + "Lab char[20],"
                 + "Status char[20])");
-      } else {
-        System.out.println("We already got tables?");
-        System.out.println("listing tables");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-        }
       }
     } catch (Exception e) {
       System.out.println("Connection failed. Check output console.");
@@ -761,7 +743,7 @@ public class Vdb {
     bw.append("UserID,PatientID,First Name,Last Name,Lab Type,Status");
     for (LabRequest l : labRequestDao.getAllLabRequests()) {
       String[] outputData = {
-        //String.valueOf(l.getUserID()),
+        // String.valueOf(l.getUserID()),
         String.valueOf(l.getPatient().getPatientID()),
         l.getPatient().getFirstName(),
         l.getPatient().getLastName(),
