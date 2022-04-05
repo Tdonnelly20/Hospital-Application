@@ -55,7 +55,7 @@ public class Vdb {
     createLocationDB();
     createEquipmentDB();
     createMedicineDeliveryDB();
-
+    mapManager = MapManager.getManager();
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -243,8 +243,6 @@ public class Vdb {
     }
     locationDao.setAllLocations(locations);
     System.out.println("Location database made");
-
-    mapManager = MapManager.getManager();
   }
 
   /**

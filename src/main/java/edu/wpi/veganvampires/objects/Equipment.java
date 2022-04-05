@@ -1,16 +1,21 @@
 package edu.wpi.veganvampires.objects;
 
+import edu.wpi.veganvampires.main.Vdb;
+
 public class Equipment {
   private int ID;
-  private Location location;
+  private double x;
+  private double y;
   private String name;
   private String description;
   private int count;
   private boolean isDirty;
 
   public Equipment(
-      int ID, Location location, String name, String description, int count, Boolean isDirty) {
-    this.location = location;
+      int ID, double x, double y, String name, String description, int count, Boolean isDirty) {
+    this.ID=ID;
+    this.x = x;
+    this.y =y;
     this.name = name;
     this.description = description;
     this.count = count;
