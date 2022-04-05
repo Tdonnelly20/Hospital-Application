@@ -298,13 +298,13 @@ public class Vdb {
     String headerLine = br.readLine();
     String splitToken = ",";
     ArrayList<Equipment> equipment = new ArrayList<>();
-    //int ID, String name, double x, double y, String description, Boolean isDirty) {
+    //int ID, String name, floor,double x, double y, String description, Boolean isDirty) {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data;
       data = line.split(splitToken);
       for (String s : data) System.out.println(s);
-      Equipment e= new Equipment(Integer.parseInt(data[0]), data[1], Double.parseDouble(data[2]),Double.parseDouble(data[3]),data[4],Boolean.parseBoolean(data[5]));
+      Equipment e= new Equipment(Integer.parseInt(data[0]), data[1], data[2],Double.parseDouble(data[3]),Double.parseDouble(data[4]),data[5],Boolean.parseBoolean(data[6]));
       equipment.add(e);
     }
     equipmentDao.setAllEquipment(equipment);
@@ -350,11 +350,11 @@ public class Vdb {
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         exampleStatement.execute(
-                "CREATE TABLE EQUIPMENT(ID char(15),name char(40), x int, y int,description char(100), isDirty boolean)");
+                "CREATE TABLE EQUIPMENT(ID char(15),name char(40), floor char(2),x int, y int,description char(100), isDirty boolean)");
       } else {
         exampleStatement.execute("DROP TABLE EQUIPMENT");
         exampleStatement.execute(
-                "CREATE TABLE EQUIPMENT(ID char(15),name char(40), x int, y int,description char(100), isDirty boolean)");
+                "CREATE TABLE EQUIPMENT(ID char(15),name char(40), floor char(2),x int, y int,description char(100), isDirty boolean)");
       }
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
@@ -370,16 +370,17 @@ public class Vdb {
     System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
     String test = "\'";
     PreparedStatement pSTMT =
-            connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?,?,?,?,?,?)");
-    // int ID, String name, double x, double y, String description, Boolean isDirty) {
+            connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?,?,?,?)");
+    // int ID, String name, floor,double x, double y, String description, Boolean isDirty) {
     while (equipment.size() > i) {
       Equipment e = equipment.get(i);
       pSTMT.setInt(1, e.getID());
       pSTMT.setString(2, e.getName());
-      pSTMT.setDouble(3, e.getX());
-      pSTMT.setDouble(4, e.getY());
-      pSTMT.setString(5, e.getDescription());
-      pSTMT.setBoolean(6, e.getisDirty());
+      pSTMT.setString(3, e.getFloor());
+      pSTMT.setDouble(4, e.getX());
+      pSTMT.setDouble(5, e.getY());
+      pSTMT.setString(6, e.getDescription());
+      pSTMT.setBoolean(7, e.getisDirty());
       pSTMT.executeUpdate();
       i++;
     }
@@ -412,18 +413,17 @@ public class Vdb {
 
     ArrayList<EquipmentDelivery> equipmentDelivery = equipmentDeliveryDao.getAllEquipmentDeliveries();
     i = 0;
-    System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
 
     // int userID, String nodeID,  String equipment, String notes, int quantity, String status,int pID, String fname, String lname) {
     while (equipmentDelivery.size() > i) {
       EquipmentDelivery ed = equipmentDelivery.get(i);
       if (ed.getPatient()==null){//no pataient
         pSTMT =
-                connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?,?,?)");
+                connection.prepareStatement("INSERT INTO EQUIPMENTDELIVERY VALUES (?, ?, ?, ?,?,?)");
       }
       else{
         pSTMT =
-                connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?,?,?,?,?,?)");
+                connection.prepareStatement("INSERT INTO EQUIPMENTDELIVERY VALUES (?, ?, ?, ?,?,?,?,?,?)");
       }
       pSTMT.setInt(1, ed.getHospitalEmployee().getHospitalID());
       pSTMT.setString(2, ed.getLocation().getNodeID());
@@ -449,11 +449,11 @@ public class Vdb {
   private static void saveToEquipmentDB() throws IOException {
     FileWriter fw = new FileWriter(currentPath + "\\ListofEquipment.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("ID,Name,X,Y,Description,isDirty");
+    bw.append("ID,Name,Floor,X,Y,Description,isDirty");
     //ID	Name	X	Y	Description	isDirty
     for (Equipment e : equipmentDao.getAllEquipment()) {
       String[] outputData = {
-              Integer.toString(e.getID()),e.getName(),Double.toString(e.getX()),Double.toString(e.getY()),e.getDescription(),Boolean.toString(e.getisDirty())
+              Integer.toString(e.getID()),e.getName(),e.getFloor(),Double.toString(e.getX()),Double.toString(e.getY()),e.getDescription(),Boolean.toString(e.getisDirty())
       };
       bw.append("\n");
       for (String s : outputData) {
