@@ -66,7 +66,7 @@
       </GridPane>
       <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
          <children>
-            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                </image>
@@ -164,27 +164,7 @@
                      <content>
                         <Pane prefHeight="571.0" prefWidth="366.0">
                            <children>
-                              <JFXComboBox layoutX="349.0" layoutY="890.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                 <items>
-                                    <FXCollections fx:factory="observableArrayList">
-                                       <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                       <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                       <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                       <String fx:id="floor1" fx:value="Floor 1" />
-                                       <String fx:id="floor2" fx:value="Floor 2" />
-                                       <String fx:id="floor3" fx:value="Floor 3" />
-                                    </FXCollections>
-                                 </items>
-                              </JFXComboBox>
-                              <ImageView fitHeight="414.0" fitWidth="464.0" layoutX="68.0" layoutY="60.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../1st Floor.png" />
-                                 </image>
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
-                              </ImageView>
-                              <JFXComboBox fx:id="floorDropDown" layoutX="23.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                              <JFXComboBox fx:id="floorDropDown" layoutX="171.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="groundFloor1" fx:value="Ground Floor" />
@@ -196,6 +176,18 @@
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
+                              <TextArea fx:id="coordinates1" layoutX="420.0" layoutY="22.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
+                              <Pane fx:id="mapPane" layoutX="40.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0">
+                                 <children>
+                                    <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../2nd%20Floor.png" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </children></Pane>
                            </children>
                         </Pane>
                      </content>

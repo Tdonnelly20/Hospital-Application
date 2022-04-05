@@ -1,22 +1,27 @@
 package edu.wpi.veganvampires.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.LaundryRequestDao;
+import java.awt.*;
 import java.sql.SQLException;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LaundryRequestController extends Controller {
 
   @FXML private Label Status;
-  @FXML private TextField employeeID;
+  @FXML private TextField userID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private TextField roomNumber;
-  @FXML private TextField details;
+  @FXML private TextArea details;
+  @FXML private JFXComboBox statusDropDown;
   @FXML private Button sendRequest;
 
   // TODO
@@ -28,19 +33,22 @@ public class LaundryRequestController extends Controller {
 
   @FXML
   private void resetForm() {
-    Status.setText("Status: Blank");
-    employeeID.setText("");
+    userID.setText("");
     patientID.setText("");
     firstName.setText("");
     lastName.setText("");
     roomNumber.setText("");
+    details.setText("");
+    statusDropDown.setValue("Status");
+    Status.setText("Status: Blank");
     sendRequest.setDisable(true);
+    System.out.println("reset form");
   }
 
   // Checks to see if the user can submit info
   @FXML
   private void validateButton() {
-    if ((!employeeID.getText().isEmpty())
+    if ((!userID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
         && !(firstName.getText().isEmpty())
         && !(lastName.getText().isEmpty())
@@ -49,7 +57,7 @@ public class LaundryRequestController extends Controller {
       Status.setText("Status: Done");
       sendRequest.setDisable(false);
 
-    } else if ((employeeID.getText().isEmpty())
+    } else if ((userID.getText().isEmpty())
         || (patientID.getText().isEmpty())
         || (firstName.getText().isEmpty())
         || (lastName.getText().isEmpty())
@@ -63,10 +71,11 @@ public class LaundryRequestController extends Controller {
     }
   }
 
+  @FXML
   private void sendRequest() throws SQLException {
     laundryRequestDao.addLaundryRequest(
-        employeeID.getText(),
-        patientID.getText(),
+        Integer.parseInt(userID.getText()),
+        Integer.parseInt(userID.getText()),
         firstName.getText(),
         lastName.getText(),
         Integer.parseInt(roomNumber.getText()),
@@ -76,4 +85,19 @@ public class LaundryRequestController extends Controller {
 
   @Override
   public void start(Stage primaryStage) {}
+
+  public void updateTreeTable(Event event) {}
+
+  // used to get coordinates after clicking map
+  @FXML private TextArea coordinates;
+  private Point point = new Point();
+  private int xCoord, yCoord;
+
+  @FXML
+  private void mapCoordTracker() {
+    point = MouseInfo.getPointerInfo().getLocation();
+    xCoord = point.x - 712;
+    yCoord = point.y - 230;
+    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
+  }
 }

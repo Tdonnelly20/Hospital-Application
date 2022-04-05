@@ -5,12 +5,13 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
@@ -19,173 +20,208 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="570.0" prefWidth="920.0" style="-fx-background-color: rgb(149,182,203);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.MealDeliveryRequestController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.MealDeliveryRequestController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="90.0" minHeight="90.0" prefHeight="80.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="SOMETIMES" />
+    </rowConstraints>
     <children>
-        <SplitPane dividerPositions="0.3503636363636363" layoutY="51.0" prefHeight="522.0" prefWidth="919.0" style="-fx-background-color: rgb(149,182,203);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <items>
-                <AnchorPane prefHeight="503.0" prefWidth="408.0" style="-fx-background-color: #5c677d;">
-                    <children>
-                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="23.0" prefHeight="496.0" prefWidth="318.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="23.0">
-                            <content>
-                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="314.0" spacing="40.0" style="-fx-background-color: #5c677d;">
-                                    <children>
-                                        <TextField id="userID" fx:id="userID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="User ID">
-                                            <VBox.margin>
-                                                <Insets left="15.0" right="15.0" />
-                                            </VBox.margin>
-                                        </TextField>
-                                        <TextField id="patientID" fx:id="patientID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
-                                            <VBox.margin>
-                                                <Insets left="15.0" right="15.0" />
-                                            </VBox.margin>
-                                        </TextField>
-                                        <TextField id="firstName" fx:id="firstName" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Patient First Name">
-                                            <VBox.margin>
-                                                <Insets left="15.0" right="15.0" />
-                                            </VBox.margin>
-                                        </TextField>
-                                        <TextField id="lastName" fx:id="lastName" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Patient Last Name">
-                                            <VBox.margin>
-                                                <Insets left="15.0" right="15.0" />
-                                            </VBox.margin>
-                                        </TextField>
-                                        <JFXComboBox id="dropDown" fx:id="requestedMeal" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Select Meal" style="-fx-background-color: #FFFFFF;">
-                                            <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                    <String fx:id="cheeseburgerRequest" fx:value="Cheeseburger" />
-                                                    <String fx:id="tenderRequest" fx:value="Chicken_Tender" />
-                                                    <String fx:id="dogRequest" fx:value="Hot_Dog" />
-                                                    <String fx:id="friesRequest" fx:value="Fries" />
-                                                    <String fx:id="crackersRequest" fx:value="Crackers" />
-                                                </FXCollections>
-                                            </items>
-                                        </JFXComboBox>
-                                        <TextField id="Status" fx:id="Status" alignment="CENTER" editable="false" layoutX="41.0" layoutY="130.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" style="-fx-background-color: #5c677d;" text="Status: Blank" />
-                                        <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Button>
-                                        <Button id="sendRequest" fx:id="Reset" layoutX="95.0" layoutY="391.0" mnemonicParsing="false" onAction="#resetForm" text="Reset">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Button>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
-                                    </padding>
-                                </VBox>
-                            </content>
-                        </ScrollPane>
-                    </children>
-                </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="586.0">
-                    <children>
-                        <VBox alignment="TOP_CENTER" layoutY="20.0" prefHeight="519.3333333333334" prefWidth="592.0" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
-                            <children>
-                                <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
-                                    <tabs>
-                                        <Tab text="Map View">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                    <children>
-                                                        <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                                            <items>
-                                                                <FXCollections fx:factory="observableArrayList">
-                                                                    <String fx:id="groundFloor1" fx:value="Ground Floor" />
-                                                                    <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
-                                                                    <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
-                                                                    <String fx:id="floor11" fx:value="Floor 1" />
-                                                                    <String fx:id="floor21" fx:value="Floor 2" />
-                                                                    <String fx:id="floor31" fx:value="Floor 3" />
-                                                                </FXCollections>
-                                                            </items>
-                                                        </JFXComboBox>
-                                                        <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@../1st Floor.png" />
-                                                            </image>
-                                                            <viewport>
-                                                                <Rectangle2D />
-                                                            </viewport>
-                                                        </ImageView>
-                                                    </children>
-                                                </AnchorPane>
-                                            </content>
-                                        </Tab>
-                                        <Tab text="Meal Requests">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                    <children>
-                                                        <TreeTableView fx:id="table" layoutX="28.0" layoutY="22.0" prefHeight="417.0" prefWidth="534.0">
-                                                            <columns>
-                                                                <TreeTableColumn fx:id="userIDCol" prefWidth="75.0" text="User ID" />
-                                                                <TreeTableColumn fx:id="patientIDCol" prefWidth="75.0" text="Patient ID" />
-                                                                <TreeTableColumn fx:id="firstNameCol" prefWidth="123.33331298828125" text="Patient First Name" />
-                                                                <TreeTableColumn fx:id="lastNameCol" prefWidth="124.0" text="Patient Last Name" />
-                                                                <TreeTableColumn fx:id="requestedMealCol" prefWidth="134.6666259765625" text="Requested Meal" />
-                                                            </columns>
-                                                        </TreeTableView>
-                                                    </children>
-                                                </AnchorPane>
-                                            </content>
-                                        </Tab>
-                                    </tabs>
-                                </TabPane>
-                            </children>
-                        </VBox>
-                    </children>
-                </AnchorPane>
-            </items>
-        </SplitPane>
-        <Pane id="Menu" fx:id="menu" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+        <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="521.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="229.4000244140625" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.80002441406253" minWidth="10.0" prefWidth="222.19997558593752" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.4000305175781" minWidth="10.0" prefWidth="229.79999389648435" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="20.333335876464844" minHeight="10.0" prefHeight="18.333335876464844" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="32.33332824707031" minHeight="10.0" prefHeight="31.666664123535156" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
             <children>
-                <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Button>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Button>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="142.0" layoutY="27.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </GridPane>
+        <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+            <children>
+                <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="375.0" text="Meal Delivery Request" textFill="WHITE">
+                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="349.0" text="Meal Delivery Request" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="25.0" />
                     </font>
                 </Label>
-                <GridPane alignment="CENTER_RIGHT" layoutX="-125.0" prefHeight="76.0" prefWidth="349.0" translateX="657.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="119.44442749023438" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="119.44442749023438" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.33331298828125" minWidth="10.0" prefWidth="73.88890584309894" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints maxHeight="20.333335876464844" minHeight="10.0" prefHeight="18.333335876464844" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="32.33332824707031" minHeight="10.0" prefHeight="31.666664123535156" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="142.0" layoutY="27.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Button>
-                    </children>
-                </GridPane>
             </children>
         </Pane>
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <content>
+                <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="40.0" style="-fx-background-color: #5c677d;">
+                    <children>
+                        <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Hospital ID" />
+                        <TextField fx:id="patientID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient ID">
+                            <VBox.margin>
+                                <Insets left="15.0" right="15.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient First Name">
+                            <VBox.margin>
+                                <Insets left="15.0" right="15.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient Last Name">
+                            <VBox.margin>
+                                <Insets left="15.0" right="15.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="roomNum" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Room Number">
+                            <VBox.margin>
+                                <Insets left="15.0" right="15.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <JFXComboBox fx:id="mealDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" layoutX="22.0" layoutY="137.0" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Select Meal" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:id="burgerRequest" fx:value="Cheeseburger" />
+                                    <String fx:id="tenderRequest" fx:value="Chicken_Tender" />
+                                    <String fx:id="dogRequest" fx:value="Hot_Dog" />
+                                    <String fx:id="friesRequest" fx:value="Fries" />
+                                    <String fx:id="crackerRequest" fx:value="Crackers" />
+                                </FXCollections>
+                            </items>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </JFXComboBox>
+                        <TextField fx:id="allergy" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Allergies- enter 'none' if you don't have any" />
+                        <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
+                            <VBox.margin>
+                                <Insets left="15.0" right="15.0" />
+                            </VBox.margin>
+                        </TextArea>
+                        <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:id="notStarted" fx:value="Not Started" />
+                                    <String fx:id="processing" fx:value="Processing" />
+                                    <String fx:id="completed" fx:value="Completed" />
+                                </FXCollections>
+                            </items>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </JFXComboBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                            <children>
+                                <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
+                                <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="104.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                                <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" prefHeight="21.0" prefWidth="138.0" text="Send Request" textAlignment="CENTER">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets right="-10.0" />
+                                    </padding>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+        <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <TabPane fx:id="mealTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Map View">
+                            <content>
+                                <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
+                                    <children>
+                                        <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0">
+                                            <children>
+                                                <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                                    <items>
+                                                        <FXCollections fx:factory="observableArrayList">
+                                                            <String fx:id="groundFloor" fx:value="Ground Floor" />
+                                                            <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                                            <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                                            <String fx:id="floor1" fx:value="1st Floor" />
+                                                            <String fx:id="floor2" fx:value="2nd Floor" />
+                                                            <String fx:id="floor3" fx:value="3rd Floor" />
+                                                        </FXCollections>
+                                                    </items>
+                                                </JFXComboBox>
+                                            </children>
+                                        </HBox>
+                                        <Group layoutX="30.0">
+                                            <children>
+                                                <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../2nd Floor.png" />
+                                                    </image>
+                                                    <viewport>
+                                                        <Rectangle2D />
+                                                    </viewport>
+                                                </ImageView>
+                                                <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
+                                                <TextArea fx:id="coordinates" layoutX="380.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
+                                            </children>
+                                        </Group>
+                                    </children>
+                                </Pane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Delivery Requests">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TreeTableView fx:id="mealRequestTable" layoutX="8.0" layoutY="8.0" prefHeight="553.0" prefWidth="538.0">
+                                            <columns>
+                                                <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
+                                                <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
+                                                <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
+                                                <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
+                                                <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="55.2000732421875" text="Room #" />
+                                                <TreeTableColumn fx:id="mealCol" minWidth="0.0" prefWidth="56.7999267578125" text="Meal" />
+                                                <TreeTableColumn fx:id="allergyCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Allergies" />
+                                                <TreeTableColumn fx:id="otherInfoCol" prefWidth="64.80001831054688" text="Other Info" />
+                                            </columns>
+                                        </TreeTableView>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+        </VBox>
     </children>
-</AnchorPane>
+</GridPane>

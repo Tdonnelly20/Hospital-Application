@@ -1,12 +1,12 @@
 package edu.wpi.veganvampires.objects;
 
 public class LaundryRequest {
-  String userID, patientID, firstName, lastName, details;
-  int roomNumber;
+  String firstName, lastName, details;
+  int userID, patientID, roomNumber;
 
   public LaundryRequest(
-      String userID,
-      String patientID,
+      int userID,
+      int patientID,
       String firstName,
       String lastName,
       int roomNumber,
@@ -19,11 +19,11 @@ public class LaundryRequest {
     this.details = details;
   }
 
-  public String getUserID() {
+  public int getUserID() {
     return getUserID();
   }
 
-  public String getPatientID() {
+  public int getPatientID() {
     return patientID;
   }
 
@@ -41,5 +41,9 @@ public class LaundryRequest {
 
   public String getDetails() {
     return details;
+  }
+
+  public LaundryRequest getLaundryRequest() {
+    return this;
   }
 }

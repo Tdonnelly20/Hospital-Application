@@ -1,10 +1,9 @@
 package edu.wpi.veganvampires.controllers;
 
-import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
+import edu.wpi.veganvampires.dao.InternalPatientTransportationDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.main.Vdb;
-import edu.wpi.veganvampires.objects.MedicineDelivery;
+import edu.wpi.veganvampires.objects.InternalPatientTransportation;
 import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -17,32 +16,29 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MedicineDeliveryController extends Controller implements RequestInterface {
+public class InternalPatientTransportationController extends Controller
+    implements RequestInterface {
 
-  @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
+  @FXML private TreeTableView<InternalPatientTransportation> internalPatientTransportationTable;
 
-  @FXML private TreeTableColumn<MedicineDelivery, Integer> hospitalIDCol;
-  @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> roomNumberCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> medicineCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> dosageCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> otherInfoCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, Integer> hospitalIDCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, Integer> patientIDCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, String> firstNameCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, String> lastNameCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, String> roomNumberCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, String> otherInfoCol;
 
   @FXML private TextField patientID;
   @FXML private TextField hospitalID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private TextField roomNum;
-  @FXML private TextField dosage;
-  @FXML private JFXComboBox<Object> medicationDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
 
-  // MUST take from Vdb, do NOT create
-  private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
+  public static InternalPatientTransportationDao internalPatientTransportationDao =
+      Vdb.internalPatientTransportationDao;
 
   /** Update the table with values from fields and the DB */
   @Override
@@ -54,32 +50,28 @@ public class MedicineDeliveryController extends Controller implements RequestInt
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
     roomNumberCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
-    medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory("medicineName"));
-    dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory("dosage"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
 
-    // Get the current list of medicine deliveries from the DAO
-    ArrayList<MedicineDelivery> currMedicineDeliveries =
-        (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllMedicineDeliveries();
-
-    // Create a list for our tree items
+    // Create list for tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<InternalPatientTransportation> currInternalPatientTransportations =
+        internalPatientTransportationDao.getInternalPatientTransportations();
+    // make sure the list isn't empty
+    if (!currInternalPatientTransportations.isEmpty()) {
 
-    // Need to make sure the list isn't empty
-    if (!currMedicineDeliveries.isEmpty()) {
-
-      // for each loop cycling through each medicine delivery currently entered into the system
-      for (MedicineDelivery delivery : currMedicineDeliveries) {
-        TreeItem<MedicineDelivery> item = new TreeItem(delivery);
+      // for each loop cycling through each patient transportation request currently entered into
+      // the system
+      for (InternalPatientTransportation transport : currInternalPatientTransportations) {
+        TreeItem<InternalPatientTransportation> item = new TreeItem(transport);
         treeItems.add(item);
       }
       // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
       // we get the standard table functionality
-      medicineDeliveryTable.setShowRoot(false);
+      internalPatientTransportationTable.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem root = new TreeItem(medicineDeliveryDao.getAllMedicineDeliveries().get(0));
+      TreeItem root = new TreeItem(currInternalPatientTransportations.get(0));
       // Set the root in the table
-      medicineDeliveryTable.setRoot(root);
+      internalPatientTransportationTable.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
       root.getChildren().addAll(treeItems);
     }
@@ -94,9 +86,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
           && patientID.getText().equals("")
           && firstName.getText().equals("")
           && lastName.getText().equals("")
-          && roomNum.getText().equals("")
-          && dosage.getText().equals("")
-          && medicationDropDown.getValue().equals("Select Medication"))) {
+          && roomNum.getText().equals(""))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
         statusLabel.setTextFill(Color.web("Black"));
@@ -104,9 +94,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
           || patientID.getText().equals("")
           || firstName.getText().equals("")
           || lastName.getText().equals("")
-          || roomNum.getText().equals("")
-          || dosage.getText().equals("")
-          || medicationDropDown.getValue().equals("Select Medication"))) {
+          || roomNum.getText().equals(""))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
         statusLabel.setTextFill(Color.web("Black"));
@@ -132,14 +120,12 @@ public class MedicineDeliveryController extends Controller implements RequestInt
     } else {
 
       // Send the request to the Dao pattern
-      medicineDeliveryDao.addMedicationDelivery(
+      internalPatientTransportationDao.addInternalPatientTransportation(
           firstName.getText(),
           lastName.getText(),
           roomNum.getText(),
           Integer.parseInt(patientID.getText()),
           Integer.parseInt(hospitalID.getText()),
-          medicationDropDown.getValue().toString(),
-          dosage.getText(),
           requestDetails.getText());
 
       // For testing purposes
@@ -154,10 +140,6 @@ public class MedicineDeliveryController extends Controller implements RequestInt
               + firstName.getText()
               + " "
               + lastName.getText()
-              + "\nMedication: "
-              + medicationDropDown.getValue()
-              + "\nDosage: "
-              + dosage.getText()
               + "\n\nRequest Details: "
               + requestDetails.getText());
 
@@ -174,9 +156,6 @@ public class MedicineDeliveryController extends Controller implements RequestInt
     firstName.setText("");
     lastName.setText("");
     roomNum.setText("");
-    dosage.setText("");
-
-    medicationDropDown.setValue("Select Medication");
     requestDetails.setText("");
     sendRequest.setDisable(true);
   }
