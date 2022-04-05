@@ -422,7 +422,7 @@ public class Vdb {
         exampleStatement.execute(
             "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,fname char(25), lname char(25),location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
       } else {
-        exampleStatement.execute("DROP TABLE EQUIPMENT");
+        exampleStatement.execute("DROP TABLE EQUIPMENTDELIVERY");
         exampleStatement.execute(
             "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,fname char(25), lname char(25),location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
       }
@@ -445,6 +445,7 @@ public class Vdb {
         pSTMT =
             connection.prepareStatement("INSERT INTO EQUIPMENTDELIVERY VALUES (?, ?, ?, ?,?,?)");
       } else {
+
         pSTMT =
             connection.prepareStatement(
                 "INSERT INTO EQUIPMENTDELIVERY VALUES (?, ?, ?, ?,?,?,?,?,?)");
