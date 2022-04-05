@@ -8,8 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.sql.SQLException;
-
 public class LaundryRequestController extends Controller {
 
   @FXML private Label Status;
@@ -65,10 +63,9 @@ public class LaundryRequestController extends Controller {
     }
   }
 
-  @Override
   private void sendRequest() throws SQLException {
     laundryRequestDao.addLaundryRequest(
-        userID.getText(),
+        employeeID.getText(),
         patientID.getText(),
         firstName.getText(),
         lastName.getText(),

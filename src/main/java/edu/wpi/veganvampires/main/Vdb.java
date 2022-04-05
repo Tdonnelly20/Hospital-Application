@@ -146,7 +146,7 @@ public class Vdb {
               + ed.getNotes()
               + " QNT : "
               + ed.getQuantity());
-      pSTMT.setString(1, ed.getLocation());
+      pSTMT.setString(1, ed.getLocation().getNodeID());
       pSTMT.setString(2, ed.getEquipment());
       pSTMT.setString(3, ed.getNotes());
       pSTMT.setInt(4, ed.getQuantity());
@@ -626,7 +626,7 @@ public class Vdb {
     bw.append("Name,Description,Location,Count");
     for (EquipmentDelivery e : equipmentDeliveryDao.getAllEquipmentDeliveries()) {
       String[] outputData = {
-        e.getLocation(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
+        e.getLocation().getNodeID(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -656,7 +656,13 @@ public class Vdb {
       data = line.split(splitToken);
       for (String s : data) System.out.println(s);
       EquipmentDelivery e =
-          new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
+          new EquipmentDelivery(
+              data[0],
+              Integer.parseInt(data[1]),
+              data[2],
+              data[3],
+              Integer.parseInt(data[4]),
+              data[5]);
       equipment.add(e);
     }
     equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);

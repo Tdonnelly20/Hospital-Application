@@ -60,7 +60,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
     Connection connection = Vdb.Connect();
     PreparedStatement pSTMT =
         connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
-    pSTMT.setString(1, newEquipmentDelivery.getLocation());
+    pSTMT.setString(1, newEquipmentDelivery.getLocation().getNodeID());
     pSTMT.setString(2, newEquipmentDelivery.getEquipment());
     pSTMT.setString(3, newEquipmentDelivery.getNotes());
     pSTMT.setInt(4, newEquipmentDelivery.getQuantity());
