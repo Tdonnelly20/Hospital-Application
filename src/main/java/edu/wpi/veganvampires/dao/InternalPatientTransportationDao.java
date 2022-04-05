@@ -19,7 +19,6 @@ public class InternalPatientTransportationDao implements InternalPatientTranspor
     allInternalPatientTransportations = internalPatientTransportations;
   }
 
-
   public ArrayList<InternalPatientTransportation> getInternalPatientTransportations() {
     return allInternalPatientTransportations;
   }
@@ -34,29 +33,18 @@ public class InternalPatientTransportationDao implements InternalPatientTranspor
    * @param roomNumber
    * @param requestDetails
    */
-
-
   public void addInternalPatientTransportation(
-          String patientFirstName,
-          String patientLastName,
-          String roomNumber,
-          int patientID,
-          int hospitalID,
-          String requestDetails) {
-      InternalPatientTransportation newInternalPatientTransportation =
-              new InternalPatientTransportation(
-                      patientFirstName,
-                      patientLastName,
-                      roomNumber,
-                      patientID,
-                      hospitalID,
-                      requestDetails);
+      String patientFirstName,
+      String patientLastName,
+      String roomNumber,
+      int patientID,
+      int hospitalID,
+      String requestDetails) {
+    InternalPatientTransportation newInternalPatientTransportation =
+        new InternalPatientTransportation(
+            patientFirstName, patientLastName, roomNumber, patientID, hospitalID, requestDetails);
 
-      System.out.println("Adding to local arraylist...");
-      allInternalPatientTransportations.add(newInternalPatientTransportation); // Store a local copy
-
-
+    System.out.println("Adding to local arraylist...");
+    allInternalPatientTransportations.add(newInternalPatientTransportation); // Store a local copy
   }
-
-
 }
