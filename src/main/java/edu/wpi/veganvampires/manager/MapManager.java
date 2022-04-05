@@ -293,11 +293,9 @@ public class MapManager {
     title.setText("Add a Location");
     title.setTextFill(Color.WHITE);
     title.setAlignment(Pos.CENTER);
-    // title.setAlignment(TextAlignment.CENTER);
     title.setFont(new Font("System Bold", 38));
     title.setWrapText(true);
     HBox titleBox = new HBox(15, title);
-
     titleBox.setStyle("-fx-background-color: #012D5Aff;");
     titleBox.setAlignment(Pos.CENTER);
     HBox buttonBox = new HBox(submitIcon, clearResponse, closeButton);
