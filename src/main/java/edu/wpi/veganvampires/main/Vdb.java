@@ -54,8 +54,6 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-    // createLocationDB();
-    // createEquipmentDB();
 
     createLocationDB();
     createEquipmentDB();
@@ -64,6 +62,7 @@ public class Vdb {
     createLabTable();
     createLabDB();
 
+    mapManager = MapManager.getManager();
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -84,6 +83,7 @@ public class Vdb {
 
     try {
       // substitute your database name for myDB
+      connection = Connect();
       Statement exampleStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
@@ -158,14 +158,7 @@ public class Vdb {
     ResultSet rs = exampleStatement.executeQuery("SELECT * FROM EQUIPMENT");
 
     System.out.println("Apache Derby connection established!");
-    while (rs.next()) {
-      System.out.println("THIS IS A Equipment");
-      System.out.println("Loc: " + rs.getString("location"));
-      System.out.println("Name: " + rs.getString("name"));
-      System.out.println("Desc: " + rs.getString("description"));
-      System.out.println("CNT: " + rs.getString("count"));
-      System.out.println(" ");
-    }
+
     System.out.println(LocationDao.getAllLocations());
   }
 
@@ -475,27 +468,6 @@ public class Vdb {
         newStatement.execute(
             "CREATE TABLE Locations(nodeID char(20), xCoord double, yCoord double, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
         ;
-      } else {
-        System.out.println("We already got tables?");
-        System.out.println("listing tables");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        System.out.println("RS " + set.getString(7));
-        System.out.println("RS " + set.getString(8));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-          System.out.println("RS " + set.getString(7));
-          System.out.println("RS " + set.getString(8));
-        }
       }
     } catch (Exception e) {
       System.out.println("Connection failed. Check output console.");

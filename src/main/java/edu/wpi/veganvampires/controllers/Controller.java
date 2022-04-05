@@ -7,6 +7,7 @@ import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,20 +15,14 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -35,7 +30,15 @@ import javafx.stage.Stage;
 public abstract class Controller extends Application {
   private Parent root;
   private Floor currFloor;
-
+  private ArrayList<String> filter = new ArrayList<>();
+  private String activeRequests = "ActiveRequests";
+  private String labRequests = "Lab";
+  private String equipmentDeliveryRequests = "Equipment Delivery";
+  private String mealRequests = "Meal";
+  private String medicineDeliveryRequests = "Medicine Delivery";
+  private String religiousRequests = "Religious";
+  private String sanitationRequests = "Sanitation";
+  private String iptRequests = "Internal Patient Transport";
   @FXML private Pane mapPane;
   @FXML private ImageView mapImage;
 
@@ -101,97 +104,43 @@ public abstract class Controller extends Application {
     mapPane.getChildren().clear();
     System.out.println("Here");
     for (Icon icon : currFloor.getIconList()) {
-      mapPane.getChildren().add(icon.getImage());
+      if (filter.size() > 0) {
+        if (filter.contains(activeRequests)) {
+          if (icon.getRequestsArr().size() > 0) {
+            mapPane.getChildren().add(icon.getImage());
+          }
+        }
+      } else {
+        mapPane.getChildren().add(icon.getImage());
+      }
     }
   }
 
   // Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {
-    if (!MapManager.getManager().isRequestWindowOpen()) {
-      MapManager.getManager().getTempIcon().setVisible(true);
-      MapManager.getManager().getContent().getChildren().clear();
+    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
+      MapManager mapManager = MapManager.getManager();
       // X and Y coordinates
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
 
-      // Form
-      TextField nodeIDField = new TextField();
-      TextField nodeTypeField = new TextField();
-      TextField shortNameField = new TextField();
-      TextField longNameField = new TextField();
-      Button submitIcon = new Button("Add icon");
-      Button clearResponse = new Button("Clear Text");
-      Button closeButton = new Button("Close");
-      Label title = new Label("Add a Location");
-      title.setTextFill(Color.WHITE);
-      title.setAlignment(Pos.CENTER);
-      // title.setAlignment(TextAlignment.CENTER);
-      title.setFont(new Font("System Bold", 38));
-      title.setWrapText(true);
-      HBox titleBox = new HBox(15, title);
-
-      titleBox.setStyle("-fx-background-color: #012D5Aff;");
-      titleBox.setAlignment(Pos.CENTER);
-      HBox buttonBox = new HBox(submitIcon, clearResponse, closeButton);
-      buttonBox.setAlignment(Pos.CENTER);
-      buttonBox.setSpacing(15);
-      MapManager.getManager().getContent().getChildren().addAll(titleBox, buttonBox);
-
-      nodeIDField.setPromptText("Node ID");
-      nodeTypeField.setPromptText("Node Type");
-      shortNameField.setPromptText("Short Name");
-      longNameField.setPromptText("Long Name");
-      nodeIDField.setMinWidth(250);
-      nodeTypeField.setMinWidth(250);
-      shortNameField.setMinWidth(250);
-      longNameField.setMinWidth(250);
-      submitIcon.setMinWidth(100);
-      clearResponse.setMinWidth(100);
-
-      submitIcon.setOnAction(
-          event1 -> {
-            if (!nodeIDField.getText().isEmpty()
-                && !nodeTypeField.getText().isEmpty()
-                && !shortNameField.getText().isEmpty()
-                && !longNameField.getText().isEmpty()) {
-              addIcon(
-                  new Location(
-                      nodeIDField.getText(),
-                      xPos,
-                      yPos,
-                      getFloor(),
-                      "Tower",
-                      nodeTypeField.getText(),
-                      longNameField.getText(),
-                      shortNameField.getText()));
-            } else {
-              Text missingFields = new Text("Please fill all fields");
-              missingFields.setFill(Color.RED);
-              missingFields.setTextAlignment(TextAlignment.CENTER);
-              MapManager.getManager().getContent().getChildren().add(missingFields);
-              System.out.println("MISSING FIELD");
-            }
-          });
-      clearResponse.setOnAction(
-          event1 -> {
-            nodeIDField.setText("");
-            nodeTypeField.setText("");
-            shortNameField.setText("");
-            longNameField.setText("");
-          });
-      closeButton.setOnAction(
-          event1 -> {
-            MapManager.getManager().closePopUp();
-            MapManager.getManager().getTempIcon().setVisible(false);
-          });
-
-      MapManager.getManager()
-          .getContent()
-          .getChildren()
-          .addAll(nodeIDField, nodeTypeField, shortNameField, longNameField);
+      mapManager.locationForm(event, false);
+      mapManager
+          .getSubmitIcon()
+          .setOnAction(
+              event1 -> {
+                if (mapManager.checkFields()) {
+                  addIcon(mapManager.getLocation(xPos, yPos, getFloor()));
+                } else {
+                  Text missingFields = new Text("Please fill all fields");
+                  missingFields.setFill(Color.RED);
+                  missingFields.setTextAlignment(TextAlignment.CENTER);
+                  MapManager.getManager().getContent().getChildren().add(missingFields);
+                  System.out.println("MISSING FIELD");
+                }
+              });
       // borderPane.centerProperty().setValue(content);
-
       // Place Icon
       MapManager.getManager().getTempIcon().setX(xPos);
       MapManager.getManager().getTempIcon().setY(yPos);
@@ -201,10 +150,6 @@ public abstract class Controller extends Application {
         MapManager.getManager().getTempIcon().setFitHeight(30);
         mapPane.getChildren().add(MapManager.getManager().getTempIcon());
       }
-
-      // Scene and Stage
-      MapManager.getManager().getStage().setTitle("Add New Location");
-      MapManager.getManager().showPopUp();
     }
   }
 
@@ -215,6 +160,16 @@ public abstract class Controller extends Application {
     MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location, false));
     MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
+  }
+
+  @FXML
+  public void onlyActiveRequests() {
+    if (filter.contains(activeRequests)) {
+      filter.remove(activeRequests);
+    } else {
+      filter.add(activeRequests);
+    }
+    populateFloorIconArr();
   }
 
   /**
