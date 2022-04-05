@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires.main;
 
+import edu.wpi.veganvampires.dao.EquipmentDao;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.InternalPatientTransportationDao;
 import edu.wpi.veganvampires.dao.LocationDao;
@@ -16,6 +17,7 @@ public class Vdb {
   private static String line; // receives a line from br
 
   // Make all DAO's here, NOT in the controllers
+  public static final EquipmentDao equipmentDao = new EquipmentDao();
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
@@ -57,6 +59,8 @@ public class Vdb {
   public static void createAllDB() throws Exception {
     createLocationDB();
     createEquipmentDB();
+    createEquipmentTable();
+    // createMedicineDeliveryTable();
     createMedicineDeliveryDB();
     mapManager = MapManager.getManager();
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
@@ -284,14 +288,244 @@ public class Vdb {
    *
    * @throws IOException
    */
+
+  /**
+   * Initialize the equipment database
+   *
+   * @throws IOException
+   */
+  private static void createEquipmentDB() throws IOException {
+    // this does listofequipment
+    FileReader fr = new FileReader(currentPath + "\\ListofEquipment.CSV");
+    BufferedReader br = new BufferedReader(fr);
+    String headerLine = br.readLine();
+    String splitToken = ",";
+    ArrayList<Equipment> equipment = new ArrayList<>();
+    // int ID, String name, floor,double x, double y, String description, Boolean isDirty) {
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data;
+      data = line.split(splitToken);
+      for (String s : data) System.out.println(s);
+      Equipment e =
+          new Equipment(
+              data[0],
+              data[1],
+              data[2],
+              Double.parseDouble(data[3]),
+              Double.parseDouble(data[4]),
+              data[5],
+              Boolean.parseBoolean(data[6]));
+      equipment.add(e);
+    }
+    equipmentDao.setAllEquipment(equipment);
+    System.out.println("Equipment database made");
+
+    // int ID, String name, double x, double y, String description, Boolean isDirty)
+    // this does deliverytable
+    fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
+    br = new BufferedReader(fr);
+    headerLine = br.readLine();
+    ArrayList<EquipmentDelivery> equipmentDelivery = new ArrayList<>();
+    // int userID, String nodeID,  String equipment, String notes, int quantity, String status,int
+    // pID, String fname, String lname)
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data;
+      data = line.split(splitToken);
+      for (String s : data) System.out.println(s);
+      EquipmentDelivery ed;
+      if (data.length == 6) { // no patient
+        ed =
+            new EquipmentDelivery(
+                Integer.parseInt(data[0]),
+                data[1],
+                data[2],
+                data[3],
+                Integer.parseInt(data[4]),
+                data[5]);
+      } else {
+        ed =
+            new EquipmentDelivery(
+                Integer.parseInt(data[0]),
+                data[1],
+                data[2],
+                data[3],
+                Integer.parseInt(data[4]),
+                data[5],
+                Integer.parseInt(data[6]),
+                data[7],
+                data[8]);
+      }
+
+      equipmentDelivery.add(ed);
+    }
+    equipmentDeliveryDao.setAllEquipmentDeliveries(equipmentDelivery);
+    System.out.println("Equipment Delivery database made");
+  }
+
+  private static void createEquipmentTable() throws Exception {
+
+    // makes equipment table and equipdeliverytable
+    Connection connection = Connect();
+    // equipment table
+    // ID	Name	X	Y	Description	isDirty
+    try {
+      // substitute your database name for myDB
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
+      if (!set.next()) {
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENT(ID char(15),name char(40), floor char(2),x int, y int,description char(100), isDirty boolean)");
+      } else {
+        exampleStatement.execute("DROP TABLE EQUIPMENT");
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENT(ID char(15),name char(40), floor char(2),x int, y int,description char(100), isDirty boolean)");
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return;
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+
+    ArrayList<Equipment> equipment = equipmentDao.getAllEquipment();
+    int i = 0;
+    System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
+    String test = "\'";
+    PreparedStatement pSTMT =
+        connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?,?,?,?)");
+    // int ID, String name, floor,double x, double y, String description, Boolean isDirty) {
+    while (equipment.size() > i) {
+      Equipment e = equipment.get(i);
+      pSTMT.setString(1, e.getID());
+      pSTMT.setString(2, e.getName());
+      pSTMT.setString(3, e.getFloor());
+      pSTMT.setDouble(4, e.getX());
+      pSTMT.setDouble(5, e.getY());
+      pSTMT.setString(6, e.getDescription());
+      pSTMT.setBoolean(7, e.getisDirty());
+      pSTMT.executeUpdate();
+      i++;
+    }
+
+    // making delivery table
+    // int eID, int pID, String fname, String lname, String location, String equipment, String
+    // notes, int quantity, String status
+    try {
+      // substitute your database name for myDB
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "EQUIPMENTDELIVERY", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,fname char(25), lname char(25),location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
+      } else {
+        exampleStatement.execute("DROP TABLE EQUIPMENTDELIVERY");
+        exampleStatement.execute(
+            "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,fname char(25), lname char(25),location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return;
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+
+    ArrayList<EquipmentDelivery> equipmentDelivery =
+        equipmentDeliveryDao.getAllEquipmentDeliveries();
+    i = 0;
+
+    while (equipmentDelivery.size() > i) {
+      EquipmentDelivery ed = equipmentDelivery.get(i);
+      if (ed.getPatient() == null) { // no pataient
+        pSTMT =
+            connection.prepareStatement("INSERT INTO EQUIPMENTDELIVERY VALUES (?, ?, ?, ?,?,?)");
+      } else {
+
+        pSTMT =
+            connection.prepareStatement(
+                "INSERT INTO EQUIPMENTDELIVERY VALUES (?, ?, ?, ?,?,?,?,?,?)");
+      }
+      pSTMT.setInt(1, ed.getHospitalEmployee().getHospitalID());
+      pSTMT.setString(2, ed.getLocation().getNodeID());
+      pSTMT.setString(3, ed.getEquipment());
+      pSTMT.setString(4, ed.getNotes());
+      pSTMT.setInt(5, ed.getQuantity());
+      pSTMT.setString(6, ed.getStatus());
+      if (ed.getPatient() != null) {
+        pSTMT.setInt(7, ed.getPatient().getPatientID());
+        pSTMT.setString(8, ed.getPatient().getFirstName());
+        pSTMT.setString(9, ed.getPatient().getLastName());
+      }
+      pSTMT.executeUpdate();
+      i++;
+    }
+    Statement exampleStatement = connection.createStatement();
+    ResultSet rs = exampleStatement.executeQuery("SELECT * FROM EQUIPMENTDELIVERY");
+
+    System.out.println("Apache Derby connection established!");
+  }
+
   private static void saveToEquipmentDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
+    FileWriter fw = new FileWriter(currentPath + "\\ListofEquipment.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("Name,Description,Location,Count");
-    for (EquipmentDelivery e : equipmentDeliveryDao.getAllEquipmentDeliveries()) {
+    bw.append("ID,Name,Floor,X,Y,Description,isDirty");
+    // ID	Name	X	Y	Description	isDirty
+    for (Equipment e : equipmentDao.getAllEquipment()) {
       String[] outputData = {
-        e.getLocation().getNodeID(), e.getEquipment(), e.getNotes(), String.valueOf(e.getQuantity())
+        e.getID(),
+        e.getName(),
+        e.getFloor(),
+        Double.toString(e.getX()),
+        Double.toString(e.getY()),
+        e.getDescription(),
+        Boolean.toString(e.getisDirty())
       };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+        System.out.println(s);
+      }
+    }
+    fw = new FileWriter(currentPath + "\\MedEquipReq.csv");
+    bw = new BufferedWriter(fw);
+    // EmpID	Location	Name	Notes	Count	Status	PatientID	Fname	Lname
+    bw.append("EmpID,Location,Name,Notes,Count,Status,PatientID,Fname,Lname");
+    for (EquipmentDelivery e : equipmentDeliveryDao.getAllEquipmentDeliveries()) {
+      String[] outputData;
+      if (e.getPatient() == null) {
+        outputData =
+            new String[] {
+              Integer.toString(e.getHospitalEmployee().getHospitalID()),
+              e.getLocation().getNodeID(),
+              e.getEquipment(),
+              e.getNotes(),
+              Integer.toString(e.getQuantity()),
+              e.getStatus()
+            };
+      } else {
+        Patient p = e.getPatient();
+        outputData =
+            new String[] {
+              Integer.toString(e.getHospitalEmployee().getHospitalID()),
+              e.getLocation().getNodeID(),
+              e.getEquipment(),
+              e.getNotes(),
+              Integer.toString(e.getQuantity()),
+              e.getStatus(),
+              Integer.toString(p.getPatientID()),
+              p.getFirstName(),
+              p.getLastName()
+            };
+      }
       bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
@@ -303,33 +537,75 @@ public class Vdb {
     fw.close();
   }
 
-  /**
-   * Initialize the equipment database
-   *
-   * @throws IOException
-   */
-  private static void createEquipmentDB() throws IOException {
-    FileReader fr = new FileReader(currentPath + "\\MedEquipReq.CSV");
+  public static void createLabTable() throws SQLException {
+
+    try {
+      // substitute your database name for myDB
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement newStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
+        newStatement.execute(
+            "CREATE TABLE LABS ("
+                + "UserID int, "
+                + "PatientID int, "
+                + "FirstName char[20],"
+                + "LastName char[20],"
+                + "Lab char[20],"
+                + "Status char[20])");
+      } else {
+        System.out.println("We already got tables?");
+        System.out.println("listing tables");
+        System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+  }
+
+  private static void createLabDB() throws IOException {
+    FileReader fr = new FileReader(currentPath + "\\LabRequest.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
-    ArrayList<EquipmentDelivery> equipment = new ArrayList<>();
+    ArrayList<LabRequest> labs = new ArrayList<>();
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data;
       data = line.split(splitToken);
       for (String s : data) System.out.println(s);
-      EquipmentDelivery e =
-          new EquipmentDelivery(
-              data[0],
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              Integer.parseInt(data[4]),
-              data[5]);
-      equipment.add(e);
+      /*
+            LabRequest l =
+                new LabRequest(
+                    Integer.parseInt(data[0]),
+                new EquipmentDelivery(
+                    data[0],
+                    Integer.parseInt(data[1]),
+                    data[2],
+                    data[3],
+                    Integer.parseInt(data[4]),
+                    data[5]);
+            equipment.add(e);
+      */
     }
-    equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
+    // equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
     System.out.println("Equipment database made");
   }
 }

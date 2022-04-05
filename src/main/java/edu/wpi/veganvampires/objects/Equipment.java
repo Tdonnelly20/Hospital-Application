@@ -1,22 +1,56 @@
 package edu.wpi.veganvampires.objects;
 
 public class Equipment {
-  private int ID;
+  private String ID;
   private double x;
   private double y;
+  private String floor;
   private String name;
   private String description;
-  private int count;
   private boolean isDirty;
 
   public Equipment(
-      int ID, double x, double y, String name, String description, int count, Boolean isDirty) {
+      String ID,
+      String name,
+      String floor,
+      double x,
+      double y,
+      String description,
+      Boolean isDirty) {
     this.ID = ID;
+    this.floor = floor;
     this.x = x;
     this.y = y;
     this.name = name;
     this.description = description;
-    this.count = count;
     this.isDirty = isDirty;
+  }
+
+  public String getFloor() {
+    return floor;
+  }
+
+  public String getID() {
+    return ID;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public double getX() {
+    return x;
+  }
+
+  public double getY() {
+    return y;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public boolean getisDirty() {
+    return isDirty;
   }
 }

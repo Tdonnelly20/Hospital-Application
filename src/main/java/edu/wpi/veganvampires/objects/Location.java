@@ -51,4 +51,8 @@ public class Location {
   public Location(String nodeID) {
     this.nodeID = nodeID;
   }
+
+  public String getNodeID() {
+    return nodeID;
+  }
 }
