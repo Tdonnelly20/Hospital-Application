@@ -59,6 +59,7 @@ public class Vdb {
 
     createLocationDB();
     createEquipmentDB();
+    createEquipmentTable();
     createMedicineDeliveryTable();
     createMedicineDeliveryDB();
     createLabTable();
@@ -678,18 +679,86 @@ public class Vdb {
     String headerLine = br.readLine();
     String splitToken = ",";
     ArrayList<EquipmentDelivery> equipment = new ArrayList<>();
+    //(int eID, int pID, String fname, String lname, String location, String equipment, String notes, int quantity, String status)
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data;
       data = line.split(splitToken);
       for (String s : data) System.out.println(s);
       EquipmentDelivery e =
-          new EquipmentDelivery(data[0], data[1], data[2], Integer.parseInt(data[3]));
+          new EquipmentDelivery(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),data[8]);
       equipment.add(e);
     }
     equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
     System.out.println("Equipment database made");
   }
+  private static void createEquipmentTable() throws Exception {
+    Connection connection = Connect();
+    //int eID, int pID, String fname, String lname, String location, String equipment, String notes, int quantity, String status
+    try {
+      // substitute your database name for myDB
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
+        exampleStatement.execute(
+                "CREATE TABLE EQUIPMENT(EmpID int, PID int, fname char(25), lname(25),location char(50), equipment char(30), notes char(100), count int, status char(40))");
+      } else {
+        exampleStatement.execute("DROP TABLE EQUIPMENT");
+        exampleStatement.execute(
+                "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
+      }
+    } catch (SQLException e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+      return;
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+
+    ArrayList<EquipmentDelivery> equipment = equipmentDeliveryDao.getAllEquipmentDeliveries();
+    int i = 0;
+    System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
+    String test = "\'";
+    PreparedStatement pSTMT =
+            connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
+    while (equipment.size() > i) {
+      EquipmentDelivery ed = equipment.get(i);
+      System.out.println(
+              "Loc: "
+                      + ed.getLocation()
+                      + "  Eq: "
+                      + ed.getEquipment()
+                      + " Notes: "
+                      + ed.getNotes()
+                      + " QNT : "
+                      + ed.getQuantity());
+      pSTMT.setString(1, ed.getLocation());
+      pSTMT.setString(2, ed.getEquipment());
+      pSTMT.setString(3, ed.getNotes());
+      pSTMT.setInt(4, ed.getQuantity());
+      pSTMT.executeUpdate();
+      i++;
+    }
+
+    Statement exampleStatement = connection.createStatement();
+    System.out.println("BREAK");
+    ResultSet rs = exampleStatement.executeQuery("SELECT * FROM EQUIPMENT");
+
+    System.out.println("Apache Derby connection established!");
+    while (rs.next()) {
+      System.out.println("THIS IS A Equipment");
+      System.out.println("Loc: " + rs.getString("location"));
+      System.out.println("Name: " + rs.getString("name"));
+      System.out.println("Desc: " + rs.getString("description"));
+      System.out.println("CNT: " + rs.getString("count"));
+      System.out.println(" ");
+    }
+    System.out.println("HERE");
+  }
+
 
   public static void createLabTable() throws SQLException {
 

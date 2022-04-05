@@ -35,7 +35,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
 
   /**
    * Adds equipment to the CSV
-   *
+   * @
    * @param location
    * @param equipment
    * @param notes
@@ -43,10 +43,10 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
    * @throws SQLException
    */
   @Override
-  public void addEquipmentDelivery(String location, String equipment, String notes, int quantity)
+  public void addEquipmentDelivery(int eID, int pID, String fname, String lname, String location, String equipment, String notes, int quantity, String status)
       throws SQLException {
     EquipmentDelivery newEquipmentDelivery =
-        new EquipmentDelivery(location, equipment, notes, quantity);
+        new EquipmentDelivery( eID, pID, fname, lname, location, equipment, notes, quantity,status);
 
     System.out.println("Adding to local arraylist...");
     allEquipmentDeliveries.add(newEquipmentDelivery);
