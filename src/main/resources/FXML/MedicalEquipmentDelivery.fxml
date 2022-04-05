@@ -173,7 +173,7 @@
                                  </items>
                               </JFXComboBox>
                               <TextArea fx:id="coordinates" layoutX="420.0" layoutY="33.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                              <Pane fx:id="mapPane" layoutX="40.0" layoutY="33.0" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0" />
+                              <Pane fx:id="mapPane" layoutX="40.0" layoutY="33.0" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
                            </children>
                         </Pane>
                      </content>

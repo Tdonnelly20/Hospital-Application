@@ -26,7 +26,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.MedicineDeliveryController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.MedicineDeliveryController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -114,7 +114,7 @@
                                        </viewport>
                                     </ImageView>
                                     <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0" />
-                                    <TextArea fx:id="coordinates" layoutX="380.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
+                                    <TextArea fx:id="coordinates" layoutX="380.0" onMouseReleased="#mapCoordTracker" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
                                  </children>
                               </Group>
                            </children>

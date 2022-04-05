@@ -102,7 +102,7 @@
                                              </viewport>
                                           </ImageView>
                                           <TextArea fx:id="coordinates" layoutX="488.0" layoutY="25.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                                          <Pane fx:id="mapPane" layoutX="104.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="386.0" prefWidth="386.0" />
+                                          <Pane fx:id="mapPane" layoutX="104.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="386.0" prefWidth="386.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
