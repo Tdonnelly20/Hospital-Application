@@ -46,10 +46,8 @@ public class LocationDao implements LocationImpl {
 
   @Override
   public void deleteLocation(String nodeID) {
-    for(int i = 0; i < allLocations.size(); i++)
-    {
-      if(allLocations.get(i).getNodeID().equals(nodeID))
-      {
+    for (int i = 0; i < allLocations.size(); i++) {
+      if (allLocations.get(i).getNodeID().equals(nodeID)) {
         allLocations.remove(i);
       }
     }
