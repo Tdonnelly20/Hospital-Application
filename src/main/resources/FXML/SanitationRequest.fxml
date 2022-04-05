@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5c677d;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.SanitationRequestController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5c677d;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.SanitationRequestController">
    <children>
       <SplitPane dividerPositions="0.3503636363636363" layoutX="-1.0" layoutY="85.0" prefHeight="498.0" prefWidth="930.0" style="-fx-background-color: rgb(149,182,203);">
          <items>
@@ -81,26 +81,28 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                          <JFXComboBox fx:id="floorDropDown" layoutX="14.0" layoutY="433.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="groundFloor1" fx:value="Ground Floor" />
-                                                   <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
-                                                   <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
-                                                   <String fx:id="floor11" fx:value="Floor 1" />
-                                                   <String fx:id="floor21" fx:value="Floor 2" />
-                                                   <String fx:id="floor31" fx:value="Floor 3" />
+                                                   <String fx:id="groundFloor" fx:value="Ground Floor" />
+                                                   <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                                   <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                                   <String fx:id="floor1" fx:value="Floor 1" />
+                                                   <String fx:id="floor2" fx:value="Floor 2" />
+                                                   <String fx:id="floor3" fx:value="Floor 3" />
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>
-                                          <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="mapImage" fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../1st Floor.png" />
+                                                <Image url="@../2nd Floor.png" />
                                              </image>
                                              <viewport>
                                                 <Rectangle2D />
                                              </viewport>
                                           </ImageView>
+                                          <TextArea fx:id="coordinates" layoutX="488.0" layoutY="25.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
+                                          <Pane fx:id="mapPane" layoutX="104.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="386.0" prefWidth="386.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
