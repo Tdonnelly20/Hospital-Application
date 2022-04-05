@@ -351,9 +351,10 @@ public abstract class Controller extends Application {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(
-                getClass().getClassLoader().getResource("FXML/InternalPatientTransport.fxml")));
+                getClass()
+                    .getClassLoader()
+                    .getResource("FXML/InternalPatientTransportation.fxml")));
     switchScene(event);
-
   }
 
   // Switches scene to the rootW
