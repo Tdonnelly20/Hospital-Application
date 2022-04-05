@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.SanitationRequestDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.objects.SanitationRequest;
+import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -219,5 +220,18 @@ public class SanitationRequestController extends Controller implements RequestIn
     roomLocation.setText("");
     sanitationDropDown.setValue(null);
     requestDetails.setText("");
+  }
+
+  // used to get coordinates after clicking map
+  @FXML private TextArea coordinates;
+  private Point point = new Point();
+  private int xCoord, yCoord;
+
+  @FXML
+  private void mapCoordTracker() {
+    point = MouseInfo.getPointerInfo().getLocation();
+    xCoord = point.x - 712;
+    yCoord = point.y - 230;
+    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
   }
 }

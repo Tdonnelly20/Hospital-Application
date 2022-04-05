@@ -4,9 +4,13 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.LabRequestDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.objects.LabRequest;
+import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -143,6 +147,19 @@ public class LabRequestController extends Controller implements RequestInterface
     }
   }
 
+  // used to get coordinates after clicking map
   @Override
   public void start(Stage primaryStage) {}
+
+  @FXML private TextArea coordinates;
+  private Point point = new Point();
+  private int xCoord, yCoord;
+
+  @FXML
+  private void mapCoordTracker() {
+    point = MouseInfo.getPointerInfo().getLocation();
+    xCoord = point.x - 712;
+    yCoord = point.y - 230;
+    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
+  }
 }

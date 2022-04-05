@@ -59,8 +59,6 @@ public class LocationController extends Controller {
   @FXML private TextField longName = new TextField();
   @FXML private Text confirmText = new Text("Are you sure?");
 
-  @FXML private TextArea coordinates = new TextArea();
-
   private static class SingletonHelper {
     private static final LocationController manager = new LocationController();
   }
@@ -294,10 +292,10 @@ public class LocationController extends Controller {
     }
   }
 
-  // Gets coordinates at any given point on the map
-  // Sets x and y text fields to those coordinates
+  // used to get coordinates after clicking map
   private Point point = new Point();
   private int xCoord, yCoord;
+  @FXML private TextArea coordinates;
 
   @FXML
   private void mapCoordTracker() {

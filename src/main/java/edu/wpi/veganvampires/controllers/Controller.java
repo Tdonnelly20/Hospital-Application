@@ -6,6 +6,7 @@ import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 import javafx.application.Application;
