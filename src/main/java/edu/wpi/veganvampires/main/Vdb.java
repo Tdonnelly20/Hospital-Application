@@ -674,6 +674,7 @@ public class Vdb {
     // Print out all the current entries...
     query = "SELECT userId, patientID, firstName, lastName, lab, status FROM Medicines";
 
+
     ResultSet resultSet = statement.executeQuery(query);
 
     // A string array to contain the names of all the header values so I don't have to type this
