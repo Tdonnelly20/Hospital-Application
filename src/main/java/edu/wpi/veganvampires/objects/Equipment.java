@@ -1,7 +1,5 @@
 package edu.wpi.veganvampires.objects;
 
-import edu.wpi.veganvampires.main.Vdb;
-
 public class Equipment {
   private int ID;
   private double x;
@@ -13,9 +11,9 @@ public class Equipment {
 
   public Equipment(
       int ID, double x, double y, String name, String description, int count, Boolean isDirty) {
-    this.ID=ID;
+    this.ID = ID;
     this.x = x;
-    this.y =y;
+    this.y = y;
     this.name = name;
     this.description = description;
     this.count = count;

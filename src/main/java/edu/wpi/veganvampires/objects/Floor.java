@@ -22,4 +22,22 @@ public class Floor {
   public String getFloorName() {
     return floorName;
   }
+
+  public boolean hasIconAt(Location location) {
+    for (Icon icon : iconList) {
+      if (icon.getLocation().equals(location)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public Icon getIconAt(Location location) {
+    for (Icon icon : iconList) {
+      if (icon.getLocation().equals(location)) {
+        return icon;
+      }
+    }
+    return null;
+  }
 }

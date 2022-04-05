@@ -7,6 +7,7 @@ import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -29,7 +30,15 @@ import javafx.stage.Stage;
 public abstract class Controller extends Application {
   private Parent root;
   private Floor currFloor;
-
+  private ArrayList<String> filter = new ArrayList<>();
+  private String activeRequests = "ActiveRequests";
+  private String labRequests = "Lab";
+  private String equipmentDeliveryRequests = "Equipment Delivery";
+  private String mealRequests = "Meal";
+  private String medicineDeliveryRequests = "Medicine Delivery";
+  private String religiousRequests = "Religious";
+  private String sanitationRequests = "Sanitation";
+  private String iptRequests = "Internal Patient Transport";
   @FXML private Pane mapPane;
   @FXML private ImageView mapImage;
 
@@ -95,7 +104,15 @@ public abstract class Controller extends Application {
     mapPane.getChildren().clear();
     System.out.println("Here");
     for (Icon icon : currFloor.getIconList()) {
-      mapPane.getChildren().add(icon.getImage());
+      if (filter.size() > 0) {
+        if (filter.contains(activeRequests)) {
+          if (icon.getRequestsArr().size() > 0) {
+            mapPane.getChildren().add(icon.getImage());
+          }
+        }
+      } else {
+        mapPane.getChildren().add(icon.getImage());
+      }
     }
   }
 
@@ -143,6 +160,16 @@ public abstract class Controller extends Application {
     MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location, false));
     MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
+  }
+
+  @FXML
+  public void onlyActiveRequests() {
+    if (filter.contains(activeRequests)) {
+      filter.remove(activeRequests);
+    } else {
+      filter.add(activeRequests);
+    }
+    populateFloorIconArr();
   }
 
   /**

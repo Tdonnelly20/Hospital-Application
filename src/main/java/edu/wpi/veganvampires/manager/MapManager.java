@@ -94,7 +94,7 @@ public class MapManager {
     floorList.add(f1);
     floorList.add(f2);
     floorList.add(f3);
-
+    System.out.println("SIZE: " + floorList.size());
     // TODO Implement equipment csv
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
     ArrayList<EquipmentDelivery> equipment = Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries();
@@ -102,27 +102,41 @@ public class MapManager {
     for (Location l : locations) {
       switch (l.getFloor()) {
         case "G":
-          floorList.get(0).addIcon(new Icon(l, false));
+          loadRequests(0, l);
           break;
         case "L1":
-          floorList.get(1).addIcon(new Icon(l, false));
+          loadRequests(1, l);
           break;
         case "L2":
-          floorList.get(2).addIcon(new Icon(l, false));
+          loadRequests(2, l);
           break;
         case "1":
-          floorList.get(3).addIcon(new Icon(l, false));
+          loadRequests(3, l);
           break;
         case "2":
-          floorList.get(4).addIcon(new Icon(l, false));
+          loadRequests(4, l);
           break;
         case "3":
-          floorList.get(5).addIcon(new Icon(l, false));
+          loadRequests(5, l);
           break;
       }
     }
-    System.out.println("Size: " + equipment.size());
-    for (EquipmentDelivery e : equipment) {
+
+    for (EquipmentDelivery equipmentDelivery :
+        Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries()) {
+      for (Floor floor : floorList) {
+        if (equipmentDelivery.getLocation().getFloor().equals(floor.getFloorName())) {
+          for (Icon icon : floor.getIconList()) {
+            if (icon.getLocation().getNodeID().equals(equipmentDelivery.getLocation())) {
+              icon.addToRequests(equipmentDelivery);
+            }
+          }
+        }
+      }
+    }
+
+    /*System.out.println("Size: " + equipment.size());
+    for (Equipment e : equipment) {
       System.out.printf(e.getLocation());
 
       switch (Vdb.locationDao.getLocation(e.getLocation()).getFloor()) {
@@ -145,7 +159,46 @@ public class MapManager {
           floorList.get(5).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
           break;
       }
+    }*/
+  }
+
+  public void loadRequests(int i, Location l) {
+    Icon icon;
+    if (floorList.size() > 0) {
+      if (floorList.get(i).hasIconAt(l)) {
+        icon = floorList.get(i).getIconAt(l);
+      } else {
+        icon = new Icon(l, false);
+        floorList.get(i).addIcon(icon);
+      }
+    } else {
+      icon = new Icon(l, false);
+      floorList.get(i).addIcon(icon);
     }
+    for (EquipmentDelivery equipmentDelivery :
+        Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries()) {
+      if (equipmentDelivery.getLocation().equals(l)) {
+        icon.addToRequests(equipmentDelivery);
+      }
+    }
+  }
+
+  @FXML
+  public void addRequest() {
+    System.out.println(floorList.get(1).getIconList().size());
+    System.out.println(floorList.get(1).getIconList().get(0).getLocation().getLongName());
+    floorList
+        .get(1)
+        .getIconList()
+        .get(0)
+        .addToRequests(
+            new EquipmentDelivery(
+                floorList.get(1).getIconList().get(0).getLocation().getNodeID(),
+                123,
+                "I",
+                "stg",
+                10,
+                "whyyyyyyyyyyyyyyyyy"));
   }
 
   /**
