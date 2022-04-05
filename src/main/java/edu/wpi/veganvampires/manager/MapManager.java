@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,10 +61,10 @@ public class MapManager {
   @FXML
   private void setUpPopUp() {
 
-    field1.setMinWidth(250);
-    field2.setMinWidth(250);
-    field3.setMinWidth(250);
-    field4.setMinWidth(250);
+    field1.setMaxWidth(250);
+    field2.setMaxWidth(250);
+    field3.setMaxWidth(250);
+    field4.setMaxWidth(250);
     submitIcon.setMinWidth(100);
     clearResponse.setMinWidth(100);
 
@@ -249,32 +250,39 @@ public class MapManager {
     Label title = new Label(icon.getLocation().getShortName());
     title.setTextFill(Color.WHITE);
     title.setFont(new Font("System Bold", 28));
-    HBox titleBox = new HBox(15, title);
+    HBox titleBox = new HBox(25, title);
     titleBox.setAlignment(Pos.CENTER);
     titleBox.setStyle("-fx-background-color: #012D5Aff;");
     content.getChildren().add(titleBox);
     VBox vbox = new VBox();
-    vbox.setAlignment(Pos.TOP_LEFT);
-    ObservableList<String> statusStrings = FXCollections.observableArrayList("Processing", "Done");
-    for (ServiceRequest request : icon.getRequestsArr()) {
-      Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
-      Label locationLabel =
-          new Label(
-              "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
+    vbox.setAlignment(Pos.TOP_CENTER);
+    ObservableList<String> statusStrings =
+        FXCollections.observableArrayList("Not Started", "Processing", "Done");
+    if (icon.getRequestsArr().size() > 0) {
+      for (ServiceRequest request : icon.getRequestsArr()) {
+        Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
+        Label locationLabel =
+            new Label(
+                "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
 
-      JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-      updateStatus.setValue(request.getStatus());
-      updateStatus.setOnAction(
-          event -> {
-            request.setStatus(updateStatus.getValue().toString());
-            // TODO: Update request CSV
-          });
-      Accordion accordion =
-          new Accordion(
-              new TitledPane(
-                  request.getRequestName() + ": " + request.getStatus(),
-                  new VBox(15, idLabel, locationLabel, updateStatus)));
-      vbox.getChildren().add(accordion);
+        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
+        updateStatus.setValue(request.getStatus());
+        updateStatus.setOnAction(
+            event -> {
+              request.setStatus(updateStatus.getValue().toString());
+              // TODO: Update request CSV
+            });
+        Accordion accordion =
+            new Accordion(
+                new TitledPane(
+                    request.getRequestName() + ": " + request.getStatus(),
+                    new VBox(15, idLabel, locationLabel, updateStatus)));
+        vbox.getChildren().add(accordion);
+      }
+    } else {
+      Text noRequests = new Text("There are no requests in this area");
+      noRequests.setTextAlignment(TextAlignment.CENTER);
+      vbox.getChildren().add(noRequests);
     }
     content.getChildren().add(vbox);
     showPopUp();
@@ -282,6 +290,7 @@ public class MapManager {
 
   @FXML
   public void formSetup() {
+    title.setText("Add a Location");
     title.setTextFill(Color.WHITE);
     title.setAlignment(Pos.CENTER);
     // title.setAlignment(TextAlignment.CENTER);
@@ -305,8 +314,9 @@ public class MapManager {
           closePopUp();
           tempIcon.setVisible(false);
         });
-
-    content.getChildren().addAll(field1, field2, field3, field4);
+    VBox vBox = new VBox(15, field1, field2, field3, field4);
+    vBox.setAlignment(Pos.TOP_CENTER);
+    content.getChildren().addAll(vBox);
   }
 
   @FXML
