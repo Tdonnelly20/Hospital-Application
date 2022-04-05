@@ -46,8 +46,14 @@ public class LocationDao implements LocationImpl {
 
   @Override
   public void deleteLocation(String nodeID) {
-
-    try {
+    for(int i = 0; i < allLocations.size(); i++)
+    {
+      if(allLocations.get(i).getNodeID().equals(nodeID))
+      {
+        allLocations.remove(i);
+      }
+    }
+    /*try {
       System.out.println("Sending to database...");
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
@@ -61,7 +67,7 @@ public class LocationDao implements LocationImpl {
       e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
-    }
+    }*/
   }
 
   public void setAllLocations(ArrayList<Location> locations) {

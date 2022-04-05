@@ -524,6 +524,72 @@ public class Vdb {
     fw.close();
   }
 
+  public static void addToLocationsTable(String nodeID, double xCoord, double yCoord, String floor, String building, String nodeType, String longName, String shortName)
+          throws SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query =
+            "INSERT INTO Locations("
+                    + "nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName) VALUES "
+                    + "('"
+                    + nodeID
+                    + "', "
+                    + xCoord
+                    + ", "
+                    + yCoord
+                    + ", '"
+                    + floor
+                    + ", '"
+                    + building
+                    + ", '"
+                    + nodeType
+                    + ", '"
+                    + longName
+                    + ", '"
+                    + shortName
+                    + "'"
+                    + ")";
+
+    System.out.println(query);
+    statement.execute(query);
+
+    // Print out all the current entries...
+    query = "SELECT nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName FROM Locations";
+
+    ResultSet resultSet = statement.executeQuery(query);
+
+    // A string array to contain the names of all the header values so I don't have to type this
+    // bullshit out again
+    String[] headerVals =
+            new String[] {"nodeID", "xCoord", "yCoord", "floor", "building", "nodeType", "longName", "shortName"};
+
+    // Print out the result
+    while (resultSet.next()) {
+      for (String headerVal : headerVals) {
+        System.out.print(resultSet.getString(headerVal).trim() + ", ");
+      }
+      System.out.println();
+    }
+  }
+
+  public void deleteLocation(String nodeID) {
+
+    try {
+      Connection connection = Connect();
+      Statement exampleStatement = connection.createStatement();
+      exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID = " + nodeID);
+      locationDao.deleteLocation(nodeID);
+      Vdb.saveToFile(Vdb.Database.Location);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Saves the equipmentDB
    *
