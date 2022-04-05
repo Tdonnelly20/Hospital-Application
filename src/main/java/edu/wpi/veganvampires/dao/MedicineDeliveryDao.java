@@ -3,7 +3,10 @@ package edu.wpi.veganvampires.dao;
 import edu.wpi.veganvampires.interfaces.MedicineDeliveryImpl;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.MedicineDelivery;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MedicineDeliveryDao implements MedicineDeliveryImpl {
@@ -58,24 +61,16 @@ public class MedicineDeliveryDao implements MedicineDeliveryImpl {
     System.out.println("Adding to local arraylist...");
     allMedicineDeliveries.add(newMedicineDelivery); // Store a local copy
 
+    System.out.println("Adding to database");
     try {
-      String query = "";
-
-      // Add to CSV File...
-      System.out.println("Adding to CSV file...");
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
       Vdb.saveToFile(Vdb.Database.MedicineDelivery);
-
-      // Add to SQL Table
-      Vdb.addToMedicineTable(
-          patientFirstName,
-          patientLastName,
-          roomNumber,
-          patientID,
-          hospitalID,
-          medicineName,
-          dosage,
-          requestDetails);
-
+      // exampleStatement.execute(
+      //    "INSERT INTO LOCATIONS VALUES (patientFirstName, patientLastName, roomNumber, patientID,
+      // hospitalID, medicineName, dosage, requestDetails");
+    } catch (SQLException e) {
+      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }

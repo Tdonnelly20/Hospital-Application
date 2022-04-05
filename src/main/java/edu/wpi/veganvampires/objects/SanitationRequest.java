@@ -5,7 +5,7 @@ public class SanitationRequest {
   private final int patientID, hospitalID;
 
   /**
-   * Creates a basic data structure for holding sanitation request request
+   * Creates a basic data structure for holding medicine delivery request
    *
    * @param patientFirstName
    * @param patientLastName

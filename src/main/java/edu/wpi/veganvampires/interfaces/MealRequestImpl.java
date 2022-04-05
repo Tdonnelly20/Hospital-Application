@@ -5,17 +5,9 @@ import java.util.List;
 
 public interface MealRequestImpl {
 
-  List<MealRequest> getAllMealDeliveries();
+  List<MealRequest> getAllMealRequests();
 
-  void addMealRequest(
-      String patientFirstName,
-      String patientLastName,
-      String roomNumber,
-      int patientID,
-      int hospitalID,
-      String mealName,
-      String dosage,
-      String requestDetails);
+  void addMealRequest(int userID, int patientID, String firstName, String lastName, String food);
 
-  void removeMealRequest(String mealName);
+  void removeMealRequest();
 }

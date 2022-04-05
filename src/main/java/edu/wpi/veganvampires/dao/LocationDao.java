@@ -29,20 +29,14 @@ public class LocationDao implements LocationImpl {
   @Override
   public void addLocation(Location location) {
     allLocations.add(location);
-
     try {
       System.out.println("Sending to database...");
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      for (Location l : allLocations)
+        exampleStatement.execute(
+            "INSERT INTO LOCATIONS VALUES (newlocation.getNodeID, newlocation.getXCoord(), newlocation.getYCoord(), newlocation.getFloor(), newlocation.getBuilding(), newlocation.getNodeType(), newlocation.getLongName(), newlocation.getShortName())");
       Vdb.saveToFile(Vdb.Database.Location);
-      Vdb.addToLocationsTable(
-          location.getNodeID(),
-          location.getXCoord(),
-          location.getYCoord(),
-          location.getFloor(),
-          location.getBuilding(),
-          location.getNodeType(),
-          location.getLongName(),
-          location.getShortName());
-
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {
@@ -52,20 +46,25 @@ public class LocationDao implements LocationImpl {
 
   @Override
   public void deleteLocation(String nodeID) {
-    for (int i = 0; i < allLocations.size(); i++) {
-      if (allLocations.get(i).getNodeID().equals(nodeID)) {
-        allLocations.remove(i);
+
+    try {
+      System.out.println("Sending to database...");
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      for (Location l : allLocations) {
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID.equals(l.getNodeID())");
       }
+
+      allLocations.remove(getLocation(nodeID));
+      Vdb.saveToFile(Vdb.Database.Location);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
   public void setAllLocations(ArrayList<Location> locations) {
     allLocations = locations;
-
-    try {
-      Vdb.saveToFile(Vdb.Database.Location);
-    } catch (Exception e) {
-
-    }
   }
 }

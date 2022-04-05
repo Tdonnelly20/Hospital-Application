@@ -1,4 +1,4 @@
-NodeId,UserID.Name,Description,Count,Status
+NodeId,UserID.Name,Description,Location,Count,Status
 vSERV00301,12,Portable X-Ray,I wanna cry myself to sleep,69,Not Started
 vBATH00103,34,Bed,I wanna cry myself to sleep,69,Processing
 vHALL003L1,56,Needles,I wanna cry myself to sleep,69,Done

@@ -9,8 +9,13 @@ public interface LaundryRequestImpl {
   ArrayList<LaundryRequest> getAllLaundryRequests();
 
   void addLaundryRequest(
-      int userID, int patientID, String firstName, String lastName, int roomNumber, String details)
+      String userID,
+      String patientID,
+      String firstName,
+      String lastName,
+      int roomNumber,
+      String details)
       throws SQLException;
 
-  void removeLaundryRequest(int patientID) throws SQLException;
+  void removeLaundryRequest(String laundry) throws SQLException;
 }

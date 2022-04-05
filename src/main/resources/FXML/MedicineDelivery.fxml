@@ -66,7 +66,7 @@
       </GridPane>
       <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
          <children>
-            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                </image>
@@ -117,7 +117,7 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXComboBox>
-                  <TextField fx:id="dosage" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage" />
+                  <TextField fx:id="dosage1" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage" />
                   <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
@@ -126,9 +126,11 @@
                   <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:id="notStarted" fx:value="Not Started" />
-                           <String fx:id="processing" fx:value="Processing" />
-                           <String fx:id="completed" fx:value="Completed" />
+                           <String fx:id="tylenolRequest1" fx:value="Tylenol" />
+                           <String fx:id="morphineRequest1" fx:value="Morphine" />
+                           <String fx:id="epinephrineRequest1" fx:value="Epinephrine" />
+                           <String fx:id="adderallRequest1" fx:value="Adderall" />
+                           <String fx:id="cyclosporineRequest1" fx:value="Cyclosporine" />
                         </FXCollections>
                      </items>
                      <opaqueInsets>
@@ -164,7 +166,27 @@
                      <content>
                         <Pane prefHeight="571.0" prefWidth="366.0">
                            <children>
-                              <JFXComboBox fx:id="floorDropDown" layoutX="171.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                              <JFXComboBox layoutX="349.0" layoutY="890.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:id="groundFloor" fx:value="Ground Floor" />
+                                       <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                       <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                       <String fx:id="floor1" fx:value="Floor 1" />
+                                       <String fx:id="floor2" fx:value="Floor 2" />
+                                       <String fx:id="floor3" fx:value="Floor 3" />
+                                    </FXCollections>
+                                 </items>
+                              </JFXComboBox>
+                              <ImageView fitHeight="414.0" fitWidth="464.0" layoutX="68.0" layoutY="60.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../1st Floor.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                              <JFXComboBox fx:id="floorDropDown" layoutX="23.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:id="groundFloor1" fx:value="Ground Floor" />
@@ -176,18 +198,6 @@
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
-                              <TextArea fx:id="coordinates1" layoutX="420.0" layoutY="22.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                              <Pane fx:id="mapPane" layoutX="40.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0">
-                                 <children>
-                                    <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../2nd%20Floor.png" />
-                                       </image>
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                    </ImageView>
-                                 </children></Pane>
                            </children>
                         </Pane>
                      </content>

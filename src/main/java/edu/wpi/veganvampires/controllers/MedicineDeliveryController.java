@@ -5,14 +5,9 @@ import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.MedicineDelivery;
-import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -183,17 +178,4 @@ public class MedicineDeliveryController extends Controller implements RequestInt
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
-
-  @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
-  }
 }

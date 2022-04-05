@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LocationController extends Controller {
@@ -35,16 +34,6 @@ public class LocationController extends Controller {
   @FXML private Button addLocation = new Button("Add Location");
   @FXML private Button removeLocation = new Button("Remove Location");
   @FXML private Button updateLocation = new Button("Update Location");
-
-  @FXML
-  private Button loadCSV =
-      new Button("Load Backup Locations"); // loads the currently stored csv file
-
-  @FXML private Button saveLocations = new Button("Save To File");
-
-  @FXML private Button yesButton = new Button("Yes"); // loads the currently stored csv file
-  @FXML private Button noButton = new Button("No"); // loads the currently stored csv file
-
   @FXML private Button submit = new Button("Submit");
   @FXML private Button clear = new Button("Clear");
 
@@ -57,7 +46,8 @@ public class LocationController extends Controller {
   @FXML private TextField nodeType = new TextField();
   @FXML private TextField shortName = new TextField();
   @FXML private TextField longName = new TextField();
-  @FXML private Text confirmText = new Text("Are you sure?");
+
+  @FXML private TextArea coordinates = new TextArea();
 
   private static class SingletonHelper {
     private static final LocationController manager = new LocationController();
@@ -84,19 +74,6 @@ public class LocationController extends Controller {
     updateLocation.setOnAction(
         event -> {
           openUpdateLocation();
-        });
-    loadCSV.setOnAction(
-        event -> {
-          attemptloadCSVFile();
-          ;
-        });
-    saveLocations.setOnAction(
-        event -> {
-          saveConfirmation();
-        });
-    noButton.setOnAction(
-        event -> {
-          resetPage();
         });
     setTextFieldActions();
     setTextFieldPrompts();
@@ -164,7 +141,7 @@ public class LocationController extends Controller {
     vbox.getChildren().clear();
     hbox.getChildren().clear();
     setTextFieldPrompts();
-    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation, loadCSV, saveLocations);
+    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation);
   }
 
   @FXML
@@ -200,36 +177,6 @@ public class LocationController extends Controller {
         });
     vbox.getChildren().addAll(hbox, nodeID, x, y, floor, building, nodeType, shortName, longName);
     updateTreeTable();
-  }
-
-  @FXML
-  private void attemptloadCSVFile() {
-    setForms();
-    yesButton.setOnAction(
-        event -> {
-          try {
-            Vdb.createLocationDB();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-          resetPage();
-        });
-    vbox.getChildren().addAll(confirmText, yesButton, noButton);
-  }
-
-  @FXML
-  private void saveConfirmation() {
-    setForms();
-    yesButton.setOnAction(
-        event -> {
-          try {
-            Vdb.saveToFile(Vdb.Database.Location);
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-          resetPage();
-        });
-    vbox.getChildren().addAll(confirmText, yesButton, noButton);
   }
 
   @Override
@@ -292,10 +239,10 @@ public class LocationController extends Controller {
     }
   }
 
-  // used to get coordinates after clicking map
+  // Gets coordinates at any given point on the map
+  // Sets x and y text fields to those coordinates
   private Point point = new Point();
   private int xCoord, yCoord;
-  @FXML private TextArea coordinates;
 
   @FXML
   private void mapCoordTracker() {

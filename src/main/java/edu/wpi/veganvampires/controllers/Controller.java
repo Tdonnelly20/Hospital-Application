@@ -6,10 +6,8 @@ import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.Floor;
 import edu.wpi.veganvampires.objects.Icon;
 import edu.wpi.veganvampires.objects.Location;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -32,10 +30,8 @@ import javafx.stage.Stage;
 public abstract class Controller extends Application {
   private Parent root;
   private Floor currFloor;
-  private String requests = "Requests";
+  private ArrayList<String> filter = new ArrayList<>();
   private String activeRequests = "ActiveRequests";
-  private String equipment = "Equipment";
-  private String cleanEquipment = "Clean Equipment";
   private String labRequests = "Lab";
   private String equipmentDeliveryRequests = "Equipment Delivery";
   private String mealRequests = "Meal";
@@ -43,9 +39,6 @@ public abstract class Controller extends Application {
   private String religiousRequests = "Religious";
   private String sanitationRequests = "Sanitation";
   private String iptRequests = "Internal Patient Transport";
-
-  private ArrayList<String> filter = new ArrayList<String>(Arrays.asList(requests, equipment));
-
   @FXML private Pane mapPane;
   @FXML private ImageView mapImage;
 
@@ -105,47 +98,19 @@ public abstract class Controller extends Application {
     return result;
   }
 
-  // Loads the floor's icons in accordance with filter
+  // Loads the floor's icons
   @FXML
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
-    if (filter.size() > 0) {
-      if (filter.contains(equipment) && !filter.contains(requests)) {
-        filterEquipment();
-      } else if (!filter.contains(equipment) && filter.contains(requests)) {
-        filterRequests();
-      } else {
-        filterRequests();
-        filterEquipment();
-      }
-    } else {
-      for (Icon icon : currFloor.getIconList()) {
-        mapPane.getChildren().add(icon.getImage());
-      }
-    }
-  }
-
-  @FXML
-  private void filterRequests() {
+    System.out.println("Here");
     for (Icon icon : currFloor.getIconList()) {
-      if (!icon.isEquipment()) {
-        if (filter.contains(requests)) {
-          if (filter.contains(activeRequests)) {
-            if (icon.getRequestsArr().size() > 0) {
-              mapPane.getChildren().add(icon.getImage());
-            }
-          } else {
+      if (filter.size() > 0) {
+        if (filter.contains(activeRequests)) {
+          if (icon.getRequestsArr().size() > 0) {
             mapPane.getChildren().add(icon.getImage());
           }
         }
-      }
-    }
-  }
-
-  @FXML
-  private void filterEquipment() {
-    for (Icon icon : currFloor.getIconList()) {
-      if (icon.isEquipment()) {
+      } else {
         mapPane.getChildren().add(icon.getImage());
       }
     }
@@ -346,16 +311,16 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
-  // Switches scene to the internal patient transportation page
+  // Switches scene to the religious request page
   @FXML
   public void switchToInternalPatientTransport(ActionEvent event) throws IOException {
+    /*
     root =
         FXMLLoader.load(
             Objects.requireNonNull(
-                getClass()
-                    .getClassLoader()
-                    .getResource("FXML/InternalPatientTransportation.fxml")));
+                getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml")));
     switchScene(event);
+    * */
   }
 
   // Switches scene to the rootW

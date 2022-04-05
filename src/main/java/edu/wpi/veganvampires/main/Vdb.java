@@ -1,6 +1,8 @@
 package edu.wpi.veganvampires.main;
 
-import edu.wpi.veganvampires.dao.*;
+import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
+import edu.wpi.veganvampires.dao.LocationDao;
+import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
 import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
@@ -16,9 +18,6 @@ public class Vdb {
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
-  public static final LabRequestDao labRequestDao = new LabRequestDao();
-  public static final InternalPatientTransportationDao internalPatientTransportationDao =
-      new InternalPatientTransportationDao();
   public static MapManager mapManager;
 
   public enum Database {
@@ -53,14 +52,9 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-
     createLocationDB();
     createEquipmentDB();
-    createMedicineDeliveryTable();
     createMedicineDeliveryDB();
-    createLabTable();
-    createLabDB();
-
     mapManager = MapManager.getManager();
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -78,7 +72,7 @@ public class Vdb {
     }
 
     System.out.println("Apache Derby driver registered!");
-    Connection connection = Connect();
+    Connection connection;
 
     try {
       // substitute your database name for myDB
@@ -89,9 +83,24 @@ public class Vdb {
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         exampleStatement.execute(
-            "CREATE TABLE Locations(nodeID char(20), xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+            "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
       } else {
         System.out.println("We already got tables?");
+        System.out.println("listing tables");
+        System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
+        }
       }
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
@@ -101,61 +110,6 @@ public class Vdb {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
     }
-
-    try {
-      // substitute your database name for myDB
-      Statement exampleStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
-      if (!set.next()) {
-        System.out.println("WE MAKInG TABLES");
-        exampleStatement.execute(
-            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
-      } else {
-        exampleStatement.execute("DROP TABLE EQUIPMENT");
-        exampleStatement.execute(
-            "CREATE TABLE EQUIPMENT(location char(50), name char(30), description char(100), count int)");
-      }
-    } catch (SQLException e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-      return;
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-    // "INSERT INTO EQUIPMENT VALUES
-    // (newEquipmentDelivery.getLocation(),newEquipmentDelivery.getEquipment(),
-    // newEquipmentDelivery.getNotes(), newEqipmentDelivery.getQuantity()) ");
-    // adds stuff from equipmentDAO to EQUIPMENT TABLE
-    ArrayList<EquipmentDelivery> equipment = equipmentDeliveryDao.getAllEquipmentDeliveries();
-    int i = 0;
-    System.out.println("ADDING " + equipment.size() + " EQUIPMENT");
-    String test = "\'";
-    PreparedStatement pSTMT =
-        connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
-    while (equipment.size() > i) {
-      EquipmentDelivery ed = equipment.get(i);
-      System.out.println(
-          "Loc: "
-              + ed.getLocation()
-              + "  Eq: "
-              + ed.getEquipment()
-              + " Notes: "
-              + ed.getNotes()
-              + " QNT : "
-              + ed.getQuantity());
-      pSTMT.setString(1, ed.getLocation().getNodeID());
-      pSTMT.setString(2, ed.getEquipment());
-      pSTMT.setString(3, ed.getNotes());
-      pSTMT.setInt(4, ed.getQuantity());
-      pSTMT.executeUpdate();
-      i++;
-    }
-    Statement exampleStatement = connection.createStatement();
-    System.out.println("BREAK");
-    ResultSet rs = exampleStatement.executeQuery("SELECT * FROM EQUIPMENT");
-
     System.out.println("Apache Derby connection established!");
 
     System.out.println(LocationDao.getAllLocations());
@@ -193,10 +147,8 @@ public class Vdb {
         saveToEquipmentDB();
         break;
       case MedicineDelivery:
-        saveToMedicineDeliveryCSV();
+        saveToMedicineDeliveryDB();
         break;
-      case LabRequest:
-        saveToLabDB();
       default:
         System.out.println("Unknown enumerated type!");
         break;
@@ -215,13 +167,6 @@ public class Vdb {
     ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
     // equipment = new ArrayList<>();
     String headerLine = br.readLine();
-
-    String query = "";
-
-    // Connecting to DB
-    Connection connection = Vdb.Connect();
-    Statement statement = connection.createStatement();
-
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
@@ -236,131 +181,17 @@ public class Vdb {
               data[6],
               data[7]);
       medicineDeliveries.add(newDelivery);
-
-      // add to SQL table
-      addToMedicineTable(
-          data[0],
-          data[1],
-          data[2],
-          Integer.parseInt(data[3]),
-          Integer.parseInt(data[4]),
-          data[5],
-          data[6],
-          data[7]);
     }
-
-    // Add to local arraylist
     medicineDeliveryDao.setAllMedicineDeliveries(medicineDeliveries);
+    System.out.println("Medicine delivery database made");
   }
 
-  /**
-   * Create the SQL Table for the medicine delivery service request
-   *
-   * @throws SQLException
-   */
-  public static void createMedicineDeliveryTable() throws SQLException {
-    String query = "";
-    try {
-
-      // Connect to database and find Medicines table
-      Connection connection = Connect();
-      Statement statement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "MEDICINES", new String[] {"TABLE"});
-
-      // Create the table if not created yet, and recreate it if it has already been created...
-      if (!set.next()) {
-        System.out.println("Creating Medicine Delivery SQL Tables...");
-
-        query =
-            "CREATE TABLE Medicines( "
-                + "patientFirstName CHAR(60), "
-                + "patientLastName CHAR(60), "
-                + "roomNumber  CHAR(60), "
-                + "patientID INT, "
-                + "hospitalID INT, "
-                + "medicineName CHAR(40), "
-                + "dosage CHAR(40), "
-                + "requestDetails char(200))";
-
-        statement.execute(query);
-
-      } else {
-        statement.execute("DROP TABLE MEDICINES");
-        System.out.println("Tables already found! Dropping...");
-        createMedicineDeliveryTable();
-        return;
-      }
-
-    } catch (SQLException e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-  }
-
-  // A method I (Matt) created to test the Medicine Delivery SQL Table, it is a good reference for
-  // SQL Commands
-  private static void testMedicineDeliverySQLTable() throws SQLException {
-    String query = "";
-    String test = "Matt";
-    Connection connection = Connect();
-    Statement statement = connection.createStatement();
-    // Insert a sample entry into the database
-    query =
-        "INSERT INTO Medicines("
-            + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
-            + "('"
-            + test
-            + "', 'Hendrickson', 'Fuller Labs', 123, 123, 'Adderall', '100 mg', 'Taken twice a day') ";
-
-    statement.execute(query);
-
-    // Result must be selected before removing!
-    query =
-        "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerValues =
-        new String[] {
-          "patientFirstName",
-          "patientLastName",
-          "roomNumber",
-          "patientID",
-          "hospitalID",
-          "medicineName",
-          "dosage",
-          "requestDetails"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (int i = 0; i < headerValues.length; i++) {
-        System.out.print(resultSet.getString(headerValues[i]).trim() + ", ");
-      }
-      System.out.println();
-    }
-
-    // Remove from table
-    query = "DELETE FROM Medicines WHERE patientFirstName = 'Matt'";
-    int num = statement.executeUpdate(query);
-
-    System.out.println("Number of records deleted are: " + num);
-  }
-
-  private static void saveToMedicineDeliveryCSV() throws IOException {
+  private static void saveToMedicineDeliveryDB() throws IOException {
     FileWriter fw = new FileWriter(currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails");
 
-    // get all medicine deliveries
     for (MedicineDelivery medicineDelivery : medicineDeliveryDao.getAllMedicineDeliveries()) {
       String[] outputData = {
         medicineDelivery.getPatientFirstName(),
@@ -372,7 +203,6 @@ public class Vdb {
         medicineDelivery.getDosage(),
         medicineDelivery.getRequestDetails()
       };
-
       bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
@@ -384,95 +214,6 @@ public class Vdb {
     fw.close();
   }
 
-  // Add to Medicine Delivery SQL Table
-  public static void addToMedicineTable(
-      String patientFirstName,
-      String patientLastName,
-      String roomNumber,
-      int patientID,
-      int hospitalID,
-      String medicineName,
-      String dosage,
-      String requestDetails)
-      throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO Medicines("
-            + "patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails) VALUES "
-            + "('"
-            + patientFirstName
-            + "', '"
-            + patientLastName
-            + "', '"
-            + roomNumber
-            + "', "
-            + patientID
-            + ", "
-            + hospitalID
-            + ", '"
-            + medicineName
-            + "', '"
-            + dosage
-            + "', '"
-            + requestDetails
-            + "'"
-            + ")";
-
-    System.out.println(query);
-    statement.execute(query);
-
-    // Print out all the current entries...
-    query =
-        "SELECT patientFirstName, patientLastName, roomNumber, patientID, hospitalID, medicineName, dosage, requestDetails FROM Medicines";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {
-          "patientFirstName",
-          "patientLastName",
-          "roomNumber",
-          "patientID",
-          "hospitalID",
-          "medicineName",
-          "dosage",
-          "requestDetails"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (int i = 0; i < headerVals.length; i++) {
-        System.out.print(resultSet.getString(headerVals[i]).trim() + ", ");
-      }
-      System.out.println();
-    }
-  }
-
-  public static void createLocationsTable() throws SQLException {
-
-    try {
-      // substitute your database name for myDB
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement newStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
-      if (!set.next()) {
-        System.out.println("WE MAKInG TABLES");
-        newStatement.execute(
-            "CREATE TABLE Locations(nodeID char(20), xCoord double, yCoord double, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
-        ;
-      }
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-  }
   /**
    * Create the location database
    *
@@ -491,8 +232,8 @@ public class Vdb {
       Location newLoc =
           new Location(
               data[0],
-              Double.parseDouble(data[1]),
-              Double.parseDouble(data[2]),
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
               data[3],
               data[4],
               data[5],
@@ -502,8 +243,6 @@ public class Vdb {
     }
     locationDao.setAllLocations(locations);
     System.out.println("Location database made");
-
-    mapManager = MapManager.getManager();
   }
 
   /**
@@ -535,83 +274,6 @@ public class Vdb {
     }
     bw.close();
     fw.close();
-  }
-
-  public static void addToLocationsTable(
-      String nodeID,
-      double xCoord,
-      double yCoord,
-      String floor,
-      String building,
-      String nodeType,
-      String longName,
-      String shortName)
-      throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO Locations("
-            + "nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName) VALUES "
-            + "('"
-            + nodeID
-            + "', "
-            + xCoord
-            + ", "
-            + yCoord
-            + ", '"
-            + floor
-            + "', '"
-            + building
-            + "', '"
-            + nodeType
-            + "', '"
-            + longName
-            + "', '"
-            + shortName
-            + "'"
-            + ")";
-
-    System.out.println(query);
-    statement.execute(query);
-
-    // Print out all the current entries...
-    query =
-        "SELECT nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName FROM Locations";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {
-          "nodeID", "xCoord", "yCoord", "floor", "building", "nodeType", "longName", "shortName"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (String headerVal : headerVals) {
-        System.out.print(resultSet.getString(headerVal).trim() + ", ");
-      }
-      System.out.println();
-    }
-  }
-
-  public void deleteLocation(String nodeID) {
-
-    try {
-      Connection connection = Connect();
-      Statement exampleStatement = connection.createStatement();
-      exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID = " + nodeID);
-      locationDao.deleteLocation(nodeID);
-      Vdb.saveToFile(Vdb.Database.Location);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -656,156 +318,15 @@ public class Vdb {
       for (String s : data) System.out.println(s);
       EquipmentDelivery e =
           new EquipmentDelivery(
-              /*Node ID*/ data[0], /*User ID*/
-              Integer.parseInt(data[1]), /*Name*/
-              data[1], /*Description*/
-              data[2], /*Count*/
-              Integer.parseInt(data[3]), /*Status*/
-              data[4]);
+              data[0],
+              Integer.parseInt(data[1]),
+              data[2],
+              data[3],
+              Integer.parseInt(data[4]),
+              data[5]);
       equipment.add(e);
     }
     equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
     System.out.println("Equipment database made");
-  }
-
-  public static void createLabTable() throws SQLException {
-
-    try {
-      // substitute your database name for myDB
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement newStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
-      if (!set.next()) {
-        System.out.println("WE MAKInG TABLES");
-        newStatement.execute(
-            "CREATE TABLE LABS ("
-                + "UserID int, "
-                + "PatientID int, "
-                + "FirstName char[20],"
-                + "LastName char[20],"
-                + "Lab char[20],"
-                + "Status char[20])");
-      } else {
-        System.out.println("We already got tables?");
-        System.out.println("listing tables");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-        }
-      }
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-  }
-
-  private static void createLabDB() throws IOException {
-    FileReader fr = new FileReader(currentPath + "\\LabRequest.CSV");
-    BufferedReader br = new BufferedReader(fr);
-    String headerLine = br.readLine();
-    String splitToken = ",";
-    ArrayList<LabRequest> labs = new ArrayList<>();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data;
-      data = line.split(splitToken);
-      for (String s : data) System.out.println(s);
-      LabRequest l =
-          new LabRequest(
-              Integer.parseInt(data[0]),
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              data[4],
-              data[5]);
-      labs.add(l);
-    }
-    LabRequestDao.setAllLabRequests(labs);
-    System.out.println("Lab database made");
-  }
-
-  // Add to Medicine Delivery SQL Table
-  public static void addToLabTable(
-      int userID, int patientID, String firstName, String lastName, String lab, String status)
-      throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO Medicines("
-            + "userId, patientID, firstName, lastName, lab, status) VALUES "
-            + "('"
-            + userID
-            + "', '"
-            + patientID
-            + "', '"
-            + firstName
-            + "', "
-            + lastName
-            + ", "
-            + lab
-            + ", '"
-            + status
-            + "'"
-            + ")";
-
-    System.out.println(query);
-    statement.execute(query);
-
-    // Print out all the current entries...
-    query = "SELECT userId, patientID, firstName, lastName, lab, status FROM Medicines";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {"userID", "patientID", "firstName", "lastName", "lab", "status"};
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (String headerVal : headerVals) {
-        System.out.print(resultSet.getString(headerVal).trim() + ", ");
-      }
-      System.out.println();
-    }
-  }
-
-  private static void saveToLabDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\LabRequest.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("UserID,PatientID,First Name,Last Name,Lab Type,Status");
-    for (LabRequest l : labRequestDao.getAllLabRequests()) {
-      String[] outputData = {
-        // String.valueOf(l.getUserID()),
-        String.valueOf(l.getPatient().getPatientID()),
-        l.getPatient().getFirstName(),
-        l.getPatient().getLastName(),
-        l.getLab(),
-        l.getStatus()
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-        System.out.println(s);
-      }
-    }
-    bw.close();
-    fw.close();
   }
 }

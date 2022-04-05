@@ -1,11 +1,9 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import java.awt.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -91,17 +89,4 @@ public class ReligiousRequestController extends Controller {
 
   @Override
   public void start(Stage primaryStage) {}
-
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
-
-  @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
-  }
 }

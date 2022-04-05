@@ -16,5 +16,5 @@ public interface SanitationRequestImpl {
       String hazardName,
       String requestDetails);
 
-  void removeSanitationRequest(String hazardName);
+  void removeSanitationRequest();
 }

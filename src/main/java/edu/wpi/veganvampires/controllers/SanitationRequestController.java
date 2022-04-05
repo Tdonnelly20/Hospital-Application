@@ -2,31 +2,15 @@ package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.SanitationRequestDao;
-import edu.wpi.veganvampires.interfaces.RequestInterface;
-import edu.wpi.veganvampires.objects.SanitationRequest;
-import java.awt.*;
-import java.util.ArrayList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SanitationRequestController extends Controller implements RequestInterface {
-
-  @FXML private TreeTableView<SanitationRequest> sanitationRequestTable;
-  @FXML private TreeTableColumn<SanitationRequest, Integer> hospitalIDCol;
-  @FXML private TreeTableColumn<SanitationRequest, Integer> patientIDCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> firstNameCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> lastNameCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
-
+public class SanitationRequestController extends Controller {
   @FXML private TextField hospitalID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
@@ -37,45 +21,6 @@ public class SanitationRequestController extends Controller implements RequestIn
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
   private static SanitationRequestDao SanitationRequestDao = new SanitationRequestDao();
-
-  @Override
-  public void updateTreeTable() {
-    // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
-    // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomLocation"));
-    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazardName"));
-    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
-
-    // Get the current list of medicine deliveries from the DAO
-    ArrayList<SanitationRequest> currSanitationRequests =
-        (ArrayList<SanitationRequest>) SanitationRequestDao.getAllSanitationRequests();
-
-    // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
-
-    // Need to make sure the list isn't empty
-    if (!currSanitationRequests.isEmpty()) {
-
-      // for each loop cycling through each medicine delivery currently entered into the system
-      for (SanitationRequest delivery : currSanitationRequests) {
-        TreeItem<SanitationRequest> item = new TreeItem(delivery);
-        treeItems.add(item);
-      }
-      // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
-      // we get the standard table functionality
-      sanitationRequestTable.setShowRoot(false);
-      // Root is just the first entry in our list
-      TreeItem root = new TreeItem(SanitationRequestDao.getAllSanitationRequests().get(0));
-      // Set the root in the table
-      sanitationRequestTable.setRoot(root);
-      // Set the rest of the tree items to the root, including the one we set as the root
-      root.getChildren().addAll(treeItems);
-    }
-  }
 
   @FXML
   private void checkValidation() {
@@ -92,8 +37,7 @@ public class SanitationRequestController extends Controller implements RequestIn
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
-  @Override
-  public void validateButton() {
+  private void validateButton() {
 
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
@@ -145,8 +89,20 @@ public class SanitationRequestController extends Controller implements RequestIn
               + "\n\nRequest Details: "
               + requestDetails.getText());
 
-      resetForm(); // Set all fields to blank for another entry
+      resetFields(); // Set all fields to blank for another entry
     }
+  }
+
+  /** Sets all the fields to their default value for another entry */
+  @FXML
+  private void resetFields() {
+    patientID.setText("");
+    hospitalID.setText("");
+    firstName.setText("");
+    lastName.setText("");
+    roomLocation.setText("");
+    sanitationDropDown.setValue(null);
+    requestDetails.setText("");
   }
 
   @Override
@@ -168,8 +124,7 @@ public class SanitationRequestController extends Controller implements RequestIn
   }
 
   @FXML
-  @Override
-  public void sendRequest() {
+  private void sendRequest() {
     // If any field is left blank, (except for request details) throw an error
 
     // Make sure the patient ID is an integer
@@ -207,31 +162,7 @@ public class SanitationRequestController extends Controller implements RequestIn
               + "\n\nRequest Details: "
               + requestDetails.getText());
 
-      resetForm(); // Set all fields to blank for another entry
+      resetFields(); // Set all fields to blank for another entry
     }
-  }
-  /** Sets all the fields to their default value for another entry */
-  @FXML
-  public void resetForm() {
-    patientID.setText("");
-    hospitalID.setText("");
-    firstName.setText("");
-    lastName.setText("");
-    roomLocation.setText("");
-    sanitationDropDown.setValue(null);
-    requestDetails.setText("");
-  }
-
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
-
-  @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
   }
 }
