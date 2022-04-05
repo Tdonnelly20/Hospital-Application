@@ -126,9 +126,11 @@ public class EquipmentRequestController extends Controller {
   private void sendRequest() throws SQLException {
     equipmentDeliveryDao.addEquipmentDelivery(
         pos.getText(),
+        123,
         dropDown.getValue().toString(),
         notes.getText(),
-        Integer.parseInt(quant.getText()));
+        Integer.parseInt(quant.getText()),
+        "Not Started");
     resetForm();
     updateTreeTable();
   }

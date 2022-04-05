@@ -58,9 +58,9 @@ public class LabRequestDao implements LabRequestImpl {
   }
 
   @Override
-  public void removeLabRequest(int userID) {
+  public void removeLabRequest(String userID) {
     System.out.println("Removing from arraylist...");
-    allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);
+    allLabRequests.removeIf(l -> l.getPatient().getPatientID() == Integer.parseInt(userID));
 
     try {
       System.out.println("Removing from database...");
@@ -68,7 +68,8 @@ public class LabRequestDao implements LabRequestImpl {
       connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
       for (LabRequest l : allLabRequests)
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
+        exampleStatement.execute(
+            "DELETE FROM LOCATIONS WHERE Integer.parseInt(userID) = l.getUserID()");
 
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {

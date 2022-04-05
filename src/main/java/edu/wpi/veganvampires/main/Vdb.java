@@ -17,7 +17,8 @@ public class Vdb {
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
   public static final LabRequestDao labRequestDao = new LabRequestDao();
-  public static final InternalPatientTransportationDao internalPatientTransportationDao = new InternalPatientTransportationDao();
+  public static final InternalPatientTransportationDao internalPatientTransportationDao =
+      new InternalPatientTransportationDao();
   public static MapManager mapManager;
 
   public enum Database {
@@ -655,12 +656,12 @@ public class Vdb {
       for (String s : data) System.out.println(s);
       EquipmentDelivery e =
           new EquipmentDelivery(
-              data[0],
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              Integer.parseInt(data[4]),
-              data[5]);
+              /*Node ID*/ data[0], /*User ID*/
+              Integer.parseInt(data[1]), /*Name*/
+              data[1], /*Description*/
+              data[2], /*Count*/
+              Integer.parseInt(data[3]), /*Status*/
+              data[4]);
       equipment.add(e);
     }
     equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);

@@ -73,14 +73,14 @@ public class LaundryRequestController extends Controller {
 
   @FXML
   private void sendRequest() throws SQLException {
-    laundryRequestDao.addLaundryRequest(
+    /* laundryRequestDao.addLaundryRequest(
         Integer.parseInt(userID.getText()),
-        Integer.parseInt(userID.getText()),
+        Integer.parseInt(patientID.getText()),
         firstName.getText(),
         lastName.getText(),
         Integer.parseInt(roomNumber.getText()),
         details.getText());
-    resetForm();
+    resetForm();*/
   }
 
   @Override

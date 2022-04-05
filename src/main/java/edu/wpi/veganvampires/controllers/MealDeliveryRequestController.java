@@ -1,12 +1,9 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.veganvampires.dao.MealRequestDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
-import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.MealRequest;
 import java.awt.*;
-import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -42,7 +39,7 @@ public class MealDeliveryRequestController extends Controller implements Request
   @FXML private Label statusLabel;
 
   // MUST take from Vdb, do NOT create
-  private static MealRequestDao mealRequestDao = Vdb.mealRequestDao;
+  // private static MealRequestDao mealRequestDao = Vdb.mealRequestDao;
 
   /** Update the table with values from fields and the DB */
   @Override
@@ -59,7 +56,7 @@ public class MealDeliveryRequestController extends Controller implements Request
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
 
     // Get the current list of medicine deliveries from the DAO
-    ArrayList<MealRequest> currMealDeliveries =
+    /* ArrayList<MealRequest> currMealDeliveries =
         (ArrayList<MealRequest>) mealRequestDao.getAllMealRequests();
 
     // Create a list for our tree items
@@ -82,7 +79,7 @@ public class MealDeliveryRequestController extends Controller implements Request
       mealRequestTable.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
       root.getChildren().addAll(treeItems);
-    }
+    }*/
   }
 
   /** Determine whether or not all fields have been filled out, so we can submit the info */
@@ -133,15 +130,15 @@ public class MealDeliveryRequestController extends Controller implements Request
     } else {
 
       // Send the request to the Dao pattern
-      mealRequestDao.addMealRequest(
-          firstName.getText(),
-          lastName.getText(),
-          roomNum.getText(),
-          Integer.parseInt(patientID.getText()),
-          Integer.parseInt(hospitalID.getText()),
-          mealDropDown.getValue().toString(),
-          allergy.getText(),
-          requestDetails.getText());
+      /* mealRequestDao.addMealRequest(
+      firstName.getText(),
+      lastName.getText(),
+      roomNum.getText(),
+      Integer.parseInt(patientID.getText()),
+      Integer.parseInt(hospitalID.getText()),
+      mealDropDown.getValue().toString(),
+      allergy.getText(),
+      requestDetails.getText());*/
 
       // For testing purposes
       System.out.println(

@@ -32,6 +32,14 @@ public class LaundryRequestDao implements LaundryRequestImpl {
     return allLaundryRequests;
   }
 
+  @Override
+  public void addLaundryRequest(
+      int userID, int patientID, String firstName, String lastName, int roomNumber, String details)
+      throws SQLException {}
+
+  @Override
+  public void removeLaundryRequest(int patientID) throws SQLException {}
+
   /**
    * Adds equipment to the CSV
    *
@@ -43,7 +51,7 @@ public class LaundryRequestDao implements LaundryRequestImpl {
    * @param details
    * @throws SQLException
    */
-  @Override
+  /*@Override
   public void addLaundryRequest(
       String userID,
       String patientID,
@@ -71,7 +79,7 @@ public class LaundryRequestDao implements LaundryRequestImpl {
         e.printStackTrace();
     }
 
-     */
+
   }
 
   /**
@@ -81,7 +89,7 @@ public class LaundryRequestDao implements LaundryRequestImpl {
    * @param laundry a string of the desired laundry request to remove
    * @throws SQLException
    */
-  @Override
+  /*@Override
   public void removeLaundryRequest(String laundry) throws SQLException {
     /*
     System.out.println("Removing from arraylist...");
@@ -99,7 +107,7 @@ public class LaundryRequestDao implements LaundryRequestImpl {
     } catch (Exception e) {
         e.printStackTrace();
     }
-    */
 
-  }
+
+  }*/
 }

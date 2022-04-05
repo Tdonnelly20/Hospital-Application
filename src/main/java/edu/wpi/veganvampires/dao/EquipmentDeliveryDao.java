@@ -43,10 +43,11 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
    * @throws SQLException
    */
   @Override
-  public void addEquipmentDelivery(String location, String equipment, String notes, int quantity)
+  public void addEquipmentDelivery(
+      String location, int userID, String equipment, String notes, int quantity, String status)
       throws SQLException {
     EquipmentDelivery newEquipmentDelivery =
-        new EquipmentDelivery("My house", "my mom", "bazinga", 123);
+        new EquipmentDelivery(location, userID, equipment, notes, quantity, status);
     // new EquipmentDelivery(location, 123, equipment, notes, quantity, "no");
 
     System.out.println("Adding to local arraylist...");
@@ -61,7 +62,7 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
     Connection connection = Vdb.Connect();
     PreparedStatement pSTMT =
         connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
-    pSTMT.setString(1, newEquipmentDelivery.getLocation());
+    pSTMT.setString(1, newEquipmentDelivery.getLocation().getNodeID());
     pSTMT.setString(2, newEquipmentDelivery.getEquipment());
     pSTMT.setString(3, newEquipmentDelivery.getNotes());
     pSTMT.setInt(4, newEquipmentDelivery.getQuantity());
