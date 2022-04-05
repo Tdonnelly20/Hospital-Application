@@ -2,24 +2,38 @@ package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
+import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.EquipmentDelivery;
+import edu.wpi.veganvampires.objects.Location;
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
 public class EquipmentRequestController extends Controller {
-
   @FXML private TreeTableView<EquipmentDelivery> equipmentRequestTable;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> posCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
 
-  @FXML private TextField status;
+  @FXML private TextField patientID;
+  @FXML private TextField employeeID;
+  @FXML private TextField firstName;
+  @FXML private TextField lastName;
+  @FXML private Label status;
   @FXML private TextField pos;
   @FXML private JFXComboBox<Object> dropDown;
   @FXML private TextField quant;
@@ -28,8 +42,23 @@ public class EquipmentRequestController extends Controller {
 
   private static EquipmentDeliveryDao equipmentDeliveryDao = Vdb.equipmentDeliveryDao;
 
+  private static LocationDao locationDao = Vdb.locationDao;
+  @FXML private TreeTableView<Location> table;
+  @FXML private TreeTableColumn<Location, String> nodeIDCol;
+  @FXML private TreeTableColumn<Location, Integer> xCol;
+  @FXML private TreeTableColumn<Location, Integer> yCol;
+  @FXML private TreeTableColumn<Location, String> floorCol;
+  @FXML private TreeTableColumn<Location, String> buildingCol;
+  @FXML private TreeTableColumn<Location, String> nodeTypeCol;
+  @FXML private TreeTableColumn<Location, String> shortNameCol;
+  @FXML private TreeTableColumn<Location, String> longNameCol;
+
   @FXML
   private void updateTreeTable() {
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
     posCol.setCellValueFactory(new TreeItemPropertyValueFactory("location"));
     equipCol.setCellValueFactory(new TreeItemPropertyValueFactory("equipment"));
     quantCol.setCellValueFactory(new TreeItemPropertyValueFactory("quantity"));
@@ -54,7 +83,39 @@ public class EquipmentRequestController extends Controller {
   }
 
   @FXML
+  private void updateEquipmentTable() {
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
+    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("xCoord"));
+    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("yCoord"));
+    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("Floor"));
+    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("Building"));
+    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeType"));
+    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
+    longNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("longName"));
+
+    ArrayList<Location> currLocations = (ArrayList<Location>) locationDao.getAllLocations();
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    if (!currLocations.isEmpty()) {
+
+      for (Location pos : currLocations) {
+        TreeItem<Location> item = new TreeItem(pos);
+        treeItems.add(item);
+      }
+
+      table.setShowRoot(false);
+      TreeItem root = new TreeItem(locationDao.getAllLocations().get(0));
+      table.setRoot(root);
+      root.getChildren().addAll(treeItems);
+    }
+  }
+
+  @FXML
   private void resetForm() {
+    employeeID.setText("");
+    patientID.setText("");
+    firstName.setText("");
+    lastName.setText("");
     status.setText("Status: Blank");
     pos.setText("");
     notes.setText("");
@@ -65,7 +126,11 @@ public class EquipmentRequestController extends Controller {
 
   @FXML
   private void validateButton() {
-    if (!(status.getText().isEmpty())
+    if (!(employeeID.getText().isEmpty())
+        && !(patientID.getText().isEmpty())
+        && !(employeeID.getText().isEmpty())
+        && !(firstName.getText().isEmpty())
+        && !(lastName.getText().isEmpty())
         && !(pos.getText().isEmpty())
         && !(dropDown.getValue() == null)
         && !(notes.getText().isEmpty())
@@ -74,7 +139,12 @@ public class EquipmentRequestController extends Controller {
       status.setText("Status: Done");
       sendRequest.setDisable(false);
 
-    } else if (!(status.getText().isEmpty())
+    } else if (!(employeeID.getText().isEmpty())
+        || !(patientID.getText().isEmpty())
+        || !(employeeID.getText().isEmpty())
+        || !(firstName.getText().isEmpty())
+        || !(lastName.getText().isEmpty())
+        || !(status.getText().isEmpty())
         || !(pos.getText().isEmpty())
         || !(dropDown.getValue() == null)
         || !(notes.getText().isEmpty())
@@ -105,4 +175,17 @@ public class EquipmentRequestController extends Controller {
 
   @Override
   public void start(Stage primaryStage) {}
+
+  // used to get coordinates after clicking map
+  @FXML private TextArea coordinates;
+  private Point point = new Point();
+  private int xCoord, yCoord;
+
+  @FXML
+  private void mapCoordTracker() {
+    point = MouseInfo.getPointerInfo().getLocation();
+    xCoord = point.x - 712;
+    yCoord = point.y - 230;
+    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
+  }
 }
