@@ -1,9 +1,6 @@
 package edu.wpi.veganvampires.main;
 
-import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
-import edu.wpi.veganvampires.dao.InternalPatientTransportationDao;
-import edu.wpi.veganvampires.dao.LocationDao;
-import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
+import edu.wpi.veganvampires.dao.*;
 import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
@@ -19,6 +16,7 @@ public class Vdb {
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   public static final LocationDao locationDao = new LocationDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
+  public static final LabRequestDao labRequestDao = new LabRequestDao();
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
       new InternalPatientTransportationDao();
   public static MapManager mapManager;
