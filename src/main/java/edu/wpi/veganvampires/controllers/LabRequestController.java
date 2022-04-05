@@ -23,7 +23,6 @@ public class LabRequestController extends Controller implements RequestInterface
 
   private static final LabRequestDao labRequestDao = Vdb.labRequestDao;
 
-
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;

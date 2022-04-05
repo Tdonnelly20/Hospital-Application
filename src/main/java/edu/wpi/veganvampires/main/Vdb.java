@@ -54,14 +54,12 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-    createLocationDB();
-    createEquipmentDB();
+    // createLocationDB();
+    // createEquipmentDB();
     createMedicineDeliveryTable();
     createMedicineDeliveryDB();
     createLabTable();
     createLabDB();
-
-
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
@@ -580,17 +578,17 @@ public class Vdb {
       assert connection != null;
       Statement newStatement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
+      ResultSet set = meta.getTables(null, null, "LABS", new String[] {"TABLE"});
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         newStatement.execute(
             "CREATE TABLE LABS ("
                 + "UserID int, "
                 + "PatientID int, "
-                + "FirstName char[20],"
-                + "LastName char[20],"
-                + "Lab char[20],"
-                + "Status char[20])");
+                + "FirstName char(20),"
+                + "LastName char(20),"
+                + "Lab char(20),"
+                + "Status char(20))");
       } else {
         System.out.println("We already got tables?");
         System.out.println("listing tables");
@@ -650,19 +648,19 @@ public class Vdb {
     Statement statement = connection.createStatement();
 
     query =
-        "INSERT INTO Medicines("
-            + "userId, patientID, firstName, lastName, lab, status) VALUES "
-            + "('"
+        "INSERT INTO LABS("
+            + "userID, patientID, firstName, lastName, lab, status) VALUES "
+            + "("
             + userID
-            + "', '"
-            + patientID
-            + "', '"
-            + firstName
-            + "', "
-            + lastName
             + ", "
-            + lab
+            + patientID
             + ", '"
+            + firstName
+            + "', '"
+            + lastName
+            + "', '"
+            + lab
+            + "', '"
             + status
             + "'"
             + ")";
@@ -671,7 +669,7 @@ public class Vdb {
     statement.execute(query);
 
     // Print out all the current entries...
-    query = "SELECT userId, patientID, firstName, lastName, lab, status FROM Medicines";
+    query = "SELECT userID, patientID, firstName, lastName, lab, status FROM LABS";
 
     ResultSet resultSet = statement.executeQuery(query);
 
@@ -695,7 +693,7 @@ public class Vdb {
     bw.append("UserID,PatientID,First Name,Last Name,Lab Type,Status");
     for (LabRequest l : labRequestDao.getAllLabRequests()) {
       String[] outputData = {
-        //String.valueOf(l.getUserID()),
+        String.valueOf(l.getHospitalEmployee().getHospitalID()),
         String.valueOf(l.getPatient().getPatientID()),
         l.getPatient().getFirstName(),
         l.getPatient().getLastName(),
