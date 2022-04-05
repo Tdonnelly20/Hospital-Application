@@ -1,6 +1,7 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.LaundryRequestImpl;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.LaundryRequest;
 import java.sql.*;
 import java.util.ArrayList;
@@ -45,61 +46,54 @@ public class LaundryRequestDao implements LaundryRequestImpl {
    */
   @Override
   public void addLaundryRequest(
-      String userID,
-      String patientID,
-      String firstName,
-      String lastName,
-      int roomNumber,
-      String details)
+      int userID, int patientID, String firstName, String lastName, int roomNumber, String details)
       throws SQLException {
-    /*
+
     LaundryRequest newLaundryRequest =
-            new LaundryRequest(userID, patientID, firstName, lastName, roomNumber, details);
+        new LaundryRequest(userID, patientID, firstName, lastName, roomNumber, details);
 
     System.out.println("Adding to local arraylist...");
     allLaundryRequests.add(newLaundryRequest);
 
     System.out.println("Adding to database");
     try {
-        Connection connection = Vdb.Connect();
-        Statement exampleStatement = connection.createStatement();
-        Vdb.saveToFile(Vdb.Database.LaundryRequest);
-        exampleStatement.execute(
-                "INSERT INTO LOCATIONS VALUES (newLaundryRequest.getUserID(), newLaundryRequest.getPatientID(), newLaundryRequest.getFirstName(), newLaundryRequest.getLastName(), newLaundryRequest.getRoomNumber(), newLaundryRequest.getDetails()) ");
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+
+      // TODO Currently no LaundryRequest in Vdb
+      // Vdb.saveToFile(Vdb.Database.LaundryRequest);
+
+      exampleStatement.execute(
+          "INSERT INTO LOCATIONS VALUES (newLaundryRequest.getUserID(), newLaundryRequest.getPatientID(), newLaundryRequest.getFirstName(), newLaundryRequest.getLastName(), newLaundryRequest.getRoomNumber(), newLaundryRequest.getDetails()) ");
 
     } catch (Exception e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
-
-     */
   }
 
   /**
    * TODO: Make sure that this doesn't remove someone else's equipment Remove the equipment by
    * finding the string of the equipment and using is to remove it from the arraylist
    *
-   * @param laundry a string of the desired laundry request to remove
-   * @throws SQLException
+   * <p>//@param laundry a string of the desired laundry request to remove //@throws SQLException
    */
   @Override
-  public void removeLaundryRequest(String laundry) throws SQLException {
-    /*
+  public void removeLaundryRequest(int patientID) throws SQLException {
     System.out.println("Removing from arraylist...");
-    allLaundryRequests.removeIf(e -> e.getLaundry().equals(laundry));
-
+    allLaundryRequests.removeIf(e -> e.getLaundryRequest().getPatientID() == patientID);
     try {
-        System.out.println("Removing from database...");
-        Connection connection;
-        connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
-        Statement exampleStatement = connection.createStatement();
-        for (LaundryRequest e : allLaundryRequests)
-            exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getLaundry())");
+      System.out.println("Removing from database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (LaundryRequest e : allLaundryRequests)
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getLaundry())");
 
-        Vdb.saveToFile(Vdb.Database.LaundryRequest);
+      // TODO Currently no LaundryRequest in Vdb
+      // Vdb.saveToFile(Vdb.Database.LaundryRequest);
+
     } catch (Exception e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
-    */
-
   }
 }
