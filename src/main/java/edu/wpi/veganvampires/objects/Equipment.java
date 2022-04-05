@@ -9,8 +9,9 @@ public class Equipment {
   private int count;
   private boolean isDirty;
 
-  public Equipment(int ID, double x, double y, String name, String description, int count, Boolean isDirty) {
-    this.ID=ID;
+  public Equipment(
+      int ID, double x, double y, String name, String description, int count, Boolean isDirty) {
+    this.ID = ID;
     this.x = x;
     this.y = y;
     this.name = name;

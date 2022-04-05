@@ -18,6 +18,8 @@ public class Vdb {
   public static final LabRequestDao labRequestDao = new LabRequestDao();
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
   public static final MealRequestDao mealRequestDao = new MealRequestDao();
+  public static final InternalPatientTransportationDao internalPatientTransportationDao =
+      new InternalPatientTransportationDao();
   public static MapManager mapManager;
 
   public enum Database {
