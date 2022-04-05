@@ -188,18 +188,23 @@ public class MapManager {
   public void addRequest() {
     System.out.println(floorList.get(1).getIconList().size());
     System.out.println(floorList.get(1).getIconList().get(0).getLocation().getLongName());
+     /*
     floorList
         .get(1)
         .getIconList()
         .get(0)
         .addToRequests(
+
             new EquipmentDelivery(
                 floorList.get(1).getIconList().get(0).getLocation().getNodeID(),
                 123,
                 "I",
                 "stg",
                 10,
-                "whyyyyyyyyyyyyyyyyy"));
+                "whyyyyyyyyyyyyyyyyy")
+
+
+        ); */
   }
 
   /**

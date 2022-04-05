@@ -1,1 +1,1 @@
-EmpID,PatientID,PatientFirstName,PatientLastName,Location,Name,Notes,Count,Status,
+EmpID,Location,Name,Notes,Count,Status,PatientID,PatientFirstName,PatientLastName

@@ -6,7 +6,7 @@ public class EquipmentDelivery extends ServiceRequest {
   private final int quantity;
 
   public EquipmentDelivery(
-      String nodeID, int userID, String equipment, String notes, int quantity, String status) {
+          int userID, String nodeID,  String equipment, String notes, int quantity, String status) {
     this.location = Vdb.locationDao.getLocation(nodeID);
     this.hospitalEmployee = new HospitalEmployee(userID);
     this.patient = null;
@@ -17,20 +17,30 @@ public class EquipmentDelivery extends ServiceRequest {
     this.quantity = quantity;
     this.status=status;
   }
-  public int getEmpID(){
-    return empID;
-  }
 
-  public int getPatientID(){
-    return patientID;
+  public EquipmentDelivery(
+          int userID, String nodeID,  String equipment, String notes, int quantity, String status, int pID) {
+    this.location = Vdb.locationDao.getLocation(nodeID);
+    this.hospitalEmployee = new HospitalEmployee(userID);
+    //this.patient = ;//needs to find patient
+    this.equipment = equipment;
+    this.notes = notes;
+    this.desc = "Equipment Delivery (" + equipment + ")";
+    this.status = status;
+    this.quantity = quantity;
+    this.status=status;
   }
-
-  public String getPatientFirstName(){
-    return patientFirstName;
-  }
-
-  public String getPatientLastName(){
-    return patientLastName;
+  public EquipmentDelivery(
+          int userID, String nodeID,  String equipment, String notes, int quantity, String status,int pID, String fname, String lname) {
+    this.location = Vdb.locationDao.getLocation(nodeID);
+    this.hospitalEmployee = new HospitalEmployee(userID);
+    this.patient = new Patient(pID,fname,lname);
+    this.equipment = equipment;
+    this.notes = notes;
+    this.desc = "Equipment Delivery (" + equipment + ")";
+    this.status = status;
+    this.quantity = quantity;
+    this.status=status;
   }
 
   public Location getLocation() {
