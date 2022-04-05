@@ -1,13 +1,8 @@
 package edu.wpi.veganvampires.dao;
 
 import edu.wpi.veganvampires.interfaces.EquipmentImpl;
-import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Equipment;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class EquipmentDao implements EquipmentImpl {
@@ -24,7 +19,7 @@ public class EquipmentDao implements EquipmentImpl {
   }
 
   public void setAllEquipment(ArrayList<Equipment> equipmentArrayList) {
-    allEquipment= equipmentArrayList;
+    allEquipment = equipmentArrayList;
   }
 
   /**
@@ -39,6 +34,7 @@ public class EquipmentDao implements EquipmentImpl {
 
   /**
    * Adds equipment to the CSV
+   *
    * @param ID
    * @param name
    * @param floor
@@ -49,26 +45,25 @@ public class EquipmentDao implements EquipmentImpl {
    * @throws SQLException
    */
   @Override
-  public void addEquipment(int ID, String name,String floor, int x, int y,String desc, Boolean isDirty)
+  public void addEquipment(
+      String ID, String name, String floor, int x, int y, String desc, Boolean isDirty)
       throws SQLException {
-    Equipment newEquipment =
-        new Equipment(ID, name, floor,x,y, desc, isDirty);
+    Equipment newEquipment = new Equipment(ID, name, floor, x, y, desc, isDirty);
 
     System.out.println("Adding to local arraylist...");
     allEquipment.add(newEquipment);
 
     System.out.println("Adding to database");
-
   }
 
-    /**
-     * TODO: Make sure that this doesn't remove someone else's equipment Remove the equipment by
-     * finding the string of the equipment and using is to remove it from the arraylist
-     *
-     * @param equipment a string of the desired equipment to remove
-     * @throws SQLException
-     */
-      /*
+  /**
+   * TODO: Make sure that this doesn't remove someone else's equipment Remove the equipment by
+   * finding the string of the equipment and using is to remove it from the arraylist
+   *
+   * @param equipment a string of the desired equipment to remove
+   * @throws SQLException
+   */
+  /*
   @Override
   public void removeEquipmentString equipment) throws SQLException {
 

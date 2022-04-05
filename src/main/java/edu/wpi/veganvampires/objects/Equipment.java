@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires.objects;
 
 public class Equipment {
-  private int ID;
+  private String ID;
   private double x;
   private double y;
   private String floor;
@@ -10,9 +10,15 @@ public class Equipment {
   private boolean isDirty;
 
   public Equipment(
-      int ID, String name, String floor, double x, double y, String description, Boolean isDirty) {
+      String ID,
+      String name,
+      String floor,
+      double x,
+      double y,
+      String description,
+      Boolean isDirty) {
     this.ID = ID;
-    this.floor=floor;
+    this.floor = floor;
     this.x = x;
     this.y = y;
     this.name = name;
@@ -20,26 +26,31 @@ public class Equipment {
     this.isDirty = isDirty;
   }
 
-  public String getFloor(){
+  public String getFloor() {
     return floor;
   }
 
-  public int getID(){
+  public String getID() {
     return ID;
   }
-  public String getName(){
+
+  public String getName() {
     return name;
   }
-  public double getX(){
+
+  public double getX() {
     return x;
   }
-  public double getY(){
+
+  public double getY() {
     return y;
   }
-  public String getDescription(){
+
+  public String getDescription() {
     return description;
   }
-  public boolean getisDirty(){
+
+  public boolean getisDirty() {
     return isDirty;
   }
 }

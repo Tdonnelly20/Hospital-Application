@@ -188,7 +188,7 @@ public class MapManager {
   public void addRequest() {
     System.out.println(floorList.get(1).getIconList().size());
     System.out.println(floorList.get(1).getIconList().get(0).getLocation().getLongName());
-     /*
+    /*
     floorList
         .get(1)
         .getIconList()
