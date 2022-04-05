@@ -45,8 +45,9 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
   @Override
   public void addEquipmentDelivery(String location, String equipment, String notes, int quantity)
       throws SQLException {
-    EquipmentDelivery newEquipmentDelivery = new EquipmentDelivery("My house", "my mom", "bazinga", 123);
-        //new EquipmentDelivery(location, 123, equipment, notes, quantity, "no");
+    EquipmentDelivery newEquipmentDelivery =
+        new EquipmentDelivery("My house", "my mom", "bazinga", 123);
+    // new EquipmentDelivery(location, 123, equipment, notes, quantity, "no");
 
     System.out.println("Adding to local arraylist...");
     allEquipmentDeliveries.add(newEquipmentDelivery);
