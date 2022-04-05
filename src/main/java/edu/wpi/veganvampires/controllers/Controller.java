@@ -282,7 +282,6 @@ public abstract class Controller extends Application {
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/LabRequest.fxml")));
     switchScene(event);
-    checkDropDown();
   }
 
   // Switches scene to the medicine delivery page
