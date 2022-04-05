@@ -35,7 +35,23 @@ public class LocationDao implements LocationImpl {
       Statement exampleStatement = connection.createStatement();
       for (Location l : allLocations)
         exampleStatement.execute(
-            "INSERT INTO LOCATIONS VALUES (newlocation.getNodeID, newlocation.getXCoord(), newlocation.getYCoord(), newlocation.getFloor(), newlocation.getBuilding(), newlocation.getNodeType(), newlocation.getLongName(), newlocation.getShortName())");
+            "INSERT INTO LOCATIONS VALUES ('"
+                + location.getNodeID()
+                + "',"
+                + location.getXCoord()
+                + ","
+                + location.getYCoord()
+                + ",'"
+                + location.getFloor()
+                + "','"
+                + location.getBuilding()
+                + "','"
+                + location.getNodeType()
+                + "','"
+                + location.getLongName()
+                + "','"
+                + location.getShortName()
+                + "')");
       Vdb.saveToFile(Vdb.Database.Location);
     } catch (SQLException e) {
       e.printStackTrace();
@@ -72,12 +88,26 @@ public class LocationDao implements LocationImpl {
     allLocations = locations;
     try {
       Connection connect = Vdb.Connect();
-      Statement st = connect.createStatement();
       for (int i = 0; i < locations.size(); i++) {
+        Statement st = connect.createStatement();
         st.execute(
-            "INSERT INTO LOCATIONS VALUES(locations.get(i).getNodeID(), locations.get(i).getXCoord(),"
-                + "locations.get(i).getYCoord(), locations.get(i).getFloor(), locations.get(i).getBuilding(), locations.get(i).getNodeType(),"
-                + "locations.get(i).getLongName(), locations.get(i).getShortName())");
+            "INSERT INTO LOCATIONS VALUES('"
+                + locations.get(i).getNodeID()
+                + "', "
+                + locations.get(i).getXCoord()
+                + ","
+                + locations.get(i).getYCoord()
+                + ",'"
+                + locations.get(i).getFloor()
+                + "','"
+                + locations.get(i).getBuilding()
+                + "','"
+                + locations.get(i).getNodeType()
+                + "','"
+                + locations.get(i).getLongName()
+                + "','"
+                + locations.get(i).getShortName()
+                + "')");
       }
       Vdb.saveToFile(Vdb.Database.Location);
     } catch (Exception e) {

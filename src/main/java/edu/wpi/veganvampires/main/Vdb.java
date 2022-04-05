@@ -90,7 +90,7 @@ public class Vdb {
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         exampleStatement.execute(
-            "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+            "CREATE TABLE Locations(nodeID char(20), xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
       } else {
         System.out.println("We already got tables?");
       }
@@ -461,7 +461,6 @@ public class Vdb {
     }
   }
 
-
   public static void createLocationsTable() throws SQLException {
 
     try {
@@ -474,7 +473,7 @@ public class Vdb {
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         newStatement.execute(
-                "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+            "CREATE TABLE Locations(nodeID char(20), xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
         ;
       } else {
         System.out.println("We already got tables?");
