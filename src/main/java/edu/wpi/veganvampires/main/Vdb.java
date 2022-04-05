@@ -103,6 +103,9 @@ public class Vdb {
       e.printStackTrace();
     }
 
+
+
+
     try {
       // substitute your database name for myDB
       Statement exampleStatement = connection.createStatement();
