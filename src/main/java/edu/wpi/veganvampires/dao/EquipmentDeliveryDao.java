@@ -21,18 +21,6 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
 
   public void setAllEquipmentDeliveries(ArrayList<EquipmentDelivery> equipmentDeliveryArrayList) {
     allEquipmentDeliveries = equipmentDeliveryArrayList;
-    try {
-      Connection connect = Vdb.Connect();
-      Statement st = connect.createStatement();
-      for (int i = 0; i < equipmentDeliveryArrayList.size(); i++) {
-        st.execute(
-            "INSERT INTO EQUIPMENTDELIVERY VALUES(equipmentDeliveryArrayList.get(i).getLocation(),"
-                + "equipmentDeliveryArrayList.get(i).getEquipment(),"
-                + "equipmentDeliveryArrayList.get(i).getNotes(), equipmentDeliveryArrayList.get(i).getQuantity())");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -64,16 +52,14 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
     allEquipmentDeliveries.add(newEquipmentDelivery);
 
     System.out.println("Adding to database");
-    try {
-      Connection connection = Vdb.Connect();
-      Statement exampleStatement = connection.createStatement();
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
-      exampleStatement.execute(
-          "INSERT INTO EQUIPMENT VALUES (newEquipmentDelivery.getLocation(),newEquipmentDelivery.getEquipment(), newEquipmentDelivery.getNotes(), newEqipmentDelivery.getQuantity()) ");
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    Connection connection = Vdb.Connect();
+    PreparedStatement pSTMT =
+        connection.prepareStatement("INSERT INTO EQUIPMENT VALUES (?, ?, ?, ?)");
+    pSTMT.setString(1, newEquipmentDelivery.getLocation());
+    pSTMT.setString(2, newEquipmentDelivery.getEquipment());
+    pSTMT.setString(3, newEquipmentDelivery.getNotes());
+    pSTMT.setInt(4, newEquipmentDelivery.getQuantity());
+    pSTMT.executeUpdate();
   }
 
   /**
@@ -93,12 +79,10 @@ public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
       System.out.println("Removing from database...");
       Connection connection;
       connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
-      Statement exampleStatement = connection.createStatement();
-      for (EquipmentDelivery e : allEquipmentDeliveries)
-        exampleStatement.execute("DELETE FROM EQUIPMENT WHERE equipment.equals(e.getEquipment())");
-      exampleStatement.execute(
-          "DELETE FROM EQUIPMENTDELIVERY WHERE equipment.equals(e.getEquipment())");
-
+      PreparedStatement pSTMT =
+          connection.prepareStatement("DELETE FROM EQUIPMENTDELIVERY WHERE equipment.equals (?)");
+      pSTMT.setString(1, equipment);
+      pSTMT.executeUpdate();
       Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {
       e.printStackTrace();
