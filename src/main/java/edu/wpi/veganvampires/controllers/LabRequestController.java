@@ -29,14 +29,6 @@ public class LabRequestController extends Controller implements RequestInterface
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private Button sendRequest;
 
-  private static class SingletonHelper {
-    private static final LabRequestController manager = new LabRequestController();
-  }
-
-  public static LabRequestController getManager() {
-    return LabRequestController.SingletonHelper.manager;
-  }
-
   @Override
   @FXML
   public void resetForm() {
@@ -52,23 +44,27 @@ public class LabRequestController extends Controller implements RequestInterface
   // Checks to see if the user can submit info
   @Override
   public void validateButton() {
-    if (!(userID.getText().isEmpty())
-        && !(patientID.getText().isEmpty())
-        && !(firstName.getText().isEmpty())
-        && !(lastName.getText().isEmpty())
-        && !(requestedLab.getValue().equals("Select Lab"))) {
-      // Information verification and submission needed
-      sendRequest.setDisable(false);
-      Status.setText("Status: Done");
-    } else if (!(userID.getText().isEmpty())
-        || !(patientID.getText().isEmpty())
-        || !(firstName.getText().isEmpty())
-        || !(lastName.getText().isEmpty())
-        || !(requestedLab.getValue().equals("Select Lab"))) {
-      Status.setText("Status: Processing");
-    } else {
-      Status.setText("Status: Blank");
-      sendRequest.setDisable(true);
+    try {
+      if (!(userID.getText().isEmpty())
+          && !(patientID.getText().isEmpty())
+          && !(firstName.getText().isEmpty())
+          && !(lastName.getText().isEmpty())
+          && !(requestedLab.getValue().equals("Select Lab"))) {
+        // Information verification and submission needed
+        sendRequest.setDisable(false);
+        Status.setText("Status: Done");
+      } else if (!(userID.getText().isEmpty())
+          || !(patientID.getText().isEmpty())
+          || !(firstName.getText().isEmpty())
+          || !(lastName.getText().isEmpty())
+          || !(requestedLab.getValue().equals("Select Lab"))) {
+        Status.setText("Status: Processing");
+      } else {
+        Status.setText("Status: Blank");
+        sendRequest.setDisable(true);
+      }
+    } catch (NullPointerException e) {
+
     }
   }
 
@@ -121,8 +117,7 @@ public class LabRequestController extends Controller implements RequestInterface
 
       // If all conditions pass, create the request
     } else {
-      // Send the request to the Dao pattern
-      System.out.println(requestedLab.getValue().toString());
+      System.out.println(userID.getText());
       labRequestDao.addLabRequest(
           Integer.parseInt(userID.getText()),
           Integer.parseInt(patientID.getText()),

@@ -30,7 +30,7 @@ public class LabRequest extends ServiceRequest {
     this.patientID = patientID;
     this.firstName = firstName;
     this.lastName = lastName;
-
+    this.userID = userID;
     this.desc = "Lab Request (" + lab + ")";
   }
 }

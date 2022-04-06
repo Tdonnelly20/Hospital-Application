@@ -15,20 +15,6 @@ public class LabRequestDao implements LabRequestImpl {
     allLabRequests = new ArrayList<>();
   }
 
-  public void createLabTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement newStatement = connection.createStatement();
-    newStatement.execute(
-        "CREATE TABLE LABS ("
-            + "UserID int, "
-            + "PatientID int, "
-            + "FirstName char(20),"
-            + "LastName char(20),"
-            + "Lab char(20),"
-            + "Status char(20))");
-  }
-
   public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
     allLabRequests = newRequests;
   }
@@ -49,8 +35,8 @@ public class LabRequestDao implements LabRequestImpl {
     try {
       System.out.println("Adding to CSV");
       Vdb.saveToFile(Vdb.Database.LabRequest);
-      System.out.println("Adding to database...");
-      Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
+      // System.out.println("Adding to database...");
+      // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
 
     } catch (Exception e) {
       e.printStackTrace();
