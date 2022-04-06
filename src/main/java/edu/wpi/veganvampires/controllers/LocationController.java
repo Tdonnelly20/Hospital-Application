@@ -221,6 +221,19 @@ public class LocationController extends Controller {
         && (!shortName.getText().isEmpty())
         && (!nodeType.getText().isEmpty())) {
       submit.setDisable(false);
+      submit.setOnAction(
+          event -> {
+            locationDao.addLocation(
+                new Location(
+                    nodeID.getText(),
+                    Double.parseDouble(x.getText()),
+                    Double.parseDouble(y.getText()),
+                    floor.getText(),
+                    building.getText(),
+                    longName.getText(),
+                    shortName.getText(),
+                    nodeType.getText()));
+          });
     } else {
       submit.setDisable(true);
     }

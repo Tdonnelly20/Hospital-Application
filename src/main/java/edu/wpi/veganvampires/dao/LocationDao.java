@@ -35,7 +35,23 @@ public class LocationDao implements LocationImpl {
       Statement exampleStatement = connection.createStatement();
       for (Location l : allLocations)
         exampleStatement.execute(
-            "INSERT INTO LOCATIONS VALUES (newlocation.getNodeID, newlocation.getXCoord(), newlocation.getYCoord(), newlocation.getFloor(), newlocation.getBuilding(), newlocation.getNodeType(), newlocation.getLongName(), newlocation.getShortName())");
+            "INSERT INTO LOCATIONS VALUES ('"
+                + location.getNodeID()
+                + "',"
+                + location.getXCoord()
+                + ","
+                + location.getYCoord()
+                + ",'"
+                + location.getFloor()
+                + "','"
+                + location.getBuilding()
+                + "','"
+                + location.getNodeType()
+                + "','"
+                + location.getLongName()
+                + "','"
+                + location.getShortName()
+                + "')");
       Vdb.saveToFile(Vdb.Database.Location);
     } catch (SQLException e) {
       e.printStackTrace();
