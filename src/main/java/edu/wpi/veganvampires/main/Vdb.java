@@ -254,6 +254,109 @@ public class Vdb {
     System.out.println("Location database made");
   }
 
+  public static void createLocationTable() throws SQLException {
+
+    try {
+      // substitute your database name for myDB
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement newStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
+      if (!set.next()) {
+        System.out.println("WE MAKInG TABLES");
+        newStatement.execute(
+            "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+
+      } else {
+        System.out.println("We already got tables?");
+        System.out.println("listing tables");
+        System.out.println("RS " + set.getString(1));
+        System.out.println("RS " + set.getString(2));
+        System.out.println("RS " + set.getString(3));
+        System.out.println("RS " + set.getString(4));
+        System.out.println("RS " + set.getString(5));
+        System.out.println("RS " + set.getString(6));
+        System.out.println("RS " + set.getString(7));
+        System.out.println("RS " + set.getString(8));
+        while (set.next()) {
+          System.out.println("RS " + set.getString(1));
+          System.out.println("RS " + set.getString(2));
+          System.out.println("RS " + set.getString(3));
+          System.out.println("RS " + set.getString(4));
+          System.out.println("RS " + set.getString(5));
+          System.out.println("RS " + set.getString(6));
+          System.out.println("RS " + set.getString(7));
+          System.out.println("RS " + set.getString(8));
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("Connection failed. Check output console.");
+      e.printStackTrace();
+    }
+  }
+
+  public static void addToLocationTable(
+      String userID,
+      int xCoord,
+      int yCoord,
+      String floor,
+      String building,
+      String nodeType,
+      String longName,
+      String shortName)
+      throws SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query =
+        "INSERT INTO Locations("
+            + "userId, xCoord, yCoord, floor, building, nodeType, longName, shortName) VALUES "
+            + "('"
+            + userID
+            + "', "
+            + xCoord
+            + ", "
+            + yCoord
+            + ", '"
+            + floor
+            + "',' "
+            + building
+            + "', '"
+            + nodeType
+            + "','"
+            + longName
+            + "','"
+            + shortName
+            + "')";
+
+    System.out.println(query);
+    statement.execute(query);
+
+    // Print out all the current entries...
+    query =
+        "SELECT userId, xCoord, yCoord, floor, building, nodeType, longName, shortName FROM Medicines";
+
+    ResultSet resultSet = statement.executeQuery(query);
+
+    // A string array to contain the names of all the header values so I don't have to type this
+    // bullshit out again
+    String[] headerVals =
+        new String[] {
+          "userID", "xCoord", "yCoord", "floor", "building", "nodeType", "longName", "shortName"
+        };
+
+    // Print out the result
+    while (resultSet.next()) {
+      for (String headerVal : headerVals) {
+        System.out.print(resultSet.getString(headerVal).trim() + ", ");
+      }
+      System.out.println();
+    }
+  }
+
   /**
    * Saves the location DB
    *
