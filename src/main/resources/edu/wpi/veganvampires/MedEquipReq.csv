@@ -1,2 +1,7 @@
 EmpID,Location,Name,Notes,Count,Status,PatientID,PatientFirstName,PatientLastName
-123,vDEPT001L1,name,notes,10,status,456,first,last
+123,vDEPT001L1,bed,notes,10,status,456,first name,last name
+123,vDEPT002L1,needles,notes,10,status,456,first name,last name
+123,vHALL00301,needles,notes,10,status,456,first name,last name
+123,vDEPT00301,needles,notes,10,status,456,first name,last name
+123,vHALL00601,needles,notes,10,status,456,first name,last name
+123,vHALL00601,needles,notes,10,status,456,first name,last name

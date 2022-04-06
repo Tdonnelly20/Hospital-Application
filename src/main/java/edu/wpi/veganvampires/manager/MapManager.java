@@ -98,7 +98,6 @@ public class MapManager {
     System.out.println("SIZE: " + floorList.size());
 
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
-    ArrayList<EquipmentDelivery> equipment = Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries();
 
     for (Location l : locations) {
       switch (l.getFloor()) {
@@ -125,8 +124,6 @@ public class MapManager {
 
     System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
     for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
-      System.out.println(e.getFloor());
-
       switch (e.getFloor()) {
         case "G":
           floorList.get(0).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
