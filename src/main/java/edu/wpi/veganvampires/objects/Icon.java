@@ -17,6 +17,7 @@ public class Icon {
   @FXML private ImageView image;
   private ArrayList<ServiceRequest> requestsArr;
   private boolean isEquipment;
+  private Equipment equipment;
 
   public Icon(Location location, boolean isEquipment) {
     this.xCoord = location.getXCoord();
@@ -26,6 +27,7 @@ public class Icon {
       image = new ImageView("Equipment.png");
     } else {
       image = new ImageView("icon.png");
+      this.equipment = null;
     }
     image.setFitWidth(30);
     image.setFitHeight(30);
@@ -46,7 +48,26 @@ public class Icon {
       image = new ImageView("Equipment.png");
     } else {
       image = new ImageView("markedIcon.png");
+      this.equipment = null;
     }
+    image.setFitWidth(30);
+    image.setFitHeight(30);
+    image.setX((xCoord / 1.28) - 15);
+    image.setY((yCoord / 1.28) - 15);
+    this.location = location;
+    image.setOnMouseClicked(
+        event -> {
+          MapManager.getManager().openIconRequestWindow(this);
+        });
+  }
+
+  public Icon(Location location, Equipment equipment) {
+    this.xCoord = location.getXCoord();
+    this.yCoord = location.getYCoord();
+    this.requestsArr = requestsArr;
+    image = new ImageView("Equipment.png");
+    this.equipment = equipment;
+    isEquipment = true;
     image.setFitWidth(30);
     image.setFitHeight(30);
     image.setX((xCoord / 1.28) - 15);

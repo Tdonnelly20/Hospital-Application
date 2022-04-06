@@ -96,7 +96,7 @@ public class MapManager {
     floorList.add(f2);
     floorList.add(f3);
     System.out.println("SIZE: " + floorList.size());
-    // TODO Implement equipment csv
+
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
     ArrayList<EquipmentDelivery> equipment = Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries();
 
@@ -123,18 +123,6 @@ public class MapManager {
       }
     }
 
-    /*for (EquipmentDelivery equipmentDelivery :
-        Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries()) {
-      for (Floor floor : floorList) {
-        if (equipmentDelivery.getLocation().getFloor().equals(floor.getFloorName())) {
-          for (Icon icon : floor.getIconList()) {
-            if (icon.getLocation().getNodeID().equals(equipmentDelivery.getLocation())) {
-              icon.addToRequests(equipmentDelivery);
-            }
-          }
-        }
-      }
-    }*/
     System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
     for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
       System.out.println(e.getFloor());
@@ -181,29 +169,6 @@ public class MapManager {
         icon.addToRequests(equipmentDelivery);
       }
     }
-  }
-
-  @FXML
-  public void addRequest() {
-    System.out.println(floorList.get(1).getIconList().size());
-    System.out.println(floorList.get(1).getIconList().get(0).getLocation().getLongName());
-    /*
-    floorList
-        .get(1)
-        .getIconList()
-        .get(0)
-        .addToRequests(
-
-            new EquipmentDelivery(
-                floorList.get(1).getIconList().get(0).getLocation().getNodeID(),
-                123,
-                "I",
-                "stg",
-                10,
-                "whyyyyyyyyyyyyyyyyy")
-
-
-        ); */
   }
 
   /**
@@ -260,33 +225,38 @@ public class MapManager {
     content.getChildren().add(titleBox);
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.TOP_CENTER);
-    ObservableList<String> statusStrings =
-        FXCollections.observableArrayList("Not Started", "Processing", "Done");
-    if (icon.getRequestsArr().size() > 0) {
-      for (ServiceRequest request : icon.getRequestsArr()) {
-        Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
-        Label locationLabel =
-            new Label(
-                "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
-
-        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-        updateStatus.setValue(request.getStatus());
-        updateStatus.setOnAction(
-            event -> {
-              request.setStatus(updateStatus.getValue().toString());
-              // TODO: Update request CSV
-            });
-        Accordion accordion =
-            new Accordion(
-                new TitledPane(
-                    request.getRequestName() + ": " + request.getStatus(),
-                    new VBox(15, idLabel, locationLabel, updateStatus)));
-        vbox.getChildren().add(accordion);
-      }
+    if (icon.isEquipment()) {
+      title.setText(icon.getEquipment().getName());
+      vbox.getChildren().addAll(title);
     } else {
-      Text noRequests = new Text("There are no requests in this area");
-      noRequests.setTextAlignment(TextAlignment.CENTER);
-      vbox.getChildren().add(noRequests);
+      ObservableList<String> statusStrings =
+          FXCollections.observableArrayList("Not Started", "Processing", "Done");
+      if (icon.getRequestsArr().size() > 0) {
+        for (ServiceRequest request : icon.getRequestsArr()) {
+          Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
+          Label locationLabel =
+              new Label(
+                  "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
+
+          JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
+          updateStatus.setValue(request.getStatus());
+          updateStatus.setOnAction(
+              event -> {
+                request.setStatus(updateStatus.getValue().toString());
+                // TODO: Update request CSV
+              });
+          Accordion accordion =
+              new Accordion(
+                  new TitledPane(
+                      request.getRequestName() + ": " + request.getStatus(),
+                      new VBox(15, idLabel, locationLabel, updateStatus)));
+          vbox.getChildren().add(accordion);
+        }
+      } else {
+        Text noRequests = new Text("There are no requests in this area");
+        noRequests.setTextAlignment(TextAlignment.CENTER);
+        vbox.getChildren().add(noRequests);
+      }
     }
     content.getChildren().add(vbox);
     showPopUp();
