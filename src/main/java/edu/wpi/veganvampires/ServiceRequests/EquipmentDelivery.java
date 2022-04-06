@@ -1,6 +1,9 @@
-package edu.wpi.veganvampires.objects;
+package edu.wpi.veganvampires.ServiceRequests;
 
 import edu.wpi.veganvampires.main.Vdb;
+import edu.wpi.veganvampires.objects.HospitalEmployee;
+import edu.wpi.veganvampires.objects.Patient;
+import javafx.scene.image.Image;
 
 public class EquipmentDelivery extends ServiceRequest {
   private final String equipment, notes;
@@ -24,6 +27,7 @@ public class EquipmentDelivery extends ServiceRequest {
     this.employeeID = hospitalEmployee.getHospitalID();
     this.patientID = patient.getPatientID();
     this.locationName = location.getShortName();
+    this.image = new Image("Equipment.png");
   }
 
   public EquipmentDelivery(

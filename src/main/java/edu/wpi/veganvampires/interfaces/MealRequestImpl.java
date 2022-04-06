@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.interfaces;
 
-import edu.wpi.veganvampires.objects.MealRequest;
+import edu.wpi.veganvampires.ServiceRequests.MealRequest;
 import java.util.List;
 
 public interface MealRequestImpl {

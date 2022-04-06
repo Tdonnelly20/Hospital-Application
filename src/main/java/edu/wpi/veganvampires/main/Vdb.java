@@ -1,5 +1,8 @@
 package edu.wpi.veganvampires.main;
 
+import edu.wpi.veganvampires.ServiceRequests.EquipmentDelivery;
+import edu.wpi.veganvampires.ServiceRequests.LabRequest;
+import edu.wpi.veganvampires.ServiceRequests.MedicineDelivery;
 import edu.wpi.veganvampires.dao.*;
 import edu.wpi.veganvampires.dao.EquipmentDao;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;

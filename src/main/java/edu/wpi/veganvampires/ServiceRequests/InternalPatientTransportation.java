@@ -1,4 +1,7 @@
-package edu.wpi.veganvampires.objects;
+package edu.wpi.veganvampires.ServiceRequests;
+
+import edu.wpi.veganvampires.objects.HospitalEmployee;
+import edu.wpi.veganvampires.objects.Patient;
 
 public class InternalPatientTransportation {
   private Patient patient;

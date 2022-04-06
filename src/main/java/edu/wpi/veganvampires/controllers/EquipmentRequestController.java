@@ -1,11 +1,11 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.ServiceRequests.EquipmentDelivery;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.Equipment;
-import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import edu.wpi.veganvampires.objects.Location;
 import java.awt.*;
 import java.sql.SQLException;

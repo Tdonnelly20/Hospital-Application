@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires.objects;
+package edu.wpi.veganvampires.ServiceRequests;
 
 public class SanitationRequest {
   private final String patientFirstName, patientLastName, roomLocation, hazardName, requestDetails;

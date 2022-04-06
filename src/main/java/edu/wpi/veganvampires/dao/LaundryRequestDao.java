@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires.dao;
 
+import edu.wpi.veganvampires.ServiceRequests.LaundryRequest;
 import edu.wpi.veganvampires.interfaces.LaundryRequestImpl;
-import edu.wpi.veganvampires.objects.LaundryRequest;
 import java.sql.*;
 import java.util.ArrayList;
 

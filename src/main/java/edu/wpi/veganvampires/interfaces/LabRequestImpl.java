@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.interfaces;
 
-import edu.wpi.veganvampires.objects.LabRequest;
+import edu.wpi.veganvampires.ServiceRequests.LabRequest;
 import java.util.List;
 
 public interface LabRequestImpl {

@@ -1,6 +1,8 @@
 package edu.wpi.veganvampires.manager;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.ServiceRequests.EquipmentDelivery;
+import edu.wpi.veganvampires.ServiceRequests.ServiceRequest;
 import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.*;
 import java.util.ArrayList;

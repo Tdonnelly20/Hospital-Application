@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.interfaces;
 
-import edu.wpi.veganvampires.objects.SanitationRequest;
+import edu.wpi.veganvampires.ServiceRequests.SanitationRequest;
 import java.util.List;
 
 public interface SanitationRequestImpl {

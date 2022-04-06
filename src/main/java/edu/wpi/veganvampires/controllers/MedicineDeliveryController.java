@@ -1,10 +1,10 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.ServiceRequests.MedicineDelivery;
 import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.main.Vdb;
-import edu.wpi.veganvampires.objects.MedicineDelivery;
 import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;

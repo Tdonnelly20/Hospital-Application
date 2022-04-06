@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires.dao;
 
+import edu.wpi.veganvampires.ServiceRequests.MealRequest;
 import edu.wpi.veganvampires.interfaces.MealRequestImpl;
-import edu.wpi.veganvampires.objects.MealRequest;
 import java.util.ArrayList;
 import java.util.List;
 

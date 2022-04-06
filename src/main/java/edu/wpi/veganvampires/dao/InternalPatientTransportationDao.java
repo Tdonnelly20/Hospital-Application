@@ -1,7 +1,7 @@
 package edu.wpi.veganvampires.dao;
 
+import edu.wpi.veganvampires.ServiceRequests.InternalPatientTransportation;
 import edu.wpi.veganvampires.interfaces.InternalPatientTransportationImpl;
-import edu.wpi.veganvampires.objects.InternalPatientTransportation;
 import java.util.ArrayList;
 
 public class InternalPatientTransportationDao implements InternalPatientTransportationImpl {

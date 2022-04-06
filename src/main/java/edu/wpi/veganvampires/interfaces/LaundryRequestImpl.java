@@ -1,6 +1,6 @@
 package edu.wpi.veganvampires.interfaces;
 
-import edu.wpi.veganvampires.objects.LaundryRequest;
+import edu.wpi.veganvampires.ServiceRequests.LaundryRequest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

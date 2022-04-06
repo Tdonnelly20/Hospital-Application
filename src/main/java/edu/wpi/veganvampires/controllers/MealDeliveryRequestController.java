@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.veganvampires.ServiceRequests.MealRequest;
 import edu.wpi.veganvampires.dao.MealRequestDao;
-import edu.wpi.veganvampires.objects.MealRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

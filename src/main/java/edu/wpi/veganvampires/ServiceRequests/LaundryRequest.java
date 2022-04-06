@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires.objects;
+package edu.wpi.veganvampires.ServiceRequests;
 
 public class LaundryRequest {
   String userID, patientID, firstName, lastName, details;

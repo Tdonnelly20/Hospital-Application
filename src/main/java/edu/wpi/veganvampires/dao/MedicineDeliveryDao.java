@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.dao;
 
+import edu.wpi.veganvampires.ServiceRequests.MedicineDelivery;
 import edu.wpi.veganvampires.interfaces.MedicineDeliveryImpl;
 import edu.wpi.veganvampires.main.Vdb;
-import edu.wpi.veganvampires.objects.MedicineDelivery;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

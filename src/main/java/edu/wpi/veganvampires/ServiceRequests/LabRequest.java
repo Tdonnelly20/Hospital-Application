@@ -1,6 +1,8 @@
-package edu.wpi.veganvampires.objects;
+package edu.wpi.veganvampires.ServiceRequests;
 
 import edu.wpi.veganvampires.manager.EmployeeManager;
+import edu.wpi.veganvampires.objects.HospitalEmployee;
+import edu.wpi.veganvampires.objects.Patient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +33,6 @@ public class LabRequest extends ServiceRequest {
     this.firstName = firstName;
     this.lastName = lastName;
     this.userID = userID;
-    this.desc = "Lab Request (" + lab + ")";
+    this.desc = "Lab Request";
   }
 }

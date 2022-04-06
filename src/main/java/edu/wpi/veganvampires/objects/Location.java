@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires.objects;
 
+import edu.wpi.veganvampires.ServiceRequests.ServiceRequest;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;

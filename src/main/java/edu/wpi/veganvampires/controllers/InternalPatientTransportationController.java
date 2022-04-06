@@ -1,9 +1,9 @@
 package edu.wpi.veganvampires.controllers;
 
+import edu.wpi.veganvampires.ServiceRequests.InternalPatientTransportation;
 import edu.wpi.veganvampires.dao.InternalPatientTransportationDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
 import edu.wpi.veganvampires.main.Vdb;
-import edu.wpi.veganvampires.objects.InternalPatientTransportation;
 import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;

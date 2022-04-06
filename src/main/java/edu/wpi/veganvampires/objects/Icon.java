@@ -1,5 +1,6 @@
 package edu.wpi.veganvampires.objects;
 
+import edu.wpi.veganvampires.ServiceRequests.ServiceRequest;
 import edu.wpi.veganvampires.manager.MapManager;
 import java.util.ArrayList;
 import javafx.fxml.FXML;

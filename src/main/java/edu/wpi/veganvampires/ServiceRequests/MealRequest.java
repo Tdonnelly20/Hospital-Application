@@ -1,4 +1,4 @@
-package edu.wpi.veganvampires.objects;
+package edu.wpi.veganvampires.ServiceRequests;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,8 @@
 package edu.wpi.veganvampires.dao;
 
+import edu.wpi.veganvampires.ServiceRequests.LabRequest;
 import edu.wpi.veganvampires.interfaces.LabRequestImpl;
 import edu.wpi.veganvampires.main.Vdb;
-import edu.wpi.veganvampires.objects.LabRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
