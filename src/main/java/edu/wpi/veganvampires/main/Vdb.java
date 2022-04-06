@@ -392,6 +392,32 @@ public class Vdb {
     fw.close();
   }
 
+  public static void saveToBackupLocationDB() throws IOException {
+    FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
+    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
+    for (Location l : locationDao.getAllLocations()) {
+      String[] outputData = {
+              l.getNodeID(),
+              String.valueOf(l.getXCoord()),
+              String.valueOf(l.getYCoord()),
+              l.getFloor(),
+              l.getBuilding(),
+              l.getNodeType(),
+              l.getLongName(),
+              l.getShortName(),
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    bw.close();
+    fw.close();
+  }
+
   /**
    * Saves the equipmentDB
    *
