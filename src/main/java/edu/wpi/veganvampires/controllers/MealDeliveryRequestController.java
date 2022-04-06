@@ -40,30 +40,33 @@ public class MealDeliveryRequestController extends Controller {
   // Checks to see if the user can submit info
   @FXML
   private void validateButton() {
-    if (!(userID.getText().isEmpty())
-        && !(patientID.getText().isEmpty())
-        && !(firstName.getText().isEmpty())
-        && !(lastName.getText().isEmpty())
-        && !(requestedMeal.getValue().equals("Select Meal"))) {
-      // Information verification and submission needed
-      sendRequest.setDisable(false);
-      Status.setText("Status: Done");
-    } else if (!(userID.getText().isEmpty())
-        || !(patientID.getText().isEmpty())
-        || !(firstName.getText().isEmpty())
-        || !(lastName.getText().isEmpty())
-        || !(requestedMeal.getValue().equals("Select Meal"))) {
-      Status.setText("Status: Processing");
-    } else {
-      Status.setText("Status: Blank");
-      sendRequest.setDisable(true);
+    try {
+      if (!(userID.getText().isEmpty())
+          && !(patientID.getText().isEmpty())
+          && !(firstName.getText().isEmpty())
+          && !(lastName.getText().isEmpty())
+          && !(requestedMeal.getValue().equals("Select Meal"))) {
+        // Information verification and submission needed
+        sendRequest.setDisable(false);
+        Status.setText("Status: Done");
+      } else if (!(userID.getText().isEmpty())
+          || !(patientID.getText().isEmpty())
+          || !(firstName.getText().isEmpty())
+          || !(lastName.getText().isEmpty())
+          || !(requestedMeal.getValue().equals("Select Meal"))) {
+        Status.setText("Status: Processing");
+      } else {
+        Status.setText("Status: Blank");
+        sendRequest.setDisable(true);
+      }
+    } catch (NullPointerException e) {
+
     }
   }
 
   /** Runs whenever we switch to the table, or update a value */
   @FXML
   private void updateTreeTable() {
-    System.out.println("Here");
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("userID"));

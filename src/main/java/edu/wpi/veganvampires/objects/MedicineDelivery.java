@@ -4,7 +4,8 @@ public class MedicineDelivery {
   private Patient patient;
   private HospitalEmployee employee;
   private String medicineName, dosage, roomNumber, requestDetails;
-
+  private int userID;
+  private int patientID;
   /**
    * @param patientFirstName
    * @param patientLastName
@@ -26,6 +27,7 @@ public class MedicineDelivery {
     this.dosage = dosage;
     this.requestDetails = requestDetails;
     this.roomNumber = roomNumber;
+    this.userID = patientID;
     patient = new Patient(patientID, patientFirstName, patientLastName);
     employee = new HospitalEmployee(hospitalID);
     this.medicineName = medicineName;
