@@ -228,6 +228,7 @@ public class LocationController extends Controller {
         event -> {
           try {
             Vdb.createLocationDB();
+            updateTreeTable();
           } catch (Exception e) {
             e.printStackTrace();
           }
