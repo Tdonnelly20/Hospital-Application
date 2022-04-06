@@ -69,6 +69,11 @@ public abstract class Controller extends Application {
     getFloor();
   }
 
+  @FXML
+  private void refresh() {
+    // Matt's csv
+    getFloor();
+  }
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
   private String getFloor() {
     String result = "";

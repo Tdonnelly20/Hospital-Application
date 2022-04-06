@@ -113,6 +113,7 @@
                                              </items>
                                           </JFXComboBox>
                                           <CheckBox fx:id="onlyActiveRequestsCB" mnemonicParsing="false" onAction="#onlyActiveRequests" text="Only Active Requests" />
+                                          <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
                                        </children>
                                     </HBox>
                                     <Group layoutX="30.0">
