@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.InternalPatientTransportationController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.InternalPatientTransportationController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -35,7 +19,7 @@
         <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="422.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
+        <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="521.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="229.4000244140625" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.80002441406253" minWidth="10.0" prefWidth="222.19997558593752" />
@@ -71,7 +55,7 @@
                         <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="429.0" text="Patient Transportation" textFill="WHITE">
+                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="349.0" text="Internal Patient Transportation" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="25.0" />
                     </font>
@@ -108,7 +92,7 @@
                                 <Insets left="15.0" right="15.0" />
                             </VBox.margin>
                         </TextArea>
-                        <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                        <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#checkDropDown" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:id="notStarted" fx:value="Not Started" />
@@ -189,7 +173,7 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <TreeTableView fx:id="internalPatientTransportationTable" layoutX="8.0" layoutY="8.0" prefHeight="553.0" prefWidth="538.0">
+                                        <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="8.0" prefHeight="553.0" prefWidth="538.0">
                                             <columns>
                                                 <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
                                                 <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" text="Patient ID" />

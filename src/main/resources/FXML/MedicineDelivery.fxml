@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MedicineDeliveryController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.MedicineDeliveryController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -162,7 +162,7 @@
                <tabs>
                   <Tab text="Map View">
                      <content>
-                        <Pane fx:id="mapPane" prefHeight="571.0" prefWidth="366.0">
+                        <Pane prefHeight="571.0" prefWidth="366.0">
                            <children>
                               <JFXComboBox fx:id="floorDropDown" layoutX="171.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                  <items>
@@ -177,14 +177,17 @@
                                  </items>
                               </JFXComboBox>
                               <TextArea fx:id="coordinates1" layoutX="420.0" layoutY="22.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                              <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" layoutX="40.0" layoutY="22.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../2nd%20Floor.png" />
-                                 </image>
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
-                              </ImageView>
+                              <Pane fx:id="mapPane" layoutX="40.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0">
+                                 <children>
+                                    <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../2nd%20Floor.png" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </children></Pane>
                            </children>
                         </Pane>
                      </content>

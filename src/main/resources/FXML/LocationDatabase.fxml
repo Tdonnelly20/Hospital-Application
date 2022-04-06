@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.LocationController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.veganvampires.controllers.LocationController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -91,13 +91,13 @@
          <content>
             <VBox alignment="TOP_CENTER" prefHeight="603.0" prefWidth="548.0">
                <children>
-                  <TabPane fx:id="medicineTabPane" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Map View">
                            <content>
                               <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
                                  <children>
-                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0" spacing="15.0">
+                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0">
                                        <children>
                                           <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
@@ -111,7 +111,6 @@
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>
-                                          <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
                                        </children>
                                     </HBox>
                                     <Group layoutX="30.0">
