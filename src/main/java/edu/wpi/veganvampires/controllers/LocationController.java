@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LocationController extends Controller {
@@ -34,9 +35,20 @@ public class LocationController extends Controller {
   @FXML private Button addLocation = new Button("Add Location");
   @FXML private Button removeLocation = new Button("Remove Location");
   @FXML private Button updateLocation = new Button("Update Location");
+
+  @FXML
+  private Button loadCSV =
+      new Button("Load Backup Locations"); // loads the currently stored csv file
+
+  @FXML private Button saveLocations = new Button("Save To File");
+
+  @FXML private Button yesButton = new Button("Yes"); // loads the currently stored csv file
+  @FXML private Button noButton = new Button("No"); // loads the currently stored csv file
+
   @FXML private Button submit = new Button("Submit");
   @FXML private Button clear = new Button("Clear");
 
+  private boolean removeLocationBool = false;
   // Fields
   @FXML private TextField nodeID = new TextField();
   @FXML private TextField x = new TextField();
@@ -46,10 +58,7 @@ public class LocationController extends Controller {
   @FXML private TextField nodeType = new TextField();
   @FXML private TextField shortName = new TextField();
   @FXML private TextField longName = new TextField();
-
-  @FXML private TextArea coordinates = new TextArea();
-
-  private boolean remove = false;
+  @FXML private Text confirmText = new Text("Are you sure?");
 
   private static class SingletonHelper {
     private static final LocationController manager = new LocationController();
@@ -64,6 +73,7 @@ public class LocationController extends Controller {
     reset.setOnAction(
         event -> {
           resetPage();
+          removeLocationBool = false;
         });
     addLocation.setOnAction(
         event -> {
@@ -71,12 +81,24 @@ public class LocationController extends Controller {
         });
     removeLocation.setOnAction(
         event -> {
-          remove = true;
           openRemoveLocation();
         });
     updateLocation.setOnAction(
         event -> {
           openUpdateLocation();
+        });
+    loadCSV.setOnAction(
+        event -> {
+          attemptloadCSVFile();
+          ;
+        });
+    saveLocations.setOnAction(
+        event -> {
+          saveConfirmation();
+        });
+    noButton.setOnAction(
+        event -> {
+          resetPage();
         });
     setTextFieldActions();
     setTextFieldPrompts();
@@ -144,7 +166,7 @@ public class LocationController extends Controller {
     vbox.getChildren().clear();
     hbox.getChildren().clear();
     setTextFieldPrompts();
-    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation);
+    vbox.getChildren().addAll(addLocation, removeLocation, updateLocation, loadCSV, saveLocations);
   }
 
   @FXML
@@ -159,27 +181,74 @@ public class LocationController extends Controller {
   @FXML
   private void openRemoveLocation() {
     setForms();
-    clear.setOnAction(
-        event -> {
-          nodeID.setPromptText("Node ID");
-        });
+    removeLocationBool = true;
     submit.setOnAction(
         event -> {
           locationDao.deleteLocation(nodeID.getText());
+          setTextFieldPrompts();
+          updateTreeTable();
         });
     vbox.getChildren().addAll(hbox, nodeID);
-    updateTreeTable();
   }
 
   @FXML
   private void openUpdateLocation() {
     setForms();
+
+    submit.setOnAction(
+        event -> {
+          locationDao.deleteLocation(nodeID.getText());
+          Location newLoc =
+              new Location(
+                  nodeID.getText(),
+                  Double.parseDouble(x.getText()),
+                  Double.parseDouble(y.getText()),
+                  floor.getText(),
+                  building.getText(),
+                  nodeType.getText(),
+                  longName.getText(),
+                  shortName.getText());
+          locationDao.addLocation(newLoc);
+          updateTreeTable();
+          setTextFieldPrompts();
+        });
+
     clear.setOnAction(
         event -> {
           setTextFieldPrompts();
         });
     vbox.getChildren().addAll(hbox, nodeID, x, y, floor, building, nodeType, shortName, longName);
     updateTreeTable();
+  }
+
+  @FXML
+  private void attemptloadCSVFile() {
+    setForms();
+    yesButton.setOnAction(
+        event -> {
+          try {
+            Vdb.createLocationDB();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          resetPage();
+        });
+    vbox.getChildren().addAll(confirmText, yesButton, noButton);
+  }
+
+  @FXML
+  private void saveConfirmation() {
+    setForms();
+    yesButton.setOnAction(
+        event -> {
+          try {
+            Vdb.saveToFile(Vdb.Database.Location);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          resetPage();
+        });
+    vbox.getChildren().addAll(confirmText, yesButton, noButton);
   }
 
   @Override
@@ -215,23 +284,28 @@ public class LocationController extends Controller {
 
   @FXML
   private void validateButton() {
-    if (remove) {
+
+    if (removeLocationBool) {
       if (!nodeID.getText().isEmpty()) {
         submit.setDisable(false);
+      } else {
+        submit.setDisable(true);
       }
-    } else if ((!nodeID.getText().isEmpty())
-        && (!x.getText().isEmpty() && isInteger(x.getText()))
-        && (!y.getText().isEmpty() && isInteger(y.getText()))
-        && (!floor.getText().isEmpty())
-        && (!building.getText().isEmpty())
-        && (!longName.getText().isEmpty())
-        && (!shortName.getText().isEmpty())
-        && (!nodeType.getText().isEmpty())) {
-      submit.setDisable(false);
-
     } else {
-      submit.setDisable(true);
+      if ((!nodeID.getText().isEmpty())
+          && (!x.getText().isEmpty() && isInteger(x.getText()))
+          && (!y.getText().isEmpty() && isInteger(y.getText()))
+          && (!floor.getText().isEmpty())
+          && (!building.getText().isEmpty())
+          && (!longName.getText().isEmpty())
+          && (!shortName.getText().isEmpty())
+          && (!nodeType.getText().isEmpty())) {
+        submit.setDisable(false);
+      } else {
+        submit.setDisable(true);
+      }
     }
+
     if (isDouble(x.getText()) && isDouble(y.getText())) { // Change to work with doubles
     } else {
       if (!isInteger(x.getText()) && !(x.getText().isEmpty())) {
@@ -247,10 +321,10 @@ public class LocationController extends Controller {
     }
   }
 
-  // Gets coordinates at any given point on the map
-  // Sets x and y text fields to those coordinates
+  // used to get coordinates after clicking map
   private Point point = new Point();
   private int xCoord, yCoord;
+  @FXML private TextArea coordinates;
 
   @FXML
   private void mapCoordTracker() {

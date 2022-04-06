@@ -20,9 +20,11 @@ public class LocationDao implements LocationImpl {
   public Location getLocation(String nodeID) {
     for (Location l : allLocations) {
       if (l.getNodeID().equals(nodeID)) {
+        System.out.println("found node!" + l.getNodeID());
         return l;
       }
     }
+    System.out.print("unable to find!");
     return null;
   }
 
@@ -67,12 +69,13 @@ public class LocationDao implements LocationImpl {
       System.out.println("Sending to database...");
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
-      for (Location l : allLocations) {
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID = " + l.getNodeID());
-      }
 
       allLocations.remove(getLocation(nodeID));
       Vdb.saveToFile(Vdb.Database.Location);
+
+      for (Location l : allLocations) {
+        // exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID = " + l.getNodeID());
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {
