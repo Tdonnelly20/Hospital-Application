@@ -29,6 +29,17 @@ public class Location {
     shortName = null;
   }
 
+  public Location(double xCoord, double yCoord, String floor) {
+    nodeID = null;
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+    this.floor = floor;
+    building = null;
+    nodeType = null;
+    longName = null;
+    shortName = null;
+  }
+
   public Location(
       String nodeID,
       double xCoord,

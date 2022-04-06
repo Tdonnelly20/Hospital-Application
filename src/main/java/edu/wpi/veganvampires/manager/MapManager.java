@@ -123,7 +123,7 @@ public class MapManager {
       }
     }
 
-    for (EquipmentDelivery equipmentDelivery :
+    /*for (EquipmentDelivery equipmentDelivery :
         Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries()) {
       for (Floor floor : floorList) {
         if (equipmentDelivery.getLocation().getFloor().equals(floor.getFloorName())) {
@@ -134,33 +134,32 @@ public class MapManager {
           }
         }
       }
-    }
+    }*/
+    System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
+    for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
+      System.out.println(e.getFloor());
 
-    /*System.out.println("Size: " + equipment.size());
-    for (Equipment e : equipment) {
-      System.out.printf(e.getLocation());
-
-      switch (Vdb.locationDao.getLocation(e.getLocation()).getFloor()) {
+      switch (e.getFloor()) {
         case "G":
-          floorList.get(0).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
+          floorList.get(0).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
           break;
         case "L1":
-          floorList.get(1).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
+          floorList.get(1).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
           break;
         case "L2":
-          floorList.get(2).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
+          floorList.get(2).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
           break;
         case "1":
-          floorList.get(3).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
+          floorList.get(3).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
           break;
         case "2":
-          floorList.get(4).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
+          floorList.get(4).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
           break;
         case "3":
-          floorList.get(5).addIcon(new Icon(Vdb.locationDao.getLocation(e.getLocation()), true));
+          floorList.get(5).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
           break;
       }
-    }*/
+    }
   }
 
   public void loadRequests(int i, Location l) {

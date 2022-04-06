@@ -423,11 +423,11 @@ public class Vdb {
       if (!set.next()) {
         System.out.println("WE MAKInG TABLES");
         exampleStatement.execute(
-            "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,fname char(25), lname char(25),location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
+            "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
       } else {
         exampleStatement.execute("DROP TABLE EQUIPMENTDELIVERY");
         exampleStatement.execute(
-            "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,fname char(25), lname char(25),location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
+            "CREATE TABLE EQUIPMENTDELIVERY(EmpID int,location char(50), equipment char(30), notes char(100), count int, status char(40), PID int, pFname char(25), pLname char(25))");
       }
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
