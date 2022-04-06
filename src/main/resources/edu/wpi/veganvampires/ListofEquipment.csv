@@ -17,41 +17,31 @@ bed15,Bed,L1,159,251,N/A,0
 bed16,Bed,3,90,152,N/A,0
 bed17,Bed,3,249,363,N/A,0
 bed18,Bed,3,334,121,N/A,0
-bed19,Bed,3,237,91,N/A,0
 bed20,Bed,3,144,266,N/A,0
-xray1,Portable X-Ray Machine,3,42,68,N/A,0
 ipump1,Infusion Pump,3,291,348,N/A,0
 ipump2,Infusion Pump,3,118,226,N/A,0
 ipump3,Infusion Pump,3,274,109,N/A,0
-ipump4,Infusion Pump,3,42,51,N/A,0
 ipump5,Infusion Pump,3,333,320,N/A,0
 ipump6,Infusion Pump,3,369,174,N/A,0
-ipump7,Infusion Pump,3,59,218,N/A,0
 ipump8,Infusion Pump,3,142,265,N/A,0
 ipump9,Infusion Pump,3,215,243,N/A,0
 ipump10,Infusion Pump,3,367,327,N/A,0
-ipump11,Infusion Pump,3,247,48,N/A,0
 ipump12,Infusion Pump,3,313,253,N/A,0
 ipump13,Infusion Pump,3,385,314,N/A,0
 ipump14,Infusion Pump,3,380,350,N/A,0
 ipump15,Infusion Pump,3,197,328,N/A,0
 ipump16,Infusion Pump,3,380,207,N/A,0
 ipump17,Infusion Pump,3,254,263,N/A,0
-ipump18,Infusion Pump,3,50,126,N/A,0
-ipump19,Infusion Pump,3,338,41,N/A,0
 ipump20,Infusion Pump,3,135,315,N/A,0
-ipump21,Infusion Pump,3,180,105,N/A,0
-ipump22,Infusion Pump,3,118,165,N/A,0
-ipump23,Infusion Pump,3,132,110,N/A,0
-ipump24,Infusion Pump,3,240,327,N/A,0
-ipump25,Infusion Pump,3,165,114,N/A,0
-ipump26,Infusion Pump,3,360,245,N/A,0
-ipump27,Infusion Pump,3,60,235,N/A,0
-ipump28,Infusion Pump,3,218,371,N/A,0
-ipump29,Infusion Pump,3,141,209,N/A,0
-ipump30,Infusion Pump,3,66,273,N/A,0
+ipump21,Infusion Pump,1,180,105,N/A,0
+ipump22,Infusion Pump,1,118,165,N/A,0
+ipump23,Infusion Pump,1,132,110,N/A,0
+ipump24,Infusion Pump,1,240,327,N/A,0
+ipump25,Infusion Pump,1,165,114,N/A,0
+ipump26,Infusion Pump,1,360,245,N/A,0
+ipump28,Infusion Pump,1,218,371,N/A,0
+ipump29,Infusion Pump,1,141,209,N/A,0
 recliner1,Patient Recliner,1,251,126,N/A,0
-recliner2,Patient Recliner,1,396,31,N/A,0
 recliner3,Patient Recliner,1,266,269,N/A,0
 recliner4,Patient Recliner,1,116,283,N/A,0
 recliner5,Patient Recliner,1,392,229,N/A,0
