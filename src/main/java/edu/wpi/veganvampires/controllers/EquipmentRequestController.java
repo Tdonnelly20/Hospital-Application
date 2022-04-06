@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.main.Vdb;
+import edu.wpi.veganvampires.objects.Equipment;
 import edu.wpi.veganvampires.objects.EquipmentDelivery;
 import edu.wpi.veganvampires.objects.Location;
 import java.awt.*;
@@ -43,6 +44,7 @@ public class EquipmentRequestController extends Controller {
   private static EquipmentDeliveryDao equipmentDeliveryDao = Vdb.equipmentDeliveryDao;
 
   private static LocationDao locationDao = Vdb.locationDao;
+
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
   @FXML private TreeTableColumn<Location, Integer> xCol;
@@ -50,8 +52,7 @@ public class EquipmentRequestController extends Controller {
   @FXML private TreeTableColumn<Location, String> floorCol;
   @FXML private TreeTableColumn<Location, String> buildingCol;
   @FXML private TreeTableColumn<Location, String> nodeTypeCol;
-  @FXML private TreeTableColumn<Location, String> shortNameCol;
-  @FXML private TreeTableColumn<Location, String> longNameCol;
+  @FXML private TreeTableColumn<Location, Boolean> shortNameCol;
 
   @FXML
   private void updateTreeTable() {
@@ -59,7 +60,7 @@ public class EquipmentRequestController extends Controller {
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    posCol.setCellValueFactory(new TreeItemPropertyValueFactory("location"));
+    posCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationName"));
     equipCol.setCellValueFactory(new TreeItemPropertyValueFactory("equipment"));
     quantCol.setCellValueFactory(new TreeItemPropertyValueFactory("quantity"));
     notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
@@ -84,22 +85,21 @@ public class EquipmentRequestController extends Controller {
 
   @FXML
   private void updateEquipmentTable() {
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("xCoord"));
-    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("yCoord"));
-    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("Floor"));
-    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("Building"));
-    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeType"));
-    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
-    longNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("longName"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("ID"));
+    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("x"));
+    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
+    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("floor"));
+    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
+    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("description"));
+    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirty"));
 
-    ArrayList<Location> currLocations = (ArrayList<Location>) locationDao.getAllLocations();
+    ArrayList<Equipment> currEquipment = (ArrayList<Equipment>) Vdb.equipmentDao.getAllEquipment();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
-    if (!currLocations.isEmpty()) {
+    if (!currEquipment.isEmpty()) {
 
-      for (Location pos : currLocations) {
-        TreeItem<Location> item = new TreeItem(pos);
+      for (Equipment pos : currEquipment) {
+        TreeItem<Equipment> item = new TreeItem(pos);
         treeItems.add(item);
       }
 

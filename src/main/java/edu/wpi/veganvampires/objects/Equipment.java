@@ -50,7 +50,7 @@ public class Equipment {
     return description;
   }
 
-  public boolean getisDirty() {
+  public boolean getIsDirty() {
     return isDirty;
   }
 }

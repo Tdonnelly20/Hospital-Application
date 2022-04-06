@@ -5,18 +5,25 @@ import edu.wpi.veganvampires.main.Vdb;
 public class EquipmentDelivery extends ServiceRequest {
   private final String equipment, notes;
   private final int quantity;
+  private String patientFirstName, patientLastName, locationName;
+  private int employeeID, patientID;
 
   public EquipmentDelivery(
       int userID, String nodeID, String equipment, String notes, int quantity, String status) {
     this.location = Vdb.locationDao.getLocation(nodeID);
     this.hospitalEmployee = new HospitalEmployee(userID);
-    this.patient = null;
+    this.patient = new Patient(123, "James", "Jameson");
     this.equipment = equipment;
     this.notes = notes;
     this.desc = "Equipment Delivery (" + equipment + ")";
     this.status = status;
     this.quantity = quantity;
     this.status = status;
+    this.patientFirstName = patient.getFirstName();
+    this.patientLastName = patient.getLastName();
+    this.employeeID = hospitalEmployee.getHospitalID();
+    this.patientID = patient.getPatientID();
+    this.locationName = location.getShortName();
   }
 
   public EquipmentDelivery(
@@ -29,13 +36,17 @@ public class EquipmentDelivery extends ServiceRequest {
       int pID) {
     this.location = Vdb.locationDao.getLocation(nodeID);
     this.hospitalEmployee = new HospitalEmployee(userID);
-    // this.patient = ;//needs to find patient
     this.equipment = equipment;
     this.notes = notes;
     this.desc = "Equipment Delivery (" + equipment + ")";
     this.status = status;
     this.quantity = quantity;
     this.status = status;
+    patientFirstName = patient.getFirstName();
+    patientLastName = patient.getLastName();
+    employeeID = hospitalEmployee.getHospitalID();
+    patientID = patient.getPatientID();
+    locationName = location.getShortName();
   }
 
   public EquipmentDelivery(
@@ -57,10 +68,11 @@ public class EquipmentDelivery extends ServiceRequest {
     this.status = status;
     this.quantity = quantity;
     this.status = status;
-  }
-
-  public Location getLocation() {
-    return location;
+    patientFirstName = fname;
+    patientLastName = lname;
+    employeeID = hospitalEmployee.getHospitalID();
+    patientID = pID;
+    locationName = location.getShortName();
   }
 
   public String getEquipment() {
@@ -75,7 +87,23 @@ public class EquipmentDelivery extends ServiceRequest {
     return quantity;
   }
 
-  public String getStatus() {
-    return status;
+  public String getPatientFirstName() {
+    return patientFirstName;
+  }
+
+  public String getPatientLastName() {
+    return patientLastName;
+  }
+
+  public String getLocationName() {
+    return locationName;
+  }
+
+  public int getEmployeeID() {
+    return employeeID;
+  }
+
+  public int getPatientID() {
+    return patientID;
   }
 }
