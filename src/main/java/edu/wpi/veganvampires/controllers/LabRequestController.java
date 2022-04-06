@@ -3,6 +3,7 @@ package edu.wpi.veganvampires.controllers;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.veganvampires.dao.LabRequestDao;
 import edu.wpi.veganvampires.interfaces.RequestInterface;
+import edu.wpi.veganvampires.main.Vdb;
 import edu.wpi.veganvampires.objects.LabRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -19,7 +20,7 @@ public class LabRequestController extends Controller implements RequestInterface
   @FXML private TreeTableColumn<LabRequest, String> requestedLabCol;
   @FXML private TreeTableColumn<LabRequest, String> statusCol;
 
-  private static LabRequestDao labRequestDao = new LabRequestDao();
+  private static final LabRequestDao labRequestDao = Vdb.labRequestDao;
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;
