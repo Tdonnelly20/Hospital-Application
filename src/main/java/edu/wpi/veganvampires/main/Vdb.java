@@ -593,21 +593,90 @@ public class Vdb {
       String[] data;
       data = line.split(splitToken);
       for (String s : data) System.out.println(s);
-      /*
-            LabRequest l =
-                new LabRequest(
-                    Integer.parseInt(data[0]),
-                new EquipmentDelivery(
-                    data[0],
-                    Integer.parseInt(data[1]),
-                    data[2],
-                    data[3],
-                    Integer.parseInt(data[4]),
-                    data[5]);
-            equipment.add(e);
-      */
+      LabRequest l =
+          new LabRequest(
+              Integer.parseInt(data[0]),
+              Integer.parseInt(data[1]),
+              data[2],
+              data[3],
+              data[4],
+              data[5]);
+      labs.add(l);
     }
-    // equipmentDeliveryDao.setAllEquipmentDeliveries(equipment);
-    System.out.println("Equipment database made");
+    LabRequestDao.setAllLabRequests(labs);
+    System.out.println("Lab database made");
+  }
+
+  // Add to Medicine Delivery SQL Table
+  public static void addToLabTable(
+      int userID, int patientID, String firstName, String lastName, String lab, String status)
+      throws SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query =
+        "INSERT INTO Medicines("
+            + "userId, patientID, firstName, lastName, lab, status) VALUES "
+            + "('"
+            + userID
+            + "', '"
+            + patientID
+            + "', '"
+            + firstName
+            + "', "
+            + lastName
+            + ", "
+            + lab
+            + ", '"
+            + status
+            + "'"
+            + ")";
+
+    System.out.println(query);
+    statement.execute(query);
+
+    // Print out all the current entries...
+    query = "SELECT userId, patientID, firstName, lastName, lab, status FROM Medicines";
+
+    ResultSet resultSet = statement.executeQuery(query);
+
+    // A string array to contain the names of all the header values so I don't have to type this
+    // bullshit out again
+    String[] headerVals =
+        new String[] {"userID", "patientID", "firstName", "lastName", "lab", "status"};
+
+    // Print out the result
+    while (resultSet.next()) {
+      for (String headerVal : headerVals) {
+        System.out.print(resultSet.getString(headerVal).trim() + ", ");
+      }
+      System.out.println();
+    }
+  }
+
+  private static void saveToLabDB() throws IOException {
+    FileWriter fw = new FileWriter(currentPath + "\\LabRequest.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    bw.append("UserID,PatientID,First Name,Last Name,Lab Type,Status");
+    for (LabRequest l : labRequestDao.getAllLabRequests()) {
+      String[] outputData = {
+        // String.valueOf(l.getUserID()),
+        String.valueOf(l.getPatient().getPatientID()),
+        l.getPatient().getFirstName(),
+        l.getPatient().getLastName(),
+        l.getLab(),
+        l.getStatus()
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+        System.out.println(s);
+      }
+    }
+    bw.close();
+    fw.close();
   }
 }
