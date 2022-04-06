@@ -205,18 +205,13 @@
                            <children>
                               <JFXTreeTableView fx:id="table" prefHeight="568.0" prefWidth="556.0">
                                  <columns>
-                                    <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="76.66650390625" text="Node ID" />
+                                    <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="76.66650390625" text="ID" />
                                     <TreeTableColumn id="xCoord" prefWidth="56.0" text="X" fx:id="xCol" />
                                     <TreeTableColumn id="yCoord" fx:id="yCol" prefWidth="54.22222900390625" text="Y" />
                                     <TreeTableColumn id="Floor" fx:id="floorCol" prefWidth="58.888916015625" text="Floor" />
-                                    <TreeTableColumn id="Building" fx:id="buildingCol" prefWidth="79.5555419921875" text="Building" />
-                                    <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" prefWidth="52.22222900390625" text="Node Type" />
-                                    <TreeTableColumn prefWidth="219.77777099609375" text="Name">
-                                       <columns>
-                                          <TreeTableColumn id="shortName" fx:id="shortNameCol" prefWidth="60.0" text="Short" />
-                                          <TreeTableColumn id="longName" fx:id="longNameCol" maxWidth="172.666748046875" prefWidth="109.3333740234375" text="Long" />
-                                       </columns>
-                                    </TreeTableColumn>
+                                    <TreeTableColumn id="Building" fx:id="buildingCol" prefWidth="79.5555419921875" text="Type" />
+                                    <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" prefWidth="77.0" text="Description" />
+                                    <TreeTableColumn id="shortName" fx:id="shortNameCol" prefWidth="64.0" text="Dirty" />
                                  </columns>
                               </JFXTreeTableView>
                            </children>

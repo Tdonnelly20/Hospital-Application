@@ -1,11 +1,11 @@
 package edu.wpi.veganvampires.main;
 
+import edu.wpi.veganvampires.dao.*;
 import edu.wpi.veganvampires.dao.EquipmentDao;
 import edu.wpi.veganvampires.dao.EquipmentDeliveryDao;
 import edu.wpi.veganvampires.dao.InternalPatientTransportationDao;
 import edu.wpi.veganvampires.dao.LocationDao;
 import edu.wpi.veganvampires.dao.MedicineDeliveryDao;
-import edu.wpi.veganvampires.dao.*;
 import edu.wpi.veganvampires.manager.MapManager;
 import edu.wpi.veganvampires.objects.*;
 import edu.wpi.veganvampires.objects.Location;
@@ -409,7 +409,7 @@ public class Vdb {
       pSTMT.setDouble(4, e.getX());
       pSTMT.setDouble(5, e.getY());
       pSTMT.setString(6, e.getDescription());
-      pSTMT.setBoolean(7, e.getisDirty());
+      pSTMT.setBoolean(7, e.getIsDirty());
       pSTMT.executeUpdate();
       i++;
     }
@@ -488,7 +488,7 @@ public class Vdb {
         Double.toString(e.getX()),
         Double.toString(e.getY()),
         e.getDescription(),
-        Boolean.toString(e.getisDirty())
+        Boolean.toString(e.getIsDirty())
       };
       bw.append("\n");
       for (String s : outputData) {

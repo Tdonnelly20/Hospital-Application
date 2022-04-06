@@ -20,13 +20,13 @@ public class LabRequestDao implements LabRequestImpl {
     assert connection != null;
     Statement newStatement = connection.createStatement();
     newStatement.execute(
-            "CREATE TABLE LABS ("
-                    + "UserID int, "
-                    + "PatientID int, "
-                    + "FirstName char(20),"
-                    + "LastName char(20),"
-                    + "Lab char(20),"
-                    + "Status char(20))");
+        "CREATE TABLE LABS ("
+            + "UserID int, "
+            + "PatientID int, "
+            + "FirstName char(20),"
+            + "LastName char(20),"
+            + "Lab char(20),"
+            + "Status char(20))");
   }
 
   public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
@@ -40,7 +40,7 @@ public class LabRequestDao implements LabRequestImpl {
 
   @Override
   public void addLabRequest(
-          int userID, int patientID, String firstName, String lastName, String lab, String status) {
+      int userID, int patientID, String firstName, String lastName, String lab, String status) {
     LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab, status);
 
     System.out.println("Adding to local arraylist...");
@@ -76,4 +76,3 @@ public class LabRequestDao implements LabRequestImpl {
     }
   }
 }
-
