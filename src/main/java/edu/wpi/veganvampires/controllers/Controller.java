@@ -70,8 +70,9 @@ public abstract class Controller extends Application {
   }
 
   @FXML
-  private void refresh() {
+  private void refresh() throws IOException {
     // Matt's csv
+    Vdb.saveToLocationDB();
     getFloor();
   }
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string

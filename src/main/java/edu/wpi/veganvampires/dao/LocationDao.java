@@ -68,7 +68,7 @@ public class LocationDao implements LocationImpl {
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
       for (Location l : allLocations) {
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID.equals(l.getNodeID())");
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID = " + l.getNodeID());
       }
 
       allLocations.remove(getLocation(nodeID));

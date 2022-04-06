@@ -399,14 +399,14 @@ public class Vdb {
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
     for (Location l : locationDao.getAllLocations()) {
       String[] outputData = {
-              l.getNodeID(),
-              String.valueOf(l.getXCoord()),
-              String.valueOf(l.getYCoord()),
-              l.getFloor(),
-              l.getBuilding(),
-              l.getNodeType(),
-              l.getLongName(),
-              l.getShortName(),
+        l.getNodeID(),
+        String.valueOf(l.getXCoord()),
+        String.valueOf(l.getYCoord()),
+        l.getFloor(),
+        l.getBuilding(),
+        l.getNodeType(),
+        l.getLongName(),
+        l.getShortName(),
       };
       bw.append("\n");
       for (String s : outputData) {

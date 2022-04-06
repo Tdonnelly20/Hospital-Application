@@ -49,6 +49,8 @@ public class LocationController extends Controller {
 
   @FXML private TextArea coordinates = new TextArea();
 
+  private boolean remove = false;
+
   private static class SingletonHelper {
     private static final LocationController manager = new LocationController();
   }
@@ -69,6 +71,7 @@ public class LocationController extends Controller {
         });
     removeLocation.setOnAction(
         event -> {
+          remove = true;
           openRemoveLocation();
         });
     updateLocation.setOnAction(
@@ -212,7 +215,11 @@ public class LocationController extends Controller {
 
   @FXML
   private void validateButton() {
-    if ((!nodeID.getText().isEmpty())
+    if (remove) {
+      if (!nodeID.getText().isEmpty()) {
+        submit.setDisable(false);
+      }
+    } else if ((!nodeID.getText().isEmpty())
         && (!x.getText().isEmpty() && isInteger(x.getText()))
         && (!y.getText().isEmpty() && isInteger(y.getText()))
         && (!floor.getText().isEmpty())
@@ -221,19 +228,7 @@ public class LocationController extends Controller {
         && (!shortName.getText().isEmpty())
         && (!nodeType.getText().isEmpty())) {
       submit.setDisable(false);
-      submit.setOnAction(
-          event -> {
-            locationDao.addLocation(
-                new Location(
-                    nodeID.getText(),
-                    Double.parseDouble(x.getText()),
-                    Double.parseDouble(y.getText()),
-                    floor.getText(),
-                    building.getText(),
-                    longName.getText(),
-                    shortName.getText(),
-                    nodeType.getText()));
-          });
+
     } else {
       submit.setDisable(true);
     }
