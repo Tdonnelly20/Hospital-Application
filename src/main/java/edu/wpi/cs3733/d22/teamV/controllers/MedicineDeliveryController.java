@@ -49,7 +49,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
@@ -60,7 +60,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
 
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MedicineDelivery> currMedicineDeliveries =
-        (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllMedicineDeliveries();
+        (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllServiceRequests();
 
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
@@ -77,7 +77,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
       // we get the standard table functionality
       medicineDeliveryTable.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem root = new TreeItem(medicineDeliveryDao.getAllMedicineDeliveries().get(0));
+      TreeItem root = new TreeItem(currMedicineDeliveries.get(0));
       // Set the root in the table
       medicineDeliveryTable.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
@@ -130,17 +130,22 @@ public class MedicineDeliveryController extends Controller implements RequestInt
 
       // If all conditions pass, create the request
     } else {
-
+      MedicineDelivery medicineDelivery =
+          new MedicineDelivery(
+              firstName.getText(),
+              lastName.getText(),
+              roomNum.getText(),
+              Integer.parseInt(patientID.getText()),
+              Integer.parseInt(hospitalID.getText()),
+              medicationDropDown.getValue().toString(),
+              dosage.getText(),
+              requestDetails.getText());
       // Send the request to the Dao pattern
-      medicineDeliveryDao.addMedicationDelivery(
-          firstName.getText(),
-          lastName.getText(),
-          roomNum.getText(),
-          Integer.parseInt(patientID.getText()),
-          Integer.parseInt(hospitalID.getText()),
-          medicationDropDown.getValue().toString(),
-          dosage.getText(),
-          requestDetails.getText());
+      try {
+        medicineDeliveryDao.addServiceRequest(medicineDelivery);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
 
       // For testing purposes
       System.out.println(

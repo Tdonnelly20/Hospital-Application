@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 public abstract class ServiceRequest {
   protected Location location;
+  public int serviceID;
   public Patient patient;
   protected HospitalEmployee hospitalEmployee;
   protected String date;
