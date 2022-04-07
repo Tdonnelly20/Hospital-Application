@@ -1,18 +1,27 @@
 package edu.wpi.cs3733.d22.teamV.interfaces;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface DaoInterface {
 
-  void createDB();
+  void loadFromCSV() throws IOException;
 
-  void createTables();
+  void saveToCSV() throws IOException;
 
-  void addToTable(ServiceRequest request);
+  void createSQLTable() throws SQLException;
 
-  void removeFromTable();
+  void addToSQLTable(ServiceRequest request) throws SQLException;
 
-  void update(ServiceRequest request);
+  void removeFromSQLTable(int serviceID);
 
-  void saveToDB();
+  void addServiceRequest(ServiceRequest request) throws IOException, SQLException;
+
+  void removeServiceRequest(int serviceID);
+
+  ArrayList<? extends ServiceRequest> getAllServiceRequests();
+
+  void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests);
 }

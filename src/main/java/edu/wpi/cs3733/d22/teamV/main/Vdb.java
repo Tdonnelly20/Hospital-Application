@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
@@ -14,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Vdb {
-  private static final String currentPath = returnPath();
+  public static final String currentPath = returnPath();
   private static String line; // receives a line from br
 
   // Make all DAO's here, NOT in the controllers
@@ -62,7 +61,6 @@ public class Vdb {
     createLocationDB();
     createEquipmentDB();
     createEquipmentTable();
-    createMedicineDeliveryDB();
     createLabTable();
     createLabDB();
     mapManager = MapManager.getManager();
@@ -156,9 +154,6 @@ public class Vdb {
       case EquipmentDelivery:
         saveToEquipmentDB();
         break;
-      case MedicineDelivery:
-        saveToMedicineDeliveryDB();
-        break;
       case LabRequest:
         saveToLabDB();
         break;
@@ -166,65 +161,6 @@ public class Vdb {
         System.out.println("Unknown enumerated type!");
         break;
     }
-  }
-
-  /**
-   * Create the medicine delivery database
-   *
-   * @throws Exception
-   */
-  public static void createMedicineDeliveryDB() throws Exception {
-    FileReader fr = new FileReader(currentPath + "\\MedicineDelivery.csv");
-    BufferedReader br = new BufferedReader(fr);
-    String splitToken = ","; // what we split the csv file with
-    ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
-    // equipment = new ArrayList<>();
-    String headerLine = br.readLine();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data = line.split(splitToken);
-      MedicineDelivery newDelivery =
-          new MedicineDelivery(
-              data[0],
-              data[1],
-              data[2],
-              Integer.parseInt(data[3]),
-              Integer.parseInt(data[4]),
-              data[5],
-              data[6],
-              data[7]);
-      medicineDeliveries.add(newDelivery);
-    }
-    medicineDeliveryDao.setAllMedicineDeliveries(medicineDeliveries);
-    System.out.println("Medicine delivery database made");
-  }
-
-  private static void saveToMedicineDeliveryDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\MedicineDelivery.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails");
-
-    for (MedicineDelivery medicineDelivery : medicineDeliveryDao.getAllMedicineDeliveries()) {
-      String[] outputData = {
-        medicineDelivery.getPatientFirstName(),
-        medicineDelivery.getPatientLastName(),
-        medicineDelivery.getRoomNumber(),
-        String.valueOf(medicineDelivery.getPatientID()),
-        String.valueOf(medicineDelivery.getHospitalID()),
-        medicineDelivery.getMedicineName(),
-        medicineDelivery.getDosage(),
-        medicineDelivery.getRequestDetails()
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
-
-    bw.close();
-    fw.close();
   }
 
   /**
@@ -341,7 +277,7 @@ public class Vdb {
 
     // Print out all the current entries...
     query =
-        "SELECT userId, xCoord, yCoord, floor, building, nodeType, longName, shortName FROM Medicines";
+        "SELECT userId, xCoord, yCoord, floor, building, nodeType, longName, shortName FROM Locations";
 
     ResultSet resultSet = statement.executeQuery(query);
 
