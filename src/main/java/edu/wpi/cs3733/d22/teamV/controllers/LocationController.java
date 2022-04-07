@@ -77,7 +77,7 @@ public class LocationController extends Controller {
         });
     addLocation.setOnAction(
         event -> {
-          openUpdateLocation();
+          openAddLocation();
         });
     removeLocation.setOnAction(
         event -> {
@@ -198,9 +198,8 @@ public class LocationController extends Controller {
     submit.setOnAction(
         event -> {
           locationDao.deleteLocation(nodeID.getText());
-          locationDao
-              .getLocation(nodeID.getText())
-              .updateInfo(
+          locationDao.addLocation(
+              new Location(
                   nodeID.getText(),
                   Double.parseDouble(x.getText()),
                   Double.parseDouble(y.getText()),
@@ -208,7 +207,8 @@ public class LocationController extends Controller {
                   building.getText(),
                   nodeType.getText(),
                   longName.getText(),
-                  shortName.getText());
+                  shortName.getText()));
+
           updateTreeTable();
           setTextFieldPrompts();
         });

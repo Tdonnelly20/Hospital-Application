@@ -30,11 +30,12 @@
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
       <RowConstraints maxHeight="90.0" minHeight="90.0" prefHeight="80.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="ALWAYS" />
    </rowConstraints>
    <children>
-      <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="426.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.vgrow="ALWAYS">
+      <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="426.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="241.11116536458331" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="102.66668701171878" />
@@ -64,7 +65,7 @@
             </Button>
          </children>
       </GridPane>
-      <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+      <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" GridPane.rowIndex="1">
          <children>
             <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -78,7 +79,7 @@
             </Label>
          </children>
       </Pane>
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255); -fx-border-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255); -fx-border-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <content>
             <VBox fx:id="vbox" alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="608.0" prefWidth="366.0" spacing="40.0" style="-fx-background-color: #5c677d; -fx-border-color: #5c677d;">
                <padding>
@@ -87,7 +88,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <content>
             <VBox alignment="TOP_CENTER" prefHeight="603.0" prefWidth="548.0">
                <children>
@@ -152,7 +153,7 @@
                            <content>
                               <Pane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <JFXTreeTableView fx:id="table" prefHeight="568.0" prefWidth="556.0">
+                                    <JFXTreeTableView fx:id="table" prefHeight="477.0" prefWidth="556.0">
                                        <columns>
                                           <TreeTableColumn id="nodeID" fx:id="nodeIDCol" prefWidth="76.66650390625" text="Node ID" />
                                           <TreeTableColumn id="xCoord" prefWidth="56.0" text="X" fx:id="xCol" />
