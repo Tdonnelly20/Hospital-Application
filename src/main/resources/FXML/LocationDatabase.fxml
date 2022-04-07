@@ -6,13 +6,11 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,8 +19,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.CheckComboBox?>
 
 <GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.LocationController">
    <columnConstraints>
@@ -87,7 +87,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <content>
             <VBox alignment="TOP_CENTER" prefHeight="603.0" prefWidth="548.0">
                <children>
@@ -97,12 +97,11 @@
                            <content>
                               <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
                                  <children>
-                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0">
+                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0" spacing="15.0">
                                        <children>
                                           <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="groundFloor" fx:value="Ground Floor" />
                                                    <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
                                                    <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
                                                    <String fx:id="floor1" fx:value="1st Floor" />
@@ -111,22 +110,40 @@
                                                 </FXCollections>
                                              </items>
                                           </JFXComboBox>
+                                          <CheckComboBox fx:id="filterCheckBox" onContextMenuRequested="#populateFloorIconArr" onMouseClicked="#populateFloorIconArr" onMouseEntered="#populateFloorIconArr" onMouseExited="#populateFloorIconArr" showCheckedCount="true" title="Filter">
+                                             <items>
+                                                <String fx:id="equipment" fx:value="Equipment" />
+                                                <String fx:id="cleanEquipment" fx:value="Clean Equipment" />
+                                                <String fx:id="requests" fx:value="Requests" />
+                                                <String fx:id="activeRequests" fx:value="Active Requests" />
+                                                <String fx:id="lab" fx:value="Lab Requests" />
+                                                <String fx:id="laundry" fx:value="Laundry Request" />
+                                                <String fx:id="mealDelivery" fx:value="Meal Delivery" />
+                                                <String fx:id="medicalEquipmentDelivery" fx:value="Medical Equipment Delivery" />
+                                                <String fx:id="medicine" fx:value="Medicine Delivery" />
+                                                <String fx:id="religious" fx:value="Religious Request" />
+                                                <String fx:id="sanitation" fx:value="Sanitation Request" />
+                                             </items>
+                                          </CheckComboBox>
                                        </children>
                                     </HBox>
-                                    <Group layoutX="30.0">
-                                       <children>
-                                          <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../2nd Floor.png" />
-                                             </image>
-                                             <viewport>
-                                                <Rectangle2D />
-                                             </viewport>
-                                          </ImageView>
-                                          <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
-                                          <TextArea fx:id="coordinates" layoutX="380.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                                       </children>
-                                    </Group>
+                                    <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="21.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" pannable="true" prefHeight="450.0" prefWidth="493.0" vbarPolicy="NEVER">
+                                       <content>
+                                          <StackPane prefHeight="450.0" prefWidth="492.0">
+                                             <children>
+                                                <ImageView fx:id="mapImage" fitHeight="600.0" fitWidth="600.0" pickOnBounds="true">
+                                                   <image>
+                                                      <Image url="@../2nd Floor.png" />
+                                                   </image>
+                                                   <viewport>
+                                                      <Rectangle2D />
+                                                   </viewport>
+                                                </ImageView>
+                                                <Pane fx:id="mapPane" onContextMenuRequested="#populateFloorIconArr" prefHeight="200.0" prefWidth="200.0" />
+                                             </children>
+                                          </StackPane>
+                                       </content>
+                                    </ScrollPane>
                                  </children>
                               </Pane>
                            </content>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.pannable.PannableScrollPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<PannableScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ServiceRequestController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="173.0" stroke="BLACK" strokeType="INSIDE" width="1936.0" />
+      <Label contentDisplay="TEXT_ONLY" prefHeight="139.0" prefWidth="879.0" text="TEST" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="80.0" />
+         </font>
+      </Label>
+   </children>
+</PannableScrollPane>

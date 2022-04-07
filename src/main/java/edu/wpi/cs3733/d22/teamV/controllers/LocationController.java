@@ -198,6 +198,36 @@ public class LocationController extends Controller {
     submit.setOnAction(
         event -> {
           locationDao.deleteLocation(nodeID.getText());
+          locationDao
+              .getLocation(nodeID.getText())
+              .updateInfo(
+                  nodeID.getText(),
+                  Double.parseDouble(x.getText()),
+                  Double.parseDouble(y.getText()),
+                  floor.getText(),
+                  building.getText(),
+                  nodeType.getText(),
+                  longName.getText(),
+                  shortName.getText());
+          updateTreeTable();
+          setTextFieldPrompts();
+        });
+
+    clear.setOnAction(
+        event -> {
+          setTextFieldPrompts();
+        });
+    vbox.getChildren().addAll(hbox, nodeID, x, y, floor, building, nodeType, shortName, longName);
+    updateTreeTable();
+  }
+
+  @FXML
+  private void openAddLocation() {
+    setForms();
+
+    submit.setOnAction(
+        event -> {
+          locationDao.deleteLocation(nodeID.getText());
           Location newLoc =
               new Location(
                   nodeID.getText(),

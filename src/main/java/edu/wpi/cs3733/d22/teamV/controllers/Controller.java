@@ -7,12 +7,11 @@ import edu.wpi.cs3733.d22.teamV.objects.Floor;
 import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,23 +26,24 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import org.controlsfx.control.CheckComboBox;
 
 public abstract class Controller extends Application {
   private Parent root;
   private Floor currFloor;
-  private String requests = "Requests";
-  private String activeRequests = "ActiveRequests";
-  private String equipment = "Equipment";
-  private String cleanEquipment = "Clean Equipment";
-  private String labRequests = "Lab";
-  private String equipmentDeliveryRequests = "Equipment Delivery";
-  private String mealRequests = "Meal";
-  private String medicineDeliveryRequests = "Medicine Delivery";
-  private String religiousRequests = "Religious";
-  private String sanitationRequests = "Sanitation";
-  private String iptRequests = "Internal Patient Transport";
-
-  private ArrayList<String> filter = new ArrayList<String>(Arrays.asList(requests, equipment));
+  ObservableList<String> filterItems =
+      FXCollections.observableArrayList(
+          "Equipment",
+          "Clean Equipment",
+          "Active Requests",
+          "Lab Requests",
+          "Equipment Delivery",
+          "Meal Delivery",
+          "Medicine Delivery",
+          "Religious Request",
+          "Sanitation Request",
+          "Internal Patient Transport");
+  @FXML CheckComboBox<String> filterCheckBox = new CheckComboBox<>(filterItems);
 
   @FXML private Pane mapPane;
   @FXML private ImageView mapImage;
@@ -52,20 +52,40 @@ public abstract class Controller extends Application {
   private JFXComboBox floorDropDown =
       new JFXComboBox<>(
           FXCollections.observableArrayList(
-              "Ground Floor",
               "Lower Level 2",
               "Lower Level 1",
               "1st Floor",
               "2nd Floor",
-              "3rd Floor"));
+              "3rd Floor",
+              "4th Floor",
+              "5th Floor"));
+
+  @Override
+  public void init() {
+    floorDropDown.setValue("1st Floor");
+
+    checkDropDown();
+
+    filterCheckBox = new CheckComboBox<>(filterItems);
+
+    System.out.println(filterCheckBox.getCheckModel());
+
+    filterCheckBox.getCheckModel().checkAll();
+
+    /*  for (String str : filterCheckBox.getCheckModel().getCheckedItems()) {
+      System.out.println(str);
+    }*/
+  }
 
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   private void checkDropDown() {
     MapManager.getManager().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
+    System.out.println(floorDropDown.getValue().toString() + ".png");
     mapImage.setImage(new Image(url));
-    System.out.println(floorDropDown.getValue());
+    mapImage.setFitWidth(600);
+    mapImage.setFitHeight(600);
     getFloor();
   }
 
@@ -79,10 +99,6 @@ public abstract class Controller extends Application {
   private String getFloor() {
     String result = "";
     switch (floorDropDown.getValue().toString()) {
-      case "Ground Floor":
-        currFloor = Vdb.mapManager.getFloor("G");
-        result = "G";
-        break;
       case "Lower Level 1":
         currFloor = Vdb.mapManager.getFloor("L1");
         result = "L1";
@@ -104,6 +120,14 @@ public abstract class Controller extends Application {
         result = "3";
         System.out.println("3");
         break;
+      case "4th Floor":
+        currFloor = Vdb.mapManager.getFloor("4");
+        result = "2";
+        break;
+      case "5th Floor":
+        currFloor = Vdb.mapManager.getFloor("5");
+        result = "3";
+        break;
     }
 
     populateFloorIconArr();
@@ -113,8 +137,27 @@ public abstract class Controller extends Application {
   // Loads the floor's icons in accordance with filter
   @FXML
   public void populateFloorIconArr() {
+
     mapPane.getChildren().clear();
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.size() > 0) {
+      for (String str : filter) {
+        System.out.println(str);
+      }
+    } else {
+
+    }
+
+    for (Icon icon : currFloor.getIconList()) {
+      if (filter.size() == 0) {
+        if (filter.contains("Equipment") && icon.isEquipment()) {
+          mapPane.getChildren().add(icon.getImage());
+        }
+      } else {
+        mapPane.getChildren().add(icon.getImage());
+      }
+    }
+    /*if (filter.size() > 0) {
       if (filter.contains(equipment) && !filter.contains(requests)) {
         filterEquipment();
       } else if (!filter.contains(equipment) && filter.contains(requests)) {
@@ -127,14 +170,14 @@ public abstract class Controller extends Application {
       for (Icon icon : currFloor.getIconList()) {
         mapPane.getChildren().add(icon.getImage());
       }
-    }
+    }*/
   }
 
   @FXML
   private void filterRequests() {
     for (Icon icon : currFloor.getIconList()) {
       if (!icon.isEquipment()) {
-        if (filter.contains(requests)) {
+        /* if (filter.contains(requests)) {
           if (filter.contains(activeRequests)) {
             if (icon.getRequestsArr().size() > 0) {
               mapPane.getChildren().add(icon.getImage());
@@ -142,7 +185,7 @@ public abstract class Controller extends Application {
           } else {
             mapPane.getChildren().add(icon.getImage());
           }
-        }
+        }*/
       }
     }
   }
@@ -202,7 +245,7 @@ public abstract class Controller extends Application {
     checkDropDown();
   }
 
-  @FXML
+  /* @FXML
   public void onlyActiveRequests() {
     if (filter.contains(activeRequests)) {
       filter.remove(activeRequests);
@@ -210,7 +253,7 @@ public abstract class Controller extends Application {
       filter.add(activeRequests);
     }
     populateFloorIconArr();
-  }
+  }*/
 
   /**
    * Determines if a String is an integer or not
@@ -265,6 +308,7 @@ public abstract class Controller extends Application {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
     root = loader.load();
     LocationController lc = loader.getController();
+    lc.init();
     lc.setElements();
     lc.resetPage();
     switchScene(event);
@@ -275,8 +319,7 @@ public abstract class Controller extends Application {
   public void switchToServiceRequest(ActionEvent event) throws IOException {
     root =
         FXMLLoader.load(
-            Objects.requireNonNull(
-                getClass().getClassLoader().getResource("FXML/serviceRequest.fxml")));
+            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/Test.fxml")));
     switchScene(event);
   }
 

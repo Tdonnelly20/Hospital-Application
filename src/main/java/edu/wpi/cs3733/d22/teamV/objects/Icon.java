@@ -32,8 +32,8 @@ public class Icon {
     }
     image.setFitWidth(30);
     image.setFitHeight(30);
-    image.setX((xCoord / 1.28) - 15);
-    image.setY((yCoord / 1.28) - 15);
+    image.setTranslateX((xCoord) - 25);
+    image.setTranslateY((yCoord) - 15);
     this.location = location;
     image.setOnMouseClicked(
         event -> {
@@ -53,8 +53,8 @@ public class Icon {
     }
     image.setFitWidth(30);
     image.setFitHeight(30);
-    image.setX((xCoord / 1.28) - 15);
-    image.setY((yCoord / 1.28) - 15);
+    image.setTranslateX((xCoord) - 25);
+    image.setTranslateY((yCoord) - 15);
     this.location = location;
     image.setOnMouseClicked(
         event -> {
@@ -71,8 +71,8 @@ public class Icon {
     isEquipment = true;
     image.setFitWidth(30);
     image.setFitHeight(30);
-    image.setX((xCoord / 1.28) - 15);
-    image.setY((yCoord / 1.28) - 15);
+    image.setTranslateX((xCoord) - 25);
+    image.setTranslateY((yCoord) - 15);
     this.location = location;
     image.setOnMouseClicked(
         event -> {

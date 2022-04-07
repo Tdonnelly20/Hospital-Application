@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Floor;
 import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,6 +38,8 @@ public class MapManager {
   @FXML VBox content = new VBox(15);
   @FXML Scene scene = new Scene(content, 450, 450);
   @FXML Stage stage = new Stage();
+
+  List<ServiceRequest> serviceRequests = new ArrayList<>();
   @FXML Button locationButton = new Button("Add Location");
   @FXML Button equipmentButton = new Button("Add Equipment");
   @FXML Button submitIcon = new Button("Add icon");
@@ -50,6 +55,20 @@ public class MapManager {
   @FXML TextField field4 = new TextField();
 
   private MapManager() {
+    // serviceRequests.addAll(Vdb.labRequestDao.getAllLabRequests(),
+    // Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries());
+    // serviceRequests.addAll(Vdb.labRequestDao.getAllLabRequests());
+    serviceRequests =
+        Stream.of(
+                Vdb.labRequestDao.getAllLabRequests(),
+                Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries() /*,
+           // Vdb.internalPatientTransportationDao.getInternalPatientTransportations(),
+           // Vdb.medicineDeliveryDao.getAllMedicineDeliveries()
+
+           */)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+    ;
     setUpPopUp();
     setUpFloors();
   }
@@ -65,7 +84,6 @@ public class MapManager {
   /** Sets up the popup window */
   @FXML
   private void setUpPopUp() {
-
     field1.setMaxWidth(250);
     field2.setMaxWidth(250);
     field3.setMaxWidth(250);
@@ -127,7 +145,7 @@ public class MapManager {
       }
     }
 
-    System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
+    /*  System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
     for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
       switch (e.getFloor()) {
         case "G":
@@ -149,7 +167,7 @@ public class MapManager {
           floorList.get(5).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
           break;
       }
-    }
+    }*/
   }
 
   public void loadRequests(int i, Location l) {
