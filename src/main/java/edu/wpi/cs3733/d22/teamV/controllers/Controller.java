@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.icons.Icon;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Floor;
-import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.IOException;
 import java.util.Objects;
@@ -69,12 +69,6 @@ public abstract class Controller extends Application {
     filterCheckBox = new CheckComboBox<>(filterItems);
 
     System.out.println(filterCheckBox.getCheckModel());
-
-    filterCheckBox.getCheckModel().checkAll();
-
-    /*  for (String str : filterCheckBox.getCheckModel().getCheckedItems()) {
-      System.out.println(str);
-    }*/
   }
 
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
@@ -141,51 +135,20 @@ public abstract class Controller extends Application {
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     for (Icon icon : currFloor.getIconList()) {
-      if (filter.size() == 0) {
-        if (filter.contains("Equipment") && icon.isEquipment()) {
+      if (filter.size() > 0) {
+        System.out.println(icon.iconType);
+        mapPane.getChildren().add(icon.getImage());
+        if (filter.contains("Request") && icon.iconType.equals("Request")) {
+          System.out.println(icon.getImage());
+          mapPane.getChildren().add(icon.getImage());
+        }
+        if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
+          mapPane.getChildren().add(icon.getImage());
+        }
+        if (filter.contains("Location") && icon.iconType.equals("Location")) {
           mapPane.getChildren().add(icon.getImage());
         }
       } else {
-        mapPane.getChildren().add(icon.getImage());
-      }
-    }
-    /*if (filter.size() > 0) {
-      if (filter.contains(equipment) && !filter.contains(requests)) {
-        filterEquipment();
-      } else if (!filter.contains(equipment) && filter.contains(requests)) {
-        filterRequests();
-      } else {
-        filterRequests();
-        filterEquipment();
-      }
-    } else {
-      for (Icon icon : currFloor.getIconList()) {
-        mapPane.getChildren().add(icon.getImage());
-      }
-    }*/
-  }
-
-  @FXML
-  private void filterRequests() {
-    for (Icon icon : currFloor.getIconList()) {
-      if (!icon.isEquipment()) {
-        /* if (filter.contains(requests)) {
-          if (filter.contains(activeRequests)) {
-            if (icon.getRequestsArr().size() > 0) {
-              mapPane.getChildren().add(icon.getImage());
-            }
-          } else {
-            mapPane.getChildren().add(icon.getImage());
-          }
-        }*/
-      }
-    }
-  }
-
-  @FXML
-  private void filterEquipment() {
-    for (Icon icon : currFloor.getIconList()) {
-      if (icon.isEquipment()) {
         mapPane.getChildren().add(icon.getImage());
       }
     }
@@ -206,6 +169,7 @@ public abstract class Controller extends Application {
           .setOnAction(
               event1 -> {
                 if (mapManager.checkFields()) {
+
                   /*addIcon(mapManager.getLocation(xPos, yPos, getFloor()));
 
                   Vdb.locationDao.addLocation(mapManager.getLocation(xPos, yPos, getFloor()));
@@ -235,7 +199,7 @@ public abstract class Controller extends Application {
   private void addIcon(Location location) {
     MapManager.getManager().closePopUp();
     mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
-    MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location, false));
+    // MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location, false));
     MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
   }
@@ -307,6 +271,8 @@ public abstract class Controller extends Application {
     lc.populateFloorIconArr();
     lc.setElements();
     lc.resetPage();
+    filterCheckBox.getCheckModel().clearChecks();
+    filterCheckBox.getCheckModel().check("Location");
     switchScene(event);
   }
 
@@ -317,6 +283,8 @@ public abstract class Controller extends Application {
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/Test.fxml")));
     switchScene(event);
+    filterCheckBox.getCheckModel().clearChecks();
+    filterCheckBox.getCheckModel().check("Request");
   }
 
   // Switches scene to the lab request page

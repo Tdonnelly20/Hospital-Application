@@ -1,19 +1,17 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
-import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.icons.Icon;
+import edu.wpi.cs3733.d22.teamV.icons.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.icons.RequestIcon;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Floor;
-import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,7 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,9 +52,6 @@ public class MapManager {
   @FXML TextField field4 = new TextField();
 
   private MapManager() {
-    // serviceRequests.addAll(Vdb.labRequestDao.getAllLabRequests(),
-    // Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries());
-    // serviceRequests.addAll(Vdb.labRequestDao.getAllLabRequests());
     serviceRequests =
         Stream.of(
                 Vdb.labRequestDao.getAllLabRequests(),
@@ -125,22 +119,22 @@ public class MapManager {
     for (Location l : locations) {
       switch (l.getFloor()) {
         case "G":
-          loadRequests(0, l);
+          loadLocations(0, l);
           break;
         case "L1":
-          loadRequests(1, l);
+          loadLocations(1, l);
           break;
         case "L2":
-          loadRequests(2, l);
+          loadLocations(2, l);
           break;
         case "1":
-          loadRequests(3, l);
+          loadLocations(3, l);
           break;
         case "2":
-          loadRequests(4, l);
+          loadLocations(4, l);
           break;
         case "3":
-          loadRequests(5, l);
+          loadLocations(5, l);
           break;
       }
     }
@@ -170,26 +164,26 @@ public class MapManager {
     }*/
   }
 
-  public void loadRequests(int i, Location l) {
+  public void loadLocations(int i, Location l) {
     Icon icon;
     if (floorList.size() > 0) {
       if (floorList.get(i).hasIconAt(l)) {
-        icon = floorList.get(i).getIconAt(l);
+        if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
+          if (l.getRequests().size() > 0) {
+            floorList.get(i).getIconList().remove(floorList.get(i).getIcon(l));
+            floorList.get(i).getIconList().add(new RequestIcon(l));
+          }
+        }
       } else {
-        icon = new Icon(l, false);
-        floorList.get(i).addIcon(icon);
+        floorList.get(i).addIcon(new LocationIcon(l));
       }
     } else {
-      icon = new Icon(l, false);
+      icon = new LocationIcon(l);
       floorList.get(i).addIcon(icon);
     }
-    for (EquipmentDelivery equipmentDelivery :
-        Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries()) {
-      if (equipmentDelivery.getLocation().equals(l)) {
-        icon.addToRequests(equipmentDelivery);
-      }
-    }
   }
+
+  public void loadRequests() {}
 
   /**
    * @param str
@@ -245,7 +239,7 @@ public class MapManager {
     content.getChildren().add(titleBox);
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.TOP_CENTER);
-    if (icon.isEquipment()) {
+    /* if (icon.isEquipment()) {
       title.setText(icon.getEquipment().getName());
       vbox.getChildren().addAll(title);
     } else {
@@ -277,7 +271,7 @@ public class MapManager {
         noRequests.setTextAlignment(TextAlignment.CENTER);
         vbox.getChildren().add(noRequests);
       }
-    }
+    }*/
     content.getChildren().add(vbox);
     showPopUp();
   }
