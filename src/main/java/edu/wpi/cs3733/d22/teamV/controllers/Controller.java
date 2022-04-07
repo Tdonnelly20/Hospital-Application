@@ -140,14 +140,6 @@ public abstract class Controller extends Application {
 
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    if (filter.size() > 0) {
-      for (String str : filter) {
-        System.out.println(str);
-      }
-    } else {
-
-    }
-
     for (Icon icon : currFloor.getIconList()) {
       if (filter.size() == 0) {
         if (filter.contains("Equipment") && icon.isEquipment()) {
@@ -214,7 +206,10 @@ public abstract class Controller extends Application {
           .setOnAction(
               event1 -> {
                 if (mapManager.checkFields()) {
-                  addIcon(mapManager.getLocation(xPos, yPos, getFloor()));
+                  /*addIcon(mapManager.getLocation(xPos, yPos, getFloor()));
+
+                  Vdb.locationDao.addLocation(mapManager.getLocation(xPos, yPos, getFloor()));
+                  populateFloorIconArr();*/
                 } else {
                   Text missingFields = new Text("Please fill all fields");
                   missingFields.setFill(Color.RED);
@@ -309,6 +304,7 @@ public abstract class Controller extends Application {
     root = loader.load();
     LocationController lc = loader.getController();
     lc.init();
+    lc.populateFloorIconArr();
     lc.setElements();
     lc.resetPage();
     switchScene(event);

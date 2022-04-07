@@ -140,7 +140,7 @@
                                                       <Rectangle2D />
                                                    </viewport>
                                                 </ImageView>
-                                                <Pane fx:id="mapPane" onContextMenuRequested="#populateFloorIconArr" prefHeight="200.0" prefWidth="200.0" />
+                                                <Pane fx:id="mapPane" onContextMenuRequested="#populateFloorIconArr" onMouseClicked="#openIconFormWindow" prefHeight="200.0" prefWidth="200.0" />
                                              </children>
                                           </StackPane>
                                        </content>
