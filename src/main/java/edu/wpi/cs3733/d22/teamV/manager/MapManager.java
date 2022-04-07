@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
@@ -165,10 +164,9 @@ public class MapManager {
       icon = new Icon(l, false);
       floorList.get(i).addIcon(icon);
     }
-    for (EquipmentDelivery equipmentDelivery :
-        Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries()) {
-      if (equipmentDelivery.getLocation().equals(l)) {
-        icon.addToRequests(equipmentDelivery);
+    for (ServiceRequest request : Vdb.equipmentDeliveryDao.getAllServiceRequests()) {
+      if (request.getLocation().equals(l)) {
+        icon.addToRequests(request);
       }
     }
   }

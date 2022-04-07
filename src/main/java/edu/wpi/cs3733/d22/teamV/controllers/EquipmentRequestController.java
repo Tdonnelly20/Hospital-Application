@@ -66,7 +66,7 @@ public class EquipmentRequestController extends Controller {
     notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
 
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
-        (ArrayList<EquipmentDelivery>) equipmentDeliveryDao.getAllEquipmentDeliveries();
+        (ArrayList<EquipmentDelivery>) equipmentDeliveryDao.getAllServiceRequests();
 
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
@@ -77,7 +77,7 @@ public class EquipmentRequestController extends Controller {
         treeItems.add(item);
       }
       equipmentRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(equipmentDeliveryDao.getAllEquipmentDeliveries().get(0));
+      TreeItem root = new TreeItem(currEquipmentDeliveries.get(0));
       equipmentRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -165,16 +165,23 @@ public class EquipmentRequestController extends Controller {
   @FXML
   private void sendRequest() throws SQLException {
 
-    equipmentDeliveryDao.addEquipmentDelivery(
-        Integer.parseInt(employeeID.getText()),
-        "vDEPT00101",
-        (String) dropDown.getValue(),
-        notes.getText(),
-        Integer.parseInt(quant.getText()),
-        status.getText(),
-        Integer.parseInt(patientID.getText()),
-        firstName.getText(),
-        lastName.getText());
+    EquipmentDelivery delivery =
+        new EquipmentDelivery(
+            Integer.parseInt(employeeID.getText()),
+            "vDEPT00101",
+            (String) dropDown.getValue(),
+            notes.getText(),
+            Integer.parseInt(quant.getText()),
+            status.getText(),
+            Integer.parseInt(patientID.getText()),
+            firstName.getText(),
+            lastName.getText());
+
+    try {
+      equipmentDeliveryDao.addServiceRequest(delivery);
+    } catch (Exception e) {
+
+    }
 
     resetForm();
     updateTreeTable();

@@ -19,7 +19,7 @@ public interface DaoInterface {
 
   void addServiceRequest(ServiceRequest request) throws IOException, SQLException;
 
-  void removeServiceRequest(int serviceID);
+  void removeServiceRequest(int serviceID) throws IOException;
 
   ArrayList<? extends ServiceRequest> getAllServiceRequests();
 

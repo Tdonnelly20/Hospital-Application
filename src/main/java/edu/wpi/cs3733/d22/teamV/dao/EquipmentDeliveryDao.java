@@ -1,98 +1,149 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
-import edu.wpi.cs3733.d22.teamV.interfaces.EquipmentDeliveryImpl;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class EquipmentDeliveryDao implements EquipmentDeliveryImpl {
+public class EquipmentDeliveryDao implements DaoInterface {
 
   private static ArrayList<EquipmentDelivery> allEquipmentDeliveries;
 
   /** Initialize the array list */
   public EquipmentDeliveryDao() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
+    try {
+      //loadFromCSV();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
-  public EquipmentDeliveryDao(ArrayList<EquipmentDelivery> allEquipmentDeliveries) {
-    this.allEquipmentDeliveries = allEquipmentDeliveries;
-  }
-
-  public void setAllEquipmentDeliveries(ArrayList<EquipmentDelivery> equipmentDeliveryArrayList) {
-    allEquipmentDeliveries = equipmentDeliveryArrayList;
-  }
-
-  /**
-   * Getter
-   *
-   * @return
-   */
   @Override
-  public ArrayList<EquipmentDelivery> getAllEquipmentDeliveries() {
+  public void loadFromCSV() throws IOException {
+    String line = "";
+    FileReader fr = new FileReader(Vdb.currentPath + "\\MedEquipReq.CSV");
+    BufferedReader br = new BufferedReader(fr);
+    String headerLine = br.readLine();
+    String splitToken = ",";
+    ArrayList<EquipmentDelivery> deliveries = new ArrayList<>();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data;
+      data = line.split(splitToken);
+      for (String s : data) {
+        EquipmentDelivery equipmentDelivery =
+            new EquipmentDelivery(
+                Integer.parseInt(data[0]),
+                data[1],
+                data[2],
+                data[3],
+                Integer.parseInt(data[4]),
+                data[5],
+                Integer.parseInt(data[6]),
+                data[7],
+                data[8]);
+        deliveries.add(equipmentDelivery);
+      }
+    }
+    setAllServiceRequests(deliveries);
+    System.out.println("Equipment Delivery CSV Loaded");
+  }
+
+  @Override
+  public void saveToCSV() throws IOException {
+    FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedEquipReq.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    bw.append(
+        "employeeID,patientID,patientFirstName,patientLastName,location,equipment,notes,quantity,status");
+
+    for (ServiceRequest request : getAllServiceRequests()) {
+
+      EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
+
+      String[] outputData = {
+        String.valueOf(equipmentDelivery.getEmployeeID()),
+        String.valueOf(equipmentDelivery.getPatientID()),
+        equipmentDelivery.getPatientFirstName(),
+        equipmentDelivery.getPatientLastName(),
+        equipmentDelivery.getEquipment(),
+        equipmentDelivery.getNotes(),
+        String.valueOf(equipmentDelivery.getQuantity()),
+        equipmentDelivery.getStatus()
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+
+    bw.close();
+    fw.close();
+  }
+
+  @Override
+  public void createSQLTable() throws SQLException {
+    Connection connection = Vdb.Connect();
+    Statement exampleStatement = connection.createStatement();
+    DatabaseMetaData meta = connection.getMetaData();
+
+    ResultSet set = meta.getTables(null, null, "EQUIPMENTDELIVERY", new String[] {"TABLE"});
+    String query = "";
+
+    if (!set.next()) {
+      query =
+          "CREATE TABLE EQUIPMENTDELIVERY(employeeID int,patientID int, patientFirstName char(50), patientLastName char(50), location char(50), equipment char(50), notes char(254), quantity int, status char(20))";
+      exampleStatement.execute(query);
+    } else {
+      query = "DROP TABLE EQUIPMENTDELIVERY";
+      exampleStatement.execute(query);
+      createSQLTable();
+      return;
+    }
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {}
+
+  @Override
+  public void removeFromSQLTable(int serviceID) {}
+
+  @Override
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
+    allEquipmentDeliveries.add(equipmentDelivery);
+
+    System.out.println("Adding to database");
+
+    addToSQLTable(request);
+    saveToCSV();
+  }
+
+  @Override
+  public void removeServiceRequest(int serviceID) throws IOException {
+    allEquipmentDeliveries.removeIf(value -> value.getServiceID() == serviceID);
+    removeFromSQLTable(serviceID);
+    saveToCSV();
+  }
+
+  @Override
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     return allEquipmentDeliveries;
   }
 
-  /**
-   * Adds equipment to the CSV
-   *
-   * @param userID,
-   * @param nodeID
-   * @param equipment
-   * @param notes
-   * @param quantity
-   * @param status
-   * @param pID
-   * @param fname
-   * @param lname
-   * @throws SQLException
-   */
   @Override
-  public void addEquipmentDelivery(
-      int userID,
-      String nodeID,
-      String equipment,
-      String notes,
-      int quantity,
-      String status,
-      int pID,
-      String fname,
-      String lname)
-      throws SQLException {
-    EquipmentDelivery newEquipmentDelivery =
-        new EquipmentDelivery(
-            userID, nodeID, equipment, notes, quantity, status, pID, fname, lname);
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
+    allEquipmentDeliveries = new ArrayList<>();
 
-    System.out.println("Adding to local arraylist...");
-    allEquipmentDeliveries.add(newEquipmentDelivery);
-
-    System.out.println("Adding to database");
-  }
-
-  /**
-   * TODO: Make sure that this doesn't remove someone else's equipment Remove the equipment by
-   * finding the string of the equipment and using is to remove it from the arraylist
-   *
-   * @param equipment a string of the desired equipment to remove
-   * @throws SQLException
-   */
-  @Override
-  public void removeEquipmentDelivery(String equipment) throws SQLException {
-
-    System.out.println("Removing from arraylist...");
-    allEquipmentDeliveries.removeIf(e -> e.getEquipment().equals(equipment));
-
-    try {
-      System.out.println("Removing from database...");
-      Connection connection;
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
-      Statement exampleStatement = connection.createStatement();
-      for (EquipmentDelivery e : allEquipmentDeliveries)
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getEquipment())");
-
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
-    } catch (Exception e) {
-      e.printStackTrace();
+    // Convert to subtype
+    for (ServiceRequest request : serviceRequests) {
+      // Cast to subtype
+      EquipmentDelivery delivery = (EquipmentDelivery) request;
+      allEquipmentDeliveries.add(delivery);
     }
   }
 }
