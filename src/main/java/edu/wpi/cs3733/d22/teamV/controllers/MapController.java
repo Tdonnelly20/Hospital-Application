@@ -58,8 +58,18 @@ public class MapController extends Controller {
               "4th Floor",
               "5th Floor"));
 
+  private static class SingletonHelper {
+    private static final MapController manager = new MapController();
+  }
+
+  public static MapController getManager() {
+    return MapController.SingletonHelper.manager;
+  }
+
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) throws Exception {
+    init();
+  }
 
   @Override
   public void init() {
@@ -83,7 +93,7 @@ public class MapController extends Controller {
                 change -> {
                   checkDropDown();
 
-                  while (change.next()) {
+                  /*while (change.next()) {
                     System.out.println("============================================");
                     System.out.println("Change: " + change);
                     System.out.println("Added sublist " + change.getAddedSubList());
@@ -101,7 +111,7 @@ public class MapController extends Controller {
                             + " Updated "
                             + change.wasUpdated());
                     System.out.println("============================================");
-                  }
+                  }*/
                 });
     mapBox.getChildren().add(filterCheckBox);
     checkDropDown();
