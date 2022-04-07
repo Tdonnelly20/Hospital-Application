@@ -110,7 +110,7 @@ public class EquipmentDeliveryDao implements DaoInterface {
   public void addToSQLTable(ServiceRequest request) throws SQLException {}
 
   @Override
-  public void removeFromSQLTable(int serviceID) {}
+  public void removeFromSQLTable(ServiceRequest request) {}
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
@@ -124,9 +124,9 @@ public class EquipmentDeliveryDao implements DaoInterface {
   }
 
   @Override
-  public void removeServiceRequest(int serviceID) throws IOException {
-    allEquipmentDeliveries.removeIf(value -> value.getServiceID() == serviceID);
-    removeFromSQLTable(serviceID);
+  public void removeServiceRequest(ServiceRequest request) throws IOException {
+    allEquipmentDeliveries.removeIf(value -> value.getServiceID() == request.getServiceID());
+    removeFromSQLTable(request);
     saveToCSV();
   }
 

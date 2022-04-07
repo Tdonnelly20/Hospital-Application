@@ -176,7 +176,7 @@ public class MedicineDeliveryDao implements DaoInterface {
   }
 
   @Override
-  public void removeFromSQLTable(int serviceID) {}
+  public void removeFromSQLTable(ServiceRequest request) {}
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
@@ -192,7 +192,16 @@ public class MedicineDeliveryDao implements DaoInterface {
   }
 
   @Override
-  public void removeServiceRequest(int serviceID) {}
+  public void removeServiceRequest(ServiceRequest request) throws IOException {
+    MedicineDelivery medicineDelivery = (MedicineDelivery) request;
+    System.out.println(allMedicineDeliveries.size());
+    allMedicineDeliveries.removeIf(
+        value -> value.getPatientID() == medicineDelivery.getPatientID());
+    System.out.println(allMedicineDeliveries.size());
+    System.out.println(medicineDelivery.getPatientID());
+    removeFromSQLTable(request);
+    saveToCSV();
+  }
 
   @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {

@@ -123,18 +123,6 @@
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextArea>
-                  <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
-                     <items>
-                        <FXCollections fx:factory="observableArrayList">
-                           <String fx:id="notStarted" fx:value="Not Started" />
-                           <String fx:id="processing" fx:value="Processing" />
-                           <String fx:id="completed" fx:value="Completed" />
-                        </FXCollections>
-                     </items>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </JFXComboBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
                         <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
@@ -149,6 +137,18 @@
                         </Button>
                      </children>
                   </HBox>
+                  <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:id="notStarted" fx:value="Not Started" />
+                           <String fx:id="processing" fx:value="Processing" />
+                           <String fx:id="completed" fx:value="Completed" />
+                        </FXCollections>
+                     </items>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </JFXComboBox>
                </children>
                <padding>
                   <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
@@ -196,7 +196,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="8.0" prefHeight="553.0" prefWidth="538.0">
+                              <TreeTableView fx:id="medicineDeliveryTable" layoutX="8.0" layoutY="55.0" prefHeight="506.0" prefWidth="538.0">
                                  <columns>
                                     <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
                                     <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
@@ -208,6 +208,7 @@
                                     <TreeTableColumn fx:id="otherInfoCol" prefWidth="64.80001831054688" text="Other Info" />
                                  </columns>
                               </TreeTableView>
+                              <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
                            </children>
                         </AnchorPane>
                      </content>

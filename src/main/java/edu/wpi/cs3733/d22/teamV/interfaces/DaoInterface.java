@@ -15,11 +15,11 @@ public interface DaoInterface {
 
   void addToSQLTable(ServiceRequest request) throws SQLException;
 
-  void removeFromSQLTable(int serviceID);
+  void removeFromSQLTable(ServiceRequest request) throws IOException;
 
   void addServiceRequest(ServiceRequest request) throws IOException, SQLException;
 
-  void removeServiceRequest(int serviceID) throws IOException;
+  void removeServiceRequest(ServiceRequest request) throws IOException;
 
   ArrayList<? extends ServiceRequest> getAllServiceRequests();
 

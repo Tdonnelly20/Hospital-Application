@@ -58,14 +58,14 @@ public class LocationDao {
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
     for (Location l : getAllLocations()) {
       String[] outputData = {
-              l.getNodeID(),
-              String.valueOf(l.getXCoord()),
-              String.valueOf(l.getYCoord()),
-              l.getFloor(),
-              l.getBuilding(),
-              l.getNodeType(),
-              l.getLongName(),
-              l.getShortName(),
+        l.getNodeID(),
+        String.valueOf(l.getXCoord()),
+        String.valueOf(l.getYCoord()),
+        l.getFloor(),
+        l.getBuilding(),
+        l.getNodeType(),
+        l.getLongName(),
+        l.getShortName(),
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -90,15 +90,15 @@ public class LocationDao {
     {
       String[] data = line.split(splitToken);
       Location newLoc =
-              new Location(
-                      data[0],
-                      Integer.parseInt(data[1]),
-                      Integer.parseInt(data[2]),
-                      data[3],
-                      data[4],
-                      data[5],
-                      data[6],
-                      data[7]);
+          new Location(
+              data[0],
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
+              data[3],
+              data[4],
+              data[5],
+              data[6],
+              data[7]);
       locations.add(newLoc);
     }
     setAllLocations(locations);
