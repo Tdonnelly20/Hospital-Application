@@ -1,16 +1,24 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.interfaces.LocationImpl;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LocationDao implements LocationImpl {
+public class LocationDao {
   private static ArrayList<Location> allLocations;
 
   public LocationDao() {
     allLocations = new ArrayList<>();
+    try {
+      loadFromCSV();
+      createSQLTable();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public static ArrayList<Location> getAllLocations() {
@@ -28,9 +36,147 @@ public class LocationDao implements LocationImpl {
     return null;
   }
 
-  @Override
-  public void addLocation(Location location) {
+  public void addLocation(Location location) throws IOException, SQLException {
     allLocations.add(location);
+    saveToCSV();
+    addToSQLTable(location);
+  }
+
+  public void deleteLocation(String nodeID) {
+    allLocations.removeIf(location -> location.getNodeID().equals(nodeID));
+    removeFromSQLTable(nodeID);
+  }
+
+  public void setAllLocations(ArrayList<Location> locations) {
+    allLocations = locations;
+  }
+
+  public void saveToBackupCSV() throws IOException {
+    FileWriter fw = new FileWriter(Vdb.currentPath + "\\LocationsBackup.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
+    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
+    for (Location l : getAllLocations()) {
+      String[] outputData = {
+              l.getNodeID(),
+              String.valueOf(l.getXCoord()),
+              String.valueOf(l.getYCoord()),
+              l.getFloor(),
+              l.getBuilding(),
+              l.getNodeType(),
+              l.getLongName(),
+              l.getShortName(),
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    bw.close();
+    fw.close();
+    System.out.println("Overwritten backup locations!");
+  }
+
+  public void loadBackupLocations() throws IOException {
+    String line = "";
+    FileReader fr = new FileReader(Vdb.currentPath + "\\LocationsBackup.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<Location> locations = new ArrayList<>();
+    // equipment = new ArrayList<>();
+    String headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      Location newLoc =
+              new Location(
+                      data[0],
+                      Integer.parseInt(data[1]),
+                      Integer.parseInt(data[2]),
+                      data[3],
+                      data[4],
+                      data[5],
+                      data[6],
+                      data[7]);
+      locations.add(newLoc);
+    }
+    setAllLocations(locations);
+    System.out.println("Location database reloaded and saved from backup!");
+    saveToCSV();
+  }
+
+  public void loadFromCSV() throws IOException {
+    String line = "";
+    FileReader fr = new FileReader(Vdb.currentPath + "\\TowerLocations.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<Location> locations = new ArrayList<>();
+    // equipment = new ArrayList<>();
+    String headerLine = br.readLine();
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      Location newLoc =
+          new Location(
+              data[0],
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
+              data[3],
+              data[4],
+              data[5],
+              data[6],
+              data[7]);
+      locations.add(newLoc);
+    }
+    setAllLocations(locations);
+    System.out.println("Location database made");
+  }
+
+  public void saveToCSV() throws IOException {
+    FileWriter fw = new FileWriter(Vdb.currentPath + "\\TowerLocations.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
+    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
+    for (Location l : getAllLocations()) {
+      String[] outputData = {
+        l.getNodeID(),
+        String.valueOf(l.getXCoord()),
+        String.valueOf(l.getYCoord()),
+        l.getFloor(),
+        l.getBuilding(),
+        l.getNodeType(),
+        l.getLongName(),
+        l.getShortName(),
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+    bw.close();
+    fw.close();
+  }
+
+  public void createSQLTable() throws SQLException {
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+    DatabaseMetaData meta = connection.getMetaData();
+    ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
+    if (!set.next()) {
+      statement.execute(
+          "CREATE TABLE Locations(nodeID char(20), xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
+
+    } else {
+      statement.execute("DROP TABLE LOCATIONS");
+      createSQLTable();
+      return;
+    }
+  }
+
+  public void addToSQLTable(Location location) throws SQLException {
     try {
       System.out.println("Sending to database...");
       Connection connection = Vdb.Connect();
@@ -62,28 +208,5 @@ public class LocationDao implements LocationImpl {
     }
   }
 
-  @Override
-  public void deleteLocation(String nodeID) {
-
-    try {
-      System.out.println("Sending to database...");
-      Connection connection = Vdb.Connect();
-      Statement exampleStatement = connection.createStatement();
-
-      allLocations.remove(getLocation(nodeID));
-      Vdb.saveToFile(Vdb.Database.Location);
-
-      for (Location l : allLocations) {
-        // exampleStatement.execute("DELETE FROM LOCATIONS WHERE nodeID = " + l.getNodeID());
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void setAllLocations(ArrayList<Location> locations) {
-    allLocations = locations;
-  }
+  public void removeFromSQLTable(String nodeID) {}
 }

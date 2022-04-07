@@ -4,6 +4,8 @@ import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.awt.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -208,7 +210,13 @@ public class LocationController extends Controller {
                   nodeType.getText(),
                   longName.getText(),
                   shortName.getText());
-          locationDao.addLocation(newLoc);
+          try {
+            locationDao.addLocation(newLoc);
+          } catch (IOException e) {
+            e.printStackTrace();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
           updateTreeTable();
           setTextFieldPrompts();
         });

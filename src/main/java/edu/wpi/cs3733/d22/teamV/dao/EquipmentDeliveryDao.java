@@ -16,7 +16,7 @@ public class EquipmentDeliveryDao implements DaoInterface {
   public EquipmentDeliveryDao() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
     try {
-      //loadFromCSV();
+      // loadFromCSV();
     } catch (Exception e) {
       e.printStackTrace();
     }

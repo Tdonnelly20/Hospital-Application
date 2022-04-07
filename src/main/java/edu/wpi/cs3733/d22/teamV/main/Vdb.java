@@ -164,73 +164,9 @@ public class Vdb {
    *
    * @throws Exception
    */
-  public static void createLocationDB() throws Exception {
-    FileReader fr = new FileReader(currentPath + "\\TowerLocations.csv");
-    BufferedReader br = new BufferedReader(fr);
-    String splitToken = ","; // what we split the csv file with
-    ArrayList<Location> locations = new ArrayList<>();
-    // equipment = new ArrayList<>();
-    String headerLine = br.readLine();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data = line.split(splitToken);
-      Location newLoc =
-          new Location(
-              data[0],
-              Integer.parseInt(data[1]),
-              Integer.parseInt(data[2]),
-              data[3],
-              data[4],
-              data[5],
-              data[6],
-              data[7]);
-      locations.add(newLoc);
-    }
-    locationDao.setAllLocations(locations);
-    System.out.println("Location database made");
-  }
+  public static void createLocationDB() throws Exception {}
 
-  public static void createLocationTable() throws SQLException {
-
-    try {
-      // substitute your database name for myDB
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement newStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
-      if (!set.next()) {
-        System.out.println("WE MAKInG TABLES");
-        newStatement.execute(
-            "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
-
-      } else {
-        System.out.println("We already got tables?");
-        System.out.println("listing tables");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        System.out.println("RS " + set.getString(7));
-        System.out.println("RS " + set.getString(8));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-          System.out.println("RS " + set.getString(7));
-          System.out.println("RS " + set.getString(8));
-        }
-      }
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-  }
+  public static void createLocationTable() throws SQLException {}
 
   public static void addToLocationTable(
       String userID,
@@ -298,31 +234,7 @@ public class Vdb {
    *
    * @throws IOException
    */
-  public static void saveToLocationDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\LocationsBackup.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
-    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
-    for (Location l : locationDao.getAllLocations()) {
-      String[] outputData = {
-        l.getNodeID(),
-        String.valueOf(l.getXCoord()),
-        String.valueOf(l.getYCoord()),
-        l.getFloor(),
-        l.getBuilding(),
-        l.getNodeType(),
-        l.getLongName(),
-        l.getShortName(),
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
-    bw.close();
-    fw.close();
-  }
+  public static void saveToLocationDB() throws IOException {}
 
   public static void saveToBackupLocationDB() throws IOException {
     FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
