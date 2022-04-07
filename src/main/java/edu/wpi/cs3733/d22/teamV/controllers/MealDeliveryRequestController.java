@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class MealDeliveryRequestController extends Controller {
+public class MealDeliveryRequestController extends MapController {
   @FXML private TreeTableView<MealRequest> table;
   @FXML private TreeTableColumn<MealRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<MealRequest, Integer> patientIDCol;

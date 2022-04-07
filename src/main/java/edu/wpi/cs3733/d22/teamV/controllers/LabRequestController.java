@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class LabRequestController extends Controller implements RequestInterface {
+public class LabRequestController extends MapController implements RequestInterface {
   @FXML private TreeTableView<LabRequest> table;
   @FXML private TreeTableColumn<LabRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<LabRequest, Integer> patientIDCol;

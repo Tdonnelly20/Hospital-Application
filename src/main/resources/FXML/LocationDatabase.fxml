@@ -22,7 +22,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.CheckComboBox?>
 
 <GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.LocationController">
    <columnConstraints>
@@ -98,36 +97,6 @@
                            <content>
                               <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
                                  <children>
-                                    <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0" spacing="15.0">
-                                       <children>
-                                          <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                             <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                                   <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                                   <String fx:id="floor1" fx:value="1st Floor" />
-                                                   <String fx:id="floor2" fx:value="2nd Floor" />
-                                                   <String fx:id="floor3" fx:value="3rd Floor" />
-                                                </FXCollections>
-                                             </items>
-                                          </JFXComboBox>
-                                          <CheckComboBox fx:id="filterCheckBox" onContextMenuRequested="#populateFloorIconArr" onMouseClicked="#populateFloorIconArr" onMouseEntered="#populateFloorIconArr" onMouseExited="#populateFloorIconArr" showCheckedCount="true" title="Filter">
-                                             <items>
-                                                <String fx:id="equipment" fx:value="Equipment" />
-                                                <String fx:id="cleanEquipment" fx:value="Clean Equipment" />
-                                                <String fx:id="requests" fx:value="Requests" />
-                                                <String fx:id="activeRequests" fx:value="Active Requests" />
-                                                <String fx:id="lab" fx:value="Lab Requests" />
-                                                <String fx:id="laundry" fx:value="Laundry Request" />
-                                                <String fx:id="mealDelivery" fx:value="Meal Delivery" />
-                                                <String fx:id="medicalEquipmentDelivery" fx:value="Medical Equipment Delivery" />
-                                                <String fx:id="medicine" fx:value="Medicine Delivery" />
-                                                <String fx:id="religious" fx:value="Religious Request" />
-                                                <String fx:id="sanitation" fx:value="Sanitation Request" />
-                                             </items>
-                                          </CheckComboBox>
-                                       </children>
-                                    </HBox>
                                     <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="21.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" pannable="true" prefHeight="450.0" prefWidth="493.0" vbarPolicy="NEVER">
                                        <content>
                                           <StackPane prefHeight="450.0" prefWidth="492.0">
@@ -140,11 +109,26 @@
                                                       <Rectangle2D />
                                                    </viewport>
                                                 </ImageView>
-                                                <Pane fx:id="mapPane" onContextMenuRequested="#populateFloorIconArr" onMouseClicked="#openIconFormWindow" prefHeight="200.0" prefWidth="200.0" />
+                                                <Pane fx:id="mapPane" onDragDetected="#dragDetected" onDragDropped="#dragOver" onMouseClicked="#openIconFormWindow" prefHeight="200.0" prefWidth="200.0" />
                                              </children>
                                           </StackPane>
                                        </content>
                                     </ScrollPane>
+                                    <HBox fx:id="mapBox" alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0" spacing="15.0">
+                                       <children>
+                                          <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
+                                             <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                   <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
+                                                   <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
+                                                   <String fx:id="floor1" fx:value="1st Floor" />
+                                                   <String fx:id="floor2" fx:value="2nd Floor" />
+                                                   <String fx:id="floor3" fx:value="3rd Floor" />
+                                                </FXCollections>
+                                             </items>
+                                          </JFXComboBox>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </Pane>
                            </content>

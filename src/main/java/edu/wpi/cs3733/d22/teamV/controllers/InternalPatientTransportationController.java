@@ -16,7 +16,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class InternalPatientTransportationController extends Controller
+public class InternalPatientTransportationController extends MapController
     implements RequestInterface {
 
   @FXML private TreeTableView<InternalPatientTransportation> internalPatientTransportationTable;

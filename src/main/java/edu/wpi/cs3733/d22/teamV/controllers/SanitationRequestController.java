@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SanitationRequestController extends Controller {
+public class SanitationRequestController extends MapController {
   @FXML private TextField hospitalID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;

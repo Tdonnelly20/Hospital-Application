@@ -1,0 +1,251 @@
+package edu.wpi.cs3733.d22.teamV.controllers;
+
+import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.icons.Icon;
+import edu.wpi.cs3733.d22.teamV.icons.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.objects.Floor;
+import java.io.IOException;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+import org.controlsfx.control.CheckComboBox;
+
+public class MapController extends Controller {
+  private Floor currFloor;
+  boolean drag = false;
+
+  @FXML
+  ObservableList<String> filterItems =
+      FXCollections.observableArrayList(
+          "Locations",
+          "Equipment",
+          "Clean Equipment",
+          "Active Requests",
+          "Lab Requests",
+          "Equipment Delivery",
+          "Meal Delivery",
+          "Medicine Delivery",
+          "Religious Request",
+          "Sanitation Request",
+          "Internal Patient Transport");
+
+  @FXML public CheckComboBox<String> filterCheckBox;
+  @FXML private HBox mapBox;
+  @FXML private Pane mapPane;
+  @FXML private ImageView mapImage;
+
+  @FXML
+  private JFXComboBox floorDropDown =
+      new JFXComboBox<>(
+          FXCollections.observableArrayList(
+              "Lower Level 2",
+              "Lower Level 1",
+              "1st Floor",
+              "2nd Floor",
+              "3rd Floor",
+              "4th Floor",
+              "5th Floor"));
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {}
+
+  @Override
+  public void init() {
+    floorDropDown.setValue("1st Floor");
+
+    filterCheckBox = new CheckComboBox<>();
+    filterCheckBox.setTitle("Filter Items");
+    filterCheckBox.getItems().addAll(filterItems);
+    filterCheckBox
+        .focusedProperty()
+        .addListener(
+            (o, ov, nv) -> {
+              if (nv) filterCheckBox.show();
+              else filterCheckBox.hide();
+            });
+    filterCheckBox
+        .getCheckModel()
+        .getCheckedItems()
+        .addListener(
+            (ListChangeListener<String>)
+                change -> {
+                  checkDropDown();
+
+                  while (change.next()) {
+                    System.out.println("============================================");
+                    System.out.println("Change: " + change);
+                    System.out.println("Added sublist " + change.getAddedSubList());
+                    System.out.println("Removed sublist " + change.getRemoved());
+                    System.out.println("List " + change.getList());
+                    System.out.println(
+                        "Added "
+                            + change.wasAdded()
+                            + " Permutated "
+                            + change.wasPermutated()
+                            + " Removed "
+                            + change.wasRemoved()
+                            + " Replaced "
+                            + change.wasReplaced()
+                            + " Updated "
+                            + change.wasUpdated());
+                    System.out.println("============================================");
+                  }
+                });
+    mapBox.getChildren().add(filterCheckBox);
+    checkDropDown();
+  }
+
+  /** Checks the value of the floor drop down and matches it with the corresponding map png */
+  @FXML
+  private void checkDropDown() {
+    MapManager.getManager().closePopUp();
+    String url = floorDropDown.getValue().toString() + ".png";
+    System.out.println(floorDropDown.getValue().toString() + ".png");
+    mapImage.setImage(new Image(url));
+    mapImage.setFitWidth(600);
+    mapImage.setFitHeight(600);
+    getFloor();
+  }
+
+  @FXML
+  private void dragDetected() {
+    drag = true;
+  }
+
+  @FXML
+  private void dragOver() {
+    System.out.println("Drag over");
+    drag = false;
+  }
+
+  @FXML
+  private void refresh() throws IOException {
+    // Matt's csv
+    Vdb.saveToLocationDB();
+    getFloor();
+  }
+  // Sets the mapImage to the corresponding floor dropdown and returns the floor string
+  private String getFloor() {
+    String result = "";
+    switch (floorDropDown.getValue().toString()) {
+      case "Lower Level 1":
+        currFloor = Vdb.mapManager.getFloor("L1");
+        result = "L1";
+        break;
+      case "Lower Level 2":
+        currFloor = Vdb.mapManager.getFloor("L2");
+        result = "L2";
+        break;
+      case "1st Floor":
+        currFloor = Vdb.mapManager.getFloor("1");
+        result = "1";
+        break;
+      case "2nd Floor":
+        currFloor = Vdb.mapManager.getFloor("2");
+        result = "2";
+        break;
+      case "3rd Floor":
+        currFloor = Vdb.mapManager.getFloor("3");
+        result = "3";
+        System.out.println("3");
+        break;
+      case "4th Floor":
+        currFloor = Vdb.mapManager.getFloor("4");
+        result = "2";
+        break;
+      case "5th Floor":
+        currFloor = Vdb.mapManager.getFloor("5");
+        result = "3";
+        break;
+    }
+
+    populateFloorIconArr();
+    return result;
+  }
+
+  // Loads the floor's icons in accordance with filter
+  @FXML
+  public void populateFloorIconArr() {
+
+    mapPane.getChildren().clear();
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    for (Icon icon : currFloor.getIconList()) {
+      if (filter.size() > 0) {
+        System.out.println(icon.iconType);
+        mapPane.getChildren().add(icon.getImage());
+        if (filter.contains("Request") && icon.iconType.equals("Request")) {
+          System.out.println(icon.getImage());
+          mapPane.getChildren().add(icon.getImage());
+        }
+        if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
+          mapPane.getChildren().add(icon.getImage());
+        }
+        if (filter.contains("Location") && icon.iconType.equals("Location")) {
+          mapPane.getChildren().add(icon.getImage());
+        }
+      } else {
+        mapPane.getChildren().add(icon.getImage());
+      }
+    }
+  }
+
+  // Opens and manages the location adding form
+  @FXML
+  public void openIconFormWindow(MouseEvent event) {
+    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")
+        && !drag) {
+      MapManager mapManager = MapManager.getManager();
+      // X and Y coordinates
+      double xPos = event.getX() - 15;
+      double yPos = event.getY() - 25;
+
+      mapManager.locationForm(event, false);
+      mapManager
+          .getSubmitIcon()
+          .setOnAction(
+              event1 -> {
+                if (mapManager.checkFields()) {
+                  addIcon(new LocationIcon(mapManager.getLocation(xPos, yPos, getFloor())));
+                  System.out.println("X: " + xPos + " Y: " + yPos);
+                  populateFloorIconArr();
+                } else {
+                  Text missingFields = new Text("Please fill all fields");
+                  missingFields.setFill(Color.RED);
+                  missingFields.setTextAlignment(TextAlignment.CENTER);
+                  MapManager.getManager().getContent().getChildren().add(missingFields);
+                  System.out.println("MISSING FIELD");
+                }
+              });
+      // Place Icon
+      MapManager.getManager().getTempIcon().setX(xPos);
+      MapManager.getManager().getTempIcon().setY(yPos);
+      if (!mapPane.getChildren().contains(MapManager.getManager().getTempIcon())) {
+        System.out.println("X:" + xPos + " Y:" + yPos);
+        MapManager.getManager().getTempIcon().setFitWidth(30);
+        MapManager.getManager().getTempIcon().setFitHeight(30);
+        mapPane.getChildren().add(MapManager.getManager().getTempIcon());
+      }
+    }
+  }
+
+  // Adds icon to map
+  private void addIcon(Icon icon) {
+    MapManager.getManager().closePopUp();
+    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
+    MapManager.getManager().getFloor(getFloor()).addIcon(icon);
+    MapManager.getManager().getTempIcon().setVisible(false);
+    checkDropDown();
+  }
+}

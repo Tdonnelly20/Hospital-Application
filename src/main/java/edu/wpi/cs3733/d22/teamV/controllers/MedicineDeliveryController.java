@@ -17,7 +17,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MedicineDeliveryController extends Controller implements RequestInterface {
+public class MedicineDeliveryController extends MapController implements RequestInterface {
 
   @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
 

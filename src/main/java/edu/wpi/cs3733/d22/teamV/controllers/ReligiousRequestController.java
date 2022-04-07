@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ReligiousRequestController extends Controller {
+public class ReligiousRequestController extends MapController {
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;
