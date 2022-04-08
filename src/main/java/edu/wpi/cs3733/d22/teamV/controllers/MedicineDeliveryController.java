@@ -7,6 +7,7 @@ import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,7 +17,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MedicineDeliveryController extends Controller implements RequestInterface {
@@ -42,7 +42,6 @@ public class MedicineDeliveryController extends Controller implements RequestInt
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
-  @FXML private Text selectedRow;
 
   // MUST take from Vdb, do NOT create
   private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
@@ -207,12 +206,13 @@ public class MedicineDeliveryController extends Controller implements RequestInt
   }
 
   @FXML
-  private void removeSelectedRow() throws IOException {
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
     try {
       MedicineDelivery delivery =
           medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
       Vdb.medicineDeliveryDao.removeServiceRequest(delivery);
     } catch (NullPointerException e) {
+      e.printStackTrace();
     }
 
     updateTreeTable();

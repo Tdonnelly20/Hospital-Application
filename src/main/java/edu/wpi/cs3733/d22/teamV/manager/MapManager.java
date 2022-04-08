@@ -99,7 +99,7 @@ public class MapManager {
     floorList.add(f1);
     floorList.add(f2);
     floorList.add(f3);
-    System.out.println("SIZE: " + floorList.size());
+    // System.out.println("SIZE: " + floorList.size());
 
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
 
@@ -126,7 +126,7 @@ public class MapManager {
       }
     }
 
-    System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
+    // System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
     for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
       switch (e.getFloor()) {
         case "G":

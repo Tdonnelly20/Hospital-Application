@@ -72,7 +72,9 @@ public abstract class Controller extends Application {
   @FXML
   private void refresh() throws IOException {
     // Matt's csv
-    Vdb.saveToLocationDB();
+    Vdb.locationDao
+        .saveToCSV(); // ????????????????? why is this running????????? I automatically save on
+    // adding/removing
     getFloor();
   }
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string

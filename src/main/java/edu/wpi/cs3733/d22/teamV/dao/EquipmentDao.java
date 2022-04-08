@@ -17,6 +17,7 @@ public class EquipmentDao {
     allEquipment = new ArrayList<Equipment>();
     try {
       loadFromCSV();
+      createSQLTable();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -39,10 +40,7 @@ public class EquipmentDao {
       throws SQLException {
     Equipment newEquipment = new Equipment(ID, name, floor, x, y, desc, isDirty);
 
-    System.out.println("Adding to local arraylist...");
     allEquipment.add(newEquipment);
-
-    System.out.println("Adding to database");
   }
 
   public void loadFromCSV() throws IOException {
@@ -57,7 +55,6 @@ public class EquipmentDao {
     {
       String[] data;
       data = line.split(splitToken);
-      for (String s : data) System.out.println(s);
       Equipment equipment =
           new Equipment(
               data[0],
@@ -82,8 +79,6 @@ public class EquipmentDao {
   }
 
   public void createSQLTable() throws SQLException {
-    // UNTESTED
-
     String query = "";
     Connection connection = Vdb.Connect();
     Statement statement = connection.createStatement();
@@ -94,6 +89,8 @@ public class EquipmentDao {
           "CREATE TABLE EQUIPMENT(ID char(15),name char(40), floor char(2),x int, y int,description char(100), isDirty boolean)");
     } else {
       statement.execute("DROP TABLE EQUIPMENT");
+      createSQLTable();
+      return;
     }
   }
 }

@@ -48,13 +48,12 @@ public class MedicineDeliveryDao implements DaoInterface {
               Integer.parseInt(data[4]),
               data[5],
               data[6],
-              data[7]);
+              data[7],
+              Integer.parseInt(data[8]));
       medicineDeliveries.add(newDelivery);
     }
 
     setAllServiceRequests(medicineDeliveries);
-
-    System.out.println("Medicine delivery database made");
   }
 
   @Override
@@ -62,7 +61,7 @@ public class MedicineDeliveryDao implements DaoInterface {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
-        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails");
+        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -76,7 +75,8 @@ public class MedicineDeliveryDao implements DaoInterface {
         String.valueOf(medicineDelivery.getEmployeeID()),
         medicineDelivery.getMedicineName(),
         medicineDelivery.getDosage(),
-        medicineDelivery.getRequestDetails()
+        medicineDelivery.getRequestDetails(),
+        String.valueOf(medicineDelivery.getServiceID())
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -99,17 +99,19 @@ public class MedicineDeliveryDao implements DaoInterface {
     String query = "";
 
     if (!set.next()) {
-      System.out.println("Creating Medicine Delivery Tables!");
       query =
-          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), roomNumber char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254))";
+          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), roomNumber char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254), serviceID int)";
       statement.execute(query);
 
     } else {
-      System.out.println("Medicine Delivery Tables Found! Dropping...");
       query = "DROP TABLE MEDICINES";
       statement.execute(query);
       createSQLTable(); // rerun the method to generate new tables
       return;
+    }
+
+    for (MedicineDelivery medicineDelivery : allMedicineDeliveries) {
+      addToSQLTable(medicineDelivery);
     }
   }
 
@@ -124,7 +126,7 @@ public class MedicineDeliveryDao implements DaoInterface {
 
     query =
         "INSERT INTO MEDICINES("
-            + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails) VALUES "
+            + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
             + "('"
             + medicineDelivery.getPatientFirstName()
             + "', '"
@@ -141,12 +143,14 @@ public class MedicineDeliveryDao implements DaoInterface {
             + medicineDelivery.getDosage()
             + "','"
             + medicineDelivery.getRequestDetails()
-            + "')";
+            + "',"
+            + medicineDelivery.getServiceID()
+            + ")";
 
-    System.out.println(query);
     statement.execute(query);
 
     // Print out all the current entries...
+    /*
     query =
         "SELECT patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails FROM MEDICINES";
 
@@ -163,7 +167,8 @@ public class MedicineDeliveryDao implements DaoInterface {
           "employeeID",
           "medicineName",
           "dosage",
-          "requestDetails"
+          "requestDetails",
+          "serviceID"
         };
 
     // Print out the result
@@ -173,32 +178,37 @@ public class MedicineDeliveryDao implements DaoInterface {
       }
       System.out.println();
     }
+
+     */
   }
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) {}
+  public void removeFromSQLTable(ServiceRequest request) throws SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query = "DELETE FROM MEDICINES WHERE serviceID = " + request.getServiceID();
+    statement.execute(query);
+  }
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-
-    MedicineDelivery delivery = (MedicineDelivery) request;
-    System.out.println("Adding to local arraylist...");
-    allMedicineDeliveries.add(delivery); // Store a local copy
-
-    System.out.println("Adding to database");
+    int serviceID = Vdb.getServiceID();
+    MedicineDelivery medicineDelivery = (MedicineDelivery) request;
+    medicineDelivery.setServiceID(serviceID);
+    allMedicineDeliveries.add(medicineDelivery); // Store a local copy
 
     addToSQLTable(request);
     saveToCSV();
   }
 
   @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException {
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     MedicineDelivery medicineDelivery = (MedicineDelivery) request;
-    System.out.println(allMedicineDeliveries.size());
     allMedicineDeliveries.removeIf(
-        value -> value.getPatientID() == medicineDelivery.getPatientID());
-    System.out.println(allMedicineDeliveries.size());
-    System.out.println(medicineDelivery.getPatientID());
+        value -> value.getServiceID() == medicineDelivery.getServiceID());
     removeFromSQLTable(request);
     saveToCSV();
   }

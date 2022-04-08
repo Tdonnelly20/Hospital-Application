@@ -104,6 +104,9 @@ public class EquipmentDeliveryDao implements DaoInterface {
       createSQLTable();
       return;
     }
+    for (EquipmentDelivery equipmentDelivery : allEquipmentDeliveries) {
+      addToSQLTable(equipmentDelivery);
+    }
   }
 
   @Override

@@ -32,7 +32,7 @@ public class LocationDao {
         return l;
       }
     }
-    System.out.print("unable to find!");
+    System.out.print("Unable to find node:" + nodeID);
     return null;
   }
 
@@ -42,8 +42,9 @@ public class LocationDao {
     addToSQLTable(location);
   }
 
-  public void deleteLocation(String nodeID) {
+  public void deleteLocation(String nodeID) throws SQLException, IOException {
     allLocations.removeIf(location -> location.getNodeID().equals(nodeID));
+    saveToCSV();
     removeFromSQLTable(nodeID);
   }
 
@@ -120,8 +121,8 @@ public class LocationDao {
       Location newLoc =
           new Location(
               data[0],
-              Integer.parseInt(data[1]),
-              Integer.parseInt(data[2]),
+              Double.parseDouble(data[1]),
+              Double.parseDouble(data[2]),
               data[3],
               data[4],
               data[5],
@@ -130,7 +131,6 @@ public class LocationDao {
       locations.add(newLoc);
     }
     setAllLocations(locations);
-    System.out.println("Location database made");
   }
 
   public void saveToCSV() throws IOException {
@@ -174,33 +174,34 @@ public class LocationDao {
       createSQLTable();
       return;
     }
+
+    for (Location location : allLocations) {
+      addToSQLTable(location);
+    }
   }
 
   public void addToSQLTable(Location location) throws SQLException {
     try {
-      System.out.println("Sending to database...");
       Connection connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
-      for (Location l : allLocations)
-        exampleStatement.execute(
-            "INSERT INTO LOCATIONS VALUES ('"
-                + location.getNodeID()
-                + "',"
-                + location.getXCoord()
-                + ","
-                + location.getYCoord()
-                + ",'"
-                + location.getFloor()
-                + "','"
-                + location.getBuilding()
-                + "','"
-                + location.getNodeType()
-                + "','"
-                + location.getLongName()
-                + "','"
-                + location.getShortName()
-                + "')");
-      Vdb.saveToFile(Vdb.Database.Location);
+      exampleStatement.execute(
+          "INSERT INTO LOCATIONS(nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName) VALUES ('"
+              + location.getNodeID()
+              + "',"
+              + location.getXCoord()
+              + ","
+              + location.getYCoord()
+              + ",'"
+              + location.getFloor()
+              + "','"
+              + location.getBuilding()
+              + "','"
+              + location.getNodeType()
+              + "','"
+              + location.getLongName()
+              + "','"
+              + location.getShortName()
+              + "')");
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (Exception e) {
@@ -208,5 +209,12 @@ public class LocationDao {
     }
   }
 
-  public void removeFromSQLTable(String nodeID) {}
+  public void removeFromSQLTable(String nodeID) throws SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+    query = "DELETE FROM LOCATIONS WHERE nodeID = '" + nodeID + "'";
+    statement.executeUpdate(query);
+  }
 }

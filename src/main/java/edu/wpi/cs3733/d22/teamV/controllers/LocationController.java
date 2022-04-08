@@ -186,7 +186,13 @@ public class LocationController extends Controller {
     removeLocationBool = true;
     submit.setOnAction(
         event -> {
-          locationDao.deleteLocation(nodeID.getText());
+          try {
+            locationDao.deleteLocation(nodeID.getText());
+          } catch (SQLException e) {
+            e.printStackTrace();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
           setTextFieldPrompts();
           updateTreeTable();
         });
@@ -199,7 +205,13 @@ public class LocationController extends Controller {
 
     submit.setOnAction(
         event -> {
-          locationDao.deleteLocation(nodeID.getText());
+          try {
+            locationDao.deleteLocation(nodeID.getText());
+          } catch (SQLException e) {
+            e.printStackTrace();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
           Location newLoc =
               new Location(
                   nodeID.getText(),
@@ -235,7 +247,7 @@ public class LocationController extends Controller {
     yesButton.setOnAction(
         event -> {
           try {
-            Vdb.createLocationDB();
+            Vdb.locationDao.loadFromCSV();
             updateTreeTable();
           } catch (Exception e) {
             e.printStackTrace();

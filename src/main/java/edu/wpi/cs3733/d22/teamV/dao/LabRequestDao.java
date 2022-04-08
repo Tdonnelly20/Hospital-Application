@@ -29,11 +29,11 @@ public class LabRequestDao implements LabRequestImpl {
       int userID, int patientID, String firstName, String lastName, String lab, String status) {
     LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab, status);
 
-    System.out.println("Adding to local arraylist...");
+    // System.out.println("Adding to local arraylist...");
     allLabRequests.add(labRequest);
 
     try {
-      System.out.println("Adding to CSV");
+      // System.out.println("Adding to CSV");
       Vdb.saveToFile(Vdb.Database.LabRequest);
       // System.out.println("Adding to database...");
       // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
@@ -45,11 +45,11 @@ public class LabRequestDao implements LabRequestImpl {
 
   @Override
   public void removeLabRequest(int userID) {
-    System.out.println("Removing from arraylist...");
+    // System.out.println("Removing from arraylist...");
     allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);
 
     try {
-      System.out.println("Removing from database...");
+      // System.out.println("Removing from database...");
       Connection connection;
       connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();

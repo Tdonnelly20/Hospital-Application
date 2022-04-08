@@ -36,6 +36,26 @@ public class MedicineDelivery extends ServiceRequest {
     this.medicineName = medicineName;
   }
 
+  public MedicineDelivery(
+      String patientFirstName,
+      String patientLastName,
+      String roomNumber,
+      int patientID,
+      int hospitalID,
+      String medicineName,
+      String dosage,
+      String requestDetails,
+      int serviceID) {
+    this.dosage = dosage;
+    this.requestDetails = requestDetails;
+    this.roomNumber = roomNumber;
+    this.userID = patientID;
+    setServiceID(serviceID);
+    patient = new Patient(patientID, patientFirstName, patientLastName);
+    employee = new HospitalEmployee(hospitalID);
+    this.medicineName = medicineName;
+  }
+
   public String getPatientFirstName() {
     return patient.getFirstName();
   }

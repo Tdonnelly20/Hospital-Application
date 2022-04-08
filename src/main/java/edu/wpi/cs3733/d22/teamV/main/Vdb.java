@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Vdb {
   public static final String currentPath = returnPath();
   private static String line; // receives a line from br
-  private int serviceIDCounter = 0;
+  private static int serviceIDCounter = 0;
   // Make all DAO's here, NOT in the controllers
   public static final EquipmentDao equipmentDao = new EquipmentDao();
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
@@ -33,8 +33,23 @@ public class Vdb {
     SanitationRequest
   }
 
-  public int getServiceID() {
+  public static int getServiceID() {
     return serviceIDCounter++;
+  }
+
+  public static void getMaxServiceID() {
+    int highestID = serviceIDCounter;
+    ArrayList<ServiceRequest> allServiceRequests = new ArrayList<ServiceRequest>();
+    // ADD YO SERVICE REQUESTS UNDER MINE YO
+    allServiceRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
+
+    for (ServiceRequest request : allServiceRequests) {
+      if (request.getServiceID() > highestID) {
+        highestID = request.getServiceID();
+        System.out.println(highestID);
+      }
+    }
+    serviceIDCounter = highestID;
   }
   /**
    * Returns the location of the CSVs
@@ -59,10 +74,11 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-    createLocationDB();
     createLabTable();
     createLabDB();
     mapManager = MapManager.getManager();
+    getMaxServiceID();
+
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -79,47 +95,6 @@ public class Vdb {
     }
 
     System.out.println("Apache Derby driver registered!");
-    Connection connection;
-
-    try {
-      // substitute your database name for myDB
-      connection = Connect();
-      Statement exampleStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "LOCATIONS", new String[] {"TABLE"});
-      if (!set.next()) {
-        System.out.println("WE MAKInG TABLES");
-        exampleStatement.execute(
-            "CREATE TABLE Locations(nodeID int, xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
-      } else {
-        System.out.println("We already got tables?");
-        System.out.println("listing tables");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-        }
-      }
-    } catch (SQLException e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-      return;
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
-    System.out.println("Apache Derby connection established!");
-
-    System.out.println(LocationDao.getAllLocations());
   }
 
   /**
@@ -147,119 +122,13 @@ public class Vdb {
    */
   public static void saveToFile(Database database) throws Exception { // updates all csv files
     switch (database) {
-      case Location:
-        saveToLocationDB();
-        break;
       case LabRequest:
         saveToLabDB();
         break;
       default:
-        System.out.println("Unknown enumerated type!");
+        System.out.println(database + ": Unknown enumerated type!");
         break;
     }
-  }
-
-  /**
-   * Create the location database
-   *
-   * @throws Exception
-   */
-  public static void createLocationDB() throws Exception {}
-
-  public static void createLocationTable() throws SQLException {}
-
-  public static void addToLocationTable(
-      String userID,
-      int xCoord,
-      int yCoord,
-      String floor,
-      String building,
-      String nodeType,
-      String longName,
-      String shortName)
-      throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO Locations("
-            + "userId, xCoord, yCoord, floor, building, nodeType, longName, shortName) VALUES "
-            + "('"
-            + userID
-            + "', "
-            + xCoord
-            + ", "
-            + yCoord
-            + ", '"
-            + floor
-            + "',' "
-            + building
-            + "', '"
-            + nodeType
-            + "','"
-            + longName
-            + "','"
-            + shortName
-            + "')";
-
-    System.out.println(query);
-    statement.execute(query);
-
-    // Print out all the current entries...
-    query =
-        "SELECT userId, xCoord, yCoord, floor, building, nodeType, longName, shortName FROM Locations";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {
-          "userID", "xCoord", "yCoord", "floor", "building", "nodeType", "longName", "shortName"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (String headerVal : headerVals) {
-        System.out.print(resultSet.getString(headerVal).trim() + ", ");
-      }
-      System.out.println();
-    }
-  }
-
-  /**
-   * Saves the location DB
-   *
-   * @throws IOException
-   */
-  public static void saveToLocationDB() throws IOException {}
-
-  public static void saveToBackupLocationDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\TowerLocations.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
-    bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
-    for (Location l : locationDao.getAllLocations()) {
-      String[] outputData = {
-        l.getNodeID(),
-        String.valueOf(l.getXCoord()),
-        String.valueOf(l.getYCoord()),
-        l.getFloor(),
-        l.getBuilding(),
-        l.getNodeType(),
-        l.getLongName(),
-        l.getShortName(),
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
-    bw.close();
-    fw.close();
   }
 
   public static void createLabTable() throws SQLException {
@@ -272,7 +141,6 @@ public class Vdb {
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "LABS", new String[] {"TABLE"});
       if (!set.next()) {
-        System.out.println("WE MAKInG TABLES");
         newStatement.execute(
             "CREATE TABLE LABS ("
                 + "UserID int, "
@@ -281,23 +149,6 @@ public class Vdb {
                 + "LastName char(20),"
                 + "Lab char(20),"
                 + "Status char(20))");
-      } else {
-        System.out.println("We already got tables?");
-        System.out.println("listing tables");
-        System.out.println("RS " + set.getString(1));
-        System.out.println("RS " + set.getString(2));
-        System.out.println("RS " + set.getString(3));
-        System.out.println("RS " + set.getString(4));
-        System.out.println("RS " + set.getString(5));
-        System.out.println("RS " + set.getString(6));
-        while (set.next()) {
-          System.out.println("RS " + set.getString(1));
-          System.out.println("RS " + set.getString(2));
-          System.out.println("RS " + set.getString(3));
-          System.out.println("RS " + set.getString(4));
-          System.out.println("RS " + set.getString(5));
-          System.out.println("RS " + set.getString(6));
-        }
       }
     } catch (Exception e) {
       System.out.println("Connection failed. Check output console.");
@@ -315,7 +166,6 @@ public class Vdb {
     {
       String[] data;
       data = line.split(splitToken);
-      System.out.println(line);
       LabRequest l =
           new LabRequest(
               Integer.parseInt(data[0]),
@@ -327,7 +177,6 @@ public class Vdb {
       labs.add(l);
     }
     LabRequestDao.setAllLabRequests(labs);
-    System.out.println("Lab database made");
   }
 
   // Add to Medicine Delivery SQL Table
@@ -357,7 +206,6 @@ public class Vdb {
             + "'"
             + ")";
 
-    System.out.println(query);
     statement.execute(query);
 
     // Print out all the current entries...
@@ -373,9 +221,8 @@ public class Vdb {
     // Print out the result
     while (resultSet.next()) {
       for (String headerVal : headerVals) {
-        System.out.print(resultSet.getString(headerVal).trim() + ", ");
+        // System.out.print(resultSet.getString(headerVal).trim() + ", ");
       }
-      System.out.println();
     }
   }
 
@@ -393,11 +240,6 @@ public class Vdb {
         l.getStatus()
       };
       bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-        System.out.println(s);
-      }
     }
     bw.close();
     fw.close();
