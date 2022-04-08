@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
+
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
@@ -268,7 +270,9 @@ public class MapController extends Controller {
           .setOnAction(
               event1 -> {
                 if (mapManager.checkFields()) {
-                  addIcon(new LocationIcon(mapManager.getLocation(xPos, yPos, getFloor())));
+                  addIcon(
+                      new LocationIcon(mapManager.getLocation(xPos + 25, yPos + 15, getFloor())));
+                  System.out.println("Real X: " + event.getX() + " Y: " + event.getY());
                   System.out.println("X: " + xPos + " Y: " + yPos);
                   populateFloorIconArr();
                 } else {
@@ -293,6 +297,10 @@ public class MapController extends Controller {
 
   // Adds icon to map
   private void addIcon(Icon icon) {
+    switch (icon.iconType) {
+      case "Location":
+        locationDao.addLocation(icon.getLocation());
+    }
     MapManager.getManager().closePopUp();
     mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
