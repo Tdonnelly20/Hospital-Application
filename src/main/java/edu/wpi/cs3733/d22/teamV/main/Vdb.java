@@ -75,8 +75,8 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-    createLabTable();
-    createLabDB();
+    labRequestDao.createSQLTable();
+    labRequestDao.loadFromCSV();
     mapManager = MapManager.getManager();
     getMaxServiceID();
 
@@ -124,14 +124,14 @@ public class Vdb {
   public static void saveToFile(Database database) throws Exception { // updates all csv files
     switch (database) {
       case LabRequest:
-        saveToLabDB();
+        labRequestDao.saveToCSV();
         break;
       default:
         System.out.println(database + ": Unknown enumerated type!");
         break;
     }
   }
-
+  /*
   public static void createLabTable() throws SQLException {
 
     try {
@@ -177,7 +177,7 @@ public class Vdb {
               data[5]);
       labs.add(l);
     }
-    LabRequestDao.setAllLabRequests(labs);
+    LabRequestDao.setAllServiceRequests(labs);
   }
 
   // Add to Medicine Delivery SQL Table
@@ -245,4 +245,5 @@ public class Vdb {
     bw.close();
     fw.close();
   }
+  */
 }
