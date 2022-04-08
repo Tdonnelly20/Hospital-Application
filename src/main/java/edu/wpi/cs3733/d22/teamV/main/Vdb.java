@@ -14,9 +14,10 @@ public class Vdb {
   private static String line; // receives a line from br
   private static int serviceIDCounter = 0;
   // Make all DAO's here, NOT in the controllers
+  public static final LocationDao locationDao = new LocationDao();
   public static final EquipmentDao equipmentDao = new EquipmentDao();
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-  public static final LocationDao locationDao = new LocationDao();
+
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
   public static final LabRequestDao labRequestDao = new LabRequestDao();
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
@@ -42,11 +43,11 @@ public class Vdb {
     ArrayList<ServiceRequest> allServiceRequests = new ArrayList<ServiceRequest>();
     // ADD YO SERVICE REQUESTS UNDER MINE YO
     allServiceRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
+    allServiceRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
 
     for (ServiceRequest request : allServiceRequests) {
       if (request.getServiceID() > highestID) {
         highestID = request.getServiceID();
-        System.out.println(highestID);
       }
     }
     serviceIDCounter = highestID;

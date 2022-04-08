@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
-import javafx.scene.image.Image;
 
 public class EquipmentDelivery extends ServiceRequest {
   private final String equipment, notes;
@@ -12,70 +11,56 @@ public class EquipmentDelivery extends ServiceRequest {
   private int employeeID, patientID;
 
   public EquipmentDelivery(
-      int userID, String nodeID, String equipment, String notes, int quantity, String status) {
-    this.location = Vdb.locationDao.getLocation(nodeID);
-    this.hospitalEmployee = new HospitalEmployee(userID);
-    this.patient = new Patient(123, "James", "Jameson");
-    this.equipment = equipment;
-    this.notes = notes;
-    this.desc = "Equipment Delivery (" + equipment + ")";
-    this.status = status;
-    this.quantity = quantity;
-    this.status = status;
-    this.patientFirstName = patient.getFirstName();
-    this.patientLastName = patient.getLastName();
-    this.employeeID = hospitalEmployee.getHospitalID();
-    this.patientID = patient.getPatientID();
-    this.locationName = location.getShortName();
-    this.image = new Image("Equipment.png");
-  }
-
-  public EquipmentDelivery(
-      int userID,
+      int employeeID,
+      int patientID,
+      String patientFirstName,
+      String patientLastName,
       String nodeID,
       String equipment,
       String notes,
       int quantity,
       String status,
-      int pID) {
+      int serviceID) {
     this.location = Vdb.locationDao.getLocation(nodeID);
-    this.hospitalEmployee = new HospitalEmployee(userID);
+    this.hospitalEmployee = new HospitalEmployee(employeeID);
+    this.patient = new Patient(patientID, patientFirstName, patientLastName);
     this.equipment = equipment;
     this.notes = notes;
     this.desc = "Equipment Delivery (" + equipment + ")";
     this.status = status;
+    setServiceID(serviceID);
     this.quantity = quantity;
     this.status = status;
-    patientFirstName = patient.getFirstName();
-    patientLastName = patient.getLastName();
-    employeeID = hospitalEmployee.getHospitalID();
-    patientID = patient.getPatientID();
+    this.patientFirstName = patientFirstName;
+    this.patientLastName = patientLastName;
+    this.employeeID = employeeID;
+    this.patientID = patientID;
     locationName = location.getShortName();
   }
 
   public EquipmentDelivery(
-      int userID,
+      int employeeID,
+      int patientID,
+      String patientFirstName,
+      String patientLastName,
       String nodeID,
       String equipment,
       String notes,
       int quantity,
-      String status,
-      int pID,
-      String fname,
-      String lname) {
+      String status) {
     this.location = Vdb.locationDao.getLocation(nodeID);
-    this.hospitalEmployee = new HospitalEmployee(userID);
-    this.patient = new Patient(pID, fname, lname);
+    this.hospitalEmployee = new HospitalEmployee(employeeID);
+    this.patient = new Patient(patientID, patientFirstName, patientLastName);
     this.equipment = equipment;
     this.notes = notes;
     this.desc = "Equipment Delivery (" + equipment + ")";
     this.status = status;
     this.quantity = quantity;
     this.status = status;
-    patientFirstName = fname;
-    patientLastName = lname;
-    employeeID = hospitalEmployee.getHospitalID();
-    patientID = pID;
+    this.patientFirstName = patientFirstName;
+    this.patientLastName = patientLastName;
+    this.employeeID = employeeID;
+    this.patientID = patientID;
     locationName = location.getShortName();
   }
 

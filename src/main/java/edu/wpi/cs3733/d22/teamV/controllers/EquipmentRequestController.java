@@ -168,14 +168,14 @@ public class EquipmentRequestController extends Controller {
     EquipmentDelivery delivery =
         new EquipmentDelivery(
             Integer.parseInt(employeeID.getText()),
-            "vDEPT00101",
-            (String) dropDown.getValue(),
-            notes.getText(),
-            Integer.parseInt(quant.getText()),
-            status.getText(),
             Integer.parseInt(patientID.getText()),
             firstName.getText(),
-            lastName.getText());
+            lastName.getText(),
+            pos.getText(),
+            dropDown.getValue().toString(),
+            notes.getText(),
+            Integer.parseInt(quant.getText()),
+            status.getText());
 
     try {
       equipmentDeliveryDao.addServiceRequest(delivery);

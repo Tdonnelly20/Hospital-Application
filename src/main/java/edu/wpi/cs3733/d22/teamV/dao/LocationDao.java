@@ -28,7 +28,6 @@ public class LocationDao {
   public Location getLocation(String nodeID) {
     for (Location l : allLocations) {
       if (l.getNodeID().equals(nodeID)) {
-        System.out.println("found node!" + l.getNodeID());
         return l;
       }
     }

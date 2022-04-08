@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface DaoInterface {
 
-  void loadFromCSV() throws IOException;
+  void loadFromCSV() throws IOException, SQLException;
 
   void saveToCSV() throws IOException;
 
@@ -23,5 +23,6 @@ public interface DaoInterface {
 
   ArrayList<? extends ServiceRequest> getAllServiceRequests();
 
-  void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests);
+  void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+      throws SQLException;
 }
