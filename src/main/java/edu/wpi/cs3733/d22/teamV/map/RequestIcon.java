@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d22.teamV.icons;
+package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.objects.Location;

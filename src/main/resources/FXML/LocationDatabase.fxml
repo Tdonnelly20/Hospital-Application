@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -16,10 +12,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -91,46 +85,11 @@
          <content>
             <VBox alignment="TOP_CENTER" prefHeight="603.0" prefWidth="548.0">
                <children>
-                  <TabPane tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="tabPane" prefHeight="601.0" prefWidth="548.0" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
-                        <Tab text="Map View">
+                        <Tab fx:id="mapTab" text="Map View">
                            <content>
-                              <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
-                                 <children>
-                                    <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="21.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" pannable="true" prefHeight="450.0" prefWidth="493.0" vbarPolicy="NEVER">
-                                       <content>
-                                          <StackPane prefHeight="450.0" prefWidth="492.0">
-                                             <children>
-                                                <ImageView fx:id="mapImage" fitHeight="600.0" fitWidth="600.0" pickOnBounds="true">
-                                                   <image>
-                                                      <Image url="@../2nd Floor.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D />
-                                                   </viewport>
-                                                </ImageView>
-                                                <Pane fx:id="mapPane" onDragDetected="#dragDetected" onDragDropped="#dragOver" onMouseClicked="#openIconFormWindow" prefHeight="200.0" prefWidth="200.0" />
-                                             </children>
-                                          </StackPane>
-                                       </content>
-                                    </ScrollPane>
-                                    <HBox fx:id="mapBox" alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0" spacing="15.0">
-                                       <children>
-                                          <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                             <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                                   <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                                   <String fx:id="floor1" fx:value="1st Floor" />
-                                                   <String fx:id="floor2" fx:value="2nd Floor" />
-                                                   <String fx:id="floor3" fx:value="3rd Floor" />
-                                                </FXCollections>
-                                             </items>
-                                          </JFXComboBox>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </Pane>
+                              <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                            </content>
                         </Tab>
                         <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Database">

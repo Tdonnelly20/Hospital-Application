@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
-import edu.wpi.cs3733.d22.teamV.icons.Icon;
-import edu.wpi.cs3733.d22.teamV.icons.LocationIcon;
-import edu.wpi.cs3733.d22.teamV.icons.RequestIcon;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.map.Icon;
+import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.map.RequestIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Floor;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;

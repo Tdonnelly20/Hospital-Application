@@ -1,21 +1,30 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.icons.Icon;
-import edu.wpi.cs3733.d22.teamV.icons.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.Icon;
+import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.map.MapEvent;
+import edu.wpi.cs3733.d22.teamV.map.ZoomPane;
 import edu.wpi.cs3733.d22.teamV.objects.Floor;
 import java.io.IOException;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -41,10 +50,20 @@ public class MapController extends Controller {
           "Sanitation Request",
           "Internal Patient Transport");
 
-  @FXML public CheckComboBox<String> filterCheckBox;
-  @FXML private HBox mapBox;
-  @FXML private Pane mapPane;
-  @FXML private ImageView mapImage;
+  @FXML public TabPane tabPane = new TabPane();
+  @FXML public VBox mapVBox = new VBox(15);
+  @FXML public Tab mapTab = new Tab();
+  @FXML public CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
+  @FXML public HBox mapHBox = new HBox(15);
+  @FXML public Pane mapPane = new Pane();
+  private final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
+  private final Group group = new Group();
+  @FXML public ImageView mapImage = new ImageView(new Image("1st Floor.png"));
+  @FXML Group mapGroup = new Group(mapImage, mapPane);
+  @FXML StackPane stackPane = new StackPane(mapGroup);
+  ZoomPane zoomPane = null;
+  @FXML ScrollPane scrollPane = new ScrollPane(stackPane);
+  final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
   @FXML
   private JFXComboBox floorDropDown =
@@ -71,10 +90,39 @@ public class MapController extends Controller {
     init();
   }
 
-  @Override
-  public void init() {
-    floorDropDown.setValue("1st Floor");
+  @FXML
+  private void zoom() {
+    stackPane.getChildren().add(mapImage);
+    stackPane.getChildren().add(mapPane);
+    mapImage.setPreserveRatio(true);
+    scrollPane.setPannable(true);
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    group.getChildren().add(mapImage);
+    group.getChildren().add(stackPane);
 
+    zoomPane = new ZoomPane();
+    zoomProperty.bind(zoomPane.scale);
+    deltaY.bind(zoomPane.deltaY);
+    zoomPane.getChildren().add(group);
+
+    MapEvent mapEvent = new MapEvent(zoomPane);
+
+    scrollPane.setContent(zoomPane);
+    zoomPane.toBack();
+    mapPane.setOnMouseClicked(
+        event -> {
+          openIconFormWindow(event);
+        });
+    scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
+  }
+
+  private void setUpControls() {
+    floorDropDown.setValue("1st Floor");
+    floorDropDown.setOnAction(
+        event -> {
+          checkDropDown();
+        });
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -92,28 +140,22 @@ public class MapController extends Controller {
             (ListChangeListener<String>)
                 change -> {
                   checkDropDown();
-
-                  /*while (change.next()) {
-                    System.out.println("============================================");
-                    System.out.println("Change: " + change);
-                    System.out.println("Added sublist " + change.getAddedSubList());
-                    System.out.println("Removed sublist " + change.getRemoved());
-                    System.out.println("List " + change.getList());
-                    System.out.println(
-                        "Added "
-                            + change.wasAdded()
-                            + " Permutated "
-                            + change.wasPermutated()
-                            + " Removed "
-                            + change.wasRemoved()
-                            + " Replaced "
-                            + change.wasReplaced()
-                            + " Updated "
-                            + change.wasUpdated());
-                    System.out.println("============================================");
-                  }*/
                 });
-    mapBox.getChildren().add(filterCheckBox);
+  }
+
+  @Override
+  public void init() {
+    setUpControls();
+    zoom();
+    currFloor = MapManager.getManager().getFloor("1");
+    mapVBox.setFillWidth(true);
+
+    scrollPane.setMaxSize(470, 470);
+    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox);
+    mapVBox.getChildren().addAll(scrollPane, mapHBox);
+    mapVBox.setAlignment(Pos.TOP_CENTER);
+    mapVBox.setSpacing(15);
+    mapHBox.setAlignment(Pos.CENTER);
     checkDropDown();
   }
 
@@ -188,7 +230,6 @@ public class MapController extends Controller {
   // Loads the floor's icons in accordance with filter
   @FXML
   public void populateFloorIconArr() {
-
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     for (Icon icon : currFloor.getIconList()) {
