@@ -59,7 +59,7 @@
                               </JFXComboBox>
                               <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
                               <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                              <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
+                              <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
                               <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                                  <font>
                                     <Font size="18.0" />
@@ -102,12 +102,12 @@
                                              </viewport>
                                           </ImageView>
                                           <TextArea fx:id="coordinates" layoutX="488.0" layoutY="25.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                                          <Pane fx:id="mapPane" layoutX="104.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="386.0" prefWidth="386.0" />
+                                          <Pane fx:id="mapPane" layoutX="104.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="386.0" prefWidth="386.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
                               </Tab>
-                              <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Sanitation Requests">
+                              <Tab fx:id="deliveryRequestTab" text="Sanitation Requests">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
