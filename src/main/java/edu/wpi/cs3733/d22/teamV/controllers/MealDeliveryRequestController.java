@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class MealDeliveryRequestController extends Controller {
+public class MealDeliveryRequestController extends MapController {
   @FXML private TreeTableView<MealRequest> table;
   @FXML private TreeTableColumn<MealRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<MealRequest, Integer> patientIDCol;
@@ -25,6 +25,12 @@ public class MealDeliveryRequestController extends Controller {
   @FXML private TextField lastName;
   @FXML private JFXComboBox<Object> requestedMeal;
   @FXML private Button sendRequest;
+
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Meal Delivery Requests");
+  }
 
   @FXML
   private void resetForm() {

@@ -2,12 +2,13 @@ package edu.wpi.cs3733.d22.teamV.manager;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Floor;
-import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,6 +35,8 @@ public class MapManager {
   @FXML VBox content = new VBox(15);
   @FXML Scene scene = new Scene(content, 450, 450);
   @FXML Stage stage = new Stage();
+
+  List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   @FXML Button locationButton = new Button("Add Location");
   @FXML Button equipmentButton = new Button("Add Equipment");
   @FXML Button submitIcon = new Button("Add icon");
@@ -47,8 +50,11 @@ public class MapManager {
   @FXML TextField field2 = new TextField();
   @FXML TextField field3 = new TextField();
   @FXML TextField field4 = new TextField();
+  RequestSystem requestSystem = new RequestSystem();
 
   private MapManager() {
+    serviceRequests = requestSystem.getEveryServiceRequest();
+
     setUpPopUp();
     setUpFloors();
   }
@@ -64,7 +70,6 @@ public class MapManager {
   /** Sets up the popup window */
   @FXML
   private void setUpPopUp() {
-
     field1.setMaxWidth(250);
     field2.setMaxWidth(250);
     field3.setMaxWidth(250);
@@ -86,87 +91,107 @@ public class MapManager {
   private void setUpFloors() {
     floorList = new ArrayList<>();
 
-    Floor g = new Floor("G");
     Floor l1 = new Floor("L1");
     Floor l2 = new Floor("L2");
     Floor f1 = new Floor("1");
     Floor f2 = new Floor("2");
     Floor f3 = new Floor("3");
+    Floor f4 = new Floor("4");
+    Floor f5 = new Floor("5");
 
-    floorList.add(g);
     floorList.add(l1);
     floorList.add(l2);
     floorList.add(f1);
     floorList.add(f2);
     floorList.add(f3);
+    floorList.add(f4);
+    floorList.add(f5);
     // System.out.println("SIZE: " + floorList.size());
 
-    ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
+    loadRequests();
 
-    for (Location l : locations) {
+    for (Location l : Vdb.locationDao.getAllLocations()) {
       switch (l.getFloor()) {
-        case "G":
-          loadRequests(0, l);
-          break;
         case "L1":
-          loadRequests(1, l);
+          loadLocations(0, l);
           break;
         case "L2":
-          loadRequests(2, l);
+          loadLocations(1, l);
           break;
         case "1":
-          loadRequests(3, l);
+          loadLocations(2, l);
           break;
         case "2":
-          loadRequests(4, l);
+          loadLocations(3, l);
           break;
         case "3":
-          loadRequests(5, l);
+          loadLocations(4, l);
+          break;
+        case "4":
+          loadLocations(5, l);
+          break;
+        case "5":
+          loadLocations(6, l);
           break;
       }
     }
 
-    // System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
     for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
+      Location l = new Location(e.getX(), e.getY(), e.getFloor());
+      EquipmentIcon equipmentIcon = new EquipmentIcon(l);
+      equipmentIcon.addToEquipmentList(e);
+      equipmentIcon.setImage();
       switch (e.getFloor()) {
-        case "G":
-          floorList.get(0).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
-          break;
         case "L1":
-          floorList.get(1).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(0).addIcon(equipmentIcon);
           break;
         case "L2":
-          floorList.get(2).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(1).addIcon(equipmentIcon);
           break;
         case "1":
-          floorList.get(3).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(2).addIcon(equipmentIcon);
           break;
         case "2":
-          floorList.get(4).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(3).addIcon(equipmentIcon);
           break;
         case "3":
-          floorList.get(5).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(4).addIcon(equipmentIcon);
+          break;
+        case "4":
+          floorList.get(5).addIcon(equipmentIcon);
+          break;
+        case "5":
+          floorList.get(6).addIcon(equipmentIcon);
           break;
       }
     }
   }
 
-  public void loadRequests(int i, Location l) {
-    Icon icon;
+  public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
-      if (floorList.get(i).hasIconAt(l)) {
-        icon = floorList.get(i).getIconAt(l);
+      if (floorList.get(i).containsIcon(l)) {
+        if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
+          if (l.getRequests().size() > 0) {
+            floorList.get(i).getIconList().remove(floorList.get(i).getIcon(l));
+            floorList.get(i).getIconList().add(new RequestIcon(l));
+          }
+        }
       } else {
-        icon = new Icon(l, false);
-        floorList.get(i).addIcon(icon);
+        floorList.get(i).addIcon(new LocationIcon(l));
       }
     } else {
-      icon = new Icon(l, false);
-      floorList.get(i).addIcon(icon);
+      floorList.get(i).addIcon(new LocationIcon(l));
     }
-    for (ServiceRequest request : Vdb.equipmentDeliveryDao.getAllServiceRequests()) {
-      if (request.getLocation().equals(l)) {
-        icon.addToRequests(request);
+  }
+
+  public void loadRequests() {
+    if (serviceRequests.size() > 0) {
+      for (ServiceRequest serviceRequest : serviceRequests) {
+        for (Location location : Vdb.locationDao.getAllLocations()) {
+          if (!location.getRequests().contains(serviceRequest)) {
+            location.getRequests().add(serviceRequest);
+          }
+        }
       }
     }
   }
@@ -177,18 +202,20 @@ public class MapManager {
    */
   public Floor getFloor(String str) {
     switch (str) {
-      case "G":
-        return floorList.get(0);
       case "L1":
-        return floorList.get(1);
+        return floorList.get(0);
       case "L2":
-        return floorList.get(2);
+        return floorList.get(1);
       case "1":
-        return floorList.get(3);
+        return floorList.get(2);
       case "2":
-        return floorList.get(4);
+        return floorList.get(3);
       case "3":
+        return floorList.get(4);
+      case "4":
         return floorList.get(5);
+      case "5":
+        return floorList.get(6);
     }
     return null;
   }
@@ -225,14 +252,16 @@ public class MapManager {
     content.getChildren().add(titleBox);
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.TOP_CENTER);
-    if (icon.isEquipment()) {
-      title.setText(icon.getEquipment().getName());
+    if (icon.iconType.equals("Equipment")) {
+      EquipmentIcon equipmentIcon = ((EquipmentIcon) icon);
+      title.setText("Equipment");
       vbox.getChildren().addAll(title);
     } else {
+      RequestIcon requestIcon = (RequestIcon) icon;
       ObservableList<String> statusStrings =
           FXCollections.observableArrayList("Not Started", "Processing", "Done");
-      if (icon.getRequestsArr().size() > 0) {
-        for (ServiceRequest request : icon.getRequestsArr()) {
+      if (requestIcon.getRequestsArr().size() > 0) {
+        for (ServiceRequest request : requestIcon.getRequestsArr()) {
           Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
           Label locationLabel =
               new Label(

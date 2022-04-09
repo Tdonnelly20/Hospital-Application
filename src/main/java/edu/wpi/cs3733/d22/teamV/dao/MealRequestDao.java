@@ -6,6 +6,8 @@ import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import java.io.*;
 import java.sql.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 

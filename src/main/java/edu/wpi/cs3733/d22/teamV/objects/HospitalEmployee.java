@@ -12,6 +12,7 @@ public class HospitalEmployee {
   private String lastName;
   private List<String> degrees;
   private List<Patient> patientList;
+  private List<HospitalEmployee> employeeList;
 
   public HospitalEmployee(
       int hospitalID,

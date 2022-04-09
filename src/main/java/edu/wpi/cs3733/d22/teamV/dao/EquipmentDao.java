@@ -6,7 +6,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class EquipmentDao{
+public class EquipmentDao {
 
   private static ArrayList<Equipment> allEquipment;
 
@@ -15,12 +15,11 @@ public class EquipmentDao{
     allEquipment = new ArrayList<Equipment>();
     try {
       loadFromCSV();
-      //createSQLTable();
+      createSQLTable();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
-
 
   /**
    * Adds equipment to the CSV
@@ -34,7 +33,9 @@ public class EquipmentDao{
    * @param isDirty
    * @throws SQLException
    */
-  public void addEquipment(String ID, String name, String floor, int x, int y, String desc, Boolean isDirty)throws SQLException {
+  public void addEquipment(
+      String ID, String name, String floor, int x, int y, String desc, Boolean isDirty)
+      throws SQLException {
     Equipment newEquipment = new Equipment(ID, name, floor, x, y, desc, isDirty);
 
     allEquipment.add(newEquipment);
@@ -60,11 +61,9 @@ public class EquipmentDao{
               Double.parseDouble(data[3]),
               Double.parseDouble(data[4]),
               data[5],
-              Boolean.parseBoolean(data[6]));
-      equipmentList.add(equipment);
+              Integer.parseInt(data[6]) == 1);
+      addEquipment(equipment);
     }
-
-    allEquipment = equipmentList;
   }
 
   public void saveToCSV() throws IOException {
@@ -75,13 +74,13 @@ public class EquipmentDao{
     for (Equipment equipment : getAllEquipment()) {
 
       String[] outputData = {
-              equipment.getID(),
-              equipment.getName(),
-              equipment.getFloor(),
-              String.valueOf(equipment.getX()),
-              String.valueOf(equipment.getY()),
-              equipment.getDescription(),
-              String.valueOf(equipment.getIsDirty())
+        equipment.getID(),
+        equipment.getName(),
+        equipment.getFloor(),
+        String.valueOf(equipment.getX()),
+        String.valueOf(equipment.getY()),
+        equipment.getDescription(),
+        String.valueOf(equipment.getIsDirty())
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -93,6 +92,7 @@ public class EquipmentDao{
     bw.close();
     fw.close();
   }
+
   public ArrayList<Equipment> getAllServiceRequests() {
     return allEquipment;
   }
@@ -121,7 +121,7 @@ public class EquipmentDao{
 
     query =
         "INSERT INTO EQUIPMENT("
-            + "ID,Name,Floor,X,Y,Description,isDirty) VALUES "
+            + "ID,Floor,X,Y,Description,isDirty) VALUES "
             + "('"
             + equipment.getID()
             + "', '"
@@ -135,7 +135,6 @@ public class EquipmentDao{
             + "', "
             + equipment.getIsDirty()
             + ")";
-
     statement.execute(query);
   }
 

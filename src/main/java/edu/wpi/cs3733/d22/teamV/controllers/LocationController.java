@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LocationController extends Controller {
+public class LocationController extends MapController {
   private static LocationDao locationDao = Vdb.locationDao;
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
@@ -63,11 +63,20 @@ public class LocationController extends Controller {
   @FXML private Text confirmText = new Text("Are you sure?");
 
   private static class SingletonHelper {
-    private static final LocationController manager = new LocationController();
+    private static final LocationController controller = new LocationController();
   }
 
-  public static LocationController getManager() {
-    return LocationController.SingletonHelper.manager;
+  public static LocationController getController() {
+    return LocationController.SingletonHelper.controller;
+  }
+
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().clearChecks();
+    filterCheckBox.getCheckModel().check("Locations");
+    setElements();
+    resetPage();
   }
 
   @FXML
@@ -79,7 +88,7 @@ public class LocationController extends Controller {
         });
     addLocation.setOnAction(
         event -> {
-          openUpdateLocation();
+          openAddLocation();
         });
     removeLocation.setOnAction(
         event -> {
@@ -222,13 +231,36 @@ public class LocationController extends Controller {
                   nodeType.getText(),
                   longName.getText(),
                   shortName.getText());
-          try {
-            locationDao.addLocation(newLoc);
-          } catch (IOException e) {
-            e.printStackTrace();
-          } catch (SQLException e) {
-            e.printStackTrace();
-          }
+          locationDao.addLocation(newLoc);
+          updateTreeTable();
+          setTextFieldPrompts();
+        });
+
+    clear.setOnAction(
+        event -> {
+          setTextFieldPrompts();
+        });
+    vbox.getChildren().addAll(hbox, nodeID, x, y, floor, building, nodeType, shortName, longName);
+    updateTreeTable();
+  }
+
+  @FXML
+  private void openAddLocation() {
+    setForms();
+
+    submit.setOnAction(
+        event -> {
+          Location newLoc =
+              new Location(
+                  nodeID.getText(),
+                  Double.parseDouble(x.getText()),
+                  Double.parseDouble(y.getText()),
+                  floor.getText(),
+                  building.getText(),
+                  nodeType.getText(),
+                  longName.getText(),
+                  shortName.getText());
+          locationDao.addLocation(newLoc);
           updateTreeTable();
           setTextFieldPrompts();
         });

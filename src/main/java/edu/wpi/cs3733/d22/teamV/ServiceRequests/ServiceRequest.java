@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
+import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
-import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import javafx.scene.image.Image;
@@ -16,7 +16,8 @@ public abstract class ServiceRequest {
   public Patient patient;
   protected HospitalEmployee hospitalEmployee;
   protected String date;
-  protected String desc;
+  protected String type;
+  protected String notes;
   protected String status;
   protected Icon icon;
   public Image image;
@@ -24,9 +25,9 @@ public abstract class ServiceRequest {
   public String getRequestName() {
     if (patient != null) {
       System.out.println(patient.getLastName() + ", " + patient.getFirstName());
-      return desc + ": " + patient.getLastName() + ", " + patient.getFirstName();
+      return type + ": " + patient.getLastName() + ", " + patient.getFirstName();
     }
-    return desc;
+    return type;
   }
 
   public HospitalEmployee getEmp() {
