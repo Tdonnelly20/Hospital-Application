@@ -122,7 +122,6 @@ public class MedicineDeliveryDao extends DaoInterface {
     Connection connection = Vdb.Connect();
     assert connection != null;
     Statement statement = connection.createStatement();
-
     query =
         "INSERT INTO MEDICINES("
             + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
@@ -147,38 +146,6 @@ public class MedicineDeliveryDao extends DaoInterface {
             + ")";
 
     statement.execute(query);
-
-    // Print out all the current entries...
-    /*
-    query =
-        "SELECT patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails FROM MEDICINES";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {
-          "patientFirstName",
-          "patientLastName",
-          "roomNumber",
-          "patientID",
-          "employeeID",
-          "medicineName",
-          "dosage",
-          "requestDetails",
-          "serviceID"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (String headerVal : headerVals) {
-        System.out.print(resultSet.getString(headerVal).trim() + ", ");
-      }
-      System.out.println();
-    }
-
-     */
   }
 
   @Override
@@ -230,4 +197,7 @@ public class MedicineDeliveryDao extends DaoInterface {
       allMedicineDeliveries.add(delivery);
     }
   }
+
+  @Override
+  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

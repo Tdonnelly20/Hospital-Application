@@ -44,8 +44,8 @@ public class EquipmentDeliveryDao extends DaoInterface {
               data[5],
               data[6],
               Integer.parseInt(data[7]),
-              data[8],
-              Integer.parseInt(data[9]));
+              data[8]);
+      equipmentDelivery.setServiceID(Integer.parseInt(data[9]));
       deliveries.add(equipmentDelivery);
     }
     allEquipmentDeliveries = deliveries;
@@ -146,12 +146,15 @@ public class EquipmentDeliveryDao extends DaoInterface {
   }
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException {
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
-    allEquipmentDeliveries.removeIf(
-        value -> value.getServiceID() == equipmentDelivery.getServiceID());
-    removeFromSQLTable(request);
-    saveToCSV();
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query = "DELETE FROM EQUIPMENTDELIVERY WHERE serviceID = " + request.getServiceID();
+    statement.execute(query);
   }
 
   @Override
@@ -165,7 +168,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
   }
 
   @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException {
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     allEquipmentDeliveries.removeIf(value -> value.getServiceID() == request.getServiceID());
     removeFromSQLTable(request);
     saveToCSV();
@@ -189,4 +192,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
       createSQLTable();
     }
   }
+
+  @Override
+  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

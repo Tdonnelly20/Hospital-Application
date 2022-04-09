@@ -83,7 +83,7 @@ public class LabRequestController extends Controller implements RequestInterface
 
     // Get the current list of lab requests from the DAO
     ArrayList<LabRequest> currLabRequests =
-        (ArrayList<LabRequest>) labRequestDao.getAllLabRequests();
+        (ArrayList<LabRequest>) labRequestDao.getAllServiceRequests();
 
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
@@ -100,7 +100,7 @@ public class LabRequestController extends Controller implements RequestInterface
       // we get the standard table functionality
       table.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem root = new TreeItem(labRequestDao.getAllLabRequests().get(0));
+      TreeItem root = new TreeItem(labRequestDao.getAllServiceRequests().get(0));
       // Set the root in the table
       table.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
@@ -118,13 +118,19 @@ public class LabRequestController extends Controller implements RequestInterface
       // If all conditions pass, create the request
     } else {
       System.out.println(userID.getText());
-      labRequestDao.addLabRequest(
-          Integer.parseInt(userID.getText()),
-          Integer.parseInt(patientID.getText()),
-          firstName.getText(),
-          lastName.getText(),
-          requestedLab.getValue().toString(),
-          "Processing");
+      LabRequest l =
+          new LabRequest(
+              Integer.parseInt(userID.getText()),
+              Integer.parseInt(patientID.getText()),
+              firstName.getText(),
+              lastName.getText(),
+              requestedLab.getValue().toString(),
+              "Processing");
+      try {
+        labRequestDao.addServiceRequest(l);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
       resetForm();
       updateTreeTable();
     }
