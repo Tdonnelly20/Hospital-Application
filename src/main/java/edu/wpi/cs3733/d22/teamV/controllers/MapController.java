@@ -224,7 +224,7 @@ public class MapController extends Controller {
         // System.out.println(icon.iconType);
         mapPane.getChildren().add(icon.getImage());
         if (filter.contains("Request") && icon.iconType.equals("Request")) {
-          // System.out.println(icon.getImage());
+          //System.out.println(icon.getImage());
           mapPane.getChildren().add(icon.getImage());
         }
         if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {

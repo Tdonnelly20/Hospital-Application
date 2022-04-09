@@ -51,7 +51,7 @@ public class MapManager {
 
   private MapManager() {
     serviceRequests =
-        Stream.of(Vdb.labRequestDao.getAllServiceRequests() /*,
+        Stream.of(Vdb.labRequestDao.getAllLabRequests() /*,
                             Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries() ,
            // Vdb.internalPatientTransportationDao.getInternalPatientTransportations(),
            // Vdb.medicineDeliveryDao.getAllMedicineDeliveries()

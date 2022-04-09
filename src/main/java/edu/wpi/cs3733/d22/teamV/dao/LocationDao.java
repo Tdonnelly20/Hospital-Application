@@ -189,22 +189,32 @@ public class LocationDao extends DaoInterface {
       return;
     }
 
+
+
     for (Location location : allLocations) {
       addToSQLTable(location);
     }
   }
 
   @Override
-  public void addToSQLTable(ServiceRequest request) throws SQLException {}
+  public void addToSQLTable(ServiceRequest request) throws SQLException {
+
+  }
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+
+  }
 
   @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {}
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
 
   @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {}
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
 
   @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
@@ -212,8 +222,9 @@ public class LocationDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {}
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
+
+  }
 
   public void addToSQLTable(Location location) throws SQLException {
     try {
