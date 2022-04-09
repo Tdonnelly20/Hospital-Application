@@ -8,7 +8,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-
+import java.util.function.Predicate;
 public class ReligiousRequestDao implements DaoInterface {
   private static ArrayList<ReligiousRequest>
       allReligiousRequest; // A local list of all religious requests, updated via Vdb
@@ -44,25 +44,29 @@ public class ReligiousRequestDao implements DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedEquipReq.csv");
+    FileWriter fw = new FileWriter(Vdb.currentPath + "\\ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
-        "employeeID,patientID,patientFirstName,patientLastName,location,equipment,notes,quantity,status,serviceID");
+        "FirstName,LastName,PatientID,EmpID,Religion,Details,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
-      EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
-
+      ReligiousRequest religiousRequest=(ReligiousRequest) request;
+//      String firstName,
+//      String lastName,
+//      int patientID,
+//      int userID,
+//      String religion,
+//      String specialRequests,
+//      int serviceID) {
       String[] outputData = {
-        String.valueOf(equipmentDelivery.getEmployeeID()),
-        String.valueOf(equipmentDelivery.getPatientID()),
-        equipmentDelivery.getPatientFirstName(),
-        equipmentDelivery.getPatientLastName(),
-        equipmentDelivery.getEquipment(),
-        equipmentDelivery.getNotes(),
-        String.valueOf(equipmentDelivery.getQuantity()),
-        equipmentDelivery.getStatus(),
-        String.valueOf(equipmentDelivery.getServiceID())
+              religiousRequest.getPatientFirstName(),
+              religiousRequest.getPatientLastName(),
+              Integer.toString(religiousRequest.getPatientID()),
+              Integer.toString(religiousRequest.getEmpID()),
+              religiousRequest.getReligion(),
+              religiousRequest.getSpecialRequests(),
+              Integer.toString(religiousRequest.getServiceID())
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -70,7 +74,6 @@ public class ReligiousRequestDao implements DaoInterface {
         bw.append(',');
       }
     }
-
     bw.close();
     fw.close();
   }
@@ -102,9 +105,29 @@ public class ReligiousRequestDao implements DaoInterface {
   }
 
   @Override
-  public void addToSQLTable(ServiceRequest request) throws SQLException {}
+  public void addToSQLTable(ServiceRequest Request) throws SQLException {
+    ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
+    Connection connection = Vdb.Connect();
+    String query =
+            "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?,?)";
+    PreparedStatement statement = connection.prepareStatement(query);
+    statement.setString(1, newReligiousRequest.getPatientFirstName());
+    statement.setString(2, newReligiousRequest.getPatientLastName());
+    statement.setInt(3, newReligiousRequest.getEmpID());
+    statement.setInt(4, newReligiousRequest.getPatientID());
+    statement.setString(5, newReligiousRequest.getReligion());
+    statement.setString(6, newReligiousRequest.getSpecialRequests());
+    statement.setInt(7, newReligiousRequest.getServiceID());
+  }
 
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+    int serviceID = request.getServiceID();
+    Connection connection = Vdb.Connect();
+    String query = "DELETE FROM RELIGIOUSREQUESTS" + "WHERE serviceID=?";
+    PreparedStatement statement = connection.prepareStatement(query);
+    statement.setInt(1, serviceID);
+  }
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
@@ -119,10 +142,9 @@ public class ReligiousRequestDao implements DaoInterface {
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
-    Connection connection = Vdb.Connect();
-    String query = "DELETE FROM RELIGIOUSREQUESTS" + "WHERE serviceID=?";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, serviceID);
+    Predicate<ReligiousRequest> condition = religiousRequest -> religiousRequest.getServiceID()==serviceID;
+    allReligiousRequest.removeIf(condition);
+    removeFromSQLTable(request);
   }
 
   @Override
@@ -132,7 +154,14 @@ public class ReligiousRequestDao implements DaoInterface {
 
   @Override
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {}
+      throws SQLException {
+    allReligiousRequest.clear();
+    for (ServiceRequest r: serviceRequests) {
+      ReligiousRequest request=(ReligiousRequest) r;
+      allReligiousRequest.add(request);
+    }
+    createSQLTable();
+  }
 
   @Override
   public void updateRequest(ServiceRequest Request) throws SQLException {
