@@ -8,7 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class EquipmentDeliveryDao implements DaoInterface {
+public class EquipmentDeliveryDao extends DaoInterface {
 
   private static ArrayList<EquipmentDelivery> allEquipmentDeliveries;
 
@@ -23,7 +23,6 @@ public class EquipmentDeliveryDao implements DaoInterface {
     }
   }
 
-  @Override
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
     FileReader fr = new FileReader(Vdb.currentPath + "\\MedEquipReq.CSV");

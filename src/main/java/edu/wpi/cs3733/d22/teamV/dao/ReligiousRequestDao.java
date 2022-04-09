@@ -1,11 +1,16 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ReligiousRequest;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.interfaces.ReligiousRequestImpl;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReligiousRequestDao implements ReligiousRequestImpl {
+public class ReligiousRequestDao extends DaoInterface {
   private static ArrayList<ReligiousRequest>
       allReligiousRequest; // A local list of all religious requests, updated via Vdb
 
@@ -15,7 +20,7 @@ public class ReligiousRequestDao implements ReligiousRequestImpl {
     // TODO: Add info from the database to the local arraylist
   }
 
-  @Override
+
   public List<ReligiousRequest> getAllReligiousRequest() {
     return allReligiousRequest;
   }
@@ -37,7 +42,7 @@ public class ReligiousRequestDao implements ReligiousRequestImpl {
    * @param Other
    * @param specialRequests
    */
-  @Override
+
   public void addReligiousRequest(
       String firstName,
       String lastName,
@@ -74,50 +79,62 @@ public class ReligiousRequestDao implements ReligiousRequestImpl {
   }
 
   //
-  @Override
+
   public List<ReligiousRequest> allReligiousRequest() {
     return null;
   }
 
   //
-  @Override
-  public void addReligousRequest(
-      String firstName,
-      String lastName,
-      int patientID,
-      int userID,
-      boolean Christian,
-      boolean Jewish,
-      boolean Protestant,
-      boolean Islam,
-      boolean Muslim,
-      boolean Buddhist,
-      boolean Hindu,
-      boolean Other,
-      String specialRequests) {
-
-    updateReligiousRequestDB(
-        new ReligiousRequest(
-            firstName,
-            lastName,
-            patientID,
-            userID,
-            Christian,
-            Jewish,
-            Protestant,
-            Islam,
-            Muslim,
-            Buddhist,
-            Hindu,
-            Other,
-            specialRequests));
-  }
 
   // Send to the database
   private void updateReligiousRequestDB(ReligiousRequest newReligiousRequest) {
     System.out.println("Sending to database...");
   }
 
-  @Override
   public void removeReligousRequest() {}
+
+  @Override
+  public void loadFromCSV() throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void saveToCSV() throws IOException {
+
+  }
+
+  @Override
+  public void createSQLTable() throws SQLException {
+
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {
+
+  }
+
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
+
+  }
 }

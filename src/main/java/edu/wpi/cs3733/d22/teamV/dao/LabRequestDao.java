@@ -1,13 +1,16 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
-import edu.wpi.cs3733.d22.teamV.interfaces.LabRequestImpl;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LabRequestDao implements LabRequestImpl {
+public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
@@ -20,11 +23,50 @@ public class LabRequestDao implements LabRequestImpl {
   }
 
   @Override
-  public List<LabRequest> getAllLabRequests() {
+  public void loadFromCSV() throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void saveToCSV() throws IOException {
+
+  }
+
+  @Override
+  public void createSQLTable() throws SQLException {
+
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {
+
+  }
+
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public ArrayList<LabRequest> getAllServiceRequests() {
     return allLabRequests;
   }
 
   @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
+
+  }
+
   public void addLabRequest(
       int userID, int patientID, String firstName, String lastName, String lab, String status) {
     LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab, status);
@@ -43,7 +85,6 @@ public class LabRequestDao implements LabRequestImpl {
     }
   }
 
-  @Override
   public void removeLabRequest(int userID) {
     // System.out.println("Removing from arraylist...");
     allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class EquipmentDao {
+public class EquipmentDao{
 
   private static ArrayList<Equipment> allEquipment;
 
@@ -43,7 +43,7 @@ public class EquipmentDao {
     allEquipment.add(newEquipment);
   }
 
-  public void loadFromCSV() throws IOException {
+  public void loadFromCSV() throws IOException, SQLException {
     String line = "";
     FileReader fr = new FileReader(Vdb.currentPath + "\\ListofEquipment.CSV");
     BufferedReader br = new BufferedReader(fr);
@@ -74,7 +74,7 @@ public class EquipmentDao {
     return allEquipment.size();
   }
 
-  public ArrayList<Equipment> getAllEquipment() {
+  public ArrayList<Equipment> getAllServiceRequests() {
     return allEquipment;
   }
 

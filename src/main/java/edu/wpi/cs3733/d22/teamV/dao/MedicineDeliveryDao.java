@@ -8,7 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class MedicineDeliveryDao implements DaoInterface {
+public class MedicineDeliveryDao extends DaoInterface {
   // A local list of all medicine deliveries, updated via Vdb
   private static ArrayList<MedicineDelivery> allMedicineDeliveries;
   /** Initialize the arraylist */
@@ -25,7 +25,6 @@ public class MedicineDeliveryDao implements DaoInterface {
     }
   }
 
-  @Override
   public void loadFromCSV() throws IOException {
 
     FileReader fr = new FileReader(Vdb.currentPath + "\\MedicineDelivery.csv");
