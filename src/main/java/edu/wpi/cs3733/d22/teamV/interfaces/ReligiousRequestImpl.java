@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.interfaces;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ReligiousRequest;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ReligiousRequestImpl {
@@ -12,32 +13,23 @@ public interface ReligiousRequestImpl {
       String lastName,
       int patientID,
       int userID,
-      boolean Christian,
-      boolean Jewish,
-      boolean Protestant,
-      boolean Islam,
-      boolean Muslim,
-      boolean Buddhist,
-      boolean Hindu,
-      boolean Other,
-      String specialRequests);
+      String religion,
+      String specialRequests,
+      int serviceID)
+      throws SQLException;
 
   List<ReligiousRequest> allReligiousRequest();
 
-  void addReligousRequest(
+  //
+  void updateReligiousRequest(
       String firstName,
       String lastName,
       int patientID,
       int userID,
-      boolean Christian,
-      boolean Jewish,
-      boolean Protestant,
-      boolean Islam,
-      boolean Muslim,
-      boolean Buddhist,
-      boolean Hindu,
-      boolean Other,
-      String specialRequests);
+      String religion,
+      String specialRequests,
+      int serviceID)
+      throws SQLException;
 
-  void removeReligousRequest();
+  void removeReligousRequest(int serviceID) throws SQLException;
 }

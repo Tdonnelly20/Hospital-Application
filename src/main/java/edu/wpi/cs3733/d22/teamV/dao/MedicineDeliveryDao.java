@@ -123,7 +123,6 @@ public class MedicineDeliveryDao implements DaoInterface {
     Connection connection = Vdb.Connect();
     assert connection != null;
     Statement statement = connection.createStatement();
-
     query =
         "INSERT INTO MEDICINES("
             + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
@@ -199,4 +198,7 @@ public class MedicineDeliveryDao implements DaoInterface {
       allMedicineDeliveries.add(delivery);
     }
   }
+
+  @Override
+  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

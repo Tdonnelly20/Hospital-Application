@@ -315,7 +315,8 @@ public abstract class Controller extends Application {
   // Switches scene to the sanitation page
   @FXML
   public void switchToSanitationRequests(ActionEvent event) throws IOException {
-    root =
+    System.out.println("HERE PH Y$EAH");
+    root = // issue here
         FXMLLoader.load(
             Objects.requireNonNull(
                 getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml")));
@@ -368,6 +369,7 @@ public abstract class Controller extends Application {
   // Switches scene to the rootW
   @FXML
   void switchScene(ActionEvent event) {
+    System.out.println("HERE");
     MapManager.getManager().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
