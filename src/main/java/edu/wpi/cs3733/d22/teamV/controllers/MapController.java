@@ -155,6 +155,17 @@ public class MapController extends Controller {
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   void checkDropDown() {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
+      if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {
+        filterCheckBox.getCheckModel().check("Service Requests");
+      }
+    }
+    if (filterCheckBox.getCheckModel().getCheckedItems().contains("Clean Equipment")) {
+      if (!filterCheckBox.getCheckModel().isChecked("Equipment")) {
+        filterCheckBox.getCheckModel().check("Equipment");
+      }
+    }
     MapManager.getManager().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
