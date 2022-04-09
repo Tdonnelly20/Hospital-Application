@@ -149,34 +149,9 @@
          <children>
             <TabPane fx:id="medicineTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
-                  <Tab text="Map View">
+                  <Tab fx:id="mapTab" text="Map View">
                      <content>
-                        <Pane prefHeight="571.0" prefWidth="366.0">
-                           <children>
-                              <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" layoutX="41.0" layoutY="33.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../2nd Floor.png" />
-                                 </image>
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
-                              </ImageView>
-                              <JFXComboBox fx:id="floorDropDown" layoutX="172.0" layoutY="514.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                 <items>
-                                    <FXCollections fx:factory="observableArrayList">
-                                       <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                       <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                       <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                       <String fx:id="floor1" fx:value="1st Floor" />
-                                       <String fx:id="floor2" fx:value="2nd Floor" />
-                                       <String fx:id="floor3" fx:value="3rd Floor" />
-                                    </FXCollections>
-                                 </items>
-                              </JFXComboBox>
-                              <TextArea fx:id="coordinates" layoutX="420.0" layoutY="33.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                              <Pane fx:id="mapPane" layoutX="40.0" layoutY="33.0" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
-                           </children>
-                        </Pane>
+                        <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                      </content>
                   </Tab>
                   <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Delivery Requests">

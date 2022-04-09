@@ -115,32 +115,9 @@
                             <children>
                                 <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
                                     <tabs>
-                                        <Tab text="Map View">
+                                        <Tab fx:id="mapTab" text="Map View">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                    <children>
-                                                        <JFXComboBox layoutX="14.0" layoutY="433.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                                            <items>
-                                                                <FXCollections fx:factory="observableArrayList">
-                                                                    <String fx:id="groundFloor1" fx:value="Ground Floor" />
-                                                                    <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
-                                                                    <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
-                                                                    <String fx:id="floor11" fx:value="Floor 1" />
-                                                                    <String fx:id="floor21" fx:value="Floor 2" />
-                                                                    <String fx:id="floor31" fx:value="Floor 3" />
-                                                                </FXCollections>
-                                                            </items>
-                                                        </JFXComboBox>
-                                                        <ImageView fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@../1st Floor.png" />
-                                                            </image>
-                                                            <viewport>
-                                                                <Rectangle2D />
-                                                            </viewport>
-                                                        </ImageView>
-                                                    </children>
-                                                </AnchorPane>
+                                                <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                                             </content>
                                         </Tab>
                                         <Tab text="Religious Requests">

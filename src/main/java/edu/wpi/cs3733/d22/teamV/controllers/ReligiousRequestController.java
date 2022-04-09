@@ -27,6 +27,14 @@ public class ReligiousRequestController extends MapController {
   @FXML private CheckBox Other;
   @FXML private TextField specialRequests;
 
+  private static class SingletonHelper {
+    private static final ReligiousRequestController controller = new ReligiousRequestController();
+  }
+
+  public static ReligiousRequestController getController() {
+    return ReligiousRequestController.SingletonHelper.controller;
+  }
+
   @FXML
   private void resetForm() {
     Status.setText("Status: Blank");

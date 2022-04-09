@@ -161,42 +161,9 @@
             <children>
                 <TabPane fx:id="mealTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab text="Map View">
+                        <Tab fx:id="mapTab" text="Map View">
                             <content>
-                                <Pane maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="495.0" style="-fx-background-color: rgb(149,182,203);">
-                                    <children>
-                                        <HBox alignment="CENTER" layoutY="471.0" prefHeight="48.0" prefWidth="533.0">
-                                            <children>
-                                                <JFXComboBox fx:id="floorDropDown" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                                    <items>
-                                                        <FXCollections fx:factory="observableArrayList">
-                                                            <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                                            <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                                            <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                                            <String fx:id="floor1" fx:value="1st Floor" />
-                                                            <String fx:id="floor2" fx:value="2nd Floor" />
-                                                            <String fx:id="floor3" fx:value="3rd Floor" />
-                                                        </FXCollections>
-                                                    </items>
-                                                </JFXComboBox>
-                                            </children>
-                                        </HBox>
-                                        <Group layoutX="30.0">
-                                            <children>
-                                                <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../2nd Floor.png" />
-                                                    </image>
-                                                    <viewport>
-                                                        <Rectangle2D />
-                                                    </viewport>
-                                                </ImageView>
-                                                <Pane fx:id="mapPane" onMouseClicked="#openIconFormWindow" onMouseReleased="#mapCoordTracker" prefHeight="470.0" prefWidth="470.0" />
-                                                <TextArea fx:id="coordinates" layoutX="380.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                                            </children>
-                                        </Group>
-                                    </children>
-                                </Pane>
+                                <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                             </content>
                         </Tab>
                         <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Delivery Requests">

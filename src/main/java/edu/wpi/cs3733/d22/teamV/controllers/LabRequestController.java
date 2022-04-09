@@ -29,6 +29,14 @@ public class LabRequestController extends MapController implements RequestInterf
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private Button sendRequest;
 
+  private static class SingletonHelper {
+    private static final LabRequestController manager = new LabRequestController();
+  }
+
+  public static LabRequestController getManager() {
+    return LabRequestController.SingletonHelper.manager;
+  }
+
   @Override
   @FXML
   public void resetForm() {

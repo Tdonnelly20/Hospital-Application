@@ -24,6 +24,14 @@ public class LaundryRequestController extends MapController {
   @FXML private JFXComboBox statusDropDown;
   @FXML private Button sendRequest;
 
+  private static class SingletonHelper {
+    private static final LaundryRequestController controller = new LaundryRequestController();
+  }
+
+  public static LaundryRequestController getController() {
+    return LaundryRequestController.SingletonHelper.controller;
+  }
+
   // TODO
   // laundryRequestDAO is not in VDB
   // fix database connection for add / remove Laundry Request

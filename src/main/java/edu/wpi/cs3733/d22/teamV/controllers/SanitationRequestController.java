@@ -22,6 +22,14 @@ public class SanitationRequestController extends MapController {
   @FXML private Label statusLabel;
   private static SanitationRequestDao SanitationRequestDao = new SanitationRequestDao();
 
+  private static class SingletonHelper {
+    private static final SanitationRequestController controller = new SanitationRequestController();
+  }
+
+  public static SanitationRequestController getController() {
+    return SanitationRequestController.SingletonHelper.controller;
+  }
+
   @FXML
   private void checkValidation() {
     if (!(patientID.getText().equals("")

@@ -10,7 +10,6 @@ import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.map.MapEvent;
 import edu.wpi.cs3733.d22.teamV.map.ZoomPane;
 import edu.wpi.cs3733.d22.teamV.objects.Floor;
-import java.io.IOException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -20,8 +19,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -52,20 +49,17 @@ public class MapController extends Controller {
           "Sanitation Request",
           "Internal Patient Transport");
 
-  @FXML public TabPane tabPane = new TabPane();
-  @FXML public VBox mapVBox = new VBox(15);
-  @FXML public Tab mapTab = new Tab();
-  @FXML public CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
-  @FXML public HBox mapHBox = new HBox(15);
-  @FXML public Pane mapPane = new Pane();
+  @FXML private VBox mapVBox = new VBox(15);
+  @FXML private CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
+  @FXML private HBox mapHBox = new HBox(15);
+  @FXML private Pane mapPane = new Pane();
   private final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
   private final Group group = new Group();
-  @FXML public ImageView mapImage = new ImageView(new Image("1st Floor.png"));
-  @FXML Group mapGroup = new Group(mapImage, mapPane);
-  @FXML StackPane stackPane = new StackPane(mapGroup);
-  ZoomPane zoomPane = null;
-  @FXML ScrollPane scrollPane = new ScrollPane(stackPane);
-  final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
+  @FXML private ImageView mapImage = new ImageView(new Image("1st Floor.png"));
+  @FXML private StackPane stackPane = new StackPane();
+  private ZoomPane zoomPane = null;
+  @FXML private ScrollPane scrollPane = new ScrollPane(stackPane);
+  private final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
   @FXML
   private JFXComboBox floorDropDown =
@@ -83,7 +77,7 @@ public class MapController extends Controller {
     private static final MapController manager = new MapController();
   }
 
-  public static MapController getManager() {
+  public static MapController getController() {
     return MapController.SingletonHelper.manager;
   }
 
@@ -184,12 +178,6 @@ public class MapController extends Controller {
     drag = false;
   }
 
-  @FXML
-  private void refresh() throws IOException {
-    // Matt's csv
-    Vdb.saveToLocationDB();
-    getFloor();
-  }
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
   private String getFloor() {
     String result = "";

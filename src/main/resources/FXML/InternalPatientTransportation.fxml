@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.InternalPatientTransportationController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.InternalPatientTransportationController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -129,44 +144,9 @@
             <children>
                 <TabPane fx:id="medicineTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab text="Map View">
+                        <Tab fx:id="mapTab" text="Map View">
                             <content>
-                                <Pane prefHeight="571.0" prefWidth="366.0">
-                                    <children>
-                                        <JFXComboBox layoutX="349.0" layoutY="890.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                            <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                    <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                                    <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                                    <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                                    <String fx:id="floor1" fx:value="Floor 1" />
-                                                    <String fx:id="floor2" fx:value="Floor 2" />
-                                                    <String fx:id="floor3" fx:value="Floor 3" />
-                                                </FXCollections>
-                                            </items>
-                                        </JFXComboBox>
-                                        <ImageView fitHeight="414.0" fitWidth="464.0" layoutX="68.0" layoutY="60.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../1st Floor.png" />
-                                            </image>
-                                            <viewport>
-                                                <Rectangle2D />
-                                            </viewport>
-                                        </ImageView>
-                                        <JFXComboBox fx:id="floorDropDown" layoutX="23.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                            <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                    <String fx:id="groundFloor1" fx:value="Ground Floor" />
-                                                    <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
-                                                    <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
-                                                    <String fx:id="floor11" fx:value="Floor 1" />
-                                                    <String fx:id="floor21" fx:value="Floor 2" />
-                                                    <String fx:id="floor31" fx:value="Floor 3" />
-                                                </FXCollections>
-                                            </items>
-                                        </JFXComboBox>
-                                    </children>
-                                </Pane>
+                                <VBox fx:id="mapVBox" alignment="CENTER" prefHeight="367.0" prefWidth="548.0" />
                             </content>
                         </Tab>
                         <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Transportations">

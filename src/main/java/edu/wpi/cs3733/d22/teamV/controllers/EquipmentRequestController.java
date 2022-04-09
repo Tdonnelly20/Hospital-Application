@@ -54,6 +54,14 @@ public class EquipmentRequestController extends MapController {
   @FXML private TreeTableColumn<Location, String> nodeTypeCol;
   @FXML private TreeTableColumn<Location, Boolean> shortNameCol;
 
+  private static class SingletonHelper {
+    private static final EquipmentRequestController controller = new EquipmentRequestController();
+  }
+
+  public static EquipmentRequestController getController() {
+    return EquipmentRequestController.SingletonHelper.controller;
+  }
+
   @FXML
   private void updateTreeTable() {
     employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));

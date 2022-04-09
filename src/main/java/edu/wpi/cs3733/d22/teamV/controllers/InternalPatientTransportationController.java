@@ -40,6 +40,15 @@ public class InternalPatientTransportationController extends MapController
   public static InternalPatientTransportationDao internalPatientTransportationDao =
       Vdb.internalPatientTransportationDao;
 
+  private static class SingletonHelper {
+    private static final InternalPatientTransportationController controller =
+        new InternalPatientTransportationController();
+  }
+
+  public static InternalPatientTransportationController getController() {
+    return InternalPatientTransportationController.SingletonHelper.controller;
+  }
+
   /** Update the table with values from fields and the DB */
   @Override
   public void updateTreeTable() {

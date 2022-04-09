@@ -160,36 +160,9 @@
          <children>
             <TabPane fx:id="medicineTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
-                  <Tab text="Map View">
+                  <Tab fx:id="mapTab" text="Map View">
                      <content>
-                        <Pane prefHeight="571.0" prefWidth="366.0">
-                           <children>
-                              <JFXComboBox fx:id="floorDropDown" layoutX="171.0" layoutY="518.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                 <items>
-                                    <FXCollections fx:factory="observableArrayList">
-                                       <String fx:id="groundFloor1" fx:value="Ground Floor" />
-                                       <String fx:id="lowerLevel11" fx:value="Lower Level 1" />
-                                       <String fx:id="lowerLevel21" fx:value="Lower Level 2" />
-                                       <String fx:id="floor11" fx:value="Floor 1" />
-                                       <String fx:id="floor21" fx:value="Floor 2" />
-                                       <String fx:id="floor31" fx:value="Floor 3" />
-                                    </FXCollections>
-                                 </items>
-                              </JFXComboBox>
-                              <TextArea fx:id="coordinates1" layoutX="420.0" layoutY="22.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                              <Pane fx:id="mapPane" layoutX="40.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="470.0" prefWidth="470.0">
-                                 <children>
-                                    <ImageView fx:id="mapImage" fitHeight="470.0" fitWidth="470.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../2nd%20Floor.png" />
-                                       </image>
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                    </ImageView>
-                                 </children></Pane>
-                           </children>
-                        </Pane>
+                        <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                      </content>
                   </Tab>
                   <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Delivery Requests">
