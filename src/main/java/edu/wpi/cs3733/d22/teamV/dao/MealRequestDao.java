@@ -3,8 +3,6 @@ package edu.wpi.cs3733.d22.teamV.dao;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.MealRequest;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
-import edu.wpi.cs3733.d22.teamV.interfaces.MealRequestImpl;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,13 +17,9 @@ public class MealRequestDao extends DaoInterface {
     // TODO: Add info from the database to the local arraylist
   }
 
-
   public List<MealRequest> getAllMealRequests() {
     return allMealRequests;
   }
-
-
-
 
   public void addMealRequest(
       int userID, int patientID, String firstName, String lastName, String food) {
@@ -40,43 +34,28 @@ public class MealRequestDao extends DaoInterface {
     System.out.println("Sending to database...");
   }
 
-
   public void removeMealRequest() {} // TODO
 
   @Override
-  public void loadFromCSV() throws IOException, SQLException {
-
-  }
+  public void loadFromCSV() throws IOException, SQLException {}
 
   @Override
-  public void saveToCSV() throws IOException {
-
-  }
+  public void saveToCSV() throws IOException {}
 
   @Override
-  public void createSQLTable() throws SQLException {
-
-  }
+  public void createSQLTable() throws SQLException {}
 
   @Override
-  public void addToSQLTable(ServiceRequest request) throws SQLException {
-
-  }
+  public void addToSQLTable(ServiceRequest request) throws SQLException {}
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-
-  }
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}
 
   @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-
-  }
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {}
 
   @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
-
-  }
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {}
 
   @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
@@ -84,7 +63,6 @@ public class MealRequestDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
-
-  }
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+      throws SQLException {}
 }
