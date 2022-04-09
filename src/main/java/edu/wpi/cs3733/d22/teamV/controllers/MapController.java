@@ -34,6 +34,13 @@ public class MapController extends Controller {
   ObservableList<String> filterItems =
       FXCollections.observableArrayList(
           "Locations",
+          "Department",
+          "Hallway",
+          "Service",
+          "Elevator",
+          "Stairway",
+          "Bathroom",
+          "Labs",
           "Equipment",
           "Clean Equipment",
           "Service Requests",
@@ -254,7 +261,7 @@ public class MapController extends Controller {
           }
         }
         if (filter.contains("Locations") && icon.iconType.equals("Location")) {
-          mapPane.getChildren().add(icon.getImage());
+          filterByLocation((LocationIcon) icon);
         }
       } else {
         if (!mapPane.getChildren().contains(icon.getImage())) {
@@ -275,28 +282,19 @@ public class MapController extends Controller {
         && !filter.contains("Sanitation Requests")
         && !filter.contains("Internal Patient Transport Requests")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Equipment Delivery Requests")
-        && icon.hasActiveRequestType("Equipment Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Meal Delivery Requests")
-        && icon.hasActiveRequestType("Meal Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Laundry Requests")
-        && icon.hasActiveRequestType("Laundry Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Medicine Delivery Requests")
-        && icon.hasActiveRequestType("Medicine Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Religious Requests")
-        && icon.hasActiveRequestType("Religious Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Sanitation Requests")
-        && icon.hasActiveRequestType("Sanitation Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Internal Patient Transport Requests")
-        && icon.hasActiveRequestType("Internal Patient Transport Request")) {
+    } else if ((filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request"))
+        || (filter.contains("Equipment Delivery Requests")
+            && icon.hasActiveRequestType("Equipment Delivery Request"))
+        || (filter.contains("Meal Delivery Requests")
+            && icon.hasActiveRequestType("Meal Delivery Request"))
+        || (filter.contains("Laundry Requests") && icon.hasActiveRequestType("Laundry Request"))
+        || (filter.contains("Medicine Delivery Requests")
+            && icon.hasActiveRequestType("Medicine Delivery Request"))
+        || (filter.contains("Religious Requests") && icon.hasActiveRequestType("Religious Request"))
+        || (filter.contains("Sanitation Requests")
+            && icon.hasActiveRequestType("Sanitation Request"))
+        || (filter.contains("Internal Patient Transport Requests")
+            && icon.hasActiveRequestType("Internal Patient Transport Request"))) {
       mapPane.getChildren().add(icon.getImage());
     }
   }
@@ -312,26 +310,47 @@ public class MapController extends Controller {
         && !filter.contains("Sanitation Requests")
         && !filter.contains("Internal Patient Transport Requests")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Lab Requests") && icon.hasRequestType("Lab Request")) {
+    } else if ((filter.contains("Lab Requests") && icon.hasRequestType("Lab Request"))
+        || (filter.contains("Equipment Delivery Requests")
+            && icon.hasRequestType("Equipment Delivery Request"))
+        || (filter.contains("Meal Delivery Requests")
+            && icon.hasRequestType("Meal Delivery Request"))
+        || (filter.contains("Laundry Requests") && icon.hasRequestType("Laundry Request"))
+        || (filter.contains("Medicine Delivery Requests")
+            && icon.hasRequestType("Medicine Delivery Request"))
+        || (filter.contains("Religious Requests") && icon.hasRequestType("Religious Request"))
+        || (filter.contains("Sanitation Requests") && icon.hasRequestType("Sanitation Request"))
+        || (filter.contains("Internal Patient Transport Requests")
+            && icon.hasRequestType("Internal Patient Transport Request"))) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Equipment Delivery Requests")
-        && icon.hasRequestType("Equipment Delivery Request")) {
+    }
+  }
+
+  public void filterByLocation(LocationIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (!filter.contains("Department")
+        && !filter.contains("Hallway")
+        && !filter.contains("Service")
+        && !filter.contains("Elevator")
+        && !filter.contains("Stairway")
+        && !filter.contains("Bathroom")
+        && !filter.contains("Labs")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Meal Delivery Requests")
-        && icon.hasRequestType("Meal Delivery Request")) {
+    } else if (filter.contains("Department") && icon.getLocation().getNodeType().equals("DEPT")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Laundry Requests") && icon.hasRequestType("Laundry Request")) {
+    } else if (filter.contains("Hallway") && icon.getLocation().getNodeType().equals("HALL")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Medicine Delivery Requests")
-        && icon.hasRequestType("Medicine Delivery Request")) {
+    } else if (filter.contains("Service") && icon.getLocation().getNodeType().equals("SERV")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Religious Requests") && icon.hasRequestType("Religious Request")) {
+    } else if (filter.contains("Elevator") && icon.getLocation().getNodeType().equals("ELEV")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Sanitation Requests")
-        && icon.hasRequestType("Sanitation Request")) {
+    } else if (filter.contains("Stairway") && icon.getLocation().getNodeType().equals("STAI")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Internal Patient Transport Requests")
-        && icon.hasRequestType("Internal Patient Transport Request")) {
+    } else if (filter.contains("Bathroom")
+        && (icon.getLocation().getNodeType().equals("BATH")
+            || icon.getLocation().getNodeType().equals("REST"))) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Labs") && icon.getLocation().getNodeType().equals("LABS")) {
       mapPane.getChildren().add(icon.getImage());
     }
   }
