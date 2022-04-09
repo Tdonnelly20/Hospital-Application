@@ -44,6 +44,7 @@ public class Vdb {
     // ADD YO SERVICE REQUESTS UNDER MINE YO
     allServiceRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
     allServiceRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
+    allServiceRequests.addAll(labRequestDao.getAllServiceRequests());
 
     for (ServiceRequest request : allServiceRequests) {
       if (request.getServiceID() > highestID) {

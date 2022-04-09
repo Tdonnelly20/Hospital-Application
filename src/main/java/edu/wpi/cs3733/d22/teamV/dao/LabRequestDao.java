@@ -38,6 +38,7 @@ public class LabRequestDao implements DaoInterface {
               data[3],
               data[4],
               data[5]);
+      newDelivery.setServiceID(Integer.parseInt(data[6]));
       allLabRequests.add(newDelivery);
     }
     setAllServiceRequests(allLabRequests);
