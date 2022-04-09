@@ -2,12 +2,14 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -63,11 +65,29 @@ public class LocationController extends MapController {
   @FXML private Text confirmText = new Text("Are you sure?");
 
   private static class SingletonHelper {
-    private static final LocationController manager = new LocationController();
+    private static final LocationController controller = new LocationController();
   }
 
-  public static LocationController getManager() {
-    return LocationController.SingletonHelper.manager;
+  public static LocationController getController() {
+    return LocationController.SingletonHelper.controller;
+  }
+
+  @Override
+  public void init() {
+    setUpControls();
+    zoom();
+    currFloor = MapManager.getManager().getFloor("1");
+    mapVBox.setFillWidth(true);
+
+    scrollPane.setMaxSize(470, 470);
+    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox);
+    mapVBox.getChildren().addAll(scrollPane, mapHBox);
+    mapVBox.setAlignment(Pos.TOP_CENTER);
+    mapVBox.setSpacing(15);
+    mapHBox.setAlignment(Pos.CENTER);
+    checkDropDown();
+    setElements();
+    resetPage();
   }
 
   @FXML

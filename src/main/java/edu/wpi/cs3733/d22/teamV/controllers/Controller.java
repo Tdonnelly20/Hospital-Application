@@ -15,7 +15,9 @@ import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
   private Parent root;
+  MapController controller;
   FXMLLoader loader = new FXMLLoader();
+  String filterString = "";
 
   /**
    * Determines if a String is an integer or not
@@ -60,21 +62,18 @@ public abstract class Controller extends Application {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    switchScene(event);
+    MapManager.getManager().closePopUp();
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
   }
 
   // Switches scene to the location database
   @FXML
   public void switchToLocationDB(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
-    root = loader.load();
-    LocationController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
-    controller.setElements();
-    controller.resetPage();
-    // filterCheckBox.getCheckModel().clearChecks();
-    // filterCheckBox.getCheckModel().check("Location");
+    filterString = "Locations";
     switchScene(event);
   }
 
@@ -82,23 +81,15 @@ public abstract class Controller extends Application {
   @FXML
   public void switchToServiceRequest(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/serviceRequest.fxml"));
-    root = loader.load();
-    ServiceRequestController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Service Requests";
     switchScene(event);
-    // filterCheckBox.getCheckModel().clearChecks();
-    // filterCheckBox.getCheckModel().check("Request");
   }
 
   // Switches scene to the lab request page
   @FXML
   public void switchToLabRequest(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LabRequest.fxml"));
-    root = loader.load();
-    LabRequestController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Lab Requests";
     switchScene(event);
   }
 
@@ -106,10 +97,7 @@ public abstract class Controller extends Application {
   @FXML
   public void switchToMedicineDelivery(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/MedicineDelivery.fxml"));
-    root = loader.load();
-    MedicineDeliveryController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Medicine Delivery";
     switchScene(event);
   }
 
@@ -118,10 +106,7 @@ public abstract class Controller extends Application {
   public void switchToMedEquipDelivery(ActionEvent event) throws IOException {
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/MedicalEquipmentDelivery.fxml"));
-    root = loader.load();
-    EquipmentRequestController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Equipment Delivery";
     switchScene(event);
   }
 
@@ -129,10 +114,7 @@ public abstract class Controller extends Application {
   @FXML
   public void switchToSanitationRequest(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml"));
-    root = loader.load();
-    SanitationRequestController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Sanitation Requests";
     switchScene(event);
   }
 
@@ -140,10 +122,7 @@ public abstract class Controller extends Application {
   @FXML
   public void switchToMealDelivery(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/MealDelivery.fxml"));
-    root = loader.load();
-    MealDeliveryRequestController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Meal Delivery";
     switchScene(event);
   }
 
@@ -151,10 +130,7 @@ public abstract class Controller extends Application {
   @FXML
   public void switchToLaundryRequest(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
-    root = loader.load();
-    LaundryRequestController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Laundry Requests";
     switchScene(event);
   }
 
@@ -162,31 +138,34 @@ public abstract class Controller extends Application {
   @FXML
   public void switchToReligiousRequest(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml"));
-    root = loader.load();
-    ReligiousRequestController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Religious Requests";
     switchScene(event);
   }
 
   // Switches scene to the religious request page
   @FXML
   public void switchToInternalPatientTransport(ActionEvent event) throws IOException {
-
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
-    root = loader.load();
-    InternalPatientTransportationController controller = loader.getController();
-    controller.init();
-    controller.populateFloorIconArr();
+    filterString = "Internal Patient Transportation Requests";
     switchScene(event);
   }
 
   // Switches scene to the rootW
   @FXML
   public void switchScene(ActionEvent event) {
-    MapManager.getManager().closePopUp();
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    controller = loader.getController();
+    controller.filterCheckBox.getCheckModel().clearChecks();
+    controller.filterCheckBox.getCheckModel().check(filterString);
+    controller.init();
+    controller.populateFloorIconArr();
 
+    MapManager.getManager().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);

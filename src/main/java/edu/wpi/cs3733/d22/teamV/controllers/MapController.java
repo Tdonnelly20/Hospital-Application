@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 
 public class MapController extends Controller {
-  private Floor currFloor;
+  protected Floor currFloor;
   boolean drag = false;
 
   @FXML
@@ -40,29 +40,31 @@ public class MapController extends Controller {
           "Locations",
           "Equipment",
           "Clean Equipment",
+          "Service Requests",
           "Active Requests",
           "Lab Requests",
           "Equipment Delivery",
           "Meal Delivery",
+          "Laundry Requests",
           "Medicine Delivery",
-          "Religious Request",
-          "Sanitation Request",
-          "Internal Patient Transport");
+          "Religious Requests",
+          "Sanitation Requests",
+          "Internal Patient Transport Requests");
 
-  @FXML private VBox mapVBox = new VBox(15);
-  @FXML private CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
-  @FXML private HBox mapHBox = new HBox(15);
-  @FXML private Pane mapPane = new Pane();
-  private final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
-  private final Group group = new Group();
-  @FXML private ImageView mapImage = new ImageView(new Image("1st Floor.png"));
-  @FXML private StackPane stackPane = new StackPane();
-  private ZoomPane zoomPane = null;
-  @FXML private ScrollPane scrollPane = new ScrollPane(stackPane);
-  private final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
+  @FXML protected VBox mapVBox = new VBox(15);
+  @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
+  @FXML protected HBox mapHBox = new HBox(15);
+  @FXML protected Pane mapPane = new Pane();
+  protected final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
+  protected final Group group = new Group();
+  @FXML protected ImageView mapImage = new ImageView(new Image("1st Floor.png"));
+  @FXML protected StackPane stackPane = new StackPane();
+  protected ZoomPane zoomPane = null;
+  @FXML protected ScrollPane scrollPane = new ScrollPane(stackPane);
+  protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
   @FXML
-  private JFXComboBox floorDropDown =
+  protected JFXComboBox floorDropDown =
       new JFXComboBox<>(
           FXCollections.observableArrayList(
               "Lower Level 2",
@@ -73,13 +75,6 @@ public class MapController extends Controller {
               "4th Floor",
               "5th Floor"));
 
-  private static class SingletonHelper {
-    private static final MapController manager = new MapController();
-  }
-
-  public static MapController getController() {
-    return MapController.SingletonHelper.manager;
-  }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -87,7 +82,7 @@ public class MapController extends Controller {
   }
 
   @FXML
-  private void zoom() {
+  void zoom() {
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
     mapImage.setPreserveRatio(true);
@@ -113,7 +108,7 @@ public class MapController extends Controller {
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }
 
-  private void setUpControls() {
+  void setUpControls() {
     floorDropDown.setValue("1st Floor");
     floorDropDown.setOnAction(
         event -> {
@@ -157,7 +152,7 @@ public class MapController extends Controller {
 
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
-  private void checkDropDown() {
+  void checkDropDown() {
     MapManager.getManager().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
     System.out.println(floorDropDown.getValue().toString() + ".png");
