@@ -53,6 +53,14 @@ public class MedicineDeliveryController extends MapController implements Request
   public static MedicineDeliveryController getController() {
     return MedicineDeliveryController.SingletonHelper.controller;
   }
+
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Medicine Delivery Requests");
+    filterCheckBox.getCheckModel().check("Equipment");
+  }
+
   /** Update the table with values from fields and the DB */
   @Override
   public void updateTreeTable() {

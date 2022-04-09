@@ -26,6 +26,12 @@ public class MealDeliveryRequestController extends MapController {
   @FXML private JFXComboBox<Object> requestedMeal;
   @FXML private Button sendRequest;
 
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Meal Delivery Requests");
+  }
+
   @FXML
   private void resetForm() {
     Status.setText("Status: Blank");

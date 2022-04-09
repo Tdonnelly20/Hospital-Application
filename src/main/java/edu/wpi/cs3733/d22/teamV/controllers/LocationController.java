@@ -2,14 +2,12 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -74,18 +72,9 @@ public class LocationController extends MapController {
 
   @Override
   public void init() {
-    setUpControls();
-    zoom();
-    currFloor = MapManager.getManager().getFloor("1");
-    mapVBox.setFillWidth(true);
-
-    scrollPane.setMaxSize(470, 470);
-    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox);
-    mapVBox.getChildren().addAll(scrollPane, mapHBox);
-    mapVBox.setAlignment(Pos.TOP_CENTER);
-    mapVBox.setSpacing(15);
-    mapHBox.setAlignment(Pos.CENTER);
-    checkDropDown();
+    mapSetUp();
+    filterCheckBox.getCheckModel().clearChecks();
+    filterCheckBox.getCheckModel().check("Locations");
     setElements();
     resetPage();
   }

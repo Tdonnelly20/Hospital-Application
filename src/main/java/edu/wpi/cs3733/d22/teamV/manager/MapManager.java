@@ -2,10 +2,8 @@ package edu.wpi.cs3733.d22.teamV.manager;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.map.Floor;
-import edu.wpi.cs3733.d22.teamV.map.Icon;
-import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
-import edu.wpi.cs3733.d22.teamV.map.RequestIcon;
+import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,73 +96,79 @@ public class MapManager {
   private void setUpFloors() {
     floorList = new ArrayList<>();
 
-    Floor g = new Floor("G");
     Floor l1 = new Floor("L1");
     Floor l2 = new Floor("L2");
     Floor f1 = new Floor("1");
     Floor f2 = new Floor("2");
     Floor f3 = new Floor("3");
+    Floor f4 = new Floor("4");
+    Floor f5 = new Floor("5");
 
-    floorList.add(g);
     floorList.add(l1);
     floorList.add(l2);
     floorList.add(f1);
     floorList.add(f2);
     floorList.add(f3);
-    System.out.println("SIZE: " + floorList.size());
+    // System.out.println("SIZE: " + floorList.size());
 
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
 
     for (Location l : locations) {
       switch (l.getFloor()) {
-        case "G":
+        case "L1":
           loadLocations(0, l);
           break;
-        case "L1":
+        case "L2":
           loadLocations(1, l);
           break;
-        case "L2":
+        case "1":
           loadLocations(2, l);
           break;
-        case "1":
+        case "2":
           loadLocations(3, l);
           break;
-        case "2":
+        case "3":
           loadLocations(4, l);
           break;
-        case "3":
+        case "4":
           loadLocations(5, l);
+          break;
+        case "5":
+          loadLocations(6, l);
           break;
       }
     }
 
-    /*  System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
+    //  System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
     for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
+      Location l = new Location(e.getX(), e.getY(), e.getFloor());
       switch (e.getFloor()) {
-        case "G":
-          floorList.get(0).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
-          break;
         case "L1":
-          floorList.get(1).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(0).addIcon(new EquipmentIcon(l));
           break;
         case "L2":
-          floorList.get(2).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(1).addIcon(new EquipmentIcon(l));
           break;
         case "1":
-          floorList.get(3).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(2).addIcon(new EquipmentIcon(l));
           break;
         case "2":
-          floorList.get(4).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(3).addIcon(new EquipmentIcon(l));
           break;
         case "3":
-          floorList.get(5).addIcon(new Icon(new Location(e.getX(), e.getY(), e.getFloor()), true));
+          floorList.get(4).addIcon(new EquipmentIcon(l));
+          break;
+        case "4":
+          floorList.get(5).addIcon(new EquipmentIcon(l));
+          break;
+        case "5":
+          floorList.get(6).addIcon(new EquipmentIcon(l));
           break;
       }
-    }*/
+    }
   }
 
   public void loadLocations(int i, Location l) {
-    Icon icon;
     if (floorList.size() > 0) {
       if (floorList.get(i).hasIconAt(l)) {
         if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
@@ -177,8 +181,7 @@ public class MapManager {
         floorList.get(i).addIcon(new LocationIcon(l));
       }
     } else {
-      icon = new LocationIcon(l);
-      floorList.get(i).addIcon(icon);
+      floorList.get(i).addIcon(new LocationIcon(l));
     }
   }
 
@@ -190,18 +193,20 @@ public class MapManager {
    */
   public Floor getFloor(String str) {
     switch (str) {
-      case "G":
-        return floorList.get(0);
       case "L1":
-        return floorList.get(1);
+        return floorList.get(0);
       case "L2":
-        return floorList.get(2);
+        return floorList.get(1);
       case "1":
-        return floorList.get(3);
+        return floorList.get(2);
       case "2":
-        return floorList.get(4);
+        return floorList.get(3);
       case "3":
+        return floorList.get(4);
+      case "4":
         return floorList.get(5);
+      case "5":
+        return floorList.get(6);
     }
     return null;
   }

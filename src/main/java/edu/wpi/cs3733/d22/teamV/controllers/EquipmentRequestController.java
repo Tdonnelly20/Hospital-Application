@@ -62,6 +62,12 @@ public class EquipmentRequestController extends MapController {
     return EquipmentRequestController.SingletonHelper.controller;
   }
 
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Equipment Delivery Requests");
+  }
+
   @FXML
   private void updateTreeTable() {
     employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));

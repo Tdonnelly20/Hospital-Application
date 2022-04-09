@@ -38,6 +38,12 @@ public class LabRequestController extends MapController implements RequestInterf
   }
 
   @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Lab Requests");
+  }
+
+  @Override
   @FXML
   public void resetForm() {
     Status.setText("Status: Blank");

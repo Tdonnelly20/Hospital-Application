@@ -32,6 +32,12 @@ public class LaundryRequestController extends MapController {
     return LaundryRequestController.SingletonHelper.controller;
   }
 
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Laundry Requests");
+  }
+
   // TODO
   // laundryRequestDAO is not in VDB
   // fix database connection for add / remove Laundry Request

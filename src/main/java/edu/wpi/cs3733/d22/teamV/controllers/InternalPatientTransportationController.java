@@ -49,6 +49,12 @@ public class InternalPatientTransportationController extends MapController
     return InternalPatientTransportationController.SingletonHelper.controller;
   }
 
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Internal Patient Transport Requests");
+  }
+
   /** Update the table with values from fields and the DB */
   @Override
   public void updateTreeTable() {

@@ -43,10 +43,10 @@ public class MapController extends Controller {
           "Service Requests",
           "Active Requests",
           "Lab Requests",
-          "Equipment Delivery",
-          "Meal Delivery",
+          "Equipment Delivery Requests",
+          "Meal Delivery Requests",
           "Laundry Requests",
-          "Medicine Delivery",
+          "Medicine Delivery Requests",
           "Religious Requests",
           "Sanitation Requests",
           "Internal Patient Transport Requests");
@@ -74,7 +74,6 @@ public class MapController extends Controller {
               "3rd Floor",
               "4th Floor",
               "5th Floor"));
-
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -136,6 +135,10 @@ public class MapController extends Controller {
 
   @Override
   public void init() {
+    mapSetUp();
+  }
+
+  protected void mapSetUp() {
     setUpControls();
     zoom();
     currFloor = MapManager.getManager().getFloor("1");
@@ -155,7 +158,6 @@ public class MapController extends Controller {
   void checkDropDown() {
     MapManager.getManager().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
-    System.out.println(floorDropDown.getValue().toString() + ".png");
     mapImage.setImage(new Image(url));
     mapImage.setFitWidth(600);
     mapImage.setFitHeight(600);
@@ -169,7 +171,7 @@ public class MapController extends Controller {
 
   @FXML
   private void dragOver() {
-    System.out.println("Drag over");
+    // System.out.println("Drag over");
     drag = false;
   }
 
@@ -219,10 +221,10 @@ public class MapController extends Controller {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     for (Icon icon : currFloor.getIconList()) {
       if (filter.size() > 0) {
-        System.out.println(icon.iconType);
+        // System.out.println(icon.iconType);
         mapPane.getChildren().add(icon.getImage());
         if (filter.contains("Request") && icon.iconType.equals("Request")) {
-          System.out.println(icon.getImage());
+          //System.out.println(icon.getImage());
           mapPane.getChildren().add(icon.getImage());
         }
         if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
@@ -255,22 +257,22 @@ public class MapController extends Controller {
                 if (mapManager.checkFields()) {
                   addIcon(
                       new LocationIcon(mapManager.getLocation(xPos + 25, yPos + 15, getFloor())));
-                  System.out.println("Real X: " + event.getX() + " Y: " + event.getY());
-                  System.out.println("X: " + xPos + " Y: " + yPos);
+                  // System.out.println("Real X: " + event.getX() + " Y: " + event.getY());
+                  // System.out.println("X: " + xPos + " Y: " + yPos);
                   populateFloorIconArr();
                 } else {
                   Text missingFields = new Text("Please fill all fields");
                   missingFields.setFill(Color.RED);
                   missingFields.setTextAlignment(TextAlignment.CENTER);
                   MapManager.getManager().getContent().getChildren().add(missingFields);
-                  System.out.println("MISSING FIELD");
+                  // System.out.println("MISSING FIELD");
                 }
               });
       // Place Icon
       MapManager.getManager().getTempIcon().setX(xPos);
       MapManager.getManager().getTempIcon().setY(yPos);
       if (!mapPane.getChildren().contains(MapManager.getManager().getTempIcon())) {
-        System.out.println("X:" + xPos + " Y:" + yPos);
+        // System.out.println("X:" + xPos + " Y:" + yPos);
         MapManager.getManager().getTempIcon().setFitWidth(30);
         MapManager.getManager().getTempIcon().setFitHeight(30);
         mapPane.getChildren().add(MapManager.getManager().getTempIcon());

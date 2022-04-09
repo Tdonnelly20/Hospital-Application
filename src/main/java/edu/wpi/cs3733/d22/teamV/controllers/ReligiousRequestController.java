@@ -35,6 +35,12 @@ public class ReligiousRequestController extends MapController {
     return ReligiousRequestController.SingletonHelper.controller;
   }
 
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Religious Requests");
+  }
+
   @FXML
   private void resetForm() {
     Status.setText("Status: Blank");

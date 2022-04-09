@@ -30,6 +30,12 @@ public class SanitationRequestController extends MapController {
     return SanitationRequestController.SingletonHelper.controller;
   }
 
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Sanitation Requests");
+  }
+
   @FXML
   private void checkValidation() {
     if (!(patientID.getText().equals("")
