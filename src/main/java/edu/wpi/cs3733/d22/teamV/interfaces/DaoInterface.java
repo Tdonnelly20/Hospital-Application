@@ -29,4 +29,6 @@ public abstract class DaoInterface {
 
   public abstract void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException;
 
+
+
 }

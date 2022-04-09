@@ -85,6 +85,7 @@ public class RequestSystem {
         }
     }
 
+
     public void createSQLTable() throws SQLException{
         switch(dao){
             case Equipment:

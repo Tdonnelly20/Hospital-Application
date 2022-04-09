@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.function.Predicate;
-public class ReligiousRequestDao implements DaoInterface {
 import java.util.List;
 
 public class ReligiousRequestDao extends DaoInterface {
@@ -40,22 +39,22 @@ public class ReligiousRequestDao extends DaoInterface {
     Connection connection = Vdb.Connect();
     Statement statement = connection.createStatement();
     DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[] {"TABLE"});
+    ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[]{"TABLE"});
     if (!set.next()) {
       statement.execute(
-          "CREATE TABLE RELIGIOUSREQUESTS(fname char(15),lname char(15), pID int, empID int, religion char(35), request char(200), serviceID int)");
+              "CREATE TABLE RELIGIOUSREQUESTS(fname char(15),lname char(15), pID int, empID int, religion char(35), request char(200), serviceID int)");
     } else {
       statement.execute("DROP TABLE RELIGIOUSREQUESTS");
       createSQLTable();
       return;
     }
+  }
 
 
   public List<ReligiousRequest> getAllReligiousRequest() {
     return allReligiousRequest;
   }
 
-  @Override
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
@@ -91,7 +90,6 @@ public class ReligiousRequestDao extends DaoInterface {
     fw.close();
   }
 
-  @Override
   public void loadFromCSV() throws IOException {
     String line = "";
     FileReader fr = new FileReader(Vdb.currentPath + "\\ReligiousRequest.CSV");
@@ -145,6 +143,7 @@ public class ReligiousRequestDao extends DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) request;
+  }
   /**
    * Receive a religious request from the controller, store it locally, then send it to Vdb
    *
@@ -152,14 +151,8 @@ public class ReligiousRequestDao extends DaoInterface {
    * @param lastName
    * @param patientID
    * @param userID
-   * @param Christian
-   * @param Jewish
-   * @param Protestant
-   * @param Islam
-   * @param Muslim
-   * @param Buddhist
-   * @param Hindu
-   * @param Other
+   * @param x
+   * @param y
    * @param specialRequests
    */
 
@@ -168,132 +161,74 @@ public class ReligiousRequestDao extends DaoInterface {
       String lastName,
       int patientID,
       int userID,
-      boolean Christian,
-      boolean Jewish,
-      boolean Protestant,
-      boolean Islam,
-      boolean Muslim,
-      boolean Buddhist,
-      boolean Hindu,
-      boolean Other,
-      String specialRequests) {
+      String x,
+      String y,
+      int specialRequests) throws SQLException {
     ReligiousRequest newReligiousRequest =
         new ReligiousRequest(
             firstName,
             lastName,
             patientID,
             userID,
-            Christian,
-            Jewish,
-            Protestant,
-            Islam,
-            Muslim,
-            Buddhist,
-            Hindu,
-            Other,
+            x,
+            y,
             specialRequests);
 
     System.out.println("Adding to local arraylist...");
     allReligiousRequest.add(newReligiousRequest); // Store a local copy
     updateRequest(newReligiousRequest); // Store on database
-    addToSQLTable(request);
+    addToSQLTable(newReligiousRequest);
   }
 
-  @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
-    Predicate<ReligiousRequest> condition = religiousRequest -> religiousRequest.getServiceID()==serviceID;
+    Predicate<ReligiousRequest> condition = religiousRequest -> religiousRequest.getServiceID() == serviceID;
     allReligiousRequest.removeIf(condition);
     removeFromSQLTable(request);
-  //
+  }
 
   public List<ReligiousRequest> allReligiousRequest() {
     return null;
   }
 
-  @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
-    return allReligiousRequest;
-  //
+        return allReligiousRequest;
+        //
+      }
+        // Send to the database
+        private void updateReligiousRequestDB (ReligiousRequest newReligiousRequest){
+          System.out.println("Sending to database...");
+        }
 
-  // Send to the database
-  private void updateReligiousRequestDB(ReligiousRequest newReligiousRequest) {
-    System.out.println("Sending to database...");
-  }
-
-  @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+          @Override
+          public void setAllServiceRequests (ArrayList < ? extends ServiceRequest > serviceRequests)
       throws SQLException {
-    allReligiousRequest.clear();
-    for (ServiceRequest r: serviceRequests) {
-      ReligiousRequest request=(ReligiousRequest) r;
-      allReligiousRequest.add(request);
-    }
-    createSQLTable();
-  }
+            allReligiousRequest.clear();
+            for (ServiceRequest r : serviceRequests) {
+              ReligiousRequest request = (ReligiousRequest) r;
+              allReligiousRequest.add(request);
+            }
+            createSQLTable();
+          }
 
-  @Override
-  public void updateRequest(ServiceRequest Request) throws SQLException {
-    // also needs to add to csv
-    ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
-    Connection connection = Vdb.Connect();
-    String query =
-        "UPDATE RELIGIOUSREQUESTS"
-            + "SET firstName=?, lastName=?,patientID=?,userID=?,religion=?,specialRequests=?"
-            + "WHERE serviceID=?";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setString(1, newReligiousRequest.getPatientFirstName());
-    statement.setString(2, newReligiousRequest.getPatientLastName());
-    statement.setInt(3, newReligiousRequest.getEmpID());
-    statement.setInt(4, newReligiousRequest.getPatientID());
-    statement.setString(5, newReligiousRequest.getReligion());
-    statement.setString(6, newReligiousRequest.getSpecialRequests());
-    statement.setInt(7, newReligiousRequest.getServiceID());
-  }
-  public void removeReligousRequest() {}
+          public void updateRequest (ServiceRequest Request) throws SQLException {
+            // also needs to add to csv
+            ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
+            Connection connection = Vdb.Connect();
+            String query =
+                    "UPDATE RELIGIOUSREQUESTS"
+                            + "SET firstName=?, lastName=?,patientID=?,userID=?,religion=?,specialRequests=?"
+                            + "WHERE serviceID=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, newReligiousRequest.getPatientFirstName());
+            statement.setString(2, newReligiousRequest.getPatientLastName());
+            statement.setInt(3, newReligiousRequest.getEmpID());
+            statement.setInt(4, newReligiousRequest.getPatientID());
+            statement.setString(5, newReligiousRequest.getReligion());
+            statement.setString(6, newReligiousRequest.getSpecialRequests());
+            statement.setInt(7, newReligiousRequest.getServiceID());
+          }
+          public void removeReligousRequest () {
+          }
 
-  @Override
-  public void loadFromCSV() throws IOException, SQLException {
-
-  }
-
-  @Override
-  public void saveToCSV() throws IOException {
-
-  }
-
-  @Override
-  public void createSQLTable() throws SQLException {
-
-  }
-
-  @Override
-  public void addToSQLTable(ServiceRequest request) throws SQLException {
-
-  }
-
-  @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-
-  }
-
-  @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-
-  }
-
-  @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
-
-  }
-
-  @Override
-  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
-    return null;
-  }
-
-  @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
-
-  }
-}
+        }

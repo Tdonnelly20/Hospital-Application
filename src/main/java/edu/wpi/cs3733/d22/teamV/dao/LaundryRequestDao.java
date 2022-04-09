@@ -26,6 +26,8 @@ public class LaundryRequestDao extends DaoInterface {
     allLaundryRequests = LaundryRequestArrayList;
   }
 
+
+
   /**
    * Getter
    *

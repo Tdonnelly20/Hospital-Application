@@ -8,7 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LabRequestDao implements DaoInterface {
+public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
@@ -168,14 +168,15 @@ public class LabRequestDao implements DaoInterface {
       // Cast to subtype
       LabRequest delivery = (LabRequest) request;
       allLabRequests.add(delivery);
-    try {
-      // System.out.println("Adding to CSV");
-      Vdb.saveToFile(Vdb.Database.LabRequest);
-      // System.out.println("Adding to database...");
-      // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
+      try {
+        // System.out.println("Adding to CSV");
+        Vdb.saveToFile(Vdb.Database.LabRequest);
+        // System.out.println("Adding to database...");
+        // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
 
-    } catch (Exception e) {
-      e.printStackTrace();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 

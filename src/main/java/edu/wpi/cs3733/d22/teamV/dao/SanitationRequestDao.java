@@ -111,4 +111,6 @@ public class SanitationRequestDao extends DaoInterface {
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
 
   }
+
+
 }

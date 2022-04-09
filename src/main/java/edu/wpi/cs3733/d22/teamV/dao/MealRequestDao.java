@@ -25,6 +25,7 @@ public class MealRequestDao extends DaoInterface {
   }
 
 
+
   public void addMealRequest(
       int userID, int patientID, String firstName, String lastName, String food) {
     MealRequest mealRequest = new MealRequest(userID, patientID, firstName, lastName, food);

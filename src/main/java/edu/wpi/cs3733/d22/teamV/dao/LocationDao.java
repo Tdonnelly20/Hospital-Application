@@ -181,6 +181,7 @@ public class LocationDao extends DaoInterface {
       return;
     }
 
+
     for (Location location : allLocations) {
       addToSQLTable(location);
     }

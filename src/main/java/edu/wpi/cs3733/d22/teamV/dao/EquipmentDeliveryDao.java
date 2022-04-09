@@ -193,6 +193,5 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
-  @Override
   public void updateRequest(ServiceRequest request) throws SQLException {}
 }
