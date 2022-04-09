@@ -54,6 +54,7 @@ public class Equipment {
     return isDirty;
   }
 
-    public void setIsDirty(boolean bool) { isDirty = bool;
-    }
+  public void setIsDirty(boolean bool) {
+    isDirty = bool;
+  }
 }

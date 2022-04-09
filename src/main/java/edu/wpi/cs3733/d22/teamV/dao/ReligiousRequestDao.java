@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ReligiousRequest;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
@@ -9,6 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.function.Predicate;
+
 public class ReligiousRequestDao implements DaoInterface {
   private static ArrayList<ReligiousRequest>
       allReligiousRequest; // A local list of all religious requests, updated via Vdb
@@ -46,27 +46,26 @@ public class ReligiousRequestDao implements DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "FirstName,LastName,PatientID,EmpID,Religion,Details,serviceID");
+    bw.append("FirstName,LastName,PatientID,EmpID,Religion,Details,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
-      ReligiousRequest religiousRequest=(ReligiousRequest) request;
-//      String firstName,
-//      String lastName,
-//      int patientID,
-//      int userID,
-//      String religion,
-//      String specialRequests,
-//      int serviceID) {
+      ReligiousRequest religiousRequest = (ReligiousRequest) request;
+      //      String firstName,
+      //      String lastName,
+      //      int patientID,
+      //      int userID,
+      //      String religion,
+      //      String specialRequests,
+      //      int serviceID) {
       String[] outputData = {
-              religiousRequest.getPatientFirstName(),
-              religiousRequest.getPatientLastName(),
-              Integer.toString(religiousRequest.getPatientID()),
-              Integer.toString(religiousRequest.getEmpID()),
-              religiousRequest.getReligion(),
-              religiousRequest.getSpecialRequests(),
-              Integer.toString(religiousRequest.getServiceID())
+        religiousRequest.getPatientFirstName(),
+        religiousRequest.getPatientLastName(),
+        Integer.toString(religiousRequest.getPatientID()),
+        Integer.toString(religiousRequest.getEmpID()),
+        religiousRequest.getReligion(),
+        religiousRequest.getSpecialRequests(),
+        Integer.toString(religiousRequest.getServiceID())
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -108,8 +107,7 @@ public class ReligiousRequestDao implements DaoInterface {
   public void addToSQLTable(ServiceRequest Request) throws SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
     Connection connection = Vdb.Connect();
-    String query =
-            "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?,?)";
+    String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?,?)";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setString(1, newReligiousRequest.getPatientFirstName());
     statement.setString(2, newReligiousRequest.getPatientLastName());
@@ -142,7 +140,8 @@ public class ReligiousRequestDao implements DaoInterface {
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
-    Predicate<ReligiousRequest> condition = religiousRequest -> religiousRequest.getServiceID()==serviceID;
+    Predicate<ReligiousRequest> condition =
+        religiousRequest -> religiousRequest.getServiceID() == serviceID;
     allReligiousRequest.removeIf(condition);
     removeFromSQLTable(request);
   }
@@ -156,8 +155,8 @@ public class ReligiousRequestDao implements DaoInterface {
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
       throws SQLException {
     allReligiousRequest.clear();
-    for (ServiceRequest r: serviceRequests) {
-      ReligiousRequest request=(ReligiousRequest) r;
+    for (ServiceRequest r : serviceRequests) {
+      ReligiousRequest request = (ReligiousRequest) r;
       allReligiousRequest.add(request);
     }
     createSQLTable();

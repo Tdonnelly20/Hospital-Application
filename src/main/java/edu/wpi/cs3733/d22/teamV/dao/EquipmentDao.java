@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import java.io.*;
@@ -118,9 +117,9 @@ public class EquipmentDao {
     statement.execute(query);
   }
 
-  public void setDirtiness(String ID, boolean bool){
-    for(Equipment equipment : allEquipment){
-      if(equipment.getID().equals(ID)){
+  public void setDirtiness(String ID, boolean bool) {
+    for (Equipment equipment : allEquipment) {
+      if (equipment.getID().equals(ID)) {
         equipment.setIsDirty(bool);
       }
     }

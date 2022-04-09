@@ -15,7 +15,9 @@ public interface DaoInterface {
 
   void addToSQLTable(ServiceRequest request) throws SQLException;
 
-  void updateRequest(ServiceRequest request) throws SQLException;
+  void updateServiceRequest(ServiceRequest request) throws IOException, SQLException;
+
+  void updateSQLTable(ServiceRequest request) throws SQLException;
 
   void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException;
 
