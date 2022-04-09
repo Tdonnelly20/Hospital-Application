@@ -8,7 +8,8 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class MealRequestDao implements DaoInterface {
+
+public class MealRequestDao extends DaoInterface {
   private static ArrayList<MealRequest> allMealRequests;
 
   /** Initialize the array list */
