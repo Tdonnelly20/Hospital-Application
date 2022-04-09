@@ -153,6 +153,7 @@ public class ReligiousRequestDao extends DaoInterface {
    * @param userID
    * @param x
    * @param y
+   *
    * @param specialRequests
    */
 

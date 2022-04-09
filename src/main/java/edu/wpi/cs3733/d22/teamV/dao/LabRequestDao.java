@@ -180,6 +180,7 @@ public class LabRequestDao extends DaoInterface {
     }
   }
 
+
   public void removeLabRequest(int userID) {
     // System.out.println("Removing from arraylist...");
     allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);

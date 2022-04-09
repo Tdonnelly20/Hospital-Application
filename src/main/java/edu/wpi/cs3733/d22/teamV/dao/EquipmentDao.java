@@ -21,6 +21,7 @@ public class EquipmentDao{
     }
   }
 
+
   /**
    * Adds equipment to the CSV
    *
