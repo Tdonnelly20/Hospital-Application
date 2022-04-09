@@ -8,7 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class MedicineDeliveryDao implements DaoInterface {
+public class MedicineDeliveryDao extends DaoInterface {
   // A local list of all medicine deliveries, updated via Vdb
   private static ArrayList<MedicineDelivery> allMedicineDeliveries;
   /** Initialize the arraylist */
@@ -25,7 +25,6 @@ public class MedicineDeliveryDao implements DaoInterface {
     }
   }
 
-  @Override
   public void loadFromCSV() throws IOException {
 
     FileReader fr = new FileReader(Vdb.currentPath + "\\MedicineDelivery.csv");
@@ -48,8 +47,9 @@ public class MedicineDeliveryDao implements DaoInterface {
               Integer.parseInt(data[4]),
               data[5],
               data[6],
-              data[7],
-              Integer.parseInt(data[8]));
+              data[7]);
+
+      newDelivery.setServiceID(Integer.parseInt(data[8]));
       medicineDeliveries.add(newDelivery);
     }
 
@@ -61,7 +61,7 @@ public class MedicineDeliveryDao implements DaoInterface {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
-        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
+        "patientFirstName,patientLastName,nodeID,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -70,7 +70,7 @@ public class MedicineDeliveryDao implements DaoInterface {
       String[] outputData = {
         medicineDelivery.getPatientFirstName(),
         medicineDelivery.getPatientLastName(),
-        medicineDelivery.getRoomNumber(),
+        medicineDelivery.getNodeID(),
         String.valueOf(medicineDelivery.getPatientID()),
         String.valueOf(medicineDelivery.getEmployeeID()),
         medicineDelivery.getMedicineName(),
@@ -100,7 +100,7 @@ public class MedicineDeliveryDao implements DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), roomNumber char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254), serviceID int)";
+          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), nodeID char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -125,13 +125,13 @@ public class MedicineDeliveryDao implements DaoInterface {
     Statement statement = connection.createStatement();
     query =
         "INSERT INTO MEDICINES("
-            + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
+            + "patientFirstName,patientLastName,nodeID,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
             + "('"
             + medicineDelivery.getPatientFirstName()
             + "', '"
             + medicineDelivery.getPatientLastName()
             + "', '"
-            + medicineDelivery.getRoomNumber()
+            + medicineDelivery.getNodeID()
             + "', "
             + medicineDelivery.getPatientID()
             + ", "
@@ -147,38 +147,6 @@ public class MedicineDeliveryDao implements DaoInterface {
             + ")";
 
     statement.execute(query);
-
-    // Print out all the current entries...
-    /*
-    query =
-        "SELECT patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails FROM MEDICINES";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {
-          "patientFirstName",
-          "patientLastName",
-          "roomNumber",
-          "patientID",
-          "employeeID",
-          "medicineName",
-          "dosage",
-          "requestDetails",
-          "serviceID"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (String headerVal : headerVals) {
-        System.out.print(resultSet.getString(headerVal).trim() + ", ");
-      }
-      System.out.println();
-    }
-
-     */
   }
 
   @Override
@@ -230,7 +198,4 @@ public class MedicineDeliveryDao implements DaoInterface {
       allMedicineDeliveries.add(delivery);
     }
   }
-
-  @Override
-  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

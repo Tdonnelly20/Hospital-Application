@@ -26,7 +26,7 @@ public class EquipmentDelivery extends ServiceRequest {
     this.patient = new Patient(patientID, patientFirstName, patientLastName);
     this.equipment = equipment;
     this.notes = notes;
-    this.desc = "Equipment Delivery (" + equipment + ")";
+    this.type = "Equipment Delivery";
     this.status = status;
     setServiceID(serviceID);
     this.quantity = quantity;
@@ -53,7 +53,7 @@ public class EquipmentDelivery extends ServiceRequest {
     this.patient = new Patient(patientID, patientFirstName, patientLastName);
     this.equipment = equipment;
     this.notes = notes;
-    this.desc = "Equipment Delivery (" + equipment + ")";
+    this.type = "Equipment Delivery";
     this.status = status;
     this.quantity = quantity;
     this.status = status;

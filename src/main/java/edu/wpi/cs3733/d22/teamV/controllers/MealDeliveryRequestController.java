@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class MealDeliveryRequestController extends Controller {
+public class MealDeliveryRequestController extends MapController {
   @FXML private TreeTableView<MealRequest> table;
   @FXML private TreeTableColumn<MealRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<MealRequest, Integer> patientIDCol;
@@ -25,6 +25,12 @@ public class MealDeliveryRequestController extends Controller {
   @FXML private TextField lastName;
   @FXML private JFXComboBox<Object> requestedMeal;
   @FXML private Button sendRequest;
+
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Meal Delivery Requests");
+  }
 
   @FXML
   private void resetForm() {
@@ -77,7 +83,7 @@ public class MealDeliveryRequestController extends Controller {
 
     // Get the current list of lab requests from the DAO
     ArrayList<MealRequest> currMealRequests =
-        (ArrayList<MealRequest>) mealRequestDao.getAllMealRequests();
+        (ArrayList<MealRequest>) mealRequestDao.getAllServiceRequests();
 
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
@@ -94,7 +100,7 @@ public class MealDeliveryRequestController extends Controller {
       // we get the standard table functionality
       table.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem root = new TreeItem(mealRequestDao.getAllMealRequests().get(0));
+      TreeItem root = new TreeItem(mealRequestDao.getAllServiceRequests().get(0));
       // Set the root in the table
       table.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
@@ -113,12 +119,18 @@ public class MealDeliveryRequestController extends Controller {
     } else {
       // Send the request to the Dao pattern
       System.out.println(requestedMeal.getValue().toString());
-      mealRequestDao.addMealRequest(
-          Integer.parseInt(userID.getText()),
-          Integer.parseInt(patientID.getText()),
-          firstName.getText(),
-          lastName.getText(),
-          requestedMeal.getValue().toString());
+      MealRequest m =
+          new MealRequest(
+              Integer.parseInt(userID.getText()),
+              Integer.parseInt(patientID.getText()),
+              firstName.getText(),
+              lastName.getText(),
+              requestedMeal.getValue().toString());
+      try {
+        mealRequestDao.addServiceRequest(m);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
       resetForm();
       updateTreeTable();
     }

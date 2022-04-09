@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class MealRequest {
+public class MealRequest extends ServiceRequest {
   private final int userID;
   private final int patientID;
   private final String firstName;

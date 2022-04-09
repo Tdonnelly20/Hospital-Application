@@ -19,7 +19,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MedicineDeliveryController extends Controller implements RequestInterface {
+public class MedicineDeliveryController extends MapController implements RequestInterface {
 
   @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
 
@@ -27,7 +27,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
   @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> roomNumberCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> nodeIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> medicineCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> dosageCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> otherInfoCol;
@@ -36,7 +36,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
   @FXML private TextField hospitalID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
-  @FXML private TextField roomNum;
+  @FXML private TextField nodeID;
   @FXML private TextField dosage;
   @FXML private JFXComboBox<Object> medicationDropDown;
   @FXML private Button sendRequest;
@@ -45,6 +45,21 @@ public class MedicineDeliveryController extends Controller implements RequestInt
 
   // MUST take from Vdb, do NOT create
   private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
+
+  private static class SingletonHelper {
+    private static final MedicineDeliveryController controller = new MedicineDeliveryController();
+  }
+
+  public static MedicineDeliveryController getController() {
+    return MedicineDeliveryController.SingletonHelper.controller;
+  }
+
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Medicine Delivery Requests");
+    filterCheckBox.getCheckModel().check("Equipment");
+  }
 
   /** Update the table with values from fields and the DB */
   @Override
@@ -55,7 +70,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    roomNumberCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory("medicineName"));
     dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory("dosage"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
@@ -97,7 +112,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
           && patientID.getText().equals("")
           && firstName.getText().equals("")
           && lastName.getText().equals("")
-          && roomNum.getText().equals("")
+          && nodeID.getText().equals("")
           && dosage.getText().equals("")
           && medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
@@ -107,7 +122,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
           || patientID.getText().equals("")
           || firstName.getText().equals("")
           || lastName.getText().equals("")
-          || roomNum.getText().equals("")
+          || nodeID.getText().equals("")
           || dosage.getText().equals("")
           || medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
@@ -137,7 +152,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
           new MedicineDelivery(
               firstName.getText(),
               lastName.getText(),
-              roomNum.getText(),
+              nodeID.getText(),
               Integer.parseInt(patientID.getText()),
               Integer.parseInt(hospitalID.getText()),
               medicationDropDown.getValue().toString(),
@@ -156,8 +171,8 @@ public class MedicineDeliveryController extends Controller implements RequestInt
               + hospitalID.getText()
               + "\nPatient ID: "
               + patientID.getText()
-              + "\nRoom #: "
-              + roomNum.getText()
+              + "\nNode ID: "
+              + nodeID.getText()
               + "\nName: "
               + firstName.getText()
               + " "
@@ -181,7 +196,7 @@ public class MedicineDeliveryController extends Controller implements RequestInt
     hospitalID.setText("");
     firstName.setText("");
     lastName.setText("");
-    roomNum.setText("");
+    nodeID.setText("");
     dosage.setText("");
 
     medicationDropDown.setValue("Select Medication");

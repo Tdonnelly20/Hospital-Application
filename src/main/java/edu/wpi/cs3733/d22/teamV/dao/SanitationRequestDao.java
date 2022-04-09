@@ -7,12 +7,13 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 
 import java.io.*;
 import java.sql.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-public class SanitationRequestDao implements DaoInterface {
 
-
+public class SanitationRequestDao extends DaoInterface {
   private static ArrayList<SanitationRequest>
       allSanitationRequests; // A local list of all sanitation requests, updated via Vdb
 
@@ -169,11 +170,11 @@ public class SanitationRequestDao implements DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     SanitationRequest newRequest = (SanitationRequest) request;
-
-    System.out.println("Adding to local arraylist...");
-    allSanitationRequests.add(newRequest); // Store a local copy
-    updateRequest(newRequest); // Store on database
+    request.setServiceID(Vdb.getServiceID());
+    newRequest.setServiceID(Vdb.getServiceID());//
+    allSanitationRequests.add(newRequest);
     addToSQLTable(request);
+    saveToCSV();
   }
 
   @Override

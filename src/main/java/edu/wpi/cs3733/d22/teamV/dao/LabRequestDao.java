@@ -8,7 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LabRequestDao implements DaoInterface {
+public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
@@ -38,6 +38,7 @@ public class LabRequestDao implements DaoInterface {
               data[3],
               data[4],
               data[5]);
+      newDelivery.setServiceID(Integer.parseInt(data[6]));
       allLabRequests.add(newDelivery);
     }
     setAllServiceRequests(allLabRequests);
@@ -171,6 +172,33 @@ public class LabRequestDao implements DaoInterface {
       // Cast to subtype
       LabRequest delivery = (LabRequest) request;
       allLabRequests.add(delivery);
+      try {
+        // System.out.println("Adding to CSV");
+        Vdb.saveToFile(Vdb.Database.LabRequest);
+        // System.out.println("Adding to database...");
+        // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void removeLabRequest(int userID) {
+    // System.out.println("Removing from arraylist...");
+    allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);
+
+    try {
+      // System.out.println("Removing from database...");
+      Connection connection;
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      Statement exampleStatement = connection.createStatement();
+      for (LabRequest l : allLabRequests)
+        exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
+
+      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }

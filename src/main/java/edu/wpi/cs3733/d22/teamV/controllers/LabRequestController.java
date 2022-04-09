@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class LabRequestController extends Controller implements RequestInterface {
+public class LabRequestController extends MapController implements RequestInterface {
   @FXML private TreeTableView<LabRequest> table;
   @FXML private TreeTableColumn<LabRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<LabRequest, Integer> patientIDCol;
@@ -28,6 +28,20 @@ public class LabRequestController extends Controller implements RequestInterface
   @FXML private TextField lastName;
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private Button sendRequest;
+
+  private static class SingletonHelper {
+    private static final LabRequestController manager = new LabRequestController();
+  }
+
+  public static LabRequestController getManager() {
+    return LabRequestController.SingletonHelper.manager;
+  }
+
+  @Override
+  public void init() {
+    mapSetUp();
+    filterCheckBox.getCheckModel().check("Lab Requests");
+  }
 
   @Override
   @FXML

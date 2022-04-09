@@ -5,11 +5,15 @@ import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import java.io.*;
+import java.io.IOException;
 import java.sql.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
-public class ReligiousRequestDao implements DaoInterface {
+
+public class ReligiousRequestDao extends DaoInterface {
   private static ArrayList<ReligiousRequest>
       allReligiousRequest; // A local list of all religious requests, updated via Vdb
 
@@ -42,7 +46,10 @@ public class ReligiousRequestDao implements DaoInterface {
     }
   }
 
-  @Override
+  public List<ReligiousRequest> getAllReligiousRequest() {
+    return allReligiousRequest;
+  }
+
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
@@ -77,7 +84,6 @@ public class ReligiousRequestDao implements DaoInterface {
     fw.close();
   }
 
-  @Override
   public void loadFromCSV() throws IOException {
     String line = "";
     FileReader fr = new FileReader(Vdb.currentPath + "\\ReligiousRequest.CSV");
@@ -130,14 +136,13 @@ public class ReligiousRequestDao implements DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) request;
-
-    System.out.println("Adding to local arraylist...");
-    allReligiousRequest.add(newReligiousRequest); // Store a local copy
-    updateRequest(newReligiousRequest); // Store on database
+    request.setServiceID(Vdb.getServiceID());
+    newReligiousRequest.setServiceID(Vdb.getServiceID());//
+    allReligiousRequest.add(newReligiousRequest);
     addToSQLTable(request);
+    saveToCSV();
   }
 
-  @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
     Predicate<ReligiousRequest> condition =
@@ -146,9 +151,9 @@ public class ReligiousRequestDao implements DaoInterface {
     removeFromSQLTable(request);
   }
 
-  @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     return allReligiousRequest;
+    //
   }
 
   @Override
@@ -163,7 +168,6 @@ public class ReligiousRequestDao implements DaoInterface {
   }
   @Override
   public void updateRequest(ServiceRequest request) throws SQLException {
-
     ReligiousRequest newRequest=(ReligiousRequest) request;
     int index=-1;
     for (int i=0;i<allReligiousRequest.size();i++){
@@ -172,8 +176,11 @@ public class ReligiousRequestDao implements DaoInterface {
         break;
       }
     }
-    allReligiousRequest.set(index,newRequest);
-    updateSQLTable(request);
+    if (index>=0){
+      allReligiousRequest.set(index,newRequest);
+      updateSQLTable(request);
+    }
+
   }
   @Override
   public void updateSQLTable(ServiceRequest Request) throws SQLException {
@@ -192,4 +199,5 @@ public class ReligiousRequestDao implements DaoInterface {
     statement.setString(6, newRequest.getSpecialRequests());
     statement.setInt(7, newRequest.getServiceID());
   }
+
 }

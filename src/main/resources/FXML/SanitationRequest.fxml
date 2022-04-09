@@ -77,37 +77,12 @@
                      <children>
                         <TabPane prefHeight="501.0" prefWidth="593.0" tabClosingPolicy="UNAVAILABLE">
                            <tabs>
-                              <Tab text="Map View">
+                              <Tab fx:id="mapTab" text="Map View">
                                  <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <JFXComboBox fx:id="floorDropDown" layoutX="14.0" layoutY="433.0" onAction="#checkDropDown" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-                                             <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="groundFloor" fx:value="Ground Floor" />
-                                                   <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                                                   <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                                                   <String fx:id="floor1" fx:value="1st Floor" />
-                                                   <String fx:id="floor2" fx:value="2nd Floor" />
-                                                   <String fx:id="floor3" fx:value="3rd Floor" />
-                                                </FXCollections>
-                                             </items>
-                                          </JFXComboBox>
-                                          <ImageView fx:id="mapImage" fitHeight="382.0" fitWidth="556.0" layoutX="106.0" layoutY="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../2nd Floor.png" />
-                                             </image>
-                                             <viewport>
-                                                <Rectangle2D />
-                                             </viewport>
-                                          </ImageView>
-                                          <TextArea fx:id="coordinates" layoutX="488.0" layoutY="25.0" prefHeight="39.0" prefWidth="90.0" promptText="X:    Y:    " />
-                                          <Pane fx:id="mapPane" layoutX="104.0" layoutY="22.0" onMouseClicked="#openIconFormWindow" prefHeight="386.0" prefWidth="386.0" />
-                                       </children>
-                                    </AnchorPane>
+                                    <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                                  </content>
                               </Tab>
-                              <Tab fx:id="deliveryRequestTab" text="Sanitation Requests">
+                              <Tab fx:id="deliveryRequestTab" onSelectionChanged="#sendRequest" text="Sanitation Requests">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
