@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.util.ArrayList;
 
 public class EmployeeManager {
-  private ArrayList<HospitalEmployee> employeeList;
+  private ArrayList<Employee> employeeList;
 
   public EmployeeManager() {
     employeeList = new ArrayList<>();
@@ -18,8 +18,8 @@ public class EmployeeManager {
     return EmployeeManager.SingletonHelper.manager;
   }
 
-  public HospitalEmployee getEmployee(int userID) {
-    for (HospitalEmployee he : employeeList) {
+  public Employee getEmployee(int userID) {
+    for (Employee he : employeeList) {
       if (he.getHospitalID() == userID) {
         return he;
       }

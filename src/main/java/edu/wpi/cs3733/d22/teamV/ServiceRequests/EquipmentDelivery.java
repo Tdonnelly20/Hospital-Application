@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 
 public class EquipmentDelivery extends ServiceRequest {
@@ -22,7 +22,7 @@ public class EquipmentDelivery extends ServiceRequest {
       String status,
       int serviceID) {
     this.location = Vdb.locationDao.getLocation(nodeID);
-    this.hospitalEmployee = new HospitalEmployee(employeeID);
+    this.hospitalEmployee = new Employee(employeeID);
     this.patient = new Patient(patientID, patientFirstName, patientLastName);
     this.equipment = equipment;
     this.notes = notes;
@@ -49,7 +49,7 @@ public class EquipmentDelivery extends ServiceRequest {
       int quantity,
       String status) {
     this.location = Vdb.locationDao.getLocation(nodeID);
-    this.hospitalEmployee = new HospitalEmployee(employeeID);
+    this.hospitalEmployee = new Employee(employeeID);
     this.patient = new Patient(patientID, patientFirstName, patientLastName);
     this.equipment = equipment;
     this.notes = notes;
