@@ -198,6 +198,5 @@ public class MedicineDeliveryDao extends DaoInterface {
     }
   }
 
-
   public void updateRequest(ServiceRequest request) throws SQLException {}
 }

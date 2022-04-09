@@ -1,21 +1,16 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ReligiousRequest;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import java.io.*;
-import java.sql.*;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
-import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
-import edu.wpi.cs3733.d22.teamV.interfaces.ReligiousRequestImpl;
-
 import java.io.IOException;
+import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.function.Predicate;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ReligiousRequestDao extends DaoInterface {
   private static ArrayList<ReligiousRequest>
@@ -39,17 +34,16 @@ public class ReligiousRequestDao extends DaoInterface {
     Connection connection = Vdb.Connect();
     Statement statement = connection.createStatement();
     DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[]{"TABLE"});
+    ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[] {"TABLE"});
     if (!set.next()) {
       statement.execute(
-              "CREATE TABLE RELIGIOUSREQUESTS(fname char(15),lname char(15), pID int, empID int, religion char(35), request char(200), serviceID int)");
+          "CREATE TABLE RELIGIOUSREQUESTS(fname char(15),lname char(15), pID int, empID int, religion char(35), request char(200), serviceID int)");
     } else {
       statement.execute("DROP TABLE RELIGIOUSREQUESTS");
       createSQLTable();
       return;
     }
   }
-
 
   public List<ReligiousRequest> getAllReligiousRequest() {
     return allReligiousRequest;
@@ -58,27 +52,26 @@ public class ReligiousRequestDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "FirstName,LastName,PatientID,EmpID,Religion,Details,serviceID");
+    bw.append("FirstName,LastName,PatientID,EmpID,Religion,Details,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
-      ReligiousRequest religiousRequest=(ReligiousRequest) request;
-//      String firstName,
-//      String lastName,
-//      int patientID,
-//      int userID,
-//      String religion,
-//      String specialRequests,
-//      int serviceID) {
+      ReligiousRequest religiousRequest = (ReligiousRequest) request;
+      //      String firstName,
+      //      String lastName,
+      //      int patientID,
+      //      int userID,
+      //      String religion,
+      //      String specialRequests,
+      //      int serviceID) {
       String[] outputData = {
-              religiousRequest.getPatientFirstName(),
-              religiousRequest.getPatientLastName(),
-              Integer.toString(religiousRequest.getPatientID()),
-              Integer.toString(religiousRequest.getEmpID()),
-              religiousRequest.getReligion(),
-              religiousRequest.getSpecialRequests(),
-              Integer.toString(religiousRequest.getServiceID())
+        religiousRequest.getPatientFirstName(),
+        religiousRequest.getPatientLastName(),
+        Integer.toString(religiousRequest.getPatientID()),
+        Integer.toString(religiousRequest.getEmpID()),
+        religiousRequest.getReligion(),
+        religiousRequest.getSpecialRequests(),
+        Integer.toString(religiousRequest.getServiceID())
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -119,8 +112,7 @@ public class ReligiousRequestDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest Request) throws SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
     Connection connection = Vdb.Connect();
-    String query =
-            "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?,?)";
+    String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?,?)";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setString(1, newReligiousRequest.getPatientFirstName());
     statement.setString(2, newReligiousRequest.getPatientLastName());
@@ -153,10 +145,8 @@ public class ReligiousRequestDao extends DaoInterface {
    * @param userID
    * @param x
    * @param y
-   *
    * @param specialRequests
    */
-
   public void addReligiousRequest(
       String firstName,
       String lastName,
@@ -164,16 +154,10 @@ public class ReligiousRequestDao extends DaoInterface {
       int userID,
       String x,
       String y,
-      int specialRequests) throws SQLException {
+      int specialRequests)
+      throws SQLException {
     ReligiousRequest newReligiousRequest =
-        new ReligiousRequest(
-            firstName,
-            lastName,
-            patientID,
-            userID,
-            x,
-            y,
-            specialRequests);
+        new ReligiousRequest(firstName, lastName, patientID, userID, x, y, specialRequests);
 
     System.out.println("Adding to local arraylist...");
     allReligiousRequest.add(newReligiousRequest); // Store a local copy
@@ -183,7 +167,8 @@ public class ReligiousRequestDao extends DaoInterface {
 
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
-    Predicate<ReligiousRequest> condition = religiousRequest -> religiousRequest.getServiceID() == serviceID;
+    Predicate<ReligiousRequest> condition =
+        religiousRequest -> religiousRequest.getServiceID() == serviceID;
     allReligiousRequest.removeIf(condition);
     removeFromSQLTable(request);
   }
@@ -193,43 +178,42 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
-        return allReligiousRequest;
-        //
-      }
-        // Send to the database
-        private void updateReligiousRequestDB (ReligiousRequest newReligiousRequest){
-          System.out.println("Sending to database...");
-        }
+    return allReligiousRequest;
+    //
+  }
+  // Send to the database
+  private void updateReligiousRequestDB(ReligiousRequest newReligiousRequest) {
+    System.out.println("Sending to database...");
+  }
 
-          @Override
-          public void setAllServiceRequests (ArrayList < ? extends ServiceRequest > serviceRequests)
+  @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
       throws SQLException {
-            allReligiousRequest.clear();
-            for (ServiceRequest r : serviceRequests) {
-              ReligiousRequest request = (ReligiousRequest) r;
-              allReligiousRequest.add(request);
-            }
-            createSQLTable();
-          }
+    allReligiousRequest.clear();
+    for (ServiceRequest r : serviceRequests) {
+      ReligiousRequest request = (ReligiousRequest) r;
+      allReligiousRequest.add(request);
+    }
+    createSQLTable();
+  }
 
-          public void updateRequest (ServiceRequest Request) throws SQLException {
-            // also needs to add to csv
-            ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
-            Connection connection = Vdb.Connect();
-            String query =
-                    "UPDATE RELIGIOUSREQUESTS"
-                            + "SET firstName=?, lastName=?,patientID=?,userID=?,religion=?,specialRequests=?"
-                            + "WHERE serviceID=?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, newReligiousRequest.getPatientFirstName());
-            statement.setString(2, newReligiousRequest.getPatientLastName());
-            statement.setInt(3, newReligiousRequest.getEmpID());
-            statement.setInt(4, newReligiousRequest.getPatientID());
-            statement.setString(5, newReligiousRequest.getReligion());
-            statement.setString(6, newReligiousRequest.getSpecialRequests());
-            statement.setInt(7, newReligiousRequest.getServiceID());
-          }
-          public void removeReligousRequest () {
-          }
+  public void updateRequest(ServiceRequest Request) throws SQLException {
+    // also needs to add to csv
+    ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
+    Connection connection = Vdb.Connect();
+    String query =
+        "UPDATE RELIGIOUSREQUESTS"
+            + "SET firstName=?, lastName=?,patientID=?,userID=?,religion=?,specialRequests=?"
+            + "WHERE serviceID=?";
+    PreparedStatement statement = connection.prepareStatement(query);
+    statement.setString(1, newReligiousRequest.getPatientFirstName());
+    statement.setString(2, newReligiousRequest.getPatientLastName());
+    statement.setInt(3, newReligiousRequest.getEmpID());
+    statement.setInt(4, newReligiousRequest.getPatientID());
+    statement.setString(5, newReligiousRequest.getReligion());
+    statement.setString(6, newReligiousRequest.getSpecialRequests());
+    statement.setInt(7, newReligiousRequest.getServiceID());
+  }
 
-        }
+  public void removeReligousRequest() {}
+}
