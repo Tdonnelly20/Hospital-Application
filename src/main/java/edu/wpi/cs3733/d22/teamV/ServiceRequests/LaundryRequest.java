@@ -1,12 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
-public class LaundryRequest {
-  String userID, patientID, firstName, lastName, details;
-  int roomNumber;
+public class LaundryRequest extends ServiceRequest {
+  String firstName, lastName, details;
+  int roomNumber, userID, patientID;
 
   public LaundryRequest(
-      String userID,
-      String patientID,
+      int userID,
+      int patientID,
       String firstName,
       String lastName,
       int roomNumber,
@@ -19,11 +19,11 @@ public class LaundryRequest {
     this.details = details;
   }
 
-  public String getUserID() {
+  public int getUserID() {
     return getUserID();
   }
 
-  public String getPatientID() {
+  public int getPatientID() {
     return patientID;
   }
 
