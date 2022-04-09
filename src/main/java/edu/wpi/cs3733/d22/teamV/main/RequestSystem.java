@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.dao.*;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -242,6 +243,10 @@ public class RequestSystem {
       default:
         return new ArrayList<>();
     }
+  }
+
+  public ArrayList<Location> getLocations() {
+    return locationDao.getAllLocations();
   }
 
   public List<? extends ServiceRequest> getEveryServiceRequest() {

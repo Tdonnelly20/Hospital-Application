@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
@@ -8,6 +9,8 @@ import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,9 +50,9 @@ public class MapManager {
   @FXML TextField field2 = new TextField();
   @FXML TextField field3 = new TextField();
   @FXML TextField field4 = new TextField();
+  RequestSystem requestSystem = new RequestSystem();
 
   private MapManager() {
-    RequestSystem requestSystem = new RequestSystem();
     serviceRequests = requestSystem.getEveryServiceRequest();
 
     setUpPopUp();
@@ -104,9 +108,9 @@ public class MapManager {
     floorList.add(f5);
     // System.out.println("SIZE: " + floorList.size());
 
-    ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
+    loadRequests();
 
-    for (Location l : locations) {
+    for (Location l : Vdb.locationDao.getAllLocations()) {
       switch (l.getFloor()) {
         case "L1":
           loadLocations(0, l);
@@ -158,12 +162,13 @@ public class MapManager {
           floorList.get(6).addIcon(new EquipmentIcon(l));
           break;
       }
+      loadRequests();
     }
   }
 
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
-      if (floorList.get(i).hasIconAt(l)) {
+      if (floorList.get(i).containsIcon(l)) {
         if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
           if (l.getRequests().size() > 0) {
             floorList.get(i).getIconList().remove(floorList.get(i).getIcon(l));
@@ -178,7 +183,17 @@ public class MapManager {
     }
   }
 
-  public void loadRequests() {}
+  public void loadRequests() {
+    if (serviceRequests.size() > 0) {
+      for (ServiceRequest serviceRequest : serviceRequests) {
+        for (Location location : Vdb.locationDao.getAllLocations()) {
+          if (!location.getRequests().contains(serviceRequest)) {
+            location.getRequests().add(serviceRequest);
+          }
+        }
+      }
+    }
+  }
 
   /**
    * @param str
@@ -236,14 +251,16 @@ public class MapManager {
     content.getChildren().add(titleBox);
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.TOP_CENTER);
-    /* if (icon.isEquipment()) {
-      title.setText(icon.getEquipment().getName());
+    if (icon.iconType.equals("Equipment")) {
+      EquipmentIcon equipmentIcon = ((EquipmentIcon) icon);
+      title.setText("Equipment");
       vbox.getChildren().addAll(title);
     } else {
+      RequestIcon requestIcon = (RequestIcon) icon;
       ObservableList<String> statusStrings =
           FXCollections.observableArrayList("Not Started", "Processing", "Done");
-      if (icon.getRequestsArr().size() > 0) {
-        for (ServiceRequest request : icon.getRequestsArr()) {
+      if (requestIcon.getRequestsArr().size() > 0) {
+        for (ServiceRequest request : requestIcon.getRequestsArr()) {
           Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
           Label locationLabel =
               new Label(
@@ -268,7 +285,7 @@ public class MapManager {
         noRequests.setTextAlignment(TextAlignment.CENTER);
         vbox.getChildren().add(noRequests);
       }
-    }*/
+    }
     content.getChildren().add(vbox);
     showPopUp();
   }
