@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class EquipmentIcon extends Icon {
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(
         event -> {
-          MapManager.getManager().openIconRequestWindow(this);
+          PopupController.getController().openIconRequestWindow(this);
         });
   }
 

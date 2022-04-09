@@ -24,8 +24,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.controlsfx.control.CheckComboBox;
 
+@Setter
+@Getter
 public class MapController extends Controller {
   protected Floor currFloor;
   boolean drag = false;
@@ -81,6 +85,14 @@ public class MapController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {
     init();
+  }
+
+  private static class SingletonHelper {
+    private static final MapController controller = new MapController();
+  }
+
+  public static MapController getController() {
+    return MapController.SingletonHelper.controller;
   }
 
   /** Allows users to zoom in and out of the map without */
@@ -174,7 +186,7 @@ public class MapController extends Controller {
         filterCheckBox.getCheckModel().check("Equipment");
       }
     }
-    MapManager.getManager().closePopUp();
+    PopupController.getController().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
     mapImage.setFitWidth(600);
@@ -182,19 +194,8 @@ public class MapController extends Controller {
     getFloor();
   }
 
-  @FXML
-  private void dragDetected() {
-    drag = true;
-  }
-
-  @FXML
-  private void dragOver() {
-    // System.out.println("Drag over");
-    drag = false;
-  }
-
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
-  private String getFloor() {
+  public String getFloor() {
     String result = "";
     switch (floorDropDown.getValue().toString()) {
       case "Lower Level 1":
@@ -355,57 +356,55 @@ public class MapController extends Controller {
     }
   }
 
-  // Opens and manages the location adding form
-  @FXML
-  public void openIconFormWindow(MouseEvent event) {
-    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")
-        && !drag) {
-      MapManager mapManager = MapManager.getManager();
-      // X and Y coordinates
-      double xPos = event.getX() - 15;
-      double yPos = event.getY() - 25;
-
-      mapManager.locationForm(event, false);
-      mapManager
-          .getSubmitIcon()
-          .setOnAction(
-              event1 -> {
-                if (mapManager.checkFields()) {
-                  addIcon(
-                      new LocationIcon(mapManager.getLocation(xPos + 25, yPos + 15, getFloor())));
-                  // System.out.println("Real X: " + event.getX() + " Y: " + event.getY());
-                  // System.out.println("X: " + xPos + " Y: " + yPos);
-                  populateFloorIconArr();
-                } else {
-                  Text missingFields = new Text("Please fill all fields");
-                  missingFields.setFill(Color.RED);
-                  missingFields.setTextAlignment(TextAlignment.CENTER);
-                  MapManager.getManager().getContent().getChildren().add(missingFields);
-                  // System.out.println("MISSING FIELD");
-                }
-              });
-      // Place Icon
-      MapManager.getManager().getTempIcon().setX(xPos);
-      MapManager.getManager().getTempIcon().setY(yPos);
-      if (!mapPane.getChildren().contains(MapManager.getManager().getTempIcon())) {
-        // System.out.println("X:" + xPos + " Y:" + yPos);
-        MapManager.getManager().getTempIcon().setFitWidth(30);
-        MapManager.getManager().getTempIcon().setFitHeight(30);
-        mapPane.getChildren().add(MapManager.getManager().getTempIcon());
-      }
-    }
-  }
-
   // Adds icon to map
-  private void addIcon(Icon icon) {
+  public void addIcon(Icon icon) {
     switch (icon.iconType) {
       case "Location":
         locationDao.addLocation(icon.getLocation());
     }
-    MapManager.getManager().closePopUp();
-    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
+    PopupController.getController().closePopUp();
+    MapController.getController()
+        .getMapPane()
+        .getChildren()
+        .remove(MapManager.getManager().getTempIcon());
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
     MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
+  }
+
+  public void setSubmitLocation(double xPos, double yPos) {
+    PopupController.getController()
+        .submitIcon
+        .setOnAction(
+            event1 -> {
+              if (PopupController.getController().checkFields()) {
+                addIcon(
+                    new LocationIcon(
+                        PopupController.getController()
+                            .getLocation(xPos + 25, yPos + 15, getFloor())));
+              } else {
+                Text missingFields = new Text("Please fill all fields");
+                missingFields.setFill(Color.RED);
+                missingFields.setTextAlignment(TextAlignment.CENTER);
+                PopupController.getController().content.getChildren().add(missingFields);
+                // System.out.println("MISSING FIELD");
+              }
+            });
+  }
+
+  // Opens and manages the location adding form
+  @FXML
+  public void openIconFormWindow(MouseEvent event) {
+    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
+      PopupController popupController = PopupController.getController();
+      // X and Y coordinates
+      double xPos = event.getX() - 15;
+      double yPos = event.getY() - 25;
+
+      PopupController.getController().locationForm(event, false);
+      setSubmitLocation(xPos, yPos);
+      // Place Icon
+      MapManager.getManager().placeTempIcon(xPos, yPos);
+    }
   }
 }

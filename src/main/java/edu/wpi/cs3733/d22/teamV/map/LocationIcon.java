@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.scene.image.Image;
 
@@ -16,7 +16,7 @@ public class LocationIcon extends Icon {
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(
         event -> {
-          MapManager.getManager().openIconRequestWindow(this);
+          PopupController.getController().openIconRequestWindow(this);
         });
   }
 }
