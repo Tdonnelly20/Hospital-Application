@@ -6,15 +6,15 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class HospitalEmployee {
+public class Employee {
   private int hospitalID;
   private String firstName;
   private String lastName;
   private List<String> degrees;
   private List<Patient> patientList;
-  private List<HospitalEmployee> employeeList;
+  private List<Employee> employeeList;
 
-  public HospitalEmployee(
+  public Employee(
       int hospitalID,
       String firstName,
       String lastName,
@@ -27,11 +27,11 @@ public class HospitalEmployee {
     this.patientList = patientList;
   }
 
-  public HospitalEmployee(int hospitalID) {
+  public Employee(int hospitalID) {
     this.hospitalID = hospitalID;
   }
 
-  public HospitalEmployee() {}
+  public Employee() {}
 
   public void addPatient(Patient patient) {
     patientList.add(patient);

@@ -11,7 +11,7 @@ public class Patient {
   private int patientID;
   private String firstName;
   private String lastName;
-  private static List<HospitalEmployee> hospitalEmployeeList = new ArrayList<HospitalEmployee>();
+  private static List<Employee> hospitalEmployeeList = new ArrayList<Employee>();
 
   public Patient(int patientID, String firstName, String lastName) {
     this.patientID = patientID;
@@ -19,11 +19,11 @@ public class Patient {
     this.lastName = lastName;
   }
 
-  public void addHospitalEmployee(HospitalEmployee employee) {
+  public void addHospitalEmployee(Employee employee) {
     hospitalEmployeeList.add(employee);
   }
 
-  public void removeHospitalEmployee(HospitalEmployee employee) {
+  public void removeHospitalEmployee(Employee employee) {
     hospitalEmployeeList.remove(employee);
   }
 

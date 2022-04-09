@@ -1,11 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 
 public class InternalPatientTransportation extends ServiceRequest {
   private Patient patient;
-  private HospitalEmployee employee;
+  private Employee employee;
   private String roomNumber, requestDetails;
 
   /**
@@ -24,7 +24,7 @@ public class InternalPatientTransportation extends ServiceRequest {
       int hospitalID,
       String requestDetails) {
     patient = new Patient(patientID, patientFirstName, patientLastName);
-    employee = new HospitalEmployee(hospitalID);
+    employee = new Employee(hospitalID);
     this.roomNumber = roomNumber;
     this.requestDetails = requestDetails;
   }

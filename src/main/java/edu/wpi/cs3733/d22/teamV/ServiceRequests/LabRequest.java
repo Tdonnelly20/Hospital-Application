@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
 import edu.wpi.cs3733.d22.teamV.manager.EmployeeManager;
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class LabRequest extends ServiceRequest {
     // this.location = location;
     this.patient = new Patient(patientID, firstName, lastName);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
-    this.hospitalEmployee = new HospitalEmployee(userID);
+    this.hospitalEmployee = new Employee(userID);
     this.patient.addHospitalEmployee(EmployeeManager.getManager().getEmployee(userID));
 
     this.lab = lab;
