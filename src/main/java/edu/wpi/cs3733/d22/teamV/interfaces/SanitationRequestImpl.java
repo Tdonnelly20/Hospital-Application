@@ -17,4 +17,6 @@ public interface SanitationRequestImpl {
       String requestDetails);
 
   void removeSanitationRequest();
+
+  // void updateSanitationRequest()
 }

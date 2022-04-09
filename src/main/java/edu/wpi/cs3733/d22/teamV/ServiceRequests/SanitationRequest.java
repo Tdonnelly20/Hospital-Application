@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
-public class SanitationRequest {
+public class SanitationRequest extends ServiceRequest {
   private final String patientFirstName, patientLastName, roomLocation, hazardName, requestDetails;
-  private final int patientID, hospitalID;
+  private final int patientID, hospitalID, serviceID;
 
   /**
    * Creates a basic data structure for holding medicine delivery request
@@ -22,7 +22,8 @@ public class SanitationRequest {
       int hospitalID,
       String roomLocation,
       String hazardName,
-      String requestDetails) {
+      String requestDetails,
+      int serviceID) {
 
     this.requestDetails = requestDetails;
     this.patientFirstName = patientFirstName;
@@ -31,6 +32,7 @@ public class SanitationRequest {
     this.hospitalID = hospitalID;
     this.hazardName = hazardName;
     this.roomLocation = roomLocation;
+    this.serviceID = serviceID;
   }
 
   public String getPatientFirstName() {

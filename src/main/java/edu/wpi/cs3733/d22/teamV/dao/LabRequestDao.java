@@ -127,6 +127,9 @@ public class LabRequestDao implements DaoInterface {
     statement.execute(query);
   }
 
+  @Override
+  public void updateRequest(ServiceRequest request) throws SQLException {}
+
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     String query = "";
     Connection connection = Vdb.Connect();
