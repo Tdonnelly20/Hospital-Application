@@ -8,7 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class MedicineDeliveryDao implements DaoInterface {
+public class MedicineDeliveryDao extends DaoInterface {
   // A local list of all medicine deliveries, updated via Vdb
   private static ArrayList<MedicineDelivery> allMedicineDeliveries;
   /** Initialize the arraylist */
@@ -25,7 +25,6 @@ public class MedicineDeliveryDao implements DaoInterface {
     }
   }
 
-  @Override
   public void loadFromCSV() throws IOException {
 
     FileReader fr = new FileReader(Vdb.currentPath + "\\MedicineDelivery.csv");
@@ -123,7 +122,6 @@ public class MedicineDeliveryDao implements DaoInterface {
     Connection connection = Vdb.Connect();
     assert connection != null;
     Statement statement = connection.createStatement();
-
     query =
         "INSERT INTO MEDICINES("
             + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
@@ -148,38 +146,6 @@ public class MedicineDeliveryDao implements DaoInterface {
             + ")";
 
     statement.execute(query);
-
-    // Print out all the current entries...
-    /*
-    query =
-        "SELECT patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails FROM MEDICINES";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {
-          "patientFirstName",
-          "patientLastName",
-          "roomNumber",
-          "patientID",
-          "employeeID",
-          "medicineName",
-          "dosage",
-          "requestDetails",
-          "serviceID"
-        };
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (String headerVal : headerVals) {
-        System.out.print(resultSet.getString(headerVal).trim() + ", ");
-      }
-      System.out.println();
-    }
-
-     */
   }
 
   @Override
@@ -231,4 +197,6 @@ public class MedicineDeliveryDao implements DaoInterface {
       allMedicineDeliveries.add(delivery);
     }
   }
+
+  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

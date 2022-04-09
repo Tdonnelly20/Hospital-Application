@@ -1,13 +1,14 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
-import edu.wpi.cs3733.d22.teamV.interfaces.LabRequestImpl;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class LabRequestDao implements LabRequestImpl {
+public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
@@ -15,35 +16,170 @@ public class LabRequestDao implements LabRequestImpl {
     allLabRequests = new ArrayList<>();
   }
 
-  public static void setAllLabRequests(ArrayList<LabRequest> newRequests) {
-    allLabRequests = newRequests;
+  // DaoInterface Methods
+  public void loadFromCSV() throws IOException, SQLException {
+
+    FileReader fr = new FileReader(Vdb.currentPath + "\\LabRequest.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<LabRequest> labRequests = new ArrayList<>();
+
+    String headerLine = br.readLine();
+    String line;
+
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      LabRequest newDelivery =
+          new LabRequest(
+              Integer.parseInt(data[0]),
+              Integer.parseInt(data[1]),
+              data[2],
+              data[3],
+              data[4],
+              data[5]);
+      allLabRequests.add(newDelivery);
+    }
+    setAllServiceRequests(allLabRequests);
   }
 
-  @Override
-  public List<LabRequest> getAllLabRequests() {
-    return allLabRequests;
+  public void saveToCSV() throws IOException {
+    FileWriter fw = new FileWriter(Vdb.currentPath + "\\LabRequests.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    bw.append("userID,patientID,firstName,lastName,lab,status,serviceID");
+
+    for (ServiceRequest request : getAllServiceRequests()) {
+
+      LabRequest labRequest = (LabRequest) request;
+
+      String[] outputData = {
+        String.valueOf(labRequest.getUserID()),
+        String.valueOf(labRequest.getPatientID()),
+        labRequest.getFirstName(),
+        labRequest.getLastName(),
+        labRequest.getLab(),
+        labRequest.getStatus(),
+        String.valueOf(labRequest.getServiceID())
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+
+    bw.close();
+    fw.close();
   }
 
-  @Override
-  public void addLabRequest(
-      int userID, int patientID, String firstName, String lastName, String lab, String status) {
-    LabRequest labRequest = new LabRequest(userID, patientID, firstName, lastName, lab, status);
+  public void createSQLTable() throws SQLException {
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+    DatabaseMetaData meta = connection.getMetaData();
+    ResultSet set = meta.getTables(null, null, "LABS", new String[] {"TABLE"});
+    String query = "";
 
-    // System.out.println("Adding to local arraylist...");
-    allLabRequests.add(labRequest);
+    if (!set.next()) {
+      query =
+          "CREATE TABLE LABS(userID int, patientID int, firstName varchar(30), lastName varchar(30), lab varchar(50), status varchar(50), serviceID int)";
+      statement.execute(query);
 
-    try {
-      // System.out.println("Adding to CSV");
-      Vdb.saveToFile(Vdb.Database.LabRequest);
-      // System.out.println("Adding to database...");
-      // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
+    } else {
+      query = "DROP TABLE LABS";
+      statement.execute(query);
+      createSQLTable(); // rerun the method to generate new tables
+      return;
+    }
 
-    } catch (Exception e) {
-      e.printStackTrace();
+    for (LabRequest labRequest : allLabRequests) {
+      addToSQLTable(labRequest);
     }
   }
 
-  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {
+    LabRequest labRequest = (LabRequest) request;
+
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query =
+        "INSERT INTO LABS("
+            + "userID,patientID,firstName,lastName,lab,status,serviceID) VALUES "
+            + "("
+            + labRequest.getUserID()
+            + ", "
+            + labRequest.getPatientID()
+            + ", '"
+            + labRequest.getFirstName()
+            + "',' "
+            + labRequest.getLastName()
+            + "', '"
+            + labRequest.getLab()
+            + "', '"
+            + labRequest.getStatus()
+            + "',"
+            + labRequest.getServiceID()
+            + ")";
+
+    statement.execute(query);
+  }
+
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query = "DELETE FROM LABS WHERE serviceID = " + request.getServiceID();
+    statement.execute(query);
+  }
+
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    int serviceID = Vdb.getServiceID();
+    LabRequest labRequest = (LabRequest) request;
+    labRequest.setServiceID(serviceID);
+    allLabRequests.add(labRequest); // Store a local copy
+
+    addToSQLTable(request);
+    saveToCSV();
+  }
+
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    LabRequest labRequest = (LabRequest) request;
+    allLabRequests.removeIf(value -> value.getServiceID() == labRequest.getServiceID());
+    removeFromSQLTable(request);
+    saveToCSV();
+  }
+
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+    return allLabRequests;
+  }
+
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+      throws SQLException {
+    // Set all medicine deliveries
+    allLabRequests = new ArrayList<>();
+
+    // Convert to subtype
+    for (ServiceRequest request : serviceRequests) {
+      // Cast to subtype
+      LabRequest delivery = (LabRequest) request;
+      allLabRequests.add(delivery);
+      try {
+        // System.out.println("Adding to CSV");
+        Vdb.saveToFile(Vdb.Database.LabRequest);
+        // System.out.println("Adding to database...");
+        // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
   public void removeLabRequest(int userID) {
     // System.out.println("Removing from arraylist...");
     allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);

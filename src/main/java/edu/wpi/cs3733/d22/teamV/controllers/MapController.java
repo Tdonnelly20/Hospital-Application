@@ -139,6 +139,9 @@ public class MapController extends Controller {
   }
 
   protected void mapSetUp() {
+    mapPane.getChildren().clear();
+    stackPane.getChildren().clear();
+    group.getChildren().clear();
     setUpControls();
     zoom();
     currFloor = MapManager.getManager().getFloor("1");
@@ -222,19 +225,29 @@ public class MapController extends Controller {
     for (Icon icon : currFloor.getIconList()) {
       if (filter.size() > 0) {
         // System.out.println(icon.iconType);
-        mapPane.getChildren().add(icon.getImage());
+        if (!mapPane.getChildren().contains(icon.getImage())) {
+          mapPane.getChildren().add(icon.getImage());
+        }
         if (filter.contains("Request") && icon.iconType.equals("Request")) {
           // System.out.println(icon.getImage());
-          mapPane.getChildren().add(icon.getImage());
+          if (!mapPane.getChildren().contains(icon.getImage())) {
+            mapPane.getChildren().add(icon.getImage());
+          }
         }
         if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
-          mapPane.getChildren().add(icon.getImage());
+          if (!mapPane.getChildren().contains(icon.getImage())) {
+            mapPane.getChildren().add(icon.getImage());
+          }
         }
         if (filter.contains("Location") && icon.iconType.equals("Location")) {
-          mapPane.getChildren().add(icon.getImage());
+          if (!mapPane.getChildren().contains(icon.getImage())) {
+            mapPane.getChildren().add(icon.getImage());
+          }
         }
       } else {
-        mapPane.getChildren().add(icon.getImage());
+        if (!mapPane.getChildren().contains(icon.getImage())) {
+          mapPane.getChildren().add(icon.getImage());
+        }
       }
     }
   }

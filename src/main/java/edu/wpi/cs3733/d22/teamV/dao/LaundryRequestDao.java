@@ -1,11 +1,13 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.LaundryRequest;
-import edu.wpi.cs3733.d22.teamV.interfaces.LaundryRequestImpl;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LaundryRequestDao implements LaundryRequestImpl {
+public class LaundryRequestDao extends DaoInterface {
 
   private static ArrayList<LaundryRequest> allLaundryRequests;
 
@@ -27,7 +29,6 @@ public class LaundryRequestDao implements LaundryRequestImpl {
    *
    * @return
    */
-  @Override
   public ArrayList<LaundryRequest> getAllLaundryRequests() {
     return allLaundryRequests;
   }
@@ -43,7 +44,6 @@ public class LaundryRequestDao implements LaundryRequestImpl {
    * @param details
    * @throws SQLException
    */
-  @Override
   public void addLaundryRequest(
       String userID,
       String patientID,
@@ -81,7 +81,6 @@ public class LaundryRequestDao implements LaundryRequestImpl {
    * @param laundry a string of the desired laundry request to remove
    * @throws SQLException
    */
-  @Override
   public void removeLaundryRequest(String laundry) throws SQLException {
     /*
     System.out.println("Removing from arraylist...");
@@ -102,4 +101,34 @@ public class LaundryRequestDao implements LaundryRequestImpl {
     */
 
   }
+
+  @Override
+  public void loadFromCSV() throws IOException, SQLException {}
+
+  @Override
+  public void saveToCSV() throws IOException {}
+
+  @Override
+  public void createSQLTable() throws SQLException {}
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {}
+
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}
+
+  @Override
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {}
+
+  @Override
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {}
+
+  @Override
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+      throws SQLException {}
 }

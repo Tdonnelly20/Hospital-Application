@@ -5,24 +5,27 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface DaoInterface {
+public abstract class DaoInterface {
 
-  void loadFromCSV() throws IOException, SQLException;
+  public abstract void loadFromCSV() throws IOException, SQLException;
 
-  void saveToCSV() throws IOException;
+  public abstract void saveToCSV() throws IOException;
 
-  void createSQLTable() throws SQLException;
+  public abstract void createSQLTable() throws SQLException;
 
-  void addToSQLTable(ServiceRequest request) throws SQLException;
+  public abstract void addToSQLTable(ServiceRequest request) throws SQLException;
 
-  void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException;
+  // public abstract void updateRequest(ServiceRequest request) throws SQLException;
 
-  void addServiceRequest(ServiceRequest request) throws IOException, SQLException;
+  public abstract void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException;
 
-  void removeServiceRequest(ServiceRequest request) throws IOException, SQLException;
+  public abstract void addServiceRequest(ServiceRequest request) throws IOException, SQLException;
 
-  ArrayList<? extends ServiceRequest> getAllServiceRequests();
+  public abstract void removeServiceRequest(ServiceRequest request)
+      throws IOException, SQLException;
 
-  void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+  public abstract ArrayList<? extends ServiceRequest> getAllServiceRequests();
+
+  public abstract void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
       throws SQLException;
 }

@@ -1,10 +1,13 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.InternalPatientTransportation;
-import edu.wpi.cs3733.d22.teamV.interfaces.InternalPatientTransportationImpl;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class InternalPatientTransportationDao implements InternalPatientTransportationImpl {
+public class InternalPatientTransportationDao extends DaoInterface {
 
   // A local list of all internal patient transportations, updated via Vdb
   private static ArrayList<InternalPatientTransportation> allInternalPatientTransportations;
@@ -47,4 +50,34 @@ public class InternalPatientTransportationDao implements InternalPatientTranspor
     System.out.println("Adding to local arraylist...");
     allInternalPatientTransportations.add(newInternalPatientTransportation); // Store a local copy
   }
+
+  @Override
+  public void loadFromCSV() throws IOException, SQLException {}
+
+  @Override
+  public void saveToCSV() throws IOException {}
+
+  @Override
+  public void createSQLTable() throws SQLException {}
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {}
+
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}
+
+  @Override
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {}
+
+  @Override
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {}
+
+  @Override
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+      throws SQLException {}
 }
