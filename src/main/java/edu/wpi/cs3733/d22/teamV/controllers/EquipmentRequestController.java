@@ -65,6 +65,8 @@ public class EquipmentRequestController extends MapController {
   @Override
   public void init() {
     mapSetUp();
+    filterCheckBox.getCheckModel().check("Equipment");
+    filterCheckBox.getCheckModel().check("Clean Equipment");
     filterCheckBox.getCheckModel().check("Equipment Delivery Requests");
   }
 
