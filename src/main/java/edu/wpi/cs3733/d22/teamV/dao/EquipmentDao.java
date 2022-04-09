@@ -15,7 +15,7 @@ public class EquipmentDao {
     allEquipment = new ArrayList<Equipment>();
     try {
       loadFromCSV();
-      // createSQLTable();
+      createSQLTable();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -61,11 +61,9 @@ public class EquipmentDao {
               Double.parseDouble(data[3]),
               Double.parseDouble(data[4]),
               data[5],
-              Boolean.parseBoolean(data[6]));
-      equipmentList.add(equipment);
+              Integer.parseInt(data[6]) == 1);
+      addEquipment(equipment);
     }
-
-    allEquipment = equipmentList;
   }
 
   public void saveToCSV() throws IOException {
@@ -123,7 +121,7 @@ public class EquipmentDao {
 
     query =
         "INSERT INTO EQUIPMENT("
-            + "ID,Name,Floor,X,Y,Description,isDirty) VALUES "
+            + "ID,Floor,X,Y,Description,isDirty) VALUES "
             + "('"
             + equipment.getID()
             + "', '"
@@ -137,7 +135,6 @@ public class EquipmentDao {
             + "', "
             + equipment.getIsDirty()
             + ")";
-
     statement.execute(query);
   }
 

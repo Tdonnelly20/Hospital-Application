@@ -76,6 +76,7 @@ public class MapController extends Controller {
     init();
   }
 
+  /** Allows users to zoom in and out of the map without */
   @FXML
   void zoom() {
     stackPane.getChildren().add(mapImage);
