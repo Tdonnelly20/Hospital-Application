@@ -220,10 +220,10 @@ public class MapController extends Controller {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     for (Icon icon : currFloor.getIconList()) {
       if (filter.size() > 0) {
-        //System.out.println(icon.iconType);
-        if (filter.contains("Request") && icon.iconType.equals("Request")) {
+        // System.out.println(icon.iconType);
+        if (filter.contains("Service Requests") && icon.iconType.equals("Request")) {
           RequestIcon requestIcon = (RequestIcon) icon;
-          if (filter.contains("Active Request")) {
+          if (filter.contains("Active Requests")) {
             if (requestIcon.hasActiveRequests()) {
               filterByActiveRequestType(requestIcon);
             }
@@ -263,8 +263,7 @@ public class MapController extends Controller {
         && !filter.contains("Sanitation Requests")
         && !filter.contains("Internal Patient Transport Requests")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Lab Requests")
-            && icon.hasActiveRequestType("Lab Request")) {
+    } else if (filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request")) {
       mapPane.getChildren().add(icon.getImage());
     } else if (filter.contains("Equipment Delivery Requests")
         && icon.hasActiveRequestType("Equipment Delivery Request")) {
