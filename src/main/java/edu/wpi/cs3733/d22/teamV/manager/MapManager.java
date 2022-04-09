@@ -100,6 +100,8 @@ public class MapManager {
     floorList.add(f1);
     floorList.add(f2);
     floorList.add(f3);
+    floorList.add(f4);
+    floorList.add(f5);
     // System.out.println("SIZE: " + floorList.size());
 
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
