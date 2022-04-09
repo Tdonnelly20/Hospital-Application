@@ -1,25 +1,19 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
-public class ReligiousRequest {
+public class ReligiousRequest extends ServiceRequest {
   private final String firstName, lastName;
   private final int patientID;
   private int userID = 0;
   private boolean Christian, Jewish, Protestant, Islam, Muslim, Buddhist, Hindu, Other;
-  private String specialRequests;
+  private String specialRequests, religion;
+  private int serviceID;
 
   /**
    * @param firstName
    * @param lastName
    * @param userID
    * @param patientID
-   * @param christian
-   * @param jewish
-   * @param protestant
-   * @param islam
-   * @param muslim
-   * @param buddhist
-   * @param hindu
-   * @param other
+   * @param religion
    * @param specialRequests
    */
   public ReligiousRequest(
@@ -27,27 +21,15 @@ public class ReligiousRequest {
       String lastName,
       int patientID,
       int userID,
-      boolean christian,
-      boolean jewish,
-      boolean protestant,
-      boolean islam,
-      boolean muslim,
-      boolean buddhist,
-      boolean hindu,
-      boolean other,
-      String specialRequests) {
+      String religion,
+      String specialRequests,
+      int serviceID) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.patientID = userID;
     this.userID = patientID;
-    this.Christian = christian;
-    this.Jewish = jewish;
-    this.Protestant = protestant;
-    this.Islam = islam;
-    this.Muslim = muslim;
-    this.Buddhist = buddhist;
-    this.Hindu = hindu;
-    this.Other = other;
+    this.religion = religion;
+    this.serviceID = serviceID;
     this.specialRequests = specialRequests;
   }
 
@@ -61,5 +43,21 @@ public class ReligiousRequest {
 
   public int getPatientID() {
     return patientID;
+  }
+
+  public int getServiceID() {
+    return serviceID;
+  }
+
+  public int getEmpID() {
+    return userID;
+  }
+
+  public String getReligion() {
+    return religion;
+  }
+
+  public String getSpecialRequests() {
+    return specialRequests;
   }
 }

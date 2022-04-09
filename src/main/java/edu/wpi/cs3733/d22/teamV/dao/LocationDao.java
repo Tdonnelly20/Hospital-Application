@@ -1,12 +1,14 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LocationDao {
+public class LocationDao extends DaoInterface {
   private static ArrayList<Location> allLocations;
 
   public LocationDao() {
@@ -116,11 +118,16 @@ public class LocationDao {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.currentPath + "\\TowerLocations.csv");
+    String file = Vdb.currentPath + "\\TowerLocations.csv";
+    System.out.println(file);
+    FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<Location> locations = new ArrayList<>();
     // equipment = new ArrayList<>();
+    // C:\Users\Trevor\Documents\GitHub\TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
+    // C:\Users\Trevor\Documents\GitHub\TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
+    //
     String headerLine = br.readLine();
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
@@ -182,9 +189,41 @@ public class LocationDao {
       return;
     }
 
+
+
     for (Location location : allLocations) {
       addToSQLTable(location);
     }
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {
+
+  }
+
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
+
   }
 
   public void addToSQLTable(Location location) throws SQLException {

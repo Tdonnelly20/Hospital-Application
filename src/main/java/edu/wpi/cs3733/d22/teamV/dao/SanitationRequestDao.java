@@ -1,11 +1,16 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.SanitationRequest;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.interfaces.SanitationRequestImpl;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SanitationRequestDao implements SanitationRequestImpl {
+public class SanitationRequestDao extends DaoInterface {
   private static ArrayList<SanitationRequest>
       allSanitationRequests; // A local list of all sanitation requests, updated via Vdb
 
@@ -15,7 +20,7 @@ public class SanitationRequestDao implements SanitationRequestImpl {
     // TODO: Add info from the database to the local arraylist
   }
 
-  @Override
+
   public List<SanitationRequest> getAllSanitationRequests() {
     return allSanitationRequests;
   }
@@ -31,7 +36,7 @@ public class SanitationRequestDao implements SanitationRequestImpl {
    * @param hazardName
    * @param requestDetails
    */
-  @Override
+
   public void addSanitationRequest(
       String patientFirstName,
       String patientLastName,
@@ -60,6 +65,53 @@ public class SanitationRequestDao implements SanitationRequestImpl {
     System.out.println("Sending to database...");
   }
 
-  @Override
   public void removeSanitationRequest() {} // TODO
+
+  @Override
+  public void loadFromCSV() throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void saveToCSV() throws IOException {
+
+  }
+
+  @Override
+  public void createSQLTable() throws SQLException {
+
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) throws SQLException {
+
+  }
+
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+
+  }
+
+  @Override
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
+
+  }
+
+
+
 }
