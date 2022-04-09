@@ -78,8 +78,6 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
-    labRequestDao.createSQLTable();
-    labRequestDao.loadFromCSV();
     mapManager = MapManager.getManager();
     getMaxServiceID();
 

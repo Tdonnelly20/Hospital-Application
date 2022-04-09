@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-
 public class ReligiousRequestDao extends DaoInterface {
   private static ArrayList<ReligiousRequest>
       allReligiousRequest; // A local list of all religious requests, updated via Vdb
@@ -137,7 +136,7 @@ public class ReligiousRequestDao extends DaoInterface {
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) request;
     request.setServiceID(Vdb.getServiceID());
-    newReligiousRequest.setServiceID(Vdb.getServiceID());//
+    newReligiousRequest.setServiceID(Vdb.getServiceID()); //
     allReligiousRequest.add(newReligiousRequest);
     addToSQLTable(request);
     saveToCSV();
@@ -166,23 +165,23 @@ public class ReligiousRequestDao extends DaoInterface {
     }
     createSQLTable();
   }
+
   @Override
   public void updateRequest(ServiceRequest request) throws SQLException {
-    ReligiousRequest newRequest=(ReligiousRequest) request;
-    int index=-1;
-    for (int i=0;i<allReligiousRequest.size();i++){
-      if (allReligiousRequest.get(i).getServiceID()==request.getServiceID()){
-        index=i;
+    ReligiousRequest newRequest = (ReligiousRequest) request;
+    int index = -1;
+    for (int i = 0; i < allReligiousRequest.size(); i++) {
+      if (allReligiousRequest.get(i).getServiceID() == request.getServiceID()) {
+        index = i;
         break;
       }
     }
-    if (index>=0){
-      allReligiousRequest.set(index,newRequest);
+    if (index >= 0) {
+      allReligiousRequest.set(index, newRequest);
       updateSQLTable(request);
     }
-
   }
-  @Override
+
   public void updateSQLTable(ServiceRequest Request) throws SQLException {
     ReligiousRequest newRequest = (ReligiousRequest) Request;
     Connection connection = Vdb.Connect();
@@ -199,5 +198,4 @@ public class ReligiousRequestDao extends DaoInterface {
     statement.setString(6, newRequest.getSpecialRequests());
     statement.setInt(7, newRequest.getServiceID());
   }
-
 }

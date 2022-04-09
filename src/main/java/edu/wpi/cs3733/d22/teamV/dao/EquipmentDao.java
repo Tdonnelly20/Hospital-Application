@@ -138,14 +138,6 @@ public class EquipmentDao {
     statement.execute(query);
   }
 
-  public void setDirtiness(String ID, boolean bool) {
-    for (Equipment equipment : allEquipment) {
-      if (equipment.getID().equals(ID)) {
-        equipment.setIsDirty(bool);
-      }
-    }
-  }
-
   public void removeFromSQLTable(Equipment equipment) throws IOException, SQLException {
     String query = "";
     Connection connection = Vdb.Connect();

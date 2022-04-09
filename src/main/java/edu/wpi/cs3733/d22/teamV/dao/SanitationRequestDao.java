@@ -4,14 +4,12 @@ import edu.wpi.cs3733.d22.teamV.ServiceRequests.SanitationRequest;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-
 import java.io.*;
-import java.sql.*;
 import java.io.IOException;
+import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.function.Predicate;
-
 
 public class SanitationRequestDao extends DaoInterface {
   private static ArrayList<SanitationRequest>
@@ -42,18 +40,18 @@ public class SanitationRequestDao extends DaoInterface {
       String[] data;
       data = line.split(splitToken);
       SanitationRequest request =
-              new SanitationRequest(
-                      data[0],
-                      data[1],
-                      Integer.parseInt(data[2]),
-                      Integer.parseInt(data[3]),
-                      data[4],
-                      data[5],
-                      data[6],
-                      Integer.parseInt(data[7]));
+          new SanitationRequest(
+              data[0],
+              data[1],
+              Integer.parseInt(data[2]),
+              Integer.parseInt(data[3]),
+              data[4],
+              data[5],
+              data[6],
+              Integer.parseInt(data[7]));
       requests.add(request);
     }
-    allSanitationRequests= requests;
+    allSanitationRequests = requests;
   }
 
   @Override
@@ -119,42 +117,42 @@ public class SanitationRequestDao extends DaoInterface {
     statement.setInt(3, newSanitationRequest.getPatientID());
     statement.setInt(4, newSanitationRequest.getHospitalID());
     statement.setString(5, newSanitationRequest.getRoomLocation());
-    statement.setString(6,newSanitationRequest.getHazardName());
-    statement.setString(7,newSanitationRequest.getRequestDetails());
+    statement.setString(6, newSanitationRequest.getHazardName());
+    statement.setString(7, newSanitationRequest.getRequestDetails());
     statement.setInt(8, newSanitationRequest.getServiceID());
   }
 
   @Override
   public void updateRequest(ServiceRequest request) throws SQLException {
-    SanitationRequest newRequest=(SanitationRequest) request;
-    int index=-1;
-    for (int i=0;i<allSanitationRequests.size();i++){
-      if (allSanitationRequests.get(i).getServiceID()==request.getServiceID()){
-        index=i;
+    SanitationRequest newRequest = (SanitationRequest) request;
+    int index = -1;
+    for (int i = 0; i < allSanitationRequests.size(); i++) {
+      if (allSanitationRequests.get(i).getServiceID() == request.getServiceID()) {
+        index = i;
         break;
       }
     }
-    allSanitationRequests.set(index,newRequest);
+    allSanitationRequests.set(index, newRequest);
     updateSQLTable(request);
   }
-//fname char(15),lname char(15), pID int, empID int, roomLocation char(40), hazard char(30), details char(150),serviceID int)");
-  @Override
-  public void updateSQLTable(ServiceRequest request) throws SQLException{
+  // fname char(15),lname char(15), pID int, empID int, roomLocation char(40), hazard char(30),
+  // details char(150),serviceID int)");
+  public void updateSQLTable(ServiceRequest request) throws SQLException {
     // also needs to add to csv
     SanitationRequest newRequest = (SanitationRequest) request;
     Connection connection = Vdb.Connect();
     String query =
-            "UPDATE SANITATIONREQUESTS"
-                    + "SET fname=?, lname=?,pID=?,empID=?,roomLocation=?,hazard=?,details=?"
-                    + "WHERE serviceID=?";
+        "UPDATE SANITATIONREQUESTS"
+            + "SET fname=?, lname=?,pID=?,empID=?,roomLocation=?,hazard=?,details=?"
+            + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setString(1, newRequest.getPatientFirstName());
     statement.setString(2, newRequest.getPatientLastName());
     statement.setInt(3, newRequest.getPatientID());
     statement.setInt(4, newRequest.getHospitalID());
     statement.setString(5, newRequest.getRoomLocation());
-    statement.setString(6,newRequest.getHazardName());
-    statement.setString(7,newRequest.getRequestDetails());
+    statement.setString(6, newRequest.getHazardName());
+    statement.setString(7, newRequest.getRequestDetails());
     statement.setInt(8, newRequest.getServiceID());
   }
 
@@ -171,7 +169,7 @@ public class SanitationRequestDao extends DaoInterface {
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     SanitationRequest newRequest = (SanitationRequest) request;
     request.setServiceID(Vdb.getServiceID());
-    newRequest.setServiceID(Vdb.getServiceID());//
+    newRequest.setServiceID(Vdb.getServiceID()); //
     allSanitationRequests.add(newRequest);
     addToSQLTable(request);
     saveToCSV();
@@ -181,7 +179,7 @@ public class SanitationRequestDao extends DaoInterface {
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
     Predicate<SanitationRequest> condition =
-            SanitationRequest -> SanitationRequest.getServiceID() == serviceID;
+        SanitationRequest -> SanitationRequest.getServiceID() == serviceID;
     allSanitationRequests.removeIf(condition);
     removeFromSQLTable(request);
   }

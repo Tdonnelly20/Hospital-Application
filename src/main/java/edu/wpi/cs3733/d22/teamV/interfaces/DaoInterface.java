@@ -15,14 +15,19 @@ public abstract class DaoInterface {
 
   public abstract void addToSQLTable(ServiceRequest request) throws SQLException;
 
-  // It's that easy!
+  // This should work (hopefully)
   public void updateRequest(ServiceRequest request) throws SQLException, IOException {
-    removeServiceRequest(request);
-    addServiceRequest(request);
+
+    for (ServiceRequest currRequest : getAllServiceRequests()) {
+      if (currRequest.getServiceID() == request.getServiceID()) {
+        currRequest = request;
+      }
+    }
+
+    removeFromSQLTable(request);
+    addToSQLTable(request);
+    saveToCSV();
   }
-
-  public abstract void updateSQLTable(ServiceRequest request) throws SQLException;
-
 
   public abstract void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException;
 
