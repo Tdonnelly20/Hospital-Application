@@ -4,7 +4,6 @@ import edu.wpi.cs3733.d22.teamV.ServiceRequests.InternalPatientTransportation;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -66,13 +65,13 @@ public class InternalPatientTransportationDao extends DaoInterface {
       String[] data;
       data = line.split(splitToken);
       InternalPatientTransportation transportation =
-              new InternalPatientTransportation(
-                      data[0],
-                      data[1],
-                      data[2],
-                      Integer.parseInt(data[3]),
-                      Integer.parseInt(data[4]),
-                      data[5]);
+          new InternalPatientTransportation(
+              data[0],
+              data[1],
+              data[2],
+              Integer.parseInt(data[3]),
+              Integer.parseInt(data[4]),
+              data[5]);
       transportations.add(transportation);
     }
     allInternalPatientTransportations = transportations;
@@ -82,20 +81,20 @@ public class InternalPatientTransportationDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\PatientTransportations.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-            "firstName,lastName,roomNumber,patientID,hospitalID,requestDetails");
+    bw.append("firstName,lastName,roomNumber,patientID,hospitalID,requestDetails");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
-      InternalPatientTransportation internalPatientTransportation = (InternalPatientTransportation) request;
+      InternalPatientTransportation internalPatientTransportation =
+          (InternalPatientTransportation) request;
 
       String[] outputData = {
-              internalPatientTransportation.getPatientFirstName(),
-              internalPatientTransportation.getPatientLastName(),
-              internalPatientTransportation.getRoomNumber(),
-              String.valueOf(internalPatientTransportation.getPatientID()),
-              String.valueOf(internalPatientTransportation.getHospitalID()),
-              internalPatientTransportation.getRequestDetails()
+        internalPatientTransportation.getPatientFirstName(),
+        internalPatientTransportation.getPatientLastName(),
+        internalPatientTransportation.getRoomNumber(),
+        String.valueOf(internalPatientTransportation.getPatientID()),
+        String.valueOf(internalPatientTransportation.getHospitalID()),
+        internalPatientTransportation.getRequestDetails()
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -118,7 +117,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-              "CREATE TABLE PATIENTTRANSPORTATION(patientFirstName char(50), patientLastName char(50), roomNum char(50), patientID int, hospitalID int, requestDetails char(250))";
+          "CREATE TABLE PATIENTTRANSPORTATION(patientFirstName char(50), patientLastName char(50), roomNum char(50), patientID int, hospitalID int, requestDetails char(250))";
       exampleStatement.execute(query);
     } else {
       query = "DROP TABLE PATIENTTRANSPORTATION";
@@ -126,14 +125,16 @@ public class InternalPatientTransportationDao extends DaoInterface {
       createSQLTable();
       return;
     }
-    for (InternalPatientTransportation internalPatientTransportation : allInternalPatientTransportations) {
+    for (InternalPatientTransportation internalPatientTransportation :
+        allInternalPatientTransportations) {
       addToSQLTable(internalPatientTransportation);
     }
   }
 
   @Override
   public void addToSQLTable(ServiceRequest request) throws SQLException {
-    InternalPatientTransportation internalPatientTransportation = (InternalPatientTransportation) request;
+    InternalPatientTransportation internalPatientTransportation =
+        (InternalPatientTransportation) request;
 
     String query = "";
     Connection connection = Vdb.Connect();
@@ -141,40 +142,44 @@ public class InternalPatientTransportationDao extends DaoInterface {
     Statement statement = connection.createStatement();
 
     query =
-            "INSERT INTO PATIENTTRANSPORTATION("
-                    + "patientFirstName,patientLastName,roomNum,patientID,hospitalID,requestDetails) VALUES "
-                    + "('"
-                    + internalPatientTransportation.getPatientFirstName()
-                    + "', '"
-                    + internalPatientTransportation.getPatientLastName()
-                    + "', '"
-                    + internalPatientTransportation.getRoomNumber()
-                    + "', "
-                    + internalPatientTransportation.getPatientID()
-                    + ", "
-                    + internalPatientTransportation.getServiceID()
-                    + ", '"
-                    + internalPatientTransportation.getRequestDetails()
-                    + "')";
+        "INSERT INTO PATIENTTRANSPORTATION("
+            + "patientFirstName,patientLastName,roomNum,patientID,hospitalID,requestDetails) VALUES "
+            + "('"
+            + internalPatientTransportation.getPatientFirstName()
+            + "', '"
+            + internalPatientTransportation.getPatientLastName()
+            + "', '"
+            + internalPatientTransportation.getRoomNumber()
+            + "', "
+            + internalPatientTransportation.getPatientID()
+            + ", "
+            + internalPatientTransportation.getServiceID()
+            + ", '"
+            + internalPatientTransportation.getRequestDetails()
+            + "')";
 
     statement.execute(query);
   }
 
   @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-    InternalPatientTransportation internalPatientTransportation = (InternalPatientTransportation) request;
+    InternalPatientTransportation internalPatientTransportation =
+        (InternalPatientTransportation) request;
     String query = "";
     Connection connection = Vdb.Connect();
     assert connection != null;
     Statement statement = connection.createStatement();
 
-    query = "DELETE FROM PATIENTTRANSPORTATION WHERE patientID = " + internalPatientTransportation.getPatientID();
+    query =
+        "DELETE FROM PATIENTTRANSPORTATION WHERE patientID = "
+            + internalPatientTransportation.getPatientID();
     statement.execute(query);
   }
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    InternalPatientTransportation internalPatientTransportation = (InternalPatientTransportation) request;
+    InternalPatientTransportation internalPatientTransportation =
+        (InternalPatientTransportation) request;
     allInternalPatientTransportations.add(internalPatientTransportation);
 
     addToSQLTable(internalPatientTransportation);
@@ -183,7 +188,8 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    allInternalPatientTransportations.removeIf(value -> value.getPatientID() == request.getPatient().getPatientID());
+    allInternalPatientTransportations.removeIf(
+        value -> value.getPatientID() == request.getPatient().getPatientID());
     removeFromSQLTable(request);
     saveToCSV();
   }
@@ -194,7 +200,8 @@ public class InternalPatientTransportationDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+      throws SQLException {
     allInternalPatientTransportations = (ArrayList<InternalPatientTransportation>) serviceRequests;
   }
 }
