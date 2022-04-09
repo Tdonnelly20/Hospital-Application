@@ -198,6 +198,4 @@ public class MedicineDeliveryDao extends DaoInterface {
       allMedicineDeliveries.add(delivery);
     }
   }
-
-  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

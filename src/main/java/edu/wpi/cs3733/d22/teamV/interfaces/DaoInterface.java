@@ -15,7 +15,11 @@ public abstract class DaoInterface {
 
   public abstract void addToSQLTable(ServiceRequest request) throws SQLException;
 
-  // public abstract void updateRequest(ServiceRequest request) throws SQLException;
+  //It's that easy!
+  public void updateRequest(ServiceRequest request) throws SQLException, IOException{
+    removeServiceRequest(request);
+    addServiceRequest(request);
+  }
 
   public abstract void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException;
 
