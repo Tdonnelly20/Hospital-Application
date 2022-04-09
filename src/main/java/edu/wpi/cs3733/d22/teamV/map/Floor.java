@@ -1,6 +1,6 @@
-package edu.wpi.cs3733.d22.teamV.objects;
+package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.map.Icon;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;

@@ -222,13 +222,36 @@ public class LocationController extends MapController {
                   nodeType.getText(),
                   longName.getText(),
                   shortName.getText());
-          try {
-            locationDao.addLocation(newLoc);
-          } catch (IOException e) {
-            e.printStackTrace();
-          } catch (SQLException e) {
-            e.printStackTrace();
-          }
+          locationDao.addLocation(newLoc);
+          updateTreeTable();
+          setTextFieldPrompts();
+        });
+
+    clear.setOnAction(
+        event -> {
+          setTextFieldPrompts();
+        });
+    vbox.getChildren().addAll(hbox, nodeID, x, y, floor, building, nodeType, shortName, longName);
+    updateTreeTable();
+  }
+
+  @FXML
+  private void openAddLocation() {
+    setForms();
+
+    submit.setOnAction(
+        event -> {
+          Location newLoc =
+              new Location(
+                  nodeID.getText(),
+                  Double.parseDouble(x.getText()),
+                  Double.parseDouble(y.getText()),
+                  floor.getText(),
+                  building.getText(),
+                  nodeType.getText(),
+                  longName.getText(),
+                  shortName.getText());
+          locationDao.addLocation(newLoc);
           updateTreeTable();
           setTextFieldPrompts();
         });

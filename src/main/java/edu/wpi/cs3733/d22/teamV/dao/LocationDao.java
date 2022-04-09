@@ -35,10 +35,18 @@ public class LocationDao {
     return null;
   }
 
-  public void addLocation(Location location) throws IOException, SQLException {
+  public void addLocation(Location location) {
     allLocations.add(location);
-    saveToCSV();
-    addToSQLTable(location);
+    try {
+      saveToCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    try {
+      addToSQLTable(location);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public void deleteLocation(String nodeID) throws SQLException, IOException {
