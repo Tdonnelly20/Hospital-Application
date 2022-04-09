@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.dao.*;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -263,26 +264,24 @@ public class RequestSystem {
    */
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     switch (dao) {
-      case Equipment:
-        equipmentDao.getAllServiceRequests();
       case EquipmentDelivery:
-        equipmentDeliveryDao.getAllServiceRequests();
+        return equipmentDeliveryDao.getAllServiceRequests();
       case InternalPatientTransportation:
-        internalPatientTransportationDao.getAllServiceRequests();
+        return internalPatientTransportationDao.getAllServiceRequests();
       case LabRequest:
-        labRequestDao.getAllServiceRequests();
+        return labRequestDao.getAllServiceRequests();
       case LaundryRequest:
-        laundryRequestDao.getAllServiceRequests();
+        return laundryRequestDao.getAllServiceRequests();
       case LocationDao:
-        locationDao.getAllServiceRequests();
+        return locationDao.getAllServiceRequests();
       case MealRequestDao:
-        mealRequestDao.getAllServiceRequests();
+        return mealRequestDao.getAllServiceRequests();
       case MedicineDelivery:
-        medicineDeliveryDao.getAllServiceRequests();
+        return medicineDeliveryDao.getAllServiceRequests();
       case ReligiousRequest:
-        religiousRequestDao.getAllServiceRequests();
+        return religiousRequestDao.getAllServiceRequests();
       case SanitationRequest:
-        sanitationRequestDao.getAllServiceRequests();
+        return sanitationRequestDao.getAllServiceRequests();
       default:
         return new ArrayList<>();
     }
@@ -295,6 +294,12 @@ public class RequestSystem {
   public ArrayList<Location> getLocations() {
     return locationDao.getAllLocations();
   }
+
+  /**
+   * Getter specifically for equipment since it is not a service request
+   * @return
+   */
+  public ArrayList<Equipment> getEquipment(){return equipmentDao.getAllEquipment();}
 
   /**
    * Returns ALL service requests of EVERY type
