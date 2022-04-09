@@ -8,7 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LaundryRequestDao implements DaoInterface {
+public class LaundryRequestDao extends DaoInterface {
 
   private static ArrayList<LaundryRequest> allLaundryRequests;
 
