@@ -19,7 +19,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MedicineDeliveryController extends Controller implements RequestInterface {
+public class MedicineDeliveryController extends MapController implements RequestInterface {
 
   @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
 
@@ -46,6 +46,13 @@ public class MedicineDeliveryController extends Controller implements RequestInt
   // MUST take from Vdb, do NOT create
   private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
 
+  private static class SingletonHelper {
+    private static final MedicineDeliveryController controller = new MedicineDeliveryController();
+  }
+
+  public static MedicineDeliveryController getController() {
+    return MedicineDeliveryController.SingletonHelper.controller;
+  }
   /** Update the table with values from fields and the DB */
   @Override
   public void updateTreeTable() {

@@ -12,7 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class LaundryRequestController extends Controller {
+public class LaundryRequestController extends MapController {
 
   @FXML private Label Status;
   @FXML private TextField userID;
@@ -23,6 +23,14 @@ public class LaundryRequestController extends Controller {
   @FXML private TextArea details;
   @FXML private JFXComboBox statusDropDown;
   @FXML private Button sendRequest;
+
+  private static class SingletonHelper {
+    private static final LaundryRequestController controller = new LaundryRequestController();
+  }
+
+  public static LaundryRequestController getController() {
+    return LaundryRequestController.SingletonHelper.controller;
+  }
 
   // TODO
   // laundryRequestDAO is not in VDB

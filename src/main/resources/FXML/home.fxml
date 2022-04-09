@@ -98,7 +98,7 @@
                                           <Insets />
                                        </VBox.margin>
                                     </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToSanitationRequests" style="-fx-background-color: #5c677d;" text="Sanitation Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToSanitationRequest" style="-fx-background-color: #5c677d;" text="Sanitation Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>

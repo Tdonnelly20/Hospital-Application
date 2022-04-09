@@ -67,4 +67,23 @@ public class Location {
   public String getNodeID() {
     return nodeID;
   }
+
+  public void updateInfo(
+      String nodeID,
+      double xCoord,
+      double yCoord,
+      String floor,
+      String building,
+      String nodeType,
+      String longName,
+      String shortName) {
+    this.nodeID = nodeID;
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+    this.floor = floor;
+    this.building = building;
+    this.nodeType = nodeType;
+    this.longName = longName;
+    this.shortName = shortName;
+  }
 }

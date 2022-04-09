@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: blue;" />
+      <SplitPane dividerPositions="0.1417785234899329" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color: red;">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" scaleShape="false" SplitPane.resizableWithParent="false">
+               <children>
+                  <GridPane alignment="TOP_CENTER" layoutX="-3.0" layoutY="-12.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="65.0" prefWidth="597.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="499.6667073567708" minWidth="10.0" prefWidth="351.9999593098958" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="294.33331298828125" minWidth="10.0" prefWidth="168.66670735677087" />
+                      <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="294.33331298828125" minWidth="10.0" prefWidth="77.00002034505212" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
+                    </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="54.0" prefWidth="299.0" spacing="15.0">
+                           <children>
+                              <ImageView fitHeight="52.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Service Request">
+                                 <font>
+                                    <Font name="System Bold" size="35.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="2">
+                           <children>
+                              <Button contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Button" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets right="15.0" />
+                           </GridPane.margin>
+                        </HBox>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <HBox layoutX="14.0" layoutY="28.0" prefHeight="338.0" prefWidth="597.3333333333334" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <SplitPane dividerPositions="0.29797979797979796" prefHeight="338.0" prefWidth="597.3333333333334" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <TabPane prefHeight="336.0" prefWidth="414.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <tabs>
+                                  <Tab text="Untitled Tab 1">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <JFXTreeTableView fx:id="table" prefHeight="306.6666666666667" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <columns>
+                                                      <TreeTableColumn id="nodeID" fx:id="nodeIDCol" maxWidth="1.7976931348623157E308" prefWidth="76.66650390625" text="Node ID" />
+                                                      <TreeTableColumn id="xCoord" prefWidth="56.0" text="X" fx:id="xCol" />
+                                                      <TreeTableColumn id="yCoord" fx:id="yCol" prefWidth="54.22222900390625" text="Y" />
+                                                      <TreeTableColumn id="Floor" fx:id="floorCol" prefWidth="58.888916015625" text="Floor" />
+                                                      <TreeTableColumn id="Building" fx:id="buildingCol" prefWidth="79.5555419921875" text="Building" />
+                                                      <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" prefWidth="52.22222900390625" text="Node Type" />
+                                                      <TreeTableColumn prefWidth="219.77777099609375" text="Name">
+                                                         <columns>
+                                                            <TreeTableColumn id="shortName" fx:id="shortNameCol" prefWidth="60.0" text="Short" />
+                                                            <TreeTableColumn id="longName" fx:id="longNameCol" maxWidth="172.666748046875" prefWidth="109.3333740234375" text="Long" />
+                                                         </columns>
+                                                      </TreeTableColumn>
+                                                   </columns>
+                                                </JFXTreeTableView>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                  <Tab text="Untitled Tab 2">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <JFXTreeTableView fx:id="table1" layoutX="10.0" layoutY="10.0" prefHeight="306.6666666666667" prefWidth="414.0">
+                                                   <columns>
+                                                      <TreeTableColumn id="nodeID" fx:id="nodeIDCol1" prefWidth="76.66650390625" text="Node ID" />
+                                                      <TreeTableColumn id="xCoord" prefWidth="56.0" text="X" fx:id="xCol1" />
+                                                      <TreeTableColumn id="yCoord" fx:id="yCol1" prefWidth="54.22222900390625" text="Y" />
+                                                      <TreeTableColumn id="Floor" fx:id="floorCol1" prefWidth="58.888916015625" text="Floor" />
+                                                      <TreeTableColumn id="Building" fx:id="buildingCol1" prefWidth="79.5555419921875" text="Building" />
+                                                      <TreeTableColumn id="nodeType" fx:id="nodeTypeCol1" prefWidth="52.22222900390625" text="Node Type" />
+                                                      <TreeTableColumn prefWidth="219.77777099609375" text="Name">
+                                                         <columns>
+                                                            <TreeTableColumn id="shortName" fx:id="shortNameCol1" prefWidth="60.0" text="Short" />
+                                                            <TreeTableColumn id="longName" fx:id="longNameCol1" maxWidth="172.666748046875" prefWidth="109.3333740234375" text="Long" />
+                                                         </columns>
+                                                      </TreeTableColumn>
+                                                   </columns>
+                                                </JFXTreeTableView>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                </tabs>
+                              </TabPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</StackPane>

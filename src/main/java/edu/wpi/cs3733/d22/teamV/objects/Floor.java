@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
+import edu.wpi.cs3733.d22.teamV.map.Icon;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +33,7 @@ public class Floor {
     return false;
   }
 
-  public Icon getIconAt(Location location) {
+  public Icon getIcon(Location location) {
     for (Icon icon : iconList) {
       if (icon.getLocation().equals(location)) {
         return icon;

@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
+import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
-import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import javafx.scene.image.Image;

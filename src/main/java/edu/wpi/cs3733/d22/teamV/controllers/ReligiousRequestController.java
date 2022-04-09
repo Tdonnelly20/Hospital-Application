@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ReligiousRequestController extends Controller {
+public class ReligiousRequestController extends MapController {
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;
@@ -26,6 +26,14 @@ public class ReligiousRequestController extends Controller {
   @FXML private CheckBox Hindu;
   @FXML private CheckBox Other;
   @FXML private TextField specialRequests;
+
+  private static class SingletonHelper {
+    private static final ReligiousRequestController controller = new ReligiousRequestController();
+  }
+
+  public static ReligiousRequestController getController() {
+    return ReligiousRequestController.SingletonHelper.controller;
+  }
 
   @FXML
   private void resetForm() {

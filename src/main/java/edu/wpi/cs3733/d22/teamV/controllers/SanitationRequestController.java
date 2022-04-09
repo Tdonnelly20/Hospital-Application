@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SanitationRequestController extends Controller {
+public class SanitationRequestController extends MapController {
   @FXML private TextField hospitalID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
@@ -21,6 +21,14 @@ public class SanitationRequestController extends Controller {
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
   private static SanitationRequestDao SanitationRequestDao = new SanitationRequestDao();
+
+  private static class SingletonHelper {
+    private static final SanitationRequestController controller = new SanitationRequestController();
+  }
+
+  public static SanitationRequestController getController() {
+    return SanitationRequestController.SingletonHelper.controller;
+  }
 
   @FXML
   private void checkValidation() {

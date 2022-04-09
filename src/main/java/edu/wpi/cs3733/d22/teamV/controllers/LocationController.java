@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LocationController extends Controller {
+public class LocationController extends MapController {
   private static LocationDao locationDao = Vdb.locationDao;
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
@@ -79,7 +79,7 @@ public class LocationController extends Controller {
         });
     addLocation.setOnAction(
         event -> {
-          openUpdateLocation();
+          openAddLocation();
         });
     removeLocation.setOnAction(
         event -> {

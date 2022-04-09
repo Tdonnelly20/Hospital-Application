@@ -1,15 +1,20 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import edu.wpi.cs3733.d22.teamV.map.Icon;
+import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.map.RequestIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Floor;
 import edu.wpi.cs3733.d22.teamV.objects.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,6 +39,8 @@ public class MapManager {
   @FXML VBox content = new VBox(15);
   @FXML Scene scene = new Scene(content, 450, 450);
   @FXML Stage stage = new Stage();
+
+  List<ServiceRequest> serviceRequests = new ArrayList<>();
   @FXML Button locationButton = new Button("Add Location");
   @FXML Button equipmentButton = new Button("Add Equipment");
   @FXML Button submitIcon = new Button("Add icon");
@@ -49,6 +56,17 @@ public class MapManager {
   @FXML TextField field4 = new TextField();
 
   private MapManager() {
+    serviceRequests =
+        Stream.of(
+                Vdb.labRequestDao.getAllLabRequests(),
+                Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries() /*,
+           // Vdb.internalPatientTransportationDao.getInternalPatientTransportations(),
+           // Vdb.medicineDeliveryDao.getAllMedicineDeliveries()
+
+           */)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+    ;
     setUpPopUp();
     setUpFloors();
   }
@@ -99,7 +117,7 @@ public class MapManager {
     floorList.add(f1);
     floorList.add(f2);
     floorList.add(f3);
-    // System.out.println("SIZE: " + floorList.size());
+    System.out.println("SIZE: " + floorList.size());
 
     ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
 
@@ -151,17 +169,21 @@ public class MapManager {
     }
   }
 
-  public void loadRequests(int i, Location l) {
+  public void loadLocations(int i, Location l) {
     Icon icon;
     if (floorList.size() > 0) {
       if (floorList.get(i).hasIconAt(l)) {
-        icon = floorList.get(i).getIconAt(l);
+        if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
+          if (l.getRequests().size() > 0) {
+            floorList.get(i).getIconList().remove(floorList.get(i).getIcon(l));
+            floorList.get(i).getIconList().add(new RequestIcon(l));
+          }
+        }
       } else {
-        icon = new Icon(l, false);
-        floorList.get(i).addIcon(icon);
+        floorList.get(i).addIcon(new LocationIcon(l));
       }
     } else {
-      icon = new Icon(l, false);
+      icon = new LocationIcon(l);
       floorList.get(i).addIcon(icon);
     }
     for (ServiceRequest request : Vdb.equipmentDeliveryDao.getAllServiceRequests()) {
