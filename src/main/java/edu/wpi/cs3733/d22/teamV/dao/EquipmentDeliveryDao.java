@@ -190,4 +190,7 @@ public class EquipmentDeliveryDao implements DaoInterface {
       createSQLTable();
     }
   }
+
+  @Override
+  public void updateRequest(ServiceRequest request) throws SQLException {}
 }
