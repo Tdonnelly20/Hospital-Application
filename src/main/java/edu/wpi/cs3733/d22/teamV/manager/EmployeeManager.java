@@ -20,7 +20,7 @@ public class EmployeeManager {
 
   public Employee getEmployee(int userID) {
     for (Employee he : employeeList) {
-      if (he.getHospitalID() == userID) {
+      if (he.getEmployeeID() == userID) {
         return he;
       }
     }

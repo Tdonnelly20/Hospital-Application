@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.LaundryRequest;
 import edu.wpi.cs3733.d22.teamV.dao.LaundryRequestDao;
+import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
 import java.awt.*;
 import java.sql.SQLException;
 import javafx.event.Event;

@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.manager.EmployeeManager;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
@@ -25,7 +25,7 @@ public class LabRequest extends ServiceRequest {
     this.patient = new Patient(patientID, firstName, lastName);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
     this.hospitalEmployee = new Employee(userID);
-    this.patient.addHospitalEmployee(EmployeeManager.getManager().getEmployee(userID));
+    this.patient.addEmployee(EmployeeManager.getManager().getEmployee(userID));
 
     this.lab = lab;
     this.status = status;

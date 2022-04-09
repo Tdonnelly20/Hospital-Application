@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
@@ -42,7 +42,7 @@ public class InternalPatientTransportation extends ServiceRequest {
   }
 
   public int getHospitalID() {
-    return employee.getHospitalID();
+    return employee.getEmployeeID();
   }
 
   public String getRoomNumber() {

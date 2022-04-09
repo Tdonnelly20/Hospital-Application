@@ -1,12 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -262,7 +262,7 @@ public class MapManager {
           FXCollections.observableArrayList("Not Started", "Processing", "Done");
       if (requestIcon.getRequestsArr().size() > 0) {
         for (ServiceRequest request : requestIcon.getRequestsArr()) {
-          Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
+          Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getEmployeeID());
           Label locationLabel =
               new Label(
                   "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());

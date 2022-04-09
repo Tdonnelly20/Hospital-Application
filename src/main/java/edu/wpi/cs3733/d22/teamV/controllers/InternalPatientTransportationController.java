@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.InternalPatientTransportation;
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
 import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -60,7 +60,7 @@ public class InternalPatientTransportationController extends MapController
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));

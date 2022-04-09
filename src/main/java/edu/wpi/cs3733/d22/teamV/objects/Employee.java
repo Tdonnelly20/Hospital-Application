@@ -7,28 +7,28 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Employee {
-  private int hospitalID;
+  private int employeeID;
   private String firstName;
   private String lastName;
-  private List<String> degrees;
+  private List<String> specialties;
   private List<Patient> patientList;
   private List<Employee> employeeList;
 
   public Employee(
-      int hospitalID,
+      int employeeID,
       String firstName,
       String lastName,
-      List<String> degrees,
+      List<String> specialties,
       List<Patient> patientList) {
-    this.hospitalID = hospitalID;
+    this.employeeID = employeeID;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.degrees = degrees;
+    this.specialties = specialties;
     this.patientList = patientList;
   }
 
-  public Employee(int hospitalID) {
-    this.hospitalID = hospitalID;
+  public Employee(int employeeID) {
+    this.employeeID = employeeID;
   }
 
   public Employee() {}
@@ -41,7 +41,7 @@ public class Employee {
     patientList.remove(patient);
   }
 
-  public int getPatientNum() {
+  public int getPatientListSize() {
     return patientList.size();
   }
 }

@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.MealRequest;
 import edu.wpi.cs3733.d22.teamV.dao.MealRequestDao;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

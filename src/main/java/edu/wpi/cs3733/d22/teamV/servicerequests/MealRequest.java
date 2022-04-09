@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import lombok.Getter;
 import lombok.Setter;

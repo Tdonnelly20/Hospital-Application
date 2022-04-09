@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.SanitationRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.io.IOException;
 import java.sql.*;
@@ -23,7 +23,7 @@ public class SanitationRequestDao extends DaoInterface {
   // String patientFirstName,
   //      String patientLastName,
   //      int patientID,
-  //      int hospitalID,
+  //      int employeeID,
   //      String roomLocation,
   //      String hazardName,
   //      String requestDetails
@@ -84,7 +84,7 @@ public class SanitationRequestDao extends DaoInterface {
   //  //String patientFirstName,
   //  //      String patientLastName,
   //  //      int patientID,
-  //  //      int hospitalID,
+  //  //      int employeeID,
   //  //      String roomLocation,
   //  //      String hazardName,
   //  //      String requestDetails

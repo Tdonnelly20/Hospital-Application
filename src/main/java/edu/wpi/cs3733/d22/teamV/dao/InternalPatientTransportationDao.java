@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.InternalPatientTransportation;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\PatientTransportations.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("firstName,lastName,roomNumber,patientID,hospitalID,requestDetails");
+    bw.append("firstName,lastName,roomNumber,patientID,employeeID,requestDetails");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
