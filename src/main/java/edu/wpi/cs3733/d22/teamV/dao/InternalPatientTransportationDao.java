@@ -78,6 +78,5 @@ public class InternalPatientTransportationDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {}
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) throws SQLException {}
 }

@@ -24,6 +24,9 @@ public class RequestSystem {
   private ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
   private SanitationRequestDao sanitationRequestDao = new SanitationRequestDao();
 
+  /**
+   * Choose type of DAO for the methods called
+   */
   public enum Dao {
     Equipment,
     EquipmentDelivery,
@@ -39,6 +42,11 @@ public class RequestSystem {
 
   Dao dao;
 
+  /**
+   * Choose which CSV to load from
+   * @throws IOException
+   * @throws SQLException
+   */
   public void loadFromCSV() throws IOException, SQLException {
     switch (dao) {
       case Equipment:
@@ -66,6 +74,10 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Choose which CSV to save to
+   * @throws IOException
+   */
   public void saveToCSV() throws IOException {
     switch (dao) {
       case EquipmentDelivery:
@@ -91,6 +103,10 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Choose which table to create
+   * @throws SQLException
+   */
   public void createSQLTable() throws SQLException {
     switch (dao) {
       case Equipment:
@@ -118,6 +134,11 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Add to specified table based on type of request
+   * @param request
+   * @throws SQLException
+   */
   public void addToSQLTable(ServiceRequest request) throws SQLException {
     switch (dao) {
       case EquipmentDelivery:
@@ -143,6 +164,12 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Choose which table to remove from based on request
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     switch (dao) {
       case EquipmentDelivery:
@@ -168,6 +195,12 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Creates new service request in specified DAO
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     switch (dao) {
       case EquipmentDelivery:
@@ -193,6 +226,12 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Removes a service request based on type of request
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     switch (dao) {
       case EquipmentDelivery:
@@ -218,6 +257,10 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Returns all service requests of a certain type
+   * @return
+   */
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     switch (dao) {
       case Equipment:
@@ -245,10 +288,18 @@ public class RequestSystem {
     }
   }
 
+  /**
+   * Getter specifically for location since it is not a service request
+   * @return
+   */
   public ArrayList<Location> getLocations() {
     return locationDao.getAllLocations();
   }
 
+  /**
+   * Returns ALL service requests of EVERY type
+   * @return
+   */
   public List<? extends ServiceRequest> getEveryServiceRequest() {
     return Stream.of(
             equipmentDeliveryDao.getAllServiceRequests(),
@@ -264,6 +315,11 @@ public class RequestSystem {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Sets service requests of a certain type
+   * @param serviceRequests
+   * @throws SQLException
+   */
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
       throws SQLException {
     switch (dao) {
