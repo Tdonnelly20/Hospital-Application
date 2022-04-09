@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -23,7 +23,7 @@ public class LocationDao extends DaoInterface {
     }
   }
 
-  public static ArrayList<Location> getAllLocations() {
+  public ArrayList<Location> getAllLocations() {
     return allLocations;
   }
 
@@ -124,10 +124,6 @@ public class LocationDao extends DaoInterface {
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<Location> locations = new ArrayList<>();
-    // equipment = new ArrayList<>();
-    // C:\Users\Trevor\Documents\GitHub\TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
-    // C:\Users\Trevor\Documents\GitHub\TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
-    //
     String headerLine = br.readLine();
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {

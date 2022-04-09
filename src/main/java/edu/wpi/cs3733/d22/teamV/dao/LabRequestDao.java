@@ -173,11 +173,7 @@ public class LabRequestDao extends DaoInterface {
       LabRequest delivery = (LabRequest) request;
       allLabRequests.add(delivery);
       try {
-        // System.out.println("Adding to CSV");
-        Vdb.saveToFile(Vdb.Database.LabRequest);
-        // System.out.println("Adding to database...");
-        // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
-
+        createSQLTable();
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -196,7 +192,6 @@ public class LabRequestDao extends DaoInterface {
       for (LabRequest l : allLabRequests)
         exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
 
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {
       e.printStackTrace();
     }
