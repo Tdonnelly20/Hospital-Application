@@ -27,7 +27,7 @@ public class MedicineDeliveryController extends MapController implements Request
   @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> roomNumberCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> nodeIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> medicineCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> dosageCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> otherInfoCol;
@@ -36,7 +36,7 @@ public class MedicineDeliveryController extends MapController implements Request
   @FXML private TextField hospitalID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
-  @FXML private TextField roomNum;
+  @FXML private TextField nodeID;
   @FXML private TextField dosage;
   @FXML private JFXComboBox<Object> medicationDropDown;
   @FXML private Button sendRequest;
@@ -70,7 +70,7 @@ public class MedicineDeliveryController extends MapController implements Request
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    roomNumberCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory("medicineName"));
     dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory("dosage"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
@@ -112,7 +112,7 @@ public class MedicineDeliveryController extends MapController implements Request
           && patientID.getText().equals("")
           && firstName.getText().equals("")
           && lastName.getText().equals("")
-          && roomNum.getText().equals("")
+          && nodeID.getText().equals("")
           && dosage.getText().equals("")
           && medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
@@ -122,7 +122,7 @@ public class MedicineDeliveryController extends MapController implements Request
           || patientID.getText().equals("")
           || firstName.getText().equals("")
           || lastName.getText().equals("")
-          || roomNum.getText().equals("")
+          || nodeID.getText().equals("")
           || dosage.getText().equals("")
           || medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
@@ -152,7 +152,7 @@ public class MedicineDeliveryController extends MapController implements Request
           new MedicineDelivery(
               firstName.getText(),
               lastName.getText(),
-              roomNum.getText(),
+              nodeID.getText(),
               Integer.parseInt(patientID.getText()),
               Integer.parseInt(hospitalID.getText()),
               medicationDropDown.getValue().toString(),
@@ -171,8 +171,8 @@ public class MedicineDeliveryController extends MapController implements Request
               + hospitalID.getText()
               + "\nPatient ID: "
               + patientID.getText()
-              + "\nRoom #: "
-              + roomNum.getText()
+              + "\nNode ID: "
+              + nodeID.getText()
               + "\nName: "
               + firstName.getText()
               + " "
@@ -196,7 +196,7 @@ public class MedicineDeliveryController extends MapController implements Request
     hospitalID.setText("");
     firstName.setText("");
     lastName.setText("");
-    roomNum.setText("");
+    nodeID.setText("");
     dosage.setText("");
 
     medicationDropDown.setValue("Select Medication");

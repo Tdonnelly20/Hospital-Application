@@ -25,9 +25,7 @@ public class RequestSystem {
   private ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
   private SanitationRequestDao sanitationRequestDao = new SanitationRequestDao();
 
-  /**
-   * Choose type of DAO for the methods called
-   */
+  /** Choose type of DAO for the methods called */
   public enum Dao {
     Equipment,
     EquipmentDelivery,
@@ -45,6 +43,7 @@ public class RequestSystem {
 
   /**
    * Choose which CSV to load from
+   *
    * @throws IOException
    * @throws SQLException
    */
@@ -77,6 +76,7 @@ public class RequestSystem {
 
   /**
    * Choose which CSV to save to
+   *
    * @throws IOException
    */
   public void saveToCSV() throws IOException {
@@ -106,6 +106,7 @@ public class RequestSystem {
 
   /**
    * Choose which table to create
+   *
    * @throws SQLException
    */
   public void createSQLTable() throws SQLException {
@@ -137,6 +138,7 @@ public class RequestSystem {
 
   /**
    * Add to specified table based on type of request
+   *
    * @param request
    * @throws SQLException
    */
@@ -167,6 +169,7 @@ public class RequestSystem {
 
   /**
    * Choose which table to remove from based on request
+   *
    * @param request
    * @throws IOException
    * @throws SQLException
@@ -198,6 +201,7 @@ public class RequestSystem {
 
   /**
    * Creates new service request in specified DAO
+   *
    * @param request
    * @throws IOException
    * @throws SQLException
@@ -229,6 +233,7 @@ public class RequestSystem {
 
   /**
    * Removes a service request based on type of request
+   *
    * @param request
    * @throws IOException
    * @throws SQLException
@@ -260,6 +265,7 @@ public class RequestSystem {
 
   /**
    * Returns all service requests of a certain type
+   *
    * @return
    */
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
@@ -289,6 +295,7 @@ public class RequestSystem {
 
   /**
    * Getter specifically for location since it is not a service request
+   *
    * @return
    */
   public ArrayList<Location> getLocations() {
@@ -297,12 +304,16 @@ public class RequestSystem {
 
   /**
    * Getter specifically for equipment since it is not a service request
+   *
    * @return
    */
-  public ArrayList<Equipment> getEquipment(){return equipmentDao.getAllEquipment();}
+  public ArrayList<Equipment> getEquipment() {
+    return equipmentDao.getAllEquipment();
+  }
 
   /**
    * Returns ALL service requests of EVERY type
+   *
    * @return
    */
   public List<? extends ServiceRequest> getEveryServiceRequest() {
@@ -322,6 +333,7 @@ public class RequestSystem {
 
   /**
    * Sets service requests of a certain type
+   *
    * @param serviceRequests
    * @throws SQLException
    */

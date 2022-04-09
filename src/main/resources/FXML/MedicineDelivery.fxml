@@ -98,7 +98,7 @@
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="roomNum" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Room Number">
+                  <TextField fx:id="nodeID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Room Number">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
@@ -175,7 +175,7 @@
                                     <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
                                     <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
                                     <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
-                                    <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="55.2000732421875" text="Room #" />
+                                    <TreeTableColumn fx:id="nodeIDCol" minWidth="0.0" prefWidth="55.2000732421875" text="Room #" />
                                     <TreeTableColumn fx:id="medicineCol" minWidth="0.0" prefWidth="56.7999267578125" text="Medicine" />
                                     <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Dosage" />
                                     <TreeTableColumn fx:id="otherInfoCol" prefWidth="64.80001831054688" text="Other Info" />

@@ -1,12 +1,13 @@
 package edu.wpi.cs3733.d22.teamV.ServiceRequests;
 
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 
 public class MedicineDelivery extends ServiceRequest {
   private Patient patient;
   private HospitalEmployee employee;
-  private String medicineName, dosage, roomNumber, requestDetails;
+  private String medicineName, nodeID, dosage, requestDetails;
   /**
    * @param patientFirstName
    * @param patientLastName
@@ -19,7 +20,7 @@ public class MedicineDelivery extends ServiceRequest {
   public MedicineDelivery(
       String patientFirstName,
       String patientLastName,
-      String roomNumber,
+      String nodeID,
       int patientID,
       int hospitalID,
       String medicineName,
@@ -27,26 +28,8 @@ public class MedicineDelivery extends ServiceRequest {
       String requestDetails) {
     this.dosage = dosage;
     this.requestDetails = requestDetails;
-    this.roomNumber = roomNumber;
-    patient = new Patient(patientID, patientFirstName, patientLastName);
-    employee = new HospitalEmployee(hospitalID);
-    this.medicineName = medicineName;
-  }
-
-  public MedicineDelivery(
-      String patientFirstName,
-      String patientLastName,
-      String roomNumber,
-      int patientID,
-      int hospitalID,
-      String medicineName,
-      String dosage,
-      String requestDetails,
-      int serviceID) {
-    this.dosage = dosage;
-    this.requestDetails = requestDetails;
-    this.roomNumber = roomNumber;
-    setServiceID(serviceID);
+    this.nodeID = nodeID;
+    this.location = Vdb.locationDao.getLocation(nodeID);
     patient = new Patient(patientID, patientFirstName, patientLastName);
     employee = new HospitalEmployee(hospitalID);
     this.medicineName = medicineName;
@@ -80,7 +63,15 @@ public class MedicineDelivery extends ServiceRequest {
     return requestDetails;
   }
 
-  public String getRoomNumber() {
-    return roomNumber;
+  public String getNodeID() {
+    try {
+      return location.getNodeID();
+    } catch (NullPointerException e) {
+      return "(Not found)" + nodeID;
+    }
+  }
+
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
   }
 }

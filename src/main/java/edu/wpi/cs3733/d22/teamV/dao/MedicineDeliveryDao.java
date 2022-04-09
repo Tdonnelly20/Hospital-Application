@@ -47,8 +47,9 @@ public class MedicineDeliveryDao extends DaoInterface {
               Integer.parseInt(data[4]),
               data[5],
               data[6],
-              data[7],
-              Integer.parseInt(data[8]));
+              data[7]);
+
+      newDelivery.setServiceID(Integer.parseInt(data[8]));
       medicineDeliveries.add(newDelivery);
     }
 
@@ -60,7 +61,7 @@ public class MedicineDeliveryDao extends DaoInterface {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
-        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
+        "patientFirstName,patientLastName,nodeID,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -69,7 +70,7 @@ public class MedicineDeliveryDao extends DaoInterface {
       String[] outputData = {
         medicineDelivery.getPatientFirstName(),
         medicineDelivery.getPatientLastName(),
-        medicineDelivery.getRoomNumber(),
+        medicineDelivery.getNodeID(),
         String.valueOf(medicineDelivery.getPatientID()),
         String.valueOf(medicineDelivery.getEmployeeID()),
         medicineDelivery.getMedicineName(),
@@ -99,7 +100,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), roomNumber char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254), serviceID int)";
+          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), nodeID char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -124,13 +125,13 @@ public class MedicineDeliveryDao extends DaoInterface {
     Statement statement = connection.createStatement();
     query =
         "INSERT INTO MEDICINES("
-            + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
+            + "patientFirstName,patientLastName,nodeID,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
             + "('"
             + medicineDelivery.getPatientFirstName()
             + "', '"
             + medicineDelivery.getPatientLastName()
             + "', '"
-            + medicineDelivery.getRoomNumber()
+            + medicineDelivery.getNodeID()
             + "', "
             + medicineDelivery.getPatientID()
             + ", "
