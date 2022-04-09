@@ -1,15 +1,13 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,7 +32,7 @@ public class MapManager {
   @FXML Scene scene = new Scene(content, 450, 450);
   @FXML Stage stage = new Stage();
 
-  List<ServiceRequest> serviceRequests = new ArrayList<>();
+  List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   @FXML Button locationButton = new Button("Add Location");
   @FXML Button equipmentButton = new Button("Add Equipment");
   @FXML Button submitIcon = new Button("Add icon");
@@ -50,15 +48,9 @@ public class MapManager {
   @FXML TextField field4 = new TextField();
 
   private MapManager() {
-    serviceRequests =
-        Stream.of(Vdb.labRequestDao.getAllServiceRequests() /*,
-                            Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries() ,
-           // Vdb.internalPatientTransportationDao.getInternalPatientTransportations(),
-           // Vdb.medicineDeliveryDao.getAllMedicineDeliveries()
-*/)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
-    ;
+    RequestSystem requestSystem = new RequestSystem();
+    serviceRequests = requestSystem.getEveryServiceRequest();
+
     setUpPopUp();
     setUpFloors();
   }
