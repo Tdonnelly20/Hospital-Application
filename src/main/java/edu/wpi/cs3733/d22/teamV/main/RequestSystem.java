@@ -2,9 +2,14 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.dao.*;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RequestSystem {
   private EquipmentDao equipmentDao = new EquipmentDao();
@@ -238,6 +243,25 @@ public class RequestSystem {
       default:
         return new ArrayList<>();
     }
+  }
+
+  public ArrayList<Location> getLocations() {
+    return locationDao.getAllLocations();
+  }
+
+  public List<? extends ServiceRequest> getEveryServiceRequest() {
+    return Stream.of(
+            equipmentDeliveryDao.getAllServiceRequests(),
+            // internalPatientTransportationDao.getAllServiceRequests(),
+            labRequestDao.getAllServiceRequests(),
+            // laundryRequestDao.getAllServiceRequests(),
+            // mealRequestDao.getAllServiceRequests(),
+            medicineDeliveryDao.getAllServiceRequests() // ,
+            // religiousRequestDao.getAllServiceRequests(),
+            // sanitationRequestDao.getAllServiceRequests()
+            )
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
   }
 
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)

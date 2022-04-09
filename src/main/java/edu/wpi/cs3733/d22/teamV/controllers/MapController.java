@@ -5,11 +5,7 @@ import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
-import edu.wpi.cs3733.d22.teamV.map.Floor;
-import edu.wpi.cs3733.d22.teamV.map.Icon;
-import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
-import edu.wpi.cs3733.d22.teamV.map.MapEvent;
-import edu.wpi.cs3733.d22.teamV.map.ZoomPane;
+import edu.wpi.cs3733.d22.teamV.map.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -139,6 +135,9 @@ public class MapController extends Controller {
   }
 
   protected void mapSetUp() {
+    mapPane.getChildren().clear();
+    stackPane.getChildren().clear();
+    group.getChildren().clear();
     setUpControls();
     zoom();
     currFloor = MapManager.getManager().getFloor("1");
@@ -156,6 +155,17 @@ public class MapController extends Controller {
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   void checkDropDown() {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
+      if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {
+        filterCheckBox.getCheckModel().check("Service Requests");
+      }
+    }
+    if (filterCheckBox.getCheckModel().getCheckedItems().contains("Clean Equipment")) {
+      if (!filterCheckBox.getCheckModel().isChecked("Equipment")) {
+        filterCheckBox.getCheckModel().check("Equipment");
+      }
+    }
     MapManager.getManager().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
@@ -222,20 +232,106 @@ public class MapController extends Controller {
     for (Icon icon : currFloor.getIconList()) {
       if (filter.size() > 0) {
         // System.out.println(icon.iconType);
-        mapPane.getChildren().add(icon.getImage());
-        if (filter.contains("Request") && icon.iconType.equals("Request")) {
-          // System.out.println(icon.getImage());
-          mapPane.getChildren().add(icon.getImage());
+        if (filter.contains("Service Requests") && icon.iconType.equals("Request")) {
+          RequestIcon requestIcon = (RequestIcon) icon;
+          if (filter.contains("Active Requests")) {
+            if (requestIcon.hasActiveRequests()) {
+              filterByActiveRequestType(requestIcon);
+            }
+          } else {
+            filterByRequestType(requestIcon);
+          }
         }
         if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
-          mapPane.getChildren().add(icon.getImage());
+          EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
+          if (filter.contains("Clean Equipment")) {
+            if (equipmentIcon.hasCleanEquipment()) {
+              mapPane.getChildren().add(icon.getImage());
+            }
+          } else {
+            mapPane.getChildren().add(icon.getImage());
+          }
         }
-        if (filter.contains("Location") && icon.iconType.equals("Location")) {
+        if (filter.contains("Locations") && icon.iconType.equals("Location")) {
           mapPane.getChildren().add(icon.getImage());
         }
       } else {
-        mapPane.getChildren().add(icon.getImage());
+        if (!mapPane.getChildren().contains(icon.getImage())) {
+          mapPane.getChildren().add(icon.getImage());
+        }
       }
+    }
+  }
+
+  public void filterByActiveRequestType(RequestIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (!filter.contains("Lab Requests")
+        && !filter.contains("Equipment Delivery Requests")
+        && !filter.contains("Meal Delivery Requests")
+        && !filter.contains("Laundry Requests")
+        && !filter.contains("Medicine Delivery Requests")
+        && !filter.contains("Religious Requests")
+        && !filter.contains("Sanitation Requests")
+        && !filter.contains("Internal Patient Transport Requests")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Equipment Delivery Requests")
+        && icon.hasActiveRequestType("Equipment Delivery Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Meal Delivery Requests")
+        && icon.hasActiveRequestType("Meal Delivery Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Laundry Requests")
+        && icon.hasActiveRequestType("Laundry Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Medicine Delivery Requests")
+        && icon.hasActiveRequestType("Medicine Delivery Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Religious Requests")
+        && icon.hasActiveRequestType("Religious Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Sanitation Requests")
+        && icon.hasActiveRequestType("Sanitation Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Internal Patient Transport Requests")
+        && icon.hasActiveRequestType("Internal Patient Transport Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    }
+  }
+
+  public void filterByRequestType(RequestIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (!filter.contains("Lab Requests")
+        && !filter.contains("Equipment Delivery Requests")
+        && !filter.contains("Meal Delivery Requests")
+        && !filter.contains("Laundry Requests")
+        && !filter.contains("Medicine Delivery Requests")
+        && !filter.contains("Religious Requests")
+        && !filter.contains("Sanitation Requests")
+        && !filter.contains("Internal Patient Transport Requests")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Lab Requests") && icon.hasRequestType("Lab Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Equipment Delivery Requests")
+        && icon.hasRequestType("Equipment Delivery Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Meal Delivery Requests")
+        && icon.hasRequestType("Meal Delivery Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Laundry Requests") && icon.hasRequestType("Laundry Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Medicine Delivery Requests")
+        && icon.hasRequestType("Medicine Delivery Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Religious Requests") && icon.hasRequestType("Religious Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Sanitation Requests")
+        && icon.hasRequestType("Sanitation Request")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Internal Patient Transport Requests")
+        && icon.hasRequestType("Internal Patient Transport Request")) {
+      mapPane.getChildren().add(icon.getImage());
     }
   }
 

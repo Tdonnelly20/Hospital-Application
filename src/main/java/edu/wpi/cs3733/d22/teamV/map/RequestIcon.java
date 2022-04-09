@@ -4,7 +4,11 @@ import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RequestIcon extends Icon {
   private ArrayList<ServiceRequest> requestsArr;
 
@@ -25,5 +29,35 @@ public class RequestIcon extends Icon {
     if (requestsArr.size() == 0) {
       image.setImage(new Image("icon.png"));
     }
+  }
+
+  public boolean hasActiveRequests() {
+    for (ServiceRequest serviceRequest : requestsArr) {
+      if (serviceRequest.getStatus().equals("Not Started")
+          || serviceRequest.getStatus().equals("Processing")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean hasRequestType(String type) {
+    for (ServiceRequest serviceRequest : requestsArr) {
+      if (serviceRequest.getType().equals(type)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean hasActiveRequestType(String type) {
+    for (ServiceRequest serviceRequest : requestsArr) {
+      if ((serviceRequest.getStatus().equals("Not Started")
+              || serviceRequest.getStatus().equals("Processing"))
+          && serviceRequest.getType().equals(type)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

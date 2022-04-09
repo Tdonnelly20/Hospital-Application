@@ -18,7 +18,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: blue;" />
@@ -70,7 +69,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
-                              <TabPane prefHeight="336.0" prefWidth="414.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TabPane prefHeight="304.0" prefWidth="414.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <tabs>
                                   <Tab text="Untitled Tab 1">
                                     <content>
@@ -78,16 +77,16 @@
                                              <children>
                                                 <JFXTreeTableView fx:id="table" prefHeight="306.6666666666667" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <columns>
-                                                      <TreeTableColumn id="nodeID" fx:id="nodeIDCol" maxWidth="1.7976931348623157E308" prefWidth="76.66650390625" text="Node ID" />
-                                                      <TreeTableColumn id="xCoord" prefWidth="56.0" text="X" fx:id="xCol" />
-                                                      <TreeTableColumn id="yCoord" fx:id="yCol" prefWidth="54.22222900390625" text="Y" />
-                                                      <TreeTableColumn id="Floor" fx:id="floorCol" prefWidth="58.888916015625" text="Floor" />
-                                                      <TreeTableColumn id="Building" fx:id="buildingCol" prefWidth="79.5555419921875" text="Building" />
-                                                      <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" prefWidth="52.22222900390625" text="Node Type" />
-                                                      <TreeTableColumn prefWidth="219.77777099609375" text="Name">
+                                                      <TreeTableColumn id="nodeID" fx:id="nodeIDCol" maxWidth="61.0" prefWidth="71.33331298828125" resizable="false" text="Node ID" />
+                                                      <TreeTableColumn id="xCoord" maxWidth="37.0" prefWidth="37.33329772949219" resizable="false" text="X" fx:id="xCol" />
+                                                      <TreeTableColumn id="yCoord" fx:id="yCol" maxWidth="37.0" prefWidth="37.0" resizable="false" text="Y" />
+                                                      <TreeTableColumn id="Floor" fx:id="floorCol" maxWidth="37.0" prefWidth="37.0" resizable="false" text="Floor" />
+                                                      <TreeTableColumn id="Building" fx:id="buildingCol" maxWidth="65.0" prefWidth="64.6666259765625" text="Building" />
+                                                      <TreeTableColumn id="nodeType" fx:id="nodeTypeCol" maxWidth="72.0" prefWidth="71.99993896484375" text="Node Type" />
+                                                      <TreeTableColumn minWidth="300.0" prefWidth="300.0" resizable="false" text="Name">
                                                          <columns>
                                                             <TreeTableColumn id="shortName" fx:id="shortNameCol" prefWidth="60.0" text="Short" />
-                                                            <TreeTableColumn id="longName" fx:id="longNameCol" maxWidth="172.666748046875" prefWidth="109.3333740234375" text="Long" />
+                                                            <TreeTableColumn id="longName" fx:id="longNameCol" prefWidth="100.0" text="Long" />
                                                          </columns>
                                                       </TreeTableColumn>
                                                    </columns>

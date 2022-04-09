@@ -33,6 +33,6 @@ public class LabRequest extends ServiceRequest {
     this.firstName = firstName;
     this.lastName = lastName;
     this.userID = userID;
-    this.desc = "Lab Request";
+    this.type = "Lab Request";
   }
 }

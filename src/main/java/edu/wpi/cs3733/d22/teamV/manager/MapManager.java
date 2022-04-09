@@ -1,15 +1,16 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +36,7 @@ public class MapManager {
   @FXML Scene scene = new Scene(content, 450, 450);
   @FXML Stage stage = new Stage();
 
-  List<ServiceRequest> serviceRequests = new ArrayList<>();
+  List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   @FXML Button locationButton = new Button("Add Location");
   @FXML Button equipmentButton = new Button("Add Equipment");
   @FXML Button submitIcon = new Button("Add icon");
@@ -48,18 +50,11 @@ public class MapManager {
   @FXML TextField field2 = new TextField();
   @FXML TextField field3 = new TextField();
   @FXML TextField field4 = new TextField();
+  RequestSystem requestSystem = new RequestSystem();
 
   private MapManager() {
-    serviceRequests =
-        Stream.of(Vdb.labRequestDao.getAllServiceRequests() /*,
-                            Vdb.equipmentDeliveryDao.getAllEquipmentDeliveries() ,
-           // Vdb.internalPatientTransportationDao.getInternalPatientTransportations(),
-           // Vdb.medicineDeliveryDao.getAllMedicineDeliveries()
+    serviceRequests = requestSystem.getEveryServiceRequest();
 
-           */)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
-    ;
     setUpPopUp();
     setUpFloors();
   }
@@ -109,11 +104,13 @@ public class MapManager {
     floorList.add(f1);
     floorList.add(f2);
     floorList.add(f3);
+    floorList.add(f4);
+    floorList.add(f5);
     // System.out.println("SIZE: " + floorList.size());
 
-    ArrayList<Location> locations = Vdb.locationDao.getAllLocations();
+    loadRequests();
 
-    for (Location l : locations) {
+    for (Location l : Vdb.locationDao.getAllLocations()) {
       switch (l.getFloor()) {
         case "L1":
           loadLocations(0, l);
@@ -139,30 +136,32 @@ public class MapManager {
       }
     }
 
-    //  System.out.println("Size: " + Vdb.equipmentDao.getAllEquipment().size());
     for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
       Location l = new Location(e.getX(), e.getY(), e.getFloor());
+      EquipmentIcon equipmentIcon = new EquipmentIcon(l);
+      equipmentIcon.addToEquipmentList(e);
+      equipmentIcon.setImage();
       switch (e.getFloor()) {
         case "L1":
-          floorList.get(0).addIcon(new EquipmentIcon(l));
+          floorList.get(0).addIcon(equipmentIcon);
           break;
         case "L2":
-          floorList.get(1).addIcon(new EquipmentIcon(l));
+          floorList.get(1).addIcon(equipmentIcon);
           break;
         case "1":
-          floorList.get(2).addIcon(new EquipmentIcon(l));
+          floorList.get(2).addIcon(equipmentIcon);
           break;
         case "2":
-          floorList.get(3).addIcon(new EquipmentIcon(l));
+          floorList.get(3).addIcon(equipmentIcon);
           break;
         case "3":
-          floorList.get(4).addIcon(new EquipmentIcon(l));
+          floorList.get(4).addIcon(equipmentIcon);
           break;
         case "4":
-          floorList.get(5).addIcon(new EquipmentIcon(l));
+          floorList.get(5).addIcon(equipmentIcon);
           break;
         case "5":
-          floorList.get(6).addIcon(new EquipmentIcon(l));
+          floorList.get(6).addIcon(equipmentIcon);
           break;
       }
     }
@@ -170,7 +169,7 @@ public class MapManager {
 
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
-      if (floorList.get(i).hasIconAt(l)) {
+      if (floorList.get(i).containsIcon(l)) {
         if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
           if (l.getRequests().size() > 0) {
             floorList.get(i).getIconList().remove(floorList.get(i).getIcon(l));
@@ -185,7 +184,17 @@ public class MapManager {
     }
   }
 
-  public void loadRequests() {}
+  public void loadRequests() {
+    if (serviceRequests.size() > 0) {
+      for (ServiceRequest serviceRequest : serviceRequests) {
+        for (Location location : Vdb.locationDao.getAllLocations()) {
+          if (!location.getRequests().contains(serviceRequest)) {
+            location.getRequests().add(serviceRequest);
+          }
+        }
+      }
+    }
+  }
 
   /**
    * @param str
@@ -243,14 +252,16 @@ public class MapManager {
     content.getChildren().add(titleBox);
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.TOP_CENTER);
-    /* if (icon.isEquipment()) {
-      title.setText(icon.getEquipment().getName());
+    if (icon.iconType.equals("Equipment")) {
+      EquipmentIcon equipmentIcon = ((EquipmentIcon) icon);
+      title.setText("Equipment");
       vbox.getChildren().addAll(title);
     } else {
+      RequestIcon requestIcon = (RequestIcon) icon;
       ObservableList<String> statusStrings =
           FXCollections.observableArrayList("Not Started", "Processing", "Done");
-      if (icon.getRequestsArr().size() > 0) {
-        for (ServiceRequest request : icon.getRequestsArr()) {
+      if (requestIcon.getRequestsArr().size() > 0) {
+        for (ServiceRequest request : requestIcon.getRequestsArr()) {
           Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
           Label locationLabel =
               new Label(
@@ -275,7 +286,7 @@ public class MapManager {
         noRequests.setTextAlignment(TextAlignment.CENTER);
         vbox.getChildren().add(noRequests);
       }
-    }*/
+    }
     content.getChildren().add(vbox);
     showPopUp();
   }

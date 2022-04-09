@@ -24,7 +24,7 @@ public class Floor {
     return floorName;
   }
 
-  public boolean hasIconAt(Location location) {
+  public boolean containsIcon(Location location) {
     for (Icon icon : iconList) {
       if (icon.getLocation().equals(location)) {
         return true;
