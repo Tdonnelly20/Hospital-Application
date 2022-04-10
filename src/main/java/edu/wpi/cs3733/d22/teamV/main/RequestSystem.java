@@ -9,10 +9,6 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class RequestSystem {
@@ -24,8 +20,7 @@ public class RequestSystem {
   private PatientDao patientDao = new PatientDao();
   private EmployeeDao employeeDao = new EmployeeDao();
   private EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-  private InternalPatientTransportationDao internalPatientTransportationDao =
-      new InternalPatientTransportationDao();
+  private InternalPatientTransportationDao internalPatientTransportationDao = new InternalPatientTransportationDao();
   private LabRequestDao labRequestDao = new LabRequestDao();
   private LaundryRequestDao laundryRequestDao = new LaundryRequestDao();
   private LocationDao locationDao = new LocationDao();
@@ -224,7 +219,6 @@ public class RequestSystem {
     // Service Requests
     int highestID = serviceIDCounter;
     ArrayList<ServiceRequest> allServiceRequests = new ArrayList<ServiceRequest>();
-    // ADD YO SERVICE REQUESTS UNDER MINE YO -Matt
     allServiceRequests = (ArrayList<ServiceRequest>) getEveryServiceRequest();
 
     for (ServiceRequest request : allServiceRequests) {
@@ -245,5 +239,13 @@ public class RequestSystem {
     patientIDCounter = highestID;
 
     // Employees
+    highestID = employeeIDCounter;
+
+    for (Employee employee : employeeDao.getAllEmployees()) {
+      if (employee.getEmployeeID() > highestID) {
+        highestID = employee.getEmployeeID();
+      }
+    }
+    employeeIDCounter = highestID;
   }
 }
