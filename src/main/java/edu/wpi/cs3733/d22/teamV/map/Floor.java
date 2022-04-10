@@ -9,11 +9,10 @@ import lombok.Setter;
 @Setter
 public class Floor {
   private String floorName;
-  private ArrayList<Icon> iconList;
+  private ArrayList<Icon> iconList = new ArrayList<Icon>();
 
   public Floor(String floorName) {
     this.floorName = floorName;
-    iconList = new ArrayList<Icon>();
   }
 
   public void addIcon(Icon icon) {

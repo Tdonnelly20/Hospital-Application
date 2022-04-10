@@ -31,7 +31,17 @@ import org.controlsfx.control.CheckComboBox;
 @Getter
 public class MapController extends Controller {
   protected Floor currFloor;
-  boolean drag = false;
+  @FXML protected VBox mapVBox = new VBox(15);
+  @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
+  @FXML protected HBox mapHBox = new HBox(15);
+  @FXML protected Pane mapPane = new Pane();
+  protected final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
+  protected final Group group = new Group();
+  @FXML protected ImageView mapImage = new ImageView(new Image("1st Floor.png"));
+  @FXML protected StackPane stackPane = new StackPane();
+  protected ZoomPane zoomPane = null;
+  @FXML protected ScrollPane scrollPane = new ScrollPane(stackPane);
+  protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
   @FXML
   ObservableList<String> filterItems =
@@ -56,18 +66,6 @@ public class MapController extends Controller {
           "Religious Requests",
           "Sanitation Requests",
           "Internal Patient Transport Requests");
-
-  @FXML protected VBox mapVBox = new VBox(15);
-  @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
-  @FXML protected HBox mapHBox = new HBox(15);
-  @FXML protected Pane mapPane = new Pane();
-  protected final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
-  protected final Group group = new Group();
-  @FXML protected ImageView mapImage = new ImageView(new Image("1st Floor.png"));
-  @FXML protected StackPane stackPane = new StackPane();
-  protected ZoomPane zoomPane = null;
-  @FXML protected ScrollPane scrollPane = new ScrollPane(stackPane);
-  protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
   @FXML
   protected JFXComboBox<String> floorDropDown =
@@ -104,6 +102,7 @@ public class MapController extends Controller {
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     group.getChildren().add(mapImage);
+    group.getChildren().add(mapPane);
     group.getChildren().add(stackPane);
 
     zoomPane = new ZoomPane();
@@ -148,6 +147,14 @@ public class MapController extends Controller {
                 change -> {
                   checkDropDown();
                 });
+    mapPane.setOnMouseClicked(
+        event -> {
+          if (event.getClickCount() == 2) {
+            System.out.println("CLICK RECEIVED");
+            openIconFormWindow(event);
+          }
+        });
+    mapPane.toFront();
   }
 
   @Override
@@ -174,6 +181,14 @@ public class MapController extends Controller {
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   void checkDropDown() {
+    mapPane.setOnMouseClicked(
+        event -> {
+          if (event.getClickCount() == 2) {
+            System.out.println("CLICK RECEIVED");
+            openIconFormWindow(event);
+          }
+        });
+    mapPane.toFront();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
       if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {

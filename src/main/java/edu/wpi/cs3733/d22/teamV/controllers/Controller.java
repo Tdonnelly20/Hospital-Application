@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
   private Parent root;
-  MapController controller;
   FXMLLoader loader = new FXMLLoader();
   String filterString = "";
 
@@ -144,6 +143,7 @@ public abstract class Controller extends Application {
   // Switches scene to the rootW
   @FXML
   protected void switchScene(ActionEvent event) {
+    MapController controller;
     try {
       root = loader.load();
     } catch (IOException e) {
