@@ -14,8 +14,8 @@ public class EquipmentDao {
   public EquipmentDao() {
     allEquipment = new ArrayList<Equipment>();
     try {
-      loadFromCSV();
       createSQLTable();
+      loadFromCSV();
     } catch (Exception e) {
       e.printStackTrace();
     }
