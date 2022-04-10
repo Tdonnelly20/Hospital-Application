@@ -3,15 +3,15 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.map.RequestIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
@@ -172,7 +172,8 @@ public class PopupController {
           FXCollections.observableArrayList("Not Started", "Processing", "Done");
       if (requestIcon.getRequestsArr().size() > 0) {
         for (ServiceRequest request : requestIcon.getRequestsArr()) {
-          Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
+          Label idLabel =
+              new Label("Employee: " /*+ request.getHospitalEmployee().getHospitalID()*/);
           Label locationLabel =
               new Label(
                   "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
@@ -263,7 +264,8 @@ public class PopupController {
         vBox.setPrefWidth(450);
         vBox.setPrefHeight(400);
         for (ServiceRequest request : icon.getRequestsArr()) {
-          Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
+          Label idLabel =
+              new Label("Employee: " /*+ request.getHospitalEmployee().getHospitalID()*/);
           Label locationLabel =
               new Label(
                   "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
