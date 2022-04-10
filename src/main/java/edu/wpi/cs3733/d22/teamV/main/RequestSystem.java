@@ -52,6 +52,7 @@ public class RequestSystem {
     return SingletonMaker.requestSystem;
   }
 
+
   /**
    * Creates new service request in specified DAO
    *

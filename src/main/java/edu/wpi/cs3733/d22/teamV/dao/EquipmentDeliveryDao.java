@@ -168,6 +168,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     allEquipmentDeliveries.removeIf(value -> value.getServiceID() == request.getServiceID());

@@ -153,6 +153,7 @@ public class LaundryRequestDao extends DaoInterface {
     saveToCSV();
   }
 
+
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     LaundryRequest laundryRequest = (LaundryRequest) request;
     allLaundryRequests.removeIf(value -> value.getServiceID() == laundryRequest.getServiceID());

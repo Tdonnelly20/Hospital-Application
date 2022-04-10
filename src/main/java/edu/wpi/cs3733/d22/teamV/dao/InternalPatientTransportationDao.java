@@ -23,6 +23,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
     allInternalPatientTransportations = internalPatientTransportations;
   }
 
+
   public ArrayList<InternalPatientTransportation> getInternalPatientTransportations() {
     return allInternalPatientTransportations;
   }

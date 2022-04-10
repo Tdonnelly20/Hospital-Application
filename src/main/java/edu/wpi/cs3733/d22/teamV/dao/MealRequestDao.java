@@ -143,6 +143,7 @@ public class MealRequestDao extends DaoInterface {
     saveToCSV();
   }
 
+
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     MealRequest mealRequest = (MealRequest) request;
     allMealRequests.removeIf(value -> value.getServiceID() == mealRequest.getServiceID());

@@ -176,6 +176,7 @@ public class SanitationRequestDao extends DaoInterface {
     saveToCSV();
   }
 
+
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();

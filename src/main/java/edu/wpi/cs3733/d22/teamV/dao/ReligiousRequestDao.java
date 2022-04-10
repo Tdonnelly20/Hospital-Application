@@ -133,6 +133,7 @@ public class ReligiousRequestDao extends DaoInterface {
     statement.setInt(1, serviceID);
   }
 
+
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) request;

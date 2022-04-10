@@ -92,6 +92,7 @@ public class PatientDao {
     addToSQLTable(patient);
   }
 
+
   public void removePatient(Patient patient) throws IOException, SQLException {
     allPatients.removeIf(currPatient -> patient.getPatientID() == currPatient.getPatientID());
     removeFromSQLTable(patient);

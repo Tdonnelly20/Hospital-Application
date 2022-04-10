@@ -74,6 +74,7 @@ public class LabRequestDao extends DaoInterface {
     fw.close();
   }
 
+
   public void createSQLTable() throws SQLException {
     Connection connection = Vdb.Connect();
     assert connection != null;
