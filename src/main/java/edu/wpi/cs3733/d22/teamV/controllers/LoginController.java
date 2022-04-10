@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,10 +26,9 @@ public class LoginController extends Controller {
     checkLogin(event);
   }
 
-  private Map<String, String> UserTable = Map.of("admin", "admin");
+  private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
   private void checkLogin(ActionEvent event) throws IOException {
-
 
     for (Map.Entry<String, String> set : UserTable.entrySet()) {
       if (username.getText().toString().equals(set.getKey())
