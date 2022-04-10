@@ -9,6 +9,22 @@ import java.sql.*;
 public class Vdb {
   public static final String currentPath = returnPath();
   private static String line; // receives a line from br
+  public static EmployeeDao employeeDao = new EmployeeDao();
+  public static PatientDao patientDao = new PatientDao();
+  private static int serviceIDCounter = 0;
+  private static boolean isClient = false;
+  private static int patientIDCounter = 0;
+  private static int employeeIDCounter = 0;
+  // Make all DAO's here, NOT in the controllers
+  public static final LocationDao locationDao = new LocationDao();
+  public static final EquipmentDao equipmentDao = new EquipmentDao();
+
+  public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
+
+  public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
+  public static final LabRequestDao labRequestDao = new LabRequestDao();
+  public static final InternalPatientTransportationDao internalPatientTransportationDao =
+      new InternalPatientTransportationDao();
   public static MapManager mapManager;
   public static MapController mapController;
   public static PopupController popupController;
@@ -44,9 +60,10 @@ public class Vdb {
     popupController = PopupController.getController();
     requestSystem.getMaxIDs();
 
-    System.out.println("-------Embedded Apache Derby Connection Testing --------");
+    System.out.println("-------Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      Class.forName("org.apache.derby.jdbc.ClientDriver");
     } catch (ClassNotFoundException e) {
       System.out.println("Apache Derby Driver not found. Add the classpath to your module.");
       System.out.println("For IntelliJ do the following:");
@@ -68,8 +85,14 @@ public class Vdb {
    * @return
    */
   public static Connection Connect() {
+    String URL;
     try {
-      String URL = "jdbc:derby:VDB;";
+      if (!isClient) {
+        URL = "jdbc:derby:VDB;";
+
+      } else {
+        URL = "jdbc:derby://130.215.13.157/C:/Users/tucke/IdeaProjects/TeamVeganVampires/VDB";
+      }
       Connection connection = DriverManager.getConnection(URL, "admin", "admin");
       return connection;
     } catch (SQLException e) {
