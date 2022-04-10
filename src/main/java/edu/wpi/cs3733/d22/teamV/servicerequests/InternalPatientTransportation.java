@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 
@@ -23,7 +24,7 @@ public class InternalPatientTransportation extends ServiceRequest {
       int patientID,
       int hospitalID,
       String requestDetails) {
-    patient = new Patient(patientID, patientFirstName, patientLastName);
+    patient = Vdb.patientDao.getPatientFromID(patientID);
     employee = new Employee(hospitalID);
     this.roomNumber = roomNumber;
     this.requestDetails = requestDetails;

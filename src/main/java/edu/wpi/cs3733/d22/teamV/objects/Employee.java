@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import lombok.Getter;
@@ -43,12 +44,28 @@ public class Employee {
     patientIDs.add(patient.getPatientID());
   }
 
+  public void addPatient(int patientID) {
+    patientIDs.add(patientID);
+  }
+
   public void removePatient(Patient patient) {
     patientIDs.remove(patient);
   }
 
+  public void removePatient(int patientID) {
+    patientIDs.remove(patientID);
+  }
+
   public int getPatientListSize() {
     return patientIDs.size();
+  }
+
+  public ArrayList<Patient> getPatientList() {
+    ArrayList<Patient> patients = new ArrayList<>();
+    for (int patientID : patientIDs) {
+      patients.add(Vdb.patientDao.getPatientFromID(patientID));
+    }
+    return patients;
   }
 
   public int getServiceRequestListSize() {
@@ -59,7 +76,23 @@ public class Employee {
     serviceRequestIDs.add(request.getServiceID());
   }
 
+  public void addServiceRequest(int serviceID) {
+    serviceRequestIDs.add(serviceID);
+  }
+
   public void removeServiceRequest(ServiceRequest request) {
-    serviceRequestIDs.removeIf(requestID -> requestID == request.getServiceID());
+    serviceRequestIDs.remove(request.getServiceID());
+  }
+
+  public void removeServiceRequest(int serviceID) {
+    serviceRequestIDs.remove(serviceID);
+  }
+
+  public ArrayList<ServiceRequest> getServiceRequestList() {
+    ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
+    for (int serviceID : serviceRequestIDs) {
+      // No method to implement this yet...
+    }
+    return null;
   }
 }

@@ -38,11 +38,11 @@ public class EmployeeDao {
 
       // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
       ArrayList<Integer> patientIDs =
-          IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
+          IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
               .boxed()
               .collect(Collectors.toCollection(ArrayList::new));
       ArrayList<Integer> serviceIDs =
-          IntStream.of(Arrays.stream(data[7].split(" ")).mapToInt(Integer::parseInt).toArray())
+          IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
               .boxed()
               .collect(Collectors.toCollection(ArrayList::new));
 
@@ -51,8 +51,8 @@ public class EmployeeDao {
               Integer.parseInt(data[0]),
               data[1],
               data[2],
-              data[2],
-              new ArrayList(Arrays.asList(data[3].split(" "))), // FIGHT ME I HATE FOR LOOPS
+              data[3],
+              new ArrayList(Arrays.asList(data[4].split(" "))), // FIGHT ME I HATE FOR LOOPS
               patientIDs,
               serviceIDs);
 
@@ -137,7 +137,7 @@ public class EmployeeDao {
     ResultSet set = meta.getTables(null, null, "EMPLOYEES", new String[] {"TABLE"});
     if (!set.next()) {
       statement.execute(
-          "CREATE TABLE Employees(employeeID int, employeeFirstName char(30), employeeLastName char(30), employeePosition, employeeSpecialties varchar(1000), patientIDs varchar(1000), serviceRequestIDs varchar(1000))");
+          "CREATE TABLE Employees(employeeID int, employeeFirstName char(30), employeeLastName char(30), employeePosition char(30), employeeSpecialties varchar(1000), patientIDs varchar(1000), serviceRequestIDs varchar(1000))");
 
     } else {
       statement.execute("DROP TABLE EMPLOYEES");
@@ -154,15 +154,15 @@ public class EmployeeDao {
     Connection connection = Vdb.Connect();
     Statement exampleStatement = connection.createStatement();
     String query =
-        "INSERT INTO EMPLOYEES(employeeID, employeeFirstName, employeeLastName, employeePosition, employeeSpecialties, patientIDs, serviceRequestIDs) VALUES ('"
+        "INSERT INTO EMPLOYEES(employeeID, employeeFirstName, employeeLastName, employeePosition, employeeSpecialties, patientIDs, serviceRequestIDs) VALUES ("
             + employee.getEmployeeID()
             + ",'"
             + employee.getFirstName()
             + "','"
             + employee.getLastName()
             + "', '"
-            + employee.getClass().toString()
-            + "'";
+            + "Employee (Placeholder)"
+            + "','";
 
     // add specialties
     for (String str : employee.getSpecialties()) {
@@ -192,7 +192,7 @@ public class EmployeeDao {
     Connection connection = Vdb.Connect();
     assert connection != null;
     Statement statement = connection.createStatement();
-    query = "DELETE FROM LOCATIONS WHERE employeeID = " + employee.getEmployeeID();
+    query = "DELETE FROM EMPLOYEES WHERE employeeID = " + employee.getEmployeeID();
     statement.executeUpdate(query);
   }
 }
