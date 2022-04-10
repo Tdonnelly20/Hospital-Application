@@ -82,7 +82,9 @@ public class Vdb {
     labRequestDao.createSQLTable();
     labRequestDao.loadFromCSV();
     mapManager = MapManager.getManager();
+    mapManager.setUpFloors();
     mapController = MapController.getController();
+    mapController.init();
     popupController = PopupController.getController();
     getMaxServiceID();
 

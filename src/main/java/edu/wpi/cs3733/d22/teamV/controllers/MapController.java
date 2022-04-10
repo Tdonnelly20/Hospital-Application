@@ -30,7 +30,7 @@ import org.controlsfx.control.CheckComboBox;
 @Setter
 @Getter
 public class MapController extends Controller {
-  protected Floor currFloor;
+  protected Floor currFloor = MapManager.getManager().getFloor("1st Floor");
   @FXML protected VBox mapVBox = new VBox(15);
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
   @FXML protected HBox mapHBox = new HBox(15);
@@ -160,6 +160,10 @@ public class MapController extends Controller {
   @Override
   public void init() {
     floorDropDown.setValue("1st Floor");
+    if (MapManager.getManager().getFloor("1") == null) {
+      System.out.println("WTF");
+    }
+    currFloor = MapManager.getManager().getFloor("1");
     mapSetUp();
   }
 

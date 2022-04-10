@@ -17,6 +17,8 @@ public abstract class Controller extends Application {
   FXMLLoader loader = new FXMLLoader();
   String filterString = "";
 
+  @Override
+  public void init() {}
   /**
    * Determines if a String is an integer or not
    *
@@ -69,7 +71,7 @@ public abstract class Controller extends Application {
 
   // Switches scene to the location database
   @FXML
-  protected void switchToLocationDB(ActionEvent event) throws IOException {
+  protected void switchToLocationDB(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
     switchScene(event);
   }
@@ -83,21 +85,21 @@ public abstract class Controller extends Application {
 
   // Switches scene to the lab request page
   @FXML
-  protected void switchToLabRequest(ActionEvent event) throws IOException {
+  protected void switchToLabRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LabRequest.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the medicine delivery page
   @FXML
-  protected void switchToMedicineDelivery(ActionEvent event) throws IOException {
+  protected void switchToMedicineDelivery(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/MedicineDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the medical equipment page
   @FXML
-  protected void switchToMedEquipDelivery(ActionEvent event) throws IOException {
+  protected void switchToMedEquipDelivery(ActionEvent event) {
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/MedicalEquipmentDelivery.fxml"));
     switchScene(event);
@@ -105,35 +107,35 @@ public abstract class Controller extends Application {
 
   // Switches scene to the sanitation page
   @FXML
-  protected void switchToSanitationRequest(ActionEvent event) throws IOException {
+  protected void switchToSanitationRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the meal delivery page
   @FXML
-  protected void switchToMealDelivery(ActionEvent event) throws IOException {
+  protected void switchToMealDelivery(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/MealDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the laundry request page
   @FXML
-  protected void switchToLaundryRequest(ActionEvent event) throws IOException {
+  protected void switchToLaundryRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the religious request page
   @FXML
-  protected void switchToReligiousRequest(ActionEvent event) throws IOException {
+  protected void switchToReligiousRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the religious request page
   @FXML
-  protected void switchToInternalPatientTransport(ActionEvent event) throws IOException {
+  protected void switchToInternalPatientTransport(ActionEvent event) {
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
     filterString = "Internal Patient Transportation Requests";
@@ -143,16 +145,15 @@ public abstract class Controller extends Application {
   // Switches scene to the rootW
   @FXML
   protected void switchScene(ActionEvent event) {
-    MapController controller;
     try {
       root = loader.load();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    controller = loader.getController();
-    controller.filterCheckBox.getCheckModel().clearChecks();
+    Controller controller = loader.getController();
     controller.init();
-    controller.populateFloorIconArr();
+    // MapController.getController().filterCheckBox.getCheckModel().clearChecks();
+    // MapController.getController().populateFloorIconArr();
 
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

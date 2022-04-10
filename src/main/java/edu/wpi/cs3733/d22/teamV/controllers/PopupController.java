@@ -91,6 +91,7 @@ public class PopupController {
   /** Sets up the popup window */
   @FXML
   public void setUpPopup() {
+    stage.setAlwaysOnTop(true);
     title.setTextFill(Color.WHITE);
     title.setFont(new Font("System Bold", 28));
     titleBox.setAlignment(Pos.CENTER);
@@ -338,7 +339,6 @@ public class PopupController {
                   field4.getText()));
           clearPopupForm();
           closePopUp();
-          // MapController.getController().populateFloorIconArr();
         });
 
     // Scene and Stage

@@ -37,7 +37,7 @@ public class MapManager {
   }
 
   /** Sets up floor elements */
-  private void setUpFloors() {
+  public void setUpFloors() {
     floorList = new ArrayList<>();
 
     Floor l1 = new Floor("L1");
