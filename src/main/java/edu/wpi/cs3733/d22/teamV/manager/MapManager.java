@@ -1,17 +1,15 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.ServiceRequest;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,8 +58,7 @@ public class MapManager {
     // System.out.println("SIZE: " + floorList.size());
 
     loadRequests();
-
-    for (Location l : Vdb.locationDao.getAllLocations()) {
+    for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
           loadLocations(0, l);
@@ -87,7 +84,7 @@ public class MapManager {
       }
     }
 
-    for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
+    for (Equipment e : requestSystem.getEquipment()) {
       Location l = new Location(e.getX(), e.getY(), e.getFloor());
       EquipmentIcon equipmentIcon = new EquipmentIcon(l);
       equipmentIcon.addToEquipmentList(e);
@@ -138,7 +135,7 @@ public class MapManager {
   public void loadRequests() {
     if (serviceRequests.size() > 0) {
       for (ServiceRequest serviceRequest : serviceRequests) {
-        for (Location location : Vdb.locationDao.getAllLocations()) {
+        for (Location location : requestSystem.getLocations()) {
           if (!location.getRequests().contains(serviceRequest)) {
             location.getRequests().add(serviceRequest);
           }

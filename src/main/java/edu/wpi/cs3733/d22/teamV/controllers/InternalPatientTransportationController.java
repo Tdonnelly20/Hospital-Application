@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.InternalPatientTransportation;
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.InternalPatientTransportation;
 import java.awt.*;
 import java.util.ArrayList;
 import javafx.fxml.FXML;

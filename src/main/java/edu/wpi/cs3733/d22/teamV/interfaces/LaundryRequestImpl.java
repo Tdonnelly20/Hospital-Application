@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.interfaces;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.LaundryRequest;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.LaundryRequest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

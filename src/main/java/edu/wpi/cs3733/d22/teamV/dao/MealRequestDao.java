@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.MealRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.MealRequest;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.dao.MedicineDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.MedicineDelivery;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.interfaces;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.SanitationRequest;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.SanitationRequest;
 import java.util.List;
 
 public interface SanitationRequestImpl {

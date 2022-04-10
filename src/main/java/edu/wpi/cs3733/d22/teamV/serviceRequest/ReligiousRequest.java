@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.serviceRequest;
 
 public class ReligiousRequest extends ServiceRequest {
   private final String firstName, lastName;

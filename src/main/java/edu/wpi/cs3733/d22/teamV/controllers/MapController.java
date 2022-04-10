@@ -1,11 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
-
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -71,7 +70,7 @@ public class MapController extends Controller {
   protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
   @FXML
-  protected JFXComboBox floorDropDown =
+  protected JFXComboBox<String> floorDropDown =
       new JFXComboBox<>(
           FXCollections.observableArrayList(
               "Lower Level 2",
@@ -153,6 +152,7 @@ public class MapController extends Controller {
 
   @Override
   public void init() {
+    floorDropDown.setValue("1st Floor");
     mapSetUp();
   }
 
@@ -196,35 +196,39 @@ public class MapController extends Controller {
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
   public String getFloor() {
     String result = "";
+    if (floorDropDown.getValue() == null) {
+      floorDropDown.setValue("1st Floor");
+    }
+    System.out.println(floorDropDown.getValue().toString());
     switch (floorDropDown.getValue().toString()) {
       case "Lower Level 1":
-        currFloor = Vdb.mapManager.getFloor("L1");
+        currFloor = MapManager.getManager().getFloor("L1");
         result = "L1";
         break;
       case "Lower Level 2":
-        currFloor = Vdb.mapManager.getFloor("L2");
+        currFloor = MapManager.getManager().getFloor("L2");
         result = "L2";
         break;
       case "1st Floor":
-        currFloor = Vdb.mapManager.getFloor("1");
+        currFloor = MapManager.getManager().getFloor("1");
         result = "1";
         break;
       case "2nd Floor":
-        currFloor = Vdb.mapManager.getFloor("2");
+        currFloor = MapManager.getManager().getFloor("2");
         result = "2";
         break;
       case "3rd Floor":
-        currFloor = Vdb.mapManager.getFloor("3");
+        currFloor = MapManager.getManager().getFloor("3");
         result = "3";
         System.out.println("3");
         break;
       case "4th Floor":
-        currFloor = Vdb.mapManager.getFloor("4");
-        result = "2";
+        currFloor = MapManager.getManager().getFloor("4");
+        result = "4";
         break;
       case "5th Floor":
-        currFloor = Vdb.mapManager.getFloor("5");
-        result = "3";
+        currFloor = MapManager.getManager().getFloor("5");
+        result = "5";
         break;
     }
 
@@ -237,6 +241,7 @@ public class MapController extends Controller {
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
     for (Icon icon : currFloor.getIconList()) {
       if (filter.size() > 0) {
         // System.out.println(icon.iconType);
@@ -357,9 +362,11 @@ public class MapController extends Controller {
 
   // Adds icon to map
   public void addIcon(Icon icon) {
+    RequestSystem requestSystem = new RequestSystem();
     switch (icon.iconType) {
       case "Location":
-        locationDao.addLocation(icon.getLocation());
+        requestSystem.addToLocationSQLTable(icon.getLocation());
+        // requestSystem.addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
     MapController.getController()
@@ -367,6 +374,7 @@ public class MapController extends Controller {
         .getChildren()
         .remove(MapManager.getManager().getTempIcon());
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
+    populateFloorIconArr();
     MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
   }
@@ -381,6 +389,23 @@ public class MapController extends Controller {
                     new LocationIcon(
                         PopupController.getController()
                             .getLocation(xPos + 25, yPos + 15, getFloor())));
+              } else {
+                Text missingFields = new Text("Please fill all fields");
+                missingFields.setFill(Color.RED);
+                missingFields.setTextAlignment(TextAlignment.CENTER);
+                PopupController.getController().sceneVbox.getChildren().add(missingFields);
+                // System.out.println("MISSING FIELD");
+              }
+            });
+  }
+
+  public void setSubmitLocation(Location location) {
+    PopupController.getController()
+        .submitIcon
+        .setOnAction(
+            event1 -> {
+              if (PopupController.getController().checkLocationFields()) {
+                addIcon(new LocationIcon(location));
               } else {
                 Text missingFields = new Text("Please fill all fields");
                 missingFields.setFill(Color.RED);

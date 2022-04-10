@@ -1,8 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.dao.*;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -115,6 +116,14 @@ public class RequestSystem {
         sanitationRequestDao.createSQLTable();
       default:
         System.out.println("L + touch grass");
+    }
+  }
+
+  public void addToLocationSQLTable(Location location) {
+    try {
+      locationDao.addToSQLTable(location);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
@@ -247,6 +256,10 @@ public class RequestSystem {
 
   public ArrayList<Location> getLocations() {
     return locationDao.getAllLocations();
+  }
+
+  public ArrayList<Equipment> getEquipment() {
+    return equipmentDao.getAllEquipment();
   }
 
   public List<? extends ServiceRequest> getEveryServiceRequest() {

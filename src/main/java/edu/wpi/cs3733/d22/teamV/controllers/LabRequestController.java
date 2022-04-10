@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
 import edu.wpi.cs3733.d22.teamV.dao.LabRequestDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.LabRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

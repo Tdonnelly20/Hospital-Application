@@ -23,7 +23,7 @@ public class EquipmentIcon extends Icon {
     image.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            PopupController.getController().openIconRequestWindow(this);
+            PopupController.getController().equipmentForm(event, this);
           }
         });
   }

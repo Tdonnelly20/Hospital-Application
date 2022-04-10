@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.serviceRequest.ServiceRequest;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import lombok.Getter;
