@@ -1,10 +1,17 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import java.util.ArrayList;
 import javafx.scene.image.Image;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class LocationIcon extends Icon {
+  private ArrayList<ServiceRequest> requestsArr = new ArrayList<>();
 
   public LocationIcon(Location location) {
     super(location);
@@ -16,7 +23,57 @@ public class LocationIcon extends Icon {
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(
         event -> {
-          MapManager.getManager().openIconRequestWindow(this);
+          if (event.getClickCount() == 2) {
+            PopupController.getController().locationForm(event, this);
+          }
         });
+  }
+
+  public void addToRequests(ServiceRequest request) {
+    requestsArr.add(request);
+    location.getRequests().add(request);
+    image.setImage(new Image("markedIcon.png"));
+  }
+
+  public void removeRequests(ServiceRequest request) {
+    requestsArr.remove(request);
+    location.getRequests().remove(request);
+    if (requestsArr.size() == 0) {
+      image.setImage(new Image("icon.png"));
+    }
+  }
+
+  public void sort() {
+    // TODO Sort list based on status (active first)
+  }
+
+  public boolean hasActiveRequests() {
+    for (ServiceRequest serviceRequest : requestsArr) {
+      if (serviceRequest.getStatus().equals("Not Started")
+          || serviceRequest.getStatus().equals("Processing")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean hasRequestType(String type) {
+    for (ServiceRequest serviceRequest : requestsArr) {
+      if (serviceRequest.getType().equals(type)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean hasActiveRequestType(String type) {
+    for (ServiceRequest serviceRequest : requestsArr) {
+      if ((serviceRequest.getStatus().equals("Not Started")
+              || serviceRequest.getStatus().equals("Processing"))
+          && serviceRequest.getType().equals(type)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

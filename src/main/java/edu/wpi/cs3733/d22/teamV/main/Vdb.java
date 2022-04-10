@@ -1,5 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
+import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
@@ -22,6 +26,18 @@ public class Vdb {
       new InternalPatientTransportationDao();
   public static MapManager mapManager;
   public static EmployeeDao employeeDao;
+  public static MapController mapController;
+  public static PopupController popupController;
+
+  public enum Database {
+    Location,
+    EquipmentDelivery,
+    MedicineDelivery,
+    ReligiousRequest,
+    MealRequest,
+    LabRequest,
+    SanitationRequest
+  }
 
   public static int getServiceID() {
     return serviceIDCounter++;
@@ -33,7 +49,6 @@ public class Vdb {
     // ADD YO SERVICE REQUESTS UNDER MINE YO
     allServiceRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
     allServiceRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
-    allServiceRequests.addAll(labRequestDao.getAllServiceRequests());
 
     for (ServiceRequest request : allServiceRequests) {
       if (request.getServiceID() > highestID) {
@@ -67,7 +82,11 @@ public class Vdb {
    * @throws Exception
    */
   public static void createAllDB() throws Exception {
+    labRequestDao.createSQLTable();
+    labRequestDao.loadFromCSV();
     mapManager = MapManager.getManager();
+    mapController = MapController.getController();
+    popupController = PopupController.getController();
     getMaxServiceID();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");

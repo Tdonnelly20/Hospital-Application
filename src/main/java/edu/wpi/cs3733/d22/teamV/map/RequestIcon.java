@@ -31,6 +31,10 @@ public class RequestIcon extends Icon {
     }
   }
 
+  public void sort() {
+    // TODO Sort list based on status (active first)
+  }
+
   public boolean hasActiveRequests() {
     for (ServiceRequest serviceRequest : requestsArr) {
       if (serviceRequest.getStatus().equals("Not Started")
