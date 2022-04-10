@@ -27,7 +27,9 @@ public abstract class Icon {
     image.setTranslateY(yCoord);
     image.setOnMouseClicked(
         event -> {
-          PopupController.getController().openIconRequestWindow(this);
+          if (event.getClickCount() == 2) {
+            PopupController.getController().openIconRequestWindow(this);
+          }
         });
   }
 }

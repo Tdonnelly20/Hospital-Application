@@ -34,10 +34,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PopupController {
-  @FXML VBox sceneVbox = new VBox(25);
-  @FXML VBox content = new VBox(25);
-  @FXML Scene scene = new Scene(sceneVbox, 450, 450);
-  @FXML Stage stage = new Stage();
   @FXML Button locationButton = new Button("Location");
   @FXML Button equipmentButton = new Button("Equipment");
   @FXML Button requestButton = new Button("Request");
@@ -48,6 +44,11 @@ public class PopupController {
   @FXML Button addButton = new Button("Add");
   @FXML Button modifyButton = new Button("Modify");
   @FXML Button removeButton = new Button("Remove");
+  @FXML VBox content = new VBox(25);
+  @FXML ScrollPane contentScroll = new ScrollPane(content);
+  @FXML VBox sceneVbox = new VBox(25);
+  @FXML Scene scene = new Scene(sceneVbox, 450, 450);
+  @FXML Stage stage = new Stage();
   @FXML Label title = new Label();
   @FXML HBox titleBox = new HBox(25, title);
   @FXML HBox buttonBox = new HBox(15, submitIcon, clearResponse, closeButton);
@@ -100,8 +101,11 @@ public class PopupController {
 
     buttonBox.setAlignment(Pos.CENTER);
     content.setAlignment(Pos.TOP_CENTER);
+    contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    contentScroll.setPrefHeight(400);
+    contentScroll.setFitToWidth(true);
 
-    sceneVbox.getChildren().addAll(titleBox, buttonBox, content);
+    sceneVbox.getChildren().addAll(titleBox, buttonBox, contentScroll);
     sceneVbox.setAlignment(Pos.TOP_CENTER);
 
     field1.setMaxWidth(250);
@@ -109,6 +113,10 @@ public class PopupController {
     field3.setMaxWidth(250);
     field4.setMaxWidth(250);
     field5.setMaxWidth(250);
+    field6.setMaxWidth(250);
+    field7.setMaxWidth(250);
+    field8.setMaxWidth(250);
+    field9.setMaxWidth(250);
     submitIcon.setMinWidth(100);
     clearResponse.setMinWidth(100);
 
@@ -227,10 +235,12 @@ public class PopupController {
     if (icon == null) {
       title.setText("Location");
       stage.setTitle("Location");
-      buttonBox.getChildren().addAll(returnButton, addButton, modifyButton, removeButton, closeButton);
+      buttonBox
+          .getChildren()
+          .addAll(returnButton, addButton, modifyButton, removeButton, closeButton);
       addButton.setOnAction(
           event1 -> {
-            locationAdditionForm(event);
+            locationAdditionForm(event, icon);
           });
       addButton.setText("Add a Location");
     } else {
@@ -245,6 +255,13 @@ public class PopupController {
       ObservableList<String> statusStrings =
           FXCollections.observableArrayList("Not Started", "Processing", "Done");
       if (icon.getRequestsArr().size() > 0) {
+        VBox vBox = new VBox();
+        ScrollPane scrollPane = new ScrollPane(vBox);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setPannable(false);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        vBox.setPrefWidth(450);
+        vBox.setPrefHeight(400);
         for (ServiceRequest request : icon.getRequestsArr()) {
           Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
           Label locationLabel =
@@ -264,18 +281,20 @@ public class PopupController {
                   new TitledPane(
                       request.getRequestName() + ": " + request.getStatus(),
                       new VBox(15, idLabel, locationLabel, updateStatus)));
-          content.getChildren().add(accordion);
+          accordion.setPrefWidth(450);
+          vBox.getChildren().add(accordion);
         }
+        content.getChildren().add(scrollPane);
       }
     }
     formSetup(event);
     modifyButton.setOnAction(
         event1 -> {
-          locationModifyForm(event);
+          locationModifyForm(event, icon);
         });
     removeButton.setOnAction(
         event1 -> {
-          locationRemoveForm(event);
+          locationRemoveForm(event, icon);
         });
     if (!stage.isShowing()) {
       showPopUp();
@@ -283,7 +302,7 @@ public class PopupController {
   }
 
   @FXML
-  public void locationAdditionForm(MouseEvent event) {
+  public void locationAdditionForm(MouseEvent event, LocationIcon icon) {
     title.setText("Add A Location");
     content.getChildren().clear();
     content.getChildren().addAll(field1, field2, field3, field4);
@@ -319,12 +338,9 @@ public class PopupController {
   }
 
   @FXML
-  public void locationModifyForm(MouseEvent event) {
+  public void locationModifyForm(MouseEvent event, LocationIcon icon) {
     title.setText("Modify A Location");
     content.getChildren().clear();
-    content
-        .getChildren()
-        .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     submitIcon.setText("Modify Location");
@@ -346,6 +362,9 @@ public class PopupController {
     field6.setPromptText("Node Type");
     field7.setPromptText("Short Name");
     field8.setPromptText("Long Name");
+    content
+        .getChildren()
+        .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
     submitIcon.setOnAction(
         event1 -> {
           try {
@@ -355,7 +374,7 @@ public class PopupController {
           } catch (IOException e) {
             e.printStackTrace();
           }
-          locationDao.addLocation(
+          locationDao.addLocation( // TODO: fix modify location error
               new Location(
                   field2.getText(),
                   Double.parseDouble(field3.getText()),
@@ -365,6 +384,8 @@ public class PopupController {
                   field6.getText(),
                   field7.getText(),
                   field8.getText()));
+          clearPopupForm();
+          locationForm(event, icon);
         });
 
     stage.setTitle("Modify Existing Location");
@@ -372,24 +393,42 @@ public class PopupController {
   }
 
   @FXML
-  public void locationRemoveForm(MouseEvent event) {
+  public void locationRemoveForm(MouseEvent event, LocationIcon icon) {
     title.setText("Delete A Location");
     content.getChildren().clear();
     content.getChildren().addAll(field1);
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     submitIcon.setText("Delete Location");
-    field1.setPromptText("Old Node ID");
-    submitIcon.setOnAction(
-        event1 -> {
-          try {
-            locationDao.deleteLocation(field1.getText());
-          } catch (SQLException e) {
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
+    if (icon == null) {
+      field1.setPromptText("Old Node ID");
+      submitIcon.setOnAction(
+          event1 -> {
+            try {
+              locationDao.deleteLocation(field1.getText());
+            } catch (SQLException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+            MapController.getController().populateFloorIconArr();
+            closePopUp();
+          });
+    } else {
+      submitIcon.setOnAction(
+          event1 -> {
+            try {
+              locationDao.deleteLocation(icon.getLocation().getNodeID());
+            } catch (SQLException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+            MapController.getController().populateFloorIconArr();
+            closePopUp();
+            // TODO: Make code go brrrrrrrrr and delete without needing to input nodeID
+          });
+    }
   }
 
   @FXML
@@ -599,6 +638,8 @@ public class PopupController {
     } else {
       icon.addToRequests(request);
     }
+    clearPopupForm();
+    locationForm(event, icon);
   }
 
   @FXML
@@ -702,6 +743,13 @@ public class PopupController {
     field2.setText("");
     field3.setText("");
     field4.setText("");
+    field5.setText("");
+    field6.setText("");
+    field7.setText("");
+    field8.setText("");
+    field9.setText("");
     comboBox1.setValue("Status");
+    comboBox2.setValue("Status");
+    comboBox3.setValue("Status");
   }
 }

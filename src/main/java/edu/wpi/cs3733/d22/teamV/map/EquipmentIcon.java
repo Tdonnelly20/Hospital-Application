@@ -22,7 +22,9 @@ public class EquipmentIcon extends Icon {
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(
         event -> {
-          PopupController.getController().openIconRequestWindow(this);
+          if (event.getClickCount() == 2) {
+            PopupController.getController().openIconRequestWindow(this);
+          }
         });
   }
 

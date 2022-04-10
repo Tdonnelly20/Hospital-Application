@@ -118,7 +118,9 @@ public class MapController extends Controller {
     zoomPane.toBack();
     mapPane.setOnMouseClicked(
         event -> {
-          openIconFormWindow(event);
+          if (event.getClickCount() == 2) {
+            openIconFormWindow(event);
+          }
         });
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }

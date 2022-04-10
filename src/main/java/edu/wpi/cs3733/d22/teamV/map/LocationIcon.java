@@ -23,7 +23,9 @@ public class LocationIcon extends Icon {
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(
         event -> {
-          PopupController.getController().locationForm(event, this);
+          if (event.getClickCount() == 2) {
+            PopupController.getController().locationForm(event, this);
+          }
         });
   }
 
