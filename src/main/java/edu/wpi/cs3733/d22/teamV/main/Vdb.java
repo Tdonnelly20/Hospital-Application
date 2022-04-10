@@ -65,7 +65,7 @@ public class Vdb {
       if (currentPath.length() > position) {
         currentPath = currentPath.substring(0, position);
       }
-      currentPath += "\\src\\main\\resources\\edu\\wpi\\cs3733\\d22\\teamV";
+      currentPath += "/src/main/resources/edu/wpi/cs3733/d22/teamV";
       System.out.println(currentPath);
     }
     return currentPath;

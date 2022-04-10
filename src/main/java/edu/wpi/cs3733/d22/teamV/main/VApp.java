@@ -23,7 +23,7 @@ public class VApp extends Application {
     try {
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(
-          Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
+          Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/Login.fxml")));
       Parent root = loader.load();
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
