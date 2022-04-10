@@ -10,11 +10,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 public class RequestSystem {
-  private static int serviceIDCounter = 0;
-  private static int patientIDCounter = 0;
-  private static int employeeIDCounter = 0;
+  public static int serviceIDCounter = 0;
+  public static int patientIDCounter = 0;
+  public static int employeeIDCounter = 0;
 
   private EquipmentDao equipmentDao = new EquipmentDao();
   private PatientDao patientDao = new PatientDao();
@@ -44,6 +43,14 @@ public class RequestSystem {
   }
 
   Dao dao;
+
+  private static class SingletonMaker{
+    private static final RequestSystem requestSystem = new RequestSystem();
+  }
+
+  public static RequestSystem getSystem(){
+    return SingletonMaker.requestSystem;
+  }
 
   /**
    * Creates new service request in specified DAO
@@ -157,11 +164,11 @@ public class RequestSystem {
     return equipmentDao.getAllEquipment();
   }
 
-  public ArrayList<Patient> getPatients(){
+  public ArrayList<Patient> getPatients() {
     return patientDao.getAllPatients();
   }
 
-  public ArrayList<Employee> getEmployees(){
+  public ArrayList<Employee> getEmployees() {
     return employeeDao.getAllEmployees();
   }
 
@@ -247,5 +254,15 @@ public class RequestSystem {
       }
     }
     employeeIDCounter = highestID;
+  }
+
+  public static int getServiceID(){
+    return serviceIDCounter++;
+  }
+  public static int getPatientID(){
+    return patientIDCounter++;
+  }
+  public static int getEmployeeID(){
+    return employeeIDCounter++;
   }
 }

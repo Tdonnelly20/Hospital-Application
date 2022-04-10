@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -162,7 +163,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    int serviceID = Vdb.getServiceID();
+    int serviceID = RequestSystem.getServiceID();
     MedicineDelivery medicineDelivery = (MedicineDelivery) request;
     medicineDelivery.setServiceID(serviceID);
     allMedicineDeliveries.add(medicineDelivery); // Store a local copy

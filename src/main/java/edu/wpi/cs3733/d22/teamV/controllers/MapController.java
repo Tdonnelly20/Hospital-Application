@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
@@ -32,6 +32,7 @@ import org.controlsfx.control.CheckComboBox;
 @Getter
 public class MapController extends Controller {
   protected Floor currFloor;
+  RequestSystem requestSystem = new RequestSystem();
   boolean drag = false;
 
   @FXML
@@ -359,7 +360,7 @@ public class MapController extends Controller {
   public void addIcon(Icon icon) {
     switch (icon.iconType) {
       case "Location":
-        locationDao.addLocation(icon.getLocation());
+        requestSystem.getLocations().add(icon.getLocation());
     }
     PopupController.getController().closePopUp();
     MapController.getController()

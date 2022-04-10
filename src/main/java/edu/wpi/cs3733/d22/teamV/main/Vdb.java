@@ -3,71 +3,16 @@ package edu.wpi.cs3733.d22.teamV.main;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.dao.*;
-import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
-import edu.wpi.cs3733.d22.teamV.objects.Patient;
-import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Vdb {
   public static final String currentPath = returnPath();
   private static String line; // receives a line from br
-  public static EmployeeDao employeeDao = new EmployeeDao();
-  public static PatientDao patientDao = new PatientDao();
-  private static int serviceIDCounter = 0;
-  private static int patientIDCounter = 0;
-  private static int employeeIDCounter = 0;
-  // Make all DAO's here, NOT in the controllers
-  public static final LocationDao locationDao = new LocationDao();
-  public static final EquipmentDao equipmentDao = new EquipmentDao();
-
-  public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-
-  public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
-  public static final LabRequestDao labRequestDao = new LabRequestDao();
-  public static final InternalPatientTransportationDao internalPatientTransportationDao =
-      new InternalPatientTransportationDao();
   public static MapManager mapManager;
   public static MapController mapController;
   public static PopupController popupController;
-
-  public static int getServiceID() {
-    return serviceIDCounter++;
-  }
-
-  public static void getMaxIDs() {
-    // Service Requests
-    int highestID = serviceIDCounter;
-    ArrayList<ServiceRequest> allServiceRequests = new ArrayList<ServiceRequest>();
-    // ADD YO SERVICE REQUESTS UNDER MINE YO
-    allServiceRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
-    allServiceRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
-    allServiceRequests.addAll(labRequestDao.getAllServiceRequests());
-
-    for (ServiceRequest request : allServiceRequests) {
-      if (request.getServiceID() > highestID) {
-        highestID = request.getServiceID();
-      }
-    }
-    serviceIDCounter = highestID;
-
-    // Patients
-    highestID = patientIDCounter;
-
-    for (Patient patient : PatientDao.getAllPatients()) {
-      if (patient.getPatientID() > highestID) {
-        highestID = patient.getPatientID();
-      }
-    }
-    patientIDCounter = highestID;
-
-    // Employees
-  }
-
-  public static int getPatientID() {
-    return patientIDCounter++;
-  }
+  RequestSystem requestSystem = RequestSystem.getSystem();
 
   /**
    * Returns the location of the CSVs
@@ -93,11 +38,11 @@ public class Vdb {
    *
    * @throws Exception
    */
-  public static void createAllDB() throws Exception {
+  public void createAllDB() throws Exception {
     mapManager = MapManager.getManager();
     mapController = MapController.getController();
     popupController = PopupController.getController();
-    getMaxIDs();
+    requestSystem.getMaxIDs();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {

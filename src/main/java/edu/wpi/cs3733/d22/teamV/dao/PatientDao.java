@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import java.io.*;
@@ -86,7 +87,7 @@ public class PatientDao {
   }
 
   public void addPatient(Patient patient) throws SQLException {
-    patient.setPatientID(Vdb.getPatientID());
+    patient.setPatientID(RequestSystem.getPatientID());
     allPatients.add(patient);
     addToSQLTable(patient);
   }

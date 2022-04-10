@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -135,8 +136,8 @@ public class ReligiousRequestDao extends DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) request;
-    request.setServiceID(Vdb.getServiceID());
-    newReligiousRequest.setServiceID(Vdb.getServiceID()); //
+    request.setServiceID(RequestSystem.serviceIDCounter);
+    newReligiousRequest.setServiceID(RequestSystem.serviceIDCounter); //
     allReligiousRequest.add(newReligiousRequest);
     addToSQLTable(request);
     saveToCSV();

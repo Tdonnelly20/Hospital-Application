@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -160,7 +161,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
-    request.setServiceID(Vdb.getServiceID());
+    request.setServiceID(RequestSystem.getServiceID());
     allEquipmentDeliveries.add(equipmentDelivery);
 
     addToSQLTable(request);

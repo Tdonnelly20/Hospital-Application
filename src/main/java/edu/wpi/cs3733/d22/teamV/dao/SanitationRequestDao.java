@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -168,8 +169,8 @@ public class SanitationRequestDao extends DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     SanitationRequest newRequest = (SanitationRequest) request;
-    request.setServiceID(Vdb.getServiceID());
-    newRequest.setServiceID(Vdb.getServiceID()); //
+    request.setServiceID(RequestSystem.getServiceID());
+    newRequest.setServiceID(RequestSystem.getServiceID()); //
     allSanitationRequests.add(newRequest);
     addToSQLTable(request);
     saveToCSV();
