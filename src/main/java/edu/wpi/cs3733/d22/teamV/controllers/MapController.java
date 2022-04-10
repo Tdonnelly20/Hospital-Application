@@ -155,9 +155,6 @@ public class MapController extends Controller {
   }
 
   protected void mapSetUp() {
-    mapPane.getChildren().clear();
-    stackPane.getChildren().clear();
-    group.getChildren().clear();
     setUpControls();
     zoom();
     currFloor = MapManager.getManager().getFloor("1");
@@ -377,7 +374,7 @@ public class MapController extends Controller {
         .submitIcon
         .setOnAction(
             event1 -> {
-              if (PopupController.getController().checkFields()) {
+              if (PopupController.getController().checkLocationFields()) {
                 addIcon(
                     new LocationIcon(
                         PopupController.getController()
@@ -386,7 +383,7 @@ public class MapController extends Controller {
                 Text missingFields = new Text("Please fill all fields");
                 missingFields.setFill(Color.RED);
                 missingFields.setTextAlignment(TextAlignment.CENTER);
-                PopupController.getController().content.getChildren().add(missingFields);
+                PopupController.getController().sceneVbox.getChildren().add(missingFields);
                 // System.out.println("MISSING FIELD");
               }
             });
@@ -401,7 +398,9 @@ public class MapController extends Controller {
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
 
-      PopupController.getController().locationForm(event, false);
+      // PopupController.getController().locationAdditionForm(event, false);
+      // PopupController.getController().equipmentAdditionForm();
+      PopupController.getController().iconWindow(event);
       setSubmitLocation(xPos, yPos);
       // Place Icon
       MapManager.getManager().placeTempIcon(xPos, yPos);

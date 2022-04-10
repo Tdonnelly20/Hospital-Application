@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
+import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
 import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
@@ -27,22 +29,28 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PopupController {
-  @FXML VBox content = new VBox(15);
-  @FXML Scene scene = new Scene(content, 450, 450);
+  @FXML VBox sceneVbox = new VBox(25);
+  @FXML VBox content = new VBox(25);
+  @FXML Scene scene = new Scene(sceneVbox, 450, 450);
   @FXML Stage stage = new Stage();
-  @FXML Button locationButton = new Button("Add Location");
-  @FXML Button equipmentButton = new Button("Add Equipment");
-  @FXML Button submitIcon = new Button("Add icon");
+  @FXML Button locationButton = new Button("Location");
+  @FXML Button equipmentButton = new Button("Equipment");
+  @FXML Button requestButton = new Button("Request");
+  @FXML Button submitIcon = new Button("Add Location");
   @FXML Button clearResponse = new Button("Clear Text");
   @FXML Button closeButton = new Button("Close");
-  @FXML Label title = new Label("Add");
-  @FXML HBox titleBox = new HBox(15, title);
-  @FXML HBox buttonBox = new HBox(15);
+  @FXML Button returnButton = new Button("<- Go Back");
+  @FXML Label title = new Label();
+  @FXML HBox titleBox = new HBox(25, title);
+  @FXML HBox buttonBox = new HBox(15, submitIcon, clearResponse, closeButton);
   @FXML Text missingFields = new Text("Please fill all fields");
   @FXML TextField field1 = new TextField();
   @FXML TextField field2 = new TextField();
   @FXML TextField field3 = new TextField();
   @FXML TextField field4 = new TextField();
+  @FXML JFXComboBox<String> comboBox1 = new JFXComboBox<>();
+  @FXML JFXComboBox<String> comboBox2 = new JFXComboBox<>();
+  @FXML JFXComboBox<String> comboBox3 = new JFXComboBox<>();
 
   private static class SingletonHelper {
     private static final PopupController controller = new PopupController();
@@ -72,6 +80,17 @@ public class PopupController {
   /** Sets up the popup window */
   @FXML
   public void setUpPopup() {
+    title.setTextFill(Color.WHITE);
+    title.setFont(new Font("System Bold", 28));
+    titleBox.setAlignment(Pos.CENTER);
+    titleBox.setStyle("-fx-background-color: #012D5Aff;");
+
+    buttonBox.setAlignment(Pos.CENTER);
+    content.setAlignment(Pos.TOP_CENTER);
+
+    sceneVbox.getChildren().addAll(titleBox, buttonBox, content);
+    sceneVbox.setAlignment(Pos.TOP_CENTER);
+
     field1.setMaxWidth(250);
     field2.setMaxWidth(250);
     field3.setMaxWidth(250);
@@ -89,26 +108,40 @@ public class PopupController {
         });
   }
 
+  @FXML
+  public void iconWindow(MouseEvent event) {
+    title.setText("Please choose an option");
+    buttonBox.getChildren().clear();
+    buttonBox.getChildren().addAll(locationButton, equipmentButton, requestButton, closeButton);
+    locationButton.setOnAction(
+        event2 -> {
+          locationAdditionForm(event, false);
+        });
+    equipmentButton.setOnAction(
+        event2 -> {
+          equipmentAdditionForm(event);
+        });
+    requestButton.setOnAction(
+        event1 -> {
+          requestAdditionForm(event);
+        });
+    formSetup(event);
+    stage.setTitle("Options");
+    showPopUp();
+  }
+
   /** Opens the corresponding icon's request window */
   @FXML
   public void openIconRequestWindow(Icon icon) {
     // Display requests/info
     content.getChildren().clear();
     MapManager.getManager().isTempIconVisible(false);
-    Label title = new Label(icon.getLocation().getShortName());
-    title.setTextFill(Color.WHITE);
-    title.setFont(new Font("System Bold", 28));
-    HBox titleBox = new HBox(25, title);
-    titleBox.setAlignment(Pos.CENTER);
-    titleBox.setStyle("-fx-background-color: #012D5Aff;");
-    content.getChildren().add(titleBox);
-    VBox vbox = new VBox();
-    vbox.setAlignment(Pos.TOP_CENTER);
+    stage.setTitle(icon.getLocation().getShortName());
     if (icon.iconType.equals("Equipment")) {
       EquipmentIcon equipmentIcon = ((EquipmentIcon) icon);
       title.setText("Equipment");
-      vbox.getChildren().addAll(title);
-    } else {
+      // equipmentAdditionForm();
+    } else if (icon.iconType.equals("Request")) {
       RequestIcon requestIcon = (RequestIcon) icon;
       ObservableList<String> statusStrings =
           FXCollections.observableArrayList("Not Started", "Processing", "Done");
@@ -131,35 +164,20 @@ public class PopupController {
                   new TitledPane(
                       request.getRequestName() + ": " + request.getStatus(),
                       new VBox(15, idLabel, locationLabel, updateStatus)));
-          vbox.getChildren().add(accordion);
+          content.getChildren().add(accordion);
         }
-      } else {
+      } else if (icon.iconType.equals("Location")) {
         Text noRequests = new Text("There are no requests in this area");
         noRequests.setTextAlignment(TextAlignment.CENTER);
-        vbox.getChildren().add(noRequests);
+        content.getChildren().add(noRequests);
       }
     }
-    content.getChildren().add(vbox);
     showPopUp();
   }
 
   @FXML
-  public void formSetup() {
+  public void formSetup(MouseEvent event) {
     MapManager.getManager().isTempIconVisible(true);
-    title.setText("Add a Location");
-    title.setTextFill(Color.WHITE);
-    title.setAlignment(Pos.CENTER);
-    // title.setAlignment(TextAlignment.CENTER);
-    title.setFont(new Font("System Bold", 38));
-    title.setWrapText(true);
-    HBox titleBox = new HBox(15, title);
-
-    titleBox.setStyle("-fx-background-color: #012D5Aff;");
-    titleBox.setAlignment(Pos.CENTER);
-    HBox buttonBox = new HBox(submitIcon, clearResponse, closeButton);
-    buttonBox.setAlignment(Pos.CENTER);
-    buttonBox.setSpacing(15);
-    content.getChildren().addAll(titleBox, buttonBox);
 
     clearResponse.setOnAction(
         event1 -> {
@@ -170,16 +188,22 @@ public class PopupController {
           closePopUp();
           MapManager.getManager().isTempIconVisible(false);
         });
-    VBox vBox = new VBox(15, field1, field2, field3, field4);
-    vBox.setAlignment(Pos.TOP_CENTER);
-    content.getChildren().addAll(vBox);
+    returnButton.setOnAction(
+        event1 -> {
+          clearPopupForm();
+          content.getChildren().clear();
+          iconWindow(event);
+        });
   }
 
   @FXML
-  public void locationForm(MouseEvent event, boolean isEquipment) {
+  public void locationAdditionForm(MouseEvent event, boolean isEquipment) {
+    title.setText("Add A Location");
     content.getChildren().clear();
+    content.getChildren().addAll(field1, field2, field3, field4);
+    buttonBox.getChildren().clear();
+    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     // Form
-    formSetup();
 
     field1.setPromptText("Node ID");
     field2.setPromptText("Node Type");
@@ -192,26 +216,191 @@ public class PopupController {
   }
 
   @FXML
-  public void equipmentForm(MouseEvent event) {
-    content.getChildren().clear();
+  public void requestAdditionForm(MouseEvent event) {
+    title.setText("Add A Service Request");
+    buttonBox.getChildren().clear();
+    buttonBox.getChildren().addAll(returnButton, clearResponse, closeButton);
     // Form
-    formSetup();
+    comboBox1 =
+        new JFXComboBox<>(
+            FXCollections.observableArrayList(
+                "Lab Request",
+                "Equipment Delivery",
+                "Medicine Delivery",
+                "Internal Patient Transport",
+                "Laundry Request",
+                "Meal Delivery",
+                "Sanitation Request",
+                "Religious Request"));
+    comboBox1.setValue("Service Request");
+    comboBox1.setOnAction(
+        event1 -> {
+          fitServiceRequest(event, comboBox1.getValue().toString());
+        });
+    comboBox2 =
+        new JFXComboBox<>(FXCollections.observableArrayList("Not Started", "Processing", "Done"));
+    comboBox2.setValue("Status");
 
-    field1.setPromptText("Node ID");
-    field2.setPromptText("Node Type");
-    field3.setPromptText("Short Name");
-    field4.setPromptText("Long Name");
+    content.getChildren().clear();
+    content.getChildren().addAll(comboBox1);
 
     // Scene and Stage
-    stage.setTitle("Add New Location");
+    stage.setTitle("Add New Service Request");
     showPopUp();
   }
 
-  public boolean checkFields() {
+  @FXML
+  public void fitServiceRequest(MouseEvent event, String serviceRequest) {
+    buttonBox.getChildren().clear();
+    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
+    submitIcon.setText("Add Request");
+    content.getChildren().clear();
+    field1.setPromptText("Employee ID");
+    comboBox3 =
+        new JFXComboBox<>(FXCollections.observableArrayList("Not Started", "Processing", "Done"));
+    content.getChildren().addAll(comboBox1, field1);
+
+    switch (serviceRequest) {
+      case "Lab Request":
+        field2.setPromptText("Patient ID");
+        field3.setPromptText("Notes");
+        comboBox2 =
+            new JFXComboBox<>(
+                FXCollections.observableArrayList(
+                    "Blood Sample", "Urine Sample", "X-Ray", "CAT", "MRI"));
+        content.getChildren().addAll(field2, field3, comboBox2);
+        submitIcon.setOnAction(
+            event1 -> {
+              LabRequest labRequest =
+                  new LabRequest(
+                      Integer.parseInt(field1.getText()),
+                      Integer.parseInt(field2.getText()),
+                      "",
+                      "",
+                      comboBox2.getValue().toString(),
+                      comboBox3.getValue().toString());
+            });
+        break;
+      case "Equipment Delivery":
+        field2.setPromptText("Patient ID");
+        field3.setPromptText("Quantity");
+        field4.setPromptText("Notes");
+        comboBox2 =
+            new JFXComboBox<>(
+                FXCollections.observableArrayList(
+                    "Bed", "Portable X-Ray", "Blood Infusion Machine", "Patient Recliner"));
+        content.getChildren().addAll(field2, field3, field4, comboBox2);
+        submitIcon.setOnAction(
+            event1 -> {
+              EquipmentDelivery equipmentDelivery =
+                  new EquipmentDelivery(
+                      Integer.parseInt(field1.getText()),
+                      Integer.parseInt(field2.getText()),
+                      "",
+                      "",
+                      "node id",
+                      comboBox2.getValue().toString(),
+                      field4.getText(),
+                      Integer.parseInt(field3.getText()),
+                      comboBox3.getValue().toString());
+            });
+        break;
+      case "Medicine Delivery":
+        field2.setPromptText("Patient ID");
+        field3.setPromptText("Notes");
+        comboBox2 =
+            new JFXComboBox<>(
+                FXCollections.observableArrayList(
+                    "Tylenol", "Morphine", "Epinephrine", "Adderall", "Cyclosporine"));
+        content.getChildren().addAll(field2, field3, comboBox2);
+        submitIcon.setOnAction(event1 -> {});
+        break;
+      case "Internal Patient Transport":
+        field2.setPromptText("Patient ID");
+        field3.setPromptText("Transport to");
+        field4.setPromptText("Notes");
+        content.getChildren().addAll(field2, field3, field4);
+        submitIcon.setOnAction(event1 -> {});
+        break;
+      case "Laundry Request":
+        field2.setPromptText("Notes");
+        submitIcon.setOnAction(event1 -> {});
+        break;
+      case "Meal Delivery":
+        field2.setPromptText("Allergies");
+        field3.setPromptText("Notes");
+        comboBox2 =
+            new JFXComboBox<>(
+                FXCollections.observableArrayList(
+                    "Cheeseburger", "Chicken Tender", "Hot Dog", "Fries", "Crackers"));
+        submitIcon.setOnAction(event1 -> {});
+        break;
+      case "Sanitation Request":
+        comboBox2 =
+            new JFXComboBox<>(
+                FXCollections.observableArrayList(
+                    "Blood",
+                    "Vomit",
+                    "Other Bodily Fluids",
+                    "Broken Glass",
+                    "No Hazard/General Mess"));
+        submitIcon.setOnAction(event1 -> {});
+        break;
+      case "Religious Request":
+        field2.setPromptText("Patient ID");
+        content.getChildren().addAll(field2);
+
+        submitIcon.setOnAction(event1 -> {});
+        break;
+    }
+    content.getChildren().addAll(comboBox3);
+  }
+
+  @FXML
+  public void equipmentAdditionForm(MouseEvent event) {
+    title.setText("Add Equipment");
+    buttonBox.getChildren().clear();
+    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
+
+    field1.setPromptText("Type of Equipment");
+    field2.setPromptText("Quantity");
+    comboBox1.setValue("Status");
+    comboBox1 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
+    content.getChildren().clear();
+    content.getChildren().addAll(field1, field2, comboBox1);
+
+    submitIcon.setOnAction(
+        event1 -> {
+          // RequestSystem.Dao.
+          EquipmentIcon equipmentIcon =
+              new EquipmentIcon(
+                  new Location(
+                      field1.getText() + field2.getText() + comboBox1.getValue(),
+                      event.getX(),
+                      event.getY(),
+                      "Tower",
+                      MapController.getController().currFloor.getFloorName(),
+                      "Equipment Storage",
+                      "",
+                      ""));
+        });
+
+    // Scene and Stage
+    stage.setTitle("Equipment");
+    showPopUp();
+  }
+
+  public boolean checkLocationFields() {
     return !field1.getText().isEmpty()
         && !field2.getText().isEmpty()
         && !field3.getText().isEmpty()
         && !field4.getText().isEmpty();
+  }
+
+  public boolean checkEquipmentFields() {
+    return !field1.getText().isEmpty()
+        && !field2.getText().isEmpty()
+        && !comboBox1.getValue().toString().equals("Status");
   }
 
   public Location getLocation(double xPos, double yPos, String floor) {
@@ -232,7 +421,6 @@ public class PopupController {
     field2.setText("");
     field3.setText("");
     field4.setText("");
-    buttonBox.getChildren().clear();
-    titleBox.getChildren().clear();
+    comboBox1.setValue("Status");
   }
 }
