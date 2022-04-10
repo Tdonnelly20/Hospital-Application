@@ -76,6 +76,7 @@ public class PopupController {
   public void closePopUp() {
     if (stage.isShowing()) {
       stage.close();
+      // MapController.getController().checkDropDown();
     }
   }
 
@@ -405,6 +406,7 @@ public class PopupController {
             MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
             clearPopupForm();
             locationForm(event, newIcon);
+            // MapController.getController().checkDropDown();
           });
     } else {
       field2.setPromptText("Node ID: " + icon.getLocation().getNodeID());
@@ -475,6 +477,7 @@ public class PopupController {
               LocationIcon newIcon = new LocationIcon(l);
               MapManager.getManager().getFloor(l.getFloor()).getIconList().add(newIcon);
               locationForm(event, newIcon);
+              // MapController.getController().checkDropDown();
             } else {
               missingFields.setText("No information has been modified. Please input corrections");
               content.getChildren().add(missingFields);
@@ -505,9 +508,7 @@ public class PopupController {
           } catch (SQLException | IOException e) {
             e.printStackTrace();
           }
-          MapController.getController().populateFloorIconArr();
           closePopUp();
-          // TODO: Make code go brrrrrrrrr and delete without needing to input nodeID
         });
   }
 
@@ -797,12 +798,6 @@ public class PopupController {
         && !field2.getText().isEmpty()
         && !field3.getText().isEmpty()
         && !field4.getText().isEmpty();
-  }
-
-  public boolean checkEquipmentFields() {
-    return !field1.getText().isEmpty()
-        && !field2.getText().isEmpty()
-        && !comboBox1.getValue().toString().equals("Status");
   }
 
   public Location getLocation(double xPos, double yPos, String floor) {

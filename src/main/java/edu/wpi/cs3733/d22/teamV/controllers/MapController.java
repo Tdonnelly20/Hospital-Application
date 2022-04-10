@@ -102,7 +102,7 @@ public class MapController extends Controller {
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     group.getChildren().add(mapImage);
-    group.getChildren().add(mapPane);
+    // group.getChildren().add(mapPane);
     group.getChildren().add(stackPane);
 
     zoomPane = new ZoomPane();
@@ -154,7 +154,6 @@ public class MapController extends Controller {
             openIconFormWindow(event);
           }
         });
-    mapPane.toFront();
   }
 
   @Override
@@ -184,7 +183,7 @@ public class MapController extends Controller {
 
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
-  void checkDropDown() {
+  public void checkDropDown() {
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
@@ -192,7 +191,6 @@ public class MapController extends Controller {
             openIconFormWindow(event);
           }
         });
-    mapPane.toFront();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
       if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {
@@ -239,7 +237,6 @@ public class MapController extends Controller {
       case "3rd Floor":
         currFloor = MapManager.getManager().getFloor("3");
         result = "3";
-        System.out.println("3");
         break;
       case "4th Floor":
         currFloor = MapManager.getManager().getFloor("4");
@@ -393,9 +390,9 @@ public class MapController extends Controller {
         .getChildren()
         .remove(MapManager.getManager().getTempIcon());
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
-    populateFloorIconArr();
+    // populateFloorIconArr();
     MapManager.getManager().getTempIcon().setVisible(false);
-    checkDropDown();
+    // checkDropDown();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
