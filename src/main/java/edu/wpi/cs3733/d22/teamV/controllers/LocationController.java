@@ -295,7 +295,7 @@ public class LocationController extends MapController {
     yesButton.setOnAction(
         event -> {
           try {
-            Vdb.saveToFile(Vdb.Database.Location);
+            Vdb.locationDao.saveToCSV();
           } catch (Exception e) {
             e.printStackTrace();
           }

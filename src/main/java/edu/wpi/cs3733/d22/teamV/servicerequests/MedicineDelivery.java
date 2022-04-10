@@ -1,12 +1,12 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 
 public class MedicineDelivery extends ServiceRequest {
   private Patient patient;
-  private HospitalEmployee employee;
+  private Employee employee;
   private String medicineName, nodeID, dosage, requestDetails;
   /**
    * @param patientFirstName
@@ -30,8 +30,8 @@ public class MedicineDelivery extends ServiceRequest {
     this.requestDetails = requestDetails;
     this.nodeID = nodeID;
     this.location = Vdb.locationDao.getLocation(nodeID);
-    patient = new Patient(patientID, patientFirstName, patientLastName);
-    employee = new HospitalEmployee(hospitalID);
+    patient = Vdb.patientDao.getPatientFromID(patientID);
+    employee = new Employee(hospitalID);
     this.medicineName = medicineName;
   }
 
@@ -48,7 +48,7 @@ public class MedicineDelivery extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return employee.getHospitalID();
+    return employee.getEmployeeID();
   }
 
   public String getMedicineName() {

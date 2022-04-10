@@ -74,16 +74,6 @@ public class SanitationRequestController extends MapController {
       // If all conditions pass, create the request
     } else {
 
-      // Send the request to the Dao pattern
-      SanitationRequestDao.addSanitationRequest(
-          firstName.getText(),
-          lastName.getText(),
-          Integer.parseInt(patientID.getText()),
-          Integer.parseInt(hospitalID.getText()),
-          roomLocation.getText(),
-          sanitationDropDown.getValue().toString(),
-          requestDetails.getText());
-
       // Set the label to green, and let the user know it has been processed
       statusLabel.setText("Status: Processed Successfully");
       statusLabel.setTextFill(Color.web("Green"));
@@ -150,14 +140,6 @@ public class SanitationRequestController extends MapController {
     } else {
 
       // Send the request to the Dao pattern
-      SanitationRequestDao.addSanitationRequest(
-          firstName.getText(),
-          lastName.getText(),
-          Integer.parseInt(patientID.getText()),
-          Integer.parseInt(hospitalID.getText()),
-          roomLocation.getText(),
-          sanitationDropDown.getValue().toString(),
-          requestDetails.getText());
 
       // For testing purposes
       System.out.println(

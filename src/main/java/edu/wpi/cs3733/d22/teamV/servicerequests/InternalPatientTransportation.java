@@ -1,11 +1,12 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.servicerequests;
 
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 
-public class InternalPatientTransportation {
+public class InternalPatientTransportation extends ServiceRequest {
   private Patient patient;
-  private HospitalEmployee employee;
+  private Employee employee;
   private String roomNumber, requestDetails;
 
   /**
@@ -23,8 +24,8 @@ public class InternalPatientTransportation {
       int patientID,
       int hospitalID,
       String requestDetails) {
-    patient = new Patient(patientID, patientFirstName, patientLastName);
-    employee = new HospitalEmployee(hospitalID);
+    patient = Vdb.patientDao.getPatientFromID(patientID);
+    employee = new Employee(hospitalID);
     this.roomNumber = roomNumber;
     this.requestDetails = requestDetails;
   }
@@ -42,7 +43,7 @@ public class InternalPatientTransportation {
   }
 
   public int getHospitalID() {
-    return employee.getHospitalID();
+    return employee.getEmployeeID();
   }
 
   public String getRoomNumber() {

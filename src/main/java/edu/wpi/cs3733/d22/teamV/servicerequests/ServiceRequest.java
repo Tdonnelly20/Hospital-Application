@@ -1,7 +1,7 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.map.Icon;
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import javafx.scene.image.Image;
@@ -14,7 +14,7 @@ public abstract class ServiceRequest {
   protected Location location;
   private int serviceID;
   public Patient patient;
-  protected HospitalEmployee hospitalEmployee;
+  protected Employee hospitalEmployee;
   protected String date;
   protected String type;
   protected String notes;
@@ -30,7 +30,7 @@ public abstract class ServiceRequest {
     return type;
   }
 
-  public HospitalEmployee getEmp() {
+  public Employee getEmp() {
     return hospitalEmployee;
   }
 

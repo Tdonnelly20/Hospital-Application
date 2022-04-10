@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import java.io.IOException;
 import java.util.Objects;
 import javafx.application.Application;
@@ -62,7 +61,7 @@ public abstract class Controller extends Application {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    MapManager.getManager().closePopUp();
+    PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
@@ -155,7 +154,7 @@ public abstract class Controller extends Application {
     controller.init();
     controller.populateFloorIconArr();
 
-    MapManager.getManager().closePopUp();
+    PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);

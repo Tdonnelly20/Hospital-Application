@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
 import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,23 +10,50 @@ public class Patient {
   private int patientID;
   private String firstName;
   private String lastName;
-  private static List<HospitalEmployee> hospitalEmployeeList = new ArrayList<HospitalEmployee>();
+  private ArrayList<Integer> employeeIDs = new ArrayList<>();
+  private ArrayList<Integer> serviceIDs = new ArrayList<>();
 
-  public Patient(int patientID, String firstName, String lastName) {
-    this.patientID = patientID;
+  public Patient(
+      String firstName,
+      String lastName,
+      ArrayList<Integer> employeeIDs,
+      ArrayList<Integer> serviceIDs) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.employeeIDs = employeeIDs;
+    this.serviceIDs = serviceIDs;
+  }
+
+  public Patient(String firstName, String lastName) {
     this.firstName = firstName;
     this.lastName = lastName;
   }
 
-  public void addHospitalEmployee(HospitalEmployee employee) {
-    hospitalEmployeeList.add(employee);
+  public void setPatientID(int patientID) {
+    this.patientID = patientID;
   }
 
-  public void removeHospitalEmployee(HospitalEmployee employee) {
-    hospitalEmployeeList.remove(employee);
+  public void addEmployee(Employee employee) {
+    employeeIDs.add(employee.getEmployeeID());
   }
 
-  public int getHospitalEmployeeNum() {
-    return hospitalEmployeeList.size();
+  public void removeEmployee(Employee employee) {
+    employeeIDs.remove(employee.getEmployeeID());
+  }
+
+  public int getEmployeeListSize() {
+    return employeeIDs.size();
+  }
+
+  public int getServiceRequestListSize() {
+    return serviceIDs.size();
+  }
+
+  public ArrayList<Integer> getEmployeeIDs() {
+    return employeeIDs;
+  }
+
+  public ArrayList<Integer> getServiceRequestIDs() {
+    return serviceIDs;
   }
 }

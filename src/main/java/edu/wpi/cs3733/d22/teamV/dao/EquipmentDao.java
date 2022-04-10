@@ -14,8 +14,8 @@ public class EquipmentDao {
   public EquipmentDao() {
     allEquipment = new ArrayList<Equipment>();
     try {
-      loadFromCSV();
       createSQLTable();
+      loadFromCSV();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -65,7 +65,6 @@ public class EquipmentDao {
       addEquipment(equipment);
     }
   }
-
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\ListofEquipment.csv");
     BufferedWriter bw = new BufferedWriter(fw);
@@ -136,14 +135,6 @@ public class EquipmentDao {
             + equipment.getIsDirty()
             + ")";
     statement.execute(query);
-  }
-
-  public void setDirtiness(String ID, boolean bool) {
-    for (Equipment equipment : allEquipment) {
-      if (equipment.getID().equals(ID)) {
-        equipment.setIsDirty(bool);
-      }
-    }
   }
 
   public void removeFromSQLTable(Equipment equipment) throws IOException, SQLException {

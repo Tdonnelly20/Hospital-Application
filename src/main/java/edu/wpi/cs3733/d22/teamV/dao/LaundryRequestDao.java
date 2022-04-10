@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.LaundryRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.io.IOException;
 import java.sql.*;

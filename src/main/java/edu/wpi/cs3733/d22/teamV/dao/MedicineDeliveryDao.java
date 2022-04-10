@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.MedicineDelivery;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class MedicineDeliveryDao extends DaoInterface {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
-        "patientFirstName,patientLastName,nodeID,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
+        "patientFirstName,patientLastName,nodeID,patientID,employeeID,medicineName,dosage,requestDetails,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -198,6 +198,4 @@ public class MedicineDeliveryDao extends DaoInterface {
       allMedicineDeliveries.add(delivery);
     }
   }
-
-  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

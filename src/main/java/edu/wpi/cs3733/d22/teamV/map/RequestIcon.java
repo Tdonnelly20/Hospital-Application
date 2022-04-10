@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -29,6 +29,10 @@ public class RequestIcon extends Icon {
     if (requestsArr.size() == 0) {
       image.setImage(new Image("icon.png"));
     }
+  }
+
+  public void sort() {
+    // TODO Sort list based on status (active first)
   }
 
   public boolean hasActiveRequests() {

@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ReligiousRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.io.IOException;
 import java.sql.*;
@@ -135,34 +135,11 @@ public class ReligiousRequestDao extends DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) request;
-  }
-  /**
-   * Receive a religious request from the controller, store it locally, then send it to Vdb
-   *
-   * @param firstName
-   * @param lastName
-   * @param patientID
-   * @param userID
-   * @param x
-   * @param y
-   * @param specialRequests
-   */
-  public void addReligiousRequest(
-      String firstName,
-      String lastName,
-      int patientID,
-      int userID,
-      String x,
-      String y,
-      int specialRequests)
-      throws SQLException {
-    ReligiousRequest newReligiousRequest =
-        new ReligiousRequest(firstName, lastName, patientID, userID, x, y, specialRequests);
-
-    System.out.println("Adding to local arraylist...");
-    allReligiousRequest.add(newReligiousRequest); // Store a local copy
-    updateRequest(newReligiousRequest); // Store on database
-    addToSQLTable(newReligiousRequest);
+    request.setServiceID(Vdb.getServiceID());
+    newReligiousRequest.setServiceID(Vdb.getServiceID()); //
+    allReligiousRequest.add(newReligiousRequest);
+    addToSQLTable(request);
+    saveToCSV();
   }
 
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
@@ -173,17 +150,9 @@ public class ReligiousRequestDao extends DaoInterface {
     removeFromSQLTable(request);
   }
 
-  public List<ReligiousRequest> allReligiousRequest() {
-    return null;
-  }
-
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     return allReligiousRequest;
     //
-  }
-  // Send to the database
-  private void updateReligiousRequestDB(ReligiousRequest newReligiousRequest) {
-    System.out.println("Sending to database...");
   }
 
   @Override
@@ -197,23 +166,36 @@ public class ReligiousRequestDao extends DaoInterface {
     createSQLTable();
   }
 
-  public void updateRequest(ServiceRequest Request) throws SQLException {
-    // also needs to add to csv
-    ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
+  @Override
+  public void updateRequest(ServiceRequest request) throws SQLException {
+    ReligiousRequest newRequest = (ReligiousRequest) request;
+    int index = -1;
+    for (int i = 0; i < allReligiousRequest.size(); i++) {
+      if (allReligiousRequest.get(i).getServiceID() == request.getServiceID()) {
+        index = i;
+        break;
+      }
+    }
+    if (index >= 0) {
+      allReligiousRequest.set(index, newRequest);
+      updateSQLTable(request);
+    }
+  }
+
+  public void updateSQLTable(ServiceRequest Request) throws SQLException {
+    ReligiousRequest newRequest = (ReligiousRequest) Request;
     Connection connection = Vdb.Connect();
     String query =
         "UPDATE RELIGIOUSREQUESTS"
             + "SET firstName=?, lastName=?,patientID=?,userID=?,religion=?,specialRequests=?"
             + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
-    statement.setString(1, newReligiousRequest.getPatientFirstName());
-    statement.setString(2, newReligiousRequest.getPatientLastName());
-    statement.setInt(3, newReligiousRequest.getEmpID());
-    statement.setInt(4, newReligiousRequest.getPatientID());
-    statement.setString(5, newReligiousRequest.getReligion());
-    statement.setString(6, newReligiousRequest.getSpecialRequests());
-    statement.setInt(7, newReligiousRequest.getServiceID());
+    statement.setString(1, newRequest.getPatientFirstName());
+    statement.setString(2, newRequest.getPatientLastName());
+    statement.setInt(3, newRequest.getEmpID());
+    statement.setInt(4, newRequest.getPatientID());
+    statement.setString(5, newRequest.getReligion());
+    statement.setString(6, newRequest.getSpecialRequests());
+    statement.setInt(7, newRequest.getServiceID());
   }
-
-  public void removeReligousRequest() {}
 }
