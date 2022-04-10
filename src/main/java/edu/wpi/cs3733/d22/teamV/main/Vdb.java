@@ -21,6 +21,7 @@ public class Vdb {
   // Make all DAO's here, NOT in the controllers
   public static final LocationDao locationDao = new LocationDao();
   public static final EquipmentDao equipmentDao = new EquipmentDao();
+
   public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
 
   public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
