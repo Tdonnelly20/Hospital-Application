@@ -1,5 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
+import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
@@ -26,6 +29,8 @@ public class Vdb {
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
       new InternalPatientTransportationDao();
   public static MapManager mapManager;
+  public static MapController mapController;
+  public static PopupController popupController;
 
   public static int getServiceID() {
     return serviceIDCounter++;
@@ -90,6 +95,8 @@ public class Vdb {
    */
   public static void createAllDB() throws Exception {
     mapManager = MapManager.getManager();
+    mapController = MapController.getController();
+    popupController = PopupController.getController();
     getMaxIDs();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");

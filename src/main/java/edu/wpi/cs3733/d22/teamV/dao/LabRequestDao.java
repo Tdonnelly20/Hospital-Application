@@ -19,7 +19,7 @@ public class LabRequestDao extends DaoInterface {
   // DaoInterface Methods
   public void loadFromCSV() throws IOException, SQLException {
 
-    FileReader fr = new FileReader(Vdb.currentPath + "\\LabRequest.csv");
+    FileReader fr = new FileReader(Vdb.currentPath + "\\LabRequests.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<LabRequest> labRequests = new ArrayList<>();
