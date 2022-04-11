@@ -47,6 +47,7 @@ public class MapManager {
     Floor f3 = new Floor("3");
     Floor f4 = new Floor("4");
     Floor f5 = new Floor("5");
+    Floor sv = new Floor("SV");
 
     floorList.add(l1);
     floorList.add(l2);
@@ -55,9 +56,11 @@ public class MapManager {
     floorList.add(f3);
     floorList.add(f4);
     floorList.add(f5);
+    floorList.add(sv);
     // System.out.println("SIZE: " + floorList.size());
 
     loadRequests();
+
     for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
@@ -168,6 +171,8 @@ public class MapManager {
         return floorList.get(5);
       case "5":
         return floorList.get(6);
+      case "SV":
+        return floorList.get(7);
     }
     return null;
   }

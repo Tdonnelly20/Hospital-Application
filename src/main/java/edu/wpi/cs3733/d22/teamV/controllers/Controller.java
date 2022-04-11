@@ -35,7 +35,7 @@ public abstract class Controller extends Application {
   }
 
   /**
-   * Determines if a String is an double or not
+   * Determines if a String is a double or not
    *
    * @param input is a string
    * @return true if the string is an double, false if not
