@@ -27,7 +27,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException {
 
-    FileReader fr = new FileReader(Vdb.currentPath + "\\MedicineDelivery.csv");
+    FileReader fr = new FileReader(Vdb.currentPath + "/MedicineDelivery.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
@@ -57,7 +57,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedicineDelivery.csv");
+    FileWriter fw = new FileWriter(Vdb.currentPath + "/MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
