@@ -173,7 +173,7 @@ public class PopupController {
         });
   }
 
-  private void addLocation(Location location) {
+  void addLocation(Location location) {
     requestSystem.addLocation(location);
     MapController.getController().addIcon(location.getIcon());
     MapController.getController().populateFloorIconArr();
@@ -183,7 +183,7 @@ public class PopupController {
     // MapController.getController().mapPane.getChildren().add(location.getIcon().getImage());
   }
 
-  private void deleteLocation(LocationIcon location) {
+  void deleteLocation(LocationIcon location) {
     MapManager.getManager()
         .getFloor(location.getLocation().getFloor())
         .getIconList()
@@ -295,22 +295,6 @@ public class PopupController {
     field3.setPromptText("Short Name");
     field4.setPromptText("Long Name");
 
-    submitIcon.setOnAction(
-        event1 -> {
-          addLocation(
-              new Location(
-                  field1.getText(),
-                  event.getX(),
-                  event.getY(),
-                  MapController.getController().currFloor.getFloorName(),
-                  "Tower",
-                  field2.getText(),
-                  field3.getText(),
-                  field4.getText()));
-          clearPopupForm();
-          closePopUp();
-        });
-
     // Scene and Stage
     stage.setTitle("Add New Location");
     showPopUp();
@@ -350,30 +334,30 @@ public class PopupController {
           .getChildren()
           .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
       submitIcon.setOnAction(
-          event1 -> {
-            deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
+              event1 -> {
+                deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
 
-            Location newLocation =
-                new Location(
-                    field2.getText(),
-                    Double.parseDouble(field3.getText()),
-                    Double.parseDouble(field4.getText()),
-                    MapManager.getManager()
-                        .getFloor(comboBox1.getValue().toString())
-                        .getFloorName(),
-                    field5.getText(),
-                    field6.getText(),
-                    field7.getText(),
-                    field8.getText());
+                Location newLocation =
+                        new Location(
+                                field2.getText(),
+                                Double.parseDouble(field3.getText()),
+                                Double.parseDouble(field4.getText()),
+                                MapManager.getManager()
+                                        .getFloor(comboBox1.getValue().toString())
+                                        .getFloorName(),
+                                field5.getText(),
+                                field6.getText(),
+                                field7.getText(),
+                                field8.getText());
 
-            addLocation(newLocation);
-            LocationIcon newIcon = new LocationIcon(newLocation);
-            MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().remove(icon);
-            MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
-            clearPopupForm();
-            locationForm(event, newIcon);
-            // MapController.getController().checkDropDown();
-          });
+                addLocation(newLocation);
+                LocationIcon newIcon = new LocationIcon(newLocation);
+                MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().remove(icon);
+                MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
+                clearPopupForm();
+                locationForm(event, newIcon);
+                // MapController.getController().checkDropDown();
+              });
     } else {
       field2.setPromptText("Node ID: " + icon.getLocation().getNodeID());
       field3.setPromptText("X-Coordinate: " + icon.getLocation().getXCoord());
@@ -776,7 +760,7 @@ public class PopupController {
   }
 
   @FXML
-  private void clearPopupForm() {
+  void clearPopupForm() {
     field1.setText("");
     field2.setText("");
     field3.setText("");
