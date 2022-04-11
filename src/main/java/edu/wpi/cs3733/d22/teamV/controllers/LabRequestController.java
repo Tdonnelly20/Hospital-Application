@@ -21,7 +21,8 @@ public class LabRequestController extends MapController implements RequestInterf
   @FXML private TreeTableColumn<LabRequest, String> requestedLabCol;
   @FXML private TreeTableColumn<LabRequest, String> statusCol;
 
-  private static final LabRequestDao labRequestDao = (LabRequestDao) Vdb.requestSystem.getDao(Dao.LabRequest);
+  private static final LabRequestDao labRequestDao =
+      (LabRequestDao) Vdb.requestSystem.getDao(Dao.LabRequest);
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;

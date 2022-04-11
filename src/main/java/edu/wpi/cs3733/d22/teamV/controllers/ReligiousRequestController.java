@@ -39,7 +39,7 @@ public class ReligiousRequestController extends MapController {
   }
 
   private static final ReligiousRequestDao religiousRequestDao =
-          (ReligiousRequestDao) Vdb.requestSystem.getDao(Dao.ReligiousRequest);
+      (ReligiousRequestDao) Vdb.requestSystem.getDao(Dao.ReligiousRequest);
 
   @Override
   public void init() {

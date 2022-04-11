@@ -46,8 +46,7 @@ public class LaundryRequestController extends MapController {
   // fix database connection for add / remove Laundry Request
 
   private static final LaundryRequestDao laundryRequestDao =
-          (LaundryRequestDao) Vdb.requestSystem.getDao(Dao.LaundryRequest);
-
+      (LaundryRequestDao) Vdb.requestSystem.getDao(Dao.LaundryRequest);
 
   @FXML
   private void resetForm() {

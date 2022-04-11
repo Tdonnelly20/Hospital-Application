@@ -43,9 +43,10 @@ public class EquipmentRequestController extends MapController {
   @FXML private Button sendRequest;
 
   private static final EquipmentDeliveryDao equipmentDeliveryDao =
-          (EquipmentDeliveryDao) Vdb.requestSystem.getDao(Dao.EquipmentDelivery);
+      (EquipmentDeliveryDao) Vdb.requestSystem.getDao(Dao.EquipmentDelivery);
 
-  private static final LocationDao locationDao = (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
+  private static final LocationDao locationDao =
+      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
 
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;

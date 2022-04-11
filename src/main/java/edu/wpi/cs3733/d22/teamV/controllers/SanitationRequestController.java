@@ -23,7 +23,7 @@ public class SanitationRequestController extends MapController {
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
   private static final SanitationRequestDao SanitationRequestDao =
-          (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
+      (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
 
   private static class SingletonHelper {
     private static final SanitationRequestController controller = new SanitationRequestController();

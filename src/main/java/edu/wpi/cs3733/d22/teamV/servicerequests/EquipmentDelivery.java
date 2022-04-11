@@ -20,9 +20,9 @@ public class EquipmentDelivery extends ServiceRequest {
       int quantity,
       String status,
       int serviceID) {
-    this.location = Vdb.locationDao.getLocation(nodeID);
+    this.location = Vdb.requestSystem.getLocations().get(location.getID());
     this.hospitalEmployee = new Employee(employeeID);
-    this.patient = Vdb.patientDao.getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatients().get(patientID);
     this.equipment = equipment;
     this.notes = notes;
     this.type = "Equipment Delivery";
@@ -47,9 +47,9 @@ public class EquipmentDelivery extends ServiceRequest {
       String notes,
       int quantity,
       String status) {
-    this.location = Vdb.locationDao.getLocation(nodeID);
+    this.location = Vdb.requestSystem.getLocations().get(location.getID());
     this.hospitalEmployee = new Employee(employeeID);
-    this.patient = Vdb.patientDao.getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatients().get(patientID);
     this.equipment = equipment;
     this.notes = notes;
     this.type = "Equipment Delivery";

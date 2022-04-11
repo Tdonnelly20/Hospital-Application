@@ -39,7 +39,8 @@ public class InternalPatientTransportationController extends MapController
   @FXML private Label statusLabel;
 
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
-          (InternalPatientTransportationDao) Vdb.requestSystem.getDao(RequestSystem.Dao.InternalPatientTransportation);
+      (InternalPatientTransportationDao)
+          Vdb.requestSystem.getDao(RequestSystem.Dao.InternalPatientTransportation);
 
   private static class SingletonHelper {
     private static final InternalPatientTransportationController controller =

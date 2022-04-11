@@ -47,7 +47,7 @@ public class MedicineDeliveryController extends MapController implements Request
 
   // MUST take from Vdb, do NOT create
   private static final MedicineDeliveryDao medicineDeliveryDao =
-          (MedicineDeliveryDao) Vdb.requestSystem.getDao(Dao.MedicineDelivery);
+      (MedicineDeliveryDao) Vdb.requestSystem.getDao(Dao.MedicineDelivery);
   private boolean updating = false;
   private int updateServiceID;
 

@@ -61,7 +61,7 @@ public class MapManager {
 
     loadRequests();
 
-    for (Location l : Vdb.locationDao.getAllLocations()) {
+    for (Location l : Vdb.requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
           loadLocations(0, l);
@@ -87,7 +87,7 @@ public class MapManager {
       }
     }
 
-    for (Equipment e : Vdb.equipmentDao.getAllEquipment()) {
+    for (Equipment e : Vdb.requestSystem.getEquipment()) {
       Location l = new Location(e.getX(), e.getY(), e.getFloor());
       EquipmentIcon equipmentIcon = new EquipmentIcon(l);
       equipmentIcon.addToEquipmentList(e);
@@ -138,7 +138,7 @@ public class MapManager {
   public void loadRequests() {
     if (serviceRequests.size() > 0) {
       for (ServiceRequest serviceRequest : serviceRequests) {
-        for (Location location : Vdb.locationDao.getAllLocations()) {
+        for (Location location : Vdb.requestSystem.getLocations()) {
           if (!location.getRequests().contains(serviceRequest)) {
             location.getRequests().add(serviceRequest);
           }

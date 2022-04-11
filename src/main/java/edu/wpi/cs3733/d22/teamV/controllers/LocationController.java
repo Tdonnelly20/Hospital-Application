@@ -20,7 +20,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LocationController extends MapController {
-  private static final LocationDao locationDao = (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
+  private static final LocationDao locationDao =
+      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
   @FXML private TreeTableColumn<Location, Integer> xCol;

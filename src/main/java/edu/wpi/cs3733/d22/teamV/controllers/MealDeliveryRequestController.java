@@ -19,7 +19,8 @@ public class MealDeliveryRequestController extends MapController {
   @FXML private TreeTableColumn<MealRequest, String> lastNameCol;
   @FXML private TreeTableColumn<MealRequest, String> requestedMealCol;
 
-  private static final MealRequestDao mealRequestDao = (MealRequestDao) Vdb.requestSystem.getDao(Dao.MealRequestDao);
+  private static final MealRequestDao mealRequestDao =
+      (MealRequestDao) Vdb.requestSystem.getDao(Dao.MealRequestDao);
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;
