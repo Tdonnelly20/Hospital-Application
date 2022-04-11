@@ -2,11 +2,8 @@
     -fx-font-size:16px;
     -fx-text-fill: #ffffff;
     -fx-font-family:"Ebrima";
-
     -fx-background-color: #5C7B9F;
     -fx-background-radius: 20;
-
-    -fx-border-color: #2462d2;
     -fx-border-style: outset;
 }
 
