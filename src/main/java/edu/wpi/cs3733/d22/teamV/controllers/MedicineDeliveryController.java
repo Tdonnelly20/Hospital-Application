@@ -25,26 +25,29 @@ public class MedicineDeliveryController extends MapController implements Request
 
   @FXML private TreeTableColumn<MedicineDelivery, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
+  @FXML private TreeTableColumn<MedicineDelivery, Integer> serviceIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> nodeIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> medicineCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> dosageCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> otherInfoCol;
 
   @FXML private TextField patientID;
-  @FXML private TextField hospitalID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
+  @FXML private TextField employeeID;
   @FXML private TextField nodeID;
   @FXML private TextField dosage;
   @FXML private JFXComboBox<Object> medicationDropDown;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
 
   // MUST take from Vdb, do NOT create
   private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
+  private boolean updating = false;
+  private int updateServiceID;
 
   private static class SingletonHelper {
     private static final MedicineDeliveryController controller = new MedicineDeliveryController();
@@ -68,13 +71,14 @@ public class MedicineDeliveryController extends MapController implements Request
     // name of the variable we are adding to a specific column
     hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
     nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory("medicineName"));
     dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory("dosage"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
-
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MedicineDelivery> currMedicineDeliveries =
         (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllServiceRequests();
@@ -106,24 +110,27 @@ public class MedicineDeliveryController extends MapController implements Request
   /** Determine whether or not all fields have been filled out, so we can submit the info */
   @FXML
   public void validateButton() {
+    if (updating) {
+      sendRequest.setText("Update Request");
+    } else {
+      sendRequest.setText("Send Request");
+    }
 
     try {
-      if ((hospitalID.getText().equals("")
+      if ((employeeID.getText().equals("")
           && patientID.getText().equals("")
-          && firstName.getText().equals("")
-          && lastName.getText().equals("")
           && nodeID.getText().equals("")
           && dosage.getText().equals("")
+          && statusDropDown.getValue().equals("Status")
           && medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
         statusLabel.setTextFill(Color.web("Black"));
-      } else if ((hospitalID.getText().equals("")
+      } else if ((employeeID.getText().equals("")
           || patientID.getText().equals("")
-          || firstName.getText().equals("")
-          || lastName.getText().equals("")
           || nodeID.getText().equals("")
           || dosage.getText().equals("")
+          || statusDropDown.getValue().equals("Status")
           || medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
@@ -142,47 +149,34 @@ public class MedicineDeliveryController extends MapController implements Request
     // If any field is left blank, (except for request details) throw an error
 
     // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText()) || !isInteger(hospitalID.getText())) {
-      statusLabel.setText("Status: Failed. Patient/Hospital ID must be a number!");
+    if (!isInteger(patientID.getText()) || !isInteger(employeeID.getText())) {
+      statusLabel.setText("Patient/Employee ID must be a number!");
       statusLabel.setTextFill(Color.web("Red"));
 
       // If all conditions pass, create the request
     } else {
       MedicineDelivery medicineDelivery =
           new MedicineDelivery(
-              firstName.getText(),
-              lastName.getText(),
               nodeID.getText(),
               Integer.parseInt(patientID.getText()),
-              Integer.parseInt(hospitalID.getText()),
+              Integer.parseInt(employeeID.getText()),
               medicationDropDown.getValue().toString(),
               dosage.getText(),
+              statusDropDown.getValue().toString(),
               requestDetails.getText());
       // Send the request to the Dao pattern
       try {
-        medicineDeliveryDao.addServiceRequest(medicineDelivery);
+        if (updating) {
+          medicineDelivery.setServiceID(updateServiceID);
+          medicineDeliveryDao.updateServiceRequest(medicineDelivery);
+          updating = false;
+        } else {
+          medicineDeliveryDao.addServiceRequest(medicineDelivery);
+        }
+
       } catch (Exception e) {
         e.printStackTrace();
       }
-
-      // For testing purposes
-      System.out.println(
-          "\nHospital ID: "
-              + hospitalID.getText()
-              + "\nPatient ID: "
-              + patientID.getText()
-              + "\nNode ID: "
-              + nodeID.getText()
-              + "\nName: "
-              + firstName.getText()
-              + " "
-              + lastName.getText()
-              + "\nMedication: "
-              + medicationDropDown.getValue()
-              + "\nDosage: "
-              + dosage.getText()
-              + "\n\nRequest Details: "
-              + requestDetails.getText());
 
       resetForm(); // Set all fields to blank for another entry
       updateTreeTable();
@@ -192,15 +186,15 @@ public class MedicineDeliveryController extends MapController implements Request
   /** Sets all the fields to their default value for another entry */
   @FXML
   public void resetForm() {
+    updating = false;
     patientID.setText("");
-    hospitalID.setText("");
-    firstName.setText("");
-    lastName.setText("");
+    employeeID.setText("");
     nodeID.setText("");
     dosage.setText("");
 
     medicationDropDown.setValue("Select Medication");
     requestDetails.setText("");
+    statusDropDown.setValue("Status");
     sendRequest.setDisable(true);
   }
 
@@ -221,14 +215,26 @@ public class MedicineDeliveryController extends MapController implements Request
   }
 
   @FXML
+  private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
+    updating = true;
+    MedicineDelivery delivery =
+        medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
+
+    employeeID.setText(String.valueOf(delivery.getEmployeeID()));
+    patientID.setText(String.valueOf(delivery.getPatientID()));
+    nodeID.setText(delivery.getLocation().getNodeID());
+    dosage.setText(delivery.getDosage());
+    medicationDropDown.setValue(delivery.getMedicineName());
+    statusDropDown.setValue("Processing");
+    requestDetails.setText(delivery.getRequestDetails());
+    updateServiceID = delivery.getServiceID();
+    updateTreeTable();
+  }
+
+  @FXML
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
-    try {
-      MedicineDelivery delivery =
-          medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
-      Vdb.medicineDeliveryDao.removeServiceRequest(delivery);
-    } catch (NullPointerException e) {
-      e.printStackTrace();
-    }
+    MedicineDelivery delivery =
+        medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
 
     updateTreeTable();
   }

@@ -7,31 +7,29 @@ import edu.wpi.cs3733.d22.teamV.objects.Patient;
 public class MedicineDelivery extends ServiceRequest {
   private Patient patient;
   private Employee employee;
-  private String medicineName, nodeID, dosage, requestDetails;
+  private String medicineName, nodeID, dosage, status, requestDetails;
   /**
-   * @param patientFirstName
-   * @param patientLastName
    * @param patientID
-   * @param hospitalID
+   * @param employeeID
    * @param medicineName
    * @param dosage
    * @param requestDetails
    */
   public MedicineDelivery(
-      String patientFirstName,
-      String patientLastName,
       String nodeID,
       int patientID,
-      int hospitalID,
+      int employeeID,
       String medicineName,
       String dosage,
+      String status,
       String requestDetails) {
     this.dosage = dosage;
     this.requestDetails = requestDetails;
     this.nodeID = nodeID;
     this.location = Vdb.locationDao.getLocation(nodeID);
+    this.status = status;
     patient = Vdb.patientDao.getPatientFromID(patientID);
-    employee = new Employee(hospitalID);
+    employee = Vdb.employeeDao.getEmployee(employeeID);
     this.medicineName = medicineName;
   }
 
@@ -63,12 +61,12 @@ public class MedicineDelivery extends ServiceRequest {
     return requestDetails;
   }
 
+  public String getStatus() {
+    return status;
+  }
+
   public String getNodeID() {
-    try {
-      return location.getNodeID();
-    } catch (NullPointerException e) {
-      return "(Not found)" + nodeID;
-    }
+    return nodeID;
   }
 
   public void setServiceID(int serviceID) {

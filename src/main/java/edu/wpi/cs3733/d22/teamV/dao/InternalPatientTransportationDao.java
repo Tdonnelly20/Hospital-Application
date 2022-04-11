@@ -23,7 +23,6 @@ public class InternalPatientTransportationDao extends DaoInterface {
     allInternalPatientTransportations = internalPatientTransportations;
   }
 
-
   public ArrayList<InternalPatientTransportation> getInternalPatientTransportations() {
     return allInternalPatientTransportations;
   }
@@ -161,6 +160,9 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
     statement.execute(query);
   }
+
+  @Override
+  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
 
   @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {

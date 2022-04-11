@@ -123,6 +123,9 @@ public class MealRequestDao extends DaoInterface {
     statement.execute(query);
   }
 
+  @Override
+  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
+
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     String query = "";
     Connection connection = Vdb.Connect();
@@ -142,7 +145,6 @@ public class MealRequestDao extends DaoInterface {
     addToSQLTable(request);
     saveToCSV();
   }
-
 
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     MealRequest mealRequest = (MealRequest) request;

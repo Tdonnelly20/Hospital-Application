@@ -179,7 +179,6 @@ public class LocationDao extends DaoInterface {
       statement.execute(
           "CREATE TABLE Locations(nodeID char(20), xCoord int, yCoord int, floor char(10), building char(20), nodeType char(10), longName char(60), shortName char(30))");
 
-
     } else {
       statement.execute("DROP TABLE LOCATIONS");
       createSQLTable();
@@ -193,6 +192,9 @@ public class LocationDao extends DaoInterface {
 
   @Override
   public void addToSQLTable(ServiceRequest request) throws SQLException {}
+
+  @Override
+  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
 
   @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}

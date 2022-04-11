@@ -42,15 +42,14 @@ public class MedicineDeliveryDao extends DaoInterface {
       MedicineDelivery newDelivery =
           new MedicineDelivery(
               data[0],
-              data[1],
-              data[2],
-              Integer.parseInt(data[3]),
-              Integer.parseInt(data[4]),
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
+              data[3],
+              data[4],
               data[5],
-              data[6],
-              data[7]);
+              data[6]);
 
-      newDelivery.setServiceID(Integer.parseInt(data[8]));
+      newDelivery.setServiceID(Integer.parseInt(data[7]));
       medicineDeliveries.add(newDelivery);
     }
 
@@ -61,21 +60,19 @@ public class MedicineDeliveryDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "patientFirstName,patientLastName,nodeID,patientID,employeeID,medicineName,dosage,requestDetails,serviceID");
+    bw.append("nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
       MedicineDelivery medicineDelivery = (MedicineDelivery) request;
 
       String[] outputData = {
-        medicineDelivery.getPatientFirstName(),
-        medicineDelivery.getPatientLastName(),
-        medicineDelivery.getNodeID(),
+        medicineDelivery.getLocation().getNodeID(),
         String.valueOf(medicineDelivery.getPatientID()),
         String.valueOf(medicineDelivery.getEmployeeID()),
         medicineDelivery.getMedicineName(),
         medicineDelivery.getDosage(),
+        medicineDelivery.getStatus(),
         medicineDelivery.getRequestDetails(),
         String.valueOf(medicineDelivery.getServiceID())
       };
@@ -101,7 +98,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), nodeID char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254), serviceID int)";
+          "CREATE TABLE MEDICINES(nodeID char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), status char(50), requestDetails char(254), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -126,13 +123,9 @@ public class MedicineDeliveryDao extends DaoInterface {
     Statement statement = connection.createStatement();
     query =
         "INSERT INTO MEDICINES("
-            + "patientFirstName,patientLastName,nodeID,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
+            + "nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID) VALUES "
             + "('"
-            + medicineDelivery.getPatientFirstName()
-            + "', '"
-            + medicineDelivery.getPatientLastName()
-            + "', '"
-            + medicineDelivery.getNodeID()
+            + medicineDelivery.getLocation().getNodeID()
             + "', "
             + medicineDelivery.getPatientID()
             + ", "
@@ -142,12 +135,21 @@ public class MedicineDeliveryDao extends DaoInterface {
             + "','"
             + medicineDelivery.getDosage()
             + "','"
+            + medicineDelivery.getStatus()
+            + "','"
             + medicineDelivery.getRequestDetails()
             + "',"
             + medicineDelivery.getServiceID()
             + ")";
 
     statement.execute(query);
+  }
+
+  @Override
+  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {
+    removeServiceRequest(request);
+    MedicineDelivery medicineDelivery = (MedicineDelivery) request;
+    allMedicineDeliveries.add(medicineDelivery);
   }
 
   @Override
@@ -171,7 +173,6 @@ public class MedicineDeliveryDao extends DaoInterface {
     addToSQLTable(request);
     saveToCSV();
   }
-
 
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {

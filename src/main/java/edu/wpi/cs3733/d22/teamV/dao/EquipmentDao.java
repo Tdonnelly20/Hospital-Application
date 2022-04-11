@@ -66,7 +66,6 @@ public class EquipmentDao {
     }
   }
 
-
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\ListofEquipment.csv");
     BufferedWriter bw = new BufferedWriter(fw);

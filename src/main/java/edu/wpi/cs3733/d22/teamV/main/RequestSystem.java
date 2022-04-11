@@ -19,7 +19,8 @@ public class RequestSystem {
   private PatientDao patientDao = new PatientDao();
   private EmployeeDao employeeDao = new EmployeeDao();
   private EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-  private InternalPatientTransportationDao internalPatientTransportationDao = new InternalPatientTransportationDao();
+  private InternalPatientTransportationDao internalPatientTransportationDao =
+      new InternalPatientTransportationDao();
   private LabRequestDao labRequestDao = new LabRequestDao();
   private LaundryRequestDao laundryRequestDao = new LaundryRequestDao();
   private LocationDao locationDao = new LocationDao();
@@ -44,14 +45,13 @@ public class RequestSystem {
 
   Dao dao;
 
-  private static class SingletonMaker{
+  private static class SingletonMaker {
     private static final RequestSystem requestSystem = new RequestSystem();
   }
 
-  public static RequestSystem getSystem(){
+  public static RequestSystem getSystem() {
     return SingletonMaker.requestSystem;
   }
-
 
   /**
    * Creates new service request in specified DAO
@@ -257,13 +257,15 @@ public class RequestSystem {
     employeeIDCounter = highestID;
   }
 
-  public static int getServiceID(){
+  public static int getServiceID() {
     return serviceIDCounter++;
   }
-  public static int getPatientID(){
+
+  public static int getPatientID() {
     return patientIDCounter++;
   }
-  public static int getEmployeeID(){
+
+  public static int getEmployeeID() {
     return employeeIDCounter++;
   }
 }

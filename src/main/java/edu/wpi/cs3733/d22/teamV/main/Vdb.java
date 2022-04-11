@@ -6,7 +6,6 @@ import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import java.sql.*;
 
-
 public class Vdb {
   public static final String currentPath = returnPath();
   private static String line; // receives a line from br

@@ -4,11 +4,12 @@ import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import java.sql.Timestamp;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
-import java.sql.Timestamp;
-//https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj143.html
+
+// https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj143.html
 @Setter
 @Getter
 public abstract class ServiceRequest {

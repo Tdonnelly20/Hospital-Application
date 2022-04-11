@@ -147,6 +147,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
   }
 
   @Override
+  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
+
+  @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
     String query = "";
@@ -167,7 +170,6 @@ public class EquipmentDeliveryDao extends DaoInterface {
     addToSQLTable(request);
     saveToCSV();
   }
-
 
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
