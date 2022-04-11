@@ -2,27 +2,23 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 public abstract class RequestController extends MapController {
 
-  // Main Header Gridpane stuff
+  // This is the header Gridpane
   @FXML private GridPane headerPane = new GridPane();
-  private ColumnConstraints headerCol0Constraints = new ColumnConstraints();
-  private ColumnConstraints headerCol1Constraints = new ColumnConstraints();
-  private ColumnConstraints headerCol3Constraints = new ColumnConstraints();
 
-  private RowConstraints rowConstraints = new RowConstraints();
   @FXML private ImageView logo = new ImageView(new Image("Brigham_and_Womens_Hospital_logo.png"));
   @FXML private Label title = new Label();
+  @FXML private Label thing = new Label();
 
   @FXML private GridPane buttonBox = new GridPane();
   @FXML private Button closeButton = new Button();
@@ -34,38 +30,77 @@ public abstract class RequestController extends MapController {
   @FXML protected VBox tableBox = new VBox();
 
   void fillTopPane() {
-    title.setFont(new Font("Arial", 30));
+    headerPane.setMinSize(Region.USE_COMPUTED_SIZE, 150);
+    headerPane.setPrefSize(1920, 150);
+    headerPane.setMaxSize(Region.USE_COMPUTED_SIZE, 150);
+    headerPane.setAlignment(Pos.CENTER);
+
+    buttonBox.setMinSize(450, 150);
+    buttonBox.setPrefSize(450, 150);
+    buttonBox.setMaxSize(450, 150);
+    buttonBox.setAlignment(Pos.CENTER);
+
+    // Creates the box to put the buttons in at the top right
+    ColumnConstraints bCol0Cons = new ColumnConstraints(150);
+    bCol0Cons.setHalignment(HPos.CENTER);
+    ColumnConstraints bCol1Cons = new ColumnConstraints(150);
+    bCol1Cons.setHalignment(HPos.CENTER);
+    ColumnConstraints bCol2Cons = new ColumnConstraints(150);
+    bCol2Cons.setHalignment(HPos.CENTER);
+    RowConstraints bRowCons = new RowConstraints(150);
+    bRowCons.setValignment(VPos.CENTER);
+
+    backButton.setText("Service Requests");
+    homeButton.setText("Home");
+    closeButton.setText("Close");
+
+    buttonBox.add(backButton, 0, 0);
+    buttonBox.add(homeButton, 1, 0);
+    buttonBox.add(closeButton, 2, 0);
+
+    buttonBox.getColumnConstraints().add(bCol0Cons);
+    buttonBox.getColumnConstraints().add(bCol1Cons);
+    buttonBox.getColumnConstraints().add(bCol2Cons);
+    buttonBox.getRowConstraints().add(bRowCons);
+    buttonBox.setGridLinesVisible(true);
+
     logo.setFitHeight(80);
     logo.setFitWidth(80);
+    title.setFont(new Font("Arial", 30));
+    title.setText("Use setTitleText");
+    thing.setText("test");
 
-    headerPane.add(logo, 0, 0);
-    headerPane.add(title, 1, 0);
-    headerPane.add(buttonBox, 3, 0);
+    ColumnConstraints hCol0Cons =
+        new ColumnConstraints(150, 150, 150, Priority.NEVER, HPos.CENTER, false);
+    ColumnConstraints hCol1Cons =
+        new ColumnConstraints(500, 500, 500, Priority.NEVER, HPos.CENTER, false);
 
-    headerCol0Constraints.setHalignment(HPos.CENTER);
-    headerCol1Constraints.setHalignment(HPos.CENTER);
-    headerCol3Constraints.setHalignment(HPos.CENTER);
+    ColumnConstraints hCol2Cons =
+        new ColumnConstraints(
+            Region.USE_COMPUTED_SIZE,
+            300,
+            Region.USE_COMPUTED_SIZE,
+            Priority.ALWAYS,
+            HPos.CENTER,
+            false);
 
-    headerCol0Constraints.setMinWidth(150);
-    headerCol0Constraints.setMaxWidth(150);
-    headerCol0Constraints.setPrefWidth(150);
+    ColumnConstraints hCol3Cons =
+        new ColumnConstraints(450, 450, 450, Priority.NEVER, HPos.CENTER, false);
 
-    headerCol1Constraints.setMinWidth(500);
-    headerCol1Constraints.setMaxWidth(500);
-    headerCol1Constraints.setPrefWidth(500);
+    RowConstraints hRowCons = new RowConstraints(150, 150, 150, Priority.NEVER, VPos.CENTER, false);
 
-    headerCol3Constraints.setMinWidth(450);
-    headerCol3Constraints.setMaxWidth(450);
-    headerCol3Constraints.setPrefWidth(450);
+    headerPane.addColumn(0, logo);
+    headerPane.addColumn(1, title);
+    headerPane.addColumn(2, thing);
+    headerPane.addColumn(3, buttonBox);
 
-    rowConstraints.setMinHeight(150);
-    rowConstraints.setMaxHeight(150);
-    rowConstraints.setPrefHeight(150);
-
-    headerPane.getColumnConstraints().add(0, headerCol0Constraints);
-    headerPane.getColumnConstraints().add(1, headerCol1Constraints);
-    headerPane.getColumnConstraints().add(3, headerCol3Constraints);
-    headerPane.getRowConstraints().add(rowConstraints);
+    headerPane.getColumnConstraints().clear();
+    headerPane.getColumnConstraints().add(hCol0Cons);
+    headerPane.getColumnConstraints().add(hCol1Cons);
+    headerPane.getColumnConstraints().add(hCol2Cons);
+    headerPane.getColumnConstraints().add(hCol3Cons);
+    headerPane.getRowConstraints().add(0, hRowCons);
+    headerPane.setGridLinesVisible(true);
   }
 
   void setTitleText(String str) {
