@@ -18,7 +18,8 @@ public abstract class RequestController extends MapController {
 
   @FXML private ImageView logo = new ImageView(new Image("Brigham_and_Womens_Hospital_logo.png"));
   @FXML private Label title = new Label();
-  @FXML private Label thing = new Label();
+
+  @FXML private Region region = new Region();
 
   @FXML private GridPane buttonBox = new GridPane();
   @FXML private Button closeButton = new Button();
@@ -68,7 +69,9 @@ public abstract class RequestController extends MapController {
     logo.setFitWidth(80);
     title.setFont(new Font("Arial", 30));
     title.setText("Use setTitleText");
-    thing.setText("test");
+    region.setStyle("-fx-background-color: blue;");
+    region.setMinSize(10, 10);
+    region.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
     ColumnConstraints hCol0Cons =
         new ColumnConstraints(150, 150, 150, Priority.NEVER, HPos.CENTER, false);
@@ -91,7 +94,7 @@ public abstract class RequestController extends MapController {
 
     headerPane.addColumn(0, logo);
     headerPane.addColumn(1, title);
-    headerPane.addColumn(2, thing);
+    headerPane.addColumn(2, region);
     headerPane.addColumn(3, buttonBox);
 
     headerPane.getColumnConstraints().clear();
