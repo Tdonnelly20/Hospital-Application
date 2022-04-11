@@ -1,8 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
-
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
@@ -10,8 +9,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.serviceRequest.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.serviceRequest.LabRequest;
 import edu.wpi.cs3733.d22.teamV.serviceRequest.ServiceRequest;
-import java.io.IOException;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -62,6 +59,7 @@ public class PopupController {
   @FXML JFXComboBox<String> comboBox1 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox2 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox3 = new JFXComboBox<>();
+  RequestSystem requestSystem = RequestSystem.getSystem();
 
   private static class SingletonHelper {
     private static final PopupController controller = new PopupController();
@@ -278,7 +276,7 @@ public class PopupController {
 
     submitIcon.setOnAction(
         event1 -> {
-          locationDao.addLocation(
+          requestSystem.addLocation(
               new Location(
                   field1.getText(),
                   event.getX(),
@@ -332,11 +330,8 @@ public class PopupController {
           .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
       submitIcon.setOnAction(
           event1 -> {
-            try {
-              locationDao.deleteLocation(field1.getText());
-            } catch (SQLException | IOException e) {
-              e.printStackTrace();
-            }
+            requestSystem.deleteLocation(field1.getText());
+
             Location newLocation =
                 new Location(
                     field2.getText(),
@@ -350,7 +345,7 @@ public class PopupController {
                     field7.getText(),
                     field8.getText());
 
-            locationDao.addLocation(newLocation);
+            requestSystem.addLocation(newLocation);
             LocationIcon newIcon = new LocationIcon(newLocation);
             MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().remove(icon);
             MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
@@ -403,15 +398,12 @@ public class PopupController {
               if (field8.getText().isEmpty()) {
                 field8.setText("" + icon.getLocation().getShortName());
               }
-              try {
-                MapManager.getManager()
-                    .getFloor(icon.getLocation().getFloor())
-                    .getIconList()
-                    .remove(icon);
-                locationDao.deleteLocation(field1.getText());
-              } catch (SQLException | IOException e) {
-                e.printStackTrace();
-              }
+              MapManager.getManager()
+                  .getFloor(icon.getLocation().getFloor())
+                  .getIconList()
+                  .remove(icon);
+              requestSystem.deleteLocation(field1.getText());
+
               Location l =
                   new Location(
                       field2.getText(),
@@ -422,7 +414,7 @@ public class PopupController {
                       field6.getText(),
                       field7.getText(),
                       field8.getText());
-              locationDao.addLocation(l);
+              requestSystem.addLocation(l);
               clearPopupForm();
               LocationIcon newIcon = new LocationIcon(l);
               MapManager.getManager().getFloor(l.getFloor()).getIconList().add(newIcon);
@@ -453,16 +445,15 @@ public class PopupController {
     }
     submitIcon.setOnAction(
         event1 -> {
-          if(icon!=null) {
-            MapManager.getManager().getFloor(MapController.getController().getFloor()).getIconList().remove(icon);
-          }else{
+          if (icon != null) {
+            MapManager.getManager()
+                .getFloor(MapController.getController().getFloor())
+                .getIconList()
+                .remove(icon);
+          } else {
 
           }
-          try {
-            locationDao.deleteLocation(field1.getText());
-          } catch (SQLException | IOException e) {
-            e.printStackTrace();
-          }
+          requestSystem.deleteLocation(field1.getText());
           closePopUp();
         });
   }

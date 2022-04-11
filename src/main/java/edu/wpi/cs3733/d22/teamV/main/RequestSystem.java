@@ -25,6 +25,20 @@ public class RequestSystem {
   private ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
   private SanitationRequestDao sanitationRequestDao = new SanitationRequestDao();
 
+  public void deleteLocation(String nodeID) {
+    try {
+      locationDao.deleteLocation(nodeID);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addLocation(Location location) {
+    locationDao.addLocation(location);
+  }
+
   public enum Dao {
     Equipment,
     EquipmentDelivery,
@@ -39,6 +53,14 @@ public class RequestSystem {
   }
 
   Dao dao;
+
+  private static class SingletonHelper {
+    private static final RequestSystem system = new RequestSystem();
+  }
+
+  public static RequestSystem getSystem() {
+    return RequestSystem.SingletonHelper.system;
+  }
 
   public void loadFromCSV() throws IOException, SQLException {
     switch (dao) {
