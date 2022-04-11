@@ -16,7 +16,7 @@
    <children>
       <ImageView fx:id="iv" fitHeight="800.0" fitWidth="1200.0">
          <image>
-            <Image url="@../../../../../loginbackground.jpg" />
+            <Image url="@../loginbackground.jpg" />
          </image>
       </ImageView>
       <BorderPane layoutX="-1.0" layoutY="2.0" prefHeight="400.0" prefWidth="600.0">
