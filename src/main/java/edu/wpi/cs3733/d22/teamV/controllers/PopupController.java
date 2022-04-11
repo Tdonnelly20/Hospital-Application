@@ -154,56 +154,6 @@ public class PopupController {
     showPopUp();
   }
 
-  /** Opens the corresponding icon's request window */
-  /*@FXML
-  public void openIconRequestWindow(Icon icon) {
-    // Display requests/info
-    content.getChildren().clear();
-    MapManager.getManager().isTempIconVisible(false);
-    stage.setTitle(icon.getLocation().getShortName());
-    if (icon.iconType.equals("Equipment")) {
-      EquipmentIcon equipmentIcon = ((EquipmentIcon) icon);
-      title.setText("Equipment");
-      // equipmentAdditionForm();
-    } else if (icon.iconType.equals("Request")) {
-      RequestIcon requestIcon = (RequestIcon) icon;
-      ObservableList<String> statusStrings =
-          FXCollections.observableArrayList("Not Started", "Processing", "Done");
-      if (requestIcon.getRequestsArr().size() > 0) {
-        for (ServiceRequest request : requestIcon.getRequestsArr()) {
-          Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getHospitalID());
-          Label locationLabel =
-              new Label(
-                  "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
-
-          JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-          updateStatus.setValue(request.getStatus());
-          updateStatus.setOnAction(
-              event -> {
-                request.setStatus(updateStatus.getValue().toString());
-                // TODO: Update request CSV
-              });
-          Accordion accordion =
-              new Accordion(
-                  new TitledPane(
-                      request.getRequestName() + ": " + request.getStatus(),
-                      new VBox(15, idLabel, locationLabel, updateStatus)));
-          content.getChildren().add(accordion);
-        }
-      } else if (icon.iconType.equals("Location")) {
-        title.setText("Location");
-        buttonBox.getChildren().clear();
-        buttonBox.getChildren().addAll(addButton, modifyButton, closeButton);
-        addButton.setText("Add a Service Request Here");
-        modifyButton.setText("Modify Location");
-        Text noRequests = new Text("There are no requests in this area");
-        noRequests.setTextAlignment(TextAlignment.CENTER);
-        content.getChildren().add(noRequests);
-      }
-    }
-    showPopUp();
-  }*/
-
   @FXML
   public void formSetup(MouseEvent event) {
     MapManager.getManager().isTempIconVisible(true);
@@ -503,6 +453,11 @@ public class PopupController {
     }
     submitIcon.setOnAction(
         event1 -> {
+          if(icon!=null) {
+            MapManager.getManager().getFloor(MapController.getController().getFloor()).getIconList().remove(icon);
+          }else{
+
+          }
           try {
             locationDao.deleteLocation(field1.getText());
           } catch (SQLException | IOException e) {
