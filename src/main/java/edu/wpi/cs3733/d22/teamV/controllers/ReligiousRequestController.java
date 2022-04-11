@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.ReligiousRequestDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -34,6 +37,9 @@ public class ReligiousRequestController extends MapController {
   public static ReligiousRequestController getController() {
     return ReligiousRequestController.SingletonHelper.controller;
   }
+
+  private static final ReligiousRequestDao religiousRequestDao =
+          (ReligiousRequestDao) Vdb.requestSystem.getDao(Dao.ReligiousRequest);
 
   @Override
   public void init() {

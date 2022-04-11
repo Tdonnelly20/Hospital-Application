@@ -8,27 +8,12 @@ import java.sql.*;
 
 public class Vdb {
   public static final String currentPath = returnPath();
-  private static String line; // receives a line from br
-  public static EmployeeDao employeeDao = new EmployeeDao();
-  public static PatientDao patientDao = new PatientDao();
-  private static int serviceIDCounter = 0;
+  private static String line; // receives a line from b
   private static boolean isClient = false;
-  private static int patientIDCounter = 0;
-  private static int employeeIDCounter = 0;
-  // Make all DAO's here, NOT in the controllers
-  public static final LocationDao locationDao = new LocationDao();
-  public static final EquipmentDao equipmentDao = new EquipmentDao();
-
-  public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-
-  public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
-  public static final LabRequestDao labRequestDao = new LabRequestDao();
-  public static final InternalPatientTransportationDao internalPatientTransportationDao =
-      new InternalPatientTransportationDao();
   public static MapManager mapManager;
   public static MapController mapController;
   public static PopupController popupController;
-  RequestSystem requestSystem = RequestSystem.getSystem();
+  public static RequestSystem requestSystem = RequestSystem.getSystem();
 
   /**
    * Returns the location of the CSVs

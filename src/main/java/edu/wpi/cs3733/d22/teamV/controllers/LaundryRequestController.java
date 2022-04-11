@@ -2,6 +2,8 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.LaundryRequestDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
 import java.awt.*;
 import java.sql.SQLException;
@@ -43,8 +45,9 @@ public class LaundryRequestController extends MapController {
   // laundryRequestDAO is not in VDB
   // fix database connection for add / remove Laundry Request
 
-  private static LaundryRequestDao laundryRequestDao;
-  // = Vdb.laundryRequestDao;
+  private static final LaundryRequestDao laundryRequestDao =
+          (LaundryRequestDao) Vdb.requestSystem.getDao(Dao.LaundryRequest);
+
 
   @FXML
   private void resetForm() {

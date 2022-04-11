@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.LabRequestDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class LabRequestController extends MapController implements RequestInterf
   @FXML private TreeTableColumn<LabRequest, String> requestedLabCol;
   @FXML private TreeTableColumn<LabRequest, String> statusCol;
 
-  private static final LabRequestDao labRequestDao = Vdb.labRequestDao;
+  private static final LabRequestDao labRequestDao = (LabRequestDao) Vdb.requestSystem.getDao(Dao.LabRequest);
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;

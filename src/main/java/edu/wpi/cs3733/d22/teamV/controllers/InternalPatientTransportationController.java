@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
 import java.awt.*;
@@ -37,8 +38,8 @@ public class InternalPatientTransportationController extends MapController
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
 
-  public static InternalPatientTransportationDao internalPatientTransportationDao =
-      Vdb.internalPatientTransportationDao;
+  public static final InternalPatientTransportationDao internalPatientTransportationDao =
+          (InternalPatientTransportationDao) Vdb.requestSystem.getDao(RequestSystem.Dao.InternalPatientTransportation);
 
   private static class SingletonHelper {
     private static final InternalPatientTransportationController controller =

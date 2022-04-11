@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -41,9 +42,10 @@ public class EquipmentRequestController extends MapController {
   @FXML private TextArea notes;
   @FXML private Button sendRequest;
 
-  private static EquipmentDeliveryDao equipmentDeliveryDao = Vdb.equipmentDeliveryDao;
+  private static final EquipmentDeliveryDao equipmentDeliveryDao =
+          (EquipmentDeliveryDao) Vdb.requestSystem.getDao(Dao.EquipmentDelivery);
 
-  private static LocationDao locationDao = Vdb.locationDao;
+  private static final LocationDao locationDao = (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
 
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
@@ -109,7 +111,7 @@ public class EquipmentRequestController extends MapController {
     nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("description"));
     shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirty"));
 
-    ArrayList<Equipment> currEquipment = (ArrayList<Equipment>) Vdb.equipmentDao.getAllEquipment();
+    ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     if (!currEquipment.isEmpty()) {

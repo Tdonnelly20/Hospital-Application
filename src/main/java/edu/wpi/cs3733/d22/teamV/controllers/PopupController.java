@@ -1,8 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
-
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
@@ -12,8 +11,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
-import java.io.IOException;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -319,16 +316,18 @@ public class PopupController {
 
     submitIcon.setOnAction(
         event1 -> {
-          locationDao.addLocation(
-              new Location(
-                  field1.getText(),
-                  event.getX(),
-                  event.getY(),
-                  MapController.getController().getFloor(),
-                  "Tower",
-                  field2.getText(),
-                  field3.getText(),
-                  field4.getText()));
+          Vdb.requestSystem
+              .getLocations()
+              .add(
+                  new Location(
+                      field1.getText(),
+                      event.getX(),
+                      event.getY(),
+                      MapController.getController().getFloor(),
+                      "Tower",
+                      field2.getText(),
+                      field3.getText(),
+                      field4.getText()));
           clearPopupForm();
           closePopUp();
           // MapController.getController().populateFloorIconArr();
@@ -369,23 +368,21 @@ public class PopupController {
         .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
     submitIcon.setOnAction(
         event1 -> {
-          try {
-            locationDao.deleteLocation(field1.getText());
-          } catch (SQLException e) {
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-          locationDao.addLocation( // TODO: fix modify location error
-              new Location(
-                  field2.getText(),
-                  Double.parseDouble(field3.getText()),
-                  Double.parseDouble(field4.getText()),
-                  MapManager.getManager().getFloor(comboBox1.getValue().toString()).getFloorName(),
-                  field5.getText(),
-                  field6.getText(),
-                  field7.getText(),
-                  field8.getText()));
+          Vdb.requestSystem.getLocations().remove(field1.getText());
+          Vdb.requestSystem
+              .getLocations()
+              .add( // TODO: fix modify location error
+                  new Location(
+                      field2.getText(),
+                      Double.parseDouble(field3.getText()),
+                      Double.parseDouble(field4.getText()),
+                      MapManager.getManager()
+                          .getFloor(comboBox1.getValue().toString())
+                          .getFloorName(),
+                      field5.getText(),
+                      field6.getText(),
+                      field7.getText(),
+                      field8.getText()));
           clearPopupForm();
           locationForm(event, icon);
         });
@@ -406,26 +403,14 @@ public class PopupController {
       field1.setPromptText("Old Node ID");
       submitIcon.setOnAction(
           event1 -> {
-            try {
-              locationDao.deleteLocation(field1.getText());
-            } catch (SQLException e) {
-              e.printStackTrace();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+            Vdb.requestSystem.getLocations().remove(field1.getText());
             MapController.getController().populateFloorIconArr();
             closePopUp();
           });
     } else {
       submitIcon.setOnAction(
           event1 -> {
-            try {
-              locationDao.deleteLocation(icon.getLocation().getNodeID());
-            } catch (SQLException e) {
-              e.printStackTrace();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+            Vdb.requestSystem.getLocations().remove(icon.getLocation().getNodeID());
             MapController.getController().populateFloorIconArr();
             closePopUp();
             // TODO: Make code go brrrrrrrrr and delete without needing to input nodeID

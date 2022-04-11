@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.dao.*;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -15,19 +16,19 @@ public class RequestSystem {
   public static int patientIDCounter = 0;
   public static int employeeIDCounter = 0;
 
-  private EquipmentDao equipmentDao = new EquipmentDao();
-  private PatientDao patientDao = new PatientDao();
-  private EmployeeDao employeeDao = new EmployeeDao();
-  private EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-  private InternalPatientTransportationDao internalPatientTransportationDao =
+  private final EquipmentDao equipmentDao = new EquipmentDao();
+  private final  PatientDao patientDao = new PatientDao();
+  private final EmployeeDao employeeDao = new EmployeeDao();
+  private final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
+  private final InternalPatientTransportationDao internalPatientTransportationDao =
       new InternalPatientTransportationDao();
-  private LabRequestDao labRequestDao = new LabRequestDao();
-  private LaundryRequestDao laundryRequestDao = new LaundryRequestDao();
-  private LocationDao locationDao = new LocationDao();
-  private MealRequestDao mealRequestDao = new MealRequestDao();
-  private MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
-  private ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
-  private SanitationRequestDao sanitationRequestDao = new SanitationRequestDao();
+  private final  LabRequestDao labRequestDao = new LabRequestDao();
+  private final LaundryRequestDao laundryRequestDao = new LaundryRequestDao();
+  private final LocationDao locationDao = new LocationDao();
+  private final MealRequestDao mealRequestDao = new MealRequestDao();
+  private final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
+  private final  ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
+  private final SanitationRequestDao sanitationRequestDao = new SanitationRequestDao();
 
   /** Choose type of DAO for the methods called */
   public enum Dao {
@@ -43,14 +44,37 @@ public class RequestSystem {
     SanitationRequest
   }
 
-  Dao dao;
-
   private static class SingletonMaker {
     private static final RequestSystem requestSystem = new RequestSystem();
   }
 
   public static RequestSystem getSystem() {
     return SingletonMaker.requestSystem;
+  }
+
+  public DaoInterface getDao(Dao dao){
+    switch (dao) {
+      case EquipmentDelivery:
+        return equipmentDeliveryDao;
+      case InternalPatientTransportation:
+        return internalPatientTransportationDao;
+      case LabRequest:
+        return labRequestDao;
+      case LaundryRequest:
+        return laundryRequestDao;
+      case LocationDao:
+        return locationDao;
+      case MealRequestDao:
+        return mealRequestDao;
+      case MedicineDelivery:
+        return medicineDeliveryDao;
+      case ReligiousRequest:
+        return religiousRequestDao;
+      case SanitationRequest:
+        return sanitationRequestDao;
+      default:
+        return null;
+    }
   }
 
   /**
@@ -60,7 +84,7 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request, Dao dao) throws IOException, SQLException {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.addServiceRequest(request);
@@ -92,7 +116,8 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request, Dao dao)
+      throws IOException, SQLException {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.removeServiceRequest(request);
@@ -122,7 +147,7 @@ public class RequestSystem {
    *
    * @return
    */
-  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests(Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
         return equipmentDeliveryDao.getAllServiceRequests();
@@ -197,7 +222,7 @@ public class RequestSystem {
    * @param serviceRequests
    * @throws SQLException
    */
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests, Dao dao)
       throws SQLException {
     switch (dao) {
       case EquipmentDelivery:

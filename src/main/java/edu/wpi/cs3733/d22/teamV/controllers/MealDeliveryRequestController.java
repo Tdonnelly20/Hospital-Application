@@ -2,6 +2,8 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.MealRequestDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -17,7 +19,7 @@ public class MealDeliveryRequestController extends MapController {
   @FXML private TreeTableColumn<MealRequest, String> lastNameCol;
   @FXML private TreeTableColumn<MealRequest, String> requestedMealCol;
 
-  private static MealRequestDao mealRequestDao = new MealRequestDao();
+  private static final MealRequestDao mealRequestDao = (MealRequestDao) Vdb.requestSystem.getDao(Dao.MealRequestDao);
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;

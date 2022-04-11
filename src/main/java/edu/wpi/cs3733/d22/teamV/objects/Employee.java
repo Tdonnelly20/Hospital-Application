@@ -63,7 +63,7 @@ public class Employee {
   public ArrayList<Patient> getPatientList() {
     ArrayList<Patient> patients = new ArrayList<>();
     for (int patientID : patientIDs) {
-      patients.add(Vdb.patientDao.getPatientFromID(patientID));
+      patients.add(Vdb.requestSystem.getPatients().get(patientID));
     }
     return patients;
   }

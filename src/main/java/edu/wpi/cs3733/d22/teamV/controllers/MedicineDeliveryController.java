@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.MedicineDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import java.awt.*;
@@ -45,7 +46,8 @@ public class MedicineDeliveryController extends MapController implements Request
   @FXML private Label statusLabel;
 
   // MUST take from Vdb, do NOT create
-  private static MedicineDeliveryDao medicineDeliveryDao = Vdb.medicineDeliveryDao;
+  private static final MedicineDeliveryDao medicineDeliveryDao =
+          (MedicineDeliveryDao) Vdb.requestSystem.getDao(Dao.MedicineDelivery);
   private boolean updating = false;
   private int updateServiceID;
 

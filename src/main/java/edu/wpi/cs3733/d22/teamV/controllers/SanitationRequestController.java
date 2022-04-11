@@ -2,6 +2,8 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,7 +22,8 @@ public class SanitationRequestController extends MapController {
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
-  private static SanitationRequestDao SanitationRequestDao = new SanitationRequestDao();
+  private static final SanitationRequestDao SanitationRequestDao =
+          (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
 
   private static class SingletonHelper {
     private static final SanitationRequestController controller = new SanitationRequestController();
