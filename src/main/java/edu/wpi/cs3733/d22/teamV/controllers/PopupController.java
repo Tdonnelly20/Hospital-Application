@@ -334,30 +334,30 @@ public class PopupController {
           .getChildren()
           .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
       submitIcon.setOnAction(
-              event1 -> {
-                deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
+          event1 -> {
+            deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
 
-                Location newLocation =
-                        new Location(
-                                field2.getText(),
-                                Double.parseDouble(field3.getText()),
-                                Double.parseDouble(field4.getText()),
-                                MapManager.getManager()
-                                        .getFloor(comboBox1.getValue().toString())
-                                        .getFloorName(),
-                                field5.getText(),
-                                field6.getText(),
-                                field7.getText(),
-                                field8.getText());
+            Location newLocation =
+                new Location(
+                    field2.getText(),
+                    Double.parseDouble(field3.getText()),
+                    Double.parseDouble(field4.getText()),
+                    MapManager.getManager()
+                        .getFloor(comboBox1.getValue().toString())
+                        .getFloorName(),
+                    field5.getText(),
+                    field6.getText(),
+                    field7.getText(),
+                    field8.getText());
 
-                addLocation(newLocation);
-                LocationIcon newIcon = new LocationIcon(newLocation);
-                MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().remove(icon);
-                MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
-                clearPopupForm();
-                locationForm(event, newIcon);
-                // MapController.getController().checkDropDown();
-              });
+            addLocation(newLocation);
+            LocationIcon newIcon = new LocationIcon(newLocation);
+            MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().remove(icon);
+            MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
+            clearPopupForm();
+            locationForm(event, newIcon);
+            // MapController.getController().checkDropDown();
+          });
     } else {
       field2.setPromptText("Node ID: " + icon.getLocation().getNodeID());
       field3.setPromptText("X-Coordinate: " + icon.getLocation().getXCoord());
@@ -382,8 +382,9 @@ public class PopupController {
                 && field6.getText().equals(icon.getLocation().getNodeType())
                 && field7.getText().equals(icon.getLocation().getLongName())
                 && field8.getText().equals(icon.getLocation().getShortName()))) {
+              String nodeID = icon.getLocation().getNodeID();
               if (field2.getText().isEmpty()) {
-                field2.setText(icon.getLocation().getNodeID());
+                field2.setText(nodeID);
               }
               if (field3.getText().isEmpty()) {
                 field3.setText("" + icon.getLocation().getXCoord());
@@ -407,7 +408,7 @@ public class PopupController {
                   .getFloor(icon.getLocation().getFloor())
                   .getIconList()
                   .remove(icon);
-              deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
+              requestSystem.deleteLocation(nodeID);
 
               Location l =
                   new Location(
@@ -451,9 +452,24 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
-            deleteLocation(icon);
+            String nodeID = icon.getLocation().getNodeID();
+            MapController.getController().mapPane.getChildren().remove(icon.getImage());
+            MapManager.getManager()
+                .getFloor(icon.getLocation().getFloor())
+                .getIconList()
+                .remove(icon);
+            requestSystem.deleteLocation(nodeID);
           } else {
-            // TODO
+            String nodeID = field1.getText();
+            MapController.getController()
+                .mapPane
+                .getChildren()
+                .remove(requestSystem.getLocation(nodeID).getIcon().getImage());
+            MapManager.getManager()
+                .getFloor(icon.getLocation().getFloor())
+                .getIconList()
+                .remove(requestSystem.getLocation(nodeID).getIcon());
+            requestSystem.deleteLocation(nodeID);
           }
           closePopUp();
         });

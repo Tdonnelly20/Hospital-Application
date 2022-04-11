@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -190,7 +189,7 @@ public class MapController extends Controller {
       }
     }
     PopupController.getController().closePopUp();
-    String url = floorDropDown.getValue().toString() + ".png";
+    String url = floorDropDown.getValue() + ".png";
     mapImage.setImage(new Image(url));
     mapImage.setFitWidth(600);
     mapImage.setFitHeight(600);

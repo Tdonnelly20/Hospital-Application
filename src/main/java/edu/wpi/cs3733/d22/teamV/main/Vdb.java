@@ -81,9 +81,7 @@ public class Vdb {
   public static void createAllDB() throws Exception {
     labRequestDao.createSQLTable();
     labRequestDao.loadFromCSV();
-    mapManager = MapManager.getManager();
     mapManager.setUpFloors();
-    mapController = MapController.getController();
     mapController.init();
     popupController = PopupController.getController();
     getMaxServiceID();
