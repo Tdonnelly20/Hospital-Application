@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
+import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.serviceRequest.ServiceRequest;
 import java.util.ArrayList;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Location {
   private String longName;
   private String shortName;
   private ArrayList<ServiceRequest> requests = new ArrayList<ServiceRequest>();
+  private LocationIcon icon;
 
   public Location() {
     nodeID = null;
@@ -28,6 +30,7 @@ public class Location {
     nodeType = null;
     longName = null;
     shortName = null;
+    icon = new LocationIcon(this);
   }
 
   public Location(double xCoord, double yCoord, String floor) {
@@ -39,6 +42,7 @@ public class Location {
     nodeType = null;
     longName = null;
     shortName = null;
+    icon = new LocationIcon(this);
   }
 
   public Location(
@@ -58,32 +62,15 @@ public class Location {
     this.nodeType = nodeType;
     this.longName = longName;
     this.shortName = shortName;
+    icon = new LocationIcon(this);
   }
 
   public Location(String nodeID) {
     this.nodeID = nodeID;
+    icon = new LocationIcon(this);
   }
 
   public String getNodeID() {
     return nodeID;
-  }
-
-  public void updateInfo(
-      String nodeID,
-      double xCoord,
-      double yCoord,
-      String floor,
-      String building,
-      String nodeType,
-      String longName,
-      String shortName) {
-    this.nodeID = nodeID;
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
-    this.floor = floor;
-    this.building = building;
-    this.nodeType = nodeType;
-    this.longName = longName;
-    this.shortName = shortName;
   }
 }

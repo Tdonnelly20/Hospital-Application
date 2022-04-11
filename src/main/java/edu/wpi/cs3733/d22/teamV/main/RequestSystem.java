@@ -39,6 +39,10 @@ public class RequestSystem {
     locationDao.addLocation(location);
   }
 
+  public Location getLocation(String nodeID) {
+    return locationDao.getLocation(nodeID);
+  }
+
   public enum Dao {
     Equipment,
     EquipmentDelivery,

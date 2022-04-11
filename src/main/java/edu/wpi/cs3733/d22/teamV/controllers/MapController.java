@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -42,6 +41,7 @@ public class MapController extends Controller {
   protected ZoomPane zoomPane = null;
   @FXML protected ScrollPane scrollPane = new ScrollPane(stackPane);
   protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
+  RequestSystem requestSystem = RequestSystem.getSystem();
 
   @FXML
   ObservableList<String> filterItems =
@@ -114,12 +114,6 @@ public class MapController extends Controller {
 
     scrollPane.setContent(zoomPane);
     zoomPane.toBack();
-    mapPane.setOnMouseClicked(
-        event -> {
-          if (event.getClickCount() == 2) {
-            openIconFormWindow(event);
-          }
-        });
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }
 
@@ -150,7 +144,6 @@ public class MapController extends Controller {
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            System.out.println("CLICK RECEIVED");
             openIconFormWindow(event);
           }
         });
@@ -184,13 +177,6 @@ public class MapController extends Controller {
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   public void checkDropDown() {
-    mapPane.setOnMouseClicked(
-        event -> {
-          if (event.getClickCount() == 2) {
-            System.out.println("CLICK RECEIVED");
-            openIconFormWindow(event);
-          }
-        });
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
       if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {
@@ -378,21 +364,15 @@ public class MapController extends Controller {
 
   // Adds icon to map
   public void addIcon(Icon icon) {
-    RequestSystem requestSystem = new RequestSystem();
     switch (icon.iconType) {
       case "Location":
-        requestSystem.addToLocationSQLTable(icon.getLocation());
-        // requestSystem.addLocation(icon.getLocation());
+        requestSystem.addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
-    MapController.getController()
-        .getMapPane()
-        .getChildren()
-        .remove(MapManager.getManager().getTempIcon());
+    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
-    // populateFloorIconArr();
     MapManager.getManager().getTempIcon().setVisible(false);
-    // checkDropDown();
+    checkDropDown();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
@@ -415,34 +395,13 @@ public class MapController extends Controller {
             });
   }
 
-  public void setSubmitLocation(Location location) {
-    PopupController.getController()
-        .submitIcon
-        .setOnAction(
-            event1 -> {
-              if (PopupController.getController().checkLocationFields()) {
-                addIcon(new LocationIcon(location));
-              } else {
-                Text missingFields = new Text("Please fill all fields");
-                missingFields.setFill(Color.RED);
-                missingFields.setTextAlignment(TextAlignment.CENTER);
-                PopupController.getController().sceneVbox.getChildren().add(missingFields);
-                // System.out.println("MISSING FIELD");
-              }
-            });
-  }
-
   // Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {
     if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
-      PopupController popupController = PopupController.getController();
-      // X and Y coordinates
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
-
-      // PopupController.getController().locationAdditionForm(event, false);
-      // PopupController.getController().equipmentAdditionForm();
+      MapManager.getManager().placeTempIcon(xPos, yPos);
       PopupController.getController().iconWindow(event);
       setSubmitLocation(xPos, yPos);
       // Place Icon

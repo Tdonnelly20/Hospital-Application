@@ -125,10 +125,14 @@ public class MapManager {
           }
         }
       } else {
-        floorList.get(i).addIcon(new LocationIcon(l));
+        LocationIcon locationIcon = new LocationIcon(l);
+        l.setIcon(locationIcon);
+        floorList.get(i).addIcon(locationIcon);
       }
     } else {
-      floorList.get(i).addIcon(new LocationIcon(l));
+      LocationIcon locationIcon = new LocationIcon(l);
+      l.setIcon(locationIcon);
+      floorList.get(i).addIcon(locationIcon);
     }
   }
 
@@ -174,8 +178,9 @@ public class MapManager {
 
   public void placeTempIcon(double xPos, double yPos) {
     // Place Icon
-    tempIcon.setX(xPos);
-    tempIcon.setY(yPos);
+    tempIcon.setVisible(true);
+    tempIcon.setTranslateX(xPos);
+    tempIcon.setTranslateX(yPos);
     if (!MapController.getController().getMapPane().getChildren().contains(tempIcon)) {
       // System.out.println("X:" + xPos + " Y:" + yPos);
       tempIcon.setFitWidth(30);

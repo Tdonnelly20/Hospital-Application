@@ -123,7 +123,7 @@ public class PopupController {
     stage.setMinWidth(450);
     stage.setOnCloseRequest(
         event -> {
-          MapManager.getManager().isTempIconVisible(false);
+          // MapManager.getManager().isTempIconVisible(false);
         });
   }
 
@@ -154,7 +154,7 @@ public class PopupController {
 
   @FXML
   public void formSetup(MouseEvent event) {
-    MapManager.getManager().isTempIconVisible(true);
+    // MapManager.getManager().isTempIconVisible(true);
 
     clearResponse.setOnAction(
         event1 -> {
@@ -163,7 +163,7 @@ public class PopupController {
     closeButton.setOnAction(
         event1 -> {
           closePopUp();
-          MapManager.getManager().isTempIconVisible(false);
+          // MapManager.getManager().isTempIconVisible(false);
         });
     returnButton.setOnAction(
         event1 -> {
@@ -173,12 +173,33 @@ public class PopupController {
         });
   }
 
+  private void addLocation(Location location) {
+    requestSystem.addLocation(location);
+    MapController.getController().addIcon(location.getIcon());
+    MapController.getController().populateFloorIconArr();
+    // MapController.getController().addIcon(location.getIcon());
+    // MapController.getController().checkDropDown();
+    // MapManager.getManager().getFloor(location.getFloor()).getIconList().add(location.getIcon());
+    // MapController.getController().mapPane.getChildren().add(location.getIcon().getImage());
+  }
+
+  private void deleteLocation(LocationIcon location) {
+    MapManager.getManager()
+        .getFloor(location.getLocation().getFloor())
+        .getIconList()
+        .remove(location);
+    requestSystem.deleteLocation(location.getLocation().getNodeID());
+  }
+
   /**
    * Shows the general location form (add, modify, and remove an unspecified location) if icon ==
    * null and shows the specific location information if icon !=null
    */
   @FXML
   public void locationForm(MouseEvent event, LocationIcon icon) {
+    double xPos = event.getX() - 15;
+    double yPos = event.getY() - 25;
+    MapManager.getManager().placeTempIcon(xPos, yPos);
     buttonBox.getChildren().clear();
     content.getChildren().clear();
     addButton.setText("Add");
@@ -276,7 +297,7 @@ public class PopupController {
 
     submitIcon.setOnAction(
         event1 -> {
-          requestSystem.addLocation(
+          addLocation(
               new Location(
                   field1.getText(),
                   event.getX(),
@@ -330,7 +351,7 @@ public class PopupController {
           .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
       submitIcon.setOnAction(
           event1 -> {
-            requestSystem.deleteLocation(field1.getText());
+            deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
 
             Location newLocation =
                 new Location(
@@ -345,7 +366,7 @@ public class PopupController {
                     field7.getText(),
                     field8.getText());
 
-            requestSystem.addLocation(newLocation);
+            addLocation(newLocation);
             LocationIcon newIcon = new LocationIcon(newLocation);
             MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().remove(icon);
             MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
@@ -402,7 +423,7 @@ public class PopupController {
                   .getFloor(icon.getLocation().getFloor())
                   .getIconList()
                   .remove(icon);
-              requestSystem.deleteLocation(field1.getText());
+              deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
 
               Location l =
                   new Location(
@@ -414,7 +435,7 @@ public class PopupController {
                       field6.getText(),
                       field7.getText(),
                       field8.getText());
-              requestSystem.addLocation(l);
+              addLocation(l);
               clearPopupForm();
               LocationIcon newIcon = new LocationIcon(l);
               MapManager.getManager().getFloor(l.getFloor()).getIconList().add(newIcon);
@@ -446,14 +467,10 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
-            MapManager.getManager()
-                .getFloor(MapController.getController().getFloor())
-                .getIconList()
-                .remove(icon);
+            deleteLocation(icon);
           } else {
-
+            // TODO
           }
-          requestSystem.deleteLocation(field1.getText());
           closePopUp();
         });
   }
