@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -133,7 +134,7 @@ public class MealRequestDao extends DaoInterface {
   }
 
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    int serviceID = Vdb.getServiceID();
+    int serviceID = RequestSystem.getServiceID();
     MealRequest mealRequest = (MealRequest) request;
     mealRequest.setServiceID(serviceID);
     allMealRequests.add(mealRequest); // Store a local copy
@@ -141,6 +142,7 @@ public class MealRequestDao extends DaoInterface {
     addToSQLTable(request);
     saveToCSV();
   }
+
 
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     MealRequest mealRequest = (MealRequest) request;

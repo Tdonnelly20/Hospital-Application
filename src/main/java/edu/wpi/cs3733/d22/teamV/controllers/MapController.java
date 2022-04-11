@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
@@ -24,16 +24,28 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.controlsfx.control.CheckComboBox;
 
+@Setter
+@Getter
 public class MapController extends Controller {
   protected Floor currFloor;
+  RequestSystem requestSystem = new RequestSystem();
   boolean drag = false;
 
   @FXML
   ObservableList<String> filterItems =
       FXCollections.observableArrayList(
           "Locations",
+          "Department",
+          "Hallway",
+          "Service",
+          "Elevator",
+          "Stairway",
+          "Bathroom",
+          "Labs",
           "Equipment",
           "Clean Equipment",
           "Service Requests",
@@ -76,6 +88,15 @@ public class MapController extends Controller {
     init();
   }
 
+  private static class SingletonHelper {
+    private static final MapController controller = new MapController();
+  }
+
+  public static MapController getController() {
+    return MapController.SingletonHelper.controller;
+  }
+
+  /** Allows users to zoom in and out of the map without */
   @FXML
   void zoom() {
     stackPane.getChildren().add(mapImage);
@@ -98,7 +119,9 @@ public class MapController extends Controller {
     zoomPane.toBack();
     mapPane.setOnMouseClicked(
         event -> {
-          openIconFormWindow(event);
+          if (event.getClickCount() == 2) {
+            openIconFormWindow(event);
+          }
         });
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }
@@ -135,9 +158,6 @@ public class MapController extends Controller {
   }
 
   protected void mapSetUp() {
-    mapPane.getChildren().clear();
-    stackPane.getChildren().clear();
-    group.getChildren().clear();
     setUpControls();
     zoom();
     currFloor = MapManager.getManager().getFloor("1");
@@ -166,7 +186,7 @@ public class MapController extends Controller {
         filterCheckBox.getCheckModel().check("Equipment");
       }
     }
-    MapManager.getManager().closePopUp();
+    PopupController.getController().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
     mapImage.setFitWidth(600);
@@ -174,19 +194,8 @@ public class MapController extends Controller {
     getFloor();
   }
 
-  @FXML
-  private void dragDetected() {
-    drag = true;
-  }
-
-  @FXML
-  private void dragOver() {
-    // System.out.println("Drag over");
-    drag = false;
-  }
-
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
-  private String getFloor() {
+  public String getFloor() {
     String result = "";
     switch (floorDropDown.getValue().toString()) {
       case "Lower Level 1":
@@ -253,7 +262,7 @@ public class MapController extends Controller {
           }
         }
         if (filter.contains("Locations") && icon.iconType.equals("Location")) {
-          mapPane.getChildren().add(icon.getImage());
+          filterByLocation((LocationIcon) icon);
         }
       } else {
         if (!mapPane.getChildren().contains(icon.getImage())) {
@@ -274,28 +283,19 @@ public class MapController extends Controller {
         && !filter.contains("Sanitation Requests")
         && !filter.contains("Internal Patient Transport Requests")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Equipment Delivery Requests")
-        && icon.hasActiveRequestType("Equipment Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Meal Delivery Requests")
-        && icon.hasActiveRequestType("Meal Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Laundry Requests")
-        && icon.hasActiveRequestType("Laundry Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Medicine Delivery Requests")
-        && icon.hasActiveRequestType("Medicine Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Religious Requests")
-        && icon.hasActiveRequestType("Religious Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Sanitation Requests")
-        && icon.hasActiveRequestType("Sanitation Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Internal Patient Transport Requests")
-        && icon.hasActiveRequestType("Internal Patient Transport Request")) {
+    } else if ((filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request"))
+        || (filter.contains("Equipment Delivery Requests")
+            && icon.hasActiveRequestType("Equipment Delivery Request"))
+        || (filter.contains("Meal Delivery Requests")
+            && icon.hasActiveRequestType("Meal Delivery Request"))
+        || (filter.contains("Laundry Requests") && icon.hasActiveRequestType("Laundry Request"))
+        || (filter.contains("Medicine Delivery Requests")
+            && icon.hasActiveRequestType("Medicine Delivery Request"))
+        || (filter.contains("Religious Requests") && icon.hasActiveRequestType("Religious Request"))
+        || (filter.contains("Sanitation Requests")
+            && icon.hasActiveRequestType("Sanitation Request"))
+        || (filter.contains("Internal Patient Transport Requests")
+            && icon.hasActiveRequestType("Internal Patient Transport Request"))) {
       mapPane.getChildren().add(icon.getImage());
     }
   }
@@ -311,81 +311,102 @@ public class MapController extends Controller {
         && !filter.contains("Sanitation Requests")
         && !filter.contains("Internal Patient Transport Requests")) {
       mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Lab Requests") && icon.hasRequestType("Lab Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Equipment Delivery Requests")
-        && icon.hasRequestType("Equipment Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Meal Delivery Requests")
-        && icon.hasRequestType("Meal Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Laundry Requests") && icon.hasRequestType("Laundry Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Medicine Delivery Requests")
-        && icon.hasRequestType("Medicine Delivery Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Religious Requests") && icon.hasRequestType("Religious Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Sanitation Requests")
-        && icon.hasRequestType("Sanitation Request")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Internal Patient Transport Requests")
-        && icon.hasRequestType("Internal Patient Transport Request")) {
+    } else if ((filter.contains("Lab Requests") && icon.hasRequestType("Lab Request"))
+        || (filter.contains("Equipment Delivery Requests")
+            && icon.hasRequestType("Equipment Delivery Request"))
+        || (filter.contains("Meal Delivery Requests")
+            && icon.hasRequestType("Meal Delivery Request"))
+        || (filter.contains("Laundry Requests") && icon.hasRequestType("Laundry Request"))
+        || (filter.contains("Medicine Delivery Requests")
+            && icon.hasRequestType("Medicine Delivery Request"))
+        || (filter.contains("Religious Requests") && icon.hasRequestType("Religious Request"))
+        || (filter.contains("Sanitation Requests") && icon.hasRequestType("Sanitation Request"))
+        || (filter.contains("Internal Patient Transport Requests")
+            && icon.hasRequestType("Internal Patient Transport Request"))) {
       mapPane.getChildren().add(icon.getImage());
     }
+  }
+
+  public void filterByLocation(LocationIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (!filter.contains("Department")
+        && !filter.contains("Hallway")
+        && !filter.contains("Service")
+        && !filter.contains("Elevator")
+        && !filter.contains("Stairway")
+        && !filter.contains("Bathroom")
+        && !filter.contains("Labs")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Department") && icon.getLocation().getNodeType().equals("DEPT")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Hallway") && icon.getLocation().getNodeType().equals("HALL")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Service") && icon.getLocation().getNodeType().equals("SERV")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Elevator") && icon.getLocation().getNodeType().equals("ELEV")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Stairway") && icon.getLocation().getNodeType().equals("STAI")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Bathroom")
+        && (icon.getLocation().getNodeType().equals("BATH")
+            || icon.getLocation().getNodeType().equals("REST"))) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if (filter.contains("Labs") && icon.getLocation().getNodeType().equals("LABS")) {
+      mapPane.getChildren().add(icon.getImage());
+    }
+  }
+
+  // Adds icon to map
+  public void addIcon(Icon icon) {
+    switch (icon.iconType) {
+      case "Location":
+        requestSystem.getLocations().add(icon.getLocation());
+    }
+    PopupController.getController().closePopUp();
+    MapController.getController()
+        .getMapPane()
+        .getChildren()
+        .remove(MapManager.getManager().getTempIcon());
+    MapManager.getManager().getFloor(getFloor()).addIcon(icon);
+    MapManager.getManager().getTempIcon().setVisible(false);
+    checkDropDown();
+  }
+
+  public void setSubmitLocation(double xPos, double yPos) {
+    PopupController.getController()
+        .submitIcon
+        .setOnAction(
+            event1 -> {
+              if (PopupController.getController().checkLocationFields()) {
+                addIcon(
+                    new LocationIcon(
+                        PopupController.getController()
+                            .getLocation(xPos + 25, yPos + 15, getFloor())));
+              } else {
+                Text missingFields = new Text("Please fill all fields");
+                missingFields.setFill(Color.RED);
+                missingFields.setTextAlignment(TextAlignment.CENTER);
+                PopupController.getController().sceneVbox.getChildren().add(missingFields);
+                // System.out.println("MISSING FIELD");
+              }
+            });
   }
 
   // Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {
-    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")
-        && !drag) {
-      MapManager mapManager = MapManager.getManager();
+    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
+      PopupController popupController = PopupController.getController();
       // X and Y coordinates
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
 
-      mapManager.locationForm(event, false);
-      mapManager
-          .getSubmitIcon()
-          .setOnAction(
-              event1 -> {
-                if (mapManager.checkFields()) {
-                  addIcon(
-                      new LocationIcon(mapManager.getLocation(xPos + 25, yPos + 15, getFloor())));
-                  // System.out.println("Real X: " + event.getX() + " Y: " + event.getY());
-                  // System.out.println("X: " + xPos + " Y: " + yPos);
-                  populateFloorIconArr();
-                } else {
-                  Text missingFields = new Text("Please fill all fields");
-                  missingFields.setFill(Color.RED);
-                  missingFields.setTextAlignment(TextAlignment.CENTER);
-                  MapManager.getManager().getContent().getChildren().add(missingFields);
-                  // System.out.println("MISSING FIELD");
-                }
-              });
+      // PopupController.getController().locationAdditionForm(event, false);
+      // PopupController.getController().equipmentAdditionForm();
+      PopupController.getController().iconWindow(event);
+      setSubmitLocation(xPos, yPos);
       // Place Icon
-      MapManager.getManager().getTempIcon().setX(xPos);
-      MapManager.getManager().getTempIcon().setY(yPos);
-      if (!mapPane.getChildren().contains(MapManager.getManager().getTempIcon())) {
-        // System.out.println("X:" + xPos + " Y:" + yPos);
-        MapManager.getManager().getTempIcon().setFitWidth(30);
-        MapManager.getManager().getTempIcon().setFitHeight(30);
-        mapPane.getChildren().add(MapManager.getManager().getTempIcon());
-      }
+      MapManager.getManager().placeTempIcon(xPos, yPos);
     }
-  }
-
-  // Adds icon to map
-  private void addIcon(Icon icon) {
-    switch (icon.iconType) {
-      case "Location":
-        locationDao.addLocation(icon.getLocation());
-    }
-    MapManager.getManager().closePopUp();
-    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
-    MapManager.getManager().getFloor(getFloor()).addIcon(icon);
-    MapManager.getManager().getTempIcon().setVisible(false);
-    checkDropDown();
   }
 }

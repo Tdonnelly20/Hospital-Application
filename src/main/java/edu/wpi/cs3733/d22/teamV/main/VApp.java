@@ -27,7 +27,8 @@ public class VApp extends Application {
       Parent root = loader.load();
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
-      Vdb.createAllDB();
+      Vdb vdb = new Vdb();
+      vdb.createAllDB();
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();

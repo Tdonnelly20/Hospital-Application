@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.EmployeeManager;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
@@ -22,7 +23,7 @@ public class LabRequest extends ServiceRequest {
   public LabRequest(
       int userID, int patientID, String firstName, String lastName, String lab, String status) {
     // this.location = location;
-    this.patient = new Patient(patientID, firstName, lastName);
+    this.patient = Vdb.patientDao.getPatientFromID(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
     this.hospitalEmployee = new Employee(userID);
     this.patient.addEmployee(EmployeeManager.getManager().getEmployee(userID));

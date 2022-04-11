@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -19,7 +20,7 @@ public class LabRequestDao extends DaoInterface {
   // DaoInterface Methods
   public void loadFromCSV() throws IOException, SQLException {
 
-    FileReader fr = new FileReader(Vdb.currentPath + "\\LabRequest.csv");
+    FileReader fr = new FileReader(Vdb.currentPath + "\\LabRequests.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<LabRequest> labRequests = new ArrayList<>();
@@ -72,6 +73,7 @@ public class LabRequestDao extends DaoInterface {
     bw.close();
     fw.close();
   }
+
 
   public void createSQLTable() throws SQLException {
     Connection connection = Vdb.Connect();
@@ -142,7 +144,7 @@ public class LabRequestDao extends DaoInterface {
   }
 
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    int serviceID = Vdb.getServiceID();
+    int serviceID = RequestSystem.getServiceID();
     LabRequest labRequest = (LabRequest) request;
     labRequest.setServiceID(serviceID);
     allLabRequests.add(labRequest); // Store a local copy
@@ -173,11 +175,7 @@ public class LabRequestDao extends DaoInterface {
       LabRequest delivery = (LabRequest) request;
       allLabRequests.add(delivery);
       try {
-        // System.out.println("Adding to CSV");
-        Vdb.saveToFile(Vdb.Database.LabRequest);
-        // System.out.println("Adding to database...");
-        // Vdb.addToLabTable(userID, patientID, firstName, lastName, lab, status);
-
+        createSQLTable();
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -196,7 +194,6 @@ public class LabRequestDao extends DaoInterface {
       for (LabRequest l : allLabRequests)
         exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
 
-      Vdb.saveToFile(Vdb.Database.EquipmentDelivery);
     } catch (Exception e) {
       e.printStackTrace();
     }

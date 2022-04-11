@@ -14,8 +14,8 @@ public class EquipmentDao {
   public EquipmentDao() {
     allEquipment = new ArrayList<Equipment>();
     try {
-      loadFromCSV();
       createSQLTable();
+      loadFromCSV();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -65,6 +65,7 @@ public class EquipmentDao {
       addEquipment(equipment);
     }
   }
+
 
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(Vdb.currentPath + "\\ListofEquipment.csv");
