@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ public class LoginController extends Controller {
   }
 
   @FXML private Button button;
-  @FXML private Label wrongLogIn;
+  @FXML private Label wrongLogin;
   @FXML private TextField username;
   @FXML private PasswordField password;
   @FXML private ImageView iv;
@@ -37,15 +38,21 @@ public class LoginController extends Controller {
 
   private void checkLogin(ActionEvent event) throws IOException {
 
+    HospitalEmployee user = new HospitalEmployee();
+
     if (username.getText().toString().equals("admin")
         && password.getText().toString().equals("admin")) {
-      // wrongLogIn.setText("Success!");
+      System.out.println("Success!");
+      user.setAdmin(true);
+      switchToHome(event);
+    } else if (username.getText().toString().equals("staff")
+        && password.getText().toString().equals("staff")) {
       System.out.println("Success!");
       switchToHome(event);
     } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
-      wrongLogIn.setText("Please enter your data.");
+      wrongLogin.setText("Please enter your data.");
     } else {
-      wrongLogIn.setText("Wrong username or password!");
+      wrongLogin.setText("Wrong username or password!");
     }
   }
 }

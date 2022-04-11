@@ -13,6 +13,7 @@ public class HospitalEmployee {
   private List<String> degrees;
   private List<Patient> patientList;
   private List<HospitalEmployee> employeeList;
+  private boolean isAdmin;
 
   public HospitalEmployee(
       int hospitalID,
@@ -25,6 +26,7 @@ public class HospitalEmployee {
     this.lastName = lastName;
     this.degrees = degrees;
     this.patientList = patientList;
+    this.isAdmin = false;
   }
 
   public HospitalEmployee(int hospitalID) {
