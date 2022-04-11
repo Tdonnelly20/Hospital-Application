@@ -16,15 +16,15 @@ public class RequestSystem {
   public static int patientIDCounter = 0;
   public static int employeeIDCounter = 0;
 
-  private final EquipmentDao equipmentDao = new EquipmentDao();
+  private final LocationDao locationDao = new LocationDao();
   private final PatientDao patientDao = new PatientDao();
   private final EmployeeDao employeeDao = new EmployeeDao();
+  private final EquipmentDao equipmentDao = new EquipmentDao();
   private final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
   private final InternalPatientTransportationDao internalPatientTransportationDao =
       new InternalPatientTransportationDao();
   private final LabRequestDao labRequestDao = new LabRequestDao();
   private final LaundryRequestDao laundryRequestDao = new LaundryRequestDao();
-  private final LocationDao locationDao = new LocationDao();
   private final MealRequestDao mealRequestDao = new MealRequestDao();
   private final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
   private final ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
