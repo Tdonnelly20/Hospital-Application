@@ -28,7 +28,7 @@ public class PatientDao {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    String file = Vdb.currentPath + "\\Patients.csv";
+    String file = Vdb.requestSystem.currentPath + "\\Patients.csv";
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -56,7 +56,7 @@ public class PatientDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\Patients.csv");
+    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\Patients.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("patientID, patientFirstName, patientLastName, employeeIDs, serviceRequestIDs");
     for (Patient p : getAllPatients()) {

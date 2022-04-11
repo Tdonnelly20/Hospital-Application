@@ -26,10 +26,11 @@ public class MedicineDelivery extends ServiceRequest {
     this.dosage = dosage;
     this.requestDetails = requestDetails;
     this.nodeID = nodeID;
-    this.location = Vdb.requestSystem.getLocations().get(location.getID());
+    System.out.println(Vdb.requestSystem);
+    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.status = status;
-    patient = Vdb.requestSystem.getPatients().get(patientID);
-    employee = Vdb.requestSystem.getEmployees().get(employeeID);
+    patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.medicineName = medicineName;
   }
 

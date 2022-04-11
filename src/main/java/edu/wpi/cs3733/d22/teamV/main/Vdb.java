@@ -7,13 +7,13 @@ import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import java.sql.*;
 
 public class Vdb {
-  public static final String currentPath = returnPath();
+  public static RequestSystem requestSystem = RequestSystem.getSystem();
+
   private static String line; // receives a line from b
   private static boolean isClient = false;
   public static MapManager mapManager;
   public static MapController mapController;
   public static PopupController popupController;
-  public static RequestSystem requestSystem = RequestSystem.getSystem();
 
   /**
    * Returns the location of the CSVs

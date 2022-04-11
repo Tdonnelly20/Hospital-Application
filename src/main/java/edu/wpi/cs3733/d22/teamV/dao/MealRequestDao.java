@@ -21,7 +21,7 @@ public class MealRequestDao extends DaoInterface {
   }
 
   public void loadFromCSV() throws IOException, SQLException {
-    FileReader fr = new FileReader(Vdb.currentPath + "\\MealRequest.csv");
+    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\MealRequest.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<MealRequest> mealRequests = new ArrayList<>();
@@ -43,7 +43,7 @@ public class MealRequestDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\MealRequest.csv");
+    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\MealRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("userID,patientID,firstName,lastName,meal,serviceID");
 

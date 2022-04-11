@@ -16,6 +16,7 @@ public class RequestSystem {
   public static int patientIDCounter = 0;
   public static int employeeIDCounter = 0;
 
+  public static final String currentPath = Vdb.returnPath();
   private final LocationDao locationDao = new LocationDao();
   private final PatientDao patientDao = new PatientDao();
   private final EmployeeDao employeeDao = new EmployeeDao();
@@ -170,6 +171,18 @@ public class RequestSystem {
       default:
         return new ArrayList<>();
     }
+  }
+
+  public EmployeeDao getEmployeeDao() {
+    return employeeDao;
+  }
+
+  public PatientDao getPatientDao() {
+    return patientDao;
+  }
+
+  public LocationDao getLocationDao() {
+    return locationDao;
   }
 
   /**

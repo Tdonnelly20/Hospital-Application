@@ -24,7 +24,7 @@ public class LaundryRequestDao extends DaoInterface {
   }
   // New Stuff
   public void loadFromCSV() throws IOException, SQLException {
-    FileReader fr = new FileReader(Vdb.currentPath + "\\LaundryRequest.csv");
+    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\LaundryRequest.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<LaundryRequest> laundryRequests = new ArrayList<>();
@@ -51,7 +51,7 @@ public class LaundryRequestDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\LaundryRequest.csv");
+    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\LaundryRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("userID,patientID,firstName,lastName,roomNumber,details,serviceID");
 

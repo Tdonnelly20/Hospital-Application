@@ -51,7 +51,7 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\ReligiousRequest.csv");
+    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("FirstName,LastName,PatientID,EmpID,Religion,Details,serviceID");
 
@@ -86,7 +86,7 @@ public class ReligiousRequestDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.currentPath + "\\ReligiousRequest.CSV");
+    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\ReligiousRequest.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
