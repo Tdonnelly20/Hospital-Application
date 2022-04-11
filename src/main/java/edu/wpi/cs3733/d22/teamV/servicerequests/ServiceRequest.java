@@ -7,7 +7,8 @@ import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.sql.Timestamp;
+//https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj143.html
 @Setter
 @Getter
 public abstract class ServiceRequest {
@@ -15,7 +16,7 @@ public abstract class ServiceRequest {
   private int serviceID;
   public Patient patient;
   protected Employee hospitalEmployee;
-  protected String date;
+  protected Timestamp timestamp;
   protected String type;
   protected String notes;
   protected String status;
