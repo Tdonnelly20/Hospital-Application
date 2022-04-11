@@ -9,5 +9,9 @@
 }
 
 .text-field{
-    /*add stuff to edit*/
+    -fx-font-size:14px;
+    -fx-font-family:"Ebrima";
+    -fx-max-width: 300;
+    -fx-background-radius: 20;
+    -fx-border-style: outset;
 }
