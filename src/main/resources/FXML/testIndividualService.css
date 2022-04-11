@@ -21,17 +21,17 @@
     -fx-font-size:14px;
     -fx-font-family:"Ebrima";
     -fx-max-width: 300;
-    -fx-background-radius: 20;
-    -fx-border-style: outset;
 }
 
-.combo-box{
+.combo-box{ /*dropdown*/
     -fx-font-size:14px;
     -fx-font-family:"Ebrima";
+    -fx-text-alignment: center;
     -fx-min-height: 40;
     -fx-max-width: 300;
     -fx-background-radius: 20;
     -fx-border-style: outset;
+
 }
 
 .tab-pane{
