@@ -169,7 +169,7 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   @Override
-  public void updateRequest(ServiceRequest request) throws SQLException {
+  public void updateServiceRequest(ServiceRequest request) throws SQLException {
     ReligiousRequest newRequest = (ReligiousRequest) request;
     int index = -1;
     for (int i = 0; i < allReligiousRequest.size(); i++) {

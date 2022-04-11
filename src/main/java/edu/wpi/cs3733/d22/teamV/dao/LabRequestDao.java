@@ -131,7 +131,7 @@ public class LabRequestDao extends DaoInterface {
   }
 
   @Override
-  public void updateRequest(ServiceRequest request) throws SQLException {}
+  public void updateServiceRequest(ServiceRequest request) throws SQLException {}
 
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     String query = "";

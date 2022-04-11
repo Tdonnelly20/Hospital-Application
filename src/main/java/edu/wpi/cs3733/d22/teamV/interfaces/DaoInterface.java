@@ -16,7 +16,7 @@ public abstract class DaoInterface {
   public abstract void addToSQLTable(ServiceRequest request) throws SQLException;
 
   // This should work (hopefully)
-  public void updateRequest(ServiceRequest request) throws SQLException, IOException {
+  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {
 
     for (ServiceRequest currRequest : getAllServiceRequests()) {
       if (currRequest.getServiceID() == request.getServiceID()) {

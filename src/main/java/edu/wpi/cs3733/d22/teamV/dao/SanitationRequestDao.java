@@ -124,7 +124,7 @@ public class SanitationRequestDao extends DaoInterface {
   }
 
   @Override
-  public void updateRequest(ServiceRequest request) throws SQLException {
+  public void updateServiceRequest(ServiceRequest request) throws SQLException {
     SanitationRequest newRequest = (SanitationRequest) request;
     int index = -1;
     for (int i = 0; i < allSanitationRequests.size(); i++) {
