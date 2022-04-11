@@ -66,7 +66,7 @@ public class PopupController {
   }
 
   public static PopupController getController() {
-    return PopupController.SingletonHelper.controller;
+    return SingletonHelper.controller;
   }
 
   /** Closes the popup window */
@@ -176,19 +176,14 @@ public class PopupController {
   void addLocation(Location location) {
     requestSystem.addLocation(location);
     MapController.getController().addIcon(location.getIcon());
-    MapController.getController().populateFloorIconArr();
-    // MapController.getController().addIcon(location.getIcon());
-    // MapController.getController().checkDropDown();
-    // MapManager.getManager().getFloor(location.getFloor()).getIconList().add(location.getIcon());
-    // MapController.getController().mapPane.getChildren().add(location.getIcon().getImage());
+    clearPopupForm();
   }
 
-  void deleteLocation(LocationIcon location) {
-    MapManager.getManager()
-        .getFloor(location.getLocation().getFloor())
-        .getIconList()
-        .remove(location);
-    requestSystem.deleteLocation(location.getLocation().getNodeID());
+  void deleteLocation(Location location) {
+    MapController.getController().mapPane.getChildren().remove(location.getIcon().getImage());
+    MapManager.getManager().getFloor(location.getFloor()).getIconList().remove(location.getIcon());
+    requestSystem.deleteLocation(location.getNodeID());
+    clearPopupForm();
   }
 
   /**
@@ -289,7 +284,7 @@ public class PopupController {
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     // Form
-
+    submitIcon.setText("Add Location");
     field1.setPromptText("Node ID");
     field2.setPromptText("Node Type");
     field3.setPromptText("Short Name");
@@ -335,7 +330,7 @@ public class PopupController {
           .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
       submitIcon.setOnAction(
           event1 -> {
-            deleteLocation(requestSystem.getLocation(field1.getText()).getIcon());
+            deleteLocation(requestSystem.getLocation(field1.getText()));
 
             Location newLocation =
                 new Location(
@@ -351,12 +346,7 @@ public class PopupController {
                     field8.getText());
 
             addLocation(newLocation);
-            LocationIcon newIcon = new LocationIcon(newLocation);
-            MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().remove(icon);
-            MapManager.getManager().getFloor(newLocation.getFloor()).getIconList().add(newIcon);
-            clearPopupForm();
-            locationForm(event, newIcon);
-            // MapController.getController().checkDropDown();
+            locationForm(event, newLocation.getIcon());
           });
     } else {
       field2.setPromptText("Node ID: " + icon.getLocation().getNodeID());
@@ -374,58 +364,44 @@ public class PopupController {
       field1.setText(icon.getLocation().getNodeID());
       submitIcon.setOnAction(
           event1 -> { // If user doesn't fill in information, assume old information is retained
-            if (!(field2.getText().equals(icon.getLocation().getNodeID())
-                && field3.getText().equals("" + icon.getLocation().getXCoord())
-                && field4.getText().equals("" + icon.getLocation().getYCoord())
-                && comboBox1.getValue().equals(icon.getLocation().getFloor())
-                && field5.getText().equals(icon.getLocation().getBuilding())
-                && field6.getText().equals(icon.getLocation().getNodeType())
-                && field7.getText().equals(icon.getLocation().getLongName())
-                && field8.getText().equals(icon.getLocation().getShortName()))) {
+            Location newLocation =
+                new Location(
+                    field2.getText(),
+                    Double.parseDouble(field3.getText()),
+                    Double.parseDouble(field4.getText()),
+                    comboBox1.getValue(),
+                    field5.getText(),
+                    field6.getText(),
+                    field7.getText(),
+                    field8.getText());
+            if (!icon.getLocation().compareTo(newLocation)) {
               String nodeID = icon.getLocation().getNodeID();
               if (field2.getText().isEmpty()) {
-                field2.setText(nodeID);
+                newLocation.setNodeID(icon.getLocation().getNodeID());
               }
               if (field3.getText().isEmpty()) {
-                field3.setText("" + icon.getLocation().getXCoord());
+                newLocation.setXCoord(icon.getLocation().getXCoord());
               }
               if (field4.getText().isEmpty()) {
-                field4.setText("" + icon.getLocation().getYCoord());
+                newLocation.setYCoord(icon.getLocation().getYCoord());
               }
               if (field5.getText().isEmpty()) {
-                field5.setText(icon.getLocation().getBuilding());
+                newLocation.setBuilding(icon.getLocation().getBuilding());
               }
               if (field6.getText().isEmpty()) {
-                field6.setText(icon.getLocation().getNodeType());
+                newLocation.setNodeType(icon.getLocation().getNodeType());
               }
               if (field7.getText().isEmpty()) {
-                field7.setText(icon.getLocation().getLongName());
+                newLocation.setLongName(icon.getLocation().getLongName());
               }
               if (field8.getText().isEmpty()) {
-                field8.setText("" + icon.getLocation().getShortName());
+                newLocation.setShortName(icon.getLocation().getShortName());
               }
-              MapManager.getManager()
-                  .getFloor(icon.getLocation().getFloor())
-                  .getIconList()
-                  .remove(icon);
-              requestSystem.deleteLocation(nodeID);
-
-              Location l =
-                  new Location(
-                      field2.getText(),
-                      Double.parseDouble(field3.getText()),
-                      Double.parseDouble(field4.getText()),
-                      icon.getLocation().getFloor(),
-                      field5.getText(),
-                      field6.getText(),
-                      field7.getText(),
-                      field8.getText());
-              addLocation(l);
+              deleteLocation(icon.getLocation());
+              addLocation(newLocation);
+              locationForm(event, newLocation.getIcon());
               clearPopupForm();
-              LocationIcon newIcon = new LocationIcon(l);
-              MapManager.getManager().getFloor(l.getFloor()).getIconList().add(newIcon);
-              locationForm(event, newIcon);
-              // MapController.getController().checkDropDown();
+
             } else {
               missingFields.setText("No information has been modified. Please input corrections");
               content.getChildren().add(missingFields);
@@ -452,13 +428,7 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
-            String nodeID = icon.getLocation().getNodeID();
-            MapController.getController().mapPane.getChildren().remove(icon.getImage());
-            MapManager.getManager()
-                .getFloor(icon.getLocation().getFloor())
-                .getIconList()
-                .remove(icon);
-            requestSystem.deleteLocation(nodeID);
+            deleteLocation(icon.getLocation());
           } else {
             String nodeID = field1.getText();
             MapController.getController()

@@ -73,4 +73,15 @@ public class Location {
   public String getNodeID() {
     return nodeID;
   }
+
+  public boolean compareTo(Location location) {
+    return ((this.getNodeID().equals(location.getNodeID()))
+        && (this.getXCoord() == (location.getXCoord()))
+        && (this.getYCoord() == (location.getYCoord()))
+        && (this.getFloor().equals(location.getFloor()))
+        && (this.getBuilding().equals(location.getBuilding()))
+        && (this.getNodeType().equals(location.getNodeType()))
+        && (this.getLongName().equals(location.getLongName()))
+        && (this.getShortName().equals(location.getShortName())));
+  }
 }

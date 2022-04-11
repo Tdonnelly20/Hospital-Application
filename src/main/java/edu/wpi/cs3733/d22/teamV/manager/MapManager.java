@@ -33,7 +33,7 @@ public class MapManager {
   }
 
   public static MapManager getManager() {
-    return MapManager.SingletonHelper.manager;
+    return SingletonHelper.manager;
   }
 
   /** Sets up floor elements */

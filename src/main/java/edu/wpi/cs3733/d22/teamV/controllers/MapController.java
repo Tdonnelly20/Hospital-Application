@@ -89,7 +89,7 @@ public class MapController extends Controller {
   }
 
   public static MapController getController() {
-    return MapController.SingletonHelper.controller;
+    return SingletonHelper.controller;
   }
 
   /** Allows users to zoom in and out of the map without */
