@@ -14,8 +14,8 @@ public class LocationDao extends DaoInterface {
   public LocationDao() {
     allLocations = new ArrayList<>();
     try {
-      loadFromCSV();
       createSQLTable();
+      loadFromCSV();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (SQLException e) {
@@ -116,10 +116,9 @@ public class LocationDao extends DaoInterface {
     saveToCSV();
   }
 
-  public void loadFromCSV() throws IOException {
+  public void loadFromCSV() throws IOException, SQLException {
     String line = "";
     String file = Vdb.currentPath + "\\TowerLocations.csv";
-    System.out.println(file);
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -139,6 +138,7 @@ public class LocationDao extends DaoInterface {
               data[6],
               data[7]);
       locations.add(newLoc);
+      addToSQLTable(newLoc);
     }
     setAllLocations(locations);
   }
@@ -194,7 +194,8 @@ public class LocationDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest request) throws SQLException {}
 
   @Override
-  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {}
 
   @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}

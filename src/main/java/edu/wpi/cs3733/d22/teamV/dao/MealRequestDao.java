@@ -124,7 +124,15 @@ public class MealRequestDao extends DaoInterface {
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
+    MealRequest mealRequest = (MealRequest) request;
+    mealRequest.setServiceID(serviceID);
+    removeServiceRequest(mealRequest);
+    allMealRequests.add(mealRequest);
+    addToSQLTable(mealRequest);
+    saveToCSV();
+  }
 
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     String query = "";

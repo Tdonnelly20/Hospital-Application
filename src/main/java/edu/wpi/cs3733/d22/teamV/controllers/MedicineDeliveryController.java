@@ -167,8 +167,7 @@ public class MedicineDeliveryController extends MapController implements Request
       // Send the request to the Dao pattern
       try {
         if (updating) {
-          medicineDelivery.setServiceID(updateServiceID);
-          medicineDeliveryDao.updateServiceRequest(medicineDelivery);
+          medicineDeliveryDao.updateServiceRequest(medicineDelivery, updateServiceID);
           updating = false;
         } else {
           medicineDeliveryDao.addServiceRequest(medicineDelivery);

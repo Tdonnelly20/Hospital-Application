@@ -168,8 +168,9 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request) throws SQLException {
+  public void updateServiceRequest(ServiceRequest request, int serviceID) throws SQLException {
     ReligiousRequest newRequest = (ReligiousRequest) request;
+    newRequest.setServiceID(serviceID);
     int index = -1;
     for (int i = 0; i < allReligiousRequest.size(); i++) {
       if (allReligiousRequest.get(i).getServiceID() == request.getServiceID()) {

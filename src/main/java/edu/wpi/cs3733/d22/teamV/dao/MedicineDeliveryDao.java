@@ -146,10 +146,14 @@ public class MedicineDeliveryDao extends DaoInterface {
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {
-    removeServiceRequest(request);
-    MedicineDelivery medicineDelivery = (MedicineDelivery) request;
-    allMedicineDeliveries.add(medicineDelivery);
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
+    MedicineDelivery delivery = (MedicineDelivery) request;
+    delivery.setServiceID(serviceID);
+    removeServiceRequest(delivery);
+    allMedicineDeliveries.add(delivery);
+    addToSQLTable(delivery);
+    saveToCSV();
   }
 
   @Override

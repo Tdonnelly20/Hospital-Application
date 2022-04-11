@@ -134,7 +134,15 @@ public class LaundryRequestDao extends DaoInterface {
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
+    LaundryRequest laundryRequest = (LaundryRequest) request;
+    laundryRequest.setServiceID(serviceID);
+    removeServiceRequest(laundryRequest);
+    allLaundryRequests.add(laundryRequest);
+    addToSQLTable(laundryRequest);
+    saveToCSV();
+  }
 
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     String query = "";

@@ -162,7 +162,15 @@ public class InternalPatientTransportationDao extends DaoInterface {
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request) throws SQLException, IOException {}
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
+    InternalPatientTransportation transportation = (InternalPatientTransportation) request;
+    transportation.setServiceID(serviceID);
+    removeServiceRequest(transportation);
+    allInternalPatientTransportations.add(transportation);
+    addToSQLTable(transportation);
+    saveToCSV();
+  }
 
   @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
