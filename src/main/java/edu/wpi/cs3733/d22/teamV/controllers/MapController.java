@@ -87,7 +87,6 @@ public class MapController extends Controller {
               "Side View"));
 
   @FXML protected TextArea sideViewArea = new TextArea();
-  private String l2Info, l1Info, f1Info, f2Info, f3Info, f4Info, f5Info;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -120,6 +119,7 @@ public class MapController extends Controller {
     zoomPane.getChildren().clear();
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
+
     mapPane.setMinWidth(600);
     mapPane.setMinHeight(600);
     mapImage.setPreserveRatio(true);
@@ -325,6 +325,7 @@ public class MapController extends Controller {
   public void populateSideViewInfo() {
     ArrayList<Floor> floorList = MapManager.getManager().getFloorList();
     ArrayList<Icon> tempIconList;
+    String dirtyStatus;
 
     for (int f = 0; f < floorList.size() - 1; f++) {
       tempIconList = floorList.get(f).getIconList();
@@ -334,7 +335,20 @@ public class MapController extends Controller {
           EquipmentIcon tempIcon = (EquipmentIcon) tempIconList.get(i);
           for (int e = 0; e < tempIcon.getEquipmentList().size(); e++) {
             Equipment tempEquip = tempIcon.getEquipmentList().get(e);
-            floorInfo += tempEquip.getID() + ", Dirty: (" + tempEquip.getIsDirty() + ")\n";
+
+            if (tempEquip.getIsDirty()) {
+              dirtyStatus = "  Clean Storage";
+            } else {
+              dirtyStatus = "  Dirty Equipment pick-up";
+            }
+            floorInfo +=
+                tempEquip.getID()
+                    + ":   X: "
+                    + tempEquip.getX()
+                    + "   Y: "
+                    + tempEquip.getY()
+                    + dirtyStatus
+                    + " \n";
           }
         }
       }
