@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
-import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
@@ -22,9 +21,8 @@ public class MapManager {
   List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   RequestSystem requestSystem = new RequestSystem();
 
-  private MapManager() {
+  public void init() {
     serviceRequests = requestSystem.getEveryServiceRequest();
-    PopupController.getController().setUpPopup();
     setUpFloors();
   }
 

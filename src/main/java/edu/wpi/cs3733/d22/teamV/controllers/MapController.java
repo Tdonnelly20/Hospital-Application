@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,6 +34,7 @@ import org.controlsfx.control.CheckComboBox;
 public class MapController extends Controller {
   protected Floor currFloor = MapManager.getManager().getFloor("1st Floor");
   @FXML protected VBox mapVBox = new VBox(15);
+  @FXML protected Button refreshButton = new Button("Refresh");
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
   @FXML protected HBox mapHBox = new HBox(15);
   @FXML protected Pane mapPane = new Pane();
@@ -86,6 +88,16 @@ public class MapController extends Controller {
     init();
   }
 
+  @Override
+  public void init() {
+    floorDropDown.setValue("1st Floor");
+    if (MapManager.getManager().getFloor("1") == null) {
+      System.out.println("WTF");
+    }
+    currFloor = MapManager.getManager().getFloor("1");
+    // mapSetUp();
+  }
+
   private static class SingletonHelper {
     private static final MapController controller = new MapController();
   }
@@ -99,12 +111,21 @@ public class MapController extends Controller {
   void zoom() {
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
+    mapPane.setMinWidth(mapImage.getFitWidth());
+    mapPane.setMinHeight(mapImage.getFitHeight());
     mapImage.setPreserveRatio(true);
+
     scrollPane.setPannable(true);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     group.getChildren().add(mapImage);
-    // group.getChildren().add(mapPane);
+    group.getChildren().add(mapPane);
+
+    System.out.println(
+        "Image width: " + mapImage.getFitWidth() + " height: " + mapImage.getFitHeight());
+    System.out.println(
+        "Pane width: " + mapPane.getMinWidth() + " height: " + mapPane.getMinHeight());
+
     group.getChildren().add(stackPane);
 
     zoomPane = new ZoomPane();
@@ -116,17 +137,15 @@ public class MapController extends Controller {
 
     scrollPane.setContent(zoomPane);
     zoomPane.toBack();
-    mapPane.setOnMouseClicked(
-        event -> {
-          if (event.getClickCount() == 2) {
-            openIconFormWindow(event);
-          }
-        });
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }
 
   void setUpControls() {
     System.out.println("setting up controls");
+    refreshButton.setOnAction(
+        event -> {
+          checkDropDown();
+        });
     floorDropDown.setValue("1st Floor");
     floorDropDown.setOnAction(
         event -> {
@@ -157,16 +176,7 @@ public class MapController extends Controller {
             openIconFormWindow(event);
           }
         });
-  }
-
-  @Override
-  public void init() {
-    floorDropDown.setValue("1st Floor");
-    if (MapManager.getManager().getFloor("1") == null) {
-      System.out.println("WTF");
-    }
-    currFloor = MapManager.getManager().getFloor("1");
-    mapSetUp();
+    mapPane.autosize();
   }
 
   protected void mapSetUp() {
@@ -176,7 +186,7 @@ public class MapController extends Controller {
     mapVBox.setFillWidth(true);
 
     scrollPane.setMaxSize(470, 470);
-    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox);
+    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox, refreshButton);
     mapVBox.getChildren().addAll(scrollPane, mapHBox);
     mapVBox.setAlignment(Pos.TOP_CENTER);
     mapVBox.setSpacing(15);
@@ -187,14 +197,6 @@ public class MapController extends Controller {
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
   public void checkDropDown() {
-    mapPane.setOnMouseClicked(
-        event -> {
-          if (event.getClickCount() == 2) {
-            System.out.println("CLICK RECEIVED");
-            openIconFormWindow(event);
-          }
-        });
-    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
       if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {
         filterCheckBox.getCheckModel().check("Service Requests");

@@ -22,9 +22,9 @@ public class Vdb {
   public static final LabRequestDao labRequestDao = new LabRequestDao();
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
       new InternalPatientTransportationDao();
-  public static MapManager mapManager;
-  public static MapController mapController;
-  public static PopupController popupController;
+  public static MapManager mapManager = MapManager.getManager();
+  public static MapController mapController = MapController.getController();
+  public static PopupController popupController = PopupController.getController();
 
   public enum Database {
     Location,
@@ -81,10 +81,16 @@ public class Vdb {
   public static void createAllDB() throws Exception {
     labRequestDao.createSQLTable();
     labRequestDao.loadFromCSV();
-    mapManager.setUpFloors();
+    mapManager.init();
+    mapController.init();
+    popupController.init();
+
+    System.out.println(mapController);
+    System.out.println(mapController);
     mapController.init();
     popupController = PopupController.getController();
     getMaxServiceID();
+    mapManager.setUpFloors();
 
     System.out.println("-------Embedded Apache Derby Connection Testing --------");
     try {

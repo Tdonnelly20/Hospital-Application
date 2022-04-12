@@ -69,6 +69,10 @@ public class PopupController {
     return SingletonHelper.controller;
   }
 
+  public void init() {
+    setUpPopup();
+  }
+
   /** Closes the popup window */
   @FXML
   public void closePopUp() {
