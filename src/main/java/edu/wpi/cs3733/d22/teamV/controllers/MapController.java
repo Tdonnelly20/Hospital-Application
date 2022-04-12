@@ -95,7 +95,7 @@ public class MapController extends Controller {
       System.out.println("WTF");
     }
     currFloor = MapManager.getManager().getFloor("1");
-    // mapSetUp();
+    mapSetUp();
   }
 
   private static class SingletonHelper {
@@ -109,12 +109,15 @@ public class MapController extends Controller {
   /** Allows users to zoom in and out of the map without */
   @FXML
   void zoom() {
+    zoomPane = new ZoomPane();
+    stackPane.getChildren().clear();
+    zoomPane.getChildren().clear();
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
-    mapPane.setMinWidth(mapImage.getFitWidth());
-    mapPane.setMinHeight(mapImage.getFitHeight());
+    mapPane.setMinWidth(600);
+    mapPane.setMinHeight(600);
     mapImage.setPreserveRatio(true);
-
+    //mapPane.setStyle("-fx-border-color: blue;");
     scrollPane.setPannable(true);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -127,8 +130,6 @@ public class MapController extends Controller {
         "Pane width: " + mapPane.getMinWidth() + " height: " + mapPane.getMinHeight());
 
     group.getChildren().add(stackPane);
-
-    zoomPane = new ZoomPane();
     zoomProperty.bind(zoomPane.scale);
     deltaY.bind(zoomPane.deltaY);
     zoomPane.getChildren().add(group);
