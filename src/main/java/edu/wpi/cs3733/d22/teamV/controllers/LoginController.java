@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +38,7 @@ public class LoginController extends Controller {
 
   private void checkLogin(ActionEvent event) throws IOException {
 
-    HospitalEmployee user = new HospitalEmployee();
+    Employee user = new Employee();
 
     if (username.getText().toString().equals("admin")
         && password.getText().toString().equals("admin")) {

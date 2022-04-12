@@ -16,6 +16,7 @@ public class Employee {
   private ArrayList<String> specialties;
   private ArrayList<Integer> patientIDs;
   private ArrayList<Integer> serviceRequestIDs;
+  private boolean isAdmin;
 
   public Employee(
       int employeeID,
@@ -24,7 +25,8 @@ public class Employee {
       String employeePosition,
       ArrayList<String> specialties,
       ArrayList<Integer> patientIDs,
-      ArrayList<Integer> serviceRequestIDs) {
+      ArrayList<Integer> serviceRequestIDs,
+      boolean isAdmin) {
     this.employeeID = employeeID;
     this.firstName = firstName;
     this.lastName = lastName;

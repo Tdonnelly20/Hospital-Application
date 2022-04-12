@@ -55,7 +55,8 @@ public class EmployeeDao {
               data[3],
               new ArrayList(Arrays.asList(data[4].split(" "))), // FIGHT ME I HATE FOR LOOPS
               patientIDs,
-              serviceIDs);
+              serviceIDs,
+              true);
 
       employees.add(newEmployee);
     }

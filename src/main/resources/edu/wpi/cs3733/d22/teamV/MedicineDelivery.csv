@@ -1,6 +1,0 @@
-nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID
-vDEPT00201,2,2,Adderall,101 g,Processing,N/A,2,
-vDEPT00501,5,5,Adderall,104 g,Processing,N/A,5,
-vHALL00101,6,6,Adderall,105 g,Processing,N/A,6,
-vHALL00401,3,7,Tylenol,1212 g,Processing,N/A,7,
-vHALL00201,7,4,Adderall,107 g,Processing,Test,8,
