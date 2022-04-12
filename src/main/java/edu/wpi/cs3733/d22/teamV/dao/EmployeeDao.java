@@ -197,4 +197,13 @@ public class EmployeeDao {
     query = "DELETE FROM EMPLOYEES WHERE employeeID = " + employee.getEmployeeID();
     statement.executeUpdate(query);
   }
+
+  public void updateEmployee(Employee employee, int employeeID) throws SQLException, IOException {
+    Employee emp = employee;
+    emp.setEmployeeID(employeeID);
+    removeEmployee(emp);
+    allEmployees.add(emp);
+    addToSQLTable(emp);
+    saveToCSV();
+  }
 }
