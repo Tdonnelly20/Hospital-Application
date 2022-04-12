@@ -44,7 +44,7 @@ public class LabRequestDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(VApp.currentPath + "\\LabRequests.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("userID,patientID,firstName,lastName,lab,status,serviceID");
+    bw.append("userID,patientID,nodeID,lab,status,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -53,8 +53,7 @@ public class LabRequestDao extends DaoInterface {
       String[] outputData = {
         String.valueOf(labRequest.getUserID()),
         String.valueOf(labRequest.getPatientID()),
-        labRequest.getFirstName(),
-        labRequest.getLastName(),
+        labRequest.getLocation().getNodeID(),
         labRequest.getLab(),
         labRequest.getStatus(),
         String.valueOf(labRequest.getServiceID())
@@ -80,7 +79,7 @@ public class LabRequestDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE LABS(userID int, patientID int, firstName varchar(30), lastName varchar(30), lab varchar(50), status varchar(50), serviceID int)";
+          "CREATE TABLE LABS(userID int, patientID int, lab varchar(50), status varchar(50), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -105,15 +104,13 @@ public class LabRequestDao extends DaoInterface {
 
     query =
         "INSERT INTO LABS("
-            + "userID,patientID,firstName,lastName,lab,status,serviceID) VALUES "
+            + "userID,patientID,nodeID,lab,status,serviceID) VALUES "
             + "("
             + labRequest.getUserID()
             + ", "
             + labRequest.getPatientID()
             + ", '"
-            + labRequest.getFirstName()
-            + "',' "
-            + labRequest.getLastName()
+            + labRequest.getLocation().getNodeID()
             + "', '"
             + labRequest.getLab()
             + "', '"
@@ -192,7 +189,7 @@ public class LabRequestDao extends DaoInterface {
     try {
       // System.out.println("Removing from database...");
       Connection connection;
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
       for (LabRequest l : allLabRequests)
         exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
