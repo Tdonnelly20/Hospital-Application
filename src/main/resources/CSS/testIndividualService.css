@@ -26,7 +26,7 @@
 .combo-box{ /*dropdown*/
     -fx-font-size:14px;
     -fx-font-family:"Ebrima";
-    -fx-text-alignment: center;
+    -fx-text-alignment: center; /*not actually centered*/
     -fx-min-height: 40;
     -fx-max-width: 300;
     -fx-background-radius: 20;
