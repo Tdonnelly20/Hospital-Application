@@ -412,7 +412,9 @@ public class MapController extends Controller {
 
   public void addEquipmentIcon(Equipment equipment) {
     PopupController.getController().closePopUp();
-    MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
+    RequestSystem.getSystem().addEquipment(equipment);
+    // MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
+    MapManager.getManager().setUpFloors();
     checkDropDown();
   }
 

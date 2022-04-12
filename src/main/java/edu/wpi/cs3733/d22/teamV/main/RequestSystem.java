@@ -229,6 +229,10 @@ public class RequestSystem {
     return equipmentDao.getAllEquipment();
   }
 
+  public void addEquipment(Equipment equipment) {
+    equipmentDao.getAllEquipment().add(equipment);
+  }
+
   public ArrayList<Patient> getPatients() {
     return patientDao.getAllPatients();
   }

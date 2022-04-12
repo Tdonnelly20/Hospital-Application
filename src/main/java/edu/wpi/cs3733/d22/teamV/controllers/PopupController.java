@@ -817,9 +817,8 @@ public class PopupController {
   /** Populates a location icon's popup window with its service requests */
   @FXML
   public void insertEquipment(EquipmentIcon icon) {
-    ObservableList<String> statusStrings =
-        FXCollections.observableArrayList("Clean", "Dirty");
-    
+    ObservableList<String> statusStrings = FXCollections.observableArrayList("Clean", "Dirty");
+
     if (icon.getEquipmentList().size() > 0) {
       VBox vBox = new VBox();
       ScrollPane scrollPane = new ScrollPane(vBox);
