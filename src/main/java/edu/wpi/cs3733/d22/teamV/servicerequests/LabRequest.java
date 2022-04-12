@@ -26,8 +26,6 @@ public class LabRequest extends ServiceRequest {
     this.patient = Vdb.requestSystem.getPatients().get(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
     this.hospitalEmployee = new Employee(userID);
-    this.patient.addEmployee(EmployeeManager.getManager().getEmployee(userID));
-
     this.lab = lab;
     this.status = status;
     this.patientID = patientID;

@@ -24,6 +24,7 @@ public class MapManager {
 
   public void init() {
     serviceRequests = requestSystem.getEveryServiceRequest();
+    System.out.println(serviceRequests.size());
     setUpFloors();
   }
 

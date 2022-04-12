@@ -715,8 +715,10 @@ public class PopupController {
   public void equipmentForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Equipment");
     content.getChildren().clear();
+    buttonBox.getChildren().clear();
     formSetup(event);
     buttonBox.getChildren().addAll(returnButton, addButton, modifyButton, removeButton);
+    addButton.setText("Add Equipment");
     addButton.setOnAction(
         event1 -> {
           equipmentAdditionForm(event, icon);
@@ -738,6 +740,7 @@ public class PopupController {
   @FXML
   public void equipmentAdditionForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Add Equipment");
+    submitIcon.setText("Add Equipment");
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
 
@@ -750,20 +753,22 @@ public class PopupController {
 
     submitIcon.setOnAction(
         event1 -> {
-          // RequestSystem.Dao.
-          EquipmentIcon equipmentIcon =
-              new EquipmentIcon(
-                  new Location(
-                      field1.getText() + field2.getText() + comboBox1.getValue(),
-                      event.getX(),
-                      event.getY(),
-                      "Tower",
-                      MapController.getController().currFloor.getFloorName(),
-                      "Equipment Storage",
-                      "",
-                      ""));
+          if (icon == null) {
+            EquipmentIcon equipmentIcon =
+                new EquipmentIcon(
+                    new Location(
+                        field1.getText() + field2.getText() + comboBox1.getValue(),
+                        event.getX(),
+                        event.getY(),
+                        "Tower",
+                        MapController.getController().currFloor.getFloorName(),
+                        "Equipment Storage",
+                        "",
+                        ""));
+          } else {
+            // Equipment
+          }
         });
-
     // Scene and Stage
     stage.setTitle("Equipment");
     showPopUp();
