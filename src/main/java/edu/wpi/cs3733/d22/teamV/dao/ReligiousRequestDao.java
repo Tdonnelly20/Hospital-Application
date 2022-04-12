@@ -69,11 +69,10 @@ public class ReligiousRequestDao extends DaoInterface {
         religiousRequest.getPatientLastName(),
         Integer.toString(religiousRequest.getPatientID()),
         Integer.toString(religiousRequest.getEmpID()),
-        religiousRequest.getReligion(),
         religiousRequest.getSpecialRequests(),
         Integer.toString(religiousRequest.getServiceID())
       };
-      bw.append("\n");
+      bw.append("/n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
@@ -97,12 +96,13 @@ public class ReligiousRequestDao extends DaoInterface {
       ReligiousRequest request =
           new ReligiousRequest(
               data[0],
-              data[1],
+              Integer.parseInt(data[1]),
               Integer.parseInt(data[2]),
               Integer.parseInt(data[3]),
               data[4],
               data[5],
-              Integer.parseInt(data[6]));
+              Integer.parseInt(data[6]),
+              Integer.parseInt(data[7]));
       requests.add(request);
     }
     allReligiousRequest = requests;
@@ -118,7 +118,6 @@ public class ReligiousRequestDao extends DaoInterface {
     statement.setString(2, newReligiousRequest.getPatientLastName());
     statement.setInt(3, newReligiousRequest.getEmpID());
     statement.setInt(4, newReligiousRequest.getPatientID());
-    statement.setString(5, newReligiousRequest.getReligion());
     statement.setString(6, newReligiousRequest.getSpecialRequests());
     statement.setInt(7, newReligiousRequest.getServiceID());
   }
@@ -203,14 +202,13 @@ public class ReligiousRequestDao extends DaoInterface {
     Connection connection = Vdb.Connect();
     String query =
         "UPDATE RELIGIOUSREQUESTS"
-            + "SET firstName=?, lastName=?,patientID=?,userID=?,religion=?,specialRequests=?"
+            + "SET firstName=?, lastName=?,patientID=?,userID=?,specialRequests=?"
             + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setString(1, newReligiousRequest.getPatientFirstName());
     statement.setString(2, newReligiousRequest.getPatientLastName());
     statement.setInt(3, newReligiousRequest.getEmpID());
     statement.setInt(4, newReligiousRequest.getPatientID());
-    statement.setString(5, newReligiousRequest.getReligion());
     statement.setString(6, newReligiousRequest.getSpecialRequests());
     statement.setInt(7, newReligiousRequest.getServiceID());
   }

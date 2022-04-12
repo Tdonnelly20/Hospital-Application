@@ -11,7 +11,7 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TextField patientID;
   @FXML private TextField firstName;
   @FXML private TextField lastName;
-  @FXML private TextField religion;
+  @FXML private TextField roomNumber;
   @FXML private Button sendRequest;
   @FXML private TextField specialRequests;
 
@@ -41,7 +41,7 @@ public class ReligiousRequestController extends RequestController {
     patientID.setText("");
     firstName.setText("");
     lastName.setText("");
-    religion.setText("");
+    roomNumber.setText("");
     specialRequests.setText("");
     sendRequest.setDisable(true);
   }
@@ -54,7 +54,7 @@ public class ReligiousRequestController extends RequestController {
         && !(patientID.getText().isEmpty())
         && !(firstName.getText().isEmpty())
         && !(lastName.getText().isEmpty())
-        && !(religion.getText().isEmpty())
+        && !(roomNumber.getText().isEmpty())
         && !(specialRequests.getText().isEmpty())) {
       // Information verification and submission needed
       sendRequest.setDisable(false);
@@ -64,7 +64,7 @@ public class ReligiousRequestController extends RequestController {
         || !(patientID.getText().isEmpty())
         || !(firstName.getText().isEmpty())
         || !(lastName.getText().isEmpty())
-        || !(religion.getText().isEmpty())
+        || !(roomNumber.getText().isEmpty())
         || !(specialRequests.getText().isEmpty())) {
       Status.setText("Status: Processing");
     } else {

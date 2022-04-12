@@ -59,7 +59,7 @@
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField id="lastName" fx:id="specialRequests" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Special requests (if any)">
+                                    <TextField id="lastName" fx:id="specialRequests" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Religious request">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
