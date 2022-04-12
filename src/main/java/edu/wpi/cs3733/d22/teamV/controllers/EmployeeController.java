@@ -6,6 +6,8 @@ import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -119,7 +121,7 @@ public class EmployeeController extends Controller {
     {
       Employee employee =
           new Employee(
-              3,
+                  Vdb.requestSystem.getEmployeeID(),
               employeeFirstName.getText(),
               employeeLastName.getText(),
               employeePosition.getText(),
@@ -157,8 +159,13 @@ public class EmployeeController extends Controller {
 
   @FXML
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
-    Employee employee = table.getSelectionModel().getSelectedItem().getValue();
-
+    try {
+      Employee employee =
+              table.getSelectionModel().getSelectedItem().getValue();
+      employeeDao.removeEmployee(employee);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
     updateTreeTable();
   }
 
