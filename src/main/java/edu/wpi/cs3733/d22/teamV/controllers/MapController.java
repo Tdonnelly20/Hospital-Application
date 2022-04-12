@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -406,6 +407,12 @@ public class MapController extends Controller {
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
     // populateFloorIconArr();
     MapManager.getManager().getTempIcon().setVisible(false);
+    checkDropDown();
+  }
+
+  public void addEquipmentIcon(Equipment equipment) {
+    PopupController.getController().closePopUp();
+    MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
     checkDropDown();
   }
 

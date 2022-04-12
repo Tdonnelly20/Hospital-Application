@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
+import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
+
 public class Equipment {
   private String ID;
   private double x;
@@ -8,6 +10,7 @@ public class Equipment {
   private String name;
   private String description;
   private boolean isDirty;
+  private EquipmentIcon icon;
 
   public Equipment(
       String ID,
@@ -24,6 +27,10 @@ public class Equipment {
     this.name = name;
     this.description = description;
     this.isDirty = isDirty;
+  }
+
+  public EquipmentIcon getIcon() {
+    return icon;
   }
 
   public String getFloor() {
@@ -56,6 +63,10 @@ public class Equipment {
 
   public void setIsDirty(boolean bool) {
     isDirty = bool;
+  }
+
+  public void setIcon(EquipmentIcon icon) {
+    this.icon = icon;
   }
 
   public String getIsDirtyString() {

@@ -6,6 +6,7 @@ import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
@@ -271,6 +272,7 @@ public class PopupController {
 
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setValue(request.getStatus());
+        updateStatus.setPromptText(request.getStatus());
         updateStatus.setOnAction(
             event1 -> {
               request.setStatus(updateStatus.getValue().toString());
@@ -716,6 +718,9 @@ public class PopupController {
     buttonBox.getChildren().clear();
     formSetup(event);
     buttonBox.getChildren().addAll(returnButton, addButton, modifyButton, removeButton);
+    if (icon != null) {
+      insertEquipment(icon);
+    }
     addButton.setText("Add Equipment");
     addButton.setOnAction(
         event1 -> {
@@ -742,17 +747,27 @@ public class PopupController {
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
 
-    field1.setPromptText("Type of Equipment");
-    field2.setPromptText("Quantity");
+    field1.setPromptText("Equipment ID");
+    field2.setPromptText("Type of Equipment");
+    field3.setPromptText("Notes");
     comboBox1.setValue("Status");
     comboBox1 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
     content.getChildren().clear();
-    content.getChildren().addAll(field1, field2, comboBox1);
+    content.getChildren().addAll(field1, field2, field3, comboBox1);
 
     submitIcon.setOnAction(
         event1 -> {
           if (icon == null) {
-            EquipmentIcon equipmentIcon =
+            Equipment equipment =
+                new Equipment(
+                    field1.getText(),
+                    field2.getText(),
+                    MapController.getController().currFloor.getFloorName(),
+                    event.getX(),
+                    event.getY(),
+                    field3.getText(),
+                    false);
+            equipment.setIcon(
                 new EquipmentIcon(
                     new Location(
                         field1.getText() + field2.getText() + comboBox1.getValue(),
@@ -760,16 +775,90 @@ public class PopupController {
                         event.getY(),
                         "Tower",
                         MapController.getController().currFloor.getFloorName(),
-                        "Equipment Storage",
+                        field1.getText(),
                         "",
-                        ""));
+                        "")));
+            addEquipmentIcon(equipment);
+            clearPopupForm();
+            closePopUp();
           } else {
-            // Equipment
+            Equipment equipment =
+                new Equipment(
+                    field1.getText(),
+                    field2.getText(),
+                    MapController.getController().currFloor.getFloorName(),
+                    event.getX(),
+                    event.getY(),
+                    field3.getText(),
+                    false);
+            submitIcon.setOnAction(
+                event2 -> {
+                  boolean isDirty = false;
+                  if (comboBox1.getValue().equals("Dirty")) {
+                    isDirty = true;
+                  } else {
+                    isDirty = false;
+                  }
+                  equipment.setIsDirty(isDirty);
+                  icon.getEquipmentList().add(equipment);
+                  clearPopupForm();
+                  closePopUp();
+                });
           }
         });
     // Scene and Stage
     stage.setTitle("Equipment");
     showPopUp();
+  }
+
+  public void addEquipmentIcon(Equipment equipment) {
+    MapController.getController().addEquipmentIcon(equipment);
+  }
+  /** Populates a location icon's popup window with its service requests */
+  @FXML
+  public void insertEquipment(EquipmentIcon icon) {
+    ObservableList<String> statusStrings =
+        FXCollections.observableArrayList("Clean", "Dirty");
+    
+    if (icon.getEquipmentList().size() > 0) {
+      VBox vBox = new VBox();
+      ScrollPane scrollPane = new ScrollPane(vBox);
+      scrollPane.setFitToHeight(true);
+      scrollPane.setPannable(false);
+      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+      vBox.setPrefWidth(450);
+      vBox.setPrefHeight(400);
+      for (Equipment equipment : icon.getEquipmentList()) {
+        Label idLabel = new Label("ID: " + equipment.getID());
+        Label locationLabel =
+            new Label(
+                "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
+
+        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
+        updateStatus.setPromptText(equipment.getIsDirtyString());
+        updateStatus.setValue(equipment.getIsDirtyString());
+        updateStatus.setOnAction(
+            event1 -> {
+              if (comboBox2.getValue().equals("Dirty")) {
+                equipment.setIsDirty(true);
+              } else {
+                equipment.setIsDirty(false);
+              }
+            });
+        Accordion accordion =
+            new Accordion(
+                new TitledPane(
+                    equipment.getName()
+                        + " ("
+                        + equipment.getIsDirtyString()
+                        + "): "
+                        + equipment.getDescription(),
+                    new VBox(15, idLabel, locationLabel, updateStatus)));
+        accordion.setPrefWidth(450);
+        vBox.getChildren().add(accordion);
+      }
+      content.getChildren().add(scrollPane);
+    }
   }
 
   @FXML
