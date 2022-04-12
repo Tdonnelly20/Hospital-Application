@@ -17,11 +17,13 @@ public class LocationDao extends DaoInterface {
     try {
       createSQLTable();
       loadFromCSV();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (SQLException e) {
+    } catch (IOException | SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  public void init() {
+    allLocations = new ArrayList<>();
   }
 
   public ArrayList<Location> getAllLocations() {

@@ -112,6 +112,7 @@ public class MapController extends Controller {
     zoomPane = new ZoomPane();
     stackPane.getChildren().clear();
     zoomPane.getChildren().clear();
+    group.getChildren().clear();
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
     mapPane.setMinWidth(600);
@@ -410,7 +411,7 @@ public class MapController extends Controller {
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
     // populateFloorIconArr();
     MapManager.getManager().getTempIcon().setVisible(false);
-    // checkDropDown();
+    checkDropDown();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {

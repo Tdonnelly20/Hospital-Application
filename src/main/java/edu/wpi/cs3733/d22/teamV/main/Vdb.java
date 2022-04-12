@@ -11,9 +11,9 @@ public class Vdb {
 
   private static String line; // receives a line from b
   private static boolean isClient = false;
-  public static MapManager mapManager;
-  public static MapController mapController;
-  public static PopupController popupController;
+  public static MapManager mapManager = MapManager.getManager();
+  public static MapController mapController = MapController.getController();
+  public static PopupController popupController = PopupController.getController();
 
   /**
    * Returns the location of the CSVs
@@ -28,10 +28,11 @@ public class Vdb {
    */
   public void createAllDB() throws Exception {
     requestSystem.init();
-    mapManager = MapManager.getManager();
-    mapController = MapController.getController();
-    popupController = PopupController.getController();
+    System.out.println(requestSystem);
     requestSystem.getMaxIDs();
+    mapManager.init();
+    mapController.init();
+    popupController.init();
 
     System.out.println("-------Apache Derby Connection Testing --------");
     try {

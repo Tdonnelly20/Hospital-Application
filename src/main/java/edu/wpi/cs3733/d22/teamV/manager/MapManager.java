@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.manager;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.*;
-import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
@@ -59,6 +58,7 @@ public class MapManager {
 
     loadRequests();
 
+    System.out.println(requestSystem.getLocationDao());
     for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
@@ -84,7 +84,7 @@ public class MapManager {
           break;
       }
     }
-
+    /*
     for (Equipment e : requestSystem.getEquipment()) {
       Location l = new Location(e.getX(), e.getY(), e.getFloor());
       EquipmentIcon equipmentIcon = new EquipmentIcon(l);
@@ -113,7 +113,7 @@ public class MapManager {
           floorList.get(6).addIcon(equipmentIcon);
           break;
       }
-    }
+    }*/
   }
 
   public void loadLocations(int i, Location l) {
