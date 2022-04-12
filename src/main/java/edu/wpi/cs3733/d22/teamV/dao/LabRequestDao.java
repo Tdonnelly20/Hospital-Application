@@ -14,8 +14,10 @@ public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() {
+  public LabRequestDao() throws SQLException, IOException {
     allLabRequests = new ArrayList<>();
+    createSQLTable();
+    loadFromCSV();
   }
 
   // DaoInterface Methods

@@ -28,7 +28,7 @@ public class LabRequestController extends MapController implements RequestInterf
   @FXML private TextField nodeID;
   @FXML private JFXComboBox<Object> requestedLab;
   @FXML private JFXComboBox<Object> statusDropDown;
-  @FXML private TextField Status;
+  @FXML private Label status;
   @FXML private Button sendRequest;
 
   private static class SingletonHelper {
@@ -67,9 +67,9 @@ public class LabRequestController extends MapController implements RequestInterf
       } else if (!(employeeID.getText().isEmpty())
           || !(patientID.getText().isEmpty())
           || !(requestedLab.getValue().equals("Select Lab"))) {
-        Status.setText("Status: Processing");
+        status.setText("Status: Processing");
       } else {
-        Status.setText("Status: Blank");
+        status.setText("Status: Blank");
         sendRequest.setDisable(true);
       }
     } catch (NullPointerException e) {
@@ -122,7 +122,7 @@ public class LabRequestController extends MapController implements RequestInterf
   public void sendRequest() {
     // Make sure the patient ID is an integer
     if (!isInteger(patientID.getText()) || !isInteger(employeeID.getText())) {
-      Status.setText("Status: Failed. Patient/Hospital ID must be a number!");
+      status.setText("Status: Failed. Patient/Hospital ID must be a number!");
 
       // If all conditions pass, create the request
     } else {
