@@ -100,8 +100,7 @@ public abstract class Controller extends Application {
   // Switches scene to the medical equipment page
   @FXML
   protected void switchToMedEquipDelivery(ActionEvent event) {
-    loader.setLocation(
-        getClass().getClassLoader().getResource("FXML/MedicalEquipmentDelivery.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewEquipmentDelivery.fxml"));
     switchScene(event);
   }
 
