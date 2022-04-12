@@ -42,11 +42,10 @@ public class EquipmentDelivery extends ServiceRequest {
     System.out.println(Vdb.requestSystem);
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.hospitalEmployee = new Employee(employeeID);
-    this.patient = Vdb.requestSystem.getPatients().get(patientID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     this.equipment = equipment;
     this.notes = notes;
     this.type = "Equipment Delivery";
-    this.status = status;
     this.quantity = quantity;
     this.status = status;
   }

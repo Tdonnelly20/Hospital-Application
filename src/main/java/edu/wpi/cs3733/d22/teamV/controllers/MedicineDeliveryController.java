@@ -234,9 +234,13 @@ public class MedicineDeliveryController extends MapController implements Request
 
   @FXML
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
-    MedicineDelivery delivery =
-        medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
-
+    try {
+      MedicineDelivery delivery =
+          medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
+      medicineDeliveryDao.removeServiceRequest(delivery);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
     updateTreeTable();
   }
 }
