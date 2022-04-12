@@ -1,0 +1,43 @@
+.button{
+    -fx-font-size:16px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family:"Ebrima";
+    -fx-background-color: #5C7B9F;
+    -fx-min-width:100;
+    -fx-background-radius: 20;
+    -fx-border-style: outset;
+}
+
+.text-field{
+    -fx-font-size:14px;
+    -fx-font-family:"Ebrima";
+    -fx-min-height: 40;
+    -fx-max-width: 300;
+    -fx-background-radius: 20;
+    -fx-border-style: outset;
+}
+
+.text-area{
+    -fx-font-size:14px;
+    -fx-font-family:"Ebrima";
+    -fx-max-width: 300;
+}
+
+.combo-box{ /*dropdown*/
+    -fx-font-size:14px;
+    -fx-font-family:"Ebrima";
+    -fx-text-alignment: center; /*not actually centered*/
+    -fx-min-height: 40;
+    -fx-max-width: 300;
+    -fx-background-radius: 20;
+    -fx-border-style: outset;
+
+}
+
+.tab-pane{
+
+}
+
+.tree-view{
+
+}

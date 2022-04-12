@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
+         <children>
+            <GridPane fx:id="headerPane" layoutX="188.0" layoutY="30.0" prefHeight="150.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+            </GridPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <SplitPane dividerPositions="0.29797979797979796" layoutX="591.0" layoutY="261.0" prefHeight="872.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="300.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+                           <padding>
+                              <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
+                           </padding>
+                           <children>
+                              <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Hospital ID">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
+                              <TextField fx:id="firstName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient First Name" />
+                              <TextField fx:id="lastName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient Last Name" />
+                              <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Location" />
+                              <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:id="bloodRequest" fx:value="Blood" />
+                                       <String fx:id="vomitRequest" fx:value="Vomit" />
+                                       <String fx:id="fluidRequest" fx:value="Other Bodily Fluids" />
+                                       <String fx:id="glassRequest" fx:value="Broken Glass" />
+                                       <String fx:id="generalRequest" fx:value="No Hazard/General Mess" />
+                                    </FXCollections>
+                                 </items>
+                              </JFXComboBox>
+                              <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
+                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                              <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
+                              <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <tabs>
+                            <Tab text="Map View">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox fx:id="mapVBox" layoutX="225.0" layoutY="122.0" prefHeight="891.0" prefWidth="1610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Table View">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TreeTableView fx:id="sanitationRequestTable" prefHeight="553.0" prefWidth="538.0">
+                                             <columns>
+                                                <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
+                                                <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
+                                                <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
+                                                <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
+                                                <TreeTableColumn fx:id="roomLocationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
+                                                <TreeTableColumn fx:id="hazardCol" minWidth="0.0" prefWidth="56.7999267578125" text="Hazard" />
+                                                <TreeTableColumn fx:id="requestDetailsCol" prefWidth="64.80001831054688" text="Other Info" />
+                                             </columns>
+                                          </TreeTableView>
+                                       </children></AnchorPane>
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children></AnchorPane>
+              </items>
+            </SplitPane>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

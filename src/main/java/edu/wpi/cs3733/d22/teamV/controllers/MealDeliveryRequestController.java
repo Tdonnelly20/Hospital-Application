@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class MealDeliveryRequestController extends MapController {
+public class MealDeliveryRequestController extends RequestController {
   @FXML private TreeTableView<MealRequest> table;
   @FXML private TreeTableColumn<MealRequest, Integer> userIDCol;
   @FXML private TreeTableColumn<MealRequest, Integer> patientIDCol;
@@ -31,12 +31,14 @@ public class MealDeliveryRequestController extends MapController {
 
   @Override
   public void init() {
+    setTitleText("Meal Delivery Service");
+    fillTopPane();
     mapSetUp();
     filterCheckBox.getCheckModel().check("Meal Delivery Requests");
   }
 
   @FXML
-  private void resetForm() {
+  void resetForm() {
     Status.setText("Status: Blank");
     userID.setText("");
     patientID.setText("");
@@ -48,7 +50,7 @@ public class MealDeliveryRequestController extends MapController {
 
   // Checks to see if the user can submit info
   @FXML
-  private void validateButton() {
+  void validateButton() {
     try {
       if (!(userID.getText().isEmpty())
           && !(patientID.getText().isEmpty())
@@ -75,7 +77,7 @@ public class MealDeliveryRequestController extends MapController {
 
   /** Runs whenever we switch to the table, or update a value */
   @FXML
-  private void updateTreeTable() {
+  void updateTreeTable() {
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("userID"));

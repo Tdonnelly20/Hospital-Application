@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class EquipmentRequestController extends MapController {
+public class EquipmentRequestController extends RequestController {
   @FXML private TreeTableView<EquipmentDelivery> equipmentRequestTable;
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
@@ -67,6 +67,8 @@ public class EquipmentRequestController extends MapController {
 
   @Override
   public void init() {
+    setTitleText("Equipment Delivery Request");
+    fillTopPane();
     mapSetUp();
     filterCheckBox.getCheckModel().check("Equipment");
     filterCheckBox.getCheckModel().check("Clean Equipment");
@@ -74,7 +76,7 @@ public class EquipmentRequestController extends MapController {
   }
 
   @FXML
-  private void updateTreeTable() {
+  void updateTreeTable() {
     employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
@@ -130,7 +132,7 @@ public class EquipmentRequestController extends MapController {
   }
 
   @FXML
-  private void resetForm() {
+  void resetForm() {
     employeeID.setText("");
     patientID.setText("");
     firstName.setText("");
@@ -144,7 +146,7 @@ public class EquipmentRequestController extends MapController {
   }
 
   @FXML
-  private void validateButton() {
+  void validateButton() {
     if (!(employeeID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
         && !(employeeID.getText().isEmpty())
