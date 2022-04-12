@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.awt.*;
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class MapController extends Controller {
               "Side View"));
 
   @FXML protected TextArea sideViewArea = new TextArea();
+  private String l2Info, l1Info, f1Info, f2Info, f3Info, f4Info, f5Info;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -280,26 +282,7 @@ public class MapController extends Controller {
     // for side view controllers
     sideViewArea.setVisible(false);
     if (currFloor.getFloorName().equals("SV")) {
-
-      ArrayList<Floor> floorList = MapManager.getManager().getFloorList();
-      ArrayList<Icon> tempIconList;
-
-      for (int f = 0; f < floorList.size() - 1; f++) {
-        tempIconList = floorList.get(f).getIconList();
-        String floorInfo = floorList.get(f).getFloorName() + ": \n";
-        for (int i = 0; i < tempIconList.size(); i++) {
-          if (tempIconList.get(i).getIconType().equals("Equipment")) {
-            floorInfo += tempIconList.get(i).getIconType() + "  ";
-          }
-        }
-        String oldInfo = sideViewArea.getText();
-        sideViewArea.setText(oldInfo + "\n" + floorInfo + "\n");
-      }
-
-      sideViewArea.setVisible(true);
-
-      // ... Side View Controller Stuff
-
+      populateSideViewInfo();
     } else {
 
       ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
@@ -337,6 +320,30 @@ public class MapController extends Controller {
         }
       }
     }
+  }
+
+  public void populateSideViewInfo() {
+    ArrayList<Floor> floorList = MapManager.getManager().getFloorList();
+    ArrayList<Icon> tempIconList;
+
+    for (int f = 0; f < floorList.size() - 1; f++) {
+      tempIconList = floorList.get(f).getIconList();
+      String floorInfo = floorList.get(f).getFloorName() + ": \n";
+      for (int i = 0; i < tempIconList.size(); i++) {
+        if (tempIconList.get(i).getIconType().equals("Equipment")) {
+          EquipmentIcon tempIcon = (EquipmentIcon) tempIconList.get(i);
+          for (int e = 0; e < tempIcon.getEquipmentList().size(); e++) {
+            Equipment tempEquip = tempIcon.getEquipmentList().get(e);
+            floorInfo += tempEquip.getID() + ", Dirty: (" + tempEquip.getIsDirty() + ")\n";
+          }
+        }
+      }
+      String oldInfo = sideViewArea.getText();
+
+      sideViewArea.setText(oldInfo + "\n" + floorInfo + "\n");
+    }
+
+    sideViewArea.setVisible(true);
   }
 
   public void filterByActiveRequestType(RequestIcon icon) {
