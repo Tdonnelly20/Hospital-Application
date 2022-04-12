@@ -69,6 +69,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
         String.valueOf(equipmentDelivery.getPatientID()),
         equipmentDelivery.getPatientFirstName(),
         equipmentDelivery.getPatientLastName(),
+        equipmentDelivery.getLocationName(),
         equipmentDelivery.getEquipment(),
         equipmentDelivery.getNotes(),
         String.valueOf(equipmentDelivery.getQuantity()),
