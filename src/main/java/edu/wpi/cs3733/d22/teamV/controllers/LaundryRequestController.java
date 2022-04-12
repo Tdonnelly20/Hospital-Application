@@ -94,9 +94,7 @@ public class LaundryRequestController extends MapController {
         new LaundryRequest(
             Integer.parseInt(userID.getText()),
             Integer.parseInt(patientID.getText()),
-            firstName.getText(),
-            lastName.getText(),
-            Integer.parseInt(roomNumber.getText()),
+            roomNumber.getText(),
             details.getText());
     try {
       laundryRequestDao.addServiceRequest(l);

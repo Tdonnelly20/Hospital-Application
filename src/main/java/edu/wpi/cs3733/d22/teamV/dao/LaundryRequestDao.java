@@ -38,13 +38,8 @@ public class LaundryRequestDao extends DaoInterface {
       String[] data = line.split(splitToken);
       LaundryRequest newDelivery =
           new LaundryRequest(
-              Integer.parseInt(data[0]),
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              Integer.parseInt(data[4]),
-              data[5]);
-      newDelivery.setServiceID(Integer.parseInt(data[5]));
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3]);
+      newDelivery.setServiceID(Integer.parseInt(data[4]));
       laundryRequests.add(newDelivery);
     }
 
@@ -61,11 +56,11 @@ public class LaundryRequestDao extends DaoInterface {
       LaundryRequest laundryRequest = (LaundryRequest) request;
 
       String[] outputData = {
-        String.valueOf(laundryRequest.getUserID()),
+        String.valueOf(laundryRequest.getEmployeeID()),
         String.valueOf(laundryRequest.getPatientID()),
         laundryRequest.getFirstName(),
         laundryRequest.getLastName(),
-        String.valueOf(laundryRequest.getRoomNumber()),
+        String.valueOf(laundryRequest.getNodeID()),
         String.valueOf(laundryRequest.getServiceID())
       };
       bw.append("\n");
@@ -116,7 +111,7 @@ public class LaundryRequestDao extends DaoInterface {
         "INSERT INTO LAUNDRY("
             + "userID,patientID,firstName,lastName,roomNumber,details,serviceID) VALUES "
             + "("
-            + laundryRequest.getUserID()
+            + laundryRequest.getEmployeeID()
             + ","
             + laundryRequest.getPatientID()
             + ", '"
@@ -124,7 +119,7 @@ public class LaundryRequestDao extends DaoInterface {
             + "','"
             + laundryRequest.getLastName()
             + "',"
-            + laundryRequest.getRoomNumber()
+            + laundryRequest.getNodeID()
             + ",'"
             + laundryRequest.getDetails()
             + "',"
