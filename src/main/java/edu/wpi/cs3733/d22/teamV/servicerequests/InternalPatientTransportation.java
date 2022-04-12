@@ -8,6 +8,7 @@ public class InternalPatientTransportation extends ServiceRequest {
   private Patient patient;
   private Employee employee;
   private String nodeID, requestDetails;
+  private int employeeID;
 
   /**
    * @param patientID
@@ -18,9 +19,10 @@ public class InternalPatientTransportation extends ServiceRequest {
   public InternalPatientTransportation(
       String nodeID, int patientID, int employeeID, String requestDetails) {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
-    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     this.nodeID = nodeID;
+    this.employeeID = employeeID;
     this.requestDetails = requestDetails;
   }
 
@@ -36,7 +38,7 @@ public class InternalPatientTransportation extends ServiceRequest {
     return patient.getPatientID();
   }
 
-  public int getHospitalID() {
+  public int getEmployeeID() {
     return employee.getEmployeeID();
   }
 

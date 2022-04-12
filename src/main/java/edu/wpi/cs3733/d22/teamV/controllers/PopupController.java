@@ -644,6 +644,7 @@ public class PopupController {
       case "Laundry Request":
         field2.setPromptText("Patient ID");
         field3.setPromptText("Notes");
+        content.getChildren().addAll(field2, field3);
         submitIcon.setOnAction(
             event1 -> {
               LaundryRequest request =
@@ -656,12 +657,12 @@ public class PopupController {
             });
         break;
       case "Meal Delivery":
-        field2.setPromptText("Allergies");
-        field3.setPromptText("Notes");
+        field2.setPromptText("Patient ID");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Cheeseburger", "Chicken Tender", "Hot Dog", "Fries", "Crackers"));
+        content.getChildren().addAll(field2, field3, comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               MealRequest request =
@@ -669,11 +670,13 @@ public class PopupController {
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
                       icon.getLocation().getNodeID(),
-                      field3.getText());
+                      comboBox2.getValue().toString());
               addRequest(event, icon, request);
             });
         break;
       case "Sanitation Request":
+        field2.setPromptText("Patient ID");
+        field3.setPromptText("Notes");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
@@ -682,20 +685,37 @@ public class PopupController {
                     "Other Bodily Fluids",
                     "Broken Glass",
                     "No Hazard/General Mess"));
+        content.getChildren().addAll(field2, field3, comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              /*MedicineDelivery request=new MedicineDelivery();
-              addRequest(event, icon, request);*/
+              SanitationRequest request =
+                  new SanitationRequest(
+                      Integer.parseInt(field1.getText()),
+                      Integer.parseInt(field2.getText()),
+                      icon.getLocation().getNodeID(),
+                      comboBox2.getValue(),
+                      field3.getText());
+
+              addRequest(event, icon, request);
             });
         break;
       case "Religious Request":
         field2.setPromptText("Patient ID");
+        field3.setPromptText("Religion");
+        field4.setPromptText("Special Requests");
+
         content.getChildren().addAll(field2);
 
         submitIcon.setOnAction(
             event1 -> {
-              /*MedicineDelivery request=new MedicineDelivery();
-              addRequest(event, icon, request);*/
+              ReligiousRequest request =
+                  new ReligiousRequest(
+                      Integer.parseInt(field2.getText()),
+                      Integer.parseInt(field1.getText()),
+                      icon.getLocation().getNodeID(),
+                      field3.getText(),
+                      field4.getText());
+              addRequest(event, icon, request);
             });
         break;
     }

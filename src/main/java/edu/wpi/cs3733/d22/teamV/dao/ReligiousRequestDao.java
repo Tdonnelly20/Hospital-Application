@@ -23,13 +23,7 @@ public class ReligiousRequestDao extends DaoInterface {
     allReligiousRequest = new ArrayList<ReligiousRequest>();
     // TODO: Add info from the database to the local arraylist
   }
-  //
-  //      String firstName,
-  //      String lastName,
-  //      int patientID,
-  //      int userID,
-  //      String religion,
-  //      String specialRequests)
+
   @Override
   public void createSQLTable() throws SQLException {
     String query = "";
@@ -39,7 +33,7 @@ public class ReligiousRequestDao extends DaoInterface {
     ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[] {"TABLE"});
     if (!set.next()) {
       statement.execute(
-          "CREATE TABLE RELIGIOUSREQUESTS(fname char(15),lname char(15), pID int, empID int, religion char(35), request char(200), serviceID int)");
+          "CREATE TABLE RELIGIOUSREQUESTS(pID int, empID int, religion char(35), request char(200), serviceID int)");
     } else {
       statement.execute("DROP TABLE RELIGIOUSREQUESTS");
       createSQLTable();
@@ -54,21 +48,13 @@ public class ReligiousRequestDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(VApp.currentPath + "\\ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("FirstName,LastName,PatientID,EmpID,Religion,Details,serviceID");
+    bw.append("PatientID,EmpID,Religion,Details,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
       ReligiousRequest religiousRequest = (ReligiousRequest) request;
-      //      String firstName,
-      //      String lastName,
-      //      int patientID,
-      //      int userID,
-      //      String religion,
-      //      String specialRequests,
-      //      int serviceID) {
+
       String[] outputData = {
-        religiousRequest.getPatientFirstName(),
-        religiousRequest.getPatientLastName(),
         Integer.toString(religiousRequest.getPatientID()),
         Integer.toString(religiousRequest.getEmpID()),
         religiousRequest.getReligion(),
@@ -98,13 +84,7 @@ public class ReligiousRequestDao extends DaoInterface {
       data = line.split(splitToken);
       ReligiousRequest request =
           new ReligiousRequest(
-              data[0],
-              data[1],
-              Integer.parseInt(data[2]),
-              Integer.parseInt(data[3]),
-              data[4],
-              data[5],
-              Integer.parseInt(data[6]));
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
       requests.add(request);
     }
     allReligiousRequest = requests;
@@ -114,15 +94,13 @@ public class ReligiousRequestDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest Request) throws SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
     Connection connection = Vdb.Connect();
-    String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?,?)";
+    String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?)";
     PreparedStatement statement = connection.prepareStatement(query);
-    statement.setString(1, newReligiousRequest.getPatientFirstName());
-    statement.setString(2, newReligiousRequest.getPatientLastName());
-    statement.setInt(3, newReligiousRequest.getEmpID());
-    statement.setInt(4, newReligiousRequest.getPatientID());
-    statement.setString(5, newReligiousRequest.getReligion());
-    statement.setString(6, newReligiousRequest.getSpecialRequests());
-    statement.setInt(7, newReligiousRequest.getServiceID());
+    statement.setInt(1, newReligiousRequest.getEmpID());
+    statement.setInt(2, newReligiousRequest.getPatientID());
+    statement.setString(3, newReligiousRequest.getReligion());
+    statement.setString(4, newReligiousRequest.getSpecialRequests());
+    statement.setInt(5, newReligiousRequest.getServiceID());
   }
 
   @Override
@@ -190,15 +168,13 @@ public class ReligiousRequestDao extends DaoInterface {
     Connection connection = Vdb.Connect();
     String query =
         "UPDATE RELIGIOUSREQUESTS"
-            + "SET firstName=?, lastName=?,patientID=?,userID=?,religion=?,specialRequests=?"
+            + "SET patientID=?,userID=?,religion=?,specialRequests=?"
             + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
-    statement.setString(1, newRequest.getPatientFirstName());
-    statement.setString(2, newRequest.getPatientLastName());
-    statement.setInt(3, newRequest.getEmpID());
-    statement.setInt(4, newRequest.getPatientID());
-    statement.setString(5, newRequest.getReligion());
-    statement.setString(6, newRequest.getSpecialRequests());
-    statement.setInt(7, newRequest.getServiceID());
+    statement.setInt(1, newRequest.getEmpID());
+    statement.setInt(2, newRequest.getPatientID());
+    statement.setString(3, newRequest.getReligion());
+    statement.setString(4, newRequest.getSpecialRequests());
+    statement.setInt(5, newRequest.getServiceID());
   }
 }

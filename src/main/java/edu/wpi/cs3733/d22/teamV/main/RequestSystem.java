@@ -31,7 +31,7 @@ public class RequestSystem {
 
   public RequestSystem() {}
 
-  public void init() {
+  public void init() throws SQLException, IOException {
     System.out.println(this);
 
     locationDao = new LocationDao();

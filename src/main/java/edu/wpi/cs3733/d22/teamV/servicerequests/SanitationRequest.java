@@ -1,14 +1,14 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+
 public class SanitationRequest extends ServiceRequest {
-  private final String patientFirstName, patientLastName, roomLocation, hazardName, requestDetails;
-  private final int patientID, hospitalID, serviceID;
+  private String roomLocation, hazardName, requestDetails;
+  private int patientID, hospitalID, serviceID;
 
   /**
    * Creates a basic data structure for holding medicine delivery request
    *
-   * @param patientFirstName
-   * @param patientLastName
    * @param patientID
    * @param hospitalID
    * @param roomLocation
@@ -16,31 +16,20 @@ public class SanitationRequest extends ServiceRequest {
    * @param requestDetails
    */
   public SanitationRequest(
-      String patientFirstName,
-      String patientLastName,
       int patientID,
       int hospitalID,
       String roomLocation,
       String hazardName,
-      String requestDetails,
-      int serviceID) {
+      String requestDetails) {
 
     this.requestDetails = requestDetails;
-    this.patientFirstName = patientFirstName;
-    this.patientLastName = patientLastName;
+    this.location = Vdb.requestSystem.getLocation(roomLocation);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
     this.patientID = patientID;
     this.hospitalID = hospitalID;
     this.hazardName = hazardName;
     this.roomLocation = roomLocation;
-    this.serviceID = serviceID;
-  }
-
-  public String getPatientFirstName() {
-    return patientFirstName;
-  }
-
-  public String getPatientLastName() {
-    return patientLastName;
   }
 
   public int getPatientID() {

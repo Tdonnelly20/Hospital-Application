@@ -15,8 +15,10 @@ public class InternalPatientTransportationDao extends DaoInterface {
   private static ArrayList<InternalPatientTransportation> allInternalPatientTransportations;
 
   /** Initialize the arraylist */
-  public InternalPatientTransportationDao() {
+  public InternalPatientTransportationDao() throws SQLException, IOException {
     allInternalPatientTransportations = new ArrayList<InternalPatientTransportation>();
+    createSQLTable();
+    loadFromCSV();
   }
 
   public void setAllInternalPatientTransportations(
@@ -80,7 +82,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
       String[] outputData = {
         internalPatientTransportation.getNodeID(),
         String.valueOf(internalPatientTransportation.getPatientID()),
-        String.valueOf(internalPatientTransportation.getHospitalID()),
+        String.valueOf(internalPatientTransportation.getEmployeeID()),
         internalPatientTransportation.getRequestDetails(),
         String.valueOf(internalPatientTransportation.getServiceID())
       };
@@ -137,10 +139,12 @@ public class InternalPatientTransportationDao extends DaoInterface {
             + "', "
             + internalPatientTransportation.getPatientID()
             + ", "
-            + internalPatientTransportation.getServiceID()
+            + internalPatientTransportation.getEmployeeID()
             + ", '"
             + internalPatientTransportation.getRequestDetails()
-            + "')";
+            + "', "
+            + internalPatientTransportation.getServiceID()
+            + ")";
 
     statement.execute(query);
   }
