@@ -5,6 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import java.awt.*;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -16,6 +17,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -83,6 +85,8 @@ public class MapController extends Controller {
               "5th Floor",
               "Side View"));
 
+  @FXML protected TextArea sideViewArea = new TextArea();
+
   @Override
   public void start(Stage primaryStage) throws Exception {
     init();
@@ -117,7 +121,7 @@ public class MapController extends Controller {
     mapPane.setMinWidth(600);
     mapPane.setMinHeight(600);
     mapImage.setPreserveRatio(true);
-    //mapPane.setStyle("-fx-border-color: blue;");
+    // mapPane.setStyle("-fx-border-color: blue;");
     scrollPane.setPannable(true);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -152,6 +156,7 @@ public class MapController extends Controller {
         event -> {
           checkDropDown();
         });
+
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -170,6 +175,11 @@ public class MapController extends Controller {
                 change -> {
                   checkDropDown();
                 });
+
+    sideViewArea.setVisible(false);
+    sideViewArea.setText("Equipment Info:\n");
+    sideViewArea.setMaxSize(300, 300);
+
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
@@ -188,7 +198,7 @@ public class MapController extends Controller {
 
     scrollPane.setMaxSize(470, 470);
     mapHBox.getChildren().addAll(floorDropDown, filterCheckBox, refreshButton);
-    mapVBox.getChildren().addAll(scrollPane, mapHBox);
+    mapVBox.getChildren().addAll(scrollPane, mapHBox, sideViewArea);
     mapVBox.setAlignment(Pos.TOP_CENTER);
     mapVBox.setSpacing(15);
     mapHBox.setAlignment(Pos.CENTER);
@@ -267,9 +277,27 @@ public class MapController extends Controller {
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
 
+    // for side view controllers
+    sideViewArea.setVisible(false);
     if (currFloor.getFloorName().equals("SV")) {
-      // Side view case where no filtering is needed
-      currFloor.setIconList(new ArrayList<Icon>());
+
+      ArrayList<Floor> floorList = MapManager.getManager().getFloorList();
+      ArrayList<Icon> tempIconList;
+
+      for (int f = 0; f < floorList.size() - 1; f++) {
+        tempIconList = floorList.get(f).getIconList();
+        String floorInfo = floorList.get(f).getFloorName() + ": \n";
+        for (int i = 0; i < tempIconList.size(); i++) {
+          if (tempIconList.get(i).getIconType().equals("Equipment")) {
+            floorInfo += tempIconList.get(i).getIconType() + "  ";
+          }
+        }
+        String oldInfo = sideViewArea.getText();
+        sideViewArea.setText(oldInfo + "\n" + floorInfo + "\n");
+      }
+
+      sideViewArea.setVisible(true);
+
       // ... Side View Controller Stuff
 
     } else {
