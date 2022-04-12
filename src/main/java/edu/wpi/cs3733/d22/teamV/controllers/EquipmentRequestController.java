@@ -112,7 +112,7 @@ public class EquipmentRequestController extends RequestController {
     floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("floor"));
     buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
     nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("description"));
-    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirty"));
+    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
 
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
