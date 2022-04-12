@@ -4,8 +4,7 @@ public class ReligiousRequest extends ServiceRequest {
   private final String firstName, lastName;
   private final int patientID;
   private int userID = 0;
-  private boolean Christian, Jewish, Protestant, Islam, Muslim, Buddhist, Hindu, Other;
-  private String specialRequests, religion;
+  private String religion, specialRequests;
   private int serviceID;
 
   /**

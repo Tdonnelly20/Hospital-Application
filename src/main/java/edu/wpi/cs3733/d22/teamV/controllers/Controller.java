@@ -132,7 +132,7 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
-  // Switches scene to the religious request page
+  // Switches scene to the internal patient request page
   @FXML
   protected void switchToInternalPatientTransport(ActionEvent event) throws IOException {
     loader.setLocation(

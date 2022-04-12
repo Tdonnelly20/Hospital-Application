@@ -61,7 +61,7 @@ public class Vdb {
     // TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
     String currentPath = System.getProperty("user.dir");
     if (currentPath.contains("teamV") || currentPath.contains("TeamVeganVampires")) {
-      int position = currentPath.indexOf("teamV") + 51;
+      int position = currentPath.indexOf("teamV") + 60;
       if (currentPath.length() > position) {
         currentPath = currentPath.substring(0, position);
       }

@@ -19,7 +19,7 @@ public class LabRequestDao extends DaoInterface {
   // DaoInterface Methods
   public void loadFromCSV() throws IOException, SQLException {
 
-    FileReader fr = new FileReader(Vdb.currentPath + "\\LabRequest.csv");
+    FileReader fr = new FileReader(Vdb.currentPath + "/LabRequest.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<LabRequest> labRequests = new ArrayList<>();
@@ -44,7 +44,7 @@ public class LabRequestDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\LabRequests.csv");
+    FileWriter fw = new FileWriter(Vdb.currentPath + "/LabRequests.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("userID,patientID,firstName,lastName,lab,status,serviceID");
 
