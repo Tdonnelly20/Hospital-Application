@@ -237,15 +237,14 @@ public class RequestSystem {
    */
   public ArrayList<? extends ServiceRequest> getEveryServiceRequest() {
     ArrayList<ServiceRequest> allRequests = new ArrayList<>();
-
-    /*    allRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
+    allRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
     allRequests.addAll(internalPatientTransportationDao.getAllServiceRequests());
     allRequests.addAll(labRequestDao.getAllServiceRequests());
     allRequests.addAll(laundryRequestDao.getAllServiceRequests());
     allRequests.addAll(mealRequestDao.getAllServiceRequests());
     allRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
     allRequests.addAll(religiousRequestDao.getAllServiceRequests());
-    allRequests.addAll(sanitationRequestDao.getAllServiceRequests());*/
+    allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
 
     return allRequests;
   }

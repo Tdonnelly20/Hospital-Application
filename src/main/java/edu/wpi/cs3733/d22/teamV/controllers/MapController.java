@@ -398,10 +398,9 @@ public class MapController extends Controller {
 
   // Adds icon to map
   public void addIcon(Icon icon) {
-    RequestSystem requestSystem = new RequestSystem();
     switch (icon.iconType) {
       case "Location":
-        requestSystem.getLocationDao().addLocation(icon.getLocation());
+        RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
     MapController.getController()

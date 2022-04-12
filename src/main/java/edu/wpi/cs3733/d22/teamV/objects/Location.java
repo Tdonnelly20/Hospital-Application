@@ -67,6 +67,13 @@ public class Location {
 
   public Location(String nodeID) {
     this.nodeID = nodeID;
+    xCoord = 0;
+    yCoord = 0;
+    floor = null;
+    building = null;
+    nodeType = null;
+    longName = null;
+    shortName = null;
     icon = new LocationIcon(this);
   }
 
@@ -83,24 +90,5 @@ public class Location {
         && (this.getNodeType().equals(location.getNodeType()))
         && (this.getLongName().equals(location.getLongName()))
         && (this.getShortName().equals(location.getShortName())));
-  }
-
-  public void updateInfo(
-      String nodeID,
-      double xCoord,
-      double yCoord,
-      String floor,
-      String building,
-      String nodeType,
-      String longName,
-      String shortName) {
-    this.nodeID = nodeID;
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
-    this.floor = floor;
-    this.building = building;
-    this.nodeType = nodeType;
-    this.longName = longName;
-    this.shortName = shortName;
   }
 }

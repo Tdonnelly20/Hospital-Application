@@ -1,5 +1,5 @@
 nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
-vDEPT00101,210,190,1,Tower,DEPT,Center for International Medicine,CIM
+vDEPT00101,210.0,190.0,1,Tower,DEPT,Center for International Medicine,CIM,
 vDEPT00201,150.0,450.0,1,Tower,DEPT,Bretholtz Center for Patients and Families,Bretholtz Center,
 vDEPT00301,310.0,270.0,1,Tower,DEPT,Multifaith Chapel,Chapel,
 vDEPT00401,400.0,480.0,1,Tower,DEPT,Sharf Admitting Center,Sharf Center,
