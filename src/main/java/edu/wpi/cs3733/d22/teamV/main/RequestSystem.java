@@ -233,6 +233,19 @@ public class RequestSystem {
     equipmentDao.getAllEquipment().add(equipment);
   }
 
+  public void deleteEquipment(Equipment equipment) {
+    equipmentDao.getAllEquipment().remove(equipment);
+  }
+
+  public Equipment getEquipment(String ID) {
+    for (Equipment equipment : equipmentDao.getAllEquipment()) {
+      if (equipment.getID().equals(ID)) {
+        return equipment;
+      }
+    }
+    return null;
+  }
+
   public ArrayList<Patient> getPatients() {
     return patientDao.getAllPatients();
   }

@@ -814,6 +814,12 @@ public class PopupController {
   public void addEquipmentIcon(Equipment equipment) {
     MapController.getController().addEquipmentIcon(equipment);
   }
+
+  public void deleteEquipment(Equipment equipment) {
+    RequestSystem.getSystem().deleteEquipment(equipment);
+    MapManager.getManager().setUpFloors();
+  }
+
   /** Populates a location icon's popup window with its service requests */
   @FXML
   public void insertEquipment(EquipmentIcon icon) {
@@ -864,7 +870,20 @@ public class PopupController {
   public void equipmentModifyForm(MouseEvent event, EquipmentIcon icon) {}
 
   @FXML
-  public void equipmentRemoveForm(MouseEvent event, EquipmentIcon icon) {}
+  public void equipmentRemoveForm(MouseEvent event, EquipmentIcon icon) {
+    title.setText("Delete Equipment");
+    content.getChildren().clear();
+    buttonBox.getChildren().clear();
+    submitIcon.setText("Delete Equipment");
+    field1.setPromptText("Equipment ID");
+    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
+    content.getChildren().addAll(field1);
+    submitIcon.setOnAction(
+        event1 -> {
+          deleteEquipment(RequestSystem.getSystem().getEquipment(field1.getText()));
+          closePopUp();
+        });
+  }
 
   public boolean checkLocationFields() {
     return !field1.getText().isEmpty()
