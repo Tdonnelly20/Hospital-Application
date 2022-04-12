@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import java.awt.*;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -9,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public abstract class RequestController extends MapController {
@@ -17,24 +20,23 @@ public abstract class RequestController extends MapController {
   @FXML private GridPane headerPane = new GridPane();
 
   @FXML private ImageView logo = new ImageView(new Image("Brigham_and_Womens_Hospital_logo.png"));
-  @FXML private Label title = new Label();
-
-  @FXML private Region region = new Region();
+  @FXML private Label headerTitle = new Label();
 
   @FXML private GridPane buttonBox = new GridPane();
   @FXML private Button closeButton = new Button();
   @FXML private Button homeButton = new Button();
   @FXML private Button backButton = new Button();
 
-  @FXML protected VBox sideBar = new VBox();
-
-  @FXML protected VBox tableBox = new VBox();
+  //  @FXML protected VBox sideBar = new VBox();
+  //
+  //  @FXML protected VBox tableBox = new VBox();
 
   void fillTopPane() {
     headerPane.setMinSize(Region.USE_COMPUTED_SIZE, 150);
     headerPane.setPrefSize(1920, 150);
     headerPane.setMaxSize(Region.USE_COMPUTED_SIZE, 150);
     headerPane.setAlignment(Pos.CENTER);
+    headerPane.setStyle("-fx-background-color: #1F355B");
 
     buttonBox.setMinSize(450, 150);
     buttonBox.setPrefSize(450, 150);
@@ -52,8 +54,28 @@ public abstract class RequestController extends MapController {
     bRowCons.setValignment(VPos.CENTER);
 
     backButton.setText("Service Requests");
+    backButton.setOnAction(
+        event -> {
+          try {
+            switchToServiceRequest(event);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
     homeButton.setText("Home");
+    homeButton.setOnAction(
+        event -> {
+          try {
+            switchToHome(event);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
     closeButton.setText("Close");
+    closeButton.setOnAction(
+        event -> {
+          stop();
+        });
 
     buttonBox.add(backButton, 0, 0);
     buttonBox.add(homeButton, 1, 0);
@@ -63,20 +85,16 @@ public abstract class RequestController extends MapController {
     buttonBox.getColumnConstraints().add(bCol1Cons);
     buttonBox.getColumnConstraints().add(bCol2Cons);
     buttonBox.getRowConstraints().add(bRowCons);
-    buttonBox.setGridLinesVisible(true);
 
     logo.setFitHeight(80);
     logo.setFitWidth(80);
-    title.setFont(new Font("Arial", 30));
-    title.setText("Use setTitleText");
-    region.setStyle("-fx-background-color: blue;");
-    region.setMinSize(10, 10);
-    region.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+    headerTitle.setFont(new Font("Ebrima", 50));
+    headerTitle.setTextFill(Color.WHITE);
 
     ColumnConstraints hCol0Cons =
         new ColumnConstraints(150, 150, 150, Priority.NEVER, HPos.CENTER, false);
     ColumnConstraints hCol1Cons =
-        new ColumnConstraints(500, 500, 500, Priority.NEVER, HPos.CENTER, false);
+        new ColumnConstraints(650, 650, 650, Priority.NEVER, HPos.CENTER, false);
 
     ColumnConstraints hCol2Cons =
         new ColumnConstraints(
@@ -93,8 +111,7 @@ public abstract class RequestController extends MapController {
     RowConstraints hRowCons = new RowConstraints(150, 150, 150, Priority.NEVER, VPos.CENTER, false);
 
     headerPane.addColumn(0, logo);
-    headerPane.addColumn(1, title);
-    headerPane.addColumn(2, region);
+    headerPane.addColumn(1, headerTitle);
     headerPane.addColumn(3, buttonBox);
 
     headerPane.getColumnConstraints().clear();
@@ -102,12 +119,11 @@ public abstract class RequestController extends MapController {
     headerPane.getColumnConstraints().add(hCol1Cons);
     headerPane.getColumnConstraints().add(hCol2Cons);
     headerPane.getColumnConstraints().add(hCol3Cons);
-    headerPane.getRowConstraints().add(0, hRowCons);
-    headerPane.setGridLinesVisible(true);
+    headerPane.getRowConstraints().add(hRowCons);
   }
 
   void setTitleText(String str) {
-    title.setText(str);
+    headerTitle.setText(str);
   }
 
   abstract void updateTreeTable();
