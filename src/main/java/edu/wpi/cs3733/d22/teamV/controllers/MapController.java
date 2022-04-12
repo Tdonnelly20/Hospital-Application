@@ -412,6 +412,12 @@ public class MapController extends Controller {
     checkDropDown();
   }
 
+  public void deleteIcon(Icon icon) {
+    System.out.println("Delete Icon");
+    RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
+    MapManager.getManager().getFloor(currFloor.getFloorName()).removeIcon(icon);
+  }
+
   // Adds icon to map
   public void removeIcon(Icon icon) {
     switch (icon.iconType) {

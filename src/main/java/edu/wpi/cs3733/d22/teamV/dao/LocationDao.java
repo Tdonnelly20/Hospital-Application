@@ -236,19 +236,26 @@ public class LocationDao extends DaoInterface {
               + "','"
               + location.getShortName()
               + "')");
-    } catch (SQLException e) {
-      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public void removeFromSQLTable(String nodeID) throws SQLException {
+  public void removeFromSQLTable(String nodeID) {
     String query = "";
     Connection connection = Vdb.Connect();
     assert connection != null;
-    Statement statement = connection.createStatement();
+    Statement statement = null;
+    try {
+      statement = connection.createStatement();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     query = "DELETE FROM LOCATIONS WHERE nodeID = '" + nodeID + "'";
-    statement.executeUpdate(query);
+    try {
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

@@ -189,9 +189,8 @@ public class PopupController {
   }
 
   void deleteLocation(Location location) throws SQLException, IOException {
-    MapController.getController().removeIcon(location.getIcon());
-    requestSystem.getLocationDao().deleteLocation(location.getNodeID());
-    // MapController.getController().getFloor();
+    System.out.println("Deleted");
+    mapController.deleteIcon(location.getIcon());
     clearPopupForm();
   }
 
@@ -468,12 +467,13 @@ public class PopupController {
     title.setText("Delete A Location");
     content.getChildren().clear();
     buttonBox.getChildren().clear();
-    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     submitIcon.setText("Delete Location");
     field1.setPromptText("Old Node ID");
     if (icon == null) {
+      buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
       content.getChildren().addAll(field1);
     } else {
+      buttonBox.getChildren().addAll(returnButton, submitIcon, closeButton);
       field1.setText(icon.getLocation().getNodeID());
     }
     submitIcon.setOnAction(
@@ -496,9 +496,7 @@ public class PopupController {
                 .remove(requestSystem.getLocationDao().getLocation(nodeID).getIcon());
             try {
               requestSystem.getLocationDao().deleteLocation(nodeID);
-            } catch (SQLException e) {
-              e.printStackTrace();
-            } catch (IOException e) {
+            } catch (SQLException | IOException e) {
               e.printStackTrace();
             }
           }
