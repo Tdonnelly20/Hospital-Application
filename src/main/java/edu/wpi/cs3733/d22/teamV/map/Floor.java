@@ -19,6 +19,12 @@ public class Floor {
     iconList.add(icon);
   }
 
+  public void removeIcon(Icon icon) {
+    if (iconList.contains(icon)) {
+      iconList.remove(icon);
+    }
+  }
+
   public String getFloorName() {
     return floorName;
   }

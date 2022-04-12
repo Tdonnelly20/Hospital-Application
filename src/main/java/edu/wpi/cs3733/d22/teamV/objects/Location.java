@@ -91,4 +91,23 @@ public class Location {
         && (this.getLongName().equals(location.getLongName()))
         && (this.getShortName().equals(location.getShortName())));
   }
+
+  public String toString() {
+    return "Node ID: "
+        + nodeID
+        + " X: "
+        + xCoord
+        + " Y: "
+        + yCoord
+        + " Floor: "
+        + floor
+        + " Building: "
+        + building
+        + " Node Type: "
+        + nodeType
+        + " Long Name: "
+        + longName
+        + " Short Name: "
+        + shortName;
+  }
 }

@@ -5,6 +5,8 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -403,13 +405,28 @@ public class MapController extends Controller {
         RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
-    MapController.getController()
-        .getMapPane()
-        .getChildren()
-        .remove(MapManager.getManager().getTempIcon());
+    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
     // populateFloorIconArr();
     MapManager.getManager().getTempIcon().setVisible(false);
+    checkDropDown();
+  }
+
+  // Adds icon to map
+  public void removeIcon(Icon icon) {
+    switch (icon.iconType) {
+      case "Location":
+        try {
+          RequestSystem.getSystem().getLocationDao().deleteLocation(icon.getLocation().getNodeID());
+        } catch (SQLException | IOException e) {
+          e.printStackTrace();
+        }
+    }
+    PopupController.getController().closePopUp();
+    /*if (mapPane.getChildren().contains(icon.getImage())) {
+      mapPane.getChildren().remove(icon.getImage());
+    }*/
+    MapManager.getManager().getFloor(getFloor()).removeIcon(icon);
     checkDropDown();
   }
 

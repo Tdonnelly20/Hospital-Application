@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
+import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
@@ -61,6 +62,8 @@ public class PopupController {
   @FXML JFXComboBox<String> comboBox1 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox2 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox3 = new JFXComboBox<>();
+  MapManager mapManager = MapManager.getManager();
+  MapController mapController = MapController.getController();
   RequestSystem requestSystem = RequestSystem.getSystem();
 
   private static class SingletonHelper {
@@ -186,9 +189,9 @@ public class PopupController {
   }
 
   void deleteLocation(Location location) throws SQLException, IOException {
-    MapManager.getManager().getFloor(location.getFloor()).getIconList().remove(location.getIcon());
+    MapController.getController().removeIcon(location.getIcon());
     requestSystem.getLocationDao().deleteLocation(location.getNodeID());
-    MapController.getController().getFloor();
+    // MapController.getController().getFloor();
     clearPopupForm();
   }
 
@@ -266,7 +269,6 @@ public class PopupController {
         updateStatus.setOnAction(
             event1 -> {
               request.setStatus(updateStatus.getValue().toString());
-              // TODO: Update request CSV
             });
 
         Accordion accordion =
@@ -375,54 +377,26 @@ public class PopupController {
       field1.setText(icon.getLocation().getNodeID());
       submitIcon.setOnAction(
           event1 -> { // If user doesn't fill in information, assume old information is retained
+            System.out.println(icon.getLocation().toString());
             if (!(field2.getText().equals(icon.getLocation().getNodeID())
-                && field3.getText().equals("" + icon.getLocation().getXCoord())
-                && field4.getText().equals("" + icon.getLocation().getYCoord())
+                && field3.getText().equals(String.valueOf(icon.getLocation().getXCoord()))
+                && field4.getText().equals(String.valueOf(icon.getLocation().getYCoord()))
                 && comboBox1.getValue().equals(icon.getLocation().getFloor())
                 && field5.getText().equals(icon.getLocation().getBuilding())
                 && field6.getText().equals(icon.getLocation().getNodeType())
                 && field7.getText().equals(icon.getLocation().getLongName())
                 && field8.getText().equals(icon.getLocation().getShortName()))) {
-              if (field2.getText().isEmpty()) {
-                field2.setText(icon.getLocation().getNodeID());
-              }
-              if (field3.getText().isEmpty()) {
-                field3.setText(String.valueOf(icon.getLocation().getXCoord()));
-                System.out.println(String.valueOf(icon.getLocation().getXCoord()));
-              }
-              if (field4.getText().isEmpty()) {
-                field4.setText(String.valueOf(icon.getLocation().getYCoord()));
-              }
-              if (field5.getText().isEmpty()) {
-                field5.setText(icon.getLocation().getBuilding());
-              }
-              if (field6.getText().isEmpty()) {
-                field6.setText(icon.getLocation().getNodeType());
-              }
-              if (field7.getText().isEmpty()) {
-                field7.setText(icon.getLocation().getLongName());
-              }
-              if (field8.getText().isEmpty()) {
-                field8.setText("" + icon.getLocation().getShortName());
-              }
+              Location newLocation = ifFilterEmpty(icon);
               try {
                 deleteLocation(icon.getLocation());
               } catch (SQLException | IOException e) {
                 e.printStackTrace();
               }
-              Location newLocation =
-                  new Location(
-                      field2.getText(),
-                      Double.parseDouble(field3.getText().toString()),
-                      Double.parseDouble(field4.getText().toString()),
-                      icon.getLocation().getFloor(),
-                      field5.getText(),
-                      field6.getText(),
-                      field7.getText(),
-                      field8.getText());
+              System.out.println("'" + field3.getText() + "'");
+              System.out.println("'" + field4.getText() + "'");
+
               addLocation(newLocation);
               locationForm(event, newLocation.getIcon());
-              clearPopupForm();
 
             } else {
               missingFields.setText("No information has been modified. Please input corrections");
@@ -432,6 +406,61 @@ public class PopupController {
     }
     stage.setTitle("Modify Existing Location");
     showPopUp();
+  }
+
+  public Location ifFilterEmpty(Icon icon) {
+    Location location = new Location();
+    if (field2.getText().isEmpty()) {
+      field2.setText(icon.getLocation().getNodeID());
+      location.setNodeID(icon.getLocation().getNodeID());
+    } else {
+      location.setNodeID(field2.getText());
+    }
+    if (field3.getText().isEmpty()) {
+      field3.setText(String.valueOf(icon.getLocation().getXCoord()));
+      System.out.println("'" + icon.getLocation().getXCoord() + "'");
+      System.out.println("'" + field3.getText() + "'");
+      location.setXCoord(icon.getLocation().getXCoord());
+    } else {
+      location.setXCoord(Double.parseDouble(field3.getText()));
+    }
+    if (field4.getText().isEmpty()) {
+      field4.setText(String.valueOf(icon.getLocation().getYCoord()));
+      System.out.println("'" + icon.getLocation().getYCoord() + "'");
+      System.out.println("'" + field4.getText() + "'");
+      location.setYCoord(icon.getLocation().getYCoord());
+    } else {
+      location.setYCoord(Double.parseDouble(field4.getText()));
+    }
+    if (comboBox1.getValue().equals("")) {
+      location.setFloor(icon.getLocation().getFloor());
+    } else {
+      location.setFloor(comboBox1.getValue());
+    }
+    if (field5.getText().isEmpty()) {
+      field5.setText(icon.getLocation().getBuilding());
+      location.setBuilding(icon.getLocation().getBuilding());
+    } else {
+      location.setBuilding(field5.getText());
+    }
+    if (field6.getText().isEmpty()) {
+      field6.setText(icon.getLocation().getNodeType());
+      location.setNodeType(icon.getLocation().getNodeType());
+    } else {
+      location.setNodeType(field6.getText());
+    }
+    if (field7.getText().isEmpty()) {
+      field7.setText(icon.getLocation().getLongName());
+      location.setLongName(icon.getLocation().getLongName());
+    } else {
+      location.setLongName(field7.getText());
+    }
+    if (field8.getText().isEmpty()) {
+      location.setShortName(icon.getLocation().getShortName());
+    } else {
+      location.setShortName(field8.getText());
+    }
+    return location;
   }
 
   @FXML
