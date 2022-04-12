@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -31,7 +32,7 @@ public class SanitationRequestDao extends DaoInterface {
   @Override
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\SanitationRequest.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "\\SanitationRequest.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -57,7 +58,7 @@ public class SanitationRequestDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\SanitationRequest.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\SanitationRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("FirstName,LastName,PatientID,EmpID,Location,Hazard,Details,serviceID");
 

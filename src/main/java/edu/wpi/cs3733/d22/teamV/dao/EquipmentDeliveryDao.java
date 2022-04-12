@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -26,7 +27,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\MedEquipReq.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "\\MedEquipReq.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -54,7 +55,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\MedEquipReq.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\MedEquipReq.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "employeeID,patientID,patientFirstName,patientLastName,location,equipment,notes,quantity,status,serviceID");

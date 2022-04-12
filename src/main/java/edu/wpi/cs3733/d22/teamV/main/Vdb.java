@@ -20,19 +20,6 @@ public class Vdb {
    *
    * @return currentPath
    */
-  public static String returnPath() {
-    // TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
-    String currentPath = System.getProperty("user.dir");
-    if (currentPath.contains("teamV") || currentPath.contains("TeamVeganVampires")) {
-      int position = currentPath.indexOf("teamV") + 51;
-      if (currentPath.length() > position) {
-        currentPath = currentPath.substring(0, position);
-      }
-      currentPath += "\\src\\main\\resources\\edu\\wpi\\cs3733\\d22\\teamV";
-      System.out.println(currentPath);
-    }
-    return currentPath;
-  }
 
   /**
    * Initializes all databases and connects to them
@@ -40,6 +27,7 @@ public class Vdb {
    * @throws Exception
    */
   public void createAllDB() throws Exception {
+    requestSystem.init();
     mapManager = MapManager.getManager();
     mapController = MapController.getController();
     popupController = PopupController.getController();

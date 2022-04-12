@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -20,7 +21,7 @@ public class LabRequestDao extends DaoInterface {
   // DaoInterface Methods
   public void loadFromCSV() throws IOException, SQLException {
 
-    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\LabRequests.csv");
+    FileReader fr = new FileReader(VApp.currentPath + "\\LabRequests.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<LabRequest> labRequests = new ArrayList<>();
@@ -46,7 +47,7 @@ public class LabRequestDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\LabRequests.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\LabRequests.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("userID,patientID,firstName,lastName,lab,status,serviceID");
 

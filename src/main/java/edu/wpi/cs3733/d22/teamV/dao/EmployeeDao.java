@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.*;
@@ -26,7 +27,7 @@ public class EmployeeDao {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    String file = Vdb.requestSystem.currentPath + "\\Employees.csv";
+    String file = VApp.currentPath + "\\Employees.csv";
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -62,7 +63,7 @@ public class EmployeeDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\Employees.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\Employees.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "employeeID,employeeFirstName,employeeLastName,employeePosition,employeeSpecialties,patientIDs,serviceRequestIDs");

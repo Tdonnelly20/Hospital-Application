@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import java.io.*;
@@ -28,7 +29,7 @@ public class PatientDao {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    String file = Vdb.requestSystem.currentPath + "\\Patients.csv";
+    String file = VApp.currentPath + "\\Patients.csv";
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -56,7 +57,7 @@ public class PatientDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\Patients.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\Patients.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("patientID, patientFirstName, patientLastName, employeeIDs, serviceRequestIDs");
     for (Patient p : getAllPatients()) {

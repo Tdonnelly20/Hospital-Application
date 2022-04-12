@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import java.io.*;
@@ -43,7 +44,7 @@ public class EquipmentDao {
 
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\ListofEquipment.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "\\ListofEquipment.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -67,7 +68,7 @@ public class EquipmentDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\ListofEquipment.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\ListofEquipment.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("ID,Name,Floor,X,Y,Description,isDirty");
 

@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d22.teamV.manager;
 
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
@@ -22,10 +21,9 @@ public class MapManager {
   private ArrayList<Floor> floorList;
   @FXML private ImageView tempIcon = new ImageView("icon.png");
   List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
-  RequestSystem requestSystem = new RequestSystem();
 
   private MapManager() {
-    serviceRequests = requestSystem.getEveryServiceRequest();
+    serviceRequests = Vdb.requestSystem.getEveryServiceRequest();
     PopupController.getController().setUpPopup();
     setUpFloors();
   }

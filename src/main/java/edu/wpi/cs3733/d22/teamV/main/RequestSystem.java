@@ -16,20 +16,38 @@ public class RequestSystem {
   public static int patientIDCounter = 0;
   public static int employeeIDCounter = 0;
 
-  public static final String currentPath = Vdb.returnPath();
-  private final LocationDao locationDao = new LocationDao();
-  private final PatientDao patientDao = new PatientDao();
-  private final EmployeeDao employeeDao = new EmployeeDao();
-  private final EquipmentDao equipmentDao = new EquipmentDao();
-  private final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-  private final InternalPatientTransportationDao internalPatientTransportationDao =
-      new InternalPatientTransportationDao();
-  private final LabRequestDao labRequestDao = new LabRequestDao();
-  private final LaundryRequestDao laundryRequestDao = new LaundryRequestDao();
-  private final MealRequestDao mealRequestDao = new MealRequestDao();
-  private final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
-  private final ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
-  private final SanitationRequestDao sanitationRequestDao = new SanitationRequestDao();
+  private LocationDao locationDao;
+  private PatientDao patientDao;
+  private EmployeeDao employeeDao;
+  private EquipmentDao equipmentDao;
+  private EquipmentDeliveryDao equipmentDeliveryDao;
+  private InternalPatientTransportationDao internalPatientTransportationDao;
+  private LabRequestDao labRequestDao;
+  private LaundryRequestDao laundryRequestDao;
+  private MealRequestDao mealRequestDao;
+  private MedicineDeliveryDao medicineDeliveryDao;
+  private ReligiousRequestDao religiousRequestDao;
+  private SanitationRequestDao sanitationRequestDao;
+
+  public RequestSystem() {}
+
+  public void init() {
+    System.out.println(this);
+
+    locationDao = new LocationDao();
+    patientDao = new PatientDao();
+    employeeDao = new EmployeeDao();
+
+    equipmentDao = new EquipmentDao();
+    equipmentDeliveryDao = new EquipmentDeliveryDao();
+    internalPatientTransportationDao = new InternalPatientTransportationDao();
+    labRequestDao = new LabRequestDao();
+    laundryRequestDao = new LaundryRequestDao();
+    mealRequestDao = new MealRequestDao();
+    medicineDeliveryDao = new MedicineDeliveryDao();
+    religiousRequestDao = new ReligiousRequestDao();
+    sanitationRequestDao = new SanitationRequestDao();
+  }
 
   /** Choose type of DAO for the methods called */
   public enum Dao {
@@ -218,6 +236,7 @@ public class RequestSystem {
    */
   public ArrayList<? extends ServiceRequest> getEveryServiceRequest() {
     ArrayList<ServiceRequest> allRequests = new ArrayList<>();
+    /*
     allRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
     allRequests.addAll(internalPatientTransportationDao.getAllServiceRequests());
     allRequests.addAll(labRequestDao.getAllServiceRequests());
@@ -226,6 +245,8 @@ public class RequestSystem {
     allRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
     allRequests.addAll(religiousRequestDao.getAllServiceRequests());
     allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
+
+    */
     return allRequests;
   }
 

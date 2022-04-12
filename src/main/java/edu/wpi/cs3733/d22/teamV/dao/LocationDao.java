@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -62,7 +63,7 @@ public class LocationDao extends DaoInterface {
   }
 
   public void saveToBackupCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\LocationsBackup.csv");
+    FileWriter fw = new FileWriter(VApp.returnPath() + "\\LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
@@ -90,7 +91,7 @@ public class LocationDao extends DaoInterface {
 
   public void loadBackupLocations() throws IOException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\LocationsBackup.csv");
+    FileReader fr = new FileReader(VApp.currentPath + "\\LocationsBackup.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<Location> locations = new ArrayList<>();
@@ -118,7 +119,7 @@ public class LocationDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    String file = Vdb.requestSystem.currentPath + "\\TowerLocations.csv";
+    String file = VApp.currentPath + "\\TowerLocations.csv";
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -144,7 +145,7 @@ public class LocationDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\TowerLocations.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\TowerLocations.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");

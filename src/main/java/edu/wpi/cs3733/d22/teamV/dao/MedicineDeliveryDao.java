@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -28,7 +29,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException {
 
-    FileReader fr = new FileReader(Vdb.requestSystem.currentPath + "\\MedicineDelivery.csv");
+    FileReader fr = new FileReader(VApp.currentPath + "\\MedicineDelivery.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
@@ -58,7 +59,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.requestSystem.currentPath + "\\MedicineDelivery.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID");
 

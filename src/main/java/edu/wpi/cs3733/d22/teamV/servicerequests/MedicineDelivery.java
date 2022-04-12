@@ -26,7 +26,6 @@ public class MedicineDelivery extends ServiceRequest {
     this.dosage = dosage;
     this.requestDetails = requestDetails;
     this.nodeID = nodeID;
-    System.out.println(Vdb.requestSystem);
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.status = status;
     patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
