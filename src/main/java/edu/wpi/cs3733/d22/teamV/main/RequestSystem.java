@@ -213,6 +213,13 @@ public class RequestSystem {
     return locationDao.getAllLocations();
   }
 
+  public Location getLocation(String nodeID) {
+    return locationDao.getLocation(nodeID);
+  }
+
+  public void deleteLocation(String nodeID) {
+    locationDao.deleteLocation(nodeID);
+  }
   /**
    * Getter specifically for equipment since it is not a service request
    *

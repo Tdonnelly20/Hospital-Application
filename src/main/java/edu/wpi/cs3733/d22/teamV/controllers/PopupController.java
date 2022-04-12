@@ -182,16 +182,21 @@ public class PopupController {
         });
   }
 
-  void addLocation(Location location) {
-    requestSystem.getLocationDao().addLocation(location);
-    MapController.getController().addIcon(location.getIcon());
+  void addIcon(Location location) {
+    if (requestSystem.getLocation(location.getNodeID()) == null) {
+      MapController.getController().addIcon(location.getIcon());
+      clearPopupForm();
+    }
+  }
+
+  void deleteIcon(Location location) throws SQLException, IOException {
+    System.out.println("Deleted");
+    mapController.deleteIcon(location.getIcon());
     clearPopupForm();
   }
 
-  void deleteLocation(Location location) throws SQLException, IOException {
-    MapController.getController().removeIcon(location.getIcon());
-    requestSystem.getLocationDao().deleteLocation(location.getNodeID());
-    // MapController.getController().getFloor();
+  void deleteIcon(String nodeID) {
+    mapController.deleteIcon(requestSystem.getLocationDao().getLocation(nodeID).getIcon());
     clearPopupForm();
   }
 
@@ -331,19 +336,15 @@ public class PopupController {
                 "5th Floor"));
     field5.setPromptText("Building");
     field6.setPromptText("Node Type");
-    field7.setPromptText("Short Name");
-    field8.setPromptText("Long Name");
+    field8.setPromptText("Short Name");
+    field7.setPromptText("Long Name");
     if (icon == null) {
       content
           .getChildren()
           .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
       submitIcon.setOnAction(
           event1 -> {
-            try {
-              deleteLocation(requestSystem.getLocationDao().getLocation(field1.getText()));
-            } catch (SQLException | IOException e) {
-              e.printStackTrace();
-            }
+            deleteIcon(field1.getText());
 
             Location newLocation =
                 new Location(
@@ -358,7 +359,7 @@ public class PopupController {
                     field7.getText(),
                     field8.getText());
 
-            addLocation(newLocation);
+            addIcon(newLocation);
             locationForm(event, newLocation.getIcon());
           });
     } else {
@@ -388,15 +389,15 @@ public class PopupController {
                 && field8.getText().equals(icon.getLocation().getShortName()))) {
               Location newLocation = ifFilterEmpty(icon);
               try {
-                deleteLocation(icon.getLocation());
+                deleteIcon(icon.getLocation());
               } catch (SQLException | IOException e) {
                 e.printStackTrace();
               }
-              System.out.println("'" + field3.getText() + "'");
-              System.out.println("'" + field4.getText() + "'");
 
-              addLocation(newLocation);
-              locationForm(event, newLocation.getIcon());
+              System.out.println(newLocation.toString());
+              addIcon(newLocation);
+              clearPopupForm();
+              MapController.getController().checkDropDown();
 
             } else {
               missingFields.setText("No information has been modified. Please input corrections");
@@ -468,39 +469,26 @@ public class PopupController {
     title.setText("Delete A Location");
     content.getChildren().clear();
     buttonBox.getChildren().clear();
-    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     submitIcon.setText("Delete Location");
     field1.setPromptText("Old Node ID");
     if (icon == null) {
+      buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
       content.getChildren().addAll(field1);
     } else {
+      buttonBox.getChildren().addAll(returnButton, submitIcon, closeButton);
       field1.setText(icon.getLocation().getNodeID());
     }
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
             try {
-              deleteLocation(icon.getLocation());
+              deleteIcon(icon.getLocation());
             } catch (SQLException | IOException e) {
               e.printStackTrace();
             }
           } else {
             String nodeID = field1.getText();
-            MapController.getController()
-                .mapPane
-                .getChildren()
-                .remove(requestSystem.getLocationDao().getLocation(nodeID).getIcon().getImage());
-            MapManager.getManager()
-                .getFloor(icon.getLocation().getFloor())
-                .getIconList()
-                .remove(requestSystem.getLocationDao().getLocation(nodeID).getIcon());
-            try {
-              requestSystem.getLocationDao().deleteLocation(nodeID);
-            } catch (SQLException e) {
-              e.printStackTrace();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+            deleteIcon(nodeID);
           }
           closePopUp();
         });
