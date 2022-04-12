@@ -22,10 +22,6 @@ public class LocationDao extends DaoInterface {
     }
   }
 
-  public void init() {
-    allLocations = new ArrayList<>();
-  }
-
   public ArrayList<Location> getAllLocations() {
     return allLocations;
   }
