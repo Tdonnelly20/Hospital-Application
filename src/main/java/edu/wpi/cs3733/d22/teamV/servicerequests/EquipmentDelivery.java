@@ -41,7 +41,7 @@ public class EquipmentDelivery extends ServiceRequest {
       String status) {
     System.out.println(Vdb.requestSystem);
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
-    this.hospitalEmployee = new Employee(employeeID);
+    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     this.equipment = equipment;
     this.notes = notes;

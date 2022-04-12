@@ -32,10 +32,6 @@ public abstract class ServiceRequest {
     return type;
   }
 
-  public Employee getEmp() {
-    return hospitalEmployee;
-  }
-
   public Patient getPatient() {
     return patient;
   }

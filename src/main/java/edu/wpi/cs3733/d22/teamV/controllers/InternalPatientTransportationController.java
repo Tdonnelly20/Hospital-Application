@@ -138,8 +138,6 @@ public class InternalPatientTransportationController extends MapController
 
       // Send the request to the Dao pattern
       internalPatientTransportationDao.addInternalPatientTransportation(
-          firstName.getText(),
-          lastName.getText(),
           roomNum.getText(),
           Integer.parseInt(patientID.getText()),
           Integer.parseInt(hospitalID.getText()),

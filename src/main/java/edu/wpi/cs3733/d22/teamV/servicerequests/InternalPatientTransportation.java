@@ -7,26 +7,20 @@ import edu.wpi.cs3733.d22.teamV.objects.Patient;
 public class InternalPatientTransportation extends ServiceRequest {
   private Patient patient;
   private Employee employee;
-  private String roomNumber, requestDetails;
+  private String nodeID, requestDetails;
 
   /**
-   * @param patientFirstName
-   * @param patientLastName
    * @param patientID
-   * @param hospitalID
-   * @param roomNumber
+   * @param employeeID
+   * @param nodeID
    * @param requestDetails
    */
   public InternalPatientTransportation(
-      String patientFirstName,
-      String patientLastName,
-      String roomNumber,
-      int patientID,
-      int hospitalID,
-      String requestDetails) {
-    patient = Vdb.requestSystem.getPatients().get(patientID);
-    employee = new Employee(hospitalID);
-    this.roomNumber = roomNumber;
+      String nodeID, int patientID, int employeeID, String requestDetails) {
+    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
+    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.nodeID = nodeID;
     this.requestDetails = requestDetails;
   }
 
@@ -46,8 +40,8 @@ public class InternalPatientTransportation extends ServiceRequest {
     return employee.getEmployeeID();
   }
 
-  public String getRoomNumber() {
-    return roomNumber;
+  public String getNodeID() {
+    return nodeID;
   }
 
   public String getRequestDetails() {

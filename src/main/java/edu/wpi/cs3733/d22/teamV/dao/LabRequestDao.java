@@ -34,13 +34,8 @@ public class LabRequestDao extends DaoInterface {
       String[] data = line.split(splitToken);
       LabRequest newDelivery =
           new LabRequest(
-              Integer.parseInt(data[0]),
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              data[4],
-              data[5]);
-      newDelivery.setServiceID(Integer.parseInt(data[6]));
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+      newDelivery.setServiceID(Integer.parseInt(data[5]));
       allLabRequests.add(newDelivery);
     }
     setAllServiceRequests(allLabRequests);

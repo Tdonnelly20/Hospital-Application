@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -564,20 +565,18 @@ public class PopupController {
     switch (serviceRequest) {
       case "Lab Request":
         field2.setPromptText("Patient ID");
-        field3.setPromptText("Notes");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Blood Sample", "Urine Sample", "X-Ray", "CAT", "MRI"));
-        content.getChildren().addAll(field2, field3, comboBox2);
+        content.getChildren().addAll(field2, comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               LabRequest request =
                   new LabRequest(
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
-                      "",
-                      "",
+                      icon.getLocation().getNodeID(),
                       comboBox2.getValue().toString(),
                       comboBox3.getValue().toString());
               addRequest(event, icon, request);
@@ -598,7 +597,7 @@ public class PopupController {
                   new EquipmentDelivery(
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
-                      "node id",
+                      field1.getText(), // BAZINGA
                       comboBox2.getValue().toString(),
                       field4.getText(),
                       Integer.parseInt(field3.getText()),
@@ -609,16 +608,25 @@ public class PopupController {
         break;
       case "Medicine Delivery":
         field2.setPromptText("Patient ID");
-        field3.setPromptText("Notes");
+        field3.setPromptText("Dosage");
+        field4.setPromptText("Request Details");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Tylenol", "Morphine", "Epinephrine", "Adderall", "Cyclosporine"));
-        content.getChildren().addAll(field2, field3, comboBox2);
+        content.getChildren().addAll(field2, field3, field4, comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              /*MedicineDelivery request=new MedicineDelivery();
-              addRequest(event, icon, request);*/
+              MedicineDelivery request =
+                  new MedicineDelivery(
+                      "test",
+                      Integer.parseInt(field1.getText()),
+                      Integer.parseInt(field2.getText()),
+                      comboBox2.getValue(),
+                      field3.getText(),
+                      comboBox3.getValue(),
+                      field4.getText());
+              addRequest(event, icon, request);
             });
         break;
       case "Internal Patient Transport":
