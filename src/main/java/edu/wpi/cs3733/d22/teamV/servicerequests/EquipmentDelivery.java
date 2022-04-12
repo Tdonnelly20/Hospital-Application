@@ -1,13 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 
 public class EquipmentDelivery extends ServiceRequest {
   private final String equipment, notes;
   private final int quantity;
-  private String patientFirstName, patientLastName, locationName;
-  private int employeeID, patientID;
 
   public EquipmentDelivery(
       int employeeID,
@@ -20,7 +19,7 @@ public class EquipmentDelivery extends ServiceRequest {
       int quantity,
       String status,
       int serviceID) {
-    this.location = Vdb.requestSystem.getLocations().get(location.getID());
+    this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
     this.hospitalEmployee = new Employee(employeeID);
     this.patient = Vdb.requestSystem.getPatients().get(patientID);
     this.equipment = equipment;
@@ -30,24 +29,18 @@ public class EquipmentDelivery extends ServiceRequest {
     setServiceID(serviceID);
     this.quantity = quantity;
     this.status = status;
-    this.patientFirstName = patientFirstName;
-    this.patientLastName = patientLastName;
-    this.employeeID = employeeID;
-    this.patientID = patientID;
-    locationName = location.getShortName();
   }
 
   public EquipmentDelivery(
       int employeeID,
       int patientID,
-      String patientFirstName,
-      String patientLastName,
       String nodeID,
       String equipment,
       String notes,
       int quantity,
       String status) {
-    this.location = Vdb.requestSystem.getLocations().get(location.getID());
+    System.out.println(Vdb.requestSystem);
+    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.hospitalEmployee = new Employee(employeeID);
     this.patient = Vdb.requestSystem.getPatients().get(patientID);
     this.equipment = equipment;
@@ -56,11 +49,6 @@ public class EquipmentDelivery extends ServiceRequest {
     this.status = status;
     this.quantity = quantity;
     this.status = status;
-    this.patientFirstName = patientFirstName;
-    this.patientLastName = patientLastName;
-    this.employeeID = employeeID;
-    this.patientID = patientID;
-    locationName = location.getShortName();
   }
 
   public String getEquipment() {
@@ -76,22 +64,22 @@ public class EquipmentDelivery extends ServiceRequest {
   }
 
   public String getPatientFirstName() {
-    return patientFirstName;
+    return patient.getFirstName();
   }
 
   public String getPatientLastName() {
-    return patientLastName;
+    return patient.getLastName();
   }
 
   public String getLocationName() {
-    return locationName;
+    return location.getNodeID();
   }
 
   public int getEmployeeID() {
-    return employeeID;
+    return hospitalEmployee.getEmployeeID();
   }
 
   public int getPatientID() {
-    return patientID;
+    return patient.getPatientID();
   }
 }

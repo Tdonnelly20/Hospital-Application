@@ -608,8 +608,6 @@ public class PopupController {
                   new EquipmentDelivery(
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
-                      "",
-                      "",
                       "node id",
                       comboBox2.getValue().toString(),
                       field4.getText(),
