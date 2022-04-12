@@ -823,7 +823,7 @@ public class PopupController {
     MapController.getController().addEquipmentIcon(equipment);
   }
 
-  public void deleteEquipment(Equipment equipment) {
+  public void deleteEquipmentIcon(Equipment equipment) {
     RequestSystem.getSystem().deleteEquipment(equipment);
     MapManager.getManager().setUpFloors();
   }
@@ -843,6 +843,14 @@ public class PopupController {
       vBox.setPrefHeight(400);
       for (Equipment equipment : icon.getEquipmentList()) {
         Label idLabel = new Label("ID: " + equipment.getID());
+        Button deleteEquipment = new Button("Delete");
+        deleteEquipment.setOnAction(
+            event -> {
+              icon.removeEquipment(equipment);
+              if (icon.getEquipmentList().size() == 0) {
+                deleteEquipmentIcon(equipment);
+              }
+            });
         Label locationLabel =
             new Label(
                 "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
@@ -858,6 +866,7 @@ public class PopupController {
                 equipment.setIsDirty(false);
               }
             });
+        HBox hbox = new HBox(15, updateStatus, deleteEquipment);
         Accordion accordion =
             new Accordion(
                 new TitledPane(
@@ -866,7 +875,7 @@ public class PopupController {
                         + equipment.getIsDirtyString()
                         + "): "
                         + equipment.getDescription(),
-                    new VBox(15, idLabel, locationLabel, updateStatus)));
+                    new VBox(15, idLabel, locationLabel, hbox)));
         accordion.setPrefWidth(450);
         vBox.getChildren().add(accordion);
       }
@@ -875,7 +884,60 @@ public class PopupController {
   }
 
   @FXML
-  public void equipmentModifyForm(MouseEvent event, EquipmentIcon icon) {}
+  public void equipmentModifyForm(MouseEvent event, EquipmentIcon icon) {
+    title.setText("Modify Equipment");
+    content.getChildren().clear();
+    buttonBox.getChildren().clear();
+    clearPopupForm();
+    submitIcon.setText("Modify Equipment");
+    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
+    field1.setPromptText("Old Equipment ID");
+    field2.setPromptText("Equipment ID");
+    field3.setPromptText("X-Coordinate");
+    field4.setPromptText("Y-Coordinate");
+    comboBox1 =
+        new JFXComboBox<>(
+            FXCollections.observableArrayList(
+                "Lower Level 2",
+                "Lower Level 1",
+                "1st Floor",
+                "2nd Floor",
+                "3rd Floor",
+                "4th Floor",
+                "5th Floor"));
+    field5.setPromptText("Building");
+    field6.setPromptText("Type");
+    field7.setPromptText("Description");
+    comboBox2.setValue("Status");
+    comboBox2 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
+    content
+        .getChildren()
+        .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, comboBox2);
+    submitIcon.setOnAction(
+        event1 -> {
+          deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(field1.getText()));
+
+          Equipment equipment =
+              new Equipment(
+                  field2.getText(),
+                  field6.getText(),
+                  comboBox1.getValue().toString(),
+                  Double.parseDouble(field3.getText()),
+                  Double.parseDouble(field4.getText()),
+                  field7.getText(),
+                  false);
+          if (comboBox2.getValue().equals("Dirty")) {
+            equipment.setIsDirty(true);
+          } else {
+            equipment.setIsDirty(false);
+          }
+          addEquipmentIcon(equipment);
+          closePopUp();
+        });
+
+    stage.setTitle("Modify Equipment");
+    showPopUp();
+  }
 
   @FXML
   public void equipmentRemoveForm(MouseEvent event, EquipmentIcon icon) {
@@ -888,7 +950,7 @@ public class PopupController {
     content.getChildren().addAll(field1);
     submitIcon.setOnAction(
         event1 -> {
-          deleteEquipment(RequestSystem.getSystem().getEquipment(field1.getText()));
+          deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(field1.getText()));
           closePopUp();
         });
   }
