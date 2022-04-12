@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class LabRequestController extends MapController implements RequestInterface {
   @FXML private TreeTableView<LabRequest> table;
-  @FXML private TreeTableColumn<LabRequest, Integer> userIDCol;
+  @FXML private TreeTableColumn<LabRequest, Integer> employeeIDCol;
   @FXML private TreeTableColumn<LabRequest, Integer> patientIDCol;
   @FXML private TreeTableColumn<LabRequest, String> firstNameCol;
   @FXML private TreeTableColumn<LabRequest, String> lastNameCol;
@@ -23,12 +23,12 @@ public class LabRequestController extends MapController implements RequestInterf
 
   private static final LabRequestDao labRequestDao =
       (LabRequestDao) Vdb.requestSystem.getDao(Dao.LabRequest);
-  @FXML private TextField Status;
-  @FXML private TextField userID;
+  @FXML private TextField employeeID;
   @FXML private TextField patientID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
+  @FXML private TextField nodeID;
   @FXML private JFXComboBox<Object> requestedLab;
+  @FXML private JFXComboBox<Object> statusDropDown;
+  @FXML private TextField Status;
   @FXML private Button sendRequest;
 
   private static class SingletonHelper {
@@ -48,11 +48,9 @@ public class LabRequestController extends MapController implements RequestInterf
   @Override
   @FXML
   public void resetForm() {
-    Status.setText("Status: Blank");
-    userID.setText("");
+    statusDropDown.setValue("Status: ");
+    employeeID.setText("");
     patientID.setText("");
-    firstName.setText("");
-    lastName.setText("");
     requestedLab.setValue("Select Lab");
     sendRequest.setDisable(true);
   }
@@ -61,18 +59,13 @@ public class LabRequestController extends MapController implements RequestInterf
   @Override
   public void validateButton() {
     try {
-      if (!(userID.getText().isEmpty())
+      if (!(employeeID.getText().isEmpty())
           && !(patientID.getText().isEmpty())
-          && !(firstName.getText().isEmpty())
-          && !(lastName.getText().isEmpty())
           && !(requestedLab.getValue().equals("Select Lab"))) {
         // Information verification and submission needed
         sendRequest.setDisable(false);
-        Status.setText("Status: Done");
-      } else if (!(userID.getText().isEmpty())
+      } else if (!(employeeID.getText().isEmpty())
           || !(patientID.getText().isEmpty())
-          || !(firstName.getText().isEmpty())
-          || !(lastName.getText().isEmpty())
           || !(requestedLab.getValue().equals("Select Lab"))) {
         Status.setText("Status: Processing");
       } else {
@@ -90,7 +83,7 @@ public class LabRequestController extends MapController implements RequestInterf
     System.out.println("Here");
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("userID"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
@@ -128,20 +121,19 @@ public class LabRequestController extends MapController implements RequestInterf
   @Override
   public void sendRequest() {
     // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText()) || !isInteger(userID.getText())) {
+    if (!isInteger(patientID.getText()) || !isInteger(employeeID.getText())) {
       Status.setText("Status: Failed. Patient/Hospital ID must be a number!");
 
       // If all conditions pass, create the request
     } else {
-      System.out.println(userID.getText());
+      System.out.println(employeeID.getText());
       LabRequest l =
           new LabRequest(
-              Integer.parseInt(userID.getText()),
+              Integer.parseInt(employeeID.getText()),
               Integer.parseInt(patientID.getText()),
-              firstName.getText(),
-              lastName.getText(),
+              nodeID.getText(),
               requestedLab.getValue().toString(),
-              "Processing");
+              statusDropDown.getValue().toString());
       try {
         labRequestDao.addServiceRequest(l);
       } catch (Exception e) {
