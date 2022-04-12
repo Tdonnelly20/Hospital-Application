@@ -1,26 +1,23 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
-public class LaundryRequest extends ServiceRequest {
-  String firstName, lastName, details;
-  int roomNumber, userID, patientID;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 
-  public LaundryRequest(
-      int userID,
-      int patientID,
-      String firstName,
-      String lastName,
-      int roomNumber,
-      String details) {
-    this.userID = userID;
+public class LaundryRequest extends ServiceRequest {
+  String firstName, lastName, details, nodeID;
+  int employeeID, patientID;
+
+  public LaundryRequest(int employeeID, int patientID, String nodeID, String details) {
+    this.employeeID = employeeID;
     this.patientID = patientID;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.roomNumber = roomNumber;
+    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
+    this.nodeID = nodeID;
     this.details = details;
   }
 
-  public int getUserID() {
-    return getUserID();
+  public int getEmployeeID() {
+    return getEmployeeID();
   }
 
   public int getPatientID() {
@@ -35,8 +32,8 @@ public class LaundryRequest extends ServiceRequest {
     return firstName;
   }
 
-  public int getRoomNumber() {
-    return roomNumber;
+  public String getNodeID() {
+    return nodeID;
   }
 
   public String getDetails() {
