@@ -1,8 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
-import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
-import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -10,7 +9,6 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,10 +19,10 @@ public class MapManager {
   private ArrayList<Floor> floorList;
   @FXML private ImageView tempIcon = new ImageView("icon.png");
   List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
+  RequestSystem requestSystem = new RequestSystem();
 
-  private MapManager() {
-    serviceRequests = Vdb.requestSystem.getEveryServiceRequest();
-    PopupController.getController().setUpPopup();
+  public void init() {
+    serviceRequests = requestSystem.getEveryServiceRequest();
     setUpFloors();
   }
 
@@ -33,11 +31,11 @@ public class MapManager {
   }
 
   public static MapManager getManager() {
-    return MapManager.SingletonHelper.manager;
+    return SingletonHelper.manager;
   }
 
   /** Sets up floor elements */
-  private void setUpFloors() {
+  public void setUpFloors() {
     floorList = new ArrayList<>();
 
     Floor l1 = new Floor("L1");
@@ -47,6 +45,7 @@ public class MapManager {
     Floor f3 = new Floor("3");
     Floor f4 = new Floor("4");
     Floor f5 = new Floor("5");
+    Floor sv = new Floor("SV");
 
     floorList.add(l1);
     floorList.add(l2);
@@ -55,11 +54,12 @@ public class MapManager {
     floorList.add(f3);
     floorList.add(f4);
     floorList.add(f5);
+    floorList.add(sv);
     // System.out.println("SIZE: " + floorList.size());
 
     loadRequests();
 
-    for (Location l : Vdb.requestSystem.getLocations()) {
+    for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
           loadLocations(0, l);
@@ -85,7 +85,7 @@ public class MapManager {
       }
     }
 
-    for (Equipment e : Vdb.requestSystem.getEquipment()) {
+    for (Equipment e : requestSystem.getEquipment()) {
       Location l = new Location(e.getX(), e.getY(), e.getFloor());
       EquipmentIcon equipmentIcon = new EquipmentIcon(l);
       equipmentIcon.addToEquipmentList(e);
@@ -126,17 +126,21 @@ public class MapManager {
           }
         }
       } else {
-        floorList.get(i).addIcon(new LocationIcon(l));
+        LocationIcon locationIcon = new LocationIcon(l);
+        l.setIcon(locationIcon);
+        floorList.get(i).addIcon(locationIcon);
       }
     } else {
-      floorList.get(i).addIcon(new LocationIcon(l));
+      LocationIcon locationIcon = new LocationIcon(l);
+      l.setIcon(locationIcon);
+      floorList.get(i).addIcon(locationIcon);
     }
   }
 
   public void loadRequests() {
     if (serviceRequests.size() > 0) {
       for (ServiceRequest serviceRequest : serviceRequests) {
-        for (Location location : Vdb.requestSystem.getLocations()) {
+        for (Location location : requestSystem.getLocations()) {
           if (!location.getRequests().contains(serviceRequest)) {
             location.getRequests().add(serviceRequest);
           }
@@ -165,6 +169,8 @@ public class MapManager {
         return floorList.get(5);
       case "5":
         return floorList.get(6);
+      case "SV":
+        return floorList.get(7);
     }
     return null;
   }
@@ -175,8 +181,9 @@ public class MapManager {
 
   public void placeTempIcon(double xPos, double yPos) {
     // Place Icon
-    tempIcon.setX(xPos);
-    tempIcon.setY(yPos);
+    tempIcon.setVisible(true);
+    tempIcon.setTranslateX(xPos);
+    tempIcon.setTranslateX(yPos);
     if (!MapController.getController().getMapPane().getChildren().contains(tempIcon)) {
       // System.out.println("X:" + xPos + " Y:" + yPos);
       tempIcon.setFitWidth(30);
@@ -184,170 +191,4 @@ public class MapManager {
       MapController.getController().getMapPane().getChildren().add(tempIcon);
     }
   }
-  /*
-
-
-  @FXML
-  private void setUpPopupButtons(MouseEvent event, double xPos, double yPos) {
-    MapManager mapManager = MapManager.getManager();
-    buttonBox.getChildren().addAll(locationButton, equipmentButton, closeButton);
-    buttonBox.setAlignment(Pos.CENTER);
-    locationButton.setOnAction(
-        event1 -> {
-          mapManager.getTempIcon().setImage(new Image("icon.png"));
-          addLocationForm(event, xPos, yPos, false);
-        });
-    equipmentButton.setOnAction(
-        event1 -> {
-          mapManager.getTempIcon().setImage(new Image("Equipment.png"));
-          addLocationForm(event, xPos, yPos, true);
-        });
-    closeButton.setOnAction(
-        event1 -> {
-          mapManager.closePopUp();
-          mapManager.getTempIcon().setVisible(false);
-          clearPopupForm();
-        });
-  }
-
-
-  @FXML
-  private void setUpPopup(MouseEvent event) {
-    MapManager mapManager = MapManager.getManager();
-    mapManager.getContent().getChildren().clear();
-    // Setup
-    double xPos = event.getX() - 15;
-    double yPos = event.getY() - 25;
-    setUpPopupButtons(event, xPos, yPos);
-    setUpPopupText();
-    mapManager.getContent().getChildren().addAll(titleBox, buttonBox);
-    // Place Icon
-    mapManager.getTempIcon().setVisible(true);
-    mapManager.getTempIcon().setX(xPos);
-    mapManager.getTempIcon().setY(yPos);
-    if (!mapPane.getChildren().contains(MapManager.getManager().getTempIcon())) {
-      System.out.println("X:" + xPos + " Y:" + yPos);
-      mapManager.getTempIcon().setFitWidth(30);
-      mapManager.getTempIcon().setFitHeight(30);
-      mapPane.getChildren().add(MapManager.getManager().getTempIcon());
-    }
-  }*/
-  /*
-  @FXML
-  public void openIconFormWindow(MouseEvent event) {
-    MapManager mapManager = MapManager.getManager();
-    System.out.printf(event.getTarget().getClass().getTypeName());
-    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
-      setUpPopup(event);
-      // Scene and Stage
-      mapManager.getStage().setTitle("Add New Location");
-      mapManager.showPopUp();
-    }
-  }
-
-  @FXML
-  private void addLocationForm(MouseEvent event, double xPos, double yPos, boolean isEquipment) {
-    MapManager mapManager = MapManager.getManager();
-    clearPopupForm();
-    // Form
-    field1.setPromptText("Node ID");
-    field2.setPromptText("Node Type");
-    field3.setPromptText("Short Name");
-    field4.setPromptText("Long Name");
-
-    mapManager.getContent().getChildren().addAll(field1, field2, field3, field4);
-    // Place Icon
-    if (isEquipment) {
-      mapManager.getStage().setTitle("Add Equipment");
-    } else {
-      mapManager.getStage().setTitle("Add New Location");
-    }
-
-    if (isEquipment) {
-      submitButton = new Button("Continue");
-    } else {
-      submitButton = new Button("Add icon");
-    }
-    submitButton.setOnAction(
-            event1 -> {
-              if (!field1.getText().isEmpty()
-                      && !field2.getText().isEmpty()
-                      && !field3.getText().isEmpty()
-                      && !field4.getText().isEmpty()) {
-                Location location =
-                        new Location(
-                                field1.getText(),
-                                xPos,
-                                yPos,
-                                getFloor(),
-                                "Tower",
-                                field2.getText(),
-                                field4.getText(),
-                                field3.getText());
-                if (isEquipment) {
-                  addEquipmentForm(location);
-                } else {
-                  addIcon(location, isEquipment);
-                }
-              } else {
-                mapManager.getContent().getChildren().add(missingFields);
-              }
-            });
-
-    title.setText("Please add a location");
-    titleBox.getChildren().add(title);
-    buttonBox.getChildren().clear();
-    buttonBox.getChildren().addAll(submitButton, clearForm, closeButton);
-    mapManager.getContent().getChildren().addAll(titleBox, buttonBox);
-
-    mapPane.getChildren().add(MapManager.getManager().getTempIcon());
-    mapManager.showPopUp();
-  }
-
-  @FXML
-  private void addEquipmentForm(Location location) {
-    MapManager mapManager = MapManager.getManager();
-    clearPopupForm();
-    // Form
-    field1.setPromptText("Node ID");
-    field2.setPromptText("Node Type");
-    field3.setPromptText("Short Name");
-    field4.setPromptText("Long Name");
-
-    mapManager.getContent().getChildren().addAll(field1, field2, field3, field4);
-    // Place Icon
-    mapManager.getStage().setTitle("Add Equipment");
-    submitButton = new Button("Add icon");
-
-    submitButton.setOnAction(
-            event1 -> {
-              if (!field1.getText().isEmpty()
-                      && !field2.getText().isEmpty()
-                      && !field3.getText().isEmpty()
-                      && !field4.getText().isEmpty()) {
-                addIcon(location, true);
-              } else {
-                mapManager.getContent().getChildren().add(missingFields);
-              }
-            });
-
-    title.setText("Please add equipment");
-    titleBox.getChildren().add(title);
-    buttonBox.getChildren().clear();
-    buttonBox.getChildren().addAll(submitButton, clearForm, closeButton);
-    mapManager.getContent().getChildren().addAll(titleBox, buttonBox);
-
-    mapPane.getChildren().add(MapManager.getManager().getTempIcon());
-    mapManager.showPopUp();
-  }
-
-  // Adds icon to map
-  private void addIcon(Location location, Boolean isEquipment) {
-    MapManager.getManager().closePopUp();
-    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
-    MapManager.getManager().getFloor(getFloor()).addIcon(new Icon(location, isEquipment));
-    MapManager.getManager().getTempIcon().setVisible(false);
-    checkDropDown();
-  }
-   */
 }

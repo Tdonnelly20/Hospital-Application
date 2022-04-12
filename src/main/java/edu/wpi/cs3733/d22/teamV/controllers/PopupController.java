@@ -1,16 +1,16 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
-import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
-import edu.wpi.cs3733.d22.teamV.map.RequestIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
+import java.io.IOException;
+import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,7 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,13 +61,18 @@ public class PopupController {
   @FXML JFXComboBox<String> comboBox1 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox2 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox3 = new JFXComboBox<>();
+  RequestSystem requestSystem = RequestSystem.getSystem();
 
   private static class SingletonHelper {
     private static final PopupController controller = new PopupController();
   }
 
   public static PopupController getController() {
-    return PopupController.SingletonHelper.controller;
+    return SingletonHelper.controller;
+  }
+
+  public void init() {
+    setUpPopup();
   }
 
   /** Closes the popup window */
@@ -76,6 +80,7 @@ public class PopupController {
   public void closePopUp() {
     if (stage.isShowing()) {
       stage.close();
+      // MapController.getController().checkDropDown();
     }
   }
 
@@ -91,6 +96,7 @@ public class PopupController {
   /** Sets up the popup window */
   @FXML
   public void setUpPopup() {
+    stage.setAlwaysOnTop(true);
     title.setTextFill(Color.WHITE);
     title.setFont(new Font("System Bold", 28));
     titleBox.setAlignment(Pos.CENTER);
@@ -123,7 +129,7 @@ public class PopupController {
     stage.setMinWidth(450);
     stage.setOnCloseRequest(
         event -> {
-          MapManager.getManager().isTempIconVisible(false);
+          // MapManager.getManager().isTempIconVisible(false);
         });
   }
 
@@ -140,7 +146,7 @@ public class PopupController {
     equipmentButton.setOnAction(
         event2 -> {
           buttonBox.getChildren().clear();
-          equipmentForm(event);
+          equipmentForm(event, null);
         });
     requestButton.setOnAction(
         event1 -> {
@@ -152,60 +158,9 @@ public class PopupController {
     showPopUp();
   }
 
-  /** Opens the corresponding icon's request window */
-  @FXML
-  public void openIconRequestWindow(Icon icon) {
-    // Display requests/info
-    content.getChildren().clear();
-    MapManager.getManager().isTempIconVisible(false);
-    stage.setTitle(icon.getLocation().getShortName());
-    if (icon.iconType.equals("Equipment")) {
-      EquipmentIcon equipmentIcon = ((EquipmentIcon) icon);
-      title.setText("Equipment");
-      // equipmentAdditionForm();
-    } else if (icon.iconType.equals("Request")) {
-      RequestIcon requestIcon = (RequestIcon) icon;
-      ObservableList<String> statusStrings =
-          FXCollections.observableArrayList("Not Started", "Processing", "Done");
-      if (requestIcon.getRequestsArr().size() > 0) {
-        for (ServiceRequest request : requestIcon.getRequestsArr()) {
-          Label idLabel =
-              new Label("Employee: " /*+ request.getHospitalEmployee().getHospitalID()*/);
-          Label locationLabel =
-              new Label(
-                  "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
-
-          JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-          updateStatus.setValue(request.getStatus());
-          updateStatus.setOnAction(
-              event -> {
-                request.setStatus(updateStatus.getValue().toString());
-                // TODO: Update request CSV
-              });
-          Accordion accordion =
-              new Accordion(
-                  new TitledPane(
-                      request.getRequestName() + ": " + request.getStatus(),
-                      new VBox(15, idLabel, locationLabel, updateStatus)));
-          content.getChildren().add(accordion);
-        }
-      } else if (icon.iconType.equals("Location")) {
-        title.setText("Location");
-        buttonBox.getChildren().clear();
-        buttonBox.getChildren().addAll(addButton, modifyButton, closeButton);
-        addButton.setText("Add a Service Request Here");
-        modifyButton.setText("Modify Location");
-        Text noRequests = new Text("There are no requests in this area");
-        noRequests.setTextAlignment(TextAlignment.CENTER);
-        content.getChildren().add(noRequests);
-      }
-    }
-    showPopUp();
-  }
-
   @FXML
   public void formSetup(MouseEvent event) {
-    MapManager.getManager().isTempIconVisible(true);
+    // MapManager.getManager().isTempIconVisible(true);
 
     clearResponse.setOnAction(
         event1 -> {
@@ -214,7 +169,7 @@ public class PopupController {
     closeButton.setOnAction(
         event1 -> {
           closePopUp();
-          MapManager.getManager().isTempIconVisible(false);
+          // MapManager.getManager().isTempIconVisible(false);
         });
     returnButton.setOnAction(
         event1 -> {
@@ -224,12 +179,33 @@ public class PopupController {
         });
   }
 
+  void addLocation(Location location) {
+    requestSystem.getLocationDao().addLocation(location);
+    MapController.getController().addIcon(location.getIcon());
+    clearPopupForm();
+  }
+
+  void deleteLocation(Location location) throws SQLException, IOException {
+    MapController.getController().mapPane.getChildren().remove(location.getIcon().getImage());
+    MapManager.getManager().getFloor(location.getFloor()).getIconList().remove(location.getIcon());
+    requestSystem.getLocationDao().deleteLocation(location.getNodeID());
+    clearPopupForm();
+  }
+
+  /**
+   * Shows the general location form (add, modify, and remove an unspecified location) if icon ==
+   * null and shows the specific location information if icon !=null
+   */
   @FXML
   public void locationForm(MouseEvent event, LocationIcon icon) {
+    double xPos = event.getX() - 15;
+    double yPos = event.getY() - 25;
+    MapManager.getManager().placeTempIcon(xPos, yPos);
     buttonBox.getChildren().clear();
     content.getChildren().clear();
-    modifyButton.setText("Modify Location");
-    removeButton.setText("Remove Location");
+    addButton.setText("Add");
+    modifyButton.setText("Modify");
+    removeButton.setText("Remove");
     if (icon == null) {
       title.setText("Location");
       stage.setTitle("Location");
@@ -238,7 +214,7 @@ public class PopupController {
           .addAll(returnButton, addButton, modifyButton, removeButton, closeButton);
       addButton.setOnAction(
           event1 -> {
-            locationAdditionForm(event, icon);
+            locationAdditionForm(event);
           });
       addButton.setText("Add a Location");
     } else {
@@ -250,41 +226,7 @@ public class PopupController {
           event1 -> {
             requestAdditionForm(event, icon);
           });
-      ObservableList<String> statusStrings =
-          FXCollections.observableArrayList("Not Started", "Processing", "Done");
-      if (icon.getRequestsArr().size() > 0) {
-        VBox vBox = new VBox();
-        ScrollPane scrollPane = new ScrollPane(vBox);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setPannable(false);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        vBox.setPrefWidth(450);
-        vBox.setPrefHeight(400);
-        for (ServiceRequest request : icon.getRequestsArr()) {
-          Label idLabel =
-              new Label("Employee: " /*+ request.getHospitalEmployee().getHospitalID()*/);
-          Label locationLabel =
-              new Label(
-                  "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
-
-          JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-          updateStatus.setValue(request.getStatus());
-          updateStatus.setOnAction(
-              event1 -> {
-                request.setStatus(updateStatus.getValue().toString());
-                // TODO: Update request CSV
-              });
-
-          Accordion accordion =
-              new Accordion(
-                  new TitledPane(
-                      request.getRequestName() + ": " + request.getStatus(),
-                      new VBox(15, idLabel, locationLabel, updateStatus)));
-          accordion.setPrefWidth(450);
-          vBox.getChildren().add(accordion);
-        }
-        content.getChildren().add(scrollPane);
-      }
+      insertServiceRequests(icon);
     }
     formSetup(event);
     modifyButton.setOnAction(
@@ -300,51 +242,76 @@ public class PopupController {
     }
   }
 
+  /** Populates a location icon's popup window with its service requests */
   @FXML
-  public void locationAdditionForm(MouseEvent event, LocationIcon icon) {
+  public void insertServiceRequests(LocationIcon icon) {
+    ObservableList<String> statusStrings =
+        FXCollections.observableArrayList("Not Started", "Processing", "Done");
+    if (icon.getRequestsArr().size() > 0) {
+      VBox vBox = new VBox();
+      ScrollPane scrollPane = new ScrollPane(vBox);
+      scrollPane.setFitToHeight(true);
+      scrollPane.setPannable(false);
+      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+      vBox.setPrefWidth(450);
+      vBox.setPrefHeight(400);
+      for (ServiceRequest request : icon.getRequestsArr()) {
+        Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getEmployeeID());
+        Label locationLabel =
+            new Label(
+                "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
+
+        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
+        updateStatus.setValue(request.getStatus());
+        updateStatus.setOnAction(
+            event1 -> {
+              request.setStatus(updateStatus.getValue().toString());
+              // TODO: Update request CSV
+            });
+
+        Accordion accordion =
+            new Accordion(
+                new TitledPane(
+                    request.getRequestName() + ": " + request.getStatus(),
+                    new VBox(15, idLabel, locationLabel, updateStatus)));
+        accordion.setPrefWidth(450);
+        vBox.getChildren().add(accordion);
+      }
+      content.getChildren().add(scrollPane);
+    }
+  }
+
+  /** Opens a form that allows users to create a new location */
+  @FXML
+  public void locationAdditionForm(MouseEvent event) {
     title.setText("Add A Location");
     content.getChildren().clear();
     content.getChildren().addAll(field1, field2, field3, field4);
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     // Form
-
+    submitIcon.setText("Add Location");
     field1.setPromptText("Node ID");
     field2.setPromptText("Node Type");
     field3.setPromptText("Short Name");
     field4.setPromptText("Long Name");
-
-    submitIcon.setOnAction(
-        event1 -> {
-          Vdb.requestSystem
-              .getLocations()
-              .add(
-                  new Location(
-                      field1.getText(),
-                      event.getX(),
-                      event.getY(),
-                      MapController.getController().getFloor(),
-                      "Tower",
-                      field2.getText(),
-                      field3.getText(),
-                      field4.getText()));
-          clearPopupForm();
-          closePopUp();
-          // MapController.getController().populateFloorIconArr();
-        });
 
     // Scene and Stage
     stage.setTitle("Add New Location");
     showPopUp();
   }
 
+  /**
+   * Opens a form that allows users to modify locations if icon == null then the user must put in an
+   * old node ID, if icon !=null then field 1 isn't shown
+   */
   @FXML
   public void locationModifyForm(MouseEvent event, LocationIcon icon) {
     title.setText("Modify A Location");
     content.getChildren().clear();
     buttonBox.getChildren().clear();
-    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     submitIcon.setText("Modify Location");
+    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     field1.setPromptText("Old Node ID");
     field2.setPromptText("Node ID");
     field3.setPromptText("X-Coordinate");
@@ -363,30 +330,102 @@ public class PopupController {
     field6.setPromptText("Node Type");
     field7.setPromptText("Short Name");
     field8.setPromptText("Long Name");
-    content
-        .getChildren()
-        .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
-    submitIcon.setOnAction(
-        event1 -> {
-          Vdb.requestSystem.getLocations().remove(field1.getText());
-          Vdb.requestSystem
-              .getLocations()
-              .add( // TODO: fix modify location error
-                  new Location(
-                      field2.getText(),
-                      Double.parseDouble(field3.getText()),
-                      Double.parseDouble(field4.getText()),
-                      MapManager.getManager()
-                          .getFloor(comboBox1.getValue().toString())
-                          .getFloorName(),
-                      field5.getText(),
-                      field6.getText(),
-                      field7.getText(),
-                      field8.getText()));
-          clearPopupForm();
-          locationForm(event, icon);
-        });
+    if (icon == null) {
+      content
+          .getChildren()
+          .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
+      submitIcon.setOnAction(
+          event1 -> {
+            try {
+              deleteLocation(requestSystem.getLocationDao().getLocation(field1.getText()));
+            } catch (SQLException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
 
+            Location newLocation =
+                new Location(
+                    field2.getText(),
+                    Double.parseDouble(field3.getText()),
+                    Double.parseDouble(field4.getText()),
+                    MapManager.getManager()
+                        .getFloor(comboBox1.getValue().toString())
+                        .getFloorName(),
+                    field5.getText(),
+                    field6.getText(),
+                    field7.getText(),
+                    field8.getText());
+
+            addLocation(newLocation);
+            locationForm(event, newLocation.getIcon());
+          });
+    } else {
+      field2.setPromptText("Node ID: " + icon.getLocation().getNodeID());
+      field3.setPromptText("X-Coordinate: " + icon.getLocation().getXCoord());
+      field4.setPromptText("Y-Coordinate: " + icon.getLocation().getYCoord());
+      comboBox1.setValue(icon.getLocation().getFloor());
+      comboBox1.setPromptText(icon.getLocation().getFloor());
+      field5.setPromptText("Building: " + icon.getLocation().getBuilding());
+      field6.setPromptText("Node Type: " + icon.getLocation().getNodeType());
+      field7.setPromptText("Long Name: " + icon.getLocation().getLongName());
+      field8.setPromptText("Short Name: " + icon.getLocation().getShortName());
+      content
+          .getChildren()
+          .addAll(field2, field3, field4, field5, comboBox1, field6, field7, field8);
+      field1.setText(icon.getLocation().getNodeID());
+      submitIcon.setOnAction(
+          event1 -> { // If user doesn't fill in information, assume old information is retained
+            Location newLocation =
+                new Location(
+                    field2.getText(),
+                    Double.parseDouble(field3.getText()),
+                    Double.parseDouble(field4.getText()),
+                    comboBox1.getValue(),
+                    field5.getText(),
+                    field6.getText(),
+                    field7.getText(),
+                    field8.getText());
+            if (!icon.getLocation().compareTo(newLocation)) {
+              String nodeID = icon.getLocation().getNodeID();
+              if (field2.getText().isEmpty()) {
+                newLocation.setNodeID(icon.getLocation().getNodeID());
+              }
+              if (field3.getText().isEmpty()) {
+                newLocation.setXCoord(icon.getLocation().getXCoord());
+              }
+              if (field4.getText().isEmpty()) {
+                newLocation.setYCoord(icon.getLocation().getYCoord());
+              }
+              if (field5.getText().isEmpty()) {
+                newLocation.setBuilding(icon.getLocation().getBuilding());
+              }
+              if (field6.getText().isEmpty()) {
+                newLocation.setNodeType(icon.getLocation().getNodeType());
+              }
+              if (field7.getText().isEmpty()) {
+                newLocation.setLongName(icon.getLocation().getLongName());
+              }
+              if (field8.getText().isEmpty()) {
+                newLocation.setShortName(icon.getLocation().getShortName());
+              }
+              try {
+                deleteLocation(icon.getLocation());
+              } catch (SQLException e) {
+                e.printStackTrace();
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              addLocation(newLocation);
+              locationForm(event, newLocation.getIcon());
+              clearPopupForm();
+
+            } else {
+              missingFields.setText("No information has been modified. Please input corrections");
+              content.getChildren().add(missingFields);
+            }
+          });
+    }
     stage.setTitle("Modify Existing Location");
     showPopUp();
   }
@@ -395,27 +434,45 @@ public class PopupController {
   public void locationRemoveForm(MouseEvent event, LocationIcon icon) {
     title.setText("Delete A Location");
     content.getChildren().clear();
-    content.getChildren().addAll(field1);
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     submitIcon.setText("Delete Location");
+    field1.setPromptText("Old Node ID");
     if (icon == null) {
-      field1.setPromptText("Old Node ID");
-      submitIcon.setOnAction(
-          event1 -> {
-            Vdb.requestSystem.getLocations().remove(field1.getText());
-            MapController.getController().populateFloorIconArr();
-            closePopUp();
-          });
+      content.getChildren().addAll(field1);
     } else {
-      submitIcon.setOnAction(
-          event1 -> {
-            Vdb.requestSystem.getLocations().remove(icon.getLocation().getNodeID());
-            MapController.getController().populateFloorIconArr();
-            closePopUp();
-            // TODO: Make code go brrrrrrrrr and delete without needing to input nodeID
-          });
+      field1.setText(icon.getLocation().getNodeID());
     }
+    submitIcon.setOnAction(
+        event1 -> {
+          if (icon != null) {
+            try {
+              deleteLocation(icon.getLocation());
+            } catch (SQLException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          } else {
+            String nodeID = field1.getText();
+            MapController.getController()
+                .mapPane
+                .getChildren()
+                .remove(requestSystem.getLocationDao().getLocation(nodeID).getIcon().getImage());
+            MapManager.getManager()
+                .getFloor(icon.getLocation().getFloor())
+                .getIconList()
+                .remove(requestSystem.getLocationDao().getLocation(nodeID).getIcon());
+            try {
+              requestSystem.getLocationDao().deleteLocation(nodeID);
+            } catch (SQLException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+          closePopUp();
+        });
   }
 
   @FXML
@@ -636,22 +693,22 @@ public class PopupController {
   public void requestRemoveForm(MouseEvent event) {}
 
   @FXML
-  public void equipmentForm(MouseEvent event) {
+  public void equipmentForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Equipment");
     content.getChildren().clear();
     formSetup(event);
     buttonBox.getChildren().addAll(returnButton, addButton, modifyButton, removeButton);
     addButton.setOnAction(
         event1 -> {
-          equipmentAdditionForm(event);
+          equipmentAdditionForm(event, icon);
         });
     modifyButton.setOnAction(
         event1 -> {
-          equipmentModifyForm(event);
+          equipmentModifyForm(event, icon);
         });
     removeButton.setOnAction(
         event1 -> {
-          equipmentRemoveForm(event);
+          equipmentRemoveForm(event, icon);
         });
     stage.setTitle("Equipment");
     if (!stage.isShowing()) {
@@ -660,7 +717,7 @@ public class PopupController {
   }
 
   @FXML
-  public void equipmentAdditionForm(MouseEvent event) {
+  public void equipmentAdditionForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Add Equipment");
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
@@ -694,22 +751,16 @@ public class PopupController {
   }
 
   @FXML
-  public void equipmentModifyForm(MouseEvent event) {}
+  public void equipmentModifyForm(MouseEvent event, EquipmentIcon icon) {}
 
   @FXML
-  public void equipmentRemoveForm(MouseEvent event) {}
+  public void equipmentRemoveForm(MouseEvent event, EquipmentIcon icon) {}
 
   public boolean checkLocationFields() {
     return !field1.getText().isEmpty()
         && !field2.getText().isEmpty()
         && !field3.getText().isEmpty()
         && !field4.getText().isEmpty();
-  }
-
-  public boolean checkEquipmentFields() {
-    return !field1.getText().isEmpty()
-        && !field2.getText().isEmpty()
-        && !comboBox1.getValue().toString().equals("Status");
   }
 
   public Location getLocation(double xPos, double yPos, String floor) {
@@ -725,7 +776,7 @@ public class PopupController {
   }
 
   @FXML
-  private void clearPopupForm() {
+  void clearPopupForm() {
     field1.setText("");
     field2.setText("");
     field3.setText("");
