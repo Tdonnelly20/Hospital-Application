@@ -107,7 +107,7 @@ public abstract class Controller extends Application {
   // Switches scene to the sanitation page
   @FXML
   protected void switchToSanitationRequest(ActionEvent event) throws IOException {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewSanitationRequest.fxml"));
     switchScene(event);
   }
 

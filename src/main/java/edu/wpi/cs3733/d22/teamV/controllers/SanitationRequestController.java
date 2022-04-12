@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SanitationRequestController extends MapController {
+public class SanitationRequestController extends RequestController {
   @FXML private TextField hospitalID;
   @FXML private TextField patientID;
   @FXML private TextField firstName;
@@ -34,6 +34,8 @@ public class SanitationRequestController extends MapController {
   public void init() {
     mapSetUp();
     filterCheckBox.getCheckModel().check("Sanitation Requests");
+    setTitleText("Sanitation Request Service");
+    fillTopPane();
   }
 
   @FXML
@@ -51,7 +53,7 @@ public class SanitationRequestController extends MapController {
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
-  private void validateButton() {
+  void validateButton() {
 
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
@@ -178,5 +180,15 @@ public class SanitationRequestController extends MapController {
 
       resetFields(); // Set all fields to blank for another entry
     }
+  }
+
+  @FXML
+  void updateTreeTable() {
+    return;
+  }
+
+  @FXML
+  void resetForm() {
+    return;
   }
 }
