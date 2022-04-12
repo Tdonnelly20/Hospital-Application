@@ -5,8 +5,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.awt.*;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -197,13 +195,7 @@ public class LocationController extends MapController {
     removeLocationBool = true;
     submit.setOnAction(
         event -> {
-          try {
-            locationDao.deleteLocation(nodeID.getText());
-          } catch (SQLException e) {
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
+          locationDao.deleteLocation(nodeID.getText());
           setTextFieldPrompts();
           updateTreeTable();
         });
@@ -216,13 +208,7 @@ public class LocationController extends MapController {
 
     submit.setOnAction(
         event -> {
-          try {
-            locationDao.deleteLocation(nodeID.getText());
-          } catch (SQLException e) {
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
+          locationDao.deleteLocation(nodeID.getText());
           Location newLoc =
               new Location(
                   nodeID.getText(),

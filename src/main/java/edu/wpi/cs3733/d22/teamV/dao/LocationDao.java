@@ -50,9 +50,13 @@ public class LocationDao extends DaoInterface {
     }
   }
 
-  public void deleteLocation(String nodeID) throws SQLException, IOException {
+  public void deleteLocation(String nodeID) {
     allLocations.removeIf(location -> location.getNodeID().equals(nodeID));
-    saveToCSV();
+    try {
+      saveToCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     removeFromSQLTable(nodeID);
   }
 

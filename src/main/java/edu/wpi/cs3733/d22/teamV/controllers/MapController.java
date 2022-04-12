@@ -4,9 +4,6 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -414,26 +411,9 @@ public class MapController extends Controller {
 
   public void deleteIcon(Icon icon) {
     System.out.println("Delete Icon");
+    MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
     RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
-    MapManager.getManager().getFloor(currFloor.getFloorName()).removeIcon(icon);
-  }
-
-  // Adds icon to map
-  public void removeIcon(Icon icon) {
-    switch (icon.iconType) {
-      case "Location":
-        try {
-          RequestSystem.getSystem().getLocationDao().deleteLocation(icon.getLocation().getNodeID());
-        } catch (SQLException | IOException e) {
-          e.printStackTrace();
-        }
-    }
-    PopupController.getController().closePopUp();
-    /*if (mapPane.getChildren().contains(icon.getImage())) {
-      mapPane.getChildren().remove(icon.getImage());
-    }*/
-    MapManager.getManager().getFloor(getFloor()).removeIcon(icon);
-    checkDropDown();
+    MapManager.getManager().setUpFloors();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
@@ -446,23 +426,6 @@ public class MapController extends Controller {
                     new LocationIcon(
                         PopupController.getController()
                             .getLocation(xPos + 25, yPos + 15, getFloor())));
-              } else {
-                Text missingFields = new Text("Please fill all fields");
-                missingFields.setFill(Color.RED);
-                missingFields.setTextAlignment(TextAlignment.CENTER);
-                PopupController.getController().sceneVbox.getChildren().add(missingFields);
-                // System.out.println("MISSING FIELD");
-              }
-            });
-  }
-
-  public void setSubmitLocation(Location location) {
-    PopupController.getController()
-        .submitIcon
-        .setOnAction(
-            event1 -> {
-              if (PopupController.getController().checkLocationFields()) {
-                addIcon(new LocationIcon(location));
               } else {
                 Text missingFields = new Text("Please fill all fields");
                 missingFields.setFill(Color.RED);
