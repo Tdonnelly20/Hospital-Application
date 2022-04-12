@@ -57,4 +57,9 @@ public class Equipment {
   public void setIsDirty(boolean bool) {
     isDirty = bool;
   }
+
+  public String getIsDirtyString() {
+    if (isDirty) return "Dirty";
+    return "Clean";
+  }
 }

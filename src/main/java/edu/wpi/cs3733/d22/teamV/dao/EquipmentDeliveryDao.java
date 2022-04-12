@@ -46,7 +46,8 @@ public class EquipmentDeliveryDao extends DaoInterface {
               data[5],
               data[6],
               Integer.parseInt(data[7]),
-              data[8]);
+              data[8],
+              Integer.parseInt(data[9]));
       equipmentDelivery.setServiceID(Integer.parseInt(data[9]));
       deliveries.add(equipmentDelivery);
     }
@@ -69,6 +70,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
         String.valueOf(equipmentDelivery.getPatientID()),
         equipmentDelivery.getPatientFirstName(),
         equipmentDelivery.getPatientLastName(),
+        equipmentDelivery.getLocation().getNodeID(),
         equipmentDelivery.getEquipment(),
         equipmentDelivery.getNotes(),
         String.valueOf(equipmentDelivery.getQuantity()),
