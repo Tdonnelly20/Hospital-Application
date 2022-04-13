@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.dao.EmployeeDao;
+import edu.wpi.cs3733.d22.teamV.dao.PatientDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,31 +12,27 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class EmployeeController extends MapController {
+public class PatientController extends MapController {
 
-  private static final EmployeeDao employeeDao = (EmployeeDao) Vdb.requestSystem.getEmployeeDao();
+  private static final PatientDao patientDao = (PatientDao) Vdb.requestSystem.getPatientDao();
   private boolean updating = false;
 
   private static class SingletonHelper {
-    private static final EmployeeController controller = new EmployeeController();
+    private static final PatientController controller = new PatientController();
   }
 
-  public static EmployeeController getController() {
-    return EmployeeController.SingletonHelper.controller;
+  public static PatientController getController() {
+    return PatientController.SingletonHelper.controller;
   }
 
-  @FXML private TreeTableView<Employee> table;
-  @FXML private TreeTableColumn<Employee, Integer> employeeIDCol;
-  @FXML private TreeTableColumn<Employee, String> firstNameCol;
-  @FXML private TreeTableColumn<Employee, String> lastNameCol;
-  @FXML private TreeTableColumn<Employee, String> employeePositionCol;
-  @FXML private TreeTableColumn<Employee, String> patientIDCol;
-  @FXML private TreeTableColumn<Employee, String> specialtiesCol;
-  @FXML private TreeTableColumn<Employee, String> serviceRequestIDCol;
+  @FXML private TreeTableView<Patient> table;
+  @FXML private TreeTableColumn<Patient, Integer> patientIDCol;
+  @FXML private TreeTableColumn<Patient, String> firstNameCol;
+  @FXML private TreeTableColumn<Patient, String> lastNameCol;
+  @FXML private TreeTableColumn<Patient, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<Patient, Integer> serviceIDCol;
 
-  @FXML private TextField employeeFirstName;
-  @FXML private TextField employeeLastName;
-  @FXML private TextField employeePosition;
+  @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private Button sendRequest;
   @FXML private Button removeButton;
@@ -48,35 +44,33 @@ public class EmployeeController extends MapController {
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientIDs"));
-    employeePositionCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeePosition"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    specialtiesCol.setCellValueFactory(new TreeItemPropertyValueFactory("specialties"));
-    serviceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceRequestIDs"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeIDs"));
+    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
 
     // Get the current list of medicine deliveries from the DAO
-    ArrayList<Employee> currEmployees = (ArrayList<Employee>) employeeDao.getAllEmployees();
+    ArrayList<Patient> currPatients = (ArrayList<Patient>) patientDao.getAllPatients();
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
-    if (currEmployees.isEmpty()) {
+    if (currPatients.isEmpty()) {
       table.setRoot(null);
       return;
     }
 
     // for each loop cycling through each medicine delivery currently entered into the system
-    for (Employee delivery : currEmployees) {
-      TreeItem<Employee> item = new TreeItem(delivery);
+    for (Patient delivery : currPatients) {
+      TreeItem<Patient> item = new TreeItem(delivery);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     table.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currEmployees.get(0));
+    TreeItem root = new TreeItem(currPatients.get(0));
     // Set the root in the table
     table.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root
@@ -92,15 +86,11 @@ public class EmployeeController extends MapController {
     }
 
     try {
-      if ((employeeFirstName.getText().equals("")
-          && employeeLastName.getText().equals("")
-          && employeePosition.getText().equals(""))) {
+      if ((firstName.getText().equals("") && lastName.getText().equals(""))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
         statusLabel.setTextFill(Color.web("Black"));
-      } else if ((employeeFirstName.getText().equals("")
-          || employeeLastName.getText().equals("")
-          || employeePosition.getText().equals(""))) {
+      } else if ((firstName.getText().equals("") || lastName.getText().equals(""))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
         statusLabel.setTextFill(Color.web("Black"));
@@ -117,23 +107,19 @@ public class EmployeeController extends MapController {
     // If any field is left blank, (except for request details) throw an error
     // Make sure the patient ID is an integer
     {
-      Employee employee =
-          new Employee(
-              Vdb.requestSystem.getEmployeeID(),
-              employeeFirstName.getText(),
-              employeeLastName.getText(),
-              employeePosition.getText(),
-              new ArrayList<String>(),
+      Patient patient =
+          new Patient(
+              firstName.getText(),
+              lastName.getText(),
               new ArrayList<Integer>(),
-              new ArrayList<Integer>(),
-              false);
+              new ArrayList<Integer>());
       // Send the request to the Dao pattern
       try {
         if (updating) {
-          employeeDao.updateEmployee(employee, Vdb.requestSystem.getEmployeeID());
+          patientDao.updatePatient(patient, Vdb.requestSystem.getPatientID());
           updating = false;
         } else {
-          employeeDao.addEmployee(employee);
+          patientDao.addPatient(patient);
         }
 
       } catch (Exception e) {
@@ -148,9 +134,8 @@ public class EmployeeController extends MapController {
   @FXML
   public void resetForm() {
     updating = false;
-    employeeFirstName.setText("");
-    employeeLastName.setText("");
-    employeePosition.setText("");
+    firstName.setText("");
+    lastName.setText("");
     requestDetails.setText("");
     sendRequest.setDisable(true);
   }
@@ -158,8 +143,8 @@ public class EmployeeController extends MapController {
   @FXML
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
     try {
-      Employee employee = table.getSelectionModel().getSelectedItem().getValue();
-      employeeDao.removeEmployee(employee);
+      Patient patient = table.getSelectionModel().getSelectedItem().getValue();
+      patientDao.removePatient(patient);
     } catch (NullPointerException e) {
       e.printStackTrace();
     }
@@ -169,11 +154,10 @@ public class EmployeeController extends MapController {
   @FXML
   private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
     updating = true;
-    Employee employee = table.getSelectionModel().getSelectedItem().getValue();
+    Patient patient = table.getSelectionModel().getSelectedItem().getValue();
 
-    employeeFirstName.setText(String.valueOf(employee.getFirstName()));
-    employeeLastName.setText(String.valueOf(employee.getLastName()));
-    employeePosition.setText(employee.getEmployeePosition());
+    firstName.setText(String.valueOf(patient.getFirstName()));
+    lastName.setText(String.valueOf(patient.getLastName()));
     updateTreeTable();
   }
 
