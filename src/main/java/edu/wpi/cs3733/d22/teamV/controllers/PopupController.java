@@ -190,6 +190,9 @@ public class PopupController {
 
   void deleteIcon(Location location) throws SQLException, IOException {
     System.out.println("Deleted");
+    for (ServiceRequest request : location.getIcon().getRequestsArr()) {
+      RequestSystem.getSystem().removeServiceRequest(request);
+    }
     mapController.deleteIcon(location.getIcon());
     clearPopupForm();
   }

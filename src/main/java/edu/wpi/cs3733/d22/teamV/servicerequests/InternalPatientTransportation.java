@@ -24,6 +24,7 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.nodeID = nodeID;
     this.employeeID = employeeID;
     this.requestDetails = requestDetails;
+    this.type = "Internal Patient Transportation Request";
   }
 
   public String getPatientFirstName() {

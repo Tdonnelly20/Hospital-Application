@@ -163,6 +163,36 @@ public class RequestSystem {
   }
 
   /**
+   * Removes a service request based on type of request
+   *
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    switch (request.getType()) {
+      case "Equipment Delivery":
+        equipmentDeliveryDao.removeServiceRequest(request);
+      case "Internal Patient Transportation Request":
+        internalPatientTransportationDao.removeServiceRequest(request);
+      case "Lab Request":
+        labRequestDao.removeServiceRequest(request);
+      case "Laundry Request":
+        laundryRequestDao.removeServiceRequest(request);
+      case "Meal Request":
+        mealRequestDao.removeServiceRequest(request);
+      case "Medicine Delivery":
+        medicineDeliveryDao.removeServiceRequest(request);
+      case "Religious Request":
+        religiousRequestDao.removeServiceRequest(request);
+      case "Sanitation Request":
+        sanitationRequestDao.removeServiceRequest(request);
+      default:
+        System.out.println("L + touch grass");
+    }
+  }
+
+  /**
    * Returns all service requests of a certain type
    *
    * @return

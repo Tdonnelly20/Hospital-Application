@@ -21,5 +21,6 @@ public class MealRequest extends ServiceRequest {
     this.nodeID = nodeID;
     this.status = status;
     this.meal = meal;
+    this.type = "Meal Request";
   }
 }
