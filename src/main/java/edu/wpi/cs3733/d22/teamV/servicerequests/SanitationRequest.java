@@ -30,6 +30,7 @@ public class SanitationRequest extends ServiceRequest {
     this.hospitalID = hospitalID;
     this.hazardName = hazardName;
     this.roomLocation = roomLocation;
+    this.type = "Sanitation Request";
   }
 
   public int getPatientID() {

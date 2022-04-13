@@ -16,6 +16,7 @@ public class LaundryRequest extends ServiceRequest {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.nodeID = nodeID;
     this.details = details;
+    this.type = "Laundry Request";
   }
 
   public LaundryRequest(
