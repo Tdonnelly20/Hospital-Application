@@ -7,6 +7,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -17,8 +18,6 @@ import javafx.stage.Stage;
 public class SanitationRequestController extends RequestController {
   @FXML private TextField hospitalID;
   @FXML private TextField patientID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
   @FXML private TextField roomLocation;
   @FXML private JFXComboBox<Object> sanitationDropDown;
   @FXML private Button sendRequest;
@@ -27,12 +26,12 @@ public class SanitationRequestController extends RequestController {
 
   @FXML private TreeTableView<EquipmentDelivery> sanitationRequestTable;
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> posCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> roomLocationCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> hazardCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> requestDetailsCol;
 
   private static final SanitationRequestDao SanitationRequestDao =
       (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
@@ -59,8 +58,6 @@ public class SanitationRequestController extends RequestController {
   private void checkValidation() {
     if (!(patientID.getText().equals("")
         || hospitalID.getText().equals("")
-        || firstName.getText().equals("")
-        || lastName.getText().equals("")
         || roomLocation.getText().equals("")
         || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals(""))) {
@@ -75,8 +72,6 @@ public class SanitationRequestController extends RequestController {
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
         || hospitalID.getText().equals("")
-        || firstName.getText().equals("")
-        || lastName.getText().equals("")
         || roomLocation.getText().equals("")
         || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals("")) {
@@ -103,11 +98,7 @@ public class SanitationRequestController extends RequestController {
               + patientID.getText()
               + "\nLocation: "
               + roomLocation.getText()
-              + "\nName: "
-              + firstName.getText()
-              + "\nLast Name "
-              + lastName.getText()
-              + "\nMedication: "
+              + "\nHazard: "
               + sanitationDropDown.getValue()
               + "\n\nRequest Details: "
               + requestDetails.getText());
@@ -121,8 +112,6 @@ public class SanitationRequestController extends RequestController {
   private void resetFields() {
     patientID.setText("");
     hospitalID.setText("");
-    firstName.setText("");
-    lastName.setText("");
     roomLocation.setText("");
     sanitationDropDown.setValue(null);
     requestDetails.setText("");
@@ -147,49 +136,29 @@ public class SanitationRequestController extends RequestController {
   }
 
   @FXML
-  private void sendRequest() {
-    // If any field is left blank, (except for request details) throw an error
+  private void sendRequest() throws SQLException {
 
-    // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText()) || !isInteger(hospitalID.getText())) {
-      statusLabel.setText("Status: Failed. Patient/Hospital ID must be a number!");
-      statusLabel.setTextFill(Color.web("Red"));
+    SanitationRequest delivery =
+        new SanitationRequest(
+            Integer.parseInt(hospitalID.getText()),
+            Integer.parseInt(patientID.getText()),
+            roomLocation.getText(),
+            sanitationDropDown.getValue().toString(),
+            requestDetails.getText());
 
-      // If all conditions pass, create the request
-    } else {
-
-      // Send the request to the Dao pattern
-
-      // For testing purposes
-      System.out.println(
-          "\nHospital ID: "
-              + hospitalID.getText()
-              + "\nPatient ID: "
-              + patientID.getText()
-              + "\nRoom #: "
-              + roomLocation.getText()
-              + "\nName: "
-              + firstName.getText()
-              + " "
-              + lastName.getText()
-              + "\nMedication: "
-              + sanitationDropDown.getValue()
-              + "\n\nRequest Details: "
-              + requestDetails.getText());
-
-      resetFields(); // Set all fields to blank for another entry
-    }
+    updateTreeTable();
+    resetFields(); // Set all fields to blank for another entry
   }
 
   @FXML
   void updateTreeTable() {
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    posCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationName"));
+    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationName"));
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazard"));
-    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
+    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
 
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)

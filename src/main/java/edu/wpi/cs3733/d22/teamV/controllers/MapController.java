@@ -5,6 +5,9 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
+import java.awt.*;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -16,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -83,6 +87,8 @@ public class MapController extends Controller {
               "5th Floor",
               "Side View"));
 
+  @FXML protected TextArea sideViewArea = new TextArea();
+
   @Override
   public void start(Stage primaryStage) throws Exception {
     init();
@@ -115,6 +121,7 @@ public class MapController extends Controller {
     group.getChildren().clear();
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
+
     mapPane.setMinWidth(600);
     mapPane.setMinHeight(600);
     mapImage.setPreserveRatio(true);
@@ -153,6 +160,7 @@ public class MapController extends Controller {
         event -> {
           checkDropDown();
         });
+
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -171,6 +179,11 @@ public class MapController extends Controller {
                 change -> {
                   checkDropDown();
                 });
+
+    sideViewArea.setVisible(false);
+    sideViewArea.setText("Equipment Info:\n");
+    sideViewArea.setMaxSize(300, 300);
+
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
@@ -189,7 +202,7 @@ public class MapController extends Controller {
 
     scrollPane.setMaxSize(470, 470);
     mapHBox.getChildren().addAll(floorDropDown, filterCheckBox, refreshButton);
-    mapVBox.getChildren().addAll(scrollPane, mapHBox);
+    mapVBox.getChildren().addAll(scrollPane, mapHBox, sideViewArea);
     mapVBox.setAlignment(Pos.TOP_CENTER);
     mapVBox.setSpacing(15);
     mapHBox.setAlignment(Pos.CENTER);
@@ -268,11 +281,10 @@ public class MapController extends Controller {
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
 
+    // for side view controllers
+    sideViewArea.setVisible(false);
     if (currFloor.getFloorName().equals("SV")) {
-      // Side view case where no filtering is needed
-      currFloor.setIconList(new ArrayList<Icon>());
-      // ... Side View Controller Stuff
-
+      populateSideViewInfo();
     } else {
 
       ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
@@ -310,6 +322,44 @@ public class MapController extends Controller {
         }
       }
     }
+  }
+
+  public void populateSideViewInfo() {
+    ArrayList<Floor> floorList = MapManager.getManager().getFloorList();
+    ArrayList<Icon> tempIconList;
+    String dirtyStatus;
+
+    for (int f = 0; f < floorList.size() - 1; f++) {
+      tempIconList = floorList.get(f).getIconList();
+      String floorInfo = floorList.get(f).getFloorName() + ": \n";
+      for (int i = 0; i < tempIconList.size(); i++) {
+        if (tempIconList.get(i).getIconType().equals("Equipment")) {
+          EquipmentIcon tempIcon = (EquipmentIcon) tempIconList.get(i);
+          for (int e = 0; e < tempIcon.getEquipmentList().size(); e++) {
+            Equipment tempEquip = tempIcon.getEquipmentList().get(e);
+
+            if (tempEquip.getIsDirty()) {
+              dirtyStatus = "  Clean Storage";
+            } else {
+              dirtyStatus = "  Dirty Equipment pick-up";
+            }
+            floorInfo +=
+                tempEquip.getID()
+                    + ":   X: "
+                    + tempEquip.getX()
+                    + "   Y: "
+                    + tempEquip.getY()
+                    + dirtyStatus
+                    + " \n";
+          }
+        }
+      }
+      String oldInfo = sideViewArea.getText();
+
+      sideViewArea.setText(oldInfo + "\n" + floorInfo + "\n");
+    }
+
+    sideViewArea.setVisible(true);
   }
 
   public void filterByActiveRequestType(RequestIcon icon) {
