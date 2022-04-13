@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -62,13 +63,17 @@
                                             </items>
                                         </JFXComboBox>
                                         <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
-                                        <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                                        <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
-                                        <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Button>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                              <Button fx:id="resetFields" minWidth="50.0" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
+                                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                                              <Button fx:id="sendRequest" disable="true" minWidth="110.0" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
+                                                  <font>
+                                                      <Font size="14.0" />
+                                                  </font>
+                                              </Button>
+                                 </children>
+                              </HBox>
                                     </children>
                                 </VBox>
                             </children></AnchorPane>
