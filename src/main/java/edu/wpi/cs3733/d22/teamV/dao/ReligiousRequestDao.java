@@ -19,9 +19,10 @@ public class ReligiousRequestDao extends DaoInterface {
       allReligiousRequest; // A local list of all religious requests, updated via Vdb
 
   /** Initialize the arraylist */
-  public ReligiousRequestDao() {
+  public ReligiousRequestDao() throws SQLException, IOException {
     allReligiousRequest = new ArrayList<ReligiousRequest>();
-    // TODO: Add info from the database to the local arraylist
+    createSQLTable();
+    loadFromCSV();
   }
 
   @Override
