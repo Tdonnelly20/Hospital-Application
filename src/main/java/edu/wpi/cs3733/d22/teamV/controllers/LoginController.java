@@ -1,13 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -28,6 +26,18 @@ public class LoginController extends Controller {
   @FXML private PasswordField password;
   @FXML private ImageView iv;
   @FXML private Pane pane;
+  @FXML private JFXComboBox<Object> dBMenu;
+
+  @FXML
+  public void setDB() {
+    if (dBMenu.getValue().toString().equals("Sever DB")) {
+
+    } else if (dBMenu.getValue().toString().equals("Embedded DB")) {
+
+    } else {
+      System.out.println("No db was selected");
+    }
+  }
 
   @FXML
   public void userLogin(ActionEvent event) throws IOException {
