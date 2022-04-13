@@ -143,6 +143,7 @@ public class EquipmentRequestController extends RequestController {
     quant.setText("");
     dropDown.setValue(null);
     sendRequest.setDisable(true);
+    sendRequest.setText("Send Request");
   }
 
   @FXML
@@ -227,6 +228,7 @@ public class EquipmentRequestController extends RequestController {
     notes.setText(delivery.getNotes());
     statusDropDown.setValue(delivery.getStatus());
     updateServiceID = delivery.getServiceID();
+    sendRequest.setText("Update");
     updateTreeTable();
   }
 
