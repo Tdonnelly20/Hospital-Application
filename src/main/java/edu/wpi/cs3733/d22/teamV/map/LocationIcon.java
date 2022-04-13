@@ -31,7 +31,9 @@ public class LocationIcon extends Icon {
 
   public void addToRequests(ServiceRequest request) {
     requestsArr.add(request);
-    location.getRequests().add(request);
+    if (location.getRequests().contains(request)) {
+      location.getRequests().add(request);
+    }
     image.setImage(new Image("markedIcon.png"));
   }
 
@@ -43,14 +45,19 @@ public class LocationIcon extends Icon {
     }
   }
 
-  public void sort() {
-    // TODO Sort list based on status (active first)
+  public void changeImages() {
+    if (hasActiveRequests()) {
+      image.setImage(new Image("markedIcon.png"));
+    } else {
+      image.setImage(new Image("icon.png"));
+    }
   }
 
   public boolean hasActiveRequests() {
     for (ServiceRequest serviceRequest : requestsArr) {
       if (serviceRequest.getStatus().equals("Not Started")
           || serviceRequest.getStatus().equals("Processing")) {
+
         return true;
       }
     }

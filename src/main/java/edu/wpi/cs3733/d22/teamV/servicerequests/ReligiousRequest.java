@@ -24,6 +24,7 @@ public class ReligiousRequest extends ServiceRequest {
     this.employeeID = patientID;
     this.religion = religion;
     this.specialRequests = specialRequests;
+    this.type = "Religious Request";
   }
 
   public int getPatientID() {

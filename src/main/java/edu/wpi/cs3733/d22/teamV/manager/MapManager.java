@@ -57,11 +57,7 @@ public class MapManager {
     floorList.add(f4);
     floorList.add(f5);
     floorList.add(sv);
-    // System.out.println("SIZE: " + floorList.size());
 
-    loadRequests();
-
-    System.out.println(requestSystem.getLocationDao());
     for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
@@ -117,15 +113,15 @@ public class MapManager {
           break;
       }
     }
+    loadRequests();
   }
 
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
       if (floorList.get(i).containsIcon(l)) {
         if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
-          if (l.getRequests().size() > 0) {
-            floorList.get(i).getIconList().remove(floorList.get(i).getIcon(l));
-            floorList.get(i).getIconList().add(new RequestIcon(l));
+          if (l.getIcon().hasActiveRequests()) {
+            l.getIcon().changeImages();
           }
         }
       } else {
@@ -142,10 +138,16 @@ public class MapManager {
 
   public void loadRequests() {
     if (serviceRequests.size() > 0) {
-      for (ServiceRequest serviceRequest : serviceRequests) {
-        for (Location location : requestSystem.getLocations()) {
-          if (!location.getRequests().contains(serviceRequest)) {
-            location.getRequests().add(serviceRequest);
+      for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
+        for (Floor floor : floorList) {
+          for (Icon icon : floor.getIconList()) {
+            if (icon.iconType.equals("Location")
+                && icon.getLocation()
+                    .getNodeID()
+                    .equals(serviceRequest.getLocation().getNodeID())) {
+              icon.getLocation().getRequests().add(serviceRequest);
+              ((LocationIcon) icon).addToRequests(serviceRequest);
+            }
           }
         }
       }
