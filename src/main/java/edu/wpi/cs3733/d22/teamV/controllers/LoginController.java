@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -27,16 +28,30 @@ public class LoginController extends Controller {
   @FXML private ImageView iv;
   @FXML private Pane pane;
   @FXML private JFXComboBox<Object> dBMenu;
+  @FXML private TextField dbIP;
+  @FXML private TextField dbPath;
+  @FXML private Button dbButton;
 
   @FXML
   public void setDB() {
-    if (dBMenu.getValue().toString().equals("Sever DB")) {
-
+    if (dBMenu.getValue().toString().equals("Server DB")) {
+      Vdb.setIsClient(true);
+      dbButton.setOpacity(1);
+      dbPath.setOpacity(1);
+      dbIP.setOpacity(1);
     } else if (dBMenu.getValue().toString().equals("Embedded DB")) {
-
+      Vdb.setIsClient(false);
     } else {
       System.out.println("No db was selected");
     }
+  }
+
+  @FXML
+  public void getDBInfo() {
+    Vdb.setIP(dbIP.getText());
+    Vdb.setServerPath(dbPath.getText());
+    dbIP.setText("");
+    dbPath.setText("");
   }
 
   @FXML

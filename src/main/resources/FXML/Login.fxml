@@ -71,10 +71,13 @@
       <JFXComboBox fx:id="dBMenu" layoutX="1042.0" layoutY="701.0" onAction="#setDB" promptText="Database" style="-fx-background-color: ffffff;">
       <items>
          <FXCollections fx:factory="observableArrayList">
-            <String fx:id="server" fx:value="Sever DB" />
+            <String fx:id="server" fx:value="Server DB" />
             <String fx:id="embedded" fx:value="Embedded DB" />
          </FXCollections>
       </items>
       </JFXComboBox>
+      <TextField fx:id="dbPath" layoutX="1033.0" layoutY="751.0" opacity="0.0" promptText="Enter path to database" />
+      <TextField fx:id="dbIP" layoutX="848.0" layoutY="751.0" opacity="0.0" promptText="Enter server IP" />
+      <Button fx:id="dbButton" layoutX="1100.0" layoutY="647.0" mnemonicParsing="false" onAction="#getDBInfo" opacity="0.0" text="Submit" />
    </children>
 </Pane>
