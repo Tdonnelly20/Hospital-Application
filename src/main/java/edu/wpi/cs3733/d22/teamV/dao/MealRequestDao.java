@@ -36,8 +36,9 @@ public class MealRequestDao extends DaoInterface {
     {
       String[] data = line.split(splitToken);
       MealRequest newDelivery =
-          new MealRequest(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3]);
-      newDelivery.setServiceID(Integer.parseInt(data[4]));
+          new MealRequest(
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+      newDelivery.setServiceID(Integer.parseInt(data[5]));
       mealRequests.add(newDelivery);
     }
 

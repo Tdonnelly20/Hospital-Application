@@ -12,7 +12,7 @@ public class MealRequest extends ServiceRequest {
   private String meal;
   private String nodeID;
 
-  public MealRequest(int employeeID, int patientID, String nodeID, String meal) {
+  public MealRequest(int employeeID, int patientID, String nodeID, String status, String meal) {
     this.employeeID = employeeID;
     this.patientID = patientID;
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);

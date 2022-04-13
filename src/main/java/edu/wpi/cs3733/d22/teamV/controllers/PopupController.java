@@ -670,7 +670,8 @@ public class PopupController {
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
                       icon.getLocation().getNodeID(),
-                      comboBox2.getValue().toString());
+                      comboBox2.getValue().toString(),
+                      comboBox1.getValue().toString());
               addRequest(event, icon, request);
             });
         break;

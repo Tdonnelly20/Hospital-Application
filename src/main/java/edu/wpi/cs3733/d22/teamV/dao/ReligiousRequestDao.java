@@ -34,7 +34,7 @@ public class ReligiousRequestDao extends DaoInterface {
     ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[] {"TABLE"});
     if (!set.next()) {
       statement.execute(
-          "CREATE TABLE RELIGIOUSREQUESTS(pID int, empID int, religion char(35), request char(200), serviceID int)");
+          "CREATE TABLE RELIGIOUSREQUESTS(pID int, empID int, nodeID char(50), religion char(35), request char(200), serviceID int)");
     } else {
       statement.execute("DROP TABLE RELIGIOUSREQUESTS");
       createSQLTable();
@@ -95,13 +95,14 @@ public class ReligiousRequestDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest Request) throws SQLException {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
     Connection connection = Vdb.Connect();
-    String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?)";
+    String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?)";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setInt(1, newReligiousRequest.getEmpID());
     statement.setInt(2, newReligiousRequest.getPatientID());
-    statement.setString(3, newReligiousRequest.getReligion());
-    statement.setString(4, newReligiousRequest.getSpecialRequests());
-    statement.setInt(5, newReligiousRequest.getServiceID());
+    statement.setString(3, newReligiousRequest.getLocation().getNodeID());
+    statement.setString(4, newReligiousRequest.getReligion());
+    statement.setString(5, newReligiousRequest.getSpecialRequests());
+    statement.setInt(6, newReligiousRequest.getServiceID());
   }
 
   @Override
@@ -169,13 +170,14 @@ public class ReligiousRequestDao extends DaoInterface {
     Connection connection = Vdb.Connect();
     String query =
         "UPDATE RELIGIOUSREQUESTS"
-            + "SET patientID=?,userID=?,religion=?,specialRequests=?"
+            + "SET patientID=?,empID=?,nodeID=?,religion=?,specialRequests=?"
             + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setInt(1, newRequest.getEmpID());
     statement.setInt(2, newRequest.getPatientID());
-    statement.setString(3, newRequest.getReligion());
-    statement.setString(4, newRequest.getSpecialRequests());
-    statement.setInt(5, newRequest.getServiceID());
+    statement.setString(3, newRequest.getLocation().getNodeID());
+    statement.setString(4, newRequest.getReligion());
+    statement.setString(5, newRequest.getSpecialRequests());
+    statement.setInt(6, newRequest.getServiceID());
   }
 }
