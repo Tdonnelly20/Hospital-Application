@@ -263,7 +263,7 @@ public class PopupController {
       vBox.setPrefWidth(450);
       vBox.setPrefHeight(400);
       for (ServiceRequest request : icon.getRequestsArr()) {
-
+        System.out.println(request.toString());
         Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getEmployeeID());
         Label locationLabel =
             new Label(

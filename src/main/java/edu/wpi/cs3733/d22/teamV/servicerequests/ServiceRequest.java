@@ -37,6 +37,17 @@ public abstract class ServiceRequest {
   }
 
   public String toString() {
-    return "";
+    if (patient == null || hospitalEmployee == null) {
+      return "Location: " + location.getNodeID() + " Service ID: " + serviceID;
+    } else {
+      return "Location: "
+          + location.getNodeID()
+          + " Service ID: "
+          + serviceID
+          + " Patient ID: "
+          + patient.getPatientID()
+          + " Employee ID: "
+          + hospitalEmployee.getEmployeeID();
+    }
   }
 }
