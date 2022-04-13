@@ -58,6 +58,7 @@ public class MealRequestDao extends DaoInterface {
         String.valueOf(mealRequest.getEmployeeID()),
         String.valueOf(mealRequest.getPatientID()),
         mealRequest.getMeal(),
+        mealRequest.getNodeID(),
         String.valueOf(mealRequest.getServiceID())
       };
       bw.append("\n");
