@@ -52,7 +52,6 @@ public class EquipmentDao {
     // int ID, String name, floor,double x, double y, String description, Boolean isDirty) {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
-      System.out.println(line);
       String[] data;
       data = line.split(splitToken);
       Equipment equipment =
