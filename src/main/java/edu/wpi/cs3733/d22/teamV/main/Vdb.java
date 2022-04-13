@@ -11,6 +11,8 @@ public class Vdb {
 
   private static String line; // receives a line from b
   private static boolean isClient = false;
+  private static String ip;
+  private static String serverPath;
   public static MapManager mapManager;
   public static MapController mapController;
   public static PopupController popupController;
@@ -64,7 +66,7 @@ public class Vdb {
         URL = "jdbc:derby:VDB;";
 
       } else {
-        URL = "jdbc:derby://130.215.13.157/C:/Users/tucke/IdeaProjects/TeamVeganVampires/VDB";
+        URL = "jdbc:derby://" + ip + "/" + serverPath;
       }
       Connection connection = DriverManager.getConnection(URL, "admin", "admin");
       return connection;
@@ -73,5 +75,13 @@ public class Vdb {
       e.printStackTrace();
       return null;
     }
+  }
+
+  public static void setServerPath(String fullPath) {
+    serverPath = fullPath;
+  }
+
+  public static void setServerIP(String IPV4) {
+    ip = IPV4;
   }
 }
