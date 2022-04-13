@@ -16,8 +16,10 @@ public class MealRequestDao extends DaoInterface {
   private static ArrayList<MealRequest> allMealRequests;
 
   /** Initialize the array list */
-  public MealRequestDao() {
+  public MealRequestDao() throws SQLException, IOException {
     allMealRequests = new ArrayList<MealRequest>();
+    createSQLTable();
+    loadFromCSV();
     // TODO: Add info from the database to the local arraylist
   }
 
@@ -34,8 +36,9 @@ public class MealRequestDao extends DaoInterface {
     {
       String[] data = line.split(splitToken);
       MealRequest newDelivery =
-          new MealRequest(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3]);
-      newDelivery.setServiceID(Integer.parseInt(data[4]));
+          new MealRequest(
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+      newDelivery.setServiceID(Integer.parseInt(data[5]));
       mealRequests.add(newDelivery);
     }
 
@@ -55,6 +58,7 @@ public class MealRequestDao extends DaoInterface {
         String.valueOf(mealRequest.getEmployeeID()),
         String.valueOf(mealRequest.getPatientID()),
         mealRequest.getMeal(),
+        mealRequest.getNodeID(),
         String.valueOf(mealRequest.getServiceID())
       };
       bw.append("\n");

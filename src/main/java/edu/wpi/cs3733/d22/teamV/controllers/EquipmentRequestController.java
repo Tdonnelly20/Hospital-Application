@@ -9,6 +9,7 @@ import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -91,8 +92,9 @@ public class EquipmentRequestController extends RequestController {
 
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
-    if (!currEquipmentDeliveries.isEmpty()) {
-
+    if (currEquipmentDeliveries.isEmpty()) {
+      equipmentRequestTable.setRoot(null);
+    } else {
       for (EquipmentDelivery delivery : currEquipmentDeliveries) {
         TreeItem<EquipmentDelivery> item = new TreeItem(delivery);
         treeItems.add(item);
@@ -229,10 +231,14 @@ public class EquipmentRequestController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow() throws NullPointerException {
-    EquipmentDelivery delivery =
-        equipmentRequestTable.getSelectionModel().getSelectedItem().getValue();
-
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+    try {
+      EquipmentDelivery delivery =
+          equipmentRequestTable.getSelectionModel().getSelectedItem().getValue();
+      RequestSystem.getSystem().getDao(Dao.EquipmentDelivery).removeServiceRequest(delivery);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
     updateTreeTable();
   }
 

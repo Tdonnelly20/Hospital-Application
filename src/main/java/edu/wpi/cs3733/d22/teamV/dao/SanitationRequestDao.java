@@ -18,17 +18,12 @@ public class SanitationRequestDao extends DaoInterface {
       allSanitationRequests; // A local list of all sanitation requests, updated via Vdb
 
   /** Initialize the arraylist */
-  public SanitationRequestDao() {
+  public SanitationRequestDao() throws SQLException, IOException {
     allSanitationRequests = new ArrayList<SanitationRequest>();
-    // TODO: Add info from the database to the local arraylist
+    createSQLTable();
+    loadFromCSV();
   }
-  // String patientFirstName,
-  //      String patientLastName,
-  //      int patientID,
-  //      int employeeID,
-  //      String roomLocation,
-  //      String hazardName,
-  //      String requestDetails
+
   @Override
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";

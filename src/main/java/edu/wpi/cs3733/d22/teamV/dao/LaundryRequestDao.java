@@ -16,8 +16,10 @@ public class LaundryRequestDao extends DaoInterface {
   private static ArrayList<LaundryRequest> allLaundryRequests;
 
   /** Initialize the array list */
-  public LaundryRequestDao() {
+  public LaundryRequestDao() throws SQLException, IOException {
     allLaundryRequests = new ArrayList<LaundryRequest>();
+    createSQLTable();
+    saveToCSV();
   }
 
   public LaundryRequestDao(ArrayList<LaundryRequest> allLaundryRequests) {
@@ -49,7 +51,7 @@ public class LaundryRequestDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(VApp.currentPath + "\\LaundryRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("userID,patientID,firstName,lastName,roomNumber,details,serviceID");
+    bw.append("userID,patientID,roomNumber,details,status,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -58,9 +60,9 @@ public class LaundryRequestDao extends DaoInterface {
       String[] outputData = {
         String.valueOf(laundryRequest.getEmployeeID()),
         String.valueOf(laundryRequest.getPatientID()),
-        laundryRequest.getFirstName(),
-        laundryRequest.getLastName(),
         String.valueOf(laundryRequest.getNodeID()),
+        String.valueOf(laundryRequest.getDetails()),
+        String.valueOf(laundryRequest.getStatus()),
         String.valueOf(laundryRequest.getServiceID())
       };
       bw.append("\n");
@@ -84,7 +86,7 @@ public class LaundryRequestDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE LAUNDRY(userID int, patientID int, firstName char(50), lastName char(50), roomNumber int, details char(100), serviceID int)";
+          "CREATE TABLE LAUNDRY(userID int, patientID int, roomNumber int, details char(100), status char(100), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -109,19 +111,17 @@ public class LaundryRequestDao extends DaoInterface {
 
     query =
         "INSERT INTO LAUNDRY("
-            + "userID,patientID,firstName,lastName,roomNumber,details,serviceID) VALUES "
+            + "userID,patientID,roomNumber,details,status,serviceID) VALUES "
             + "("
             + laundryRequest.getEmployeeID()
             + ","
             + laundryRequest.getPatientID()
             + ", '"
-            + laundryRequest.getFirstName()
-            + "','"
-            + laundryRequest.getLastName()
-            + "',"
             + laundryRequest.getNodeID()
             + ",'"
             + laundryRequest.getDetails()
+            + "','"
+            + laundryRequest.getStatus()
             + "',"
             + laundryRequest.getServiceID()
             + ")";

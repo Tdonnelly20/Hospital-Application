@@ -130,7 +130,6 @@
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField id="patientID" fx:id="patientID11" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="290.0" />
                   <JFXComboBox id="dropDown" fx:id="requestedLab" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Select Lab" style="-fx-background-color: #FFFFFF;">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -142,7 +141,7 @@
                         </FXCollections>
                      </items>
                   </JFXComboBox>
-                  <JFXComboBox id="dropDown" fx:id="status" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
+                  <JFXComboBox id="dropDown" fx:id="statusDropDown" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
                            <String fx:id="bloodSampleRequest1" fx:value="Blood Sample" />
@@ -153,6 +152,7 @@
                         </FXCollections>
                      </items>
                   </JFXComboBox>
+                  <Label fx:id="status" text="Status: Processing" />
                   <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                      <font>
                         <Font size="18.0" />

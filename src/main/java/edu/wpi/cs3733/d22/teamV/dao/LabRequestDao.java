@@ -14,8 +14,10 @@ public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() {
+  public LabRequestDao() throws SQLException, IOException {
     allLabRequests = new ArrayList<>();
+    createSQLTable();
+    loadFromCSV();
   }
 
   // DaoInterface Methods
@@ -79,7 +81,7 @@ public class LabRequestDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE LABS(userID int, patientID int, lab varchar(50), status varchar(50), serviceID int)";
+          "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int)";
       statement.execute(query);
 
     } else {
