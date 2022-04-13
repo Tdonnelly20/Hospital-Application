@@ -84,7 +84,7 @@
                         <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                      </content>
                   </Tab>
-                  <Tab text="Lab Requests">
+                  <Tab fx:id="tableTab" onSelectionChanged="#updateTreeTable" text="Lab Requests">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -144,11 +144,9 @@
                   <JFXComboBox id="dropDown" fx:id="statusDropDown" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:id="bloodSampleRequest1" fx:value="Blood Sample" />
-                           <String fx:id="urineSampleRequest1" fx:value="Urine Sample" />
-                           <String fx:value="X-Ray" fx:id="xrayRequest1" />
-                           <String fx:id="catRequest1" fx:value="CAT" />
-                           <String fx:id="mriRequest1" fx:value="MRI" />
+                           <String fx:id="notStarted" fx:value="Not Started" />
+                           <String fx:id="processing" fx:value="Processing" />
+                           <String fx:id="completed" fx:value="Completed" />
                         </FXCollections>
                      </items>
                   </JFXComboBox>

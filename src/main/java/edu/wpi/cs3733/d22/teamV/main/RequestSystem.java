@@ -105,22 +105,31 @@ public class RequestSystem {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.addServiceRequest(request);
+        break;
       case InternalPatientTransportation:
         internalPatientTransportationDao.addServiceRequest(request);
+        break;
       case LabRequest:
         labRequestDao.addServiceRequest(request);
+        break;
       case LaundryRequest:
         laundryRequestDao.addServiceRequest(request);
+        break;
       case LocationDao:
         locationDao.addServiceRequest(request);
+        break;
       case MealRequestDao:
         mealRequestDao.addServiceRequest(request);
+        break;
       case MedicineDelivery:
         medicineDeliveryDao.addServiceRequest(request);
+        break;
       case ReligiousRequest:
         religiousRequestDao.addServiceRequest(request);
+        break;
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
+        break;
       default:
         System.out.println("L + touch grass");
     }

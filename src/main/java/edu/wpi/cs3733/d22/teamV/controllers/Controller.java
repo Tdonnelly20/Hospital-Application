@@ -87,7 +87,7 @@ public abstract class Controller extends Application {
   // Switches scene to the lab request page
   @FXML
   protected void switchToLabRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LabRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLabRequest.fxml"));
     switchScene(event);
   }
 

@@ -82,6 +82,7 @@ public class PopupController {
   public void closePopUp() {
     if (stage.isShowing()) {
       stage.close();
+      content.getChildren().clear();
       // MapController.getController().checkDropDown();
     }
   }
@@ -171,6 +172,7 @@ public class PopupController {
     closeButton.setOnAction(
         event1 -> {
           closePopUp();
+          content.getChildren().clear();
           // MapManager.getManager().isTempIconVisible(false);
         });
     returnButton.setOnAction(
@@ -255,6 +257,7 @@ public class PopupController {
   /** Populates a location icon's popup window with its service requests */
   @FXML
   public void insertServiceRequests(LocationIcon icon) {
+    content.getChildren().clear();
     ObservableList<String> statusStrings =
         FXCollections.observableArrayList("Not Started", "Processing", "Done");
     if (icon.getRequestsArr().size() > 0) {
