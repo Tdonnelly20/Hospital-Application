@@ -48,8 +48,6 @@
                                             </VBox.margin>
                                         </TextField>
                                         <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
-                                        <TextField fx:id="firstName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient First Name" />
-                                        <TextField fx:id="lastName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient Last Name" />
                                         <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Location" />
                                         <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
