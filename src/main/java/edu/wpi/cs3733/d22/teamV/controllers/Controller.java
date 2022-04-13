@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -138,6 +139,19 @@ public abstract class Controller extends Application {
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
     filterString = "Internal Patient Transportation Requests";
+    switchScene(event);
+  }
+
+  @FXML
+  protected void switchToEmployeeDB(ActionEvent event) throws IOException {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/EmployeeDatabase.fxml"));
+    switchScene(event);
+  }
+
+  @FXML
+  protected void switchToPatientDB(ActionEvent event) throws IOException {
+    URL fxmlLocation = getClass().getClassLoader().getResource("FXML/PatientDatabase.fxml");
+    loader.setLocation(fxmlLocation);
     switchScene(event);
   }
 

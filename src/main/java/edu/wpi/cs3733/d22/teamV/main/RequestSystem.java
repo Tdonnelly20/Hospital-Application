@@ -32,10 +32,7 @@ public class RequestSystem {
   public RequestSystem() {}
 
   public void init() throws SQLException, IOException {
-    System.out.println(this);
-
     locationDao = new LocationDao();
-    System.out.println(locationDao);
     patientDao = new PatientDao();
     employeeDao = new EmployeeDao();
 
