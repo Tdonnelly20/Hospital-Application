@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +25,39 @@ public abstract class Icon {
     image.setFitHeight(30);
     image.setTranslateX(xCoord);
     image.setTranslateY(yCoord);
-    /*image.setOnMouseClicked(
-    event -> {
-      if (event.getClickCount() == 2) {
-        PopupController.getController().openIconRequestWindow(this);
-      }
-    });*/
+    image.setOnMousePressed(
+        e -> {
+          // prevent pannable ScrollPane from changing cursor on drag-detected (implementation
+          // detail)
+          e.setDragDetect(false);
+          Point2D offset = new Point2D(e.getX() - image.getX() - 15, e.getY() - image.getY() - 20);
+          image.setUserData(offset);
+          e.consume(); // prevents MouseEvent from reaching ScrollPane
+        });
+    image.setOnMouseDragged(
+        e -> {
+          // prevent pannable ScrollPane from changing cursor on drag-detected (implementation
+          // detail)
+          e.setDragDetect(false);
+          Point2D offset = (Point2D) image.getUserData();
+          image.setX(e.getX() - offset.getX() - 15);
+          image.setY(e.getY() - offset.getY() - 20);
+          e.consume(); // prevents MouseEvent from reaching ScrollPane
+        });
+    image.setOnMouseEntered(
+        event -> {
+          image.setFitWidth(50);
+          image.setFitHeight(50);
+        });
+    image.setOnMouseExited(
+        event -> {
+          image.setFitWidth(30);
+          image.setFitHeight(30);
+        });
+    image.setOnMouseReleased(
+        event -> {
+          location.setXCoord(location.getXCoord() + event.getX());
+          location.setYCoord(location.getYCoord() + event.getY());
+        });
   }
 }
