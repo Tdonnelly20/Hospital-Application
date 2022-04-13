@@ -2,10 +2,10 @@ package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
-import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,9 +45,9 @@ public class EquipmentIcon extends Icon {
 
   public void setImage() {
     if (hasCleanEquipment()) {
-      image.setImage(new Image("cleanEquipment.png"));
+      image.setImage(MapManager.getManager().cleanEquipment);
     } else {
-      image.setImage(new Image("Equipment.png"));
+      image.setImage(MapManager.getManager().dirtyEquipment);
     }
   }
 
