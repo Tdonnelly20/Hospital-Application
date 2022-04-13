@@ -16,6 +16,14 @@ public class LabRequestDao extends DaoInterface {
   /** Initialize the array list */
   public LabRequestDao() {
     allLabRequests = new ArrayList<>();
+    try {
+      createSQLTable();
+      loadFromCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   // DaoInterface Methods

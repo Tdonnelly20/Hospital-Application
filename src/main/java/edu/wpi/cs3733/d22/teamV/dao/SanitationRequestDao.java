@@ -20,7 +20,14 @@ public class SanitationRequestDao extends DaoInterface {
   /** Initialize the arraylist */
   public SanitationRequestDao() {
     allSanitationRequests = new ArrayList<SanitationRequest>();
-    // TODO: Add info from the database to the local arraylist
+    try {
+      createSQLTable();
+      loadFromCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
   // String patientFirstName,
   //      String patientLastName,
@@ -93,6 +100,7 @@ public class SanitationRequestDao extends DaoInterface {
   // serviceID
   @Override
   public void createSQLTable() throws SQLException {
+    System.out.println("0 SANITY");
     String query = "";
     Connection connection = Vdb.Connect();
     Statement statement = connection.createStatement();

@@ -17,6 +17,14 @@ public class InternalPatientTransportationDao extends DaoInterface {
   /** Initialize the arraylist */
   public InternalPatientTransportationDao() {
     allInternalPatientTransportations = new ArrayList<InternalPatientTransportation>();
+    try {
+      createSQLTable();
+      loadFromCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public void setAllInternalPatientTransportations(

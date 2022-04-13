@@ -18,7 +18,14 @@ public class MealRequestDao extends DaoInterface {
   /** Initialize the array list */
   public MealRequestDao() {
     allMealRequests = new ArrayList<MealRequest>();
-    // TODO: Add info from the database to the local arraylist
+    try {
+      createSQLTable();
+      loadFromCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public void loadFromCSV() throws IOException, SQLException {

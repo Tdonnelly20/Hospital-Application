@@ -21,7 +21,14 @@ public class ReligiousRequestDao extends DaoInterface {
   /** Initialize the arraylist */
   public ReligiousRequestDao() {
     allReligiousRequest = new ArrayList<ReligiousRequest>();
-    // TODO: Add info from the database to the local arraylist
+    try {
+      createSQLTable();
+      loadFromCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
   //
   //      String firstName,

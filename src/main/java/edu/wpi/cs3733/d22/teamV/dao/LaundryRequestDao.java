@@ -18,6 +18,14 @@ public class LaundryRequestDao extends DaoInterface {
   /** Initialize the array list */
   public LaundryRequestDao() {
     allLaundryRequests = new ArrayList<LaundryRequest>();
+    try {
+      createSQLTable();
+      loadFromCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public LaundryRequestDao(ArrayList<LaundryRequest> allLaundryRequests) {
