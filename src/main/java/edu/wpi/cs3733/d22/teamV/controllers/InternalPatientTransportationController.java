@@ -1,10 +1,13 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.InternalPatientTransportation;
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
 import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
 import java.awt.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -37,8 +40,9 @@ public class InternalPatientTransportationController extends MapController
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
 
-  public static InternalPatientTransportationDao internalPatientTransportationDao =
-      Vdb.internalPatientTransportationDao;
+  public static final InternalPatientTransportationDao internalPatientTransportationDao =
+      (InternalPatientTransportationDao)
+          Vdb.requestSystem.getDao(RequestSystem.Dao.InternalPatientTransportation);
 
   private static class SingletonHelper {
     private static final InternalPatientTransportationController controller =
@@ -60,11 +64,11 @@ public class InternalPatientTransportationController extends MapController
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    roomNumberCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
+    roomNumberCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
 
     // Create list for tree items
@@ -123,7 +127,7 @@ public class InternalPatientTransportationController extends MapController
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @Override
-  public void sendRequest() {
+  public void sendRequest() throws SQLException, IOException {
     // If any field is left blank, (except for request details) throw an error
 
     // Make sure the patient ID is an integer
@@ -135,13 +139,14 @@ public class InternalPatientTransportationController extends MapController
     } else {
 
       // Send the request to the Dao pattern
-      internalPatientTransportationDao.addInternalPatientTransportation(
-          firstName.getText(),
-          lastName.getText(),
-          roomNum.getText(),
-          Integer.parseInt(patientID.getText()),
-          Integer.parseInt(hospitalID.getText()),
-          requestDetails.getText());
+      InternalPatientTransportation internalPatientTransportation =
+          new InternalPatientTransportation(
+              roomNum.getText(),
+              Integer.parseInt(patientID.getText()),
+              Integer.parseInt(hospitalID.getText()),
+              requestDetails.getText());
+
+      internalPatientTransportationDao.addServiceRequest(internalPatientTransportation);
 
       // For testing purposes
       System.out.println(

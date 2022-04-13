@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.MealRequest;
 import edu.wpi.cs3733.d22.teamV.dao.MealRequestDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -17,7 +19,8 @@ public class MealDeliveryRequestController extends RequestController {
   @FXML private TreeTableColumn<MealRequest, String> lastNameCol;
   @FXML private TreeTableColumn<MealRequest, String> requestedMealCol;
 
-  private static MealRequestDao mealRequestDao = new MealRequestDao();
+  private static final MealRequestDao mealRequestDao =
+      (MealRequestDao) Vdb.requestSystem.getDao(Dao.MealRequestDao);
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;
@@ -85,7 +88,7 @@ public class MealDeliveryRequestController extends RequestController {
 
     // Get the current list of lab requests from the DAO
     ArrayList<MealRequest> currMealRequests =
-        (ArrayList<MealRequest>) mealRequestDao.getAllMealRequests();
+        (ArrayList<MealRequest>) mealRequestDao.getAllServiceRequests();
 
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
@@ -102,7 +105,7 @@ public class MealDeliveryRequestController extends RequestController {
       // we get the standard table functionality
       table.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem root = new TreeItem(mealRequestDao.getAllMealRequests().get(0));
+      TreeItem root = new TreeItem(mealRequestDao.getAllServiceRequests().get(0));
       // Set the root in the table
       table.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
@@ -121,12 +124,18 @@ public class MealDeliveryRequestController extends RequestController {
     } else {
       // Send the request to the Dao pattern
       System.out.println(requestedMeal.getValue().toString());
-      mealRequestDao.addMealRequest(
-          Integer.parseInt(userID.getText()),
-          Integer.parseInt(patientID.getText()),
-          firstName.getText(),
-          lastName.getText(),
-          requestedMeal.getValue().toString());
+      MealRequest m =
+          new MealRequest(
+              Integer.parseInt(userID.getText()),
+              Integer.parseInt(patientID.getText()),
+              "test",
+              requestedMeal.getValue().toString(),
+              "processing");
+      try {
+        mealRequestDao.addServiceRequest(m);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
       resetForm();
       updateTreeTable();
     }

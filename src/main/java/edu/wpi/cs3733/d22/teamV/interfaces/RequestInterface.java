@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.interfaces;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import javafx.fxml.FXML;
 
 public interface RequestInterface {
@@ -13,5 +15,5 @@ public interface RequestInterface {
   void resetForm();
 
   @FXML
-  void sendRequest();
+  void sendRequest() throws SQLException, IOException;
 }

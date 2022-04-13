@@ -9,15 +9,20 @@ import lombok.Setter;
 @Setter
 public class Floor {
   private String floorName;
-  private ArrayList<Icon> iconList;
+  private ArrayList<Icon> iconList = new ArrayList<Icon>();
 
   public Floor(String floorName) {
     this.floorName = floorName;
-    iconList = new ArrayList<Icon>();
   }
 
   public void addIcon(Icon icon) {
     iconList.add(icon);
+  }
+
+  public void removeIcon(Icon icon) {
+    if (iconList.contains(icon)) {
+      iconList.remove(icon);
+    }
   }
 
   public String getFloorName() {

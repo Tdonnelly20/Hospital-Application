@@ -1,29 +1,53 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.dao.*;
+import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class RequestSystem {
-  private EquipmentDao equipmentDao = new EquipmentDao();
-  private EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
-  private InternalPatientTransportationDao internalPatientTransportationDao =
-      new InternalPatientTransportationDao();
-  private LabRequestDao labRequestDao = new LabRequestDao();
-  private LaundryRequestDao laundryRequestDao = new LaundryRequestDao();
-  private LocationDao locationDao = new LocationDao();
-  private MealRequestDao mealRequestDao = new MealRequestDao();
-  private MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
-  private ReligiousRequestDao religiousRequestDao = new ReligiousRequestDao();
-  private SanitationRequestDao sanitationRequestDao = new SanitationRequestDao();
+  public static int serviceIDCounter = 0;
+  public static int patientIDCounter = 0;
+  public static int employeeIDCounter = 0;
 
+  private LocationDao locationDao;
+  private PatientDao patientDao;
+  private EmployeeDao employeeDao;
+  private EquipmentDao equipmentDao;
+  private EquipmentDeliveryDao equipmentDeliveryDao;
+  private InternalPatientTransportationDao internalPatientTransportationDao;
+  private LabRequestDao labRequestDao;
+  private LaundryRequestDao laundryRequestDao;
+  private MealRequestDao mealRequestDao;
+  private MedicineDeliveryDao medicineDeliveryDao;
+  private ReligiousRequestDao religiousRequestDao;
+  private SanitationRequestDao sanitationRequestDao;
+
+  public RequestSystem() {}
+
+  public void init() throws SQLException, IOException {
+    locationDao = new LocationDao();
+    patientDao = new PatientDao();
+    employeeDao = new EmployeeDao();
+
+    equipmentDao = new EquipmentDao();
+    equipmentDeliveryDao = new EquipmentDeliveryDao();
+    internalPatientTransportationDao = new InternalPatientTransportationDao();
+    labRequestDao = new LabRequestDao();
+    laundryRequestDao = new LaundryRequestDao();
+    mealRequestDao = new MealRequestDao();
+    medicineDeliveryDao = new MedicineDeliveryDao();
+    religiousRequestDao = new ReligiousRequestDao();
+    sanitationRequestDao = new SanitationRequestDao();
+  }
+
+  /** Choose type of DAO for the methods called */
   public enum Dao {
     Equipment,
     EquipmentDelivery,
@@ -37,163 +61,89 @@ public class RequestSystem {
     SanitationRequest
   }
 
-  Dao dao;
+  private static class SingletonMaker {
+    private static final RequestSystem requestSystem = new RequestSystem();
+  }
 
-  public void loadFromCSV() throws IOException, SQLException {
+  public static RequestSystem getSystem() {
+    return SingletonMaker.requestSystem;
+  }
+
+  public DaoInterface getDao(Dao dao) {
     switch (dao) {
-      case Equipment:
-        equipmentDao.loadFromCSV();
       case EquipmentDelivery:
-        equipmentDeliveryDao.loadFromCSV();
+        return equipmentDeliveryDao;
       case InternalPatientTransportation:
-        internalPatientTransportationDao.loadFromCSV();
+        return internalPatientTransportationDao;
       case LabRequest:
-        labRequestDao.loadFromCSV();
+        return labRequestDao;
       case LaundryRequest:
-        laundryRequestDao.loadFromCSV();
+        return laundryRequestDao;
       case LocationDao:
-        locationDao.loadFromCSV();
+        return locationDao;
       case MealRequestDao:
-        mealRequestDao.loadFromCSV();
+        return mealRequestDao;
       case MedicineDelivery:
-        medicineDeliveryDao.loadFromCSV();
+        return medicineDeliveryDao;
       case ReligiousRequest:
-        religiousRequestDao.loadFromCSV();
+        return religiousRequestDao;
       case SanitationRequest:
-        sanitationRequestDao.loadFromCSV();
+        return sanitationRequestDao;
       default:
-        System.out.println("L + touch grass");
+        return null;
     }
   }
 
-  public void saveToCSV() throws IOException {
-    switch (dao) {
-      case EquipmentDelivery:
-        equipmentDeliveryDao.saveToCSV();
-      case InternalPatientTransportation:
-        internalPatientTransportationDao.saveToCSV();
-      case LabRequest:
-        labRequestDao.saveToCSV();
-      case LaundryRequest:
-        laundryRequestDao.saveToCSV();
-      case LocationDao:
-        locationDao.saveToCSV();
-      case MealRequestDao:
-        mealRequestDao.saveToCSV();
-      case MedicineDelivery:
-        medicineDeliveryDao.saveToCSV();
-      case ReligiousRequest:
-        religiousRequestDao.saveToCSV();
-      case SanitationRequest:
-        sanitationRequestDao.saveToCSV();
-      default:
-        System.out.println("L + touch grass");
-    }
-  }
-
-  public void createSQLTable() throws SQLException {
-    switch (dao) {
-      case Equipment:
-        equipmentDao.createSQLTable();
-      case EquipmentDelivery:
-        equipmentDeliveryDao.createSQLTable();
-      case InternalPatientTransportation:
-        internalPatientTransportationDao.createSQLTable();
-      case LabRequest:
-        labRequestDao.createSQLTable();
-      case LaundryRequest:
-        laundryRequestDao.createSQLTable();
-      case LocationDao:
-        locationDao.createSQLTable();
-      case MealRequestDao:
-        mealRequestDao.createSQLTable();
-      case MedicineDelivery:
-        medicineDeliveryDao.createSQLTable();
-      case ReligiousRequest:
-        religiousRequestDao.createSQLTable();
-      case SanitationRequest:
-        sanitationRequestDao.createSQLTable();
-      default:
-        System.out.println("L + touch grass");
-    }
-  }
-
-  public void addToSQLTable(ServiceRequest request) throws SQLException {
-    switch (dao) {
-      case EquipmentDelivery:
-        equipmentDeliveryDao.addToSQLTable(request);
-      case InternalPatientTransportation:
-        internalPatientTransportationDao.addToSQLTable(request);
-      case LabRequest:
-        labRequestDao.addToSQLTable(request);
-      case LaundryRequest:
-        laundryRequestDao.addToSQLTable(request);
-      case LocationDao:
-        locationDao.addToSQLTable(request);
-      case MealRequestDao:
-        mealRequestDao.addToSQLTable(request);
-      case MedicineDelivery:
-        medicineDeliveryDao.addToSQLTable(request);
-      case ReligiousRequest:
-        religiousRequestDao.addToSQLTable(request);
-      case SanitationRequest:
-        sanitationRequestDao.addToSQLTable(request);
-      default:
-        System.out.println("L + touch grass");
-    }
-  }
-
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-    switch (dao) {
-      case EquipmentDelivery:
-        equipmentDeliveryDao.removeFromSQLTable(request);
-      case InternalPatientTransportation:
-        internalPatientTransportationDao.removeFromSQLTable(request);
-      case LabRequest:
-        labRequestDao.removeFromSQLTable(request);
-      case LaundryRequest:
-        laundryRequestDao.removeFromSQLTable(request);
-      case LocationDao:
-        locationDao.removeFromSQLTable(request);
-      case MealRequestDao:
-        mealRequestDao.removeFromSQLTable(request);
-      case MedicineDelivery:
-        medicineDeliveryDao.removeFromSQLTable(request);
-      case ReligiousRequest:
-        religiousRequestDao.removeFromSQLTable(request);
-      case SanitationRequest:
-        sanitationRequestDao.removeFromSQLTable(request);
-      default:
-        System.out.println("L + touch grass");
-    }
-  }
-
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  /**
+   * Creates new service request in specified DAO
+   *
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
+  public void addServiceRequest(ServiceRequest request, Dao dao) throws IOException, SQLException {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.addServiceRequest(request);
+        break;
       case InternalPatientTransportation:
         internalPatientTransportationDao.addServiceRequest(request);
+        break;
       case LabRequest:
         labRequestDao.addServiceRequest(request);
+        break;
       case LaundryRequest:
         laundryRequestDao.addServiceRequest(request);
+        break;
       case LocationDao:
         locationDao.addServiceRequest(request);
+        break;
       case MealRequestDao:
         mealRequestDao.addServiceRequest(request);
+        break;
       case MedicineDelivery:
         medicineDeliveryDao.addServiceRequest(request);
+        break;
       case ReligiousRequest:
         religiousRequestDao.addServiceRequest(request);
+        break;
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
+        break;
       default:
         System.out.println("L + touch grass");
     }
   }
 
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  /**
+   * Removes a service request based on type of request
+   *
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
+  public void removeServiceRequest(ServiceRequest request, Dao dao)
+      throws IOException, SQLException {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.removeServiceRequest(request);
@@ -218,53 +168,154 @@ public class RequestSystem {
     }
   }
 
-  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
+  /**
+   * Removes a service request based on type of request
+   *
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    switch (request.getType()) {
+      case "Equipment Delivery":
+        equipmentDeliveryDao.removeServiceRequest(request);
+      case "Internal Patient Transportation Request":
+        internalPatientTransportationDao.removeServiceRequest(request);
+      case "Lab Request":
+        labRequestDao.removeServiceRequest(request);
+      case "Laundry Request":
+        laundryRequestDao.removeServiceRequest(request);
+      case "Meal Request":
+        mealRequestDao.removeServiceRequest(request);
+      case "Medicine Delivery":
+        medicineDeliveryDao.removeServiceRequest(request);
+      case "Religious Request":
+        religiousRequestDao.removeServiceRequest(request);
+      case "Sanitation Request":
+        sanitationRequestDao.removeServiceRequest(request);
+      default:
+        System.out.println("L + touch grass");
+    }
+  }
+
+  /**
+   * Returns all service requests of a certain type
+   *
+   * @return
+   */
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests(Dao dao) {
     switch (dao) {
-      case Equipment:
-        equipmentDao.getAllServiceRequests();
       case EquipmentDelivery:
-        equipmentDeliveryDao.getAllServiceRequests();
+        return equipmentDeliveryDao.getAllServiceRequests();
       case InternalPatientTransportation:
-        internalPatientTransportationDao.getAllServiceRequests();
+        return internalPatientTransportationDao.getAllServiceRequests();
       case LabRequest:
-        labRequestDao.getAllServiceRequests();
+        return labRequestDao.getAllServiceRequests();
       case LaundryRequest:
-        laundryRequestDao.getAllServiceRequests();
+        return laundryRequestDao.getAllServiceRequests();
       case LocationDao:
-        locationDao.getAllServiceRequests();
+        return locationDao.getAllServiceRequests();
       case MealRequestDao:
-        mealRequestDao.getAllServiceRequests();
+        return mealRequestDao.getAllServiceRequests();
       case MedicineDelivery:
-        medicineDeliveryDao.getAllServiceRequests();
+        return medicineDeliveryDao.getAllServiceRequests();
       case ReligiousRequest:
-        religiousRequestDao.getAllServiceRequests();
+        return religiousRequestDao.getAllServiceRequests();
       case SanitationRequest:
-        sanitationRequestDao.getAllServiceRequests();
+        return sanitationRequestDao.getAllServiceRequests();
       default:
         return new ArrayList<>();
     }
   }
 
+  public EmployeeDao getEmployeeDao() {
+    return employeeDao;
+  }
+
+  public PatientDao getPatientDao() {
+    return patientDao;
+  }
+
+  public LocationDao getLocationDao() {
+    return locationDao;
+  }
+
+  /**
+   * Getter specifically for location since it is not a service request
+   *
+   * @return
+   */
   public ArrayList<Location> getLocations() {
     return locationDao.getAllLocations();
   }
 
-  public List<? extends ServiceRequest> getEveryServiceRequest() {
-    return Stream.of(
-            equipmentDeliveryDao.getAllServiceRequests(),
-            // internalPatientTransportationDao.getAllServiceRequests(),
-            labRequestDao.getAllServiceRequests(),
-            // laundryRequestDao.getAllServiceRequests(),
-            // mealRequestDao.getAllServiceRequests(),
-            medicineDeliveryDao.getAllServiceRequests() // ,
-            // religiousRequestDao.getAllServiceRequests(),
-            // sanitationRequestDao.getAllServiceRequests()
-            )
-        .flatMap(Collection::stream)
-        .collect(Collectors.toList());
+  public Location getLocation(String nodeID) {
+    return locationDao.getLocation(nodeID);
   }
 
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
+  public void deleteLocation(String nodeID) {
+    locationDao.deleteLocation(nodeID);
+  }
+  /**
+   * Getter specifically for equipment since it is not a service request
+   *
+   * @return
+   */
+  public ArrayList<Equipment> getEquipment() {
+    return equipmentDao.getAllEquipment();
+  }
+
+  public void addEquipment(Equipment equipment) {
+    equipmentDao.getAllEquipment().add(equipment);
+  }
+
+  public void deleteEquipment(Equipment equipment) {
+    equipmentDao.getAllEquipment().remove(equipment);
+  }
+
+  public Equipment getEquipment(String ID) {
+    for (Equipment equipment : equipmentDao.getAllEquipment()) {
+      if (equipment.getID().equals(ID)) {
+        return equipment;
+      }
+    }
+    return null;
+  }
+
+  public ArrayList<Patient> getPatients() {
+    return patientDao.getAllPatients();
+  }
+
+  public ArrayList<Employee> getEmployees() {
+    return employeeDao.getAllEmployees();
+  }
+
+  /**
+   * Returns ALL service requests of EVERY type
+   *
+   * @return
+   */
+  public ArrayList<? extends ServiceRequest> getEveryServiceRequest() {
+    ArrayList<ServiceRequest> allRequests = new ArrayList<>();
+    allRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
+    allRequests.addAll(internalPatientTransportationDao.getAllServiceRequests());
+    allRequests.addAll(labRequestDao.getAllServiceRequests());
+    allRequests.addAll(laundryRequestDao.getAllServiceRequests());
+    allRequests.addAll(mealRequestDao.getAllServiceRequests());
+    allRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
+    allRequests.addAll(religiousRequestDao.getAllServiceRequests());
+    allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
+
+    return allRequests;
+  }
+
+  /**
+   * Sets service requests of a certain type
+   *
+   * @param serviceRequests
+   * @throws SQLException
+   */
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests, Dao dao)
       throws SQLException {
     switch (dao) {
       case EquipmentDelivery:
@@ -288,5 +339,51 @@ public class RequestSystem {
       default:
         System.out.println("L + touch grass");
     }
+  }
+
+  public void getMaxIDs() {
+    // Service Requests
+    int highestID = serviceIDCounter;
+    ArrayList<ServiceRequest> allServiceRequests = new ArrayList<ServiceRequest>();
+    allServiceRequests = (ArrayList<ServiceRequest>) getEveryServiceRequest();
+
+    for (ServiceRequest request : allServiceRequests) {
+      if (request.getServiceID() > highestID) {
+        highestID = request.getServiceID();
+      }
+    }
+    serviceIDCounter = highestID;
+
+    // Patients
+    highestID = patientIDCounter;
+
+    for (Patient patient : PatientDao.getAllPatients()) {
+      if (patient.getPatientID() > highestID) {
+        highestID = patient.getPatientID();
+      }
+    }
+    patientIDCounter = highestID;
+
+    // Employees
+    highestID = employeeIDCounter;
+
+    for (Employee employee : employeeDao.getAllEmployees()) {
+      if (employee.getEmployeeID() > highestID) {
+        highestID = employee.getEmployeeID();
+      }
+    }
+    employeeIDCounter = highestID;
+  }
+
+  public static int getServiceID() {
+    return serviceIDCounter++;
+  }
+
+  public static int getPatientID() {
+    return patientIDCounter++;
+  }
+
+  public static int getEmployeeID() {
+    return employeeIDCounter++;
   }
 }

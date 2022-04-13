@@ -1,8 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.LaundryRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
+import java.io.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,123 +16,171 @@ public class LaundryRequestDao extends DaoInterface {
   private static ArrayList<LaundryRequest> allLaundryRequests;
 
   /** Initialize the array list */
-  public LaundryRequestDao() {
+  public LaundryRequestDao() throws SQLException, IOException {
     allLaundryRequests = new ArrayList<LaundryRequest>();
+    createSQLTable();
+    saveToCSV();
   }
 
   public LaundryRequestDao(ArrayList<LaundryRequest> allLaundryRequests) {
     this.allLaundryRequests = allLaundryRequests;
   }
+  // New Stuff
+  public void loadFromCSV() throws IOException, SQLException {
+    FileReader fr = new FileReader(VApp.currentPath + "\\LaundryRequest.csv");
+    BufferedReader br = new BufferedReader(fr);
+    String splitToken = ","; // what we split the csv file with
+    ArrayList<LaundryRequest> laundryRequests = new ArrayList<>();
 
-  public void setAllLaundryRequests(ArrayList<LaundryRequest> LaundryRequestArrayList) {
-    allLaundryRequests = LaundryRequestArrayList;
+    String headerLine = br.readLine();
+    String line;
+
+    while ((line = br.readLine()) != null) // should create a database based on csv file
+    {
+      String[] data = line.split(splitToken);
+      LaundryRequest newDelivery =
+          new LaundryRequest(
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3]);
+      newDelivery.setServiceID(Integer.parseInt(data[4]));
+      laundryRequests.add(newDelivery);
+    }
+
+    setAllServiceRequests(laundryRequests);
   }
 
-  /**
-   * Getter
-   *
-   * @return
-   */
-  public ArrayList<LaundryRequest> getAllLaundryRequests() {
+  public void saveToCSV() throws IOException {
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\LaundryRequest.csv");
+    BufferedWriter bw = new BufferedWriter(fw);
+    bw.append("userID,patientID,roomNumber,details,status,serviceID");
+
+    for (ServiceRequest request : getAllServiceRequests()) {
+
+      LaundryRequest laundryRequest = (LaundryRequest) request;
+
+      String[] outputData = {
+        String.valueOf(laundryRequest.getEmployeeID()),
+        String.valueOf(laundryRequest.getPatientID()),
+        String.valueOf(laundryRequest.getNodeID()),
+        String.valueOf(laundryRequest.getDetails()),
+        String.valueOf(laundryRequest.getStatus()),
+        String.valueOf(laundryRequest.getServiceID())
+      };
+      bw.append("\n");
+      for (String s : outputData) {
+        bw.append(s);
+        bw.append(',');
+      }
+    }
+
+    bw.close();
+    fw.close();
+  }
+
+  public void createSQLTable() throws SQLException {
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+    DatabaseMetaData meta = connection.getMetaData();
+    ResultSet set = meta.getTables(null, null, "LAUNDRY", new String[] {"TABLE"});
+    String query = "";
+
+    if (!set.next()) {
+      query =
+          "CREATE TABLE LAUNDRY(userID int, patientID int, roomNumber int, details char(100), status char(100), serviceID int)";
+      statement.execute(query);
+
+    } else {
+      query = "DROP TABLE LAUNDRY";
+      statement.execute(query);
+      createSQLTable(); // rerun the method to generate new tables
+      return;
+    }
+
+    for (LaundryRequest laundryRequest : allLaundryRequests) {
+      addToSQLTable(laundryRequest);
+    }
+  }
+
+  public void addToSQLTable(ServiceRequest request) throws SQLException {
+    LaundryRequest laundryRequest = (LaundryRequest) request;
+
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query =
+        "INSERT INTO LAUNDRY("
+            + "userID,patientID,roomNumber,details,status,serviceID) VALUES "
+            + "("
+            + laundryRequest.getEmployeeID()
+            + ","
+            + laundryRequest.getPatientID()
+            + ", '"
+            + laundryRequest.getNodeID()
+            + ",'"
+            + laundryRequest.getDetails()
+            + "','"
+            + laundryRequest.getStatus()
+            + "',"
+            + laundryRequest.getServiceID()
+            + ")";
+
+    statement.execute(query);
+  }
+
+  @Override
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
+    LaundryRequest laundryRequest = (LaundryRequest) request;
+    laundryRequest.setServiceID(serviceID);
+    removeServiceRequest(laundryRequest);
+    allLaundryRequests.add(laundryRequest);
+    addToSQLTable(laundryRequest);
+    saveToCSV();
+  }
+
+  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+    String query = "";
+    Connection connection = Vdb.Connect();
+    assert connection != null;
+    Statement statement = connection.createStatement();
+
+    query = "DELETE FROM LAUNDRY WHERE serviceID = " + request.getServiceID();
+    statement.execute(query);
+  }
+
+  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    int serviceID = RequestSystem.serviceIDCounter;
+    LaundryRequest laundryRequest = (LaundryRequest) request;
+    laundryRequest.setServiceID(serviceID);
+    allLaundryRequests.add(laundryRequest); // Store a local copy
+
+    addToSQLTable(request);
+    saveToCSV();
+  }
+
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    LaundryRequest laundryRequest = (LaundryRequest) request;
+    allLaundryRequests.removeIf(value -> value.getServiceID() == laundryRequest.getServiceID());
+    removeFromSQLTable(request);
+    saveToCSV();
+  }
+
+  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     return allLaundryRequests;
   }
 
-  /**
-   * Adds equipment to the CSV
-   *
-   * @param userID
-   * @param patientID
-   * @param firstName
-   * @param lastName
-   * @param roomNumber
-   * @param details
-   * @throws SQLException
-   */
-  public void addLaundryRequest(
-      String userID,
-      String patientID,
-      String firstName,
-      String lastName,
-      int roomNumber,
-      String details)
-      throws SQLException {
-    /*
-    LaundryRequest newLaundryRequest =
-            new LaundryRequest(userID, patientID, firstName, lastName, roomNumber, details);
-
-    System.out.println("Adding to local arraylist...");
-    allLaundryRequests.add(newLaundryRequest);
-
-    System.out.println("Adding to database");
-    try {
-        Connection connection = Vdb.Connect();
-        Statement exampleStatement = connection.createStatement();
-        Vdb.saveToFile(Vdb.Database.LaundryRequest);
-        exampleStatement.execute(
-                "INSERT INTO LOCATIONS VALUES (newLaundryRequest.getUserID(), newLaundryRequest.getPatientID(), newLaundryRequest.getFirstName(), newLaundryRequest.getLastName(), newLaundryRequest.getRoomNumber(), newLaundryRequest.getDetails()) ");
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-     */
-  }
-
-  /**
-   * TODO: Make sure that this doesn't remove someone else's equipment Remove the equipment by
-   * finding the string of the equipment and using is to remove it from the arraylist
-   *
-   * @param laundry a string of the desired laundry request to remove
-   * @throws SQLException
-   */
-  public void removeLaundryRequest(String laundry) throws SQLException {
-    /*
-    System.out.println("Removing from arraylist...");
-    allLaundryRequests.removeIf(e -> e.getLaundry().equals(laundry));
-
-    try {
-        System.out.println("Removing from database...");
-        Connection connection;
-        connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
-        Statement exampleStatement = connection.createStatement();
-        for (LaundryRequest e : allLaundryRequests)
-            exampleStatement.execute("DELETE FROM LOCATIONS WHERE equipment.equals(e.getLaundry())");
-
-        Vdb.saveToFile(Vdb.Database.LaundryRequest);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    */
-
-  }
-
-  @Override
-  public void loadFromCSV() throws IOException, SQLException {}
-
-  @Override
-  public void saveToCSV() throws IOException {}
-
-  @Override
-  public void createSQLTable() throws SQLException {}
-
-  @Override
-  public void addToSQLTable(ServiceRequest request) throws SQLException {}
-
-  @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}
-
-  @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {}
-
-  @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {}
-
-  @Override
-  public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
-    return null;
-  }
-
-  @Override
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {}
+      throws SQLException {
+    // Set all medicine deliveries
+    allLaundryRequests = new ArrayList<>();
+
+    // Convert to subtype
+    for (ServiceRequest request : serviceRequests) {
+      // Cast to subtype
+      LaundryRequest delivery = (LaundryRequest) request;
+      allLaundryRequests.add(delivery);
+    }
+  }
 }

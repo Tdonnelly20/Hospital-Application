@@ -1,13 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -28,6 +27,32 @@ public class LoginController extends Controller {
   @FXML private PasswordField password;
   @FXML private ImageView iv;
   @FXML private Pane pane;
+  @FXML private JFXComboBox<Object> dBMenu;
+  @FXML private TextField dbIP;
+  @FXML private TextField dbPath;
+  @FXML private Button dbButton;
+
+  @FXML
+  public void setDB() {
+    if (dBMenu.getValue().toString().equals("Server DB")) {
+      Vdb.setIsClient(true);
+      dbButton.setOpacity(1);
+      dbPath.setOpacity(1);
+      dbIP.setOpacity(1);
+    } else if (dBMenu.getValue().toString().equals("Embedded DB")) {
+      Vdb.setIsClient(false);
+    } else {
+      System.out.println("No db was selected");
+    }
+  }
+
+  @FXML
+  public void getDBInfo() {
+    Vdb.setIP(dbIP.getText());
+    Vdb.setServerPath(dbPath.getText());
+    dbIP.setText("");
+    dbPath.setText("");
+  }
 
   @FXML
   public void userLogin(ActionEvent event) throws IOException {
@@ -38,7 +63,7 @@ public class LoginController extends Controller {
 
   private void checkLogin(ActionEvent event) throws IOException {
 
-    HospitalEmployee user = new HospitalEmployee();
+    Employee user = new Employee();
 
     if (username.getText().toString().equals("admin")
         && password.getText().toString().equals("admin")) {

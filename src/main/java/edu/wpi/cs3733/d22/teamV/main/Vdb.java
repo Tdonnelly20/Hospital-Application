@@ -1,90 +1,45 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.LabRequest;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
+import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.dao.*;
-import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
-import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Vdb {
-  public static final String currentPath = returnPath();
-  private static String line; // receives a line from br
-  private static int serviceIDCounter = 0;
-  // Make all DAO's here, NOT in the controllers
-  public static final LocationDao locationDao = new LocationDao();
-  public static final EquipmentDao equipmentDao = new EquipmentDao();
-  public static final EquipmentDeliveryDao equipmentDeliveryDao = new EquipmentDeliveryDao();
+  public static RequestSystem requestSystem = RequestSystem.getSystem();
 
-  public static final MedicineDeliveryDao medicineDeliveryDao = new MedicineDeliveryDao();
-  public static final LabRequestDao labRequestDao = new LabRequestDao();
-  public static final InternalPatientTransportationDao internalPatientTransportationDao =
-      new InternalPatientTransportationDao();
-  public static MapManager mapManager;
+  private static String line; // receives a line from b
+  private static boolean isClient = false;
+  private static String ip;
+  private static String serverPath;
+  public static MapManager mapManager = MapManager.getManager();
+  public static MapController mapController = MapController.getController();
+  public static PopupController popupController = PopupController.getController();
 
-  public enum Database {
-    Location,
-    EquipmentDelivery,
-    MedicineDelivery,
-    ReligiousRequest,
-    MealRequest,
-    LabRequest,
-    SanitationRequest
-  }
-
-  public static int getServiceID() {
-    return serviceIDCounter++;
-  }
-
-  public static void getMaxServiceID() {
-    int highestID = serviceIDCounter;
-    ArrayList<ServiceRequest> allServiceRequests = new ArrayList<ServiceRequest>();
-    // ADD YO SERVICE REQUESTS UNDER MINE YO
-    allServiceRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
-    allServiceRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
-
-    for (ServiceRequest request : allServiceRequests) {
-      if (request.getServiceID() > highestID) {
-        highestID = request.getServiceID();
-      }
-    }
-    serviceIDCounter = highestID;
-  }
   /**
    * Returns the location of the CSVs
    *
    * @return currentPath
    */
-  public static String returnPath() {
-    // TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
-    String currentPath = System.getProperty("user.dir");
-    if (currentPath.contains("teamV") || currentPath.contains("TeamVeganVampires")) {
-      int position = currentPath.indexOf("teamV") + 60;
-      if (currentPath.length() > position) {
-        currentPath = currentPath.substring(0, position);
-      }
-      currentPath += "/src/main/resources/edu/wpi/cs3733/d22/teamV";
-      System.out.println(currentPath);
-    }
-    return currentPath;
-  }
 
   /**
    * Initializes all databases and connects to them
    *
    * @throws Exception
    */
-  public static void createAllDB() throws Exception {
-    labRequestDao.createSQLTable();
-    labRequestDao.loadFromCSV();
-    mapManager = MapManager.getManager();
-    getMaxServiceID();
+  public void createAllDB() throws Exception {
+    requestSystem.init();
+    System.out.println(requestSystem);
+    requestSystem.getMaxIDs();
+    mapManager.init();
+    mapController.init();
+    popupController.init();
 
-    System.out.println("-------Embedded Apache Derby Connection Testing --------");
+    System.out.println("-------Apache Derby Connection Testing --------");
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      Class.forName("org.apache.derby.jdbc.ClientDriver");
     } catch (ClassNotFoundException e) {
       System.out.println("Apache Derby Driver not found. Add the classpath to your module.");
       System.out.println("For IntelliJ do the following:");
@@ -106,8 +61,14 @@ public class Vdb {
    * @return
    */
   public static Connection Connect() {
+    String URL;
     try {
-      String URL = "jdbc:derby:VDB;";
+      if (!isClient) {
+        URL = "jdbc:derby:VDB;";
+
+      } else {
+        URL = "jdbc:derby://" + ip + "/" + serverPath;
+      }
       Connection connection = DriverManager.getConnection(URL, "admin", "admin");
       return connection;
     } catch (SQLException e) {
@@ -117,135 +78,19 @@ public class Vdb {
     }
   }
 
-  /**
-   * Enter an enumerated type, it will save it
-   *
-   * @param database
-   * @throws Exception
-   */
-  public static void saveToFile(Database database) throws Exception { // updates all csv files
-    switch (database) {
-      case LabRequest:
-        labRequestDao.saveToCSV();
-        break;
-      default:
-        System.out.println(database + ": Unknown enumerated type!");
-        break;
-    }
-  }
-  /*
-  public static void createLabTable() throws SQLException {
-
-    try {
-      // substitute your database name for myDB
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement newStatement = connection.createStatement();
-      DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "LABS", new String[] {"TABLE"});
-      if (!set.next()) {
-        newStatement.execute(
-            "CREATE TABLE LABS ("
-                + "UserID int, "
-                + "PatientID int, "
-                + "FirstName char(20),"
-                + "LastName char(20),"
-                + "Lab char(20),"
-                + "Status char(20))");
-      }
-    } catch (Exception e) {
-      System.out.println("Connection failed. Check output console.");
-      e.printStackTrace();
-    }
+  public static void setIsClient(boolean c) {
+    isClient = c;
   }
 
-  private static void createLabDB() throws IOException {
-    FileReader fr = new FileReader(currentPath + "\\LabRequest.CSV");
-    BufferedReader br = new BufferedReader(fr);
-    String headerLine = br.readLine();
-    String splitToken = ",";
-    ArrayList<LabRequest> labs = new ArrayList<>();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data;
-      data = line.split(splitToken);
-      LabRequest l =
-          new LabRequest(
-              Integer.parseInt(data[0]),
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              data[4],
-              data[5]);
-      labs.add(l);
-    }
-    LabRequestDao.setAllServiceRequests(labs);
+  public static void setIP(String IPV4) {
+    ip = IPV4;
   }
 
-  // Add to Medicine Delivery SQL Table
-  public static void addToLabTable(
-      int userID, int patientID, String firstName, String lastName, String lab, String status)
-      throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO Labs("
-            + "userId, patientID, firstName, lastName, lab, status) VALUES "
-            + "("
-            + userID
-            + ", "
-            + patientID
-            + ", '"
-            + firstName
-            + "', '"
-            + lastName
-            + "', '"
-            + lab
-            + "', '"
-            + status
-            + "'"
-            + ")";
-
-    statement.execute(query);
-
-    // Print out all the current entries...
-    query = "SELECT userId, patientID, firstName, lastName, lab, status FROM Labs";
-
-    ResultSet resultSet = statement.executeQuery(query);
-
-    // A string array to contain the names of all the header values so I don't have to type this
-    // bullshit out again
-    String[] headerVals =
-        new String[] {"userID", "patientID", "firstName", "lastName", "lab", "status"};
-
-    // Print out the result
-    while (resultSet.next()) {
-      for (String headerVal : headerVals) {
-        // System.out.print(resultSet.getString(headerVal).trim() + ", ");
-      }
-    }
+  public static void setServerPath(String server) {
+    serverPath = server;
   }
 
-  private static void saveToLabDB() throws IOException {
-    FileWriter fw = new FileWriter(currentPath + "\\LabRequest.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("UserID,PatientID,First Name,Last Name,Lab Type,Status");
-    for (LabRequest l : labRequestDao.getAllLabRequests()) {
-      String[] outputData = {
-        String.valueOf(l.getUserID()),
-        String.valueOf(l.getPatient().getPatientID()),
-        l.getPatient().getFirstName(),
-        l.getPatient().getLastName(),
-        l.getLab(),
-        l.getStatus()
-      };
-      bw.append("\n");
-    }
-    bw.close();
-    fw.close();
+  public static void setServerIP(String IPV4) {
+    ip = IPV4;
   }
-  */
 }

@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.interfaces;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +15,8 @@ public abstract class DaoInterface {
 
   public abstract void addToSQLTable(ServiceRequest request) throws SQLException;
 
-  // public abstract void updateRequest(ServiceRequest request) throws SQLException;
+  public abstract void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException;
 
   public abstract void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException;
 

@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.EquipmentDelivery;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.currentPath + "\\MedEquipReq.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "\\MedEquipReq.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -41,11 +43,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
               data[2],
               data[3],
               data[4],
-              data[5],
-              data[6],
-              Integer.parseInt(data[7]),
-              data[8]);
-      equipmentDelivery.setServiceID(Integer.parseInt(data[9]));
+              Integer.parseInt(data[5]),
+              data[6]);
+      equipmentDelivery.setServiceID(Integer.parseInt(data[7]));
       deliveries.add(equipmentDelivery);
     }
     allEquipmentDeliveries = deliveries;
@@ -53,10 +53,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedEquipReq.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\MedEquipReq.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "employeeID,patientID,patientFirstName,patientLastName,location,equipment,notes,quantity,status,serviceID");
+    bw.append("employeeID,patientID,location,equipment,notes,quantity,status,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -65,8 +64,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
       String[] outputData = {
         String.valueOf(equipmentDelivery.getEmployeeID()),
         String.valueOf(equipmentDelivery.getPatientID()),
-        equipmentDelivery.getPatientFirstName(),
-        equipmentDelivery.getPatientLastName(),
+        equipmentDelivery.getLocation().getNodeID(),
         equipmentDelivery.getEquipment(),
         equipmentDelivery.getNotes(),
         String.valueOf(equipmentDelivery.getQuantity()),
@@ -95,7 +93,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE EQUIPMENTDELIVERY(employeeID int,patientID int, patientFirstName char(50), patientLastName char(50), location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
+          "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
       exampleStatement.execute(query);
     } else {
       query = "DROP TABLE EQUIPMENTDELIVERY";
@@ -119,16 +117,12 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
     query =
         "INSERT INTO EQUIPMENTDELIVERY("
-            + "employeeID,patientID,patientFirstName,patientLastName,location,equipment,notes,quantity,status,serviceID) VALUES "
+            + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID) VALUES "
             + "("
             + equipmentDelivery.getEmployeeID()
             + ", "
             + equipmentDelivery.getPatientID()
             + ", '"
-            + equipmentDelivery.getPatientFirstName()
-            + "', '"
-            + equipmentDelivery.getPatientLastName()
-            + "', '"
             + equipmentDelivery.getLocationName()
             + "', '"
             + equipmentDelivery.getEquipment()
@@ -146,6 +140,17 @@ public class EquipmentDeliveryDao extends DaoInterface {
   }
 
   @Override
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
+    EquipmentDelivery delivery = (EquipmentDelivery) request;
+    delivery.setServiceID(serviceID);
+    removeServiceRequest(delivery);
+    allEquipmentDeliveries.add(delivery);
+    addToSQLTable(delivery);
+    saveToCSV();
+  }
+
+  @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
     String query = "";
@@ -160,7 +165,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
-    request.setServiceID(Vdb.getServiceID());
+    request.setServiceID(RequestSystem.getServiceID());
     allEquipmentDeliveries.add(equipmentDelivery);
 
     addToSQLTable(request);
@@ -192,6 +197,4 @@ public class EquipmentDeliveryDao extends DaoInterface {
       createSQLTable();
     }
   }
-
-  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

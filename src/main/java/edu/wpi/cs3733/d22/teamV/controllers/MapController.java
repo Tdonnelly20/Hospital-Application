@@ -1,11 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import static edu.wpi.cs3733.d22.teamV.main.Vdb.locationDao;
-
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import java.awt.*;
+import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -14,7 +15,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,11 +27,26 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.controlsfx.control.CheckComboBox;
 
+@Setter
+@Getter
 public class MapController extends Controller {
-  protected Floor currFloor;
-  boolean drag = false;
+  protected Floor currFloor = MapManager.getManager().getFloor("1st Floor");
+  @FXML protected VBox mapVBox = new VBox(15);
+  @FXML protected Button refreshButton = new Button("Refresh");
+  @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
+  @FXML protected HBox mapHBox = new HBox(15);
+  @FXML protected Pane mapPane = new Pane();
+  protected final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
+  protected final Group group = new Group();
+  @FXML protected ImageView mapImage = new ImageView(new Image("1st Floor.png"));
+  @FXML protected StackPane stackPane = new StackPane();
+  protected ZoomPane zoomPane = null;
+  @FXML protected ScrollPane scrollPane = new ScrollPane(stackPane);
+  protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
   @FXML
   ObservableList<String> filterItems =
@@ -54,20 +72,8 @@ public class MapController extends Controller {
           "Sanitation Requests",
           "Internal Patient Transport Requests");
 
-  @FXML protected VBox mapVBox = new VBox(15);
-  @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
-  @FXML protected HBox mapHBox = new HBox(15);
-  @FXML protected Pane mapPane = new Pane();
-  protected final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
-  protected final Group group = new Group();
-  @FXML protected ImageView mapImage = new ImageView(new Image("1st Floor.png"));
-  @FXML protected StackPane stackPane = new StackPane();
-  protected ZoomPane zoomPane = null;
-  @FXML protected ScrollPane scrollPane = new ScrollPane(stackPane);
-  protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
-
   @FXML
-  protected JFXComboBox floorDropDown =
+  protected JFXComboBox<String> floorDropDown =
       new JFXComboBox<>(
           FXCollections.observableArrayList(
               "Lower Level 2",
@@ -76,26 +82,60 @@ public class MapController extends Controller {
               "2nd Floor",
               "3rd Floor",
               "4th Floor",
-              "5th Floor"));
+              "5th Floor",
+              "Side View"));
+
+  @FXML protected TextArea sideViewArea = new TextArea();
 
   @Override
   public void start(Stage primaryStage) throws Exception {
     init();
   }
 
+  @Override
+  public void init() {
+    floorDropDown.setValue("1st Floor");
+    if (MapManager.getManager().getFloor("1") == null) {
+      System.out.println("WTF");
+    }
+    currFloor = MapManager.getManager().getFloor("1");
+    mapSetUp();
+  }
+
+  private static class SingletonHelper {
+    private static final MapController controller = new MapController();
+  }
+
+  public static MapController getController() {
+    return SingletonHelper.controller;
+  }
+
   /** Allows users to zoom in and out of the map without */
   @FXML
   void zoom() {
+    zoomPane = new ZoomPane();
+    stackPane.getChildren().clear();
+    zoomPane.getChildren().clear();
+    group.getChildren().clear();
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
+
+    mapPane.setMinWidth(600);
+    mapPane.setMinHeight(600);
     mapImage.setPreserveRatio(true);
+    // mapPane.setStyle("-fx-border-color: blue;");
     scrollPane.setPannable(true);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     group.getChildren().add(mapImage);
-    group.getChildren().add(stackPane);
+    group.getChildren().add(mapPane);
 
-    zoomPane = new ZoomPane();
+    System.out.println(
+        "Image width: " + mapImage.getFitWidth() + " height: " + mapImage.getFitHeight());
+    System.out.println(
+        "Pane width: " + mapPane.getMinWidth() + " height: " + mapPane.getMinHeight());
+
+    group.getChildren().add(stackPane);
     zoomProperty.bind(zoomPane.scale);
     deltaY.bind(zoomPane.deltaY);
     zoomPane.getChildren().add(group);
@@ -104,19 +144,21 @@ public class MapController extends Controller {
 
     scrollPane.setContent(zoomPane);
     zoomPane.toBack();
-    mapPane.setOnMouseClicked(
-        event -> {
-          openIconFormWindow(event);
-        });
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }
 
   void setUpControls() {
+    System.out.println("setting up controls");
+    refreshButton.setOnAction(
+        event -> {
+          checkDropDown();
+        });
     floorDropDown.setValue("1st Floor");
     floorDropDown.setOnAction(
         event -> {
           checkDropDown();
         });
+
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -135,25 +177,30 @@ public class MapController extends Controller {
                 change -> {
                   checkDropDown();
                 });
-  }
 
-  @Override
-  public void init() {
-    mapSetUp();
+    sideViewArea.setVisible(false);
+    sideViewArea.setText("Equipment Info:\n");
+    sideViewArea.setMaxSize(300, 300);
+
+    mapPane.setOnMouseClicked(
+        event -> {
+          if (event.getClickCount() == 2) {
+            System.out.println("CLICK RECEIVED");
+            openIconFormWindow(event);
+          }
+        });
+    mapPane.autosize();
   }
 
   protected void mapSetUp() {
-    mapPane.getChildren().clear();
-    stackPane.getChildren().clear();
-    group.getChildren().clear();
     setUpControls();
     zoom();
     currFloor = MapManager.getManager().getFloor("1");
     mapVBox.setFillWidth(true);
 
     scrollPane.setMaxSize(470, 470);
-    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox);
-    mapVBox.getChildren().addAll(scrollPane, mapHBox);
+    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox, refreshButton);
+    mapVBox.getChildren().addAll(scrollPane, mapHBox, sideViewArea);
     mapVBox.setAlignment(Pos.TOP_CENTER);
     mapVBox.setSpacing(15);
     mapHBox.setAlignment(Pos.CENTER);
@@ -162,8 +209,7 @@ public class MapController extends Controller {
 
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
   @FXML
-  void checkDropDown() {
-    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+  public void checkDropDown() {
     if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
       if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {
         filterCheckBox.getCheckModel().check("Service Requests");
@@ -174,7 +220,7 @@ public class MapController extends Controller {
         filterCheckBox.getCheckModel().check("Equipment");
       }
     }
-    MapManager.getManager().closePopUp();
+    PopupController.getController().closePopUp();
     String url = floorDropDown.getValue().toString() + ".png";
     mapImage.setImage(new Image(url));
     mapImage.setFitWidth(600);
@@ -182,53 +228,49 @@ public class MapController extends Controller {
     getFloor();
   }
 
-  @FXML
-  private void dragDetected() {
-    drag = true;
-  }
-
-  @FXML
-  private void dragOver() {
-    // System.out.println("Drag over");
-    drag = false;
-  }
-
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
-  private String getFloor() {
+  public String getFloor() {
     String result = "";
+    if (floorDropDown.getValue() == null) {
+      floorDropDown.setValue("1st Floor");
+    }
+    System.out.println(floorDropDown.getValue().toString());
     switch (floorDropDown.getValue().toString()) {
       case "Lower Level 1":
-        currFloor = Vdb.mapManager.getFloor("L1");
+        currFloor = MapManager.getManager().getFloor("L1");
         result = "L1";
         break;
       case "Lower Level 2":
-        currFloor = Vdb.mapManager.getFloor("L2");
+        currFloor = MapManager.getManager().getFloor("L2");
         result = "L2";
         break;
       case "1st Floor":
-        currFloor = Vdb.mapManager.getFloor("1");
+        currFloor = MapManager.getManager().getFloor("1");
         result = "1";
         break;
       case "2nd Floor":
-        currFloor = Vdb.mapManager.getFloor("2");
+        currFloor = MapManager.getManager().getFloor("2");
         result = "2";
         break;
       case "3rd Floor":
-        currFloor = Vdb.mapManager.getFloor("3");
+        currFloor = MapManager.getManager().getFloor("3");
         result = "3";
-        System.out.println("3");
         break;
       case "4th Floor":
-        currFloor = Vdb.mapManager.getFloor("4");
-        result = "2";
+        currFloor = MapManager.getManager().getFloor("4");
+        result = "4";
         break;
       case "5th Floor":
-        currFloor = Vdb.mapManager.getFloor("5");
-        result = "3";
+        currFloor = MapManager.getManager().getFloor("5");
+        result = "5";
+        break;
+      case "Side View":
+        currFloor = MapManager.getManager().getFloor("SV");
+        result = "SV";
         break;
     }
-
     populateFloorIconArr();
+
     return result;
   }
 
@@ -236,39 +278,86 @@ public class MapController extends Controller {
   @FXML
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
-    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    for (Icon icon : currFloor.getIconList()) {
-      if (filter.size() > 0) {
-        // System.out.println(icon.iconType);
-        if (filter.contains("Service Requests") && icon.iconType.equals("Request")) {
-          RequestIcon requestIcon = (RequestIcon) icon;
-          if (filter.contains("Active Requests")) {
-            if (requestIcon.hasActiveRequests()) {
-              filterByActiveRequestType(requestIcon);
+
+    // for side view controllers
+    sideViewArea.setVisible(false);
+    if (currFloor.getFloorName().equals("SV")) {
+      populateSideViewInfo();
+    } else {
+
+      ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+      currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
+      for (Icon icon : currFloor.getIconList()) {
+        if (filter.size() > 0 && !currFloor.getFloorName().equals("SV")) {
+          // System.out.println(icon.iconType);
+          if (filter.contains("Service Requests") && icon.iconType.equals("Request")) {
+            RequestIcon requestIcon = (RequestIcon) icon;
+            if (filter.contains("Active Requests")) {
+              if (requestIcon.hasActiveRequests()) {
+                filterByActiveRequestType(requestIcon);
+              }
+            } else {
+              filterByRequestType(requestIcon);
             }
-          } else {
-            filterByRequestType(requestIcon);
           }
-        }
-        if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
-          EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
-          if (filter.contains("Clean Equipment")) {
-            if (equipmentIcon.hasCleanEquipment()) {
+          if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
+            EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
+            if (filter.contains("Clean Equipment")) {
+              if (equipmentIcon.hasCleanEquipment()) {
+                mapPane.getChildren().add(icon.getImage());
+              }
+            } else {
               mapPane.getChildren().add(icon.getImage());
             }
-          } else {
+          }
+          if (filter.contains("Locations") && icon.iconType.equals("Location")) {
+            filterByLocation((LocationIcon) icon);
+          }
+        } else {
+          if (!mapPane.getChildren().contains(icon.getImage())) {
             mapPane.getChildren().add(icon.getImage());
           }
         }
-        if (filter.contains("Locations") && icon.iconType.equals("Location")) {
-          filterByLocation((LocationIcon) icon);
-        }
-      } else {
-        if (!mapPane.getChildren().contains(icon.getImage())) {
-          mapPane.getChildren().add(icon.getImage());
-        }
       }
     }
+  }
+
+  public void populateSideViewInfo() {
+    ArrayList<Floor> floorList = MapManager.getManager().getFloorList();
+    ArrayList<Icon> tempIconList;
+    String dirtyStatus;
+
+    for (int f = 0; f < floorList.size() - 1; f++) {
+      tempIconList = floorList.get(f).getIconList();
+      String floorInfo = floorList.get(f).getFloorName() + ": \n";
+      for (int i = 0; i < tempIconList.size(); i++) {
+        if (tempIconList.get(i).getIconType().equals("Equipment")) {
+          EquipmentIcon tempIcon = (EquipmentIcon) tempIconList.get(i);
+          for (int e = 0; e < tempIcon.getEquipmentList().size(); e++) {
+            Equipment tempEquip = tempIcon.getEquipmentList().get(e);
+
+            if (tempEquip.getIsDirty()) {
+              dirtyStatus = "  Clean Storage";
+            } else {
+              dirtyStatus = "  Dirty Equipment pick-up";
+            }
+            floorInfo +=
+                tempEquip.getID()
+                    + ":   X: "
+                    + tempEquip.getX()
+                    + "   Y: "
+                    + tempEquip.getY()
+                    + dirtyStatus
+                    + " \n";
+          }
+        }
+      }
+      String oldInfo = sideViewArea.getText();
+
+      sideViewArea.setText(oldInfo + "\n" + floorInfo + "\n");
+    }
+
+    sideViewArea.setVisible(true);
   }
 
   public void filterByActiveRequestType(RequestIcon icon) {
@@ -355,57 +444,70 @@ public class MapController extends Controller {
     }
   }
 
+  // Adds icon to map
+  public void addIcon(Icon icon) {
+    switch (icon.iconType) {
+      case "Location":
+        RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
+    }
+    PopupController.getController().closePopUp();
+    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
+    MapManager.getManager().getFloor(getFloor()).addIcon(icon);
+    // populateFloorIconArr();
+    MapManager.getManager().getTempIcon().setVisible(false);
+    checkDropDown();
+  }
+
+  public void addEquipmentIcon(Equipment equipment) {
+    PopupController.getController().closePopUp();
+    RequestSystem.getSystem().addEquipment(equipment);
+    // MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
+    MapManager.getManager().setUpFloors();
+    checkDropDown();
+  }
+
+  public void deleteIcon(Icon icon) {
+    System.out.println("Delete Icon");
+    MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
+    RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
+    MapManager.getManager().setUpFloors();
+  }
+
+  public void setSubmitLocation(double xPos, double yPos) {
+    PopupController.getController()
+        .submitIcon
+        .setOnAction(
+            event1 -> {
+              if (PopupController.getController().checkLocationFields()) {
+                addIcon(
+                    new LocationIcon(
+                        PopupController.getController()
+                            .getLocation(xPos + 25, yPos + 15, getFloor())));
+              } else {
+                Text missingFields = new Text("Please fill all fields");
+                missingFields.setFill(Color.RED);
+                missingFields.setTextAlignment(TextAlignment.CENTER);
+                PopupController.getController().sceneVbox.getChildren().add(missingFields);
+                // System.out.println("MISSING FIELD");
+              }
+            });
+  }
+
   // Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {
-    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")
-        && !drag) {
-      MapManager mapManager = MapManager.getManager();
+    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
+      PopupController popupController = PopupController.getController();
       // X and Y coordinates
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
 
-      mapManager.locationForm(event, false);
-      mapManager
-          .getSubmitIcon()
-          .setOnAction(
-              event1 -> {
-                if (mapManager.checkFields()) {
-                  addIcon(
-                      new LocationIcon(mapManager.getLocation(xPos + 25, yPos + 15, getFloor())));
-                  // System.out.println("Real X: " + event.getX() + " Y: " + event.getY());
-                  // System.out.println("X: " + xPos + " Y: " + yPos);
-                  populateFloorIconArr();
-                } else {
-                  Text missingFields = new Text("Please fill all fields");
-                  missingFields.setFill(Color.RED);
-                  missingFields.setTextAlignment(TextAlignment.CENTER);
-                  MapManager.getManager().getContent().getChildren().add(missingFields);
-                  // System.out.println("MISSING FIELD");
-                }
-              });
+      // PopupController.getController().locationAdditionForm(event, false);
+      // PopupController.getController().equipmentAdditionForm();
+      PopupController.getController().iconWindow(event);
+      setSubmitLocation(xPos, yPos);
       // Place Icon
-      MapManager.getManager().getTempIcon().setX(xPos);
-      MapManager.getManager().getTempIcon().setY(yPos);
-      if (!mapPane.getChildren().contains(MapManager.getManager().getTempIcon())) {
-        // System.out.println("X:" + xPos + " Y:" + yPos);
-        MapManager.getManager().getTempIcon().setFitWidth(30);
-        MapManager.getManager().getTempIcon().setFitHeight(30);
-        mapPane.getChildren().add(MapManager.getManager().getTempIcon());
-      }
+      MapManager.getManager().placeTempIcon(xPos, yPos);
     }
-  }
-
-  // Adds icon to map
-  private void addIcon(Icon icon) {
-    switch (icon.iconType) {
-      case "Location":
-        locationDao.addLocation(icon.getLocation());
-    }
-    MapManager.getManager().closePopUp();
-    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
-    MapManager.getManager().getFloor(getFloor()).addIcon(icon);
-    MapManager.getManager().getTempIcon().setVisible(false);
-    checkDropDown();
   }
 }

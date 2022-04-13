@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.MedicineDelivery;
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException {
 
-    FileReader fr = new FileReader(Vdb.currentPath + "\\MedicineDelivery.csv");
+    FileReader fr = new FileReader(VApp.currentPath + "\\MedicineDelivery.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
@@ -41,14 +43,14 @@ public class MedicineDeliveryDao extends DaoInterface {
       MedicineDelivery newDelivery =
           new MedicineDelivery(
               data[0],
-              data[1],
-              data[2],
-              Integer.parseInt(data[3]),
-              Integer.parseInt(data[4]),
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
+              data[3],
+              data[4],
               data[5],
-              data[6],
-              data[7],
-              Integer.parseInt(data[8]));
+              data[6]);
+
+      newDelivery.setServiceID(Integer.parseInt(data[7]));
       medicineDeliveries.add(newDelivery);
     }
 
@@ -57,23 +59,21 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\MedicineDelivery.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "patientFirstName,patientLastName,roomNumber,patientID,hospitalID,medicineName,dosage,requestDetails,serviceID");
+    bw.append("nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
       MedicineDelivery medicineDelivery = (MedicineDelivery) request;
 
       String[] outputData = {
-        medicineDelivery.getPatientFirstName(),
-        medicineDelivery.getPatientLastName(),
-        medicineDelivery.getRoomNumber(),
+        medicineDelivery.getLocation().getNodeID(),
         String.valueOf(medicineDelivery.getPatientID()),
         String.valueOf(medicineDelivery.getEmployeeID()),
         medicineDelivery.getMedicineName(),
         medicineDelivery.getDosage(),
+        medicineDelivery.getStatus(),
         medicineDelivery.getRequestDetails(),
         String.valueOf(medicineDelivery.getServiceID())
       };
@@ -99,7 +99,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE MEDICINES(patientFirstName char(50), patientLastName char(50), roomNumber char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), requestDetails char(254), serviceID int)";
+          "CREATE TABLE MEDICINES(nodeID char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), status char(50), requestDetails char(254), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -124,13 +124,9 @@ public class MedicineDeliveryDao extends DaoInterface {
     Statement statement = connection.createStatement();
     query =
         "INSERT INTO MEDICINES("
-            + "patientFirstName,patientLastName,roomNumber,patientID,employeeID,medicineName,dosage,requestDetails,serviceID) VALUES "
+            + "nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID) VALUES "
             + "('"
-            + medicineDelivery.getPatientFirstName()
-            + "', '"
-            + medicineDelivery.getPatientLastName()
-            + "', '"
-            + medicineDelivery.getRoomNumber()
+            + medicineDelivery.getLocation().getNodeID()
             + "', "
             + medicineDelivery.getPatientID()
             + ", "
@@ -140,12 +136,25 @@ public class MedicineDeliveryDao extends DaoInterface {
             + "','"
             + medicineDelivery.getDosage()
             + "','"
+            + medicineDelivery.getStatus()
+            + "','"
             + medicineDelivery.getRequestDetails()
             + "',"
             + medicineDelivery.getServiceID()
             + ")";
 
     statement.execute(query);
+  }
+
+  @Override
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
+    MedicineDelivery delivery = (MedicineDelivery) request;
+    delivery.setServiceID(serviceID);
+    removeServiceRequest(delivery);
+    allMedicineDeliveries.add(delivery);
+    addToSQLTable(delivery);
+    saveToCSV();
   }
 
   @Override
@@ -161,7 +170,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    int serviceID = Vdb.getServiceID();
+    int serviceID = RequestSystem.getServiceID();
     MedicineDelivery medicineDelivery = (MedicineDelivery) request;
     medicineDelivery.setServiceID(serviceID);
     allMedicineDeliveries.add(medicineDelivery); // Store a local copy
@@ -197,6 +206,4 @@ public class MedicineDeliveryDao extends DaoInterface {
       allMedicineDeliveries.add(delivery);
     }
   }
-
-  public void updateRequest(ServiceRequest request) throws SQLException {}
 }

@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import java.io.*;
@@ -43,7 +44,7 @@ public class EquipmentDao {
 
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.currentPath + "/ListofEquipment.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "\\ListofEquipment.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -67,7 +68,7 @@ public class EquipmentDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "/ListofEquipment.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\ListofEquipment.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("ID,Name,Floor,X,Y,Description,isDirty");
 
@@ -136,14 +137,6 @@ public class EquipmentDao {
             + equipment.getIsDirty()
             + ")";
     statement.execute(query);
-  }
-
-  public void setDirtiness(String ID, boolean bool) {
-    for (Equipment equipment : allEquipment) {
-      if (equipment.getID().equals(ID)) {
-        equipment.setIsDirty(bool);
-      }
-    }
   }
 
   public void removeFromSQLTable(Equipment equipment) throws IOException, SQLException {

@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,10 +15,11 @@ import javafx.stage.Stage;
 
 public abstract class Controller extends Application {
   private Parent root;
-  MapController controller;
   FXMLLoader loader = new FXMLLoader();
   String filterString = "";
 
+  @Override
+  public void init() {}
   /**
    * Determines if a String is an integer or not
    *
@@ -35,7 +36,7 @@ public abstract class Controller extends Application {
   }
 
   /**
-   * Determines if a String is an double or not
+   * Determines if a String is a double or not
    *
    * @param input is a string
    * @return true if the string is an double, false if not
@@ -62,7 +63,7 @@ public abstract class Controller extends Application {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    MapManager.getManager().closePopUp();
+    PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
@@ -71,7 +72,7 @@ public abstract class Controller extends Application {
 
   // Switches scene to the location database
   @FXML
-  protected void switchToLocationDB(ActionEvent event) throws IOException {
+  protected void switchToLocationDB(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
     switchScene(event);
   }
@@ -85,59 +86,72 @@ public abstract class Controller extends Application {
 
   // Switches scene to the lab request page
   @FXML
-  protected void switchToLabRequest(ActionEvent event) throws IOException {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LabRequest.fxml"));
+  protected void switchToLabRequest(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLabRequest.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the medicine delivery page
   @FXML
-  protected void switchToMedicineDelivery(ActionEvent event) throws IOException {
+  protected void switchToMedicineDelivery(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/MedicineDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the medical equipment page
   @FXML
-  protected void switchToMedEquipDelivery(ActionEvent event) throws IOException {
+  protected void switchToMedEquipDelivery(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/NewEquipmentDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the sanitation page
   @FXML
-  protected void switchToSanitationRequest(ActionEvent event) throws IOException {
+  protected void switchToSanitationRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/NewSanitationRequest.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the meal delivery page
   @FXML
-  protected void switchToMealDelivery(ActionEvent event) throws IOException {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewMealDelivery.fxml"));
+  protected void switchToMealDelivery(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/MealDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the laundry request page
   @FXML
-  protected void switchToLaundryRequest(ActionEvent event) throws IOException {
+  protected void switchToLaundryRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the religious request page
   @FXML
-  protected void switchToReligiousRequest(ActionEvent event) throws IOException {
+  protected void switchToReligiousRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/ReligiousRequest.fxml"));
     switchScene(event);
   }
 
-  // Switches scene to the internal patient request page
+  // Switches scene to the religious request page
   @FXML
-  protected void switchToInternalPatientTransport(ActionEvent event) throws IOException {
+  protected void switchToInternalPatientTransport(ActionEvent event) {
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
     filterString = "Internal Patient Transportation Requests";
+    switchScene(event);
+  }
+
+  @FXML
+  protected void switchToEmployeeDB(ActionEvent event) throws IOException {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/EmployeeDatabase.fxml"));
+    switchScene(event);
+  }
+
+  @FXML
+  protected void switchToPatientDB(ActionEvent event) throws IOException {
+    URL fxmlLocation = getClass().getClassLoader().getResource("FXML/PatientDatabase.fxml");
+    loader.setLocation(fxmlLocation);
     switchScene(event);
   }
 
@@ -149,12 +163,12 @@ public abstract class Controller extends Application {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    controller = loader.getController();
-    controller.filterCheckBox.getCheckModel().clearChecks();
+    Controller controller = loader.getController();
     controller.init();
-    controller.populateFloorIconArr();
+    // MapController.getController().filterCheckBox.getCheckModel().clearChecks();
+    // MapController.getController().populateFloorIconArr();
 
-    MapManager.getManager().closePopUp();
+    PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);

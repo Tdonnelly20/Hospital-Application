@@ -1,9 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
-import edu.wpi.cs3733.d22.teamV.ServiceRequests.ServiceRequest;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,16 +15,14 @@ public class LocationDao extends DaoInterface {
   public LocationDao() {
     allLocations = new ArrayList<>();
     try {
-      loadFromCSV();
       createSQLTable();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (SQLException e) {
+      loadFromCSV();
+    } catch (IOException | SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public static ArrayList<Location> getAllLocations() {
+  public ArrayList<Location> getAllLocations() {
     return allLocations;
   }
 
@@ -51,9 +50,13 @@ public class LocationDao extends DaoInterface {
     }
   }
 
-  public void deleteLocation(String nodeID) throws SQLException, IOException {
+  public void deleteLocation(String nodeID) {
     allLocations.removeIf(location -> location.getNodeID().equals(nodeID));
-    saveToCSV();
+    try {
+      saveToCSV();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     removeFromSQLTable(nodeID);
   }
 
@@ -62,7 +65,7 @@ public class LocationDao extends DaoInterface {
   }
 
   public void saveToBackupCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\LocationsBackup.csv");
+    FileWriter fw = new FileWriter(VApp.returnPath() + "\\LocationsBackup.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
@@ -90,7 +93,7 @@ public class LocationDao extends DaoInterface {
 
   public void loadBackupLocations() throws IOException {
     String line = "";
-    FileReader fr = new FileReader(Vdb.currentPath + "\\LocationsBackup.csv");
+    FileReader fr = new FileReader(VApp.currentPath + "\\LocationsBackup.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<Location> locations = new ArrayList<>();
@@ -116,18 +119,13 @@ public class LocationDao extends DaoInterface {
     saveToCSV();
   }
 
-  public void loadFromCSV() throws IOException {
+  public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    String file = Vdb.currentPath + "\\TowerLocations.csv";
-    System.out.println(file);
+    String file = VApp.currentPath + "\\TowerLocations.csv";
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<Location> locations = new ArrayList<>();
-    // equipment = new ArrayList<>();
-    // C:\Users\Trevor\Documents\GitHub\TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
-    // C:\Users\Trevor\Documents\GitHub\TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
-    //
     String headerLine = br.readLine();
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
@@ -143,12 +141,13 @@ public class LocationDao extends DaoInterface {
               data[6],
               data[7]);
       locations.add(newLoc);
+      addToSQLTable(newLoc);
     }
     setAllLocations(locations);
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(Vdb.currentPath + "\\TowerLocations.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "\\TowerLocations.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     // nodeID	xcoord	ycoord	floor	building	nodeType	longName	shortName
     bw.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
@@ -198,6 +197,10 @@ public class LocationDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest request) throws SQLException {}
 
   @Override
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {}
+
+  @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {}
 
   @Override
@@ -237,19 +240,26 @@ public class LocationDao extends DaoInterface {
               + "','"
               + location.getShortName()
               + "')");
-    } catch (SQLException e) {
-      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public void removeFromSQLTable(String nodeID) throws SQLException {
+  public void removeFromSQLTable(String nodeID) {
     String query = "";
     Connection connection = Vdb.Connect();
     assert connection != null;
-    Statement statement = connection.createStatement();
+    Statement statement = null;
+    try {
+      statement = connection.createStatement();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     query = "DELETE FROM LOCATIONS WHERE nodeID = '" + nodeID + "'";
-    statement.executeUpdate(query);
+    try {
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

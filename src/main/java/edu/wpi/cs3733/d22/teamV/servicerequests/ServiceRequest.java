@@ -1,21 +1,23 @@
-package edu.wpi.cs3733.d22.teamV.ServiceRequests;
+package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.map.Icon;
-import edu.wpi.cs3733.d22.teamV.objects.HospitalEmployee;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import java.sql.Timestamp;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 
+// https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj143.html
 @Setter
 @Getter
 public abstract class ServiceRequest {
   protected Location location;
   private int serviceID;
   public Patient patient;
-  protected HospitalEmployee hospitalEmployee;
-  protected String date;
+  protected Employee hospitalEmployee;
+  protected Timestamp timestamp;
   protected String type;
   protected String notes;
   protected String status;
@@ -30,11 +32,22 @@ public abstract class ServiceRequest {
     return type;
   }
 
-  public HospitalEmployee getEmp() {
-    return hospitalEmployee;
-  }
-
   public Patient getPatient() {
     return patient;
+  }
+
+  public String toString() {
+    if (patient == null || hospitalEmployee == null) {
+      return "Location: " + location.getNodeID() + " Service ID: " + serviceID;
+    } else {
+      return "Location: "
+          + location.getNodeID()
+          + " Service ID: "
+          + serviceID
+          + " Patient ID: "
+          + patient.getPatientID()
+          + " Employee ID: "
+          + hospitalEmployee.getEmployeeID();
+    }
   }
 }

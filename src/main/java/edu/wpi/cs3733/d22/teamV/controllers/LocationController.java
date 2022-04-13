@@ -1,11 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.awt.*;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,7 +18,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LocationController extends MapController {
-  private static LocationDao locationDao = Vdb.locationDao;
+  private static final LocationDao locationDao =
+      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
   @FXML private TreeTableColumn<Location, Integer> xCol;
@@ -195,13 +195,7 @@ public class LocationController extends MapController {
     removeLocationBool = true;
     submit.setOnAction(
         event -> {
-          try {
-            locationDao.deleteLocation(nodeID.getText());
-          } catch (SQLException e) {
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
+          locationDao.deleteLocation(nodeID.getText());
           setTextFieldPrompts();
           updateTreeTable();
         });
@@ -214,13 +208,7 @@ public class LocationController extends MapController {
 
     submit.setOnAction(
         event -> {
-          try {
-            locationDao.deleteLocation(nodeID.getText());
-          } catch (SQLException e) {
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
+          locationDao.deleteLocation(nodeID.getText());
           Location newLoc =
               new Location(
                   nodeID.getText(),
@@ -279,7 +267,7 @@ public class LocationController extends MapController {
     yesButton.setOnAction(
         event -> {
           try {
-            Vdb.locationDao.loadFromCSV();
+            locationDao.loadFromCSV();
             updateTreeTable();
           } catch (Exception e) {
             e.printStackTrace();
@@ -295,7 +283,7 @@ public class LocationController extends MapController {
     yesButton.setOnAction(
         event -> {
           try {
-            Vdb.saveToFile(Vdb.Database.Location);
+            locationDao.saveToCSV();
           } catch (Exception e) {
             e.printStackTrace();
           }

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ServiceRequestController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ServiceRequestController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="800.0" />
@@ -33,36 +33,72 @@
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="104.0" onAction="#switchToMedicineDelivery" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: rgb(255,255,255);" text="Medicine Delivery">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
                   <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="145.0" onAction="#switchToMedEquipDelivery" prefHeight="30.0" prefWidth="192.0" style="-fx-background-color: rgb(255,255,255);" text="Medical Equipment Delivery">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="5.0" layoutY="186.0" onAction="#switchToSanitationRequest" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: rgb(255,255,255);" text="Sanitation Requests">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="227.0" onAction="#switchToMealDelivery" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: rgb(255,255,255);" text="Meal Delivery">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="9.0" layoutY="268.0" onAction="#switchToLaundryRequest" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: rgb(255,255,255);" text="Laundry Request">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="317.0" onAction="#switchToReligiousRequest" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: rgb(255,255,255);" text="Religious Request">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
+                  <VBox alignment="TOP_CENTER" prefHeight="51.0" prefWidth="180.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#switchToMedicineDelivery" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: rgb(255,255,255);" text="Medicine Delivery">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="labelM" text="Matt" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="51.0" prefWidth="171.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#switchToSanitationRequest" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: rgb(255,255,255);" text="Sanitation Requests">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="labelD" text="Dylan" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="52.0" prefWidth="167.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#switchToMealDelivery" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: rgb(255,255,255);" text="Meal Delivery">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="labelP" text="Parker" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="47.0" prefWidth="164.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#switchToLaundryRequest" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: rgb(255,255,255);" text="Laundry Request">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="labelJ" text="Jakob" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="57.0" prefWidth="152.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#switchToReligiousRequest" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: rgb(255,255,255);" text="Religious Request">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="labelA" text="Andres" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="51.0" prefWidth="180.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#switchToInternalPatientTransport" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: rgb(255,255,255);" text="Internal Patient Transport">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="labelJo" text="Jolene" />
+                     </children>
+                  </VBox>
+                  <Button mnemonicParsing="false" onAction="#hideLabels" text="Show/Hide Names" />
                </children>
                <padding>
                   <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
