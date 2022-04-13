@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,9 +19,13 @@ import lombok.Setter;
 @Setter
 public class MapManager {
   private ArrayList<Floor> floorList;
-  @FXML private ImageView tempIcon = new ImageView("icon.png");
+  @FXML private ImageView tempIcon = new ImageView("locationMarker.png");
   List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   RequestSystem requestSystem = Vdb.requestSystem;
+  public Image cleanEquipment = new Image("cleanEquipment.png");
+  public Image dirtyEquipment = new Image("dirtyEquipment.png");
+  public Image locationMarker = new Image("locationMarker.png");
+  public Image requestMarker = new Image("requestMarker.png");
 
   public void init() {
     serviceRequests = requestSystem.getEveryServiceRequest();

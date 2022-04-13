@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
+import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class LocationIcon extends Icon {
   public LocationIcon(Location location) {
     super(location);
     this.iconType = "Location";
-    image.setImage(new Image("icon.png"));
+    image.setImage(new Image("locationMarker.png"));
     image.setFitWidth(30);
     image.setFitHeight(30);
     image.setTranslateX((xCoord) - 25);
@@ -34,22 +35,22 @@ public class LocationIcon extends Icon {
     if (location.getRequests().contains(request)) {
       location.getRequests().add(request);
     }
-    image.setImage(new Image("markedIcon.png"));
+    image.setImage(new Image("requestMarker.png"));
   }
 
   public void removeRequests(ServiceRequest request) {
     requestsArr.remove(request);
     location.getRequests().remove(request);
     if (requestsArr.size() == 0) {
-      image.setImage(new Image("icon.png"));
+      image.setImage(MapManager.getManager().locationMarker);
     }
   }
 
   public void changeImages() {
     if (hasActiveRequests()) {
-      image.setImage(new Image("markedIcon.png"));
+      image.setImage(MapManager.getManager().requestMarker);
     } else {
-      image.setImage(new Image("icon.png"));
+      image.setImage(MapManager.getManager().locationMarker);
     }
   }
 
