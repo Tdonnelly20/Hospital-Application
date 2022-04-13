@@ -173,4 +173,13 @@ public class PatientDao {
     patient.setPatientID(patientID);
     return patient;
   }
+
+  public void updatePatient(Patient patient, int patientID) throws SQLException, IOException {
+    Patient emp = patient;
+    emp.setPatientID(patientID);
+    removePatient(emp);
+    allPatients.add(emp);
+    addToSQLTable(emp);
+    saveToCSV();
+  }
 }

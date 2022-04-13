@@ -14,6 +14,8 @@ public class Vdb {
   public static MapManager mapManager = MapManager.getManager();
   public static MapController mapController = MapController.getController();
   public static PopupController popupController = PopupController.getController();
+  private static String ip;
+  private static String serverPath;
 
   /**
    * Returns the location of the CSVs
@@ -65,7 +67,7 @@ public class Vdb {
         URL = "jdbc:derby:VDB;";
 
       } else {
-        URL = "jdbc:derby://130.215.13.157/C:/Users/tucke/IdeaProjects/TeamVeganVampires/VDB";
+        URL = "jdbc:derby://" + ip + "/" + serverPath;
       }
       Connection connection = DriverManager.getConnection(URL, "admin", "admin");
       return connection;
@@ -74,5 +76,13 @@ public class Vdb {
       e.printStackTrace();
       return null;
     }
+  }
+
+  public static void setServerPath(String fullPath) {
+    serverPath = fullPath;
+  }
+
+  public static void setServerIP(String IPV4) {
+    ip = IPV4;
   }
 }

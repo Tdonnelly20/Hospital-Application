@@ -33,6 +33,14 @@ public class SanitationRequest extends ServiceRequest {
     this.type = "Sanitation Request";
   }
 
+  public String getPatientFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getPatientLastName() {
+    return patient.getLastName();
+  }
+
   public int getPatientID() {
     return patientID;
   }
