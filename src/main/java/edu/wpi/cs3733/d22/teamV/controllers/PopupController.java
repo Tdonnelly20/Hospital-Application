@@ -263,6 +263,7 @@ public class PopupController {
       vBox.setPrefWidth(450);
       vBox.setPrefHeight(400);
       for (ServiceRequest request : icon.getRequestsArr()) {
+
         Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getEmployeeID());
         Label locationLabel =
             new Label(
@@ -274,6 +275,11 @@ public class PopupController {
         updateStatus.setOnAction(
             event1 -> {
               request.setStatus(updateStatus.getValue().toString());
+            });
+        Button deleteRequest = new Button("Delete");
+        deleteRequest.setOnAction(
+            event -> {
+              icon.removeRequests(request);
             });
 
         Accordion accordion =

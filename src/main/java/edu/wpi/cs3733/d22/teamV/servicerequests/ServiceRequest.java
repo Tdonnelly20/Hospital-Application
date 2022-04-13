@@ -35,4 +35,8 @@ public abstract class ServiceRequest {
   public Patient getPatient() {
     return patient;
   }
+
+  public String toString() {
+    return "";
+  }
 }
