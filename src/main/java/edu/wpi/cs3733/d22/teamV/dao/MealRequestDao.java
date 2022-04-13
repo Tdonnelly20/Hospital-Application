@@ -16,16 +16,11 @@ public class MealRequestDao extends DaoInterface {
   private static ArrayList<MealRequest> allMealRequests;
 
   /** Initialize the array list */
-  public MealRequestDao() {
+  public MealRequestDao() throws SQLException, IOException {
     allMealRequests = new ArrayList<MealRequest>();
-    try {
-      createSQLTable();
-      loadFromCSV();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    createSQLTable();
+    loadFromCSV();
+    // TODO: Add info from the database to the local arraylist
   }
 
   public void loadFromCSV() throws IOException, SQLException {
@@ -53,18 +48,17 @@ public class MealRequestDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(VApp.currentPath + "\\MealRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("userID,patientID,firstName,lastName,meal,serviceID");
+    bw.append("employeeID,patientID,meal,locationID,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
       MealRequest mealRequest = (MealRequest) request;
 
       String[] outputData = {
-        String.valueOf(mealRequest.getUserID()),
+        String.valueOf(mealRequest.getEmployeeID()),
         String.valueOf(mealRequest.getPatientID()),
-        mealRequest.getFirstName(),
-        mealRequest.getLastName(),
         mealRequest.getMeal(),
+        mealRequest.getNodeID(),
         String.valueOf(mealRequest.getServiceID())
       };
       bw.append("\n");
@@ -88,7 +82,7 @@ public class MealRequestDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE MEALS(userID int, patientID int, firstName char(50), lastName char(50), meal char(50), serviceID int)";
+          "CREATE TABLE MEALS(employeeID int, patientID int, meal char(50), locationID char(50), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -113,17 +107,15 @@ public class MealRequestDao extends DaoInterface {
 
     query =
         "INSERT INTO MEALS("
-            + "userID,patientID,firstName,lastName,meal,serviceID) VALUES "
+            + "employeeID,patientID,meal,locationID,serviceID) VALUES "
             + "("
-            + mealRequest.getUserID()
+            + mealRequest.getEmployeeID()
             + ","
             + mealRequest.getPatientID()
-            + ", '"
-            + mealRequest.getFirstName()
-            + "','"
-            + mealRequest.getLastName()
             + "','"
             + mealRequest.getMeal()
+            + "','"
+            + mealRequest.getLocation().getNodeID()
             + "',"
             + mealRequest.getServiceID()
             + ")";

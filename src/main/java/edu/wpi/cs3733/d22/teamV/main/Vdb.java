@@ -13,9 +13,9 @@ public class Vdb {
   private static boolean isClient = false;
   private static String ip;
   private static String serverPath;
-  public static MapManager mapManager;
-  public static MapController mapController;
-  public static PopupController popupController;
+  public static MapManager mapManager = MapManager.getManager();
+  public static MapController mapController = MapController.getController();
+  public static PopupController popupController = PopupController.getController();
 
   /**
    * Returns the location of the CSVs
@@ -30,10 +30,11 @@ public class Vdb {
    */
   public void createAllDB() throws Exception {
     requestSystem.init();
-    mapManager = MapManager.getManager();
-    mapController = MapController.getController();
-    popupController = PopupController.getController();
+    System.out.println(requestSystem);
     requestSystem.getMaxIDs();
+    mapManager.init();
+    mapController.init();
+    popupController.init();
 
     System.out.println("-------Apache Derby Connection Testing --------");
     try {
@@ -77,8 +78,16 @@ public class Vdb {
     }
   }
 
-  public static void setServerPath(String fullPath) {
-    serverPath = fullPath;
+  public static void setIsClient(boolean c) {
+    isClient = c;
+  }
+
+  public static void setIP(String IPV4) {
+    ip = IPV4;
+  }
+
+  public static void setServerPath(String server) {
+    serverPath = server;
   }
 
   public static void setServerIP(String IPV4) {

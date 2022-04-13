@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EquipmentIcon extends Icon {
+
   ArrayList<Equipment> equipmentList = new ArrayList<>();
 
   public EquipmentIcon(Location location) {
@@ -23,7 +25,7 @@ public class EquipmentIcon extends Icon {
     image.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            PopupController.getController().openIconRequestWindow(this);
+            PopupController.getController().equipmentForm(event, this);
           }
         });
   }
@@ -34,6 +36,7 @@ public class EquipmentIcon extends Icon {
   }
 
   public void removeEquipment(Equipment equipment) {
+    RequestSystem.getSystem().deleteEquipment(equipment);
     equipmentList.remove(equipment);
     if (equipmentList.size() == 0) {
       setImage();

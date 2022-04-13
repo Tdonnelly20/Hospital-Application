@@ -31,9 +31,7 @@ public class RequestSystem {
 
   public RequestSystem() {}
 
-  public void init() {
-    System.out.println(this);
-
+  public void init() throws SQLException, IOException {
     locationDao = new LocationDao();
     patientDao = new PatientDao();
     employeeDao = new EmployeeDao();
@@ -107,22 +105,31 @@ public class RequestSystem {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.addServiceRequest(request);
+        break;
       case InternalPatientTransportation:
         internalPatientTransportationDao.addServiceRequest(request);
+        break;
       case LabRequest:
         labRequestDao.addServiceRequest(request);
+        break;
       case LaundryRequest:
         laundryRequestDao.addServiceRequest(request);
+        break;
       case LocationDao:
         locationDao.addServiceRequest(request);
+        break;
       case MealRequestDao:
         mealRequestDao.addServiceRequest(request);
+        break;
       case MedicineDelivery:
         medicineDeliveryDao.addServiceRequest(request);
+        break;
       case ReligiousRequest:
         religiousRequestDao.addServiceRequest(request);
+        break;
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
+        break;
       default:
         System.out.println("L + touch grass");
     }
@@ -155,6 +162,36 @@ public class RequestSystem {
       case ReligiousRequest:
         religiousRequestDao.removeServiceRequest(request);
       case SanitationRequest:
+        sanitationRequestDao.removeServiceRequest(request);
+      default:
+        System.out.println("L + touch grass");
+    }
+  }
+
+  /**
+   * Removes a service request based on type of request
+   *
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    switch (request.getType()) {
+      case "Equipment Delivery":
+        equipmentDeliveryDao.removeServiceRequest(request);
+      case "Internal Patient Transportation Request":
+        internalPatientTransportationDao.removeServiceRequest(request);
+      case "Lab Request":
+        labRequestDao.removeServiceRequest(request);
+      case "Laundry Request":
+        laundryRequestDao.removeServiceRequest(request);
+      case "Meal Request":
+        mealRequestDao.removeServiceRequest(request);
+      case "Medicine Delivery":
+        medicineDeliveryDao.removeServiceRequest(request);
+      case "Religious Request":
+        religiousRequestDao.removeServiceRequest(request);
+      case "Sanitation Request":
         sanitationRequestDao.removeServiceRequest(request);
       default:
         System.out.println("L + touch grass");
@@ -212,6 +249,13 @@ public class RequestSystem {
     return locationDao.getAllLocations();
   }
 
+  public Location getLocation(String nodeID) {
+    return locationDao.getLocation(nodeID);
+  }
+
+  public void deleteLocation(String nodeID) {
+    locationDao.deleteLocation(nodeID);
+  }
   /**
    * Getter specifically for equipment since it is not a service request
    *
@@ -219,6 +263,23 @@ public class RequestSystem {
    */
   public ArrayList<Equipment> getEquipment() {
     return equipmentDao.getAllEquipment();
+  }
+
+  public void addEquipment(Equipment equipment) {
+    equipmentDao.getAllEquipment().add(equipment);
+  }
+
+  public void deleteEquipment(Equipment equipment) {
+    equipmentDao.getAllEquipment().remove(equipment);
+  }
+
+  public Equipment getEquipment(String ID) {
+    for (Equipment equipment : equipmentDao.getAllEquipment()) {
+      if (equipment.getID().equals(ID)) {
+        return equipment;
+      }
+    }
+    return null;
   }
 
   public ArrayList<Patient> getPatients() {
@@ -236,7 +297,6 @@ public class RequestSystem {
    */
   public ArrayList<? extends ServiceRequest> getEveryServiceRequest() {
     ArrayList<ServiceRequest> allRequests = new ArrayList<>();
-    /*
     allRequests.addAll(equipmentDeliveryDao.getAllServiceRequests());
     allRequests.addAll(internalPatientTransportationDao.getAllServiceRequests());
     allRequests.addAll(labRequestDao.getAllServiceRequests());
@@ -246,7 +306,6 @@ public class RequestSystem {
     allRequests.addAll(religiousRequestDao.getAllServiceRequests());
     allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
 
-    */
     return allRequests;
   }
 

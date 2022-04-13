@@ -43,11 +43,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
               data[2],
               data[3],
               data[4],
-              data[5],
-              data[6],
-              Integer.parseInt(data[7]),
-              data[8]);
-      equipmentDelivery.setServiceID(Integer.parseInt(data[9]));
+              Integer.parseInt(data[5]),
+              data[6]);
+      equipmentDelivery.setServiceID(Integer.parseInt(data[7]));
       deliveries.add(equipmentDelivery);
     }
     allEquipmentDeliveries = deliveries;
@@ -57,8 +55,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(VApp.currentPath + "\\MedEquipReq.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "employeeID,patientID,patientFirstName,patientLastName,location,equipment,notes,quantity,status,serviceID");
+    bw.append("employeeID,patientID,location,equipment,notes,quantity,status,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -67,8 +64,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
       String[] outputData = {
         String.valueOf(equipmentDelivery.getEmployeeID()),
         String.valueOf(equipmentDelivery.getPatientID()),
-        equipmentDelivery.getPatientFirstName(),
-        equipmentDelivery.getPatientLastName(),
+        equipmentDelivery.getLocation().getNodeID(),
         equipmentDelivery.getEquipment(),
         equipmentDelivery.getNotes(),
         String.valueOf(equipmentDelivery.getQuantity()),
@@ -97,7 +93,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE EQUIPMENTDELIVERY(employeeID int,patientID int, patientFirstName char(50), patientLastName char(50), location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
+          "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
       exampleStatement.execute(query);
     } else {
       query = "DROP TABLE EQUIPMENTDELIVERY";
@@ -121,16 +117,12 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
     query =
         "INSERT INTO EQUIPMENTDELIVERY("
-            + "employeeID,patientID,patientFirstName,patientLastName,location,equipment,notes,quantity,status,serviceID) VALUES "
+            + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID) VALUES "
             + "("
             + equipmentDelivery.getEmployeeID()
             + ", "
             + equipmentDelivery.getPatientID()
             + ", '"
-            + equipmentDelivery.getPatientFirstName()
-            + "', '"
-            + equipmentDelivery.getPatientLastName()
-            + "', '"
             + equipmentDelivery.getLocationName()
             + "', '"
             + equipmentDelivery.getEquipment()

@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -25,11 +24,11 @@ public abstract class Icon {
     image.setFitHeight(30);
     image.setTranslateX(xCoord);
     image.setTranslateY(yCoord);
-    image.setOnMouseClicked(
-        event -> {
-          if (event.getClickCount() == 2) {
-            PopupController.getController().openIconRequestWindow(this);
-          }
-        });
+    /*image.setOnMouseClicked(
+    event -> {
+      if (event.getClickCount() == 2) {
+        PopupController.getController().openIconRequestWindow(this);
+      }
+    });*/
   }
 }

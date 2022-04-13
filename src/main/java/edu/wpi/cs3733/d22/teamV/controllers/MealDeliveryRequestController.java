@@ -128,9 +128,9 @@ public class MealDeliveryRequestController extends RequestController {
           new MealRequest(
               Integer.parseInt(userID.getText()),
               Integer.parseInt(patientID.getText()),
-              firstName.getText(),
-              lastName.getText(),
-              requestedMeal.getValue().toString());
+              "test",
+              requestedMeal.getValue().toString(),
+              "processing");
       try {
         mealRequestDao.addServiceRequest(m);
       } catch (Exception e) {

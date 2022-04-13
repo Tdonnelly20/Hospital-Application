@@ -19,7 +19,7 @@ bed17,Bed,3,145,545,N/A,0
 bed18,Bed,3,180,540,N/A,0
 bed19,Bed,3,230,520,N/A,0
 bed20,Bed,3,250,585,N/A,0
-xray1,X-Ray Machine,3,145,450,N/A,0
+xray1,X-Ray Machine,3,145,545,N/A,0
 ipump1,Infusion Pump,3,145,150,N/A,0
 ipump2,Infusion Pump,3,145,150,N/A,0
 ipump3,Infusion Pump,3,145,150,N/A,0
@@ -66,7 +66,7 @@ bed27,Bed,4,140,50,N/A,0
 bed28,Bed,4,185,50,N/A,0
 bed29,Bed,4,225,75,N/A,0
 bed30,Bed,4,250,125,N/A,0
-xray2,X-Ray Machine,4,145,450,N/A,0
+xray2,X-Ray Machine,4,145,545,N/A,0
 ipump31,Infusion Pump,4,145,150,N/A,0
 ipump32,Infusion Pump,4,145,150,N/A,0
 ipump33,Infusion Pump,4,145,150,N/A,0
@@ -87,17 +87,7 @@ recliner7,Patient Recliner,1,100,300,N/A,0
 recliner8,Patient Recliner,1,100,300,N/A,0
 recliner9,Patient Recliner,1,100,300,N/A,0
 recliner10,Patient Recliner,1,100,300,N/A,0
-bed31,Bed,5,125,235,N/A,0
-bed32,Bed,5,80,217,N/A,0
-bed33,Bed,5,60,175,N/A,0
-bed34,Bed,5,52,130,N/A,0
-bed35,Bed,5,70,85,N/A,0
-bed36,Bed,5,100,55,N/A,0
-bed37,Bed,5,140,50,N/A,0
-bed38,Bed,5,185,50,N/A,0
-bed39,Bed,5,225,75,N/A,0
-bed40,Bed,5,250,125,N/A,0
-xray3,X-Ray Machine,5,145,450,N/A,0
+xray4,X-Ray Machine,5,145,545,N/A,0
 ipump46,Infusion Pump,5,145,150,N/A,0
 ipump47,Infusion Pump,5,145,150,N/A,0
 ipump48,Infusion Pump,5,145,150,N/A,0
@@ -113,8 +103,3 @@ ipump57,Infusion Pump,5,145,150,N/A,0
 ipump58,Infusion Pump,5,145,150,N/A,0
 ipump59,Infusion Pump,5,145,150,N/A,0
 ipump60,Infusion Pump,5,145,150,N/A,0
-recliner11,Patient Recliner,1,100,300,N/A,0
-recliner12,Patient Recliner,1,100,300,N/A,0
-recliner13,Patient Recliner,1,100,300,N/A,0
-recliner14,Patient Recliner,1,100,300,N/A,0
-recliner15,Patient Recliner,1,100,300,N/A,0

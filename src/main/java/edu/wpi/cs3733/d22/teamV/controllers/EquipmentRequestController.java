@@ -1,14 +1,15 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.dao.EquipmentDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -33,17 +34,13 @@ public class EquipmentRequestController extends RequestController {
 
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
   @FXML private Label status;
   @FXML private TextField pos;
   @FXML private JFXComboBox<Object> dropDown;
   @FXML private TextField quant;
   @FXML private TextArea notes;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Button sendRequest;
-
-  private static final EquipmentDeliveryDao equipmentDeliveryDao =
-      (EquipmentDeliveryDao) Vdb.requestSystem.getDao(Dao.EquipmentDelivery);
 
   private static final LocationDao locationDao =
       (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
@@ -56,6 +53,9 @@ public class EquipmentRequestController extends RequestController {
   @FXML private TreeTableColumn<Location, String> buildingCol;
   @FXML private TreeTableColumn<Location, String> nodeTypeCol;
   @FXML private TreeTableColumn<Location, Boolean> shortNameCol;
+
+  private boolean updating = false;
+  private int updateServiceID;
 
   private static class SingletonHelper {
     private static final EquipmentRequestController controller = new EquipmentRequestController();
@@ -87,12 +87,14 @@ public class EquipmentRequestController extends RequestController {
     notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
 
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
-        (ArrayList<EquipmentDelivery>) equipmentDeliveryDao.getAllServiceRequests();
+        (ArrayList<EquipmentDelivery>)
+            RequestSystem.getSystem().getAllServiceRequests(Dao.EquipmentDelivery);
 
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
-    if (!currEquipmentDeliveries.isEmpty()) {
-
+    if (currEquipmentDeliveries.isEmpty()) {
+      equipmentRequestTable.setRoot(null);
+    } else {
       for (EquipmentDelivery delivery : currEquipmentDeliveries) {
         TreeItem<EquipmentDelivery> item = new TreeItem(delivery);
         treeItems.add(item);
@@ -112,7 +114,7 @@ public class EquipmentRequestController extends RequestController {
     floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("floor"));
     buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
     nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("description"));
-    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirty"));
+    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
 
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
@@ -125,7 +127,7 @@ public class EquipmentRequestController extends RequestController {
       }
 
       table.setShowRoot(false);
-      TreeItem root = new TreeItem(locationDao.getAllLocations().get(0));
+      TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
       table.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -135,41 +137,39 @@ public class EquipmentRequestController extends RequestController {
   void resetForm() {
     employeeID.setText("");
     patientID.setText("");
-    firstName.setText("");
-    lastName.setText("");
     status.setText("Status: Blank");
     pos.setText("");
     notes.setText("");
     quant.setText("");
     dropDown.setValue(null);
     sendRequest.setDisable(true);
+    sendRequest.setText("Send Request");
   }
 
   @FXML
   void validateButton() {
+
     if (!(employeeID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
         && !(employeeID.getText().isEmpty())
-        && !(firstName.getText().isEmpty())
-        && !(lastName.getText().isEmpty())
         && !(pos.getText().isEmpty())
         && !(dropDown.getValue() == null)
         && !(notes.getText().isEmpty())
         && !(quant.getText().isEmpty())
-        && isInteger(quant.getText())) {
+        && isInteger(quant.getText())
+        && !(statusDropDown.getValue() == null)) {
       status.setText("Status: Done");
       sendRequest.setDisable(false);
 
     } else if (!(employeeID.getText().isEmpty())
         || !(patientID.getText().isEmpty())
         || !(employeeID.getText().isEmpty())
-        || !(firstName.getText().isEmpty())
-        || !(lastName.getText().isEmpty())
         || !(status.getText().isEmpty())
         || !(pos.getText().isEmpty())
         || !(dropDown.getValue() == null)
         || !(notes.getText().isEmpty())
-        || !(quant.getText().isEmpty())) {
+        || !(quant.getText().isEmpty())
+        || !(statusDropDown.getValue() == null)) {
       status.setText("Status: Processing");
       sendRequest.setDisable(true);
 
@@ -190,8 +190,6 @@ public class EquipmentRequestController extends RequestController {
         new EquipmentDelivery(
             Integer.parseInt(employeeID.getText()),
             Integer.parseInt(patientID.getText()),
-            firstName.getText(),
-            lastName.getText(),
             pos.getText(),
             dropDown.getValue().toString(),
             notes.getText(),
@@ -199,7 +197,15 @@ public class EquipmentRequestController extends RequestController {
             status.getText());
 
     try {
-      equipmentDeliveryDao.addServiceRequest(delivery);
+      if (updating) {
+        Vdb.requestSystem
+            .getDao(Dao.EquipmentDelivery)
+            .updateServiceRequest(delivery, updateServiceID);
+        updating = false;
+      } else {
+        RequestSystem.getSystem().addServiceRequest(delivery, Dao.EquipmentDelivery);
+      }
+
     } catch (Exception e) {
 
     }
@@ -208,19 +214,36 @@ public class EquipmentRequestController extends RequestController {
     updateTreeTable();
   }
 
-  @Override
-  public void start(Stage primaryStage) {}
+  @FXML
+  private void updateSelectedRow() throws NullPointerException {
+    updating = true;
+    EquipmentDelivery delivery =
+        equipmentRequestTable.getSelectionModel().getSelectedItem().getValue();
 
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
+    employeeID.setText(String.valueOf(delivery.getEmployeeID()));
+    patientID.setText(String.valueOf(delivery.getPatientID()));
+    pos.setText(delivery.getLocationName());
+    dropDown.setValue(delivery.getEquipment());
+    quant.setText(Integer.toString(delivery.getQuantity()));
+    notes.setText(delivery.getNotes());
+    statusDropDown.setValue(delivery.getStatus());
+    updateServiceID = delivery.getServiceID();
+    sendRequest.setText("Update");
+    updateTreeTable();
+  }
 
   @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+    try {
+      EquipmentDelivery delivery =
+          equipmentRequestTable.getSelectionModel().getSelectedItem().getValue();
+      RequestSystem.getSystem().getDao(Dao.EquipmentDelivery).removeServiceRequest(delivery);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+    updateTreeTable();
   }
+
+  @Override
+  public void start(Stage primaryStage) {}
 }

@@ -32,11 +32,22 @@ public abstract class ServiceRequest {
     return type;
   }
 
-  public Employee getEmp() {
-    return hospitalEmployee;
-  }
-
   public Patient getPatient() {
     return patient;
+  }
+
+  public String toString() {
+    if (patient == null || hospitalEmployee == null) {
+      return "Location: " + location.getNodeID() + " Service ID: " + serviceID;
+    } else {
+      return "Location: "
+          + location.getNodeID()
+          + " Service ID: "
+          + serviceID
+          + " Patient ID: "
+          + patient.getPatientID()
+          + " Employee ID: "
+          + hospitalEmployee.getEmployeeID();
+    }
   }
 }

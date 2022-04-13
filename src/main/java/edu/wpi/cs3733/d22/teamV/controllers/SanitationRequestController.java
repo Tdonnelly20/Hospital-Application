@@ -2,26 +2,37 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SanitationRequestController extends MapController {
+public class SanitationRequestController extends RequestController {
   @FXML private TextField hospitalID;
   @FXML private TextField patientID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
   @FXML private TextField roomLocation;
   @FXML private JFXComboBox<Object> sanitationDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
+
+  @FXML private TreeTableView<EquipmentDelivery> sanitationRequestTable;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> hospitalIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> roomLocationCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> hazardCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> requestDetailsCol;
+
   private static final SanitationRequestDao SanitationRequestDao =
       (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
 
@@ -33,18 +44,20 @@ public class SanitationRequestController extends MapController {
     return SanitationRequestController.SingletonHelper.controller;
   }
 
+  // private static SanitationRequest sanitationRequest;
+
   @Override
   public void init() {
     mapSetUp();
     filterCheckBox.getCheckModel().check("Sanitation Requests");
+    setTitleText("Sanitation Request Service");
+    fillTopPane();
   }
 
   @FXML
   private void checkValidation() {
     if (!(patientID.getText().equals("")
         || hospitalID.getText().equals("")
-        || firstName.getText().equals("")
-        || lastName.getText().equals("")
         || roomLocation.getText().equals("")
         || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals(""))) {
@@ -54,13 +67,11 @@ public class SanitationRequestController extends MapController {
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
-  private void validateButton() {
+  void validateButton() {
 
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
         || hospitalID.getText().equals("")
-        || firstName.getText().equals("")
-        || lastName.getText().equals("")
         || roomLocation.getText().equals("")
         || requestDetails.getText().equals("")
         || sanitationDropDown.getValue().equals("")) {
@@ -87,11 +98,7 @@ public class SanitationRequestController extends MapController {
               + patientID.getText()
               + "\nLocation: "
               + roomLocation.getText()
-              + "\nName: "
-              + firstName.getText()
-              + "\nLast Name "
-              + lastName.getText()
-              + "\nMedication: "
+              + "\nHazard: "
               + sanitationDropDown.getValue()
               + "\n\nRequest Details: "
               + requestDetails.getText());
@@ -105,8 +112,6 @@ public class SanitationRequestController extends MapController {
   private void resetFields() {
     patientID.setText("");
     hospitalID.setText("");
-    firstName.setText("");
-    lastName.setText("");
     roomLocation.setText("");
     sanitationDropDown.setValue(null);
     requestDetails.setText("");
@@ -131,37 +136,52 @@ public class SanitationRequestController extends MapController {
   }
 
   @FXML
-  private void sendRequest() {
-    // If any field is left blank, (except for request details) throw an error
+  private void sendRequest() throws SQLException {
 
-    // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText()) || !isInteger(hospitalID.getText())) {
-      statusLabel.setText("Status: Failed. Patient/Hospital ID must be a number!");
-      statusLabel.setTextFill(Color.web("Red"));
+    SanitationRequest delivery =
+        new SanitationRequest(
+            Integer.parseInt(hospitalID.getText()),
+            Integer.parseInt(patientID.getText()),
+            roomLocation.getText(),
+            sanitationDropDown.getValue().toString(),
+            requestDetails.getText());
 
-      // If all conditions pass, create the request
+    updateTreeTable();
+    resetFields(); // Set all fields to blank for another entry
+  }
+
+  @FXML
+  void updateTreeTable() {
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
+    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomLocation"));
+    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazardName"));
+    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
+
+    ArrayList<SanitationRequest> currSanitationRequests =
+        (ArrayList<SanitationRequest>)
+            RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
+
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    if (currSanitationRequests.isEmpty()) {
+      sanitationRequestTable.setRoot(null);
     } else {
-
-      // Send the request to the Dao pattern
-
-      // For testing purposes
-      System.out.println(
-          "\nHospital ID: "
-              + hospitalID.getText()
-              + "\nPatient ID: "
-              + patientID.getText()
-              + "\nRoom #: "
-              + roomLocation.getText()
-              + "\nName: "
-              + firstName.getText()
-              + " "
-              + lastName.getText()
-              + "\nMedication: "
-              + sanitationDropDown.getValue()
-              + "\n\nRequest Details: "
-              + requestDetails.getText());
-
-      resetFields(); // Set all fields to blank for another entry
+      for (SanitationRequest delivery : currSanitationRequests) {
+        TreeItem<SanitationRequest> item = new TreeItem(delivery);
+        treeItems.add(item);
+      }
+      sanitationRequestTable.setShowRoot(false);
+      TreeItem root = new TreeItem(currSanitationRequests.get(0));
+      sanitationRequestTable.setRoot(root);
+      root.getChildren().addAll(treeItems);
     }
+  }
+
+  @FXML
+  void resetForm() {
+    return;
   }
 }

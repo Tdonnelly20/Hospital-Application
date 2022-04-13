@@ -2,19 +2,22 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.LabRequestDao;
-import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
-public class LabRequestController extends MapController implements RequestInterface {
+public class LabRequestController extends RequestController {
   @FXML private TreeTableView<LabRequest> table;
-  @FXML private TreeTableColumn<LabRequest, Integer> userIDCol;
+  @FXML private TreeTableColumn<LabRequest, String> nodeIDCol;
+  @FXML private TreeTableColumn<LabRequest, Integer> employeeIDCol;
   @FXML private TreeTableColumn<LabRequest, Integer> patientIDCol;
   @FXML private TreeTableColumn<LabRequest, String> firstNameCol;
   @FXML private TreeTableColumn<LabRequest, String> lastNameCol;
@@ -23,13 +26,16 @@ public class LabRequestController extends MapController implements RequestInterf
 
   private static final LabRequestDao labRequestDao =
       (LabRequestDao) Vdb.requestSystem.getDao(Dao.LabRequest);
-  @FXML private TextField Status;
-  @FXML private TextField userID;
+  @FXML private TextField employeeID;
   @FXML private TextField patientID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
+  @FXML private TextField nodeID;
   @FXML private JFXComboBox<Object> requestedLab;
+  @FXML private JFXComboBox<Object> statusDropDown;
+  @FXML private Label status;
   @FXML private Button sendRequest;
+
+  private boolean updating = false;
+  private int updateServiceID;
 
   private static class SingletonHelper {
     private static final LabRequestController manager = new LabRequestController();
@@ -41,6 +47,8 @@ public class LabRequestController extends MapController implements RequestInterf
 
   @Override
   public void init() {
+    setTitleText("Lab Request");
+    fillTopPane();
     mapSetUp();
     filterCheckBox.getCheckModel().check("Lab Requests");
   }
@@ -48,35 +56,30 @@ public class LabRequestController extends MapController implements RequestInterf
   @Override
   @FXML
   public void resetForm() {
-    Status.setText("Status: Blank");
-    userID.setText("");
+    nodeID.setText("");
+    statusDropDown.setValue("Status: ");
+    employeeID.setText("");
     patientID.setText("");
-    firstName.setText("");
-    lastName.setText("");
     requestedLab.setValue("Select Lab");
     sendRequest.setDisable(true);
+    sendRequest.setText("Send Request");
   }
 
   // Checks to see if the user can submit info
   @Override
   public void validateButton() {
     try {
-      if (!(userID.getText().isEmpty())
+      if (!(employeeID.getText().isEmpty())
           && !(patientID.getText().isEmpty())
-          && !(firstName.getText().isEmpty())
-          && !(lastName.getText().isEmpty())
           && !(requestedLab.getValue().equals("Select Lab"))) {
         // Information verification and submission needed
         sendRequest.setDisable(false);
-        Status.setText("Status: Done");
-      } else if (!(userID.getText().isEmpty())
+      } else if (!(employeeID.getText().isEmpty())
           || !(patientID.getText().isEmpty())
-          || !(firstName.getText().isEmpty())
-          || !(lastName.getText().isEmpty())
           || !(requestedLab.getValue().equals("Select Lab"))) {
-        Status.setText("Status: Processing");
+        status.setText("Status: Processing");
       } else {
-        Status.setText("Status: Blank");
+        status.setText("Status: Blank");
         sendRequest.setDisable(true);
       }
     } catch (NullPointerException e) {
@@ -87,10 +90,10 @@ public class LabRequestController extends MapController implements RequestInterf
   /** Runs whenever we switch to the table, or update a value */
   @Override
   public void updateTreeTable() {
-    System.out.println("Here");
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("userID"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
@@ -105,8 +108,9 @@ public class LabRequestController extends MapController implements RequestInterf
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
-    if (!currLabRequests.isEmpty()) {
-
+    if (currLabRequests.isEmpty()) {
+      table.setRoot(null);
+    } else {
       // for each loop cycling through each lab request currently entered into the system
       for (LabRequest lab : currLabRequests) {
         TreeItem<LabRequest> item = new TreeItem(lab);
@@ -121,35 +125,65 @@ public class LabRequestController extends MapController implements RequestInterf
       table.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
       root.getChildren().addAll(treeItems);
-      resetForm();
     }
   }
 
-  @Override
   public void sendRequest() {
     // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText()) || !isInteger(userID.getText())) {
-      Status.setText("Status: Failed. Patient/Hospital ID must be a number!");
+    if (!isInteger(patientID.getText()) || !isInteger(employeeID.getText())) {
+      status.setText("Status: Failed. Patient/Hospital ID must be a number!");
 
       // If all conditions pass, create the request
     } else {
-      System.out.println(userID.getText());
       LabRequest l =
           new LabRequest(
-              Integer.parseInt(userID.getText()),
+              Integer.parseInt(employeeID.getText()),
               Integer.parseInt(patientID.getText()),
-              firstName.getText(),
-              lastName.getText(),
+              nodeID.getText(),
               requestedLab.getValue().toString(),
-              "Processing");
+              statusDropDown.getValue().toString());
       try {
-        labRequestDao.addServiceRequest(l);
+        if (updating) {
+          Vdb.requestSystem.getDao(Dao.LabRequest).updateServiceRequest(l, updateServiceID);
+          updating = false;
+        } else {
+          RequestSystem.getSystem().addServiceRequest(l, Dao.LabRequest);
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
+
       resetForm();
       updateTreeTable();
     }
+  }
+
+  @FXML
+  private void updateSelectedRow() throws NullPointerException {
+    System.out.println("here");
+    updating = true;
+    LabRequest request = table.getSelectionModel().getSelectedItem().getValue();
+    updateServiceID = request.getServiceID();
+
+    nodeID.setText(request.getNodeID());
+    employeeID.setText(Integer.toString(request.getEmployeeID()));
+    patientID.setText(Integer.toString(request.getPatientID()));
+    requestedLab.setValue(request.getLab());
+    statusDropDown.setValue(request.getStatus());
+
+    sendRequest.setText("Update");
+    updateTreeTable();
+  }
+
+  @FXML
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+    try {
+      LabRequest request = table.getSelectionModel().getSelectedItem().getValue();
+      RequestSystem.getSystem().getDao(Dao.LabRequest).removeServiceRequest(request);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+    updateTreeTable();
   }
 
   @Override

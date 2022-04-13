@@ -14,16 +14,10 @@ public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() {
+  public LabRequestDao() throws SQLException, IOException {
     allLabRequests = new ArrayList<>();
-    try {
-      createSQLTable();
-      loadFromCSV();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    createSQLTable();
+    loadFromCSV();
   }
 
   // DaoInterface Methods
@@ -42,13 +36,8 @@ public class LabRequestDao extends DaoInterface {
       String[] data = line.split(splitToken);
       LabRequest newDelivery =
           new LabRequest(
-              Integer.parseInt(data[0]),
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              data[4],
-              data[5]);
-      newDelivery.setServiceID(Integer.parseInt(data[6]));
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+      newDelivery.setServiceID(Integer.parseInt(data[5]));
       allLabRequests.add(newDelivery);
     }
     setAllServiceRequests(allLabRequests);
@@ -57,7 +46,7 @@ public class LabRequestDao extends DaoInterface {
   public void saveToCSV() throws IOException {
     FileWriter fw = new FileWriter(VApp.currentPath + "\\LabRequests.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("userID,patientID,firstName,lastName,lab,status,serviceID");
+    bw.append("userID,patientID,nodeID,lab,status,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -66,8 +55,7 @@ public class LabRequestDao extends DaoInterface {
       String[] outputData = {
         String.valueOf(labRequest.getUserID()),
         String.valueOf(labRequest.getPatientID()),
-        labRequest.getFirstName(),
-        labRequest.getLastName(),
+        labRequest.getLocation().getNodeID(),
         labRequest.getLab(),
         labRequest.getStatus(),
         String.valueOf(labRequest.getServiceID())
@@ -93,7 +81,7 @@ public class LabRequestDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE LABS(userID int, patientID int, firstName varchar(30), lastName varchar(30), lab varchar(50), status varchar(50), serviceID int)";
+          "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -118,15 +106,13 @@ public class LabRequestDao extends DaoInterface {
 
     query =
         "INSERT INTO LABS("
-            + "userID,patientID,firstName,lastName,lab,status,serviceID) VALUES "
+            + "userID,patientID,nodeID,lab,status,serviceID) VALUES "
             + "("
             + labRequest.getUserID()
             + ", "
             + labRequest.getPatientID()
             + ", '"
-            + labRequest.getFirstName()
-            + "',' "
-            + labRequest.getLastName()
+            + labRequest.getLocation().getNodeID()
             + "', '"
             + labRequest.getLab()
             + "', '"
@@ -205,7 +191,7 @@ public class LabRequestDao extends DaoInterface {
     try {
       // System.out.println("Removing from database...");
       Connection connection;
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
+      connection = Vdb.Connect();
       Statement exampleStatement = connection.createStatement();
       for (LabRequest l : allLabRequests)
         exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
