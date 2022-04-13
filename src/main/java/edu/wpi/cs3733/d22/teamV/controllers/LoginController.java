@@ -30,12 +30,12 @@ public class LoginController extends Controller {
 
   @FXML
   public void setDB() {
-    if (dBMenu.getValue().toString().equals("server")) {
+    if (dBMenu.getValue().toString().equals("Sever DB")) {
 
-    } else if (dBMenu.getValue().toString().equals("embedded")) {
+    } else if (dBMenu.getValue().toString().equals("Embedded DB")) {
 
     } else {
-      System.out.println("Something went horribly wrong");
+      System.out.println("No db was selected");
     }
   }
 
