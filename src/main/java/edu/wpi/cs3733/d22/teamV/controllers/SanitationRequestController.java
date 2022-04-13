@@ -2,13 +2,15 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
+import java.util.ArrayList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -22,6 +24,16 @@ public class SanitationRequestController extends RequestController {
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
+
+  @FXML private TreeTableView<EquipmentDelivery> sanitationRequestTable;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> posCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> hazardCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
+
   private static final SanitationRequestDao SanitationRequestDao =
       (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
 
@@ -32,6 +44,8 @@ public class SanitationRequestController extends RequestController {
   public static SanitationRequestController getController() {
     return SanitationRequestController.SingletonHelper.controller;
   }
+
+  // private static SanitationRequest sanitationRequest;
 
   @Override
   public void init() {
@@ -169,7 +183,32 @@ public class SanitationRequestController extends RequestController {
 
   @FXML
   void updateTreeTable() {
-    return;
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
+    posCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationName"));
+    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazard"));
+    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
+
+    ArrayList<SanitationRequest> currSanitationRequests =
+        (ArrayList<SanitationRequest>)
+            RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
+
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    if (currSanitationRequests.isEmpty()) {
+      sanitationRequestTable.setRoot(null);
+    } else {
+      for (SanitationRequest delivery : currSanitationRequests) {
+        TreeItem<SanitationRequest> item = new TreeItem(delivery);
+        treeItems.add(item);
+      }
+      sanitationRequestTable.setShowRoot(false);
+      TreeItem root = new TreeItem(currSanitationRequests.get(0));
+      sanitationRequestTable.setRoot(root);
+      root.getChildren().addAll(treeItems);
+    }
   }
 
   @FXML
