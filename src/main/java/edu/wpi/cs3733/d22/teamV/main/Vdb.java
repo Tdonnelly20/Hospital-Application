@@ -90,10 +90,6 @@ public class Vdb {
     serverPath = server;
   }
 
-  public static void setServerPath(String fullPath) {
-    serverPath = fullPath;
-  }
-
   public static void setServerIP(String IPV4) {
     ip = IPV4;
   }
