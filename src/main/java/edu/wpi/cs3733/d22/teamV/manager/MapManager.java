@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
-import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.*;
@@ -9,9 +8,7 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +16,6 @@ import lombok.Setter;
 @Setter
 public class MapManager {
   private ArrayList<Floor> floorList;
-  @FXML private ImageView tempIcon = new ImageView("locationMarker.png");
   List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   RequestSystem requestSystem = Vdb.requestSystem;
   public Image cleanEquipment = new Image("cleanEquipment.png");
@@ -27,9 +23,9 @@ public class MapManager {
   public Image locationMarker = new Image("locationMarker.png");
   public Image requestMarker = new Image("requestMarker.png");
 
+  /** Gets every service request and sets up the floors */
   public void init() {
     serviceRequests = requestSystem.getEveryServiceRequest();
-    System.out.println(serviceRequests.size());
     setUpFloors();
   }
 
@@ -121,6 +117,7 @@ public class MapManager {
     loadRequests();
   }
 
+  /** Loads every location and gives each the correct icon image */
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
       if (floorList.get(i).containsIcon(l)) {
@@ -141,6 +138,7 @@ public class MapManager {
     }
   }
 
+  /** Loads each request into it's corresponding location's list */
   public void loadRequests() {
     if (serviceRequests.size() > 0) {
       for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
@@ -194,22 +192,5 @@ public class MapManager {
         return floorList.get(7);
     }
     return null;
-  }
-
-  public void isTempIconVisible(boolean isVisible) {
-    tempIcon.setVisible(isVisible);
-  }
-
-  public void placeTempIcon(double xPos, double yPos) {
-    // Place Icon
-    tempIcon.setVisible(true);
-    tempIcon.setTranslateX(xPos);
-    tempIcon.setTranslateX(yPos);
-    if (!MapController.getController().getMapPane().getChildren().contains(tempIcon)) {
-      // System.out.println("X:" + xPos + " Y:" + yPos);
-      tempIcon.setFitWidth(30);
-      tempIcon.setFitHeight(30);
-      MapController.getController().getMapPane().getChildren().add(tempIcon);
-    }
   }
 }

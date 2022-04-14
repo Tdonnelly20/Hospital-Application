@@ -454,23 +454,18 @@ public class MapController extends Controller {
         RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
-    mapPane.getChildren().remove(MapManager.getManager().getTempIcon());
     MapManager.getManager().getFloor(getFloor()).addIcon(icon);
-    // populateFloorIconArr();
-    MapManager.getManager().getTempIcon().setVisible(false);
     checkDropDown();
   }
 
   public void addEquipmentIcon(Equipment equipment) {
     PopupController.getController().closePopUp();
     RequestSystem.getSystem().addEquipment(equipment);
-    // MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
     MapManager.getManager().setUpFloors();
     checkDropDown();
   }
 
   public void deleteIcon(Icon icon) {
-    System.out.println("Delete Icon");
     MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
     RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     MapManager.getManager().setUpFloors();
@@ -500,17 +495,10 @@ public class MapController extends Controller {
   @FXML
   public void openIconFormWindow(MouseEvent event) {
     if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
-      PopupController popupController = PopupController.getController();
-      // X and Y coordinates
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
-
-      // PopupController.getController().locationAdditionForm(event, false);
-      // PopupController.getController().equipmentAdditionForm();
       PopupController.getController().iconWindow(event);
       setSubmitLocation(xPos, yPos);
-      // Place Icon
-      MapManager.getManager().placeTempIcon(xPos, yPos);
     }
   }
 }
