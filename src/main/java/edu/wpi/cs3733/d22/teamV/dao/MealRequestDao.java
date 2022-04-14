@@ -24,7 +24,7 @@ public class MealRequestDao extends DaoInterface {
   }
 
   public void loadFromCSV() throws IOException, SQLException {
-    FileReader fr = new FileReader(VApp.currentPath + "\\MealRequest.csv");
+    FileReader fr = new FileReader(VApp.currentPath + "/MealRequest.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<MealRequest> mealRequests = new ArrayList<>();
@@ -46,7 +46,7 @@ public class MealRequestDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\MealRequest.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/MealRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("employeeID,patientID,meal,locationID,serviceID");
 
@@ -61,7 +61,7 @@ public class MealRequestDao extends DaoInterface {
         mealRequest.getNodeID(),
         String.valueOf(mealRequest.getServiceID())
       };
-      bw.append("\n");
+      bw.append("/n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
