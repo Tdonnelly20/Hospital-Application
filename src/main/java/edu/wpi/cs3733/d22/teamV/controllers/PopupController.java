@@ -670,20 +670,24 @@ public class PopupController {
         break;
       case "Meal Delivery":
         field2.setPromptText("Patient ID");
+        field3.setPromptText("Allergy");
+        field4.setPromptText("Request Details");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
-                    "Cheeseburger", "Chicken Tender", "Hot Dog", "Fries", "Crackers"));
-        content.getChildren().addAll(field2, field3, comboBox2);
+                    "Cheeseburger", "Chicken Nuggies", "Hot Dog", "Fries", "Crackers"));
+        content.getChildren().addAll(field2, field3, field4, comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              MealRequest request =
-                  new MealRequest(
+              MedicineDelivery request =
+                  new MedicineDelivery(
+                      icon.getLocation().getNodeID(),
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
-                      icon.getLocation().getNodeID(),
-                      comboBox2.getValue().toString(),
-                      comboBox3.getValue().toString());
+                      comboBox2.getValue(),
+                      field3.getText(),
+                      comboBox3.getValue(),
+                      field4.getText());
               addRequest(event, icon, request);
             });
         break;
