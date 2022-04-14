@@ -228,6 +228,28 @@ public class RequestSystem {
     }
   }
 
+  public ArrayList<ServiceRequest> getAllRequestsWithPatientID(int patientID) {
+    ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
+    for (ServiceRequest request : getEveryServiceRequest()) {
+      if (request.patient.getPatientID() == patientID) {
+        serviceRequests.add(request);
+      }
+    }
+
+    return serviceRequests;
+  }
+
+  public ArrayList<ServiceRequest> getAllRequestsWithEmployeeID(int employeeID) {
+    ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
+    for (ServiceRequest request : getEveryServiceRequest()) {
+      if (request.getHospitalEmployee().getEmployeeID() == employeeID) {
+        serviceRequests.add(request);
+      }
+    }
+
+    return serviceRequests;
+  }
+
   public EmployeeDao getEmployeeDao() {
     return employeeDao;
   }

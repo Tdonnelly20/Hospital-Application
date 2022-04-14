@@ -58,7 +58,7 @@ public class SanitationRequestDao extends DaoInterface {
         sanitationRequest.getRoomLocation(),
         sanitationRequest.getHazardName(),
         sanitationRequest.getRequestDetails(),
-              sanitationRequest.getStatus(),
+        sanitationRequest.getStatus(),
         Integer.toString(sanitationRequest.getServiceID())
       };
       bw.append("\n");
