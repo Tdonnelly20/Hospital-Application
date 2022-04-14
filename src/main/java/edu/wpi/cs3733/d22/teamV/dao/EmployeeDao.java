@@ -16,8 +16,8 @@ public class EmployeeDao {
   public EmployeeDao() {
     allEmployees = new ArrayList<>();
     try {
-      loadFromCSV();
       createSQLTable();
+      loadFromCSV();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (SQLException e) {
@@ -36,16 +36,27 @@ public class EmployeeDao {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
-
+      ArrayList<Integer> patientIDs;
+      ArrayList<Integer> serviceIDs;
       // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
-      ArrayList<Integer> patientIDs =
-          IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
-      ArrayList<Integer> serviceIDs =
-          IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
+      try{
+        patientIDs =
+                IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
+                        .boxed()
+                        .collect(Collectors.toCollection(ArrayList::new));
+      }catch (NumberFormatException e){
+        patientIDs = new ArrayList<>();
+      }
+
+      try{
+         serviceIDs =
+                IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
+                        .boxed()
+                        .collect(Collectors.toCollection(ArrayList::new));
+      }catch (NumberFormatException e){
+        serviceIDs = new ArrayList<>();
+      }
+
 
       Employee newEmployee =
           new Employee(
@@ -70,9 +81,9 @@ public class EmployeeDao {
         "employeeID,employeeFirstName,employeeLastName,employeePosition,employeeSpecialties,patientIDs,serviceRequestIDs");
     for (Employee e : getAllEmployees()) {
 
-      String specialties = "";
-      String patientIDs = "";
-      String serviceIDs = "";
+      String specialties = " ";
+      String patientIDs = " ";
+      String serviceIDs = " ";
 
       for (String str : e.getSpecialties()) {
         specialties += str + " ";
@@ -95,7 +106,7 @@ public class EmployeeDao {
         patientIDs,
         serviceIDs
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

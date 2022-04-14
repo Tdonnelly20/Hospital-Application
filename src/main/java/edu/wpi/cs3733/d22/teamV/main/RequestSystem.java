@@ -374,7 +374,7 @@ public class RequestSystem {
         highestID = request.getServiceID();
       }
     }
-    serviceIDCounter = highestID;
+    serviceIDCounter = highestID + 1;
 
     // Patients
     highestID = patientIDCounter;
@@ -384,7 +384,7 @@ public class RequestSystem {
         highestID = patient.getPatientID();
       }
     }
-    patientIDCounter = highestID;
+    patientIDCounter = highestID + 1;
 
     // Employees
     highestID = employeeIDCounter;
@@ -394,7 +394,7 @@ public class RequestSystem {
         highestID = employee.getEmployeeID();
       }
     }
-    employeeIDCounter = highestID;
+    employeeIDCounter = highestID + 1;
   }
 
   public static int getServiceID() {

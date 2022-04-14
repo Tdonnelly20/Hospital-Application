@@ -61,7 +61,7 @@ public class ReligiousRequestDao extends DaoInterface {
         religiousRequest.getReligion(),
         Integer.toString(religiousRequest.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
