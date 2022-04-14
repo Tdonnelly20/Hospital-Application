@@ -40,8 +40,8 @@ public class LaundryRequestDao extends DaoInterface {
       String[] data = line.split(splitToken);
       LaundryRequest newDelivery =
           new LaundryRequest(
-              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3]);
-      newDelivery.setServiceID(Integer.parseInt(data[4]));
+              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+      newDelivery.setServiceID(Integer.parseInt(data[6]));
       laundryRequests.add(newDelivery);
     }
 
