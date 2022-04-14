@@ -61,7 +61,7 @@ public class ReligiousRequestDao extends DaoInterface {
         religiousRequest.getReligion(),
         Integer.toString(religiousRequest.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
@@ -101,6 +101,7 @@ public class ReligiousRequestDao extends DaoInterface {
     statement.setString(3, newReligiousRequest.getLocation().getNodeID());
     statement.setString(4, newReligiousRequest.getReligion());
     statement.setInt(6, newReligiousRequest.getServiceID());
+    statement.executeUpdate();
   }
 
   @Override
@@ -110,6 +111,7 @@ public class ReligiousRequestDao extends DaoInterface {
     String query = "DELETE FROM RELIGIOUSREQUESTS" + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setInt(1, serviceID);
+    statement.executeUpdate();
   }
 
   @Override
@@ -177,5 +179,6 @@ public class ReligiousRequestDao extends DaoInterface {
     statement.setString(4, newRequest.getReligion());
     statement.setString(5, newRequest.getReligion());
     statement.setInt(6, newRequest.getServiceID());
+    statement.executeUpdate();
   }
 }

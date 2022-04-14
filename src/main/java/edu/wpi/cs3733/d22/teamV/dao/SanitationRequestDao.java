@@ -20,8 +20,8 @@ public class SanitationRequestDao extends DaoInterface {
   /** Initialize the arraylist */
   public SanitationRequestDao() throws SQLException, IOException {
     allSanitationRequests = new ArrayList<SanitationRequest>();
-    createSQLTable();
     loadFromCSV();
+    createSQLTable();
   }
 
   @Override
@@ -61,7 +61,7 @@ public class SanitationRequestDao extends DaoInterface {
         sanitationRequest.getStatus(),
         Integer.toString(sanitationRequest.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
@@ -81,10 +81,15 @@ public class SanitationRequestDao extends DaoInterface {
     if (!set.next()) {
       statement.execute(
           "CREATE TABLE SANITATIONREQUESTS(pID int, empID int, roomLocation char(40), hazard char(30), details char(150), status char(50),serviceID int)");
+      // System.out.println(r);
     } else {
+      System.out.println("TABLE EXISTS, REMAKING");
       statement.execute("DROP TABLE SANITATIONREQUESTS");
       createSQLTable();
       return;
+    }
+    for (SanitationRequest req : allSanitationRequests) {
+      addToSQLTable(req);
     }
   }
 
@@ -101,6 +106,7 @@ public class SanitationRequestDao extends DaoInterface {
     statement.setString(5, newSanitationRequest.getRequestDetails());
     statement.setString(6, newSanitationRequest.getStatus());
     statement.setInt(7, newSanitationRequest.getServiceID());
+    statement.executeUpdate();
   }
 
   @Override
@@ -135,6 +141,7 @@ public class SanitationRequestDao extends DaoInterface {
     statement.setString(5, newRequest.getRequestDetails());
     statement.setString(6, newRequest.getStatus());
     statement.setInt(7, newRequest.getServiceID());
+    statement.executeUpdate();
   }
 
   @Override
@@ -144,6 +151,7 @@ public class SanitationRequestDao extends DaoInterface {
     String query = "DELETE FROM SANITATIONREQUESTS" + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setInt(1, serviceID);
+    statement.executeUpdate();
   }
 
   @Override

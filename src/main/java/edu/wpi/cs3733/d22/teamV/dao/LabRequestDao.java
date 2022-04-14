@@ -60,7 +60,7 @@ public class LabRequestDao extends DaoInterface {
         labRequest.getStatus(),
         String.valueOf(labRequest.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

@@ -77,7 +77,7 @@ public class MedicineDeliveryDao extends DaoInterface {
         medicineDelivery.getRequestDetails(),
         String.valueOf(medicineDelivery.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

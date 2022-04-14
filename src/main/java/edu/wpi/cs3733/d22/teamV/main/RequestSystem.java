@@ -228,6 +228,28 @@ public class RequestSystem {
     }
   }
 
+  public ArrayList<ServiceRequest> getAllRequestsWithPatientID(int patientID) {
+    ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
+    for (ServiceRequest request : getEveryServiceRequest()) {
+      if (request.patient.getPatientID() == patientID) {
+        serviceRequests.add(request);
+      }
+    }
+
+    return serviceRequests;
+  }
+
+  public ArrayList<ServiceRequest> getAllRequestsWithEmployeeID(int employeeID) {
+    ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
+    for (ServiceRequest request : getEveryServiceRequest()) {
+      if (request.getHospitalEmployee().getEmployeeID() == employeeID) {
+        serviceRequests.add(request);
+      }
+    }
+
+    return serviceRequests;
+  }
+
   public EmployeeDao getEmployeeDao() {
     return employeeDao;
   }
@@ -352,7 +374,7 @@ public class RequestSystem {
         highestID = request.getServiceID();
       }
     }
-    serviceIDCounter = highestID;
+    serviceIDCounter = highestID + 1;
 
     // Patients
     highestID = patientIDCounter;
@@ -362,7 +384,7 @@ public class RequestSystem {
         highestID = patient.getPatientID();
       }
     }
-    patientIDCounter = highestID;
+    patientIDCounter = highestID + 1;
 
     // Employees
     highestID = employeeIDCounter;
@@ -372,7 +394,7 @@ public class RequestSystem {
         highestID = employee.getEmployeeID();
       }
     }
-    employeeIDCounter = highestID;
+    employeeIDCounter = highestID + 1;
   }
 
   public static int getServiceID() {

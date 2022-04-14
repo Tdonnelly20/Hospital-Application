@@ -30,7 +30,6 @@ public class Vdb {
    */
   public void createAllDB() throws Exception {
     requestSystem.init();
-    System.out.println(requestSystem);
     requestSystem.getMaxIDs();
     mapManager.init();
     mapController.init();

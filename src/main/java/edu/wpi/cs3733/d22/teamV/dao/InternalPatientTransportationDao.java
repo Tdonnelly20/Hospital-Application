@@ -86,7 +86,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
         internalPatientTransportation.getRequestDetails(),
         String.valueOf(internalPatientTransportation.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

@@ -67,12 +67,10 @@ public class LoginController extends Controller {
 
     if (username.getText().toString().equals("admin")
         && password.getText().toString().equals("admin")) {
-      System.out.println("Success!");
       user.setAdmin(true);
       switchToHome(event);
     } else if (username.getText().toString().equals("staff")
-        && password.getText().toString().equals("staff")) {
-      System.out.println("Success!");
+        && password.getText().toString().equals("staff")) {;
       switchToHome(event);
     } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
       wrongLogin.setText("Please enter your data.");
