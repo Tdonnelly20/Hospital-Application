@@ -13,6 +13,7 @@ public class LaundryRequest extends ServiceRequest {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.details = details;
     this.type = "Laundry Request";
+    this.status = "Not Started";
   }
 
   public LaundryRequest(

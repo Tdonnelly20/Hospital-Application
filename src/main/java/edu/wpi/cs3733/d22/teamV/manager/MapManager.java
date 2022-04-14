@@ -146,12 +146,23 @@ public class MapManager {
       for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
         for (Floor floor : floorList) {
           for (Icon icon : floor.getIconList()) {
-            if (icon.iconType.equals("Location")
-                && icon.getLocation()
-                    .getNodeID()
-                    .equals(serviceRequest.getLocation().getNodeID())) {
-              icon.getLocation().getRequests().add(serviceRequest);
-              ((LocationIcon) icon).addToRequests(serviceRequest);
+            System.out.println("Type: " + serviceRequest.getType());
+            System.out.println("Location: " + serviceRequest.getLocation());
+            System.out.println("Node ID: " + serviceRequest.getLocation().getNodeID());
+            if (serviceRequest.getLocation() != null) {
+              if (serviceRequest.getLocation().getNodeID() != null) {
+                if (icon.iconType.equals("Location")
+                    && icon.getLocation()
+                        .getNodeID()
+                        .equals(serviceRequest.getLocation().getNodeID())) {
+                  icon.getLocation().getRequests().add(serviceRequest);
+                  ((LocationIcon) icon).addToRequests(serviceRequest);
+                } else {
+                  // System.out.println("Node ID");
+                }
+              }
+            } else {
+              // System.out.println("Null location");
             }
           }
         }

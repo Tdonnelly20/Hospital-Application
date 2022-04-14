@@ -290,17 +290,18 @@ public class MapController extends Controller {
       for (Icon icon : currFloor.getIconList()) {
         if (filter.size() > 0 && !currFloor.getFloorName().equals("SV")) {
           // System.out.println(icon.iconType);
-          if (filter.contains("Service Requests") && icon.iconType.equals("Request")) {
-            RequestIcon requestIcon = (RequestIcon) icon;
-            if (filter.contains("Active Requests")) {
-              if (requestIcon.hasActiveRequests()) {
-                filterByActiveRequestType(requestIcon);
+          if (filter.contains("Service Requests") && icon.iconType.equals("Location")) {
+            assert icon instanceof LocationIcon;
+            if (((LocationIcon) icon).getRequestsArr().size() > 0) {
+              if (filter.contains("Active Requests") && ((LocationIcon) icon).hasActiveRequests()) {
+                filterByActiveRequestType((LocationIcon) icon);
+              } else {
+                filterByRequestType((LocationIcon) icon);
               }
-            } else {
-              filterByRequestType(requestIcon);
             }
           }
           if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
+            assert icon instanceof EquipmentIcon;
             EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
             if (filter.contains("Clean Equipment")) {
               if (equipmentIcon.hasCleanEquipment()) {
@@ -360,7 +361,7 @@ public class MapController extends Controller {
     sideViewArea.setVisible(true);
   }
 
-  public void filterByActiveRequestType(RequestIcon icon) {
+  public void filterByActiveRequestType(LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (!filter.contains("Lab Requests")
         && !filter.contains("Equipment Delivery Requests")
@@ -388,7 +389,7 @@ public class MapController extends Controller {
     }
   }
 
-  public void filterByRequestType(RequestIcon icon) {
+  public void filterByRequestType(LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (!filter.contains("Lab Requests")
         && !filter.contains("Equipment Delivery Requests")
@@ -398,7 +399,9 @@ public class MapController extends Controller {
         && !filter.contains("Religious Requests")
         && !filter.contains("Sanitation Requests")
         && !filter.contains("Internal Patient Transport Requests")) {
-      mapPane.getChildren().add(icon.getImage());
+      if (!mapPane.getChildren().contains(icon.getImage())) {
+        mapPane.getChildren().add(icon.getImage());
+      }
     } else if ((filter.contains("Lab Requests") && icon.hasRequestType("Lab Request"))
         || (filter.contains("Equipment Delivery Requests")
             && icon.hasRequestType("Equipment Delivery Request"))
@@ -411,7 +414,9 @@ public class MapController extends Controller {
         || (filter.contains("Sanitation Requests") && icon.hasRequestType("Sanitation Request"))
         || (filter.contains("Internal Patient Transport Requests")
             && icon.hasRequestType("Internal Patient Transport Request"))) {
-      mapPane.getChildren().add(icon.getImage());
+      if (!mapPane.getChildren().contains(icon.getImage())) {
+        mapPane.getChildren().add(icon.getImage());
+      }
     }
   }
 
@@ -424,23 +429,21 @@ public class MapController extends Controller {
         && !filter.contains("Stairway")
         && !filter.contains("Bathroom")
         && !filter.contains("Labs")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Department") && icon.getLocation().getNodeType().equals("DEPT")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Hallway") && icon.getLocation().getNodeType().equals("HALL")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Service") && icon.getLocation().getNodeType().equals("SERV")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Elevator") && icon.getLocation().getNodeType().equals("ELEV")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Stairway") && icon.getLocation().getNodeType().equals("STAI")) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Bathroom")
-        && (icon.getLocation().getNodeType().equals("BATH")
-            || icon.getLocation().getNodeType().equals("REST"))) {
-      mapPane.getChildren().add(icon.getImage());
-    } else if (filter.contains("Labs") && icon.getLocation().getNodeType().equals("LABS")) {
-      mapPane.getChildren().add(icon.getImage());
+      if (!mapPane.getChildren().contains(icon.getImage())) {
+        mapPane.getChildren().add(icon.getImage());
+      }
+    } else if ((filter.contains("Department") && icon.getLocation().getNodeType().equals("DEPT"))
+        && (filter.contains("Hallway") && icon.getLocation().getNodeType().equals("HALL"))
+        && (filter.contains("Service") && icon.getLocation().getNodeType().equals("SERV"))
+        && (filter.contains("Elevator") && icon.getLocation().getNodeType().equals("ELEV"))
+        && (filter.contains("Stairway") && icon.getLocation().getNodeType().equals("STAI"))
+        && (filter.contains("Bathroom")
+            && (icon.getLocation().getNodeType().equals("BATH")
+                || icon.getLocation().getNodeType().equals("REST")))
+        && (filter.contains("Labs") && icon.getLocation().getNodeType().equals("LABS"))) {
+      if (!mapPane.getChildren().contains(icon.getImage())) {
+        mapPane.getChildren().add(icon.getImage());
+      }
     }
   }
 

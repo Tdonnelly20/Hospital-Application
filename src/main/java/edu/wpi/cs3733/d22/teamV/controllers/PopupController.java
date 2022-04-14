@@ -165,10 +165,7 @@ public class PopupController {
   public void formSetup(MouseEvent event) {
     // MapManager.getManager().isTempIconVisible(true);
 
-    clearResponse.setOnAction(
-        event1 -> {
-          clearPopupForm();
-        });
+    clearResponse.setOnAction(event1 -> clearPopupForm());
     closeButton.setOnAction(
         event1 -> {
           closePopUp();
@@ -224,10 +221,7 @@ public class PopupController {
       buttonBox
           .getChildren()
           .addAll(returnButton, addButton, modifyButton, removeButton, closeButton);
-      addButton.setOnAction(
-          event1 -> {
-            locationAdditionForm(event);
-          });
+      addButton.setOnAction(event1 -> locationAdditionForm(event));
       addButton.setText("Add a Location");
     } else {
       title.setText(icon.getLocation().getShortName());
@@ -562,13 +556,14 @@ public class PopupController {
 
   @FXML
   public void fitServiceRequest(MouseEvent event, String serviceRequest, LocationIcon icon) {
-    buttonBox.getChildren().clear();
-    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
-    submitIcon.setText("Add Request");
     content.getChildren().clear();
+    buttonBox.getChildren().clear();
+    submitIcon.setText("Add Request");
     field1.setPromptText("Employee ID");
     comboBox3 =
         new JFXComboBox<>(FXCollections.observableArrayList("Not Started", "Processing", "Done"));
+    comboBox3.setPromptText("Not Started");
+    buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     content.getChildren().addAll(comboBox1, field1);
 
     switch (serviceRequest) {
@@ -748,9 +743,9 @@ public class PopupController {
               event.getY(),
               MapController.getController().getFloor(),
               "Tower",
-              "Lab Request",
-              "LabRequest" + field2.getText() + field1.getText() + comboBox2.getValue(),
-              "LabRequest" + field2.getText());
+              request.getType(),
+              request.getType() + field2.getText() + field1.getText() + comboBox2.getValue(),
+              request.getType() + field2.getText());
       MapManager.getManager()
           .getFloor(MapController.getController().getFloor())
           .getIconList()
