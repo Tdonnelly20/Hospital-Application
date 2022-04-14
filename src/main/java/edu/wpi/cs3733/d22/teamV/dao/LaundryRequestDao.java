@@ -19,7 +19,7 @@ public class LaundryRequestDao extends DaoInterface {
   public LaundryRequestDao() throws SQLException, IOException {
     allLaundryRequests = new ArrayList<LaundryRequest>();
     createSQLTable();
-    saveToCSV();
+    loadFromCSV();
   }
 
   public LaundryRequestDao(ArrayList<LaundryRequest> allLaundryRequests) {
@@ -65,7 +65,7 @@ public class LaundryRequestDao extends DaoInterface {
         String.valueOf(laundryRequest.getStatus()),
         String.valueOf(laundryRequest.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
