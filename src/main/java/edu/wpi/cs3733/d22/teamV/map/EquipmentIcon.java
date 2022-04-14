@@ -17,6 +17,7 @@ public class EquipmentIcon extends Icon {
 
   public EquipmentIcon(Location location) {
     super(location);
+    setImage();
     this.iconType = "Equipment";
     image.setFitWidth(30);
     image.setFitHeight(30);
