@@ -35,7 +35,7 @@
             <children>
                 <SplitPane dividerPositions="0.29797979797979796" layoutX="591.0" layoutY="261.0" prefHeight="872.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                        <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="300.0">
+                        <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #5c677d;">
                             <children>
                                 <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                     <padding>
@@ -61,17 +61,17 @@
                                             </items>
                                         </JFXComboBox>
                                         <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
-                              <HBox prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                              <Button fx:id="resetFields" minWidth="50.0" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
-                                              <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                                              <Button fx:id="sendRequest" disable="true" minWidth="110.0" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
-                                                  <font>
-                                                      <Font size="14.0" />
-                                                  </font>
-                                              </Button>
-                                 </children>
-                              </HBox>
+                                        <HBox prefHeight="100.0" prefWidth="200.0">
+                                            <children>
+                                                <Button fx:id="resetFields" minWidth="50.0" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
+                                                <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                                                <Button fx:id="sendRequest" disable="true" minWidth="110.0" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </HBox>
                                     </children>
                                 </VBox>
                             </children></AnchorPane>
@@ -88,7 +88,7 @@
                                                 </AnchorPane>
                                             </content>
                                         </Tab>
-                                        <Tab text="Table View">
+                                        <Tab fx:id="updateTreeTable" onSelectionChanged="#updateTreeTable" text="Table View">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                     <children>

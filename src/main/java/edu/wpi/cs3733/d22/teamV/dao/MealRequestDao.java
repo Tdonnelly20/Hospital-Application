@@ -7,27 +7,32 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
-import java.io.IOException;
 import java.sql.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MealRequestDao extends DaoInterface {
-  private static ArrayList<MealRequest> allMealRequests;
+  // A local list of all medicine deliveries, updated via Vdb
+  private static ArrayList<MealRequest> allMealDeliveries;
+  /** Initialize the arraylist */
+  public MealRequestDao() {
+    allMealDeliveries = new ArrayList<MealRequest>();
 
-  /** Initialize the array list */
-  public MealRequestDao() throws SQLException, IOException {
-    allMealRequests = new ArrayList<MealRequest>();
-    createSQLTable();
-    loadFromCSV();
-    // TODO: Add info from the database to the local arraylist
+    try {
+      loadFromCSV();
+      createSQLTable();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void loadFromCSV() throws IOException, SQLException {
-    FileReader fr = new FileReader(VApp.currentPath + "\\MealRequest.csv");
+  public void loadFromCSV() throws IOException {
+
+    FileReader fr = new FileReader(VApp.currentPath + "/MealRequest.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
-    ArrayList<MealRequest> mealRequests = new ArrayList<>();
+    ArrayList<MealRequest> mealDeliveries = new ArrayList<>();
 
     String headerLine = br.readLine();
     String line;
@@ -37,29 +42,40 @@ public class MealRequestDao extends DaoInterface {
       String[] data = line.split(splitToken);
       MealRequest newDelivery =
           new MealRequest(
-              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
-      newDelivery.setServiceID(Integer.parseInt(data[5]));
-      mealRequests.add(newDelivery);
+              data[0],
+              Integer.parseInt(data[1]),
+              Integer.parseInt(data[2]),
+              data[3],
+              data[4],
+              data[5],
+              data[6]);
+
+      newDelivery.setServiceID(Integer.parseInt(data[7]));
+      mealDeliveries.add(newDelivery);
     }
 
-    setAllServiceRequests(mealRequests);
+    setAllServiceRequests(mealDeliveries);
   }
 
+  @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\MealRequest.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/MealRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("employeeID,patientID,meal,locationID,serviceID");
+    bw.append("nodeID,patientID,employeeID,mealName,allergy,status,requestDetails,serviceID");
 
     for (ServiceRequest request : getAllServiceRequests()) {
 
-      MealRequest mealRequest = (MealRequest) request;
+      MealRequest mealDelivery = (MealRequest) request;
 
       String[] outputData = {
-        String.valueOf(mealRequest.getEmployeeID()),
-        String.valueOf(mealRequest.getPatientID()),
-        mealRequest.getMeal(),
-        mealRequest.getNodeID(),
-        String.valueOf(mealRequest.getServiceID())
+        mealDelivery.getLocation().getNodeID(),
+        String.valueOf(mealDelivery.getPatientID()),
+        String.valueOf(mealDelivery.getEmployeeID()),
+        mealDelivery.getMealName(),
+        mealDelivery.getAllergy(),
+        mealDelivery.getStatus(),
+        mealDelivery.getRequestDetails(),
+        String.valueOf(mealDelivery.getServiceID())
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -72,6 +88,7 @@ public class MealRequestDao extends DaoInterface {
     fw.close();
   }
 
+  @Override
   public void createSQLTable() throws SQLException {
     Connection connection = Vdb.Connect();
     assert connection != null;
@@ -82,7 +99,7 @@ public class MealRequestDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE MEALS(employeeID int, patientID int, meal char(50), locationID char(50), serviceID int)";
+          "CREATE TABLE MEALS(nodeID char(50), patientID int, employeeID int, mealName char(50), allergy char(50), status char(50), requestDetails char(254), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -92,32 +109,38 @@ public class MealRequestDao extends DaoInterface {
       return;
     }
 
-    for (MealRequest mealRequest : allMealRequests) {
-      addToSQLTable(mealRequest);
+    for (MealRequest mealDelivery : allMealDeliveries) {
+      addToSQLTable(mealDelivery);
     }
   }
 
+  @Override
   public void addToSQLTable(ServiceRequest request) throws SQLException {
-    MealRequest mealRequest = (MealRequest) request;
+    MealRequest mealDelivery = (MealRequest) request;
 
     String query = "";
     Connection connection = Vdb.Connect();
     assert connection != null;
     Statement statement = connection.createStatement();
-
     query =
         "INSERT INTO MEALS("
-            + "employeeID,patientID,meal,locationID,serviceID) VALUES "
-            + "("
-            + mealRequest.getEmployeeID()
-            + ","
-            + mealRequest.getPatientID()
+            + "nodeID,patientID,employeeID,mealName,allergy,status,requestDetails,serviceID) VALUES "
+            + "('"
+            + mealDelivery.getLocation().getNodeID()
+            + "', "
+            + mealDelivery.getPatientID()
+            + ", "
+            + mealDelivery.getEmployeeID()
+            + ", '"
+            + mealDelivery.getMealName()
             + "','"
-            + mealRequest.getMeal()
+            + mealDelivery.getAllergy()
             + "','"
-            + mealRequest.getLocation().getNodeID()
+            + mealDelivery.getStatus()
+            + "','"
+            + mealDelivery.getRequestDetails()
             + "',"
-            + mealRequest.getServiceID()
+            + mealDelivery.getServiceID()
             + ")";
 
     statement.execute(query);
@@ -126,15 +149,16 @@ public class MealRequestDao extends DaoInterface {
   @Override
   public void updateServiceRequest(ServiceRequest request, int serviceID)
       throws SQLException, IOException {
-    MealRequest mealRequest = (MealRequest) request;
-    mealRequest.setServiceID(serviceID);
-    removeServiceRequest(mealRequest);
-    allMealRequests.add(mealRequest);
-    addToSQLTable(mealRequest);
+    MealRequest delivery = (MealRequest) request;
+    delivery.setServiceID(serviceID);
+    removeServiceRequest(delivery);
+    allMealDeliveries.add(delivery);
+    addToSQLTable(delivery);
     saveToCSV();
   }
 
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
+  @Override
+  public void removeFromSQLTable(ServiceRequest request) throws SQLException {
     String query = "";
     Connection connection = Vdb.Connect();
     assert connection != null;
@@ -144,37 +168,41 @@ public class MealRequestDao extends DaoInterface {
     statement.execute(query);
   }
 
+  @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = RequestSystem.getServiceID();
-    MealRequest mealRequest = (MealRequest) request;
-    mealRequest.setServiceID(serviceID);
-    allMealRequests.add(mealRequest); // Store a local copy
+    MealRequest mealDelivery = (MealRequest) request;
+    mealDelivery.setServiceID(serviceID);
+    allMealDeliveries.add(mealDelivery); // Store a local copy
 
     addToSQLTable(request);
     saveToCSV();
   }
 
+  @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    MealRequest mealRequest = (MealRequest) request;
-    allMealRequests.removeIf(value -> value.getServiceID() == mealRequest.getServiceID());
+    MealRequest mealDelivery = (MealRequest) request;
+    allMealDeliveries.removeIf(value -> value.getServiceID() == mealDelivery.getServiceID());
     removeFromSQLTable(request);
     saveToCSV();
   }
 
+  @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
-    return allMealRequests;
+
+    return allMealDeliveries;
   }
 
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {
-    // Set all medicine deliveries
-    allMealRequests = new ArrayList<>();
+  @Override
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
+    // Set all meal deliveries
+    allMealDeliveries = new ArrayList<>();
 
     // Convert to subtype
     for (ServiceRequest request : serviceRequests) {
       // Cast to subtype
       MealRequest delivery = (MealRequest) request;
-      allMealRequests.add(delivery);
+      allMealDeliveries.add(delivery);
     }
   }
 }

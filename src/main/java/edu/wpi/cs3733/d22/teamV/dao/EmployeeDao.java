@@ -27,7 +27,7 @@ public class EmployeeDao {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    String file = VApp.currentPath + "\\Employees.csv";
+    String file = VApp.currentPath + "/Employees.csv";
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -64,7 +64,7 @@ public class EmployeeDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\Employees.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/Employees.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "employeeID,employeeFirstName,employeeLastName,employeePosition,employeeSpecialties,patientIDs,serviceRequestIDs");
@@ -95,7 +95,7 @@ public class EmployeeDao {
         patientIDs,
         serviceIDs
       };
-      bw.append("\n");
+      bw.append("/n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

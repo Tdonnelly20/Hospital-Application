@@ -29,7 +29,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException {
 
-    FileReader fr = new FileReader(VApp.currentPath + "\\MedicineDelivery.csv");
+    FileReader fr = new FileReader(VApp.currentPath + "/MedicineDelivery.csv");
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
     ArrayList<MedicineDelivery> medicineDeliveries = new ArrayList<>();
@@ -59,7 +59,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\MedicineDelivery.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/MedicineDelivery.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID");
 
@@ -77,7 +77,7 @@ public class MedicineDeliveryDao extends DaoInterface {
         medicineDelivery.getRequestDetails(),
         String.valueOf(medicineDelivery.getServiceID())
       };
-      bw.append("\n");
+      bw.append("/n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
