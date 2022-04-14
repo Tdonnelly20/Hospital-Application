@@ -50,7 +50,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
   @Override
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "\\PatientTransportations.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "/PatientTransportations.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -70,7 +70,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\PatientTransportations.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/PatientTransportations.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("location,patientID,hospitalID,requestDetails,serviceID");
 

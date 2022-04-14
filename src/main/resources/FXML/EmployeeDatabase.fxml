@@ -77,17 +77,17 @@
          <content>
             <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefWidth="323.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                <children>
-                  <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee First Name">
+                  <TextField fx:id="employeeFirstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee First Name">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee Last Name">
+                  <TextField fx:id="employeeLastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee Last Name">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="position" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee Position">
+                  <TextField fx:id="employeePosition" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee Position">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
@@ -138,7 +138,7 @@
                                  </columns>
                               </TreeTableView>
                               <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
-                              <Button fx:id="updateButton" layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Update" />
+                              <Button fx:id="updateButton" layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
                            </children>
                         </AnchorPane>
                      </content>

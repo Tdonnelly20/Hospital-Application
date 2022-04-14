@@ -16,6 +16,7 @@ public class EmployeeController extends MapController {
 
   private static final EmployeeDao employeeDao = (EmployeeDao) Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
+  private int updateID;
 
   private static class SingletonHelper {
     private static final EmployeeController controller = new EmployeeController();
@@ -130,7 +131,7 @@ public class EmployeeController extends MapController {
       // Send the request to the Dao pattern
       try {
         if (updating) {
-          employeeDao.updateEmployee(employee, Vdb.requestSystem.getEmployeeID());
+          employeeDao.updateEmployee(employee, updateID);
           updating = false;
         } else {
           employeeDao.addEmployee(employee);
@@ -151,7 +152,6 @@ public class EmployeeController extends MapController {
     employeeFirstName.setText("");
     employeeLastName.setText("");
     employeePosition.setText("");
-    requestDetails.setText("");
     sendRequest.setDisable(true);
   }
 
@@ -170,10 +170,11 @@ public class EmployeeController extends MapController {
   private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
     updating = true;
     Employee employee = table.getSelectionModel().getSelectedItem().getValue();
-
+    updateID = employee.getEmployeeID();
     employeeFirstName.setText(String.valueOf(employee.getFirstName()));
     employeeLastName.setText(String.valueOf(employee.getLastName()));
     employeePosition.setText(employee.getEmployeePosition());
+
     updateTreeTable();
   }
 

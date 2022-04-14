@@ -44,22 +44,12 @@
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField id="firstName" fx:id="firstName" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Patient First Name">
-                                       <VBox.margin>
-                                          <Insets left="15.0" right="15.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                    <TextField id="lastName" fx:id="lastName" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Patient Last Name">
-                                       <VBox.margin>
-                                          <Insets left="15.0" right="15.0" />
-                                       </VBox.margin>
-                                    </TextField>
                                     <TextField id="lastName" fx:id="roomNumber" layoutX="40.0" layoutY="128.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="258.0" promptText="Room number">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField id="lastName" fx:id="specialRequests" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Special requests (if any)">
+                                    <TextField id="lastName" fx:id="religion" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Religion">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>

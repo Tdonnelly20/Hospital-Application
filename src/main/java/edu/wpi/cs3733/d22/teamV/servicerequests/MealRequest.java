@@ -1,26 +1,72 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 public class MealRequest extends ServiceRequest {
-  private int employeeID;
-  private int patientID;
-  private String meal;
-  private String nodeID;
-
-  public MealRequest(int employeeID, int patientID, String meal, String nodeID, String status) {
-    this.employeeID = employeeID;
-    this.patientID = patientID;
-    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
-    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+  private String mealName, nodeID, allergy, status, requestDetails;
+  /**
+   * @param patientID
+   * @param employeeID
+   * @param mealName
+   * @param allergy
+   * @param requestDetails
+   */
+  public MealRequest(
+      String nodeID,
+      int patientID,
+      int employeeID,
+      String mealName,
+      String allergy,
+      String status,
+      String requestDetails) {
+    this.allergy = allergy;
+    this.requestDetails = requestDetails;
     this.nodeID = nodeID;
+    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.status = status;
-    this.meal = meal;
-    this.type = "Meal Request";
+    patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.mealName = mealName;
+    this.type = "Meal Delivery";
+  }
+
+  public String getPatientFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getPatientLastName() {
+    return patient.getLastName();
+  }
+
+  public int getPatientID() {
+    return patient.getPatientID();
+  }
+
+  public int getEmployeeID() {
+    return hospitalEmployee.getEmployeeID();
+  }
+
+  public String getMealName() {
+    return mealName;
+  }
+
+  public String getAllergy() {
+    return allergy;
+  }
+
+  public String getRequestDetails() {
+    return requestDetails;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public String getNodeID() {
+    return nodeID;
+  }
+
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
   }
 }

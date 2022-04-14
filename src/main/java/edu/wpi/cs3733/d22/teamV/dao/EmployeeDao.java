@@ -16,8 +16,8 @@ public class EmployeeDao {
   public EmployeeDao() {
     allEmployees = new ArrayList<>();
     try {
-      loadFromCSV();
       createSQLTable();
+      loadFromCSV();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (SQLException e) {
@@ -27,7 +27,7 @@ public class EmployeeDao {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    String file = VApp.currentPath + "\\Employees.csv";
+    String file = VApp.currentPath + "/Employees.csv";
     FileReader fr = new FileReader(file);
     BufferedReader br = new BufferedReader(fr);
     String splitToken = ","; // what we split the csv file with
@@ -36,16 +36,34 @@ public class EmployeeDao {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
-
+      ArrayList<Integer> patientIDs;
+      ArrayList<Integer> serviceIDs;
+      ArrayList<String> specialties;
       // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
-      ArrayList<Integer> patientIDs =
-          IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
-      ArrayList<Integer> serviceIDs =
-          IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
+
+      try {
+        specialties = new ArrayList(Arrays.asList(data[4].split(" ")));
+      } catch (Exception e) {
+        specialties = new ArrayList<>();
+      }
+
+      try {
+        patientIDs =
+            IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
+                .boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
+      } catch (Exception e) {
+        patientIDs = new ArrayList<>();
+      }
+
+      try {
+        serviceIDs =
+            IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
+                .boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
+      } catch (Exception e) {
+        serviceIDs = new ArrayList<>();
+      }
 
       Employee newEmployee =
           new Employee(
@@ -53,7 +71,7 @@ public class EmployeeDao {
               data[1],
               data[2],
               data[3],
-              new ArrayList(Arrays.asList(data[4].split(" "))), // FIGHT ME I HATE FOR LOOPS
+              specialties, // FIGHT ME I HATE FOR LOOPS
               patientIDs,
               serviceIDs,
               true);
@@ -64,7 +82,7 @@ public class EmployeeDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\Employees.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/Employees.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append(
         "employeeID,employeeFirstName,employeeLastName,employeePosition,employeeSpecialties,patientIDs,serviceRequestIDs");
@@ -91,9 +109,9 @@ public class EmployeeDao {
         e.getFirstName(),
         e.getLastName(),
         e.getEmployeePosition(),
-        specialties,
-        patientIDs,
-        serviceIDs
+        specialties.trim(),
+        patientIDs.trim(),
+        serviceIDs.trim()
       };
       bw.append("\n");
       for (String s : outputData) {
@@ -112,7 +130,7 @@ public class EmployeeDao {
       }
     }
     System.out.print("Unable to find employee with ID:" + employeeID);
-    return null;
+    return new Employee(-1);
   }
 
   public void addEmployee(Employee employee) throws IOException, SQLException {
@@ -199,10 +217,10 @@ public class EmployeeDao {
   }
 
   public void updateEmployee(Employee employee, int employeeID) throws SQLException, IOException {
-    Employee emp = employee;
-    emp.setEmployeeID(employeeID);
+    Employee emp = getEmployee(employeeID);
     removeEmployee(emp);
-    allEmployees.add(emp);
+    employee.setEmployeeID(employeeID);
+    allEmployees.add(employee);
     addToSQLTable(emp);
     saveToCSV();
   }
