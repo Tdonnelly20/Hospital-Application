@@ -27,7 +27,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "\\MedEquipReq.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "/MedEquipReq.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -53,7 +53,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\MedEquipReq.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/MedEquipReq.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("employeeID,patientID,location,equipment,notes,quantity,status,serviceID");
 
@@ -71,7 +71,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
         equipmentDelivery.getStatus(),
         String.valueOf(equipmentDelivery.getServiceID())
       };
-      bw.append("\n");
+      bw.append("/n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

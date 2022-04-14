@@ -44,7 +44,7 @@ public class EquipmentDao {
 
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "\\ListofEquipment.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "/ListofEquipment.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -68,7 +68,7 @@ public class EquipmentDao {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\ListofEquipment.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/ListofEquipment.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("ID,Name,Floor,X,Y,Description,isDirty");
 
@@ -83,7 +83,7 @@ public class EquipmentDao {
         equipment.getDescription(),
         String.valueOf(equipment.getIsDirty())
       };
-      bw.append("\n");
+      bw.append("/n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

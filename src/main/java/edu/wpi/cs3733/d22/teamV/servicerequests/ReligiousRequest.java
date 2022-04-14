@@ -5,8 +5,8 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 public class ReligiousRequest extends ServiceRequest {
   private int patientID;
   private int employeeID;
-  private boolean Christian, Jewish, Catholic, Muslim, Buddhist, Hindu, Other;
-  private String specialRequests, religion;
+  private int roomNumber;
+  private String religion;
   private int serviceID;
 
   /**
@@ -23,7 +23,6 @@ public class ReligiousRequest extends ServiceRequest {
     this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.employeeID = patientID;
     this.religion = religion;
-    this.specialRequests = specialRequests;
     this.type = "Religious Request";
   }
 
@@ -41,9 +40,5 @@ public class ReligiousRequest extends ServiceRequest {
 
   public String getReligion() {
     return religion;
-  }
-
-  public String getSpecialRequests() {
-    return specialRequests;
   }
 }

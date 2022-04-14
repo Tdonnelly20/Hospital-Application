@@ -55,7 +55,7 @@ public class RequestSystem {
     LabRequest,
     LaundryRequest,
     LocationDao,
-    MealRequestDao,
+    MealRequest,
     MedicineDelivery,
     ReligiousRequest,
     SanitationRequest
@@ -81,7 +81,7 @@ public class RequestSystem {
         return laundryRequestDao;
       case LocationDao:
         return locationDao;
-      case MealRequestDao:
+      case MealRequest:
         return mealRequestDao;
       case MedicineDelivery:
         return medicineDeliveryDao;
@@ -118,7 +118,7 @@ public class RequestSystem {
       case LocationDao:
         locationDao.addServiceRequest(request);
         break;
-      case MealRequestDao:
+      case MealRequest:
         mealRequestDao.addServiceRequest(request);
         break;
       case MedicineDelivery:
@@ -155,7 +155,7 @@ public class RequestSystem {
         laundryRequestDao.removeServiceRequest(request);
       case LocationDao:
         locationDao.removeServiceRequest(request);
-      case MealRequestDao:
+      case MealRequest:
         mealRequestDao.removeServiceRequest(request);
       case MedicineDelivery:
         medicineDeliveryDao.removeServiceRequest(request);
@@ -215,7 +215,7 @@ public class RequestSystem {
         return laundryRequestDao.getAllServiceRequests();
       case LocationDao:
         return locationDao.getAllServiceRequests();
-      case MealRequestDao:
+      case MealRequest:
         return mealRequestDao.getAllServiceRequests();
       case MedicineDelivery:
         return medicineDeliveryDao.getAllServiceRequests();
@@ -350,7 +350,7 @@ public class RequestSystem {
         laundryRequestDao.setAllServiceRequests(serviceRequests);
       case LocationDao:
         locationDao.setAllServiceRequests(serviceRequests);
-      case MealRequestDao:
+      case MealRequest:
         mealRequestDao.setAllServiceRequests(serviceRequests);
       case MedicineDelivery:
         medicineDeliveryDao.setAllServiceRequests(serviceRequests);

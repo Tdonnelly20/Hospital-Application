@@ -27,7 +27,7 @@ public class SanitationRequestDao extends DaoInterface {
   @Override
   public void loadFromCSV() throws IOException, SQLException {
     String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "\\SanitationRequest.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "/SanitationRequest.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -46,7 +46,7 @@ public class SanitationRequestDao extends DaoInterface {
 
   @Override
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\SanitationRequest.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/SanitationRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("PatientID,EmpID,Location,Hazard,Details,status,serviceID");
 
@@ -61,7 +61,7 @@ public class SanitationRequestDao extends DaoInterface {
         sanitationRequest.getStatus(),
         Integer.toString(sanitationRequest.getServiceID())
       };
-      bw.append("\n");
+      bw.append("/n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
