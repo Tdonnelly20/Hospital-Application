@@ -122,7 +122,7 @@ public abstract class Controller extends Application {
   // Switches scene to the laundry request page
   @FXML
   protected void switchToLaundryRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLaundryRequest.fxml"));
     switchScene(event);
   }
 

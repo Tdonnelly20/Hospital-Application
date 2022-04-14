@@ -58,9 +58,9 @@ public class LaundryRequestDao extends DaoInterface {
       LaundryRequest laundryRequest = (LaundryRequest) request;
 
       String[] outputData = {
-        String.valueOf(laundryRequest.getEmployeeID()),
-        String.valueOf(laundryRequest.getPatientID()),
-        String.valueOf(laundryRequest.getNodeID()),
+        String.valueOf(laundryRequest.getHospitalEmployee().getEmployeeID()),
+        String.valueOf(laundryRequest.getPatient().getPatientID()),
+        String.valueOf(laundryRequest.getLocation().getNodeID()),
         String.valueOf(laundryRequest.getDetails()),
         String.valueOf(laundryRequest.getStatus()),
         String.valueOf(laundryRequest.getServiceID())
@@ -86,7 +86,7 @@ public class LaundryRequestDao extends DaoInterface {
 
     if (!set.next()) {
       query =
-          "CREATE TABLE LAUNDRY(userID int, patientID int, roomNumber int, details char(100), status char(100), serviceID int)";
+          "CREATE TABLE LAUNDRY(userID int, patientID int, roomNumber char(50), details char(100), status char(100), serviceID int)";
       statement.execute(query);
 
     } else {
@@ -113,12 +113,12 @@ public class LaundryRequestDao extends DaoInterface {
         "INSERT INTO LAUNDRY("
             + "userID,patientID,roomNumber,details,status,serviceID) VALUES "
             + "("
-            + laundryRequest.getEmployeeID()
+            + laundryRequest.getHospitalEmployee().getEmployeeID()
             + ","
-            + laundryRequest.getPatientID()
+            + laundryRequest.getPatient().getPatientID()
             + ", '"
-            + laundryRequest.getNodeID()
-            + ",'"
+            + laundryRequest.getLocation().getNodeID()
+            + "','"
             + laundryRequest.getDetails()
             + "','"
             + laundryRequest.getStatus()
