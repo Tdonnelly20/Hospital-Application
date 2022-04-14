@@ -56,10 +56,6 @@ public class LaundryRequestController extends RequestController {
     filterCheckBox.getCheckModel().check("Laundry Requests");
   }
 
-  // TODO
-  // laundryRequestDAO is not in VDB
-  // fix database connection for add / remove Laundry Request
-
   private static final LaundryRequestDao laundryRequestDao =
       (LaundryRequestDao) Vdb.requestSystem.getDao(Dao.LaundryRequest);
 
@@ -122,12 +118,12 @@ public class LaundryRequestController extends RequestController {
 
   public void updateTreeTable() {
     userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationID"));
+    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
 
     ArrayList<LaundryRequest> currLaundryRequest =
         (ArrayList<LaundryRequest>)

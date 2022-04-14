@@ -27,4 +27,24 @@ public class LaundryRequest extends ServiceRequest {
   public String getDetails() {
     return details;
   }
+
+  public int getEmployeeID() {
+    return hospitalEmployee.getEmployeeID();
+  }
+
+  public int getPatientID() {
+    return patient.getPatientID();
+  }
+
+  public String getFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getLastName() {
+    return patient.getFirstName();
+  }
+
+  public String getLocationID() {
+    return location.getNodeID();
+  }
 }
