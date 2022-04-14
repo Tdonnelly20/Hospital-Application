@@ -40,9 +40,7 @@ public class Employee {
     this.employeeID = employeeID;
   }
 
-  public Employee(){
-
-  }
+  public Employee() {}
 
   public void addPatient(Patient patient) {
     patientIDs.add(patient.getPatientID());
