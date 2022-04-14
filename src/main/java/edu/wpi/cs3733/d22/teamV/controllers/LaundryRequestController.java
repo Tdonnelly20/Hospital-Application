@@ -7,6 +7,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -68,7 +69,7 @@ public class LaundryRequestController extends RequestController {
     statusDropDown.setValue("Status");
     status.setText("Status: Blank");
     sendRequest.setDisable(true);
-    System.out.println("reset form");
+    sendRequest.setText("Send Request");
   }
 
   // Checks to see if the user can submit info
@@ -107,7 +108,12 @@ public class LaundryRequestController extends RequestController {
             details.getText(),
             statusDropDown.getValue().toString());
     try {
-      RequestSystem.getSystem().addServiceRequest(l, Dao.LaundryRequest);
+      if (updating) {
+        Vdb.requestSystem.getDao(Dao.LaundryRequest).updateServiceRequest(l, updateServiceID);
+        updating = false;
+      } else {
+        RequestSystem.getSystem().addServiceRequest(l, Dao.LaundryRequest);
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -143,6 +149,32 @@ public class LaundryRequestController extends RequestController {
       requestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
+  }
+
+  @FXML
+  private void updateSelectedRow() throws NullPointerException {
+    updating = true;
+    LaundryRequest l = requestTable.getSelectionModel().getSelectedItem().getValue();
+
+    userID.setText(String.valueOf(l.getEmployeeID()));
+    patientID.setText(String.valueOf(l.getPatientID()));
+    roomNumber.setText(l.getLocationID());
+    details.setText(l.getDetails());
+    statusDropDown.setValue(l.getStatus());
+    updateServiceID = l.getServiceID();
+    sendRequest.setText("Update");
+    updateTreeTable();
+  }
+
+  @FXML
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+    try {
+      LaundryRequest l = requestTable.getSelectionModel().getSelectedItem().getValue();
+      RequestSystem.getSystem().getDao(Dao.LaundryRequest).removeServiceRequest(l);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+    updateTreeTable();
   }
 
   @Override
