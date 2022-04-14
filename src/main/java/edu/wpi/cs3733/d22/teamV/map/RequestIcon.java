@@ -64,4 +64,7 @@ public class RequestIcon extends Icon {
     }
     return false;
   }
+
+  @Override
+  public void checkBounds() {}
 }

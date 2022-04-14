@@ -58,6 +58,9 @@ public abstract class Icon {
         event -> {
           location.setXCoord(location.getXCoord() + event.getX());
           location.setYCoord(location.getYCoord() + event.getY());
+          checkBounds();
         });
   }
+
+  public abstract void checkBounds();
 }

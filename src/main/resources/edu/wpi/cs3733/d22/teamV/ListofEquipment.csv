@@ -50,12 +50,12 @@ ipump27,Infusion Pump,3,145,450,N/A,1
 ipump28,Infusion Pump,3,145,450,N/A,1
 ipump29,Infusion Pump,3,145,450,N/A,1
 ipump30,Infusion Pump,3,145,450,N/A,1
-recliner1,Patient Recliner,1,100,300,N/A,1
-recliner2,Patient Recliner,1,100,300,N/A,1
-recliner3,Patient Recliner,1,100,300,N/A,1
-recliner4,Patient Recliner,1,100,300,N/A,1
-recliner5,Patient Recliner,1,100,300,N/A,0
-recliner6,Patient Recliner,1,100,300,N/A,0
+recliner1,Patient Recliner,1,417,300,N/A,1
+recliner2,Patient Recliner,1,210,400,N/A,1
+recliner3,Patient Recliner,1,100,100,N/A,1
+recliner4,Patient Recliner,1,150,150,N/A,1
+recliner5,Patient Recliner,1,250,250,N/A,0
+recliner6,Patient Recliner,1,300,300,N/A,0
 bed21,Bed,4,125,235,N/A,0
 bed22,Bed,4,80,217,N/A,0
 bed23,Bed,4,60,175,N/A,0
@@ -82,11 +82,11 @@ ipump42,Infusion Pump,4,145,150,N/A,1
 ipump43,Infusion Pump,4,145,150,N/A,1
 ipump44,Infusion Pump,4,145,150,N/A,1
 ipump45,Infusion Pump,4,145,150,N/A,1
-recliner6,Patient Recliner,1,100,300,N/A,1
-recliner7,Patient Recliner,1,100,300,N/A,1
-recliner8,Patient Recliner,1,100,300,N/A,1
-recliner9,Patient Recliner,1,100,300,N/A,1
-recliner10,Patient Recliner,1,100,300,N/A,1
+recliner6,Patient Recliner,1,129,345,N/A,1
+recliner7,Patient Recliner,1,234,435,N/A,1
+recliner8,Patient Recliner,1,435,234,N/A,1
+recliner9,Patient Recliner,1,187,300,N/A,1
+recliner10,Patient Recliner,1,353,200,N/A,1
 xray4,X-Ray Machine,5,145,545,N/A,0
 ipump46,Infusion Pump,5,145,150,N/A,0
 ipump47,Infusion Pump,5,145,150,N/A,0

@@ -46,4 +46,14 @@ public class Floor {
     }
     return null;
   }
+
+  public ArrayList<EquipmentIcon> getEquipmentIcons() {
+    ArrayList<EquipmentIcon> equipmentIcons = new ArrayList<>();
+    for (Icon icon : iconList) {
+      if (icon.iconType.equals("Equipment")) {
+        equipmentIcons.add((EquipmentIcon) icon);
+      }
+    }
+    return equipmentIcons;
+  }
 }
