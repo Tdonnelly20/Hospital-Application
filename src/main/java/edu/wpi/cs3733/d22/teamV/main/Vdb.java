@@ -63,7 +63,7 @@ public class Vdb {
     String URL;
     try {
       if (!isClient) {
-        URL = "jdbc:derby:VDB;";
+        URL = "jdbc:derby:VDB";
 
       } else {
         URL = "jdbc:derby://" + ip + "/" + serverPath;
