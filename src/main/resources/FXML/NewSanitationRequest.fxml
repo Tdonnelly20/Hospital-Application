@@ -63,7 +63,7 @@
                                         <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
                                         <HBox prefHeight="100.0" prefWidth="200.0">
                                             <children>
-                                                <Button fx:id="resetFields" minWidth="50.0" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
+                                                <Button fx:id="resetForm" minWidth="50.0" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
                                                 <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
                                                 <Button fx:id="sendRequest" disable="true" minWidth="110.0" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
                                                     <font>
@@ -92,7 +92,7 @@
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                     <children>
-                                                        <TreeTableView fx:id="sanitationRequestTable" prefHeight="553.0" prefWidth="538.0">
+                                                        <TreeTableView fx:id="sanitationRequestTable" layoutX="11.0" layoutY="56.0" prefHeight="650.0" prefWidth="538.0">
                                                             <columns>
                                                                 <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
                                                                 <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
@@ -103,6 +103,8 @@
                                                                 <TreeTableColumn fx:id="requestDetailsCol" prefWidth="64.80001831054688" text="Other Info" />
                                                             </columns>
                                                         </TreeTableView>
+                                                        <Button fx:id="removeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
+                                                        <Button fx:id="updateButton" layoutX="171.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" />
                                                     </children></AnchorPane>
                                             </content>
                                         </Tab>

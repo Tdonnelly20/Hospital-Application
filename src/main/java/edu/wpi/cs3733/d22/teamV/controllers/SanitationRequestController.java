@@ -32,6 +32,8 @@ public class SanitationRequestController extends RequestController {
   @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
   @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
   @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
+  private boolean updating = false;
+  private int updateServiceID;
 
   private static final SanitationRequestDao SanitationRequestDao =
       (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
@@ -53,15 +55,16 @@ public class SanitationRequestController extends RequestController {
     filterCheckBox.getCheckModel().check("Sanitation Requests");
     setTitleText("Sanitation Request Service");
     fillTopPane();
+    updating = false;
   }
-
+  // if the fields get erased, can still send request
   @FXML
   private void checkValidation() {
     if (!(patientID.getText().equals("")
         || hospitalID.getText().equals("")
         || roomLocation.getText().equals("")
         || requestDetails.getText().equals("")
-        || sanitationDropDown.getValue().equals(""))) {
+        || sanitationDropDown.getValue() == null)) {
       sendRequest.setDisable(false);
     }
   }
@@ -75,7 +78,7 @@ public class SanitationRequestController extends RequestController {
         || hospitalID.getText().equals("")
         || roomLocation.getText().equals("")
         || requestDetails.getText().equals("")
-        || sanitationDropDown.getValue().equals("")) {
+        || sanitationDropDown.getValue() == null) {
 
       // Set the text and color of the status label
       statusLabel.setText("All fields must be entered!");
@@ -93,29 +96,8 @@ public class SanitationRequestController extends RequestController {
       statusLabel.setText("Status: Processed Successfully");
       statusLabel.setTextFill(Color.web("Green"));
 
-      // For testing purposes
-      System.out.println(
-          "\nPatient ID: "
-              + patientID.getText()
-              + "\nLocation: "
-              + roomLocation.getText()
-              + "\nHazard: "
-              + sanitationDropDown.getValue()
-              + "\n\nRequest Details: "
-              + requestDetails.getText());
-
-      resetFields(); // Set all fields to blank for another entry
+      resetForm(); // Set all fields to blank for another entry
     }
-  }
-
-  /** Sets all the fields to their default value for another entry */
-  @FXML
-  private void resetFields() {
-    patientID.setText("");
-    hospitalID.setText("");
-    roomLocation.setText("");
-    sanitationDropDown.setValue(null);
-    requestDetails.setText("");
   }
 
   @Override
@@ -137,18 +119,26 @@ public class SanitationRequestController extends RequestController {
   }
 
   @FXML
-  private void sendRequest() throws SQLException, IOException {
-    SanitationRequest delivery =
+  void sendRequest()
+      throws SQLException, IOException { // must check to see if its updating or new req
+    System.out.println("WE GOT HERE");
+    SanitationRequest request =
         new SanitationRequest(
             Integer.parseInt(hospitalID.getText()),
             Integer.parseInt(patientID.getText()),
             roomLocation.getText(),
             sanitationDropDown.getValue().toString(),
             requestDetails.getText());
-    SanitationRequestDao.addServiceRequest(delivery);
+    System.out.println("HEYO");
+    if (updating) {
+      SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
+    } else {
+      SanitationRequestDao.addServiceRequest(request);
+    }
+    updating = false;
     // System.out.println(hospitalID + patientID + roomLocation,sanitationDropDown,requestDetails);
     updateTreeTable();
-    resetFields(); // Set all fields to blank for another entry
+    resetForm(); // Set all fields to blank for another entry
   }
 
   @FXML
@@ -181,8 +171,42 @@ public class SanitationRequestController extends RequestController {
     }
   }
 
+  /** Sets all the fields to their default value for another entry */
   @FXML
   void resetForm() {
-    return;
+    patientID.setText("");
+    hospitalID.setText("");
+    roomLocation.setText("");
+    sanitationDropDown.setValue(null);
+    requestDetails.setText("");
+  }
+  // same error as remove, pressing sendrequest causes issue
+  @FXML
+  private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
+    updating = true;
+    if (sanitationRequestTable.getSelectionModel().getSelectedItem() != null) {
+      SanitationRequest request =
+          sanitationRequestTable.getSelectionModel().getSelectedItem().getValue();
+
+      hospitalID.setText(String.valueOf(request.getHospitalID()));
+      patientID.setText(String.valueOf(request.getPatientID()));
+      roomLocation.setText(request.getRoomLocation());
+      sanitationDropDown.setValue(request.getHazardName());
+      requestDetails.setText(request.getRequestDetails());
+      updateServiceID = request.getServiceID();
+      updateTreeTable();
+    }
+  }
+  // has error
+  @FXML
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+    try {
+      SanitationRequest delivery =
+          sanitationRequestTable.getSelectionModel().getSelectedItem().getValue();
+      SanitationRequestDao.removeServiceRequest(delivery);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+    updateTreeTable();
   }
 }

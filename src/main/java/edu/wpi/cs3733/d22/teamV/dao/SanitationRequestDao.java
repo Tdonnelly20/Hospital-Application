@@ -107,10 +107,12 @@ public class SanitationRequestDao extends DaoInterface {
     statement.setString(6, newSanitationRequest.getStatus());
     statement.setInt(7, newSanitationRequest.getServiceID());
     statement.executeUpdate();
+    statement.close();
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request, int serviceID) throws SQLException {
+  public void updateServiceRequest(ServiceRequest request, int serviceID)
+      throws SQLException, IOException {
     SanitationRequest newRequest = (SanitationRequest) request;
     request.setServiceID(serviceID);
     int index = -1;
@@ -120,8 +122,12 @@ public class SanitationRequestDao extends DaoInterface {
         break;
       }
     }
-    allSanitationRequests.set(index, newRequest);
-    updateSQLTable(request);
+    if (index > -1) {
+      System.out.println("UPDATING");
+      allSanitationRequests.set(index, newRequest);
+      saveToCSV();
+      updateSQLTable(request);
+    }
   }
   // fname char(15),lname char(15), pID int, empID int, roomLocation char(40), hazard char(30),
   // details char(150),serviceID int)");
@@ -130,10 +136,8 @@ public class SanitationRequestDao extends DaoInterface {
     SanitationRequest newRequest = (SanitationRequest) request;
     Connection connection = Vdb.Connect();
     String query =
-        "UPDATE SANITATIONREQUESTS"
-            + "SET pID=?,empID=?,roomLocation=?,hazard=?,details=?, status=?"
-            + "WHERE serviceID=?";
-    PreparedStatement statement = connection.prepareStatement(query);
+        "UPDATE SANITATIONREQUESTS SET pID=?, empID=?,roomLocation=?,hazard=?,details=?, status=? WHERE serviceID=?";
+    PreparedStatement statement = connection.prepareStatement(query); // error here?
     statement.setInt(1, newRequest.getPatientID());
     statement.setInt(2, newRequest.getHospitalID());
     statement.setString(3, newRequest.getRoomLocation());
@@ -142,23 +146,25 @@ public class SanitationRequestDao extends DaoInterface {
     statement.setString(6, newRequest.getStatus());
     statement.setInt(7, newRequest.getServiceID());
     statement.executeUpdate();
+    statement.close();
   }
 
   @Override
   public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
     Connection connection = Vdb.Connect();
-    String query = "DELETE FROM SANITATIONREQUESTS" + "WHERE serviceID=?";
+    String query = "DELETE FROM SANITATIONREQUESTS" + " WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setInt(1, serviceID);
     statement.executeUpdate();
+    statement.close();
   }
 
   @Override
   public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
     SanitationRequest newRequest = (SanitationRequest) request;
     request.setServiceID(RequestSystem.getServiceID());
-    newRequest.setServiceID(RequestSystem.getServiceID()); //
+    newRequest.setServiceID(RequestSystem.getServiceID());
     allSanitationRequests.add(newRequest);
     addToSQLTable(request);
     saveToCSV();
@@ -167,10 +173,15 @@ public class SanitationRequestDao extends DaoInterface {
   @Override
   public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
     int serviceID = request.getServiceID();
+    System.out.println("HERE");
     Predicate<SanitationRequest> condition =
         SanitationRequest -> SanitationRequest.getServiceID() == serviceID;
-    allSanitationRequests.removeIf(condition);
+    boolean result = allSanitationRequests.removeIf(condition);
+    System.out.println(allSanitationRequests.size() + " is that large1");
+
+    System.out.println(result);
     removeFromSQLTable(request);
+    saveToCSV();
   }
 
   @Override
