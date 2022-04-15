@@ -4,6 +4,10 @@
     -fx-font-family:"Ebrima";
     -fx-background-color: #5C7B9F;
     -fx-min-width:50;
+    -fx-min-height:40;
+    -fx-pref-width:90;
+    -fx-pref-height:50;
+
     -fx-background-radius: 20;
     -fx-border-style: outset;
 }
