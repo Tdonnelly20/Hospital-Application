@@ -19,14 +19,14 @@
    <children>
       <VBox prefHeight="800.0" prefWidth="1200.0">
          <children>
-            <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="138.0" prefWidth="596.0" style="-fx-background-color: #012D5Aff;">
+            <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="138.0" prefWidth="1200.0" style="-fx-background-color: #012D5Aff;">
                <children>
                   <ImageView fitHeight="88.0" fitWidth="122.0" layoutX="29.0" layoutY="22.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="131.0" layoutY="27.0" prefHeight="36.0" prefWidth="349.0" stylesheets="@../CSS/DashboardCSS.css" text="Map Dashboard" textFill="WHITE">
+                  <Label layoutX="131.0" layoutY="27.0" prefHeight="74.0" prefWidth="602.0" stylesheets="@../CSS/DashboardCSS.css" text="Map Dashboard" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="51.0" />
                      </font>
@@ -35,13 +35,13 @@
             </Pane>
             <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1200.0">
                <children>
-                  <VBox fx:id="leftVBox" prefHeight="716.0" prefWidth="404.0" spacing="10.0" style="-fx-background-color: white;">
+                  <VBox fx:id="leftVBox" prefHeight="327.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: white;">
                      <children>
                         <TitledPane animated="false" text="Side View Map">
                            <content>
                               <Pane fx:id="sideViewPane" prefHeight="790.0" prefWidth="400.0">
                                  <children>
-                                    <ImageView fx:id="sideViewImage" fitHeight="591.0" fitWidth="390.0" layoutX="8.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="sideViewImage" fitHeight="405.0" fitWidth="301.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../SideView.PNG" />
                                        </image>
@@ -49,18 +49,24 @@
                                  </children>
                               </Pane>
                            </content>
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
                         </TitledPane>
                      </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
                   </VBox>
-                  <VBox fx:id="centerVBox" prefHeight="716.0" prefWidth="434.0" spacing="10.0" style="-fx-background-color: white; -fx-padding: 20;">
+                  <VBox fx:id="centerVBox" prefHeight="552.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: white; -fx-padding: 20;">
                      <children>
-                        <TitledPane animated="false" prefHeight="304.0" prefWidth="392.0" style="-fx-background-color: #000000;" text="Detailed Information">
+                        <TitledPane animated="false" prefHeight="434.0" prefWidth="313.0" style="-fx-background-color: #000000;" text="Detailed Information">
                            <content>
                               <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                                 <tabs>
                                   <Tab text="Equipment">
                                        <content>
-                                          <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                                          <TreeTableView prefHeight="230.0" prefWidth="298.0">
                                             <columns>
                                               <TreeTableColumn prefWidth="75.0" text="C1" />
                                               <TreeTableColumn prefWidth="75.0" text="C2" />
@@ -91,8 +97,11 @@
                                 </tabs>
                               </TabPane>
                            </content>
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
                         </TitledPane>
-                        <TitledPane animated="false" prefHeight="293.0" prefWidth="412.0" text="Counts">
+                        <TitledPane animated="false" prefHeight="262.0" prefWidth="283.0" text="Counts">
                            <content>
                               <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                 <columns>
@@ -101,21 +110,30 @@
                                 </columns>
                               </TreeTableView>
                            </content>
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                           </VBox.margin>
                         </TitledPane>
                      </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </VBox>
-                  <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" style="-fx-background-color: white;">
+                  <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: white;">
                      <children>
-                        <TitledPane animated="false" prefHeight="368.0" prefWidth="368.0" text="Interactive Map">
+                        <TitledPane animated="false" prefHeight="492.0" prefWidth="330.0" text="Interactive Map">
                            <content>
-                              <ImageView fitHeight="365.0" fitWidth="365.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="225.0" fitWidth="248.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../1st%20Floor.png" />
                                  </image>
                               </ImageView>
                            </content>
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" top="40.0" />
+                           </VBox.margin>
                         </TitledPane>
-                        <TitledPane animated="false" prefHeight="314.0" prefWidth="368.0" style="-fx-padding: 10;" text="Alerts">
+                        <TitledPane animated="false" prefHeight="314.0" prefWidth="256.0" style="-fx-padding: 10;" text="Alerts">
                            <content>
                               <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                 <columns>
@@ -124,6 +142,9 @@
                                 </columns>
                               </TreeTableView>
                            </content>
+                           <VBox.margin>
+                              <Insets bottom="40.0" left="20.0" right="20.0" top="10.0" />
+                           </VBox.margin>
                         </TitledPane>
                      </children>
                   </VBox>

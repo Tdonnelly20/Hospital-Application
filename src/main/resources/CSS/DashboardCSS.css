@@ -20,6 +20,14 @@
     -fx-background-color: #5C7B9F;
 }
 
+.titled-pane{
+    -fx-font-family:"Ebrima";
+    -fx-font-style: italic;
+
+    -fx-border-style: round;
+    -fx-border-color: black;
+}
+
 
 
 
