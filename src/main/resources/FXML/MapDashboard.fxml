@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
@@ -46,11 +47,12 @@
                         <Image url="@../HomeButton.png" />
                      </image>
                   </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="53.0" layoutX="-1.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" width="1202.0" />
                </children>
             </Pane>
-            <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1200.0">
+            <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1200.0" style="-fx-background-color: #5f6c83;">
                <children>
-                  <VBox fx:id="leftVBox" prefHeight="327.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: white;">
+                  <VBox fx:id="leftVBox" prefHeight="327.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
                      <children>
                         <TitledPane animated="false" text="Side View Map">
                            <content>
@@ -73,7 +75,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox fx:id="centerVBox" prefHeight="552.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: white; -fx-padding: 20;">
+                  <VBox fx:id="centerVBox" prefHeight="552.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
                      <children>
                         <TitledPane animated="false" prefHeight="434.0" prefWidth="313.0" style="-fx-background-color: #000000;" text="Detailed Information">
                            <content>
@@ -134,7 +136,7 @@
                         <Insets />
                      </HBox.margin>
                   </VBox>
-                  <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: white;">
+                  <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
                      <children>
                         <TitledPane animated="false" prefHeight="492.0" prefWidth="330.0" text="Interactive Map">
                            <content>
@@ -165,7 +167,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="42.0" prefWidth="1158.0" spacing="50.0">
+            <HBox alignment="TOP_CENTER" prefHeight="42.0" prefWidth="1158.0" spacing="50.0" style="-fx-background-color: #5f6c83#5f6c83;">
                <children>
                   <Button fx:id="ll2" mnemonicParsing="false" text="LL2">
                      <HBox.margin>
