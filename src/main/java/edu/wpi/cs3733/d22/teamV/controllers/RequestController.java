@@ -63,14 +63,7 @@ public abstract class RequestController extends MapController {
           }
         });
     homeButton.setText("Home");
-    homeButton.setOnAction(
-        event -> {
-          try {
-            switchToHome(event);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
+    homeButton.setOnAction(this::switchToHome);
     closeButton.setText("Close");
     closeButton.setOnAction(
         event -> {

@@ -139,7 +139,10 @@
                         </TitledPane>
                      </panes>
                   </Accordion>
-                  <Text fx:id="currTime" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="currTime" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Text>
                </children>
                <padding>
                   <Insets top="15.0" />
