@@ -32,17 +32,17 @@
                         <Font name="System Bold" size="51.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../BackButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" onMouseClicked="#goExit" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../ExitButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../HomeButton.png" />
                      </image>
@@ -58,7 +58,7 @@
                            <content>
                               <Pane fx:id="sideViewPane" prefHeight="790.0" prefWidth="400.0">
                                  <children>
-                                    <ImageView fx:id="sideViewImage" fitHeight="405.0" fitWidth="301.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../SideView.PNG" />
                                        </image>
@@ -142,7 +142,7 @@
                            <content>
                               <ImageView fitHeight="225.0" fitWidth="248.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../1st%20Floor.png" />
+                                    <Image url="@../1st Floor.png" />
                                  </image>
                               </ImageView>
                            </content>

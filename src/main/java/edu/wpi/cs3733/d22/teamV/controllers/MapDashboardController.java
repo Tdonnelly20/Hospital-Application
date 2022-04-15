@@ -1,17 +1,15 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import javax.swing.text.html.ImageView;
-import java.io.IOException;
 
-public class MapDashboardController extends Controller{
+public class MapDashboardController extends Controller {
 
   private @FXML HBox hBox;
   private @FXML VBox leftVBox;
@@ -24,23 +22,15 @@ public class MapDashboardController extends Controller{
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
   private @FXML TreeTableView alertTable;
-  // still need other HBOX / buttons
-
-  @FXML
-  public void goHome(ActionEvent e) throws IOException {
-      switchToHome(e);
-  }
-  @FXML
-  public void goBack(ActionEvent e) throws IOException {
-    switchToHome(e);
-  }
-  @FXML
-  public void goExit(ActionEvent e) {
-    stop();
-  }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) throws Exception {}
 
-  }
+  public void goBack(MouseEvent mouseEvent) {}
+
+  public void goExit(MouseEvent mouseEvent) {}
+
+  public void goHome(MouseEvent mouseEvent) {}
+  // still need other HBOX / buttons
+
 }

@@ -155,6 +155,13 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
+  @FXML
+  protected void switchToDashboard(ActionEvent event) throws IOException {
+    URL fxmlLocation = getClass().getClassLoader().getResource("FXML/MapDashboard.fxml");
+    loader.setLocation(fxmlLocation);
+    switchScene(event);
+  }
+
   // Switches scene to the rootW
   @FXML
   protected void switchScene(ActionEvent event) {

@@ -135,8 +135,8 @@ public class PopupController {
           // MapManager.getManager().isTempIconVisible(false);
         });
   }
-  
-  /***/
+
+  /** */
   @FXML
   public void iconWindow(MouseEvent event) {
     title.setText("Please choose an option");
@@ -161,8 +161,8 @@ public class PopupController {
     stage.setTitle("Options");
     showPopUp();
   }
-  
-  /***/
+
+  /** */
   @FXML
   public void formSetup(MouseEvent event) {
     // MapManager.getManager().isTempIconVisible(true);
@@ -181,17 +181,17 @@ public class PopupController {
           iconWindow(event);
         });
   }
-  
-  /**Adds an icon to the map*/
+
+  /** Adds an icon to the map */
   void addIcon(Location location) {
     if (requestSystem.getLocation(location.getNodeID()) == null) {
       MapController.getController().addIcon(location.getIcon());
       clearPopupForm();
     }
   }
-  
-  /**Deletes an icon from the map and removes the request*/
-  void deleteIcon(Location location)  {
+
+  /** Deletes an icon from the map and removes the request */
+  void deleteIcon(Location location) {
     System.out.println("Deleted");
     for (ServiceRequest request : location.getIcon().getRequestsArr()) {
       try {
@@ -203,8 +203,8 @@ public class PopupController {
     mapController.deleteIcon(location.getIcon());
     clearPopupForm();
   }
-  
-  /***/
+
+  /** */
   void deleteIcon(String nodeID) {
     mapController.deleteIcon(requestSystem.getLocationDao().getLocation(nodeID).getIcon());
     clearPopupForm();
@@ -418,8 +418,8 @@ public class PopupController {
     stage.setTitle("Modify Existing Location");
     showPopUp();
   }
-  
-  /**If location modification fields are empty then the info from the old icon is filled in*/
+
+  /** If location modification fields are empty then the info from the old icon is filled in */
   public Location ifFilterEmpty(Icon icon) {
     Location location = new Location();
     if (field2.getText().isEmpty()) {
@@ -474,8 +474,8 @@ public class PopupController {
     }
     return location;
   }
-  
-  /***/
+
+  /** */
   @FXML
   public void locationRemoveForm(MouseEvent event, LocationIcon icon) {
     title.setText("Delete A Location");
@@ -501,8 +501,8 @@ public class PopupController {
           closePopUp();
         });
   }
-  
-  /***/
+
+  /** */
   @FXML
   public void requestForm(MouseEvent event) {
     title.setText("Request");
@@ -522,8 +522,8 @@ public class PopupController {
           requestRemoveForm(event);
         });
   }
-  
-  /***/
+
+  /** */
   @FXML
   public void requestAdditionForm(MouseEvent event, LocationIcon icon) {
     title.setText("Add A Service Request");
@@ -557,8 +557,8 @@ public class PopupController {
     stage.setTitle("Add New Service Request");
     showPopUp();
   }
-  
-  /**Creates and adds a service request to icon based off the type and the field info*/
+
+  /** Creates and adds a service request to icon based off the type and the field info */
   @FXML
   public void fitServiceRequest(MouseEvent event, String serviceRequest, LocationIcon icon) {
     content.getChildren().clear();
@@ -738,8 +738,8 @@ public class PopupController {
     }
     content.getChildren().addAll(comboBox3);
   }
-  
-  /**Adds the service request to the icon's request list*/
+
+  /** Adds the service request to the icon's request list */
   public void addRequest(MouseEvent event, LocationIcon icon, ServiceRequest request) {
     if (icon == null) {
       Location location =
@@ -762,16 +762,16 @@ public class PopupController {
     clearPopupForm();
     locationForm(event, icon);
   }
-  
-  /***/
+
+  /** */
   @FXML
   public void requestModifyForm(MouseEvent event) {}
-  
-  /***/
+
+  /** */
   @FXML
   public void requestRemoveForm(MouseEvent event) {}
 
-  /**Sets up and displays the popup's equipment addition, modification, and removal buttons*/
+  /** Sets up and displays the popup's equipment addition, modification, and removal buttons */
   @FXML
   public void equipmentForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Equipment");
@@ -800,8 +800,8 @@ public class PopupController {
       showPopUp();
     }
   }
-  
-  /**Displays Equipment addition form*/
+
+  /** Displays Equipment addition form */
   @FXML
   public void equipmentAdditionForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Add Equipment");
@@ -872,13 +872,13 @@ public class PopupController {
     stage.setTitle("Equipment");
     showPopUp();
   }
-  
-  /**adds equipment icon*/
+
+  /** adds equipment icon */
   public void addEquipmentIcon(Equipment equipment) {
     MapController.getController().addEquipmentIcon(equipment);
   }
-  
-  /**deletes equipment icon*/
+
+  /** deletes equipment icon */
   public void deleteEquipmentIcon(Equipment equipment) {
     RequestSystem.getSystem().deleteEquipment(equipment);
     MapManager.getManager().setUpFloors();
@@ -938,8 +938,8 @@ public class PopupController {
       content.getChildren().add(scrollPane);
     }
   }
-  
-  /**Displays the equipment modification form*/
+
+  /** Displays the equipment modification form */
   @FXML
   public void equipmentModifyForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Modify Equipment");
@@ -996,7 +996,7 @@ public class PopupController {
     showPopUp();
   }
 
-  /**Displays the equipment removal form*/
+  /** Displays the equipment removal form */
   @FXML
   public void equipmentRemoveForm(MouseEvent event, EquipmentIcon icon) {
     title.setText("Delete Equipment");
@@ -1013,7 +1013,7 @@ public class PopupController {
         });
   }
 
-  /**Makes sure the location fields aren't empty*/
+  /** Makes sure the location fields aren't empty */
   public boolean checkLocationFields() {
     return !field1.getText().isEmpty()
         && !field2.getText().isEmpty()
@@ -1021,7 +1021,7 @@ public class PopupController {
         && !field4.getText().isEmpty();
   }
 
-  /**Gets a new location based on the field info and mouse position*/
+  /** Gets a new location based on the field info and mouse position */
   public Location getLocation(double xPos, double yPos, String floor) {
     return new Location(
         field1.getText(),
@@ -1034,8 +1034,7 @@ public class PopupController {
         field4.getText());
   }
 
-  /**
-   * Clears the pop up form fields*/
+  /** Clears the pop up form fields */
   @FXML
   void clearPopupForm() {
     field1.setText("");
