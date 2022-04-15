@@ -47,9 +47,9 @@
                                                 <Insets />
                                             </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
-                                        <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Location" />
-                                        <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                        <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
+                                        <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Location" />
+                                        <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="bloodRequest" fx:value="Blood" />
@@ -60,7 +60,7 @@
                                                 </FXCollections>
                                             </items>
                                         </JFXComboBox>
-                                        <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
+                                        <TextArea fx:id="requestDetails" onKeyReleased="#validateButton" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
                                         <HBox prefHeight="100.0" prefWidth="200.0">
                                             <children>
                                                 <Button fx:id="resetForm" minWidth="50.0" mnemonicParsing="false" onAction="#resetForm" text="Reset" />

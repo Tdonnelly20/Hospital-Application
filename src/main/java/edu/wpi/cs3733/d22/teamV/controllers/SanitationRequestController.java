@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
@@ -37,6 +38,8 @@ public class SanitationRequestController extends RequestController {
 
   private static final SanitationRequestDao SanitationRequestDao =
       (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
+  private static final LocationDao LocationDao =
+      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
 
   private static class SingletonHelper {
     private static final SanitationRequestController controller = new SanitationRequestController();
@@ -46,8 +49,6 @@ public class SanitationRequestController extends RequestController {
     return SanitationRequestController.SingletonHelper.controller;
   }
 
-  // private static SanitationRequest sanitationRequest;
-
   @Override
   public void init() {
     mapSetUp();
@@ -56,47 +57,43 @@ public class SanitationRequestController extends RequestController {
     setTitleText("Sanitation Request Service");
     fillTopPane();
     updating = false;
-  }
-  // if the fields get erased, can still send request
-  @FXML
-  private void checkValidation() {
-    if (!(patientID.getText().equals("")
-        || hospitalID.getText().equals("")
-        || roomLocation.getText().equals("")
-        || requestDetails.getText().equals("")
-        || sanitationDropDown.getValue() == null)) {
-      sendRequest.setDisable(false);
-    }
+    validateButton();
   }
 
+  private boolean isEmptyNull(TextField field) {
+    return field.getText().equals("") || field.getText() == null;
+  }
+//ask about adding employee and patient DAOs to request System, requires them to use interface
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
   void validateButton() {
-
+    sendRequest.setDisable(true);
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
         || hospitalID.getText().equals("")
         || roomLocation.getText().equals("")
-        || requestDetails.getText().equals("")
         || sanitationDropDown.getValue() == null) {
-
-      // Set the text and color of the status label
       statusLabel.setText("All fields must be entered!");
       statusLabel.setTextFill(Color.web("Red"));
-
       // Make sure the patient ID is an integer
-    } else if (!isInteger(patientID.getText())) {
-      statusLabel.setText("Status: Failed. Patient ID must be a number!");
+    } else if (!isInteger(patientID.getText()) || false) { // needs to check if patient even exists
+      statusLabel.setText("Status: Failed. Invalid Patient!");
       statusLabel.setTextFill(Color.web("Red"));
 
       // If all conditions pass, create the request
+    } else if (!isInteger(hospitalID.getText())) { // check if emp exists
+      statusLabel.setText("Status: Failed. Invalid Employee!");
+      statusLabel.setTextFill(Color.web("Red"));
+
+      // If all conditions pass, create the request
+    } else if (LocationDao.getLocation(roomLocation.getText()) == null) {
+      statusLabel.setText("Status: Failed. Invalid Room!");
+      statusLabel.setTextFill(Color.web("Red"));
+      // If all conditions pass, create the request
     } else {
-
+      statusLabel.setText("");
+      sendRequest.setDisable(false);
       // Set the label to green, and let the user know it has been processed
-      statusLabel.setText("Status: Processed Successfully");
-      statusLabel.setTextFill(Color.web("Green"));
-
-      resetForm(); // Set all fields to blank for another entry
     }
   }
 
@@ -121,7 +118,6 @@ public class SanitationRequestController extends RequestController {
   @FXML
   void sendRequest()
       throws SQLException, IOException { // must check to see if its updating or new req
-    System.out.println("WE GOT HERE");
     SanitationRequest request =
         new SanitationRequest(
             Integer.parseInt(hospitalID.getText()),
@@ -129,7 +125,6 @@ public class SanitationRequestController extends RequestController {
             roomLocation.getText(),
             sanitationDropDown.getValue().toString(),
             requestDetails.getText());
-    System.out.println("HEYO");
     if (updating) {
       SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
     } else {
@@ -179,7 +174,10 @@ public class SanitationRequestController extends RequestController {
     roomLocation.setText("");
     sanitationDropDown.setValue(null);
     requestDetails.setText("");
+    statusLabel.setText("");
+    sendRequest.setDisable(true);
   }
+
   // same error as remove, pressing sendrequest causes issue
   @FXML
   private void updateSelectedRow() throws IOException, NullPointerException, SQLException {

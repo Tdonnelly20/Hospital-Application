@@ -49,6 +49,8 @@ public class RequestSystem {
 
   /** Choose type of DAO for the methods called */
   public enum Dao {
+    Employee,
+    Patient,
     Equipment,
     EquipmentDelivery,
     InternalPatientTransportation,
