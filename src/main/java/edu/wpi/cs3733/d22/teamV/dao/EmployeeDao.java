@@ -39,24 +39,23 @@ public class EmployeeDao {
       ArrayList<Integer> patientIDs;
       ArrayList<Integer> serviceIDs;
       // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
-      try{
+      try {
         patientIDs =
-                IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
-                        .boxed()
-                        .collect(Collectors.toCollection(ArrayList::new));
-      }catch (NumberFormatException e){
+            IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
+                .boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
+      } catch (NumberFormatException e) {
         patientIDs = new ArrayList<>();
       }
 
-      try{
-         serviceIDs =
-                IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
-                        .boxed()
-                        .collect(Collectors.toCollection(ArrayList::new));
-      }catch (NumberFormatException e){
+      try {
+        serviceIDs =
+            IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
+                .boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
+      } catch (NumberFormatException e) {
         serviceIDs = new ArrayList<>();
       }
-
 
       Employee newEmployee =
           new Employee(
