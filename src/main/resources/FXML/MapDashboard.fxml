@@ -31,6 +31,21 @@
                         <Font name="System Bold" size="51.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../BackButton.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../ExitButton.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../HomeButton.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
             <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1200.0">
@@ -135,7 +150,7 @@
                         </TitledPane>
                         <TitledPane animated="false" prefHeight="314.0" prefWidth="256.0" style="-fx-padding: 10;" text="Alerts">
                            <content>
-                              <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                              <TreeTableView fx:id="alertTable" prefHeight="200.0" prefWidth="200.0">
                                 <columns>
                                   <TreeTableColumn prefWidth="75.0" text="C1" />
                                   <TreeTableColumn prefWidth="75.0" text="C2" />
