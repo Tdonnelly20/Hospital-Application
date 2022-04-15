@@ -1,14 +1,20 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
+import edu.wpi.cs3733.d22.teamV.dao.EmployeeDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.observer.Observer;
+import edu.wpi.cs3733.d22.teamV.observer.Subject;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class Employee {
+public class Employee extends Subject implements Observer {
   private int employeeID;
   private String firstName;
   private String lastName;
@@ -17,6 +23,7 @@ public class Employee {
   private ArrayList<Integer> patientIDs;
   private ArrayList<Integer> serviceRequestIDs;
   private boolean isAdmin;
+  private static EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
 
   public Employee(
       int employeeID,
@@ -46,8 +53,10 @@ public class Employee {
     patientIDs.add(patient.getPatientID());
   }
 
-  public void addPatient(int patientID) {
+  public void addPatient(int patientID) throws SQLException, IOException {
     patientIDs.add(patientID);
+    Vdb.requestSystem.getPatientDao().getPatientFromID(patientID).attach(this);
+    updateAllObservers();
   }
 
   public void removePatient(Patient patient) {
@@ -80,6 +89,7 @@ public class Employee {
 
   public void addServiceRequest(ServiceRequest request) {
     serviceRequestIDs.add(request.getServiceID());
+
   }
 
   public void addServiceRequest(int serviceID) {
@@ -104,5 +114,23 @@ public class Employee {
       }
     }
     return serviceRequests;
+  }
+
+  //Used to update info in the observer
+  @Override
+  public void update(Subject subject) throws SQLException, IOException {
+    if(subject instanceof Patient){
+
+      Patient modifyPatient = (Patient)subject;
+      if(patientIDs.contains(modifyPatient.getPatientID()) && !modifyPatient.getEmployeeIDs().contains(getEmployeeID())){
+        patientIDs.removeIf(currID -> currID == modifyPatient.getPatientID());
+
+      }else if(!patientIDs.contains(modifyPatient.getPatientID()) && modifyPatient.getEmployeeIDs().contains(getEmployeeID())){
+        patientIDs.add(modifyPatient.getPatientID());
+      }
+    }//else if servicerequest....
+
+    //Update the Dao
+    employeeDao.updateEmployee(this, getEmployeeID());
   }
 }
