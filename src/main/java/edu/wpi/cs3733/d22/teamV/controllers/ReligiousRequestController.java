@@ -9,11 +9,9 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TextField Status;
   @FXML private TextField userID;
   @FXML private TextField patientID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
+  @FXML private TextField religion;
   @FXML private TextField roomNumber;
   @FXML private Button sendRequest;
-  @FXML private TextField specialRequests;
 
   private static class SingletonHelper {
     private static final ReligiousRequestController controller = new ReligiousRequestController();
@@ -39,10 +37,8 @@ public class ReligiousRequestController extends RequestController {
     Status.setText("Status: Blank");
     userID.setText("");
     patientID.setText("");
-    firstName.setText("");
-    lastName.setText("");
     roomNumber.setText("");
-    specialRequests.setText("");
+    religion.setText("");
     sendRequest.setDisable(true);
   }
 
@@ -52,20 +48,16 @@ public class ReligiousRequestController extends RequestController {
     if (!(userID.getText().isEmpty())
         && !(userID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
-        && !(firstName.getText().isEmpty())
-        && !(lastName.getText().isEmpty())
         && !(roomNumber.getText().isEmpty())
-        && !(specialRequests.getText().isEmpty())) {
+        && !(religion.getText().isEmpty())) {
       // Information verification and submission needed
       sendRequest.setDisable(false);
       Status.setText("Status: Done");
     } else if (!(userID.getText().isEmpty())
         || !(userID.getText().isEmpty())
         || !(patientID.getText().isEmpty())
-        || !(firstName.getText().isEmpty())
-        || !(lastName.getText().isEmpty())
         || !(roomNumber.getText().isEmpty())
-        || !(specialRequests.getText().isEmpty())) {
+        || !(religion.getText().isEmpty())) {
       Status.setText("Status: Processing");
     } else {
       Status.setText("Status: Blank");

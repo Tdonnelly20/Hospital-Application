@@ -5,9 +5,12 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -55,24 +58,33 @@ public class LoginController extends Controller {
   }
 
   @FXML
+  public void keyLogin(KeyEvent event) throws IOException {
+    // System.out.println(KeyCode.ENTER);
+    if (event.getCode().equals(KeyCode.ENTER)) {
+      checkLogin(event);
+      // System.out.println("hello");
+    } else {
+      // System.out.println("else");
+    }
+  }
+
+  @FXML
   public void userLogin(ActionEvent event) throws IOException {
     checkLogin(event);
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
-  private void checkLogin(ActionEvent event) throws IOException {
+  private void checkLogin(Event event) throws IOException {
 
     Employee user = new Employee();
 
     if (username.getText().toString().equals("admin")
         && password.getText().toString().equals("admin")) {
-      System.out.println("Success!");
       user.setAdmin(true);
       switchToHome(event);
     } else if (username.getText().toString().equals("staff")
-        && password.getText().toString().equals("staff")) {
-      System.out.println("Success!");
+        && password.getText().toString().equals("staff")) {;
       switchToHome(event);
     } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
       wrongLogin.setText("Please enter your data.");

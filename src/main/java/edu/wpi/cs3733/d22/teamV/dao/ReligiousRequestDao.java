@@ -47,7 +47,7 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "\\ReligiousRequest.csv");
+    FileWriter fw = new FileWriter(VApp.currentPath + "/ReligiousRequest.csv");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.append("PatientID,EmpID,Religion,Details,serviceID");
 
@@ -59,7 +59,6 @@ public class ReligiousRequestDao extends DaoInterface {
         Integer.toString(religiousRequest.getPatientID()),
         Integer.toString(religiousRequest.getEmpID()),
         religiousRequest.getReligion(),
-        religiousRequest.getSpecialRequests(),
         Integer.toString(religiousRequest.getServiceID())
       };
       bw.append("\n");
@@ -74,7 +73,7 @@ public class ReligiousRequestDao extends DaoInterface {
 
   public void loadFromCSV() throws IOException {
     String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "\\ReligiousRequest.CSV");
+    FileReader fr = new FileReader(VApp.currentPath + "/ReligiousRequest.CSV");
     BufferedReader br = new BufferedReader(fr);
     String headerLine = br.readLine();
     String splitToken = ",";
@@ -101,8 +100,8 @@ public class ReligiousRequestDao extends DaoInterface {
     statement.setInt(2, newReligiousRequest.getPatientID());
     statement.setString(3, newReligiousRequest.getLocation().getNodeID());
     statement.setString(4, newReligiousRequest.getReligion());
-    statement.setString(5, newReligiousRequest.getSpecialRequests());
     statement.setInt(6, newReligiousRequest.getServiceID());
+    statement.executeUpdate();
   }
 
   @Override
@@ -112,6 +111,7 @@ public class ReligiousRequestDao extends DaoInterface {
     String query = "DELETE FROM RELIGIOUSREQUESTS" + "WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
     statement.setInt(1, serviceID);
+    statement.executeUpdate();
   }
 
   @Override
@@ -177,7 +177,8 @@ public class ReligiousRequestDao extends DaoInterface {
     statement.setInt(2, newRequest.getPatientID());
     statement.setString(3, newRequest.getLocation().getNodeID());
     statement.setString(4, newRequest.getReligion());
-    statement.setString(5, newRequest.getSpecialRequests());
+    statement.setString(5, newRequest.getReligion());
     statement.setInt(6, newRequest.getServiceID());
+    statement.executeUpdate();
   }
 }

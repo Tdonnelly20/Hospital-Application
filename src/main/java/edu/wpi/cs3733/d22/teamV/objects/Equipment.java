@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
+import lombok.Setter;
 
+@Setter
 public class Equipment {
   private String ID;
   private double x;

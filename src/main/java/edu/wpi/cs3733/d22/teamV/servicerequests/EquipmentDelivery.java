@@ -75,7 +75,7 @@ public class EquipmentDelivery extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return hospitalEmployee.getEmployeeID();
+    return super.getHospitalEmployee().getEmployeeID();
   }
 
   public int getPatientID() {

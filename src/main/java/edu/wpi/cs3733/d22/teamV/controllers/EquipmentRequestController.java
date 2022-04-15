@@ -207,7 +207,7 @@ public class EquipmentRequestController extends RequestController {
       }
 
     } catch (Exception e) {
-
+      e.printStackTrace();
     }
 
     resetForm();

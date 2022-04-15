@@ -151,7 +151,6 @@ public class EmployeeController extends MapController {
     employeeFirstName.setText("");
     employeeLastName.setText("");
     employeePosition.setText("");
-    requestDetails.setText("");
     sendRequest.setDisable(true);
   }
 
@@ -174,6 +173,7 @@ public class EmployeeController extends MapController {
     employeeFirstName.setText(String.valueOf(employee.getFirstName()));
     employeeLastName.setText(String.valueOf(employee.getLastName()));
     employeePosition.setText(employee.getEmployeePosition());
+
     updateTreeTable();
   }
 

@@ -6,6 +6,7 @@ import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -59,7 +60,7 @@ public abstract class Controller extends Application {
 
   // Switches scene to the home page
   @FXML
-  protected void switchToHome(ActionEvent event) throws IOException {
+  protected void switchToHome(Event event) throws IOException {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
@@ -115,14 +116,14 @@ public abstract class Controller extends Application {
   // Switches scene to the meal delivery page
   @FXML
   protected void switchToMealDelivery(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/MealDelivery.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewMealDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the laundry request page
   @FXML
   protected void switchToLaundryRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLaundryRequest.fxml"));
     switchScene(event);
   }
 

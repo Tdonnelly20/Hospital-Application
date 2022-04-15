@@ -30,7 +30,6 @@ public class Vdb {
    */
   public void createAllDB() throws Exception {
     requestSystem.init();
-    System.out.println(requestSystem);
     requestSystem.getMaxIDs();
     mapManager.init();
     mapController.init();
@@ -64,7 +63,7 @@ public class Vdb {
     String URL;
     try {
       if (!isClient) {
-        URL = "jdbc:derby:VDB;";
+        URL = "jdbc:derby:VDB";
 
       } else {
         URL = "jdbc:derby://" + ip + "/" + serverPath;

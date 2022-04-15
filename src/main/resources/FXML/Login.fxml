@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
@@ -28,7 +29,7 @@
          </top>
       </BorderPane>
       <Rectangle arcHeight="100.0" arcWidth="100.0" fill="#5183ae" height="378.0" layoutX="362.0" layoutY="227.0" opacity="0.78" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="498.0" />
-      <PasswordField fx:id="password" layoutX="534.0" layoutY="446.0" prefHeight="39.0" prefWidth="272.0" style="-fx-background-radius: 30; -fx-background-insets: 0;">
+      <PasswordField fx:id="password" layoutX="534.0" layoutY="446.0" onKeyPressed="#keyLogin" prefHeight="39.0" prefWidth="272.0" style="-fx-background-radius: 30; -fx-background-insets: 0;">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
@@ -38,11 +39,6 @@
             <Font name="Arial" size="20.0" />
          </font>
       </TextField>
-      <Button fx:id="button" layoutX="562.0" layoutY="540.0" mnemonicParsing="false" onAction="#userLogin" prefHeight="39.0" prefWidth="93.0" style="-fx-background-color: c6c4c4; -fx-background-radius: 20;" text="Login" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
       <Text fill="WHITE" layoutX="522.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Brigham and Women's Hospital" wrappingWidth="277.15171753361074">
          <font>
             <Font name="Georgia" size="34.0" />
@@ -79,5 +75,10 @@
       <TextField fx:id="dbPath" layoutX="1033.0" layoutY="751.0" opacity="0.0" promptText="Enter path to database" />
       <TextField fx:id="dbIP" layoutX="848.0" layoutY="751.0" opacity="0.0" promptText="Enter server IP" />
       <Button fx:id="dbButton" layoutX="1100.0" layoutY="647.0" mnemonicParsing="false" onAction="#getDBInfo" opacity="0.0" text="Submit" />
+      <JFXButton fx:id="button" layoutX="577.0" layoutY="540.0" onAction="#userLogin" ripplerFill="#e8e8e8" style="-fx-background-color: c6c4c4; -fx-background-radius: 20;" text="Login" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
    </children>
 </Pane>

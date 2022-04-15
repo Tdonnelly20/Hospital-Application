@@ -65,7 +65,11 @@ public class Employee {
   public ArrayList<Patient> getPatientList() {
     ArrayList<Patient> patients = new ArrayList<>();
     for (int patientID : patientIDs) {
-      patients.add(Vdb.requestSystem.getPatients().get(patientID));
+      for (Patient patient : Vdb.requestSystem.getPatients()) {
+        if (patient.getPatientID() == patientID) {
+          patients.add(patient);
+        }
+      }
     }
     return patients;
   }
@@ -93,8 +97,12 @@ public class Employee {
   public ArrayList<ServiceRequest> getServiceRequestList() {
     ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
     for (int serviceID : serviceRequestIDs) {
-      // No method to implement this yet...
+      for (ServiceRequest request : Vdb.requestSystem.getEveryServiceRequest()) {
+        if (request.getServiceID() == serviceID) {
+          serviceRequests.add(request);
+        }
+      }
     }
-    return null;
+    return serviceRequests;
   }
 }

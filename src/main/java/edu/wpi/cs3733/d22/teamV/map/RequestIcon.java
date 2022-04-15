@@ -15,19 +15,19 @@ public class RequestIcon extends Icon {
   public RequestIcon(Location location) {
     super(location);
     this.iconType = "Request";
-    image.setImage(new Image("markedIcon.png"));
+    image.setImage(new Image("requestMarker.png"));
     requestsArr = new ArrayList<ServiceRequest>();
   }
 
   public void addToRequests(ServiceRequest request) {
     requestsArr.add(request);
-    image.setImage(new Image("markedIcon.png"));
+    image.setImage(new Image("requestMarker.png"));
   }
 
   public void removeRequests(ServiceRequest request) {
     requestsArr.remove(request);
     if (requestsArr.size() == 0) {
-      image.setImage(new Image("icon.png"));
+      image.setImage(new Image("locationMarker.png"));
     }
   }
 

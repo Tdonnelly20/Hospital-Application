@@ -5,19 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 
 public class LaundryRequest extends ServiceRequest {
-  String firstName, lastName, details, nodeID;
-  int employeeID, patientID;
-
-  public LaundryRequest(int employeeID, int patientID, String nodeID, String details) {
-    this.employeeID = employeeID;
-    this.patientID = patientID;
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
-    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
-    this.nodeID = nodeID;
-    this.details = details;
-    this.type = "Laundry Request";
-  }
+  String details;
 
   public LaundryRequest(
       int employeeID, int patientID, String nodeID, String details, String status) {
@@ -28,30 +16,27 @@ public class LaundryRequest extends ServiceRequest {
     this.status = status;
   }
 
-  public LaundryRequest(
-      int employeeID, int patientID, String nodeID, String details, String status, int serviceID) {}
+  public String getDetails() {
+    return details;
+  }
 
   public int getEmployeeID() {
-    return getEmployeeID();
+    return hospitalEmployee.getEmployeeID();
   }
 
   public int getPatientID() {
-    return patientID;
-  }
-
-  public String getLastName() {
-    return lastName;
+    return patient.getPatientID();
   }
 
   public String getFirstName() {
-    return firstName;
+    return patient.getFirstName();
   }
 
-  public String getNodeID() {
-    return nodeID;
+  public String getLastName() {
+    return patient.getFirstName();
   }
 
-  public String getDetails() {
-    return details;
+  public String getLocationID() {
+    return location.getNodeID();
   }
 }
