@@ -16,12 +16,13 @@
     -fx-fit-to-height: border;
     -fx-fit-to-width: border;
     -fx-padding: 10;
-
 }
 
-.vbox{
-    -fx-background-color: #ffffff;
-    -fx-padding: 50;
+.tree-table-column {
+    -fx-background-color: #5C7B9F;
+    -fx-border-radius: 5;
 }
+
+
 
 
