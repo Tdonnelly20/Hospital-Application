@@ -7,3 +7,21 @@
     -fx-background-radius: 20;
     -fx-border-style: outset;
 }
+
+.tree-table-view{
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-fit-to-height: border;
+    -fx-fit-to-width: border;
+    -fx-padding: 10;
+
+}
+
+.vbox{
+    -fx-background-color: #ffffff;
+    -fx-padding: 50;
+}
+
+

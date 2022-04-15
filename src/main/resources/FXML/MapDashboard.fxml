@@ -32,7 +32,7 @@
             </Pane>
             <HBox fx:id="hBox" prefHeight="357.0" prefWidth="600.0">
                <children>
-                  <VBox fx:id="leftVBox" prefHeight="358.0" prefWidth="202.0" style="-fx-background-color: rgba(0,0,255,0);">
+                  <VBox fx:id="leftVBox" prefHeight="358.0" prefWidth="202.0" spacing="10.0" style="-fx-background-color: white;">
                      <children>
                         <TitledPane animated="false" text="Side View Map">
                            <content>
@@ -49,7 +49,7 @@
                         </TitledPane>
                      </children>
                   </VBox>
-                  <VBox fx:id="centerVBox" prefHeight="358.0" prefWidth="217.0" style="-fx-background-color: green;">
+                  <VBox fx:id="centerVBox" prefHeight="358.0" prefWidth="217.0" spacing="10.0" style="-fx-background-color: white; -fx-padding: 10;">
                      <children>
                         <TreeTableView fx:id="infoTable" prefHeight="135.0" prefWidth="216.0">
                            <padding>
