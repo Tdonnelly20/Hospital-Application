@@ -58,7 +58,7 @@ public class LaundryRequestDao extends DaoInterface {
       LaundryRequest laundryRequest = (LaundryRequest) request;
 
       String[] outputData = {
-        String.valueOf(laundryRequest.getHospitalEmployee().getEmployeeID()),
+        String.valueOf(laundryRequest.getEmployee().getEmployeeID()),
         String.valueOf(laundryRequest.getPatient().getPatientID()),
         String.valueOf(laundryRequest.getLocation().getNodeID()),
         String.valueOf(laundryRequest.getDetails()),
@@ -113,7 +113,7 @@ public class LaundryRequestDao extends DaoInterface {
         "INSERT INTO LAUNDRY("
             + "userID,patientID,roomNumber,details,status,serviceID) VALUES "
             + "("
-            + laundryRequest.getHospitalEmployee().getEmployeeID()
+            + laundryRequest.getEmployee().getEmployeeID()
             + ","
             + laundryRequest.getPatient().getPatientID()
             + ", '"

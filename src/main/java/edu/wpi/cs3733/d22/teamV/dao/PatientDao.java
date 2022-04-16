@@ -38,15 +38,27 @@ public class PatientDao {
     while ((line = br.readLine()) != null) // should create a database based on csv file
     {
       String[] data = line.split(splitToken);
+      ArrayList<Integer> employeeIDs;
+      ArrayList<Integer> serviceIDs;
       // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
-      ArrayList<Integer> employeeIDs =
-          IntStream.of(Arrays.stream(data[3].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
-      ArrayList<Integer> serviceIDs =
-          IntStream.of(Arrays.stream(data[4].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
+
+      try {
+        employeeIDs =
+            IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
+                .boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
+      } catch (Exception e) {
+        employeeIDs = new ArrayList<>();
+      }
+
+      try {
+        serviceIDs =
+            IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
+                .boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
+      } catch (Exception e) {
+        serviceIDs = new ArrayList<>();
+      }
 
       Patient newPatient = new Patient(data[1], data[2], employeeIDs, serviceIDs);
 
@@ -87,10 +99,11 @@ public class PatientDao {
     fw.close();
   }
 
-  public void addPatient(Patient patient) throws SQLException {
+  public void addPatient(Patient patient) throws SQLException, IOException {
     patient.setPatientID(RequestSystem.getPatientID());
     allPatients.add(patient);
     addToSQLTable(patient);
+    saveToCSV();
   }
 
   public void removePatient(Patient patient) throws IOException, SQLException {

@@ -25,7 +25,7 @@ public class MealRequest extends ServiceRequest {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.status = status;
     patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
-    hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.mealName = mealName;
     this.type = "Meal Delivery";
   }
@@ -43,7 +43,7 @@ public class MealRequest extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return hospitalEmployee.getEmployeeID();
+    return employee.getEmployeeID();
   }
 
   public String getMealName() {

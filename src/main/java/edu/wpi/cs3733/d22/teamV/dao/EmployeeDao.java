@@ -181,7 +181,7 @@ public class EmployeeDao {
             + "','"
             + employee.getLastName()
             + "', '"
-            + "Employee (Placeholder)"
+            + employee.getEmployeePosition()
             + "','";
 
     // add specialties

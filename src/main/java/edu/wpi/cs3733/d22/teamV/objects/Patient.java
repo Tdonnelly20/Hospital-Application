@@ -2,17 +2,15 @@ package edu.wpi.cs3733.d22.teamV.objects;
 
 import edu.wpi.cs3733.d22.teamV.dao.PatientDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.observer.Observer;
-import edu.wpi.cs3733.d22.teamV.observer.Subject;
-import java.io.IOException;
-import java.sql.SQLException;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Patient extends Subject implements Observer {
+public class Patient extends DirectionalAssoc {
   private int patientID;
   private String firstName;
   private String lastName;
@@ -65,17 +63,35 @@ public class Patient extends Subject implements Observer {
   }
 
   @Override
-  public void update(Subject subject) throws SQLException, IOException {
-    if (subject instanceof Employee) {
-      Employee modifyEmployee = (Employee) subject;
-      if (employeeIDs.contains(modifyEmployee.getEmployeeID())) {
+  public void update(DirectionalAssoc directionalAssoc) {
+    // Check to see what updated and its type
+    System.out.println("running patient update!");
+    if (directionalAssoc instanceof Employee) {
+      Employee employee = (Employee) directionalAssoc;
+      boolean patientContains = employeeIDs.contains(employee.getEmployeeID());
+      boolean employeeContains = employee.getPatientIDs().contains(getPatientID());
 
-      } else {
-        employeeIDs.add(modifyEmployee.getEmployeeID());
+      // Check to see if the patient has a state change relevant to the employee containing it
+      if (patientContains && !employeeContains) {
+        employeeIDs.removeIf(currID -> currID == employee.getEmployeeID());
+
+      } else if (!patientContains && employeeContains) {
+        employeeIDs.add(employee.getEmployeeID());
       }
-    } // else if servicerequest....
+
+    } else if (directionalAssoc instanceof ServiceRequest) {
+      ServiceRequest serviceRequest = (ServiceRequest) directionalAssoc;
+      boolean patientContains = serviceIDs.contains(serviceRequest.getServiceID());
+      boolean serviceRequestContains = serviceRequest.getPatient().getPatientID() == patientID;
+
+      if (patientContains && !serviceRequestContains) {
+        serviceIDs.removeIf(currID -> currID == serviceRequest.getServiceID());
+      } else if (!patientContains && serviceRequestContains) {
+        serviceIDs.add(serviceRequest.getServiceID());
+      }
+    }
 
     // Update the Dao
-    patientDao.updatePatient(this, getPatientID());
+    // patientDao.updatePatient(this, getPatientID());
   }
 }

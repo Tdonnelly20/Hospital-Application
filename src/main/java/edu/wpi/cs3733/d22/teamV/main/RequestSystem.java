@@ -45,7 +45,11 @@ public class RequestSystem {
     medicineDeliveryDao = new MedicineDeliveryDao();
     religiousRequestDao = new ReligiousRequestDao();
     sanitationRequestDao = new SanitationRequestDao();
+
+    triDirectionalityInit();
   }
+
+  private void triDirectionalityInit() {}
 
   /** Choose type of DAO for the methods called */
   public enum Dao {
@@ -244,7 +248,7 @@ public class RequestSystem {
   public ArrayList<ServiceRequest> getAllRequestsWithEmployeeID(int employeeID) {
     ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
     for (ServiceRequest request : getEveryServiceRequest()) {
-      if (request.getHospitalEmployee().getEmployeeID() == employeeID) {
+      if (request.getEmployee().getEmployeeID() == employeeID) {
         serviceRequests.add(request);
       }
     }

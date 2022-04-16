@@ -23,7 +23,7 @@ public class LabRequest extends ServiceRequest {
     // this.location = location;
     this.patient = Vdb.requestSystem.getPatients().get(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
-    this.hospitalEmployee = new Employee(userID);
+    this.employee = new Employee(userID);
 
     this.lab = lab;
     this.status = status;
@@ -38,7 +38,7 @@ public class LabRequest extends ServiceRequest {
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
-    this.hospitalEmployee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
+    this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
 
     this.lab = lab;
     this.status = status;
@@ -48,7 +48,7 @@ public class LabRequest extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return hospitalEmployee.getEmployeeID();
+    return employee.getEmployeeID();
   }
 
   public int getPatientID() {

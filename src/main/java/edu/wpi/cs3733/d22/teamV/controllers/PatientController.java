@@ -136,7 +136,6 @@ public class PatientController extends MapController {
     updating = false;
     firstName.setText("");
     lastName.setText("");
-    requestDetails.setText("");
     sendRequest.setDisable(true);
   }
 
