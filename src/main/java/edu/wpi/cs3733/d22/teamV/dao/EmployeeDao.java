@@ -236,11 +236,18 @@ public class EmployeeDao {
   }
 
   public void updateEmployee(Employee employee, int employeeID) {
+    System.out.println("test 1");
     Employee emp = getEmployee(employeeID);
+    System.out.println("test 2");
     removeEmployee(emp);
+    System.out.println("test 3");
     employee.setEmployeeID(employeeID);
+    System.out.println("test 4");
     allEmployees.add(employee);
+    System.out.println("test 5");
     addToSQLTable(emp);
+    System.out.println("test 6");
     saveToCSV();
+    System.out.println("test 7");
   }
 }

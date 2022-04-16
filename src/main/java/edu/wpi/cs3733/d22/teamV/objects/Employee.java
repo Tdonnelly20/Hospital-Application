@@ -19,7 +19,7 @@ public class Employee extends DirectionalAssoc {
   private ArrayList<Integer> patientIDs;
   private ArrayList<Integer> serviceRequestIDs;
   private boolean isAdmin;
-  private static EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
+  private EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
 
   public Employee(
       int employeeID,
@@ -122,9 +122,11 @@ public class Employee extends DirectionalAssoc {
       } else if (!employeeContains && serviceRequestContains) {
         serviceRequestIDs.add(serviceRequest.getServiceID());
       }
-    }
+    } else {
 
+    }
+    System.out.println("Test 0!" + employeeDao);
     // Update the Dao
-    // employeeDao.updateEmployee(this, getEmployeeID());
+    employeeDao.updateEmployee(this, getEmployeeID());
   }
 }

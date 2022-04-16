@@ -92,6 +92,6 @@ public class Patient extends DirectionalAssoc {
     }
 
     // Update the Dao
-    // patientDao.updatePatient(this, getPatientID());
+    patientDao.updatePatient(this, getPatientID());
   }
 }
