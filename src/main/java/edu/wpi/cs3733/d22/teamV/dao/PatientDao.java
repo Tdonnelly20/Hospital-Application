@@ -197,7 +197,7 @@ public class PatientDao {
     }
   }
 
-  public Patient getPatientFromID(int patientID) {
+  public Patient getPatient(int patientID) {
     for (Patient patient : allPatients) {
       if (patient.getPatientID() == patientID) {
         return patient;
@@ -210,11 +210,11 @@ public class PatientDao {
   }
 
   public void updatePatient(Patient patient, int patientID) {
-    Patient emp = patient;
-    emp.setPatientID(patientID);
-    removePatient(emp);
-    allPatients.add(emp);
-    addToSQLTable(emp);
+    Patient oldPatient = getPatient(patientID);
+    patient.setPatientID(patientID);
+    removePatient(oldPatient);
+    allPatients.add(patient);
+    addToSQLTable(patient);
     saveToCSV();
   }
 }

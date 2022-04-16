@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
-import edu.wpi.cs3733.d22.teamV.dao.PatientDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -16,7 +15,6 @@ public class Patient extends DirectionalAssoc {
   private String lastName;
   private ArrayList<Integer> employeeIDs = new ArrayList<>();
   private ArrayList<Integer> serviceIDs = new ArrayList<>();
-  private static PatientDao patientDao = Vdb.requestSystem.getPatientDao();
 
   public Patient(
       String firstName,
@@ -65,7 +63,6 @@ public class Patient extends DirectionalAssoc {
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
     // Check to see what updated and its type
-    System.out.println("running patient update!");
     if (directionalAssoc instanceof Employee) {
       Employee employee = (Employee) directionalAssoc;
       boolean patientContains = employeeIDs.contains(employee.getEmployeeID());
@@ -91,7 +88,6 @@ public class Patient extends DirectionalAssoc {
       }
     }
 
-    // Update the Dao
-    patientDao.updatePatient(this, getPatientID());
+    Vdb.requestSystem.getPatientDao().updatePatient(this, getPatientID());
   }
 }
