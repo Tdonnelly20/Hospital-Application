@@ -27,7 +27,6 @@ public class RequestSystem {
   private RobotDao robotDao;
   private SanitationRequestDao sanitationRequestDao;
 
-
   public RequestSystem() {}
 
   public void init() throws SQLException, IOException {

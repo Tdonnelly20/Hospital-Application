@@ -25,6 +25,10 @@ public abstract class DirectionalAssoc {
     observer3.observers.add(observer2);
   }
 
+  public static void releaseAll() {
+
+  }
+
   public static void link(DirectionalAssoc observer1, DirectionalAssoc observer2) {
     observer1.observers.add(observer2);
     observer2.observers.add(observer1);
