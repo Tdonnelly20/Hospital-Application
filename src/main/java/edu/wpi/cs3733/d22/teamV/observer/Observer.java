@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface Observer {
-    ArrayList<Subject> subjects = new ArrayList<>();
-    void update(Subject subject) throws SQLException, IOException;
+  ArrayList<Subject> subjects = new ArrayList<>();
+
+  void update(Subject subject) throws SQLException, IOException;
 }

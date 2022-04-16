@@ -1,14 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import edu.wpi.cs3733.d22.teamV.dao.PatientDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.Observer;
 import edu.wpi.cs3733.d22.teamV.observer.Subject;
-import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -68,17 +66,16 @@ public class Patient extends Subject implements Observer {
 
   @Override
   public void update(Subject subject) throws SQLException, IOException {
-    if(subject instanceof Employee){
+    if (subject instanceof Employee) {
       Employee modifyEmployee = (Employee) subject;
-      if(employeeIDs.contains(modifyEmployee.getEmployeeID())){
+      if (employeeIDs.contains(modifyEmployee.getEmployeeID())) {
 
-      }else{
+      } else {
         employeeIDs.add(modifyEmployee.getEmployeeID());
       }
+    } // else if servicerequest....
 
-    }//else if servicerequest....
-
-    //Update the Dao
+    // Update the Dao
     patientDao.updatePatient(this, getPatientID());
   }
 }

@@ -1,8 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class ReligiousRequestController extends RequestController {
@@ -12,6 +15,16 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TextField religion;
   @FXML private TextField roomNumber;
   @FXML private Button sendRequest;
+  @FXML private Label statusLabel;
+
+  @FXML private TreeTableView<ReligiousRequest> ReligiousRequestTable;
+  @FXML private TreeTableColumn<ReligiousRequest, Integer> empIDCol;
+  @FXML private TreeTableColumn<ReligiousRequest, Integer> patientIDCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> firstNameCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> lastNameCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> nodeCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> religionCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> requestDetailsCol;
 
   private static class SingletonHelper {
     private static final ReligiousRequestController controller = new ReligiousRequestController();
@@ -21,12 +34,16 @@ public class ReligiousRequestController extends RequestController {
     return ReligiousRequestController.SingletonHelper.controller;
   }
 
+  private static final LocationDao LocationDao =
+      (LocationDao) Vdb.requestSystem.getDao(RequestSystem.Dao.LocationDao);
+
   @Override
   public void init() {
     setTitleText("Religious Request Service");
     fillTopPane();
     mapSetUp();
     filterCheckBox.getCheckModel().check("Religious Requests Service");
+    validateButton();
   }
 
   @Override
@@ -45,24 +62,31 @@ public class ReligiousRequestController extends RequestController {
   // Checks to see if the user can submit info
   @FXML
   void validateButton() {
-    if (!(userID.getText().isEmpty())
-        && !(userID.getText().isEmpty())
-        && !(patientID.getText().isEmpty())
-        && !(roomNumber.getText().isEmpty())
-        && !(religion.getText().isEmpty())) {
-      // Information verification and submission needed
-      sendRequest.setDisable(false);
-      Status.setText("Status: Done");
-    } else if (!(userID.getText().isEmpty())
-        || !(userID.getText().isEmpty())
-        || !(patientID.getText().isEmpty())
-        || !(roomNumber.getText().isEmpty())
-        || !(religion.getText().isEmpty())) {
-      Status.setText("Status: Processing");
-    } else {
-      Status.setText("Status: Blank");
-      sendRequest.setDisable(true);
+    sendRequest.setDisable(true);
+    boolean valid = true;
+    String issues = "Issues:\n";
+    // Information verification and submission needed
+    if (!isInteger(patientID.getText()) || patientID.getText().isEmpty()) {
+      issues += "Invalid Patient.\n";
+      valid = false;
     }
+    if (!isInteger(userID.getText()) || userID.getText().isEmpty()) {
+      issues += "Invalid Employee.\n";
+      valid = false;
+    }
+    if (LocationDao.getLocation(roomNumber.getText()) == null) {
+      issues += "Invalid Room.\n";
+      valid = false;
+    }
+    if (religion.getText().isEmpty()) {
+      valid = false;
+      issues += "Specify Religion.\n";
+    }
+    if (valid) {
+      issues = "";
+      sendRequest.setDisable(false);
+    }
+    statusLabel.setText(issues);
   }
 
   @Override

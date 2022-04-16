@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.Observer;
 import edu.wpi.cs3733.d22.teamV.observer.Subject;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -89,7 +88,6 @@ public class Employee extends Subject implements Observer {
 
   public void addServiceRequest(ServiceRequest request) {
     serviceRequestIDs.add(request.getServiceID());
-
   }
 
   public void addServiceRequest(int serviceID) {
@@ -116,21 +114,23 @@ public class Employee extends Subject implements Observer {
     return serviceRequests;
   }
 
-  //Used to update info in the observer
+  // Used to update info in the observer
   @Override
   public void update(Subject subject) throws SQLException, IOException {
-    if(subject instanceof Patient){
+    if (subject instanceof Patient) {
 
-      Patient modifyPatient = (Patient)subject;
-      if(patientIDs.contains(modifyPatient.getPatientID()) && !modifyPatient.getEmployeeIDs().contains(getEmployeeID())){
+      Patient modifyPatient = (Patient) subject;
+      if (patientIDs.contains(modifyPatient.getPatientID())
+          && !modifyPatient.getEmployeeIDs().contains(getEmployeeID())) {
         patientIDs.removeIf(currID -> currID == modifyPatient.getPatientID());
 
-      }else if(!patientIDs.contains(modifyPatient.getPatientID()) && modifyPatient.getEmployeeIDs().contains(getEmployeeID())){
+      } else if (!patientIDs.contains(modifyPatient.getPatientID())
+          && modifyPatient.getEmployeeIDs().contains(getEmployeeID())) {
         patientIDs.add(modifyPatient.getPatientID());
       }
-    }//else if servicerequest....
+    } // else if servicerequest....
 
-    //Update the Dao
+    // Update the Dao
     employeeDao.updateEmployee(this, getEmployeeID());
   }
 }

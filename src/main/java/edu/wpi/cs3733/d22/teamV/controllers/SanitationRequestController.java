@@ -60,10 +60,7 @@ public class SanitationRequestController extends RequestController {
     validateButton();
   }
 
-  private boolean isEmptyNull(TextField field) {
-    return field.getText().equals("") || field.getText() == null;
-  }
-//ask about adding employee and patient DAOs to request System, requires them to use interface
+  // ask about adding employee and patient DAOs to request System, requires them to use interface
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
   void validateButton() {
@@ -73,21 +70,21 @@ public class SanitationRequestController extends RequestController {
         || hospitalID.getText().equals("")
         || roomLocation.getText().equals("")
         || sanitationDropDown.getValue() == null) {
-      statusLabel.setText("All fields must be entered!");
+      statusLabel.setText("Please fill in the required fields.");
       statusLabel.setTextFill(Color.web("Red"));
       // Make sure the patient ID is an integer
     } else if (!isInteger(patientID.getText()) || false) { // needs to check if patient even exists
-      statusLabel.setText("Status: Failed. Invalid Patient!");
+      statusLabel.setText("Invalid Patient.");
       statusLabel.setTextFill(Color.web("Red"));
 
       // If all conditions pass, create the request
     } else if (!isInteger(hospitalID.getText())) { // check if emp exists
-      statusLabel.setText("Status: Failed. Invalid Employee!");
+      statusLabel.setText("Invalid Employee.");
       statusLabel.setTextFill(Color.web("Red"));
 
       // If all conditions pass, create the request
     } else if (LocationDao.getLocation(roomLocation.getText()) == null) {
-      statusLabel.setText("Status: Failed. Invalid Room!");
+      statusLabel.setText("Invalid Room.");
       statusLabel.setTextFill(Color.web("Red"));
       // If all conditions pass, create the request
     } else {

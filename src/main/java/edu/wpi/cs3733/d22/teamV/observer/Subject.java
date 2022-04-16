@@ -5,15 +5,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class Subject {
-    ArrayList<Observer> observers = new ArrayList<>();
+  ArrayList<Observer> observers = new ArrayList<>();
 
-    public void updateAllObservers() throws SQLException, IOException {
-        for(Observer observer : observers){
-            observer.update(this);
-        }
+  public void updateAllObservers() throws SQLException, IOException {
+    for (Observer observer : observers) {
+      observer.update(this);
     }
+  }
 
-    public void attach(Observer observer){
-        observers.add(observer);
-    }
+  public void attach(Observer observer) {
+    observers.add(observer);
+  }
 }
