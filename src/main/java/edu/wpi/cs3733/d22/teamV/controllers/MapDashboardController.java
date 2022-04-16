@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
 import java.io.IOException;
@@ -16,10 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -40,7 +40,8 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
+  private @FXML TreeTableColumn<ServiceRequest, Double> xCol;
+  private @FXML TreeTableColumn<ServiceRequest, Double> yCol;
   private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
@@ -184,6 +185,56 @@ public class MapDashboardController extends Controller {
   public void updateListeners() {
     for (DashboardListener l : listeners) {
       // l.setFloor(floor);
+    }
+  }
+
+  @FXML
+  private void updateEquipmentTable() {
+    equipmentIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("ID"));
+    isDirtyCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
+
+    ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    if (!currEquipment.isEmpty()) {
+
+      for (Equipment pos : currEquipment) {
+        if(pos.getFloor().equals(curFloor.getFloorName())) {
+          TreeItem<Equipment> item = new TreeItem(pos);
+          treeItems.add(item);
+        }
+      }
+
+      equipmentTable.setShowRoot(false);
+      TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
+      equipmentTable.setRoot(root);
+      root.getChildren().addAll(treeItems);
+    }
+  }
+
+  @FXML
+  private void updateServiceRequestTable() {
+    typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
+    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("x"));
+    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
+    startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
+
+    ArrayList<ServiceRequest> currRequests = (ArrayList<ServiceRequest>)Vdb.requestSystem.getEveryServiceRequest();
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    if (!currRequests.isEmpty()) {
+
+      for (ServiceRequest pos : currRequests) {
+        if(pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+          TreeItem<ServiceRequest> item = new TreeItem(pos);
+          treeItems.add(item);
+        }
+      }
+
+      serviceRequestTable.setShowRoot(false);
+      TreeItem root = new TreeItem(RequestSystem.getSystem().getEveryServiceRequest().get(0));
+      serviceRequestTable.setRoot(root);
+      root.getChildren().addAll(treeItems);
     }
   }
 }
