@@ -10,7 +10,7 @@ public class LaundryRequest extends ServiceRequest {
   public LaundryRequest(
       int employeeID, int patientID, String nodeID, String details, String status) {
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
-    this.hospitalEmployee = new Employee(employeeID);
+    this.employee = new Employee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     this.details = details;
     this.status = status;
@@ -21,7 +21,7 @@ public class LaundryRequest extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return hospitalEmployee.getEmployeeID();
+    return employee.getEmployeeID();
   }
 
   public int getPatientID() {

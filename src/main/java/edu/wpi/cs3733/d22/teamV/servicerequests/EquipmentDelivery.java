@@ -20,7 +20,7 @@ public class EquipmentDelivery extends ServiceRequest {
       String status,
       int serviceID) {
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
-    this.hospitalEmployee = new Employee(employeeID);
+    this.employee = new Employee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     this.equipment = equipment;
     this.notes = notes;
@@ -41,7 +41,7 @@ public class EquipmentDelivery extends ServiceRequest {
       String status) {
     System.out.println(Vdb.requestSystem);
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
-    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     this.equipment = equipment;
     this.notes = notes;
@@ -75,7 +75,7 @@ public class EquipmentDelivery extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return super.getHospitalEmployee().getEmployeeID();
+    return super.getEmployee().getEmployeeID();
   }
 
   public int getPatientID() {

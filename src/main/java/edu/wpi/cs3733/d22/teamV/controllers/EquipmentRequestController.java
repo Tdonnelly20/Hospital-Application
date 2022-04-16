@@ -42,8 +42,7 @@ public class EquipmentRequestController extends RequestController {
   @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Button sendRequest;
 
-  private static final LocationDao locationDao =
-      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
+  private static final LocationDao locationDao = Vdb.requestSystem.getLocationDao();
 
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;

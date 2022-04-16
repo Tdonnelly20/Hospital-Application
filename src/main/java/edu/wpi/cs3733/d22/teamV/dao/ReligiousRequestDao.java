@@ -26,19 +26,23 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   @Override
-  public void createSQLTable() throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    Statement statement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[] {"TABLE"});
-    if (!set.next()) {
-      statement.execute(
-          "CREATE TABLE RELIGIOUSREQUESTS(pID int, empID int, nodeID char(50), religion char(35), request char(200), serviceID int)");
-    } else {
-      statement.execute("DROP TABLE RELIGIOUSREQUESTS");
-      createSQLTable();
-      return;
+  public void createSQLTable() {
+    try {
+      String query = "";
+      Connection connection = Vdb.Connect();
+      Statement statement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[] {"TABLE"});
+      if (!set.next()) {
+        statement.execute(
+            "CREATE TABLE RELIGIOUSREQUESTS(pID int, empID int, nodeID char(50), religion char(35), request char(200), serviceID int)");
+      } else {
+        statement.execute("DROP TABLE RELIGIOUSREQUESTS");
+        createSQLTable();
+        return;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
@@ -46,76 +50,95 @@ public class ReligiousRequestDao extends DaoInterface {
     return allReligiousRequest;
   }
 
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/ReligiousRequest.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("PatientID,EmpID,Religion,Details,serviceID");
+  public void saveToCSV() {
+    try {
+      FileWriter fw = new FileWriter(VApp.currentPath + "/ReligiousRequest.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append("PatientID,EmpID,Religion,Details,serviceID");
 
-    for (ServiceRequest request : getAllServiceRequests()) {
+      for (ServiceRequest request : getAllServiceRequests()) {
 
-      ReligiousRequest religiousRequest = (ReligiousRequest) request;
+        ReligiousRequest religiousRequest = (ReligiousRequest) request;
 
-      String[] outputData = {
-        Integer.toString(religiousRequest.getPatientID()),
-        Integer.toString(religiousRequest.getEmpID()),
-        religiousRequest.getReligion(),
-        Integer.toString(religiousRequest.getServiceID())
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
+        String[] outputData = {
+          Integer.toString(religiousRequest.getPatientID()),
+          Integer.toString(religiousRequest.getEmpID()),
+          religiousRequest.getReligion(),
+          Integer.toString(religiousRequest.getServiceID())
+        };
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
       }
+      bw.close();
+      fw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    bw.close();
-    fw.close();
   }
 
-  public void loadFromCSV() throws IOException {
-    String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "/ReligiousRequest.CSV");
-    BufferedReader br = new BufferedReader(fr);
-    String headerLine = br.readLine();
-    String splitToken = ",";
-    ArrayList<ReligiousRequest> requests = new ArrayList<>();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data;
-      data = line.split(splitToken);
-      ReligiousRequest request =
-          new ReligiousRequest(
-              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
-      requests.add(request);
+  public void loadFromCSV() {
+    try {
+      String line = "";
+      FileReader fr = new FileReader(VApp.currentPath + "/ReligiousRequest.CSV");
+      BufferedReader br = new BufferedReader(fr);
+      String headerLine = br.readLine();
+      String splitToken = ",";
+      ArrayList<ReligiousRequest> requests = new ArrayList<>();
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data;
+        data = line.split(splitToken);
+        ReligiousRequest request =
+            new ReligiousRequest(
+                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+        requests.add(request);
+      }
+      allReligiousRequest = requests;
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    allReligiousRequest = requests;
   }
 
   @Override
-  public void addToSQLTable(ServiceRequest Request) throws SQLException {
-    ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
-    Connection connection = Vdb.Connect();
-    String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?)";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, newReligiousRequest.getEmpID());
-    statement.setInt(2, newReligiousRequest.getPatientID());
-    statement.setString(3, newReligiousRequest.getLocation().getNodeID());
-    statement.setString(4, newReligiousRequest.getReligion());
-    statement.setInt(6, newReligiousRequest.getServiceID());
-    statement.executeUpdate();
+  public void addToSQLTable(ServiceRequest Request) {
+    try {
+      ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
+      Connection connection = Vdb.Connect();
+      String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, newReligiousRequest.getEmpID());
+      statement.setInt(2, newReligiousRequest.getPatientID());
+      statement.setString(3, newReligiousRequest.getLocation().getNodeID());
+      statement.setString(4, newReligiousRequest.getReligion());
+      statement.setInt(6, newReligiousRequest.getServiceID());
+      statement.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-    int serviceID = request.getServiceID();
-    Connection connection = Vdb.Connect();
-    String query = "DELETE FROM RELIGIOUSREQUESTS" + "WHERE serviceID=?";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, serviceID);
-    statement.executeUpdate();
+  public void removeFromSQLTable(ServiceRequest request) {
+    try {
+
+      int serviceID = request.getServiceID();
+      Connection connection = Vdb.Connect();
+      String query = "DELETE FROM RELIGIOUSREQUESTS" + "WHERE serviceID=?";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, serviceID);
+      statement.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request) {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) request;
     request.setServiceID(RequestSystem.serviceIDCounter);
     newReligiousRequest.setServiceID(RequestSystem.serviceIDCounter); //
@@ -124,7 +147,7 @@ public class ReligiousRequestDao extends DaoInterface {
     saveToCSV();
   }
 
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request) {
     int serviceID = request.getServiceID();
     Predicate<ReligiousRequest> condition =
         religiousRequest -> religiousRequest.getServiceID() == serviceID;
@@ -138,8 +161,7 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     allReligiousRequest.clear();
     for (ServiceRequest r : serviceRequests) {
       ReligiousRequest request = (ReligiousRequest) r;
@@ -149,7 +171,7 @@ public class ReligiousRequestDao extends DaoInterface {
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request, int serviceID) throws SQLException {
+  public void updateServiceRequest(ServiceRequest request, int serviceID) {
     ReligiousRequest newRequest = (ReligiousRequest) request;
     newRequest.setServiceID(serviceID);
     int index = -1;
@@ -165,20 +187,25 @@ public class ReligiousRequestDao extends DaoInterface {
     }
   }
 
-  public void updateSQLTable(ServiceRequest Request) throws SQLException {
-    ReligiousRequest newRequest = (ReligiousRequest) Request;
-    Connection connection = Vdb.Connect();
-    String query =
-        "UPDATE RELIGIOUSREQUESTS"
-            + "SET patientID=?,empID=?,nodeID=?,religion=?,specialRequests=?"
-            + "WHERE serviceID=?";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, newRequest.getEmpID());
-    statement.setInt(2, newRequest.getPatientID());
-    statement.setString(3, newRequest.getLocation().getNodeID());
-    statement.setString(4, newRequest.getReligion());
-    statement.setString(5, newRequest.getReligion());
-    statement.setInt(6, newRequest.getServiceID());
-    statement.executeUpdate();
+  public void updateSQLTable(ServiceRequest Request) {
+    try {
+      ReligiousRequest newRequest = (ReligiousRequest) Request;
+      Connection connection = Vdb.Connect();
+      String query =
+          "UPDATE RELIGIOUSREQUESTS"
+              + "SET patientID=?,empID=?,nodeID=?,religion=?,specialRequests=?"
+              + "WHERE serviceID=?";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, newRequest.getEmpID());
+      statement.setInt(2, newRequest.getPatientID());
+      statement.setString(3, newRequest.getLocation().getNodeID());
+      statement.setString(4, newRequest.getReligion());
+      statement.setString(5, newRequest.getReligion());
+      statement.setInt(6, newRequest.getServiceID());
+      statement.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

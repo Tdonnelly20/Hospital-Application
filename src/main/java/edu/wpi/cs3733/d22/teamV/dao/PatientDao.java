@@ -17,83 +17,105 @@ public class PatientDao {
   public PatientDao() {
     allPatients = new ArrayList<>();
 
+    loadFromCSV();
+    createSQLTable();
+  }
+
+  public void loadFromCSV() {
+
     try {
-      loadFromCSV();
-      createSQLTable();
-    } catch (SQLException e) {
-      e.printStackTrace();
+      String line = "";
+      String file = VApp.currentPath + "/Patients.csv";
+      FileReader fr = new FileReader(file);
+      BufferedReader br = new BufferedReader(fr);
+      String splitToken = ","; // what we split the csv file with
+      ArrayList<Patient> patients = new ArrayList<>();
+      String headerLine = br.readLine();
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data = line.split(splitToken);
+        ArrayList<Integer> employeeIDs;
+        ArrayList<Integer> serviceIDs;
+        // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
+
+        try {
+          employeeIDs =
+              IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
+                  .boxed()
+                  .collect(Collectors.toCollection(ArrayList::new));
+        } catch (Exception e) {
+          employeeIDs = new ArrayList<>();
+        }
+
+        try {
+          serviceIDs =
+              IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
+                  .boxed()
+                  .collect(Collectors.toCollection(ArrayList::new));
+        } catch (Exception e) {
+          serviceIDs = new ArrayList<>();
+        }
+
+        Patient newPatient = new Patient(data[1], data[2], employeeIDs, serviceIDs);
+
+        newPatient.setPatientID(Integer.parseInt(data[0]));
+        patients.add(newPatient);
+      }
+      allPatients = patients;
+
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public void loadFromCSV() throws IOException {
-    String line = "";
-    String file = VApp.currentPath + "/Patients.csv";
-    FileReader fr = new FileReader(file);
-    BufferedReader br = new BufferedReader(fr);
-    String splitToken = ","; // what we split the csv file with
-    ArrayList<Patient> patients = new ArrayList<>();
-    String headerLine = br.readLine();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data = line.split(splitToken);
-      // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
-      ArrayList<Integer> employeeIDs =
-          IntStream.of(Arrays.stream(data[3].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
-      ArrayList<Integer> serviceIDs =
-          IntStream.of(Arrays.stream(data[4].split(" ")).mapToInt(Integer::parseInt).toArray())
-              .boxed()
-              .collect(Collectors.toCollection(ArrayList::new));
+  public void saveToCSV() {
+    try {
+      FileWriter fw = new FileWriter(VApp.currentPath + "/Patients.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append("patientID, patientFirstName, patientLastName, employeeIDs, serviceRequestIDs");
+      for (Patient p : getAllPatients()) {
 
-      Patient newPatient = new Patient(data[1], data[2], employeeIDs, serviceIDs);
+        String employeeIDs = "";
+        String serviceIDs = "";
 
-      newPatient.setPatientID(Integer.parseInt(data[0]));
-      patients.add(newPatient);
+        for (int ID : p.getEmployeeIDs()) {
+          employeeIDs += ID + " ";
+        }
+
+        for (int ID : p.getServiceRequestIDs()) {
+          serviceIDs += ID + " ";
+        }
+
+        String[] outputData = {
+          String.valueOf(p.getPatientID()),
+          p.getFirstName(),
+          p.getLastName(),
+          employeeIDs,
+          serviceIDs
+        };
+
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
+      }
+      bw.close();
+      fw.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    allPatients = patients;
   }
 
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/Patients.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("patientID, patientFirstName, patientLastName, employeeIDs, serviceRequestIDs");
-    for (Patient p : getAllPatients()) {
-
-      String employeeIDs = "";
-      String serviceIDs = "";
-
-      for (int ID : p.getEmployeeIDs()) {
-        employeeIDs += ID + " ";
-      }
-
-      for (int ID : p.getServiceRequestIDs()) {
-        serviceIDs += ID + " ";
-      }
-
-      String[] outputData = {
-        String.valueOf(p.getPatientID()), p.getFirstName(), p.getLastName(), employeeIDs, serviceIDs
-      };
-
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
-    bw.close();
-    fw.close();
-  }
-
-  public void addPatient(Patient patient) throws SQLException {
+  public void addPatient(Patient patient) {
     patient.setPatientID(RequestSystem.getPatientID());
     allPatients.add(patient);
     addToSQLTable(patient);
+    saveToCSV();
   }
 
-  public void removePatient(Patient patient) throws IOException, SQLException {
+  public void removePatient(Patient patient) {
     allPatients.removeIf(currPatient -> patient.getPatientID() == currPatient.getPatientID());
     removeFromSQLTable(patient);
     saveToCSV();
@@ -103,66 +125,79 @@ public class PatientDao {
     return allPatients;
   }
 
-  public void createSQLTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "PATIENTS", new String[] {"TABLE"});
-    if (!set.next()) {
-      statement.execute(
-          "CREATE TABLE Patients(patientID int, patientFirstName char(30), patientLastName char(30), employeeIDs varchar(1000), serviceRequestIDs varchar(1000))");
+  public void createSQLTable() {
+    try {
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "PATIENTS", new String[] {"TABLE"});
+      if (!set.next()) {
+        statement.execute(
+            "CREATE TABLE Patients(patientID int, patientFirstName char(30), patientLastName char(30), employeeIDs varchar(1000), serviceRequestIDs varchar(1000))");
 
-    } else {
-      statement.execute("DROP TABLE PATIENTS");
-      createSQLTable();
-      return;
-    }
+      } else {
+        statement.execute("DROP TABLE PATIENTS");
+        createSQLTable();
+        return;
+      }
 
-    for (Patient patient : allPatients) {
-      addToSQLTable(patient);
+      for (Patient patient : allPatients) {
+        addToSQLTable(patient);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
-  public void addToSQLTable(Patient patient) throws SQLException {
-    Connection connection = Vdb.Connect();
-    Statement exampleStatement = connection.createStatement();
-    String query =
-        "INSERT INTO PATIENTS(patientID, patientFirstName, patientLastName, employeeIDs, serviceRequestIDs) VALUES ("
-            + patient.getPatientID()
-            + ",'"
-            + patient.getFirstName()
-            + "','"
-            + patient.getLastName()
-            + "', '";
+  public void addToSQLTable(Patient patient) {
+    try {
 
-    // add employees
-    for (int employeeID : patient.getEmployeeIDs()) {
-      query += employeeID + " ";
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      String query =
+          "INSERT INTO PATIENTS(patientID, patientFirstName, patientLastName, employeeIDs, serviceRequestIDs) VALUES ("
+              + patient.getPatientID()
+              + ",'"
+              + patient.getFirstName()
+              + "','"
+              + patient.getLastName()
+              + "', '";
+
+      // add employees
+      for (int employeeID : patient.getEmployeeIDs()) {
+        query += employeeID + " ";
+      }
+
+      query += "','";
+
+      // add service requests
+      for (int request : patient.getServiceRequestIDs()) {
+        query += request + " ";
+      }
+
+      query += "')";
+
+      exampleStatement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-
-    query += "','";
-
-    // add service requests
-    for (int request : patient.getServiceRequestIDs()) {
-      query += request + " ";
-    }
-
-    query += "')";
-
-    exampleStatement.execute(query);
   }
 
-  public void removeFromSQLTable(Patient patient) throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-    query = "DELETE FROM PATIENTS WHERE patientID = " + patient.getPatientID();
-    statement.executeUpdate(query);
+  public void removeFromSQLTable(Patient patient) {
+    try {
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+      query = "DELETE FROM PATIENTS WHERE patientID = " + patient.getPatientID();
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public Patient getPatientFromID(int patientID) {
+  public Patient getPatient(int patientID) {
     for (Patient patient : allPatients) {
       if (patient.getPatientID() == patientID) {
         return patient;
@@ -174,12 +209,12 @@ public class PatientDao {
     return patient;
   }
 
-  public void updatePatient(Patient patient, int patientID) throws SQLException, IOException {
-    Patient emp = patient;
-    emp.setPatientID(patientID);
-    removePatient(emp);
-    allPatients.add(emp);
-    addToSQLTable(emp);
+  public void updatePatient(Patient patient, int patientID) {
+    Patient oldPatient = getPatient(patientID);
+    patient.setPatientID(patientID);
+    removePatient(oldPatient);
+    allPatients.add(patient);
+    addToSQLTable(patient);
     saveToCSV();
   }
 }
