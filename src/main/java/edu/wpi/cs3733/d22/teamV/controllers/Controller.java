@@ -170,7 +170,7 @@ public abstract class Controller extends Application {
       e.printStackTrace();
     }
     Controller controller = loader.getController();
-    // controller.init();
+    controller.init();
     // MapController.getController().filterCheckBox.getCheckModel().clearChecks();
     // MapController.getController().populateFloorIconArr();
 

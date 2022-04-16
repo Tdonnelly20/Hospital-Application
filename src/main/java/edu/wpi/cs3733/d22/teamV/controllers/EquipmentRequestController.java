@@ -66,6 +66,7 @@ public class EquipmentRequestController extends RequestController {
 
   @Override
   public void init() {
+    System.out.println("In init Equipment Request");
     setTitleText("Equipment Delivery Request");
     fillTopPane();
     mapSetUp();
