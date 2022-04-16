@@ -4,15 +4,12 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
-import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -199,7 +196,7 @@ public class MapDashboardController extends Controller {
     if (!currEquipment.isEmpty()) {
 
       for (Equipment pos : currEquipment) {
-        if(pos.getFloor().equals(curFloor.getFloorName())) {
+        if (pos.getFloor().equals(curFloor.getFloorName())) {
           TreeItem<Equipment> item = new TreeItem(pos);
           treeItems.add(item);
         }
@@ -219,13 +216,14 @@ public class MapDashboardController extends Controller {
     yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
     startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
 
-    ArrayList<ServiceRequest> currRequests = (ArrayList<ServiceRequest>)Vdb.requestSystem.getEveryServiceRequest();
+    ArrayList<ServiceRequest> currRequests =
+        (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     if (!currRequests.isEmpty()) {
 
       for (ServiceRequest pos : currRequests) {
-        if(pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
           TreeItem<ServiceRequest> item = new TreeItem(pos);
           treeItems.add(item);
         }
@@ -234,6 +232,40 @@ public class MapDashboardController extends Controller {
       serviceRequestTable.setShowRoot(false);
       TreeItem root = new TreeItem(RequestSystem.getSystem().getEveryServiceRequest().get(0));
       serviceRequestTable.setRoot(root);
+      root.getChildren().addAll(treeItems);
+    }
+  }
+
+  @FXML
+  private void updatePatientTable() {
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+    lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
+    SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
+
+    ArrayList<Patient> currPatients =
+            Vdb.requestSystem.getPatients();
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    if (!currPatients.isEmpty()) {
+
+      for (Patient pos : currPatients) {
+        for(ServiceRequest s :RequestSystem.getSystem().getEveryServiceRequest() )
+          {
+            for(int i : pos.getServiceIDs())
+            {
+              if (i == s.getServiceID() && s.getLocation().getFloor().equals(curFloor.getFloorName())) {
+              TreeItem<Patient> item = new TreeItem(pos);
+              treeItems.add(item);
+            }
+
+          }
+
+        }
+      }
+
+      patientTable.setShowRoot(false);
+      TreeItem root = new TreeItem(RequestSystem.getSystem().getPatients().get(0));
+      patientTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
   }
