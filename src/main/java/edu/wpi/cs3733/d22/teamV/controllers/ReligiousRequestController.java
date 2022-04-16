@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import javafx.fxml.FXML;
@@ -34,8 +33,7 @@ public class ReligiousRequestController extends RequestController {
     return ReligiousRequestController.SingletonHelper.controller;
   }
 
-  private static final LocationDao LocationDao =
-      (LocationDao) Vdb.requestSystem.getDao(RequestSystem.Dao.LocationDao);
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   @Override
   public void init() {

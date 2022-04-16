@@ -85,8 +85,6 @@ public class RequestSystem {
         return labRequestDao;
       case LaundryRequest:
         return laundryRequestDao;
-      case LocationDao:
-        return locationDao;
       case MealRequest:
         return mealRequestDao;
       case MedicineDelivery:
@@ -107,7 +105,7 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void addServiceRequest(ServiceRequest request, Dao dao) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request, Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.addServiceRequest(request);
@@ -120,9 +118,6 @@ public class RequestSystem {
         break;
       case LaundryRequest:
         laundryRequestDao.addServiceRequest(request);
-        break;
-      case LocationDao:
-        locationDao.addServiceRequest(request);
         break;
       case MealRequest:
         mealRequestDao.addServiceRequest(request);
@@ -148,8 +143,7 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void removeServiceRequest(ServiceRequest request, Dao dao)
-      throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request, Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.removeServiceRequest(request);
@@ -159,8 +153,6 @@ public class RequestSystem {
         labRequestDao.removeServiceRequest(request);
       case LaundryRequest:
         laundryRequestDao.removeServiceRequest(request);
-      case LocationDao:
-        locationDao.removeServiceRequest(request);
       case MealRequest:
         mealRequestDao.removeServiceRequest(request);
       case MedicineDelivery:
@@ -181,7 +173,7 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request) {
     switch (request.getType()) {
       case "Equipment Delivery":
         equipmentDeliveryDao.removeServiceRequest(request);
@@ -219,8 +211,6 @@ public class RequestSystem {
         return labRequestDao.getAllServiceRequests();
       case LaundryRequest:
         return laundryRequestDao.getAllServiceRequests();
-      case LocationDao:
-        return locationDao.getAllServiceRequests();
       case MealRequest:
         return mealRequestDao.getAllServiceRequests();
       case MedicineDelivery:
@@ -343,8 +333,7 @@ public class RequestSystem {
    * @param serviceRequests
    * @throws SQLException
    */
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests, Dao dao)
-      throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests, Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.setAllServiceRequests(serviceRequests);
@@ -354,8 +343,6 @@ public class RequestSystem {
         labRequestDao.setAllServiceRequests(serviceRequests);
       case LaundryRequest:
         laundryRequestDao.setAllServiceRequests(serviceRequests);
-      case LocationDao:
-        locationDao.setAllServiceRequests(serviceRequests);
       case MealRequest:
         mealRequestDao.setAllServiceRequests(serviceRequests);
       case MedicineDelivery:

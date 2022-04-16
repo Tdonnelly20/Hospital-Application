@@ -38,8 +38,7 @@ public class SanitationRequestController extends RequestController {
 
   private static final SanitationRequestDao SanitationRequestDao =
       (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
-  private static final LocationDao LocationDao =
-      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   private static class SingletonHelper {
     private static final SanitationRequestController controller = new SanitationRequestController();

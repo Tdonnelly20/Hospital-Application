@@ -17,131 +17,147 @@ public class EquipmentDeliveryDao extends DaoInterface {
   /** Initialize the array list */
   public EquipmentDeliveryDao() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
+    loadFromCSV();
+    createSQLTable();
+  }
+
+  public void loadFromCSV() {
     try {
-      loadFromCSV();
-      createSQLTable();
-    } catch (Exception e) {
+
+      String line = "";
+      FileReader fr = new FileReader(VApp.currentPath + "/MedEquipReq.CSV");
+      BufferedReader br = new BufferedReader(fr);
+      String headerLine = br.readLine();
+      String splitToken = ",";
+      ArrayList<EquipmentDelivery> deliveries = new ArrayList<>();
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data;
+        data = line.split(splitToken);
+        EquipmentDelivery equipmentDelivery =
+            new EquipmentDelivery(
+                Integer.parseInt(data[0]),
+                Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
+        equipmentDelivery.setServiceID(Integer.parseInt(data[7]));
+        deliveries.add(equipmentDelivery);
+      }
+      allEquipmentDeliveries = deliveries;
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public void loadFromCSV() throws IOException, SQLException {
-    String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "/MedEquipReq.CSV");
-    BufferedReader br = new BufferedReader(fr);
-    String headerLine = br.readLine();
-    String splitToken = ",";
-    ArrayList<EquipmentDelivery> deliveries = new ArrayList<>();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data;
-      data = line.split(splitToken);
-      EquipmentDelivery equipmentDelivery =
-          new EquipmentDelivery(
-              Integer.parseInt(data[0]),
-              Integer.parseInt(data[1]),
-              data[2],
-              data[3],
-              data[4],
-              Integer.parseInt(data[5]),
-              data[6]);
-      equipmentDelivery.setServiceID(Integer.parseInt(data[7]));
-      deliveries.add(equipmentDelivery);
+  @Override
+  public void saveToCSV() {
+    try {
+
+      FileWriter fw = new FileWriter(VApp.currentPath + "/MedEquipReq.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append("employeeID,patientID,location,equipment,notes,quantity,status,serviceID");
+
+      for (ServiceRequest request : getAllServiceRequests()) {
+
+        EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
+
+        String[] outputData = {
+          String.valueOf(equipmentDelivery.getEmployeeID()),
+          String.valueOf(equipmentDelivery.getPatientID()),
+          equipmentDelivery.getLocation().getNodeID(),
+          equipmentDelivery.getEquipment(),
+          equipmentDelivery.getNotes(),
+          String.valueOf(equipmentDelivery.getQuantity()),
+          equipmentDelivery.getStatus(),
+          String.valueOf(equipmentDelivery.getServiceID())
+        };
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
+      }
+
+      bw.close();
+      fw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    allEquipmentDeliveries = deliveries;
   }
 
   @Override
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/MedEquipReq.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("employeeID,patientID,location,equipment,notes,quantity,status,serviceID");
+  public void createSQLTable() {
+    try {
 
-    for (ServiceRequest request : getAllServiceRequests()) {
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+
+      ResultSet set = meta.getTables(null, null, "EQUIPMENTDELIVERY", new String[] {"TABLE"});
+      String query = "";
+
+      if (!set.next()) {
+        query =
+            "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
+        exampleStatement.execute(query);
+      } else {
+        query = "DROP TABLE EQUIPMENTDELIVERY";
+        exampleStatement.execute(query);
+        createSQLTable();
+        return;
+      }
+      for (EquipmentDelivery equipmentDelivery : allEquipmentDeliveries) {
+        addToSQLTable(equipmentDelivery);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) {
+    try {
 
       EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
 
-      String[] outputData = {
-        String.valueOf(equipmentDelivery.getEmployeeID()),
-        String.valueOf(equipmentDelivery.getPatientID()),
-        equipmentDelivery.getLocation().getNodeID(),
-        equipmentDelivery.getEquipment(),
-        equipmentDelivery.getNotes(),
-        String.valueOf(equipmentDelivery.getQuantity()),
-        equipmentDelivery.getStatus(),
-        String.valueOf(equipmentDelivery.getServiceID())
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
 
-    bw.close();
-    fw.close();
-  }
-
-  @Override
-  public void createSQLTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    Statement exampleStatement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-
-    ResultSet set = meta.getTables(null, null, "EQUIPMENTDELIVERY", new String[] {"TABLE"});
-    String query = "";
-
-    if (!set.next()) {
       query =
-          "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
-      exampleStatement.execute(query);
-    } else {
-      query = "DROP TABLE EQUIPMENTDELIVERY";
-      exampleStatement.execute(query);
-      createSQLTable();
-      return;
-    }
-    for (EquipmentDelivery equipmentDelivery : allEquipmentDeliveries) {
-      addToSQLTable(equipmentDelivery);
+          "INSERT INTO EQUIPMENTDELIVERY("
+              + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID) VALUES "
+              + "("
+              + equipmentDelivery.getEmployeeID()
+              + ", "
+              + equipmentDelivery.getPatientID()
+              + ", '"
+              + equipmentDelivery.getLocationName()
+              + "', '"
+              + equipmentDelivery.getEquipment()
+              + "','"
+              + equipmentDelivery.getNotes()
+              + "',"
+              + equipmentDelivery.getQuantity()
+              + ",'"
+              + equipmentDelivery.getStatus()
+              + "',"
+              + equipmentDelivery.getServiceID()
+              + ")";
+
+      statement.execute(query);
+
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
   @Override
-  public void addToSQLTable(ServiceRequest request) throws SQLException {
-    EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
-
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO EQUIPMENTDELIVERY("
-            + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID) VALUES "
-            + "("
-            + equipmentDelivery.getEmployeeID()
-            + ", "
-            + equipmentDelivery.getPatientID()
-            + ", '"
-            + equipmentDelivery.getLocationName()
-            + "', '"
-            + equipmentDelivery.getEquipment()
-            + "','"
-            + equipmentDelivery.getNotes()
-            + "',"
-            + equipmentDelivery.getQuantity()
-            + ",'"
-            + equipmentDelivery.getStatus()
-            + "',"
-            + equipmentDelivery.getServiceID()
-            + ")";
-
-    statement.execute(query);
-  }
-
-  @Override
-  public void updateServiceRequest(ServiceRequest request, int serviceID)
-      throws SQLException, IOException {
+  public void updateServiceRequest(ServiceRequest request, int serviceID) {
     EquipmentDelivery delivery = (EquipmentDelivery) request;
     delivery.setServiceID(serviceID);
     removeServiceRequest(delivery);
@@ -151,19 +167,24 @@ public class EquipmentDeliveryDao extends DaoInterface {
   }
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-    EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
+  public void removeFromSQLTable(ServiceRequest request) {
+    try {
 
-    query = "DELETE FROM EQUIPMENTDELIVERY WHERE serviceID = " + request.getServiceID();
-    statement.execute(query);
+      EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+
+      query = "DELETE FROM EQUIPMENTDELIVERY WHERE serviceID = " + request.getServiceID();
+      statement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request) {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
     request.setServiceID(RequestSystem.getServiceID());
     allEquipmentDeliveries.add(equipmentDelivery);
@@ -173,7 +194,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
   }
 
   @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request) {
     allEquipmentDeliveries.removeIf(value -> value.getServiceID() == request.getServiceID());
     removeFromSQLTable(request);
     saveToCSV();
@@ -185,8 +206,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     allEquipmentDeliveries = new ArrayList<>();
 
     // Convert to subtype

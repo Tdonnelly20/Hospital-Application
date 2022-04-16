@@ -15,112 +15,116 @@ public class EmployeeDao {
 
   public EmployeeDao() {
     allEmployees = new ArrayList<>();
+    createSQLTable();
+    loadFromCSV();
+  }
+
+  public void loadFromCSV() {
     try {
-      createSQLTable();
-      loadFromCSV();
+
+      String line = "";
+      String file = VApp.currentPath + "/Employees.csv";
+      FileReader fr = new FileReader(file);
+      BufferedReader br = new BufferedReader(fr);
+      String splitToken = ","; // what we split the csv file with
+      ArrayList<Employee> employees = new ArrayList<>();
+      String headerLine = br.readLine();
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data = line.split(splitToken);
+        ArrayList<Integer> patientIDs;
+        ArrayList<Integer> serviceIDs;
+        ArrayList<String> specialties;
+        // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
+
+        try {
+          specialties = new ArrayList(Arrays.asList(data[4].split(" ")));
+        } catch (Exception e) {
+          specialties = new ArrayList<>();
+        }
+
+        try {
+          patientIDs =
+              IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
+                  .boxed()
+                  .collect(Collectors.toCollection(ArrayList::new));
+        } catch (Exception e) {
+          patientIDs = new ArrayList<>();
+        }
+
+        try {
+          serviceIDs =
+              IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
+                  .boxed()
+                  .collect(Collectors.toCollection(ArrayList::new));
+        } catch (Exception e) {
+          serviceIDs = new ArrayList<>();
+        }
+
+        Employee newEmployee =
+            new Employee(
+                Integer.parseInt(data[0]),
+                data[1],
+                data[2],
+                data[3],
+                specialties, // FIGHT ME I HATE FOR LOOPS
+                patientIDs,
+                serviceIDs,
+                true);
+
+        employees.add(newEmployee);
+      }
+      allEmployees = employees;
     } catch (IOException e) {
       e.printStackTrace();
-    } catch (SQLException e) {
+    }
+  }
+
+  public void saveToCSV() {
+    try {
+
+      FileWriter fw = new FileWriter(VApp.currentPath + "/Employees.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append(
+          "employeeID,employeeFirstName,employeeLastName,employeePosition,employeeSpecialties,patientIDs,serviceRequestIDs");
+      for (Employee e : getAllEmployees()) {
+
+        String specialties = "";
+        String patientIDs = "";
+        String serviceIDs = "";
+
+        for (String str : e.getSpecialties()) {
+          specialties += str + " ";
+        }
+
+        for (int ID : e.getPatientIDs()) {
+          patientIDs += ID + " ";
+        }
+
+        for (int ID : e.getServiceRequestIDs()) {
+          serviceIDs += ID + " ";
+        }
+
+        String[] outputData = {
+          String.valueOf(e.getEmployeeID()),
+          e.getFirstName(),
+          e.getLastName(),
+          e.getEmployeePosition(),
+          specialties.trim(),
+          patientIDs.trim(),
+          serviceIDs.trim()
+        };
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
+      }
+      bw.close();
+      fw.close();
+    } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  public void loadFromCSV() throws IOException {
-    String line = "";
-    String file = VApp.currentPath + "/Employees.csv";
-    FileReader fr = new FileReader(file);
-    BufferedReader br = new BufferedReader(fr);
-    String splitToken = ","; // what we split the csv file with
-    ArrayList<Employee> employees = new ArrayList<>();
-    String headerLine = br.readLine();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data = line.split(splitToken);
-      ArrayList<Integer> patientIDs;
-      ArrayList<Integer> serviceIDs;
-      ArrayList<String> specialties;
-      // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
-
-      try {
-        specialties = new ArrayList(Arrays.asList(data[4].split(" ")));
-      } catch (Exception e) {
-        specialties = new ArrayList<>();
-      }
-
-      try {
-        patientIDs =
-            IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
-                .boxed()
-                .collect(Collectors.toCollection(ArrayList::new));
-      } catch (Exception e) {
-        patientIDs = new ArrayList<>();
-      }
-
-      try {
-        serviceIDs =
-            IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
-                .boxed()
-                .collect(Collectors.toCollection(ArrayList::new));
-      } catch (Exception e) {
-        serviceIDs = new ArrayList<>();
-      }
-
-      Employee newEmployee =
-          new Employee(
-              Integer.parseInt(data[0]),
-              data[1],
-              data[2],
-              data[3],
-              specialties, // FIGHT ME I HATE FOR LOOPS
-              patientIDs,
-              serviceIDs,
-              true);
-
-      employees.add(newEmployee);
-    }
-    allEmployees = employees;
-  }
-
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/Employees.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append(
-        "employeeID,employeeFirstName,employeeLastName,employeePosition,employeeSpecialties,patientIDs,serviceRequestIDs");
-    for (Employee e : getAllEmployees()) {
-
-      String specialties = "";
-      String patientIDs = "";
-      String serviceIDs = "";
-
-      for (String str : e.getSpecialties()) {
-        specialties += str + " ";
-      }
-
-      for (int ID : e.getPatientIDs()) {
-        patientIDs += ID + " ";
-      }
-
-      for (int ID : e.getServiceRequestIDs()) {
-        serviceIDs += ID + " ";
-      }
-
-      String[] outputData = {
-        String.valueOf(e.getEmployeeID()),
-        e.getFirstName(),
-        e.getLastName(),
-        e.getEmployeePosition(),
-        specialties.trim(),
-        patientIDs.trim(),
-        serviceIDs.trim()
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
-    bw.close();
-    fw.close();
   }
 
   public Employee getEmployee(int employeeID) {
@@ -133,13 +137,13 @@ public class EmployeeDao {
     return new Employee(-1);
   }
 
-  public void addEmployee(Employee employee) throws IOException, SQLException {
+  public void addEmployee(Employee employee) {
     allEmployees.add(employee);
     addToSQLTable(employee);
     saveToCSV();
   }
 
-  public void removeEmployee(Employee employee) throws IOException, SQLException {
+  public void removeEmployee(Employee employee) {
     allEmployees.removeIf(currEmployee -> employee.getEmployeeID() == currEmployee.getEmployeeID());
     removeFromSQLTable(employee);
     saveToCSV();
@@ -149,74 +153,89 @@ public class EmployeeDao {
     return allEmployees;
   }
 
-  public void createSQLTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "EMPLOYEES", new String[] {"TABLE"});
-    if (!set.next()) {
-      statement.execute(
-          "CREATE TABLE Employees(employeeID int, employeeFirstName char(30), employeeLastName char(30), employeePosition char(30), employeeSpecialties varchar(1000), patientIDs varchar(1000), serviceRequestIDs varchar(1000))");
+  public void createSQLTable() {
+    try {
 
-    } else {
-      statement.execute("DROP TABLE EMPLOYEES");
-      createSQLTable();
-      return;
-    }
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "EMPLOYEES", new String[] {"TABLE"});
+      if (!set.next()) {
+        statement.execute(
+            "CREATE TABLE Employees(employeeID int, employeeFirstName char(30), employeeLastName char(30), employeePosition char(30), employeeSpecialties varchar(1000), patientIDs varchar(1000), serviceRequestIDs varchar(1000))");
 
-    for (Employee employee : allEmployees) {
-      addToSQLTable(employee);
+      } else {
+        statement.execute("DROP TABLE EMPLOYEES");
+        createSQLTable();
+        return;
+      }
+
+      for (Employee employee : allEmployees) {
+        addToSQLTable(employee);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
-  public void addToSQLTable(Employee employee) throws SQLException {
-    Connection connection = Vdb.Connect();
-    Statement exampleStatement = connection.createStatement();
-    String query =
-        "INSERT INTO EMPLOYEES(employeeID, employeeFirstName, employeeLastName, employeePosition, employeeSpecialties, patientIDs, serviceRequestIDs) VALUES ("
-            + employee.getEmployeeID()
-            + ",'"
-            + employee.getFirstName()
-            + "','"
-            + employee.getLastName()
-            + "', '"
-            + employee.getEmployeePosition()
-            + "','";
+  public void addToSQLTable(Employee employee) {
+    try {
 
-    // add specialties
-    for (String str : employee.getSpecialties()) {
-      query += str + " ";
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      String query =
+          "INSERT INTO EMPLOYEES(employeeID, employeeFirstName, employeeLastName, employeePosition, employeeSpecialties, patientIDs, serviceRequestIDs) VALUES ("
+              + employee.getEmployeeID()
+              + ",'"
+              + employee.getFirstName()
+              + "','"
+              + employee.getLastName()
+              + "', '"
+              + employee.getEmployeePosition()
+              + "','";
+
+      // add specialties
+      for (String str : employee.getSpecialties()) {
+        query += str + " ";
+      }
+      query += "','";
+
+      // add patients
+      for (int patientID : employee.getPatientIDs()) {
+        query += patientID + " ";
+      }
+
+      query += "','";
+
+      // add service requests
+      for (int request : employee.getServiceRequestIDs()) {
+        query += request + " ";
+      }
+
+      query += "')";
+
+      exampleStatement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    query += "','";
-
-    // add patients
-    for (int patientID : employee.getPatientIDs()) {
-      query += patientID + " ";
-    }
-
-    query += "','";
-
-    // add service requests
-    for (int request : employee.getServiceRequestIDs()) {
-      query += request + " ";
-    }
-
-    query += "')";
-
-    exampleStatement.execute(query);
   }
 
-  public void removeFromSQLTable(Employee employee) throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-    query = "DELETE FROM EMPLOYEES WHERE employeeID = " + employee.getEmployeeID();
-    statement.executeUpdate(query);
+  public void removeFromSQLTable(Employee employee) {
+    try {
+
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+      query = "DELETE FROM EMPLOYEES WHERE employeeID = " + employee.getEmployeeID();
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void updateEmployee(Employee employee, int employeeID) throws SQLException, IOException {
+  public void updateEmployee(Employee employee, int employeeID) {
     Employee emp = getEmployee(employeeID);
     removeEmployee(emp);
     employee.setEmployeeID(employeeID);

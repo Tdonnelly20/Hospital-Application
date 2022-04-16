@@ -14,119 +14,137 @@ public class LabRequestDao extends DaoInterface {
   private static ArrayList<LabRequest> allLabRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() throws SQLException, IOException {
+  public LabRequestDao() {
     allLabRequests = new ArrayList<>();
     createSQLTable();
     loadFromCSV();
   }
 
   // DaoInterface Methods
-  public void loadFromCSV() throws IOException, SQLException {
+  public void loadFromCSV() {
+    try {
 
-    FileReader fr = new FileReader(VApp.currentPath + "/LabRequests.csv");
-    BufferedReader br = new BufferedReader(fr);
-    String splitToken = ","; // what we split the csv file with
-    ArrayList<LabRequest> labRequests = new ArrayList<>();
+      FileReader fr = new FileReader(VApp.currentPath + "/LabRequests.csv");
+      BufferedReader br = new BufferedReader(fr);
+      String splitToken = ","; // what we split the csv file with
+      ArrayList<LabRequest> labRequests = new ArrayList<>();
 
-    String headerLine = br.readLine();
-    String line;
+      String headerLine = br.readLine();
+      String line;
 
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data = line.split(splitToken);
-      LabRequest newDelivery =
-          new LabRequest(
-              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
-      newDelivery.setServiceID(Integer.parseInt(data[5]));
-      allLabRequests.add(newDelivery);
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data = line.split(splitToken);
+        LabRequest newDelivery =
+            new LabRequest(
+                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+        newDelivery.setServiceID(Integer.parseInt(data[5]));
+        allLabRequests.add(newDelivery);
+      }
+      setAllServiceRequests(allLabRequests);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    setAllServiceRequests(allLabRequests);
   }
 
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/LabRequests.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("userID,patientID,nodeID,lab,status,serviceID");
+  public void saveToCSV() {
+    try {
 
-    for (ServiceRequest request : getAllServiceRequests()) {
+      FileWriter fw = new FileWriter(VApp.currentPath + "/LabRequests.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append("userID,patientID,nodeID,lab,status,serviceID");
+
+      for (ServiceRequest request : getAllServiceRequests()) {
+
+        LabRequest labRequest = (LabRequest) request;
+
+        String[] outputData = {
+          String.valueOf(labRequest.getUserID()),
+          String.valueOf(labRequest.getPatientID()),
+          labRequest.getLocation().getNodeID(),
+          labRequest.getLab(),
+          labRequest.getStatus(),
+          String.valueOf(labRequest.getServiceID())
+        };
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
+      }
+
+      bw.close();
+      fw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void createSQLTable() {
+    try {
+
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "LABS", new String[] {"TABLE"});
+      String query = "";
+
+      if (!set.next()) {
+        query =
+            "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int)";
+        statement.execute(query);
+
+      } else {
+        query = "DROP TABLE LABS";
+        statement.execute(query);
+        createSQLTable(); // rerun the method to generate new tables
+        return;
+      }
+
+      for (LabRequest labRequest : allLabRequests) {
+        addToSQLTable(labRequest);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addToSQLTable(ServiceRequest request) {
+    try {
 
       LabRequest labRequest = (LabRequest) request;
 
-      String[] outputData = {
-        String.valueOf(labRequest.getUserID()),
-        String.valueOf(labRequest.getPatientID()),
-        labRequest.getLocation().getNodeID(),
-        labRequest.getLab(),
-        labRequest.getStatus(),
-        String.valueOf(labRequest.getServiceID())
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
 
-    bw.close();
-    fw.close();
-  }
-
-  public void createSQLTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "LABS", new String[] {"TABLE"});
-    String query = "";
-
-    if (!set.next()) {
       query =
-          "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int)";
+          "INSERT INTO LABS("
+              + "userID,patientID,nodeID,lab,status,serviceID) VALUES "
+              + "("
+              + labRequest.getUserID()
+              + ", "
+              + labRequest.getPatientID()
+              + ", '"
+              + labRequest.getLocation().getNodeID()
+              + "', '"
+              + labRequest.getLab()
+              + "', '"
+              + labRequest.getStatus()
+              + "',"
+              + labRequest.getServiceID()
+              + ")";
+
       statement.execute(query);
-
-    } else {
-      query = "DROP TABLE LABS";
-      statement.execute(query);
-      createSQLTable(); // rerun the method to generate new tables
-      return;
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-
-    for (LabRequest labRequest : allLabRequests) {
-      addToSQLTable(labRequest);
-    }
-  }
-
-  public void addToSQLTable(ServiceRequest request) throws SQLException {
-    LabRequest labRequest = (LabRequest) request;
-
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO LABS("
-            + "userID,patientID,nodeID,lab,status,serviceID) VALUES "
-            + "("
-            + labRequest.getUserID()
-            + ", "
-            + labRequest.getPatientID()
-            + ", '"
-            + labRequest.getLocation().getNodeID()
-            + "', '"
-            + labRequest.getLab()
-            + "', '"
-            + labRequest.getStatus()
-            + "',"
-            + labRequest.getServiceID()
-            + ")";
-
-    statement.execute(query);
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request, int serviceID)
-      throws SQLException, IOException {
+  public void updateServiceRequest(ServiceRequest request, int serviceID) {
     LabRequest labRequest = (LabRequest) request;
     labRequest.setServiceID(serviceID);
     removeServiceRequest(labRequest);
@@ -135,17 +153,22 @@ public class LabRequestDao extends DaoInterface {
     saveToCSV();
   }
 
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
+  public void removeFromSQLTable(ServiceRequest request) {
+    try {
 
-    query = "DELETE FROM LABS WHERE serviceID = " + request.getServiceID();
-    statement.execute(query);
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+
+      query = "DELETE FROM LABS WHERE serviceID = " + request.getServiceID();
+      statement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request) {
     int serviceID = RequestSystem.getServiceID();
     LabRequest labRequest = (LabRequest) request;
     labRequest.setServiceID(serviceID);
@@ -155,7 +178,7 @@ public class LabRequestDao extends DaoInterface {
     saveToCSV();
   }
 
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request) {
     LabRequest labRequest = (LabRequest) request;
     allLabRequests.removeIf(value -> value.getServiceID() == labRequest.getServiceID());
     removeFromSQLTable(request);
@@ -166,8 +189,7 @@ public class LabRequestDao extends DaoInterface {
     return allLabRequests;
   }
 
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     // Set all medicine deliveries
     allLabRequests = new ArrayList<>();
 
