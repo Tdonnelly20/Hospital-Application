@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +24,7 @@ public class LabRequest extends ServiceRequest {
     // this.location = location;
     this.patient = Vdb.requestSystem.getPatients().get(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
-    this.hospitalEmployee = new Employee(userID);
+    this.employee = new Employee(userID);
 
     this.lab = lab;
     this.status = status;
@@ -36,9 +37,9 @@ public class LabRequest extends ServiceRequest {
 
   public LabRequest(int userID, int patientID, String nodeID, String lab, String status) {
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
-    this.hospitalEmployee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
+    this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
 
     this.lab = lab;
     this.status = status;
@@ -48,7 +49,7 @@ public class LabRequest extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return hospitalEmployee.getEmployeeID();
+    return employee.getEmployeeID();
   }
 
   public int getPatientID() {
@@ -65,5 +66,11 @@ public class LabRequest extends ServiceRequest {
 
   public String getNodeID() {
     return location.getNodeID();
+  }
+
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
   }
 }

@@ -2,10 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
-import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
-import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,6 +24,7 @@ public class RequestSystem {
   private MealRequestDao mealRequestDao;
   private MedicineDeliveryDao medicineDeliveryDao;
   private ReligiousRequestDao religiousRequestDao;
+  private RobotDao robotDao;
   private SanitationRequestDao sanitationRequestDao;
 
   public RequestSystem() {}
@@ -44,11 +42,18 @@ public class RequestSystem {
     mealRequestDao = new MealRequestDao();
     medicineDeliveryDao = new MedicineDeliveryDao();
     religiousRequestDao = new ReligiousRequestDao();
+    robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
+
+    triDirectionalityInit();
   }
+
+  private void triDirectionalityInit() {}
 
   /** Choose type of DAO for the methods called */
   public enum Dao {
+    Employee,
+    Patient,
     Equipment,
     EquipmentDelivery,
     InternalPatientTransportation,
@@ -58,6 +63,7 @@ public class RequestSystem {
     MealRequest,
     MedicineDelivery,
     ReligiousRequest,
+    RobotRequest,
     SanitationRequest
   }
 
@@ -79,14 +85,14 @@ public class RequestSystem {
         return labRequestDao;
       case LaundryRequest:
         return laundryRequestDao;
-      case LocationDao:
-        return locationDao;
       case MealRequest:
         return mealRequestDao;
       case MedicineDelivery:
         return medicineDeliveryDao;
       case ReligiousRequest:
         return religiousRequestDao;
+      case RobotRequest:
+        return robotDao;
       case SanitationRequest:
         return sanitationRequestDao;
       default:
@@ -101,7 +107,7 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void addServiceRequest(ServiceRequest request, Dao dao) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request, Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.addServiceRequest(request);
@@ -115,9 +121,6 @@ public class RequestSystem {
       case LaundryRequest:
         laundryRequestDao.addServiceRequest(request);
         break;
-      case LocationDao:
-        locationDao.addServiceRequest(request);
-        break;
       case MealRequest:
         mealRequestDao.addServiceRequest(request);
         break;
@@ -126,6 +129,8 @@ public class RequestSystem {
         break;
       case ReligiousRequest:
         religiousRequestDao.addServiceRequest(request);
+      case RobotRequest:
+        robotDao.addServiceRequest(request);
         break;
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
@@ -142,8 +147,7 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void removeServiceRequest(ServiceRequest request, Dao dao)
-      throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request, Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.removeServiceRequest(request);
@@ -153,14 +157,14 @@ public class RequestSystem {
         labRequestDao.removeServiceRequest(request);
       case LaundryRequest:
         laundryRequestDao.removeServiceRequest(request);
-      case LocationDao:
-        locationDao.removeServiceRequest(request);
       case MealRequest:
         mealRequestDao.removeServiceRequest(request);
       case MedicineDelivery:
         medicineDeliveryDao.removeServiceRequest(request);
       case ReligiousRequest:
         religiousRequestDao.removeServiceRequest(request);
+      case RobotRequest:
+        robotDao.removeServiceRequest(request);
       case SanitationRequest:
         sanitationRequestDao.removeServiceRequest(request);
       default:
@@ -175,7 +179,7 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request) {
     switch (request.getType()) {
       case "Equipment Delivery":
         equipmentDeliveryDao.removeServiceRequest(request);
@@ -213,14 +217,14 @@ public class RequestSystem {
         return labRequestDao.getAllServiceRequests();
       case LaundryRequest:
         return laundryRequestDao.getAllServiceRequests();
-      case LocationDao:
-        return locationDao.getAllServiceRequests();
       case MealRequest:
         return mealRequestDao.getAllServiceRequests();
       case MedicineDelivery:
         return medicineDeliveryDao.getAllServiceRequests();
       case ReligiousRequest:
         return religiousRequestDao.getAllServiceRequests();
+      case RobotRequest:
+        return robotDao.getAllServiceRequests();
       case SanitationRequest:
         return sanitationRequestDao.getAllServiceRequests();
       default:
@@ -242,7 +246,7 @@ public class RequestSystem {
   public ArrayList<ServiceRequest> getAllRequestsWithEmployeeID(int employeeID) {
     ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
     for (ServiceRequest request : getEveryServiceRequest()) {
-      if (request.getHospitalEmployee().getEmployeeID() == employeeID) {
+      if (request.getEmployee().getEmployeeID() == employeeID) {
         serviceRequests.add(request);
       }
     }
@@ -337,8 +341,7 @@ public class RequestSystem {
    * @param serviceRequests
    * @throws SQLException
    */
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests, Dao dao)
-      throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests, Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.setAllServiceRequests(serviceRequests);
@@ -348,14 +351,14 @@ public class RequestSystem {
         labRequestDao.setAllServiceRequests(serviceRequests);
       case LaundryRequest:
         laundryRequestDao.setAllServiceRequests(serviceRequests);
-      case LocationDao:
-        locationDao.setAllServiceRequests(serviceRequests);
       case MealRequest:
         mealRequestDao.setAllServiceRequests(serviceRequests);
       case MedicineDelivery:
         medicineDeliveryDao.setAllServiceRequests(serviceRequests);
       case ReligiousRequest:
         religiousRequestDao.setAllServiceRequests(serviceRequests);
+      case RobotRequest:
+        robotDao.setAllServiceRequests(serviceRequests);
       case SanitationRequest:
         sanitationRequestDao.setAllServiceRequests(serviceRequests);
       default:

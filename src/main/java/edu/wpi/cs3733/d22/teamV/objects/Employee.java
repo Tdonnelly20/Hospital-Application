@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import lombok.Getter;
@@ -8,11 +9,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Employee {
+public class Employee extends DirectionalAssoc {
   private int employeeID;
   private String firstName;
   private String lastName;
-  private String employeePosition;
+  private String employeePosition = "Doctor";
   private ArrayList<String> specialties;
   private ArrayList<Integer> patientIDs;
   private ArrayList<Integer> serviceRequestIDs;
@@ -41,22 +42,6 @@ public class Employee {
   }
 
   public Employee() {}
-
-  public void addPatient(Patient patient) {
-    patientIDs.add(patient.getPatientID());
-  }
-
-  public void addPatient(int patientID) {
-    patientIDs.add(patientID);
-  }
-
-  public void removePatient(Patient patient) {
-    patientIDs.remove(patient);
-  }
-
-  public void removePatient(int patientID) {
-    patientIDs.remove(patientID);
-  }
 
   public int getPatientListSize() {
     return patientIDs.size();
@@ -104,5 +89,43 @@ public class Employee {
       }
     }
     return serviceRequests;
+  }
+
+  // Used to update info in the observer
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    // Check to see what updated and its type
+    if (directionalAssoc instanceof Patient) {
+      Patient patient = (Patient) directionalAssoc;
+      int patientID = patient.getPatientID();
+      boolean employeeContains = patientIDs.contains(patientID);
+      boolean patientContains = patient.getEmployeeIDs().contains(getEmployeeID());
+
+      // Check to see if the patient has a state change relevant to the employee containing it
+      if (employeeContains && !patientContains) {
+        patientIDs.removeIf(currID -> currID == patientID);
+
+      } else if (!employeeContains && patientContains) {
+        patientIDs.add(patientID);
+      }
+
+    } else if (directionalAssoc instanceof ServiceRequest) {
+      ServiceRequest serviceRequest = (ServiceRequest) directionalAssoc;
+      int employeeID = serviceRequest.getEmployee().getEmployeeID();
+      int serviceID = serviceRequest.getServiceID();
+      int patientID = serviceRequest.getPatient().getPatientID();
+      boolean employeeContains = serviceRequestIDs.contains(serviceID);
+      boolean serviceRequestContains = (employeeID == getEmployeeID());
+
+      if (employeeContains && !serviceRequestContains) {
+        serviceRequestIDs.removeIf(currID -> currID == serviceID);
+        patientIDs.removeIf(currID -> currID == patientID);
+      } else if (!employeeContains && serviceRequestContains) {
+        serviceRequestIDs.add(serviceID);
+        if (!patientIDs.contains(patientID)) patientIDs.add(patientID);
+      }
+    }
+
+    Vdb.requestSystem.getEmployeeDao().updateEmployee(this, getEmployeeID());
   }
 }

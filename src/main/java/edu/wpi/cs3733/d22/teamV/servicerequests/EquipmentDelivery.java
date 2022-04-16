@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class EquipmentDelivery extends ServiceRequest {
   private final String equipment, notes;
@@ -20,8 +21,8 @@ public class EquipmentDelivery extends ServiceRequest {
       String status,
       int serviceID) {
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
-    this.hospitalEmployee = new Employee(employeeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.employee = new Employee(employeeID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
     this.notes = notes;
     this.type = "Equipment Delivery";
@@ -41,8 +42,8 @@ public class EquipmentDelivery extends ServiceRequest {
       String status) {
     System.out.println(Vdb.requestSystem);
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
-    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
     this.notes = notes;
     this.type = "Equipment Delivery";
@@ -62,6 +63,12 @@ public class EquipmentDelivery extends ServiceRequest {
     return quantity;
   }
 
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
+  }
+
   public String getPatientFirstName() {
     return patient.getFirstName();
   }
@@ -75,7 +82,7 @@ public class EquipmentDelivery extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return super.getHospitalEmployee().getEmployeeID();
+    return super.getEmployee().getEmployeeID();
   }
 
   public int getPatientID() {

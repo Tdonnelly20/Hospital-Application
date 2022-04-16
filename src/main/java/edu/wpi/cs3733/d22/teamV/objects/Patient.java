@@ -1,12 +1,15 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
+import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Patient {
+public class Patient extends DirectionalAssoc {
   private int patientID;
   private String firstName;
   private String lastName;
@@ -55,5 +58,46 @@ public class Patient {
 
   public ArrayList<Integer> getServiceRequestIDs() {
     return serviceIDs;
+  }
+
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    // Check to see what updated and its type
+    if (directionalAssoc instanceof Employee) {
+      Employee employee = (Employee) directionalAssoc;
+      int employeeID = employee.getEmployeeID();
+
+      boolean patientContains = employeeIDs.contains(employeeID);
+      boolean employeeContains = employee.getPatientIDs().contains(getPatientID());
+      // Check to see if the patient has a state change relevant to the employee containing it
+      if (patientContains && !employeeContains) {
+        employeeIDs.removeIf(currID -> currID == employeeID);
+
+      } else if (!patientContains && employeeContains) {
+        employeeIDs.add(employeeID);
+      }
+
+    } else if (directionalAssoc instanceof ServiceRequest) {
+      ServiceRequest serviceRequest = (ServiceRequest) directionalAssoc;
+      // IDs from the subject
+      int employeeID = serviceRequest.getEmployee().getEmployeeID();
+      int serviceID = serviceRequest.getServiceID();
+      int patientID = serviceRequest.getPatient().getPatientID();
+
+      boolean patientContains = serviceIDs.contains(serviceID);
+      boolean serviceRequestContains = patientID == getPatientID();
+
+      if (patientContains && !serviceRequestContains) {
+        serviceIDs.removeIf(currID -> currID == serviceID);
+        employeeIDs.removeIf(currID -> currID == employeeID);
+
+      } else if (!patientContains && serviceRequestContains) {
+        serviceIDs.add(serviceRequest.getServiceID());
+
+        if (!employeeIDs.contains(employeeID)) employeeIDs.add(employeeID);
+      }
+    }
+
+    Vdb.requestSystem.getPatientDao().updatePatient(this, getPatientID());
   }
 }
