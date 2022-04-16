@@ -19,7 +19,7 @@ public class ReligiousRequest extends ServiceRequest {
       int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
     this.patientID = employeeID;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.employeeID = patientID;
     this.religion = religion;

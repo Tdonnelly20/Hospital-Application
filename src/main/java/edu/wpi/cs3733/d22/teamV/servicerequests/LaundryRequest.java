@@ -11,7 +11,7 @@ public class LaundryRequest extends ServiceRequest {
       int employeeID, int patientID, String nodeID, String details, String status) {
     this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
     this.employee = new Employee(employeeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.details = details;
     this.status = status;
   }
