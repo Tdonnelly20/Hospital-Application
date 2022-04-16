@@ -32,7 +32,8 @@
 .titled-pane{
     -fx-font-family:"Ebrima";
     -fx-font-style: italic;
-    -fx-border-radius:40 40 0 0;
+    -fx-background-radius: 10, 10, 0, 0;
+    -fx-border-radius: 10, 10, 0, 0;
 
 
     -fx-border-style: round;
