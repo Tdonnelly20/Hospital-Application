@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class InternalPatientTransportation extends ServiceRequest {
   private Patient patient;
@@ -45,6 +46,12 @@ public class InternalPatientTransportation extends ServiceRequest {
 
   public String getNodeID() {
     return nodeID;
+  }
+
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
   }
 
   public String getRequestDetails() {

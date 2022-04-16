@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -65,5 +66,11 @@ public class LabRequest extends ServiceRequest {
 
   public String getNodeID() {
     return location.getNodeID();
+  }
+
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
   }
 }

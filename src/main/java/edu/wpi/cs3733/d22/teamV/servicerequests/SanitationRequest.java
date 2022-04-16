@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class SanitationRequest extends ServiceRequest {
   private String roomLocation, hazardName, requestDetails;
@@ -43,6 +44,12 @@ public class SanitationRequest extends ServiceRequest {
 
   public int getPatientID() {
     return patientID;
+  }
+
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
   }
 
   public int getHospitalID() {
