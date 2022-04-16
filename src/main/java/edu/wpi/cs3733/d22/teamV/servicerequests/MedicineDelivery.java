@@ -27,7 +27,7 @@ public class MedicineDelivery extends ServiceRequest {
     this.status = status;
     this.medicineName = medicineName;
     this.type = "Medicine Delivery";
-    patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
   }
 

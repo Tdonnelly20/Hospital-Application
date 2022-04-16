@@ -20,7 +20,7 @@ public class InternalPatientTransportation extends ServiceRequest {
       String nodeID, int patientID, int employeeID, String requestDetails) {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.nodeID = nodeID;
     this.employeeID = employeeID;
     this.requestDetails = requestDetails;

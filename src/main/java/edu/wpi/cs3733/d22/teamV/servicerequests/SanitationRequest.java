@@ -24,7 +24,7 @@ public class SanitationRequest extends ServiceRequest {
 
     this.requestDetails = requestDetails;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
     this.patientID = patientID;
     this.hospitalID = hospitalID;
