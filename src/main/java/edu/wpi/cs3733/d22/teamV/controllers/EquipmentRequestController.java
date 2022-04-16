@@ -1,12 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.awt.*;
 import java.io.IOException;
@@ -22,16 +20,8 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 
 public class EquipmentRequestController extends RequestController {
-  @FXML private TreeTableView<EquipmentDelivery> equipmentRequestTable;
-  @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> posCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
-
+  // These are the buttons, text fields and labels that appear in the right column of the request
+  // page
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
   @FXML private Label status;
@@ -42,21 +32,32 @@ public class EquipmentRequestController extends RequestController {
   @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Button sendRequest;
 
-  private static final LocationDao locationDao =
-      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
+  // This is the table and columns for the equipment request table
+  @FXML private TreeTableView<EquipmentDelivery> equipmentRequestTable;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> posCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
 
-  @FXML private TreeTableView<Location> table;
-  @FXML private TreeTableColumn<Location, String> nodeIDCol;
-  @FXML private TreeTableColumn<Location, Integer> xCol;
-  @FXML private TreeTableColumn<Location, Integer> yCol;
-  @FXML private TreeTableColumn<Location, String> floorCol;
-  @FXML private TreeTableColumn<Location, String> buildingCol;
-  @FXML private TreeTableColumn<Location, String> nodeTypeCol;
-  @FXML private TreeTableColumn<Location, Boolean> shortNameCol;
+  // This is the table and columns for the equipment table
+  @FXML private TreeTableView<Equipment> table;
+  @FXML private TreeTableColumn<Equipment, String> nodeIDCol;
+  @FXML private TreeTableColumn<Equipment, Integer> xCol;
+  @FXML private TreeTableColumn<Equipment, Integer> yCol;
+  @FXML private TreeTableColumn<Equipment, String> floorCol;
+  @FXML private TreeTableColumn<Equipment, String> buildingCol;
+  @FXML private TreeTableColumn<Equipment, String> nodeTypeCol;
+  @FXML private TreeTableColumn<Equipment, Boolean> shortNameCol;
 
+  // The two fields that are required for when a request is being updated
   private boolean updating = false;
   private int updateServiceID;
 
+  // Helper for setting up
   private static class SingletonHelper {
     private static final EquipmentRequestController controller = new EquipmentRequestController();
   }
