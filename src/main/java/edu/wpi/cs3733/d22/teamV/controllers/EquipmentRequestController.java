@@ -10,6 +10,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -17,11 +19,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class EquipmentRequestController extends RequestController {
   // These are the buttons, text fields and labels that appear in the right column of the request
-  // page
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
   @FXML private Label status;
@@ -42,6 +44,7 @@ public class EquipmentRequestController extends RequestController {
   @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
+  @FXML private Pane tablePlane;
 
   // This is the table and columns for the equipment table
   @FXML private TreeTableView<Equipment> table;
@@ -74,6 +77,29 @@ public class EquipmentRequestController extends RequestController {
     filterCheckBox.getCheckModel().check("Equipment");
     filterCheckBox.getCheckModel().check("Clean Equipment");
     filterCheckBox.getCheckModel().check("Equipment Delivery Requests");
+    tablePlane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePlane.getWidth();
+                equipmentRequestTable.setPrefWidth(w - 30);
+              }
+            });
+
+    tablePlane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePlane.getHeight();
+                equipmentRequestTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   @FXML
