@@ -34,9 +34,10 @@ public class HomeController extends Controller {
 
   @Override
   public void init() {
+    long max = 0;
     do {
       currTime.setText("  " + getDateAndTime());
-      System.out.println(System.currentTimeMillis());
-    } while (System.currentTimeMillis() < 2147483647);
+      // max = Long.MAX_VALUE;
+    } while (System.currentTimeMillis() < max);
   }
 }
