@@ -95,20 +95,20 @@
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                             <columns>
-                                              <TreeTableColumn fx:id="SRType" prefWidth="54.39999198913574" text="Type" />
-                                              <TreeTableColumn fx:id="SRLocation" prefWidth="93.60003662109375" text="Location" />
-                                                <TreeTableColumn fx:id="SRStartTIme" prefWidth="88.79998779296875" text="Start Time" />
+                                              <TreeTableColumn fx:id="typeCol" prefWidth="54.39999198913574" text="Type" />
+                                              <TreeTableColumn fx:id="locationCol" prefWidth="93.60003662109375" text="Location" />
+                                                <TreeTableColumn fx:id="startTimeCol" prefWidth="88.79998779296875" text="Start Time" />
                                             </columns>
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                    <Tab text="Patients">
+                                    <Tab fx:id="patientIDCol" text="Patients">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                              <columns>
-                                                <TreeTableColumn fx:id="patientID" prefWidth="46.39999580383301" text="ID" />
-                                                <TreeTableColumn fx:id="patientLast" prefWidth="66.39995574951172" text="Last" />
-                                                <TreeTableColumn fx:id="patientSRs" prefWidth="128.79998779296875" text="Requests" />
+                                                <TreeTableColumn prefWidth="46.39999580383301" text="ID" />
+                                                <TreeTableColumn fx:id="lastCol" prefWidth="66.39995574951172" text="Last" />
+                                                <TreeTableColumn fx:id="SRCol" prefWidth="128.79998779296875" text="Requests" />
                                              </columns>
                                           </TreeTableView>
                                        </content>

@@ -1,11 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.Floor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
-import edu.wpi.cs3733.d22.teamV.map.Floor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -115,11 +114,13 @@ public class MapDashboardController extends Controller {
   }
 
   @FXML private ArrayList<ButtonSubject> buttonSubjects = new ArrayList<ButtonSubject>();
+
   public ArrayList<ButtonSubject> getButtonSubjects() {
     return buttonSubjects;
   }
 
   @FXML private ArrayList<DashboardListener> listeners = new ArrayList<DashboardListener>();
+
   public ArrayList getListeners() {
     return listeners;
   }
@@ -167,8 +168,4 @@ public class MapDashboardController extends Controller {
       // l.setFloor(floor);
     }
   }
-
-
-
-
 }
