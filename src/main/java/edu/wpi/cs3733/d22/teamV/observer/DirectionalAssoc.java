@@ -1,13 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.observer;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class DirectionalAssoc {
   ArrayList<DirectionalAssoc> observers = new ArrayList<>();
 
-  public void updateAllObservers() throws SQLException, IOException {
+  public void updateAllObservers() {
     System.out.println("Running update! for " + observers.size());
     for (DirectionalAssoc observer : observers) {
       observer.update(this);
