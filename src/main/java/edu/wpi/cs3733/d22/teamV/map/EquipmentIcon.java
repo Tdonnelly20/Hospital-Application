@@ -1,10 +1,14 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +17,12 @@ import lombok.Setter;
 @Setter
 public class EquipmentIcon extends Icon {
 
-  ArrayList<Equipment> equipmentList = new ArrayList<>();
+  ArrayList<Equipment> equipmentList;
 
   public EquipmentIcon(Location location) {
     super(location);
+    setImage();
+    equipmentList = new ArrayList<>();
     this.iconType = "Equipment";
     image.setFitWidth(30);
     image.setFitHeight(30);
@@ -25,6 +31,7 @@ public class EquipmentIcon extends Icon {
     image.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
+            System.out.println(equipmentList.size());
             PopupController.getController().equipmentForm(event, this);
           }
         });
@@ -38,6 +45,9 @@ public class EquipmentIcon extends Icon {
 
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
+      if (equipmentList.size() == 0) {
+        image.setImage(MapManager.getManager().dirtyEquipment);
+      }
       equipmentList.add(equipment);
     } else {
       image.setImage(MapManager.getManager().cleanEquipment);
@@ -51,6 +61,7 @@ public class EquipmentIcon extends Icon {
     equipmentList.remove(equipment);
     if (equipmentList.size() == 0) {
       setImage();
+      MapManager.getManager().getFloor(equipment.getFloor()).removeIcon(this);
     }
   }
 
@@ -77,14 +88,14 @@ public class EquipmentIcon extends Icon {
       if (icon != this) {
         if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
           System.out.println("Intersection");
-          /*equipmentList.addAll(icon.getEquipmentList());
           for (Equipment equipment : icon.getEquipmentList()) {
             equipment.setX(getXCoord());
             equipment.setY(getYCoord());
+            equipment.setIcon(this);
+            addToEquipmentList(equipment);
           }
-          icon.getEquipmentList().clear();
-          MapController.getController().getMapPane().getChildren().remove(icon.getImage());
-          MapManager.getManager().getFloor(getLocation().getFloor()).removeIcon(icon);*/
+          MapManager.getManager().getFloor(getLocation().getFloor()).removeIcon(icon);
+          MapController.getController().setFloor(icon.location.getFloor());
         }
       }
     }

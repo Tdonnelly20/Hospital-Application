@@ -82,36 +82,6 @@ public class MapManager {
           break;
       }
     }
-
-    /*for (Equipment e : requestSystem.getEquipment()) {
-      Location l = new Location(e.getX(), e.getY(), e.getFloor());
-      EquipmentIcon equipmentIcon = new EquipmentIcon(l);
-      equipmentIcon.addToEquipmentList(e);
-      equipmentIcon.setImage();
-      switch (e.getFloor()) {
-        case "L1":
-          floorList.get(0).addIcon(equipmentIcon);
-          break;
-        case "L2":
-          floorList.get(1).addIcon(equipmentIcon);
-          break;
-        case "1":
-          floorList.get(2).addIcon(equipmentIcon);
-          break;
-        case "2":
-          floorList.get(3).addIcon(equipmentIcon);
-          break;
-        case "3":
-          floorList.get(4).addIcon(equipmentIcon);
-          break;
-        case "4":
-          floorList.get(5).addIcon(equipmentIcon);
-          break;
-        case "5":
-          floorList.get(6).addIcon(equipmentIcon);
-          break;
-      }
-    }*/
     loadEquipment();
     loadRequests();
   }
@@ -122,6 +92,7 @@ public class MapManager {
         getFloor(e.getFloor()).addToEquipmentIcon(e.getX(), e.getY(), e);
       } else {
         e.setIcon(new EquipmentIcon(new Location(e.getX(), e.getY(), e.getFloor())));
+        System.out.println("False");
         getFloor(e.getFloor()).addIcon(e.getIcon());
       }
     }
@@ -154,9 +125,6 @@ public class MapManager {
       for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
         for (Floor floor : floorList) {
           for (Icon icon : floor.getIconList()) {
-            System.out.println("Type: " + serviceRequest.getType());
-            System.out.println("Location: " + serviceRequest.getLocation());
-            System.out.println("Node ID: " + serviceRequest.getLocation().getNodeID());
             if (serviceRequest.getLocation() != null) {
               if (serviceRequest.getLocation().getNodeID() != null) {
                 if (icon.iconType.equals("Location")
@@ -165,12 +133,8 @@ public class MapManager {
                         .equals(serviceRequest.getLocation().getNodeID())) {
                   icon.getLocation().getRequests().add(serviceRequest);
                   ((LocationIcon) icon).addToRequests(serviceRequest);
-                } else {
-                  // System.out.println("Node ID");
                 }
               }
-            } else {
-              // System.out.println("Null location");
             }
           }
         }

@@ -92,6 +92,7 @@ public class PopupController {
   public void showPopUp() {
     stage.setScene(scene);
     if (!stage.isShowing()) {
+      // content.getChildren().clear();
       stage.show();
     }
   }
@@ -99,6 +100,7 @@ public class PopupController {
   /** Sets up the popup window */
   @FXML
   public void setUpPopup() {
+
     stage.setAlwaysOnTop(true);
     title.setTextFill(Color.WHITE);
     title.setFont(new Font("System Bold", 28));
@@ -132,7 +134,7 @@ public class PopupController {
     stage.setMinWidth(450);
     stage.setOnCloseRequest(
         event -> {
-          // MapManager.getManager().isTempIconVisible(false);
+          content.getChildren().clear();
         });
   }
 
@@ -855,7 +857,7 @@ public class PopupController {
                     false);
             submitIcon.setOnAction(
                 event2 -> {
-                  boolean isDirty = false;
+                  boolean isDirty;
                   if (comboBox1.getValue().equals("Dirty")) {
                     isDirty = true;
                   } else {

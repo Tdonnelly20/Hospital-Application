@@ -175,6 +175,10 @@ public class MapController extends Controller {
           setFloor("5");
         });
 
+    refreshButton.setOnAction(
+        event -> {
+          setFloor(floorName);
+        });
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
