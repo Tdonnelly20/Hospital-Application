@@ -37,29 +37,35 @@
               <items>
                 <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="300.0">
                      <children>
-                        <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="920.0" prefWidth="300.0" spacing="40.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="920.0" prefWidth="300.0" spacing="15.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
+                              <Label text="Hospital ID" textFill="WHITE" />
                               <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Hospital ID" />
+                              <Label layoutX="131.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                               <TextField fx:id="patientID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient ID">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </TextField>
+                              <Label layoutX="134.0" layoutY="123.0" text="Patient First Name" textFill="WHITE" />
                               <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient First Name">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </TextField>
+                              <Label layoutX="111.0" layoutY="197.0" text="Patient Last Name" textFill="WHITE" />
                               <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient Last Name">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </TextField>
+                              <Label layoutX="112.0" layoutY="270.0" text="Room Number" textFill="WHITE" />
                               <TextField fx:id="roomNum" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Room Number">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </TextField>
+                              <Label layoutX="121.0" layoutY="343.0" text="Request Details" textFill="WHITE" />
                               <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />

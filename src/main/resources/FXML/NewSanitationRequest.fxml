@@ -37,17 +37,20 @@
                     <items>
                         <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #5c677d;">
                             <children>
-                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="15.0" style="-fx-background-color: #5c677d;">
                                     <padding>
                                         <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
                                     </padding>
                                     <children>
+                              <Label text="Hospital ID" textFill="WHITE" />
                                         <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Hospital ID">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin>
                                         </TextField>
+                              <Label layoutX="132.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                                         <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
+                              <Label layoutX="135.0" layoutY="123.0" text="Location" textFill="WHITE" />
                                         <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Location" />
                                         <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
@@ -60,6 +63,7 @@
                                                 </FXCollections>
                                             </items>
                                         </JFXComboBox>
+                              <Label layoutX="139.0" layoutY="197.0" text="Request Details" textFill="WHITE" />
                                         <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
                                         <HBox prefHeight="100.0" prefWidth="200.0">
                                             <children>
