@@ -87,7 +87,7 @@ public class Patient extends DirectionalAssoc {
       boolean patientContains = serviceIDs.contains(serviceID);
       boolean serviceRequestContains = patientID == getPatientID();
 
-      if (patientContains && !serviceRequestContains) {
+      if (patientContains && !serviceRequestContains || serviceRequest.toBeDeleted) {
         serviceIDs.removeIf(currID -> currID == serviceID);
         employeeIDs.removeIf(currID -> currID == employeeID);
 

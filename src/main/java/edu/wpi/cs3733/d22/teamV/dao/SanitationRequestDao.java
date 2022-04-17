@@ -215,8 +215,7 @@ public class SanitationRequestDao extends DaoInterface {
     Predicate<SanitationRequest> condition =
         SanitationRequest -> SanitationRequest.getServiceID() == serviceID;
     boolean result = allSanitationRequests.removeIf(condition);
-
-    System.out.println(result);
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }

@@ -214,6 +214,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
   public void removeServiceRequest(ServiceRequest request) {
     allInternalPatientTransportations.removeIf(
         value -> value.getPatientID() == request.getPatient().getPatientID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }

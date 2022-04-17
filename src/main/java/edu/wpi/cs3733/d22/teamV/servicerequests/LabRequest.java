@@ -73,4 +73,12 @@ public class LabRequest extends ServiceRequest {
     DirectionalAssoc.link(employee, patient, this);
     updateAllObservers();
   }
+
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    super.update(directionalAssoc);
+    Vdb.requestSystem
+        .getDao(RequestSystem.Dao.LabRequest)
+        .updateServiceRequest(this, getServiceID());
+  }
 }

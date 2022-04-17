@@ -181,6 +181,7 @@ public class LabRequestDao extends DaoInterface {
   public void removeServiceRequest(ServiceRequest request) {
     LabRequest labRequest = (LabRequest) request;
     allLabRequests.removeIf(value -> value.getServiceID() == labRequest.getServiceID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }

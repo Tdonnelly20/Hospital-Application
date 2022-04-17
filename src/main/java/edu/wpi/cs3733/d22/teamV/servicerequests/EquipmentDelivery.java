@@ -88,4 +88,12 @@ public class EquipmentDelivery extends ServiceRequest {
   public int getPatientID() {
     return patient.getPatientID();
   }
+
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    super.update(directionalAssoc);
+    Vdb.requestSystem
+        .getDao(RequestSystem.Dao.EquipmentDelivery)
+        .updateServiceRequest(this, getServiceID());
+  }
 }

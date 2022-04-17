@@ -174,6 +174,7 @@ public class RobotDao extends DaoInterface {
   public void removeServiceRequest(ServiceRequest request) {
     RobotRequest robotRequest = (RobotRequest) request;
     allRobotRequests.removeIf(value -> value.getServiceID() == robotRequest.getServiceID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }

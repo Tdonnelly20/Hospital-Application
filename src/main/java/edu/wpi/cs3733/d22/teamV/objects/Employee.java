@@ -110,6 +110,7 @@ public class Employee extends DirectionalAssoc {
       }
 
     } else if (directionalAssoc instanceof ServiceRequest) {
+
       ServiceRequest serviceRequest = (ServiceRequest) directionalAssoc;
       int employeeID = serviceRequest.getEmployee().getEmployeeID();
       int serviceID = serviceRequest.getServiceID();
@@ -117,7 +118,7 @@ public class Employee extends DirectionalAssoc {
       boolean employeeContains = serviceRequestIDs.contains(serviceID);
       boolean serviceRequestContains = (employeeID == getEmployeeID());
 
-      if (employeeContains && !serviceRequestContains) {
+      if (employeeContains && !serviceRequestContains || serviceRequest.toBeDeleted) {
         serviceRequestIDs.removeIf(currID -> currID == serviceID);
         patientIDs.removeIf(currID -> currID == patientID);
       } else if (!employeeContains && serviceRequestContains) {

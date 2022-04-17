@@ -152,6 +152,7 @@ public class ReligiousRequestDao extends DaoInterface {
     Predicate<ReligiousRequest> condition =
         religiousRequest -> religiousRequest.getServiceID() == serviceID;
     allReligiousRequest.removeIf(condition);
+    request.detachAll();
     removeFromSQLTable(request);
   }
 

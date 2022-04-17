@@ -202,6 +202,7 @@ public class MedicineDeliveryDao extends DaoInterface {
     MedicineDelivery medicineDelivery = (MedicineDelivery) request;
     allMedicineDeliveries.removeIf(
         value -> value.getServiceID() == medicineDelivery.getServiceID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }

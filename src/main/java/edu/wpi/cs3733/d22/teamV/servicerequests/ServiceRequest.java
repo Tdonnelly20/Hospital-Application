@@ -18,6 +18,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   private int serviceID;
   public Patient patient;
   protected Employee employee;
+  public boolean toBeDeleted = false;
   protected Timestamp timestamp;
   protected String type;
   protected String notes;
@@ -31,6 +32,12 @@ public abstract class ServiceRequest extends DirectionalAssoc {
       return type + ": " + patient.getLastName() + ", " + patient.getFirstName();
     }
     return type;
+  }
+
+  public void detachAll() {
+    toBeDeleted = true;
+    updateAllObservers();
+    releaseAll();
   }
 
   public void setPatient(Patient patient) {

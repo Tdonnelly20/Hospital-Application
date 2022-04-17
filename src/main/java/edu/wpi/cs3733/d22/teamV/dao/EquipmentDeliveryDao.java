@@ -17,8 +17,8 @@ public class EquipmentDeliveryDao extends DaoInterface {
   /** Initialize the array list */
   public EquipmentDeliveryDao() {
     allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
-    loadFromCSV();
     createSQLTable();
+    loadFromCSV();
   }
 
   public void loadFromCSV() {
@@ -196,6 +196,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
   @Override
   public void removeServiceRequest(ServiceRequest request) {
     allEquipmentDeliveries.removeIf(value -> value.getServiceID() == request.getServiceID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }
