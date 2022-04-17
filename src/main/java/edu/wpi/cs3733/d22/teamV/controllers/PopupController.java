@@ -875,20 +875,20 @@ public class PopupController {
 
   /** adds equipment icon */
   public void addEquipmentIcon(Equipment equipment) {
-    MapController.getController().addEquipmentIcon(equipment);
+    MapController.getController().addIcon(equipment.getIcon());
   }
 
   /** deletes equipment icon */
   public void deleteEquipmentIcon(Equipment equipment) {
-    RequestSystem.getSystem().deleteEquipment(equipment);
-    MapManager.getManager().setUpFloors();
+    /*RequestSystem.getSystem().deleteEquipment(equipment);
+    MapManager.getManager().setUpFloors();*/
+    MapController.getController().deleteIcon(equipment.getIcon());
   }
 
   /** Populates a location icon's popup window with its service requests */
   @FXML
   public void insertEquipment(EquipmentIcon icon) {
     ObservableList<String> statusStrings = FXCollections.observableArrayList("Clean", "Dirty");
-
     if (icon.getEquipmentList().size() > 0) {
       VBox vBox = new VBox();
       ScrollPane scrollPane = new ScrollPane(vBox);

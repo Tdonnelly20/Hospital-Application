@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
+import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -269,8 +270,22 @@ public class RequestSystem {
     equipmentDao.getAllEquipment().add(equipment);
   }
 
+  public void addEquipment(ArrayList<Equipment> equipment) {
+    for (Equipment e : equipment) {
+      if (!equipmentDao.getAllEquipment().contains(e)) {
+        addEquipment(e);
+      }
+    }
+  }
+
   public void deleteEquipment(Equipment equipment) {
     equipmentDao.getAllEquipment().remove(equipment);
+  }
+
+  public void deleteEquipment(EquipmentIcon icon) {
+    for (Equipment equipment : icon.getEquipmentList()) {
+      deleteEquipment(equipment);
+    }
   }
 
   public Equipment getEquipment(String ID) {

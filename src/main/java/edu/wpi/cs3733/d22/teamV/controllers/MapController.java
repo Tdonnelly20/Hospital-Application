@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
-import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -174,7 +173,11 @@ public class MapController extends Controller {
         event -> {
           setFloor("5");
         });
-
+    refreshButton.setOnAction(
+        event -> {
+          System.out.println("Refresh");
+          setFloor(floorName);
+        });
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -234,36 +237,29 @@ public class MapController extends Controller {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
     for (Icon icon : currFloor.getIconList()) {
-      if (filter.size() > 0 && !currFloor.getFloorName().equals("SV")) {
-        // System.out.println(icon.iconType);
-        if (filter.contains("Service Requests") && icon.iconType.equals("Location")) {
-          assert icon instanceof LocationIcon;
-          if (((LocationIcon) icon).getRequestsArr().size() > 0) {
-            if (filter.contains("Active Requests") && ((LocationIcon) icon).hasActiveRequests()) {
-              filterByActiveRequestType((LocationIcon) icon);
-            } else {
-              filterByRequestType((LocationIcon) icon);
-            }
+      if (filter.contains("Service Requests") && icon.iconType.equals("Location")) {
+        assert icon instanceof LocationIcon;
+        if (((LocationIcon) icon).getRequestsArr().size() > 0) {
+          if (filter.contains("Active Requests") && ((LocationIcon) icon).hasActiveRequests()) {
+            filterByActiveRequestType((LocationIcon) icon);
+          } else {
+            filterByRequestType((LocationIcon) icon);
           }
         }
-        if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
-          assert icon instanceof EquipmentIcon;
-          EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
-          if (filter.contains("Clean Equipment")) {
-            if (equipmentIcon.hasCleanEquipment()) {
-              mapPane.getChildren().add(icon.getImage());
-            }
-          } else {
+      }
+      if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
+        assert icon instanceof EquipmentIcon;
+        EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
+        if (filter.contains("Clean Equipment")) {
+          if (equipmentIcon.hasCleanEquipment()) {
             mapPane.getChildren().add(icon.getImage());
           }
-        }
-        if (filter.contains("Locations") && icon.iconType.equals("Location")) {
-          filterByLocation((LocationIcon) icon);
-        }
-      } else {
-        if (!mapPane.getChildren().contains(icon.getImage())) {
+        } else {
           mapPane.getChildren().add(icon.getImage());
         }
+      }
+      if (filter.contains("Locations") && icon.iconType.equals("Location")) {
+        filterByLocation((LocationIcon) icon);
       }
     }
   }
@@ -359,23 +355,36 @@ public class MapController extends Controller {
     switch (icon.iconType) {
       case "Location":
         RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
+        break;
+      case "Equipment":
+        RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
+        break;
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
+    // MapManager.getManager().setUpFloors();
     checkFilter();
   }
-
+  /*
   public void addEquipmentIcon(Equipment equipment) {
     PopupController.getController().closePopUp();
     RequestSystem.getSystem().addEquipment(equipment);
     MapManager.getManager().setUpFloors();
     checkFilter();
-  }
+  }*/
 
   public void deleteIcon(Icon icon) {
     MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
-    RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
-    MapManager.getManager().setUpFloors();
+    if (icon.iconType.equals("Location")) {
+      RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
+    } else {
+      RequestSystem.getSystem().deleteEquipment(((EquipmentIcon) icon));
+    }
+    if (PopupController.getController().stage.isShowing()) {
+      PopupController.getController().closePopUp();
+    }
+    // MapManager.getManager().setUpFloors();
+    checkFilter();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
@@ -393,7 +402,6 @@ public class MapController extends Controller {
                 missingFields.setFill(Color.RED);
                 missingFields.setTextAlignment(TextAlignment.CENTER);
                 PopupController.getController().sceneVbox.getChildren().add(missingFields);
-                // System.out.println("MISSING FIELD");
               }
             });
   }

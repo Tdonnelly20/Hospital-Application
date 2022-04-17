@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
+<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
    <children>
       <VBox prefHeight="800.0" prefWidth="1200.0">
          <children>
@@ -54,7 +54,7 @@
                <children>
                   <VBox fx:id="leftVBox" prefHeight="327.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
                      <children>
-                        <TitledPane fx:id="sideViewTPane" animated="false" text="Side View Map">
+                        <TitledPane fx:id="sideViewTPane" animated="false" collapsible="false" text="Side View Map">
                            <content>
                               <Pane fx:id="sideViewPane" prefHeight="790.0" prefWidth="400.0">
                                  <children>
@@ -77,7 +77,7 @@
                   </VBox>
                   <VBox fx:id="centerVBox" prefHeight="552.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
                      <children>
-                        <TitledPane fx:id="infoTPane" animated="false" prefHeight="434.0" prefWidth="313.0" style="-fx-background-color: #000000;" text="Detailed Information">
+                        <TitledPane fx:id="infoTPane" animated="false" collapsible="false" prefHeight="434.0" prefWidth="313.0" style="-fx-background-color: #000000;" text="Detailed Information">
                            <content>
                               <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                                 <tabs>
@@ -120,7 +120,7 @@
                               <Insets left="20.0" right="20.0" top="20.0" />
                            </VBox.margin>
                         </TitledPane>
-                        <TitledPane fx:id="countsTPane" animated="false" prefHeight="262.0" prefWidth="283.0" text="Counts">
+                        <TitledPane fx:id="countsTPane" animated="false" collapsible="false" prefHeight="262.0" prefWidth="283.0" text="Counts">
                            <content>
                               <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                 <columns>
@@ -140,9 +140,9 @@
                   </VBox>
                   <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
                      <children>
-                        <TitledPane fx:id="mapTPane" animated="false" prefHeight="492.0" prefWidth="330.0" text="Interactive Map">
+                        <TitledPane fx:id="mapTPane" animated="false" collapsible="false" prefHeight="492.0" prefWidth="330.0" text="Interactive Map">
                            <content>
-                              <ImageView fitHeight="225.0" fitWidth="248.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="301.0" fitWidth="340.0" onMouseClicked="#switchToMap" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../1st Floor.png" />
                                  </image>
@@ -152,7 +152,7 @@
                               <Insets left="20.0" right="20.0" top="40.0" />
                            </VBox.margin>
                         </TitledPane>
-                        <TitledPane fx:id="alertsTPane" animated="false" prefHeight="314.0" prefWidth="256.0" style="-fx-padding: 10;" text="Alerts">
+                        <TitledPane fx:id="alertsTPane" animated="false" collapsible="false" prefHeight="314.0" prefWidth="256.0" style="-fx-padding: 10;" text="Alerts">
                            <content>
                               <TreeTableView fx:id="alertTable" prefHeight="200.0" prefWidth="200.0">
                                 <columns>

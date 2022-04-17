@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
@@ -13,11 +14,12 @@ import lombok.Setter;
 @Setter
 public class EquipmentIcon extends Icon {
 
-  ArrayList<Equipment> equipmentList = new ArrayList<>();
+  ArrayList<Equipment> equipmentList;
 
   public EquipmentIcon(Location location) {
     super(location);
     this.iconType = "Equipment";
+    equipmentList = new ArrayList<>();
     image.setFitWidth(30);
     image.setFitHeight(30);
     image.setTranslateX((xCoord) - 25);
@@ -39,6 +41,9 @@ public class EquipmentIcon extends Icon {
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
+      if (equipmentList.size() == 1) {
+        image.setImage(MapManager.getManager().dirtyEquipment);
+      }
     } else {
       image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
@@ -74,19 +79,23 @@ public class EquipmentIcon extends Icon {
   public void checkBounds() {
     for (EquipmentIcon icon :
         MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
-      if (icon != this) {
+      if (icon != this && iconType.equals("Equipment")) {
         if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
           System.out.println("Intersection");
-          /*equipmentList.addAll(icon.getEquipmentList());
-          for (Equipment equipment : icon.getEquipmentList()) {
-            equipment.setX(getXCoord());
-            equipment.setY(getYCoord());
-          }
+          equipmentList.addAll(icon.getEquipmentList());
+          updateLocation();
           icon.getEquipmentList().clear();
-          MapController.getController().getMapPane().getChildren().remove(icon.getImage());
-          MapManager.getManager().getFloor(getLocation().getFloor()).removeIcon(icon);*/
+          MapController.getController().deleteIcon(icon);
+          setImage();
         }
       }
+    }
+  }
+
+  public void updateLocation() {
+    for (Equipment equipment : equipmentList) {
+      equipment.setX(location.getXCoord());
+      equipment.setY(location.getYCoord());
     }
   }
 }

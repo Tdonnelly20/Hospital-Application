@@ -57,6 +57,12 @@ public class MapManager {
     floorList.add(f4);
     floorList.add(f5);
 
+    setUpLocations();
+    loadEquipment();
+    loadRequests();
+  }
+
+  private void setUpLocations() {
     for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
@@ -82,8 +88,6 @@ public class MapManager {
           break;
       }
     }
-    loadEquipment();
-    loadRequests();
   }
 
   public void loadEquipment() {
@@ -135,12 +139,8 @@ public class MapManager {
                         .equals(serviceRequest.getLocation().getNodeID())) {
                   icon.getLocation().getRequests().add(serviceRequest);
                   ((LocationIcon) icon).addToRequests(serviceRequest);
-                } else {
-                  // System.out.println("Node ID");
                 }
               }
-            } else {
-              // System.out.println("Null location");
             }
           }
         }
