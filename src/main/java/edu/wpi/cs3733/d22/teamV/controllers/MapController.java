@@ -337,14 +337,14 @@ public class MapController extends Controller {
         mapPane.getChildren().add(icon.getImage());
       }
     } else if ((filter.contains("Department") && icon.getLocation().getNodeType().equals("DEPT"))
-        && (filter.contains("Hallway") && icon.getLocation().getNodeType().equals("HALL"))
-        && (filter.contains("Service") && icon.getLocation().getNodeType().equals("SERV"))
-        && (filter.contains("Elevator") && icon.getLocation().getNodeType().equals("ELEV"))
-        && (filter.contains("Stairway") && icon.getLocation().getNodeType().equals("STAI"))
-        && (filter.contains("Bathroom")
+        || (filter.contains("Hallway") && icon.getLocation().getNodeType().equals("HALL"))
+        || (filter.contains("Service") && icon.getLocation().getNodeType().equals("SERV"))
+        || (filter.contains("Elevator") && icon.getLocation().getNodeType().equals("ELEV"))
+        || (filter.contains("Stairway") && icon.getLocation().getNodeType().equals("STAI"))
+        || (filter.contains("Bathroom")
             && (icon.getLocation().getNodeType().equals("BATH")
                 || icon.getLocation().getNodeType().equals("REST")))
-        && (filter.contains("Labs") && icon.getLocation().getNodeType().equals("LABS"))) {
+        || (filter.contains("Labs") && icon.getLocation().getNodeType().equals("LABS"))) {
       if (!mapPane.getChildren().contains(icon.getImage())) {
         mapPane.getChildren().add(icon.getImage());
       }
@@ -363,8 +363,7 @@ public class MapController extends Controller {
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
-    // MapManager.getManager().setUpFloors();
-    checkFilter();
+    setFloor(floorName);
   }
 
   public void deleteIcon(Icon icon) {
@@ -377,8 +376,7 @@ public class MapController extends Controller {
     if (PopupController.getController().stage.isShowing()) {
       PopupController.getController().closePopUp();
     }
-    // MapManager.getManager().setUpFloors();
-    checkFilter();
+    setFloor(floorName);
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
