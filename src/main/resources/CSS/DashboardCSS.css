@@ -8,9 +8,15 @@
     -fx-pref-width:90;
     -fx-pref-height:50;
 
+
     -fx-background-radius: 20;
     -fx-border-style: outset;
     -fx-background-image: HomeButton;
+}
+
+.button:hover{
+    -fx-background-color: #6188ce;
+    -fx-font-style: italic;
 }
 
 .tree-table-view{
