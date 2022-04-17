@@ -95,6 +95,8 @@ public class MapDashboardController extends Controller {
     stage.show();
   }
 
+  public void updateEquipTable() {}
+
   /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
   private Floor curFloor = MapManager.getManager().getFloor("1");
@@ -110,7 +112,6 @@ public class MapDashboardController extends Controller {
 
     public void setFloor(Floor floor) {
       this.floor = floor;
-      updateListeners();
     }
   }
 
@@ -177,11 +178,16 @@ public class MapDashboardController extends Controller {
     listeners.add(alertsTPanelistener);
   }
 
-  public void swtichToLL2() {}
+  @FXML
+  public void switchToLL2(MouseEvent event) {
+    curFloor = MapManager.getManager().getFloor("LL2");
+    updateListeners(curFloor);
+  }
 
-  public void updateListeners() {
+  @FXML
+  public void updateListeners(Floor floor) {
     for (DashboardListener l : listeners) {
-      // l.setFloor(floor);
+      l.setFloor(floor);
     }
   }
 
@@ -242,24 +248,20 @@ public class MapDashboardController extends Controller {
     lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
 
-    ArrayList<Patient> currPatients =
-            Vdb.requestSystem.getPatients();
+    ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     if (!currPatients.isEmpty()) {
 
       for (Patient pos : currPatients) {
-        for(ServiceRequest s :RequestSystem.getSystem().getEveryServiceRequest() )
-          {
-            for(int i : pos.getServiceIDs())
-            {
-              if (i == s.getServiceID() && s.getLocation().getFloor().equals(curFloor.getFloorName())) {
+        for (ServiceRequest s : RequestSystem.getSystem().getEveryServiceRequest()) {
+          for (int i : pos.getServiceIDs()) {
+            if (i == s.getServiceID()
+                && s.getLocation().getFloor().equals(curFloor.getFloorName())) {
               TreeItem<Patient> item = new TreeItem(pos);
               treeItems.add(item);
             }
-
           }
-
         }
       }
 

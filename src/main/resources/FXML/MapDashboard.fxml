@@ -102,11 +102,11 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                    <Tab fx:id="patientIDCol" text="Patients">
+                                    <Tab text="Patients">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                              <columns>
-                                                <TreeTableColumn prefWidth="46.39999580383301" text="ID" />
+                                                <TreeTableColumn fx:id="patientIDCol" prefWidth="46.39999580383301" text="ID" />
                                                 <TreeTableColumn fx:id="lastCol" prefWidth="66.39995574951172" text="Last" />
                                                 <TreeTableColumn fx:id="SRCol" prefWidth="128.79998779296875" text="Requests" />
                                              </columns>
@@ -171,26 +171,26 @@
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="42.0" prefWidth="1158.0" spacing="50.0" style="-fx-background-color: #5f6c83#5f6c83;">
                <children>
-                  <Button fx:id="ll2" mnemonicParsing="false" onAction="#updateListeners" text="LL2">
+                  <Button fx:id="ll2" mnemonicParsing="false" onAction="#switchToLL2" text="LL2">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button fx:id="ll1" mnemonicParsing="false" onAction="#updateListeners" text="LL1">
+                  <Button fx:id="ll1" mnemonicParsing="false" text="LL1">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button fx:id="f1" mnemonicParsing="false" onAction="#updateListeners" text="1">
+                  <Button fx:id="f1" mnemonicParsing="false" text="1">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button fx:id="f2" mnemonicParsing="false" onAction="#updateListeners" text="2" />
-                  <Button fx:id="f3" mnemonicParsing="false" onAction="#updateListeners" text="3" />
-                  <Button fx:id="f4" mnemonicParsing="false" onAction="#updateListeners" text="4">
+                  <Button fx:id="f2" mnemonicParsing="false" text="2" />
+                  <Button fx:id="f3" mnemonicParsing="false" text="3" />
+                  <Button fx:id="f4" mnemonicParsing="false" text="4">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="f5" mnemonicParsing="false" onAction="#updateListeners" text="5" />
+                  <Button fx:id="f5" mnemonicParsing="false" text="5" />
                </children>
                <padding>
                   <Insets bottom="20.0" top="10.0" />
