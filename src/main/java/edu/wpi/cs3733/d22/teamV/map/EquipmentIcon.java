@@ -18,7 +18,7 @@ public class EquipmentIcon extends Icon {
 
   public EquipmentIcon(Location location) {
     super(location);
-    this.iconType = "Equipment";
+    this.iconType = IconType.Equipment;
     equipmentList = new ArrayList<>();
     image.setFitWidth(30);
     image.setFitHeight(30);
@@ -79,7 +79,7 @@ public class EquipmentIcon extends Icon {
   public void checkBounds() {
     for (EquipmentIcon icon :
         MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
-      if (icon != this && iconType.equals("Equipment")) {
+      if (icon != this && iconType.equals(IconType.Equipment)) {
         if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
           System.out.println("Intersection");
           equipmentList.addAll(icon.getEquipmentList());

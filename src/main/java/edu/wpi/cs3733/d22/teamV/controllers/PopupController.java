@@ -83,7 +83,6 @@ public class PopupController {
     if (stage.isShowing()) {
       stage.close();
       content.getChildren().clear();
-      // MapController.getController().checkDropDown();
     }
   }
 
@@ -132,7 +131,7 @@ public class PopupController {
     stage.setMinWidth(450);
     stage.setOnCloseRequest(
         event -> {
-          // MapManager.getManager().isTempIconVisible(false);
+          clearPopupForm();
         });
   }
 
@@ -165,14 +164,12 @@ public class PopupController {
   /** */
   @FXML
   public void formSetup(MouseEvent event) {
-    // MapManager.getManager().isTempIconVisible(true);
-
     clearResponse.setOnAction(event1 -> clearPopupForm());
     closeButton.setOnAction(
         event1 -> {
           closePopUp();
           content.getChildren().clear();
-          // MapManager.getManager().isTempIconVisible(false);
+          clearPopupForm();
         });
     returnButton.setOnAction(
         event1 -> {
@@ -184,10 +181,7 @@ public class PopupController {
 
   /** Adds an icon to the map */
   void addIcon(Location location) {
-    if (requestSystem.getLocation(location.getNodeID()) == null) {
-      MapController.getController().addIcon(location.getIcon());
-      clearPopupForm();
-    }
+    MapController.getController().addIcon(location.getIcon());
   }
 
   /** Deletes an icon from the map and removes the request */
@@ -880,8 +874,6 @@ public class PopupController {
 
   /** deletes equipment icon */
   public void deleteEquipmentIcon(Equipment equipment) {
-    /*RequestSystem.getSystem().deleteEquipment(equipment);
-    MapManager.getManager().setUpFloors();*/
     MapController.getController().deleteIcon(equipment.getIcon());
   }
 

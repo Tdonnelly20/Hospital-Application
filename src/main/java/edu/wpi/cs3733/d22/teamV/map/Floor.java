@@ -13,6 +13,8 @@ public class Floor {
   private String floorName;
   private Image map;
   private ArrayList<Icon> iconList = new ArrayList<Icon>();
+  private ArrayList<EquipmentIcon> equipmentIcons = new ArrayList<>();
+  private ArrayList<LocationIcon> locationIcons = new ArrayList<>();
 
   public Floor(String floorName, Image map) {
     this.floorName = floorName;
@@ -54,7 +56,7 @@ public class Floor {
   public ArrayList<EquipmentIcon> getEquipmentIcons() {
     ArrayList<EquipmentIcon> equipmentIcons = new ArrayList<>();
     for (Icon icon : iconList) {
-      if (icon.iconType.equals("Equipment")) {
+      if (icon.iconType.equals(Icon.IconType.Equipment)) {
         equipmentIcons.add((EquipmentIcon) icon);
       }
     }

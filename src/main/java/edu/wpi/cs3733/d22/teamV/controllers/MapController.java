@@ -247,7 +247,7 @@ public class MapController extends Controller {
           }
         }
       }
-      if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
+      if (filter.contains("Equipment") && icon.iconType.equals(Icon.IconType.Equipment)) {
         assert icon instanceof EquipmentIcon;
         EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
         if (filter.contains("Clean Equipment")) {
@@ -258,7 +258,8 @@ public class MapController extends Controller {
           mapPane.getChildren().add(icon.getImage());
         }
       }
-      if (filter.contains("Locations") && icon.iconType.equals("Location")) {
+      if (filter.contains("Locations") && icon.iconType.equals(Icon.IconType.Location)) {
+        assert icon instanceof LocationIcon;
         filterByLocation((LocationIcon) icon);
       }
     }
@@ -353,10 +354,10 @@ public class MapController extends Controller {
   // Adds icon to map
   public void addIcon(Icon icon) {
     switch (icon.iconType) {
-      case "Location":
+      case Location:
         RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
         break;
-      case "Equipment":
+      case Equipment:
         RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
         break;
     }
@@ -365,17 +366,10 @@ public class MapController extends Controller {
     // MapManager.getManager().setUpFloors();
     checkFilter();
   }
-  /*
-  public void addEquipmentIcon(Equipment equipment) {
-    PopupController.getController().closePopUp();
-    RequestSystem.getSystem().addEquipment(equipment);
-    MapManager.getManager().setUpFloors();
-    checkFilter();
-  }*/
 
   public void deleteIcon(Icon icon) {
     MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
-    if (icon.iconType.equals("Location")) {
+    if (icon.iconType.equals(Icon.IconType.Location)) {
       RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     } else {
       RequestSystem.getSystem().deleteEquipment(((EquipmentIcon) icon));

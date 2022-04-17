@@ -10,7 +10,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class Icon {
-  public String iconType;
+
+  public enum IconType {
+    Location,
+    Equipment
+  }
+
+  public IconType iconType;
   protected Location location;
   protected double xCoord;
   protected double yCoord;

@@ -105,7 +105,7 @@ public class MapManager {
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
       if (floorList.get(i).containsIcon(l)) {
-        if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
+        if (floorList.get(i).getIcon(l).iconType.equals(Icon.IconType.Location)) {
           if (l.getIcon().hasActiveRequests()) {
             l.getIcon().changeImages();
           }
@@ -133,7 +133,7 @@ public class MapManager {
             System.out.println("Node ID: " + serviceRequest.getLocation().getNodeID());
             if (serviceRequest.getLocation() != null) {
               if (serviceRequest.getLocation().getNodeID() != null) {
-                if (icon.iconType.equals("Location")
+                if (icon.iconType.equals(Icon.IconType.Location)
                     && icon.getLocation()
                         .getNodeID()
                         .equals(serviceRequest.getLocation().getNodeID())) {
