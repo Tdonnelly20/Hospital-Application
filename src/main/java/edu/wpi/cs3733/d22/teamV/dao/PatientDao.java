@@ -77,7 +77,7 @@ public class PatientDao {
         String.valueOf(p.getPatientID()), p.getFirstName(), p.getLastName(), employeeIDs, serviceIDs
       };
 
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

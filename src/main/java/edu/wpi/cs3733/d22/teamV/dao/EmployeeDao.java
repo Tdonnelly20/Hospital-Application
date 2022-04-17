@@ -95,7 +95,7 @@ public class EmployeeDao {
         patientIDs,
         serviceIDs
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

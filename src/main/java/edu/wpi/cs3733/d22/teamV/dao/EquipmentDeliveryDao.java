@@ -71,7 +71,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
         equipmentDelivery.getStatus(),
         String.valueOf(equipmentDelivery.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');

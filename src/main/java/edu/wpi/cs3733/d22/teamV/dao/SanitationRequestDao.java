@@ -61,7 +61,7 @@ public class SanitationRequestDao extends DaoInterface {
         sanitationRequest.getStatus(),
         Integer.toString(sanitationRequest.getServiceID())
       };
-      bw.append("/n");
+      bw.append("\n");
       for (String s : outputData) {
         bw.append(s);
         bw.append(',');
