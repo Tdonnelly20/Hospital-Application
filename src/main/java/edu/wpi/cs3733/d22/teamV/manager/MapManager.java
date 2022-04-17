@@ -82,36 +82,6 @@ public class MapManager {
           break;
       }
     }
-
-    /*for (Equipment e : requestSystem.getEquipment()) {
-      Location l = new Location(e.getX(), e.getY(), e.getFloor());
-      EquipmentIcon equipmentIcon = new EquipmentIcon(l);
-      equipmentIcon.addToEquipmentList(e);
-      equipmentIcon.setImage();
-      switch (e.getFloor()) {
-        case "L1":
-          floorList.get(0).addIcon(equipmentIcon);
-          break;
-        case "L2":
-          floorList.get(1).addIcon(equipmentIcon);
-          break;
-        case "1":
-          floorList.get(2).addIcon(equipmentIcon);
-          break;
-        case "2":
-          floorList.get(3).addIcon(equipmentIcon);
-          break;
-        case "3":
-          floorList.get(4).addIcon(equipmentIcon);
-          break;
-        case "4":
-          floorList.get(5).addIcon(equipmentIcon);
-          break;
-        case "5":
-          floorList.get(6).addIcon(equipmentIcon);
-          break;
-      }
-    }*/
     loadEquipment();
     loadRequests();
   }
