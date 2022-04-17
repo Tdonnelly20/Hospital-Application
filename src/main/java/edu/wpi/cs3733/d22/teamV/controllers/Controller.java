@@ -143,6 +143,12 @@ public abstract class Controller extends Application {
   }
 
   @FXML
+  protected void switchToRobot(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Robot.fxml"));
+    switchScene(event);
+  }
+
+  @FXML
   protected void switchToEmployeeDB(ActionEvent event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/EmployeeDatabase.fxml"));
     switchScene(event);
