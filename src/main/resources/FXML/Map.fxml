@@ -1,21 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<ScrollPane fx:id="scroll" cache="true" cacheHint="SCALE" fitToHeight="true" fitToWidth="true" pannable="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.LocationController">
-   <content>
-      <StackPane fx:id="layout" prefHeight="800.0" prefWidth="1280.0">
-         <children>
-            <ImageView fx:id="map" fitHeight="1284.0" fitWidth="1415.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-               <image>
-                  <Image url="@../1st%20Floor.png" />
-               </image>
-            </ImageView>
-         </children>
-      </StackPane>
-   </content>
-</ScrollPane>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <StackPane maxHeight="100.0" minWidth="100.0" prefHeight="100.0" prefWidth="200.0" styleClass="header" stylesheets="@../CSS/Map.css" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="297.3333282470703" minWidth="10.0" prefWidth="266.66664632161456" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="870.3333536783855" minWidth="10.0" prefWidth="744.999979654948" />
+                      <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="1175.3333435058594" minWidth="10.0" prefWidth="301.66668701171886" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="29.33333396911621" minHeight="7.999999046325684" prefHeight="7.999999046325684" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="83.99998982747397" minHeight="10.0" prefHeight="83.99998982747397" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="27.333343505859375" minHeight="7.333343505859375" prefHeight="7.333343505859375" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                           <children>
+                              <ImageView fitHeight="101.0" fitWidth="79.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Map" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="44.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
+                     </children>
+                  </GridPane>
+               </children></StackPane>
+         </top>
+         <center>
+            <VBox id="vbox" fx:id="mapVBox" alignment="CENTER" fillWidth="false" maxWidth="760.0" minWidth="688.0" prefHeight="700.0" prefWidth="688.0" stylesheets="@../CSS/Map.css" />
+         </center>
+         <left>
+            <VBox fx:id="controlsVBox" alignment="CENTER" maxWidth="260.0" minWidth="260.0" prefHeight="200.0" prefWidth="260.0" styleClass="vBox" stylesheets="@../CSS/Map.css" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <VBox fx:id="floorVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="260.0" minWidth="260.0" prefHeight="700.0" prefWidth="260.0" scaleShape="false" styleClass="vBox" stylesheets="@../CSS/Map.css" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton id="jfxButton" fx:id="LL2" layoutX="93.0" layoutY="339.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="LL2" />
+                  <JFXButton id="jfxButton" fx:id="LL1" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="LL1" />
+                  <JFXButton id="jfxButton" fx:id="floor1" layoutX="93.0" layoutY="304.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="1" />
+                  <JFXButton id="jfxButton" fx:id="floor2" layoutX="93.0" layoutY="409.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="2" />
+                  <JFXButton id="jfxButton" fx:id="floor3" layoutX="93.0" layoutY="444.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="3" />
+                  <JFXButton id="jfxButton" fx:id="floor4" layoutX="93.0" layoutY="409.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="4" />
+                  <JFXButton id="jfxButton" fx:id="floor5" layoutX="93.0" layoutY="479.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="5" />
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</StackPane>

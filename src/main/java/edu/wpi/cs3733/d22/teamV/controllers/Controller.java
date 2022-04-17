@@ -70,6 +70,13 @@ public abstract class Controller extends Application {
     stage.show();
   }
 
+  // Switches scene to the map
+  @FXML
+  protected void switchToMap(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Map.fxml"));
+    switchScene(event);
+  }
+
   // Switches scene to the location database
   @FXML
   protected void switchToLocationDB(ActionEvent event) {

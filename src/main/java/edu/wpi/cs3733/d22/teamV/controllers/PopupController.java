@@ -747,13 +747,13 @@ public class PopupController {
               request.getType() + field2.getText() + field1.getText() + comboBox2.getValue(),
               event.getX(),
               event.getY(),
-              MapController.getController().getFloor(),
+              MapController.getController().getFloorName(),
               "Tower",
               request.getType(),
               request.getType() + field2.getText() + field1.getText() + comboBox2.getValue(),
               request.getType() + field2.getText());
       MapManager.getManager()
-          .getFloor(MapController.getController().getFloor())
+          .getFloor(MapController.getController().getFloorName())
           .getIconList()
           .add(new LocationIcon(location));
     } else {

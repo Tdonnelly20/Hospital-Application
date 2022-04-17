@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
+import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +10,12 @@ import lombok.Setter;
 @Setter
 public class Floor {
   private String floorName;
+  private Image map;
   private ArrayList<Icon> iconList = new ArrayList<Icon>();
 
-  public Floor(String floorName) {
+  public Floor(String floorName, Image map) {
     this.floorName = floorName;
+    this.map = map;
   }
 
   public void addIcon(Icon icon) {

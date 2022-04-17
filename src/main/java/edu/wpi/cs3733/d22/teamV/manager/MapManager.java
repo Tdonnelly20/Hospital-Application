@@ -41,14 +41,13 @@ public class MapManager {
   public void setUpFloors() {
     floorList = new ArrayList<>();
 
-    Floor l1 = new Floor("L1");
-    Floor l2 = new Floor("L2");
-    Floor f1 = new Floor("1");
-    Floor f2 = new Floor("2");
-    Floor f3 = new Floor("3");
-    Floor f4 = new Floor("4");
-    Floor f5 = new Floor("5");
-    Floor sv = new Floor("SV");
+    Floor l1 = new Floor("L1", new Image("Lower Level 1.png"));
+    Floor l2 = new Floor("L2", new Image("Lower Level 2.png"));
+    Floor f1 = new Floor("1", new Image("1st Floor.png"));
+    Floor f2 = new Floor("2", new Image("2nd Floor.png"));
+    Floor f3 = new Floor("3", new Image("3rd Floor.png"));
+    Floor f4 = new Floor("4", new Image("4th Floor.png"));
+    Floor f5 = new Floor("5", new Image("5th Floor.png"));
 
     floorList.add(l1);
     floorList.add(l2);
@@ -57,7 +56,6 @@ public class MapManager {
     floorList.add(f3);
     floorList.add(f4);
     floorList.add(f5);
-    floorList.add(sv);
 
     for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {

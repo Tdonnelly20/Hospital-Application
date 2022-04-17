@@ -1,12 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import java.awt.*;
-import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -17,7 +16,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,7 +36,7 @@ public class MapController extends Controller {
   @FXML protected VBox mapVBox = new VBox(15);
   @FXML protected Button refreshButton = new Button("Refresh");
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
-  @FXML protected HBox mapHBox = new HBox(15);
+  @FXML protected VBox controlsVBox = new VBox(15);
   @FXML protected Pane mapPane = new Pane();
   protected final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
   protected final Group group = new Group();
@@ -47,6 +45,14 @@ public class MapController extends Controller {
   protected ZoomPane zoomPane = null;
   @FXML protected ScrollPane scrollPane = new ScrollPane(stackPane);
   protected final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
+  @FXML JFXButton LL2 = new JFXButton("LL2");
+  @FXML JFXButton LL1 = new JFXButton("LL1");
+  @FXML JFXButton floor1 = new JFXButton("Floor 1");
+  @FXML JFXButton floor2 = new JFXButton("Floor 2");
+  @FXML JFXButton floor3 = new JFXButton("Floor 3");
+  @FXML JFXButton floor4 = new JFXButton("Floor 4");
+  @FXML JFXButton floor5 = new JFXButton("Floor 5");
+  private String floorName = "";
 
   @FXML
   ObservableList<String> filterItems =
@@ -72,36 +78,6 @@ public class MapController extends Controller {
           "Sanitation Requests",
           "Internal Patient Transport Requests");
 
-  @FXML
-  protected JFXComboBox<String> floorDropDown =
-      new JFXComboBox<>(
-          FXCollections.observableArrayList(
-              "Lower Level 2",
-              "Lower Level 1",
-              "1st Floor",
-              "2nd Floor",
-              "3rd Floor",
-              "4th Floor",
-              "5th Floor",
-              "Side View"));
-
-  @FXML protected TextArea sideViewArea = new TextArea();
-
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    init();
-  }
-
-  @Override
-  public void init() {
-    floorDropDown.setValue("1st Floor");
-    if (MapManager.getManager().getFloor("1") == null) {
-      System.out.println("WTF");
-    }
-    currFloor = MapManager.getManager().getFloor("1");
-    mapSetUp();
-  }
-
   private static class SingletonHelper {
     private static final MapController controller = new MapController();
   }
@@ -110,20 +86,47 @@ public class MapController extends Controller {
     return SingletonHelper.controller;
   }
 
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    init();
+  }
+
+  @Override
+  public void init() {
+    setFloor("1");
+    mapSetUp();
+  }
+
+  /** Allows users to zoom in and out of the map without */
+  protected void mapSetUp() {
+    setUpControls();
+    zoom();
+
+    scrollPane.setPrefSize(550, 550);
+    controlsVBox.getChildren().addAll(filterCheckBox, refreshButton);
+    mapVBox.getChildren().addAll(scrollPane);
+    mapVBox.setAlignment(Pos.CENTER);
+    mapVBox.setSpacing(15);
+    controlsVBox.setAlignment(Pos.CENTER);
+    checkDropDown();
+  }
+
   /** Allows users to zoom in and out of the map without */
   @FXML
   void zoom() {
     zoomPane = new ZoomPane();
-    stackPane.getChildren().clear();
     zoomPane.getChildren().clear();
     group.getChildren().clear();
+    stackPane.getChildren().clear();
     stackPane.getChildren().add(mapImage);
     stackPane.getChildren().add(mapPane);
 
-    mapPane.setMinWidth(600);
-    mapPane.setMinHeight(600);
+    scrollPane.setPrefSize(550, 550);
+    mapImage.setFitHeight(scrollPane.getPrefHeight() + 50);
+    mapImage.setFitWidth(scrollPane.getPrefHeight() + 50);
+    mapPane.setPrefSize(mapImage.getFitWidth(), mapImage.getFitHeight());
+    // mapPane.autosize();
     mapImage.setPreserveRatio(true);
-    // mapPane.setStyle("-fx-border-color: blue;");
     scrollPane.setPannable(true);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -149,14 +152,33 @@ public class MapController extends Controller {
 
   void setUpControls() {
     System.out.println("setting up controls");
-    refreshButton.setOnAction(
+    LL2.setOnAction(
         event -> {
-          checkDropDown();
+          setFloor("L2");
         });
-    floorDropDown.setValue("1st Floor");
-    floorDropDown.setOnAction(
+    LL1.setOnAction(
         event -> {
-          checkDropDown();
+          setFloor("L1");
+        });
+    floor1.setOnAction(
+        event -> {
+          setFloor("1");
+        });
+    floor2.setOnAction(
+        event -> {
+          setFloor("2");
+        });
+    floor3.setOnAction(
+        event -> {
+          setFloor("3");
+        });
+    floor4.setOnAction(
+        event -> {
+          setFloor("4");
+        });
+    floor5.setOnAction(
+        event -> {
+          setFloor("5");
         });
 
     filterCheckBox = new CheckComboBox<>();
@@ -178,10 +200,6 @@ public class MapController extends Controller {
                   checkDropDown();
                 });
 
-    sideViewArea.setVisible(false);
-    sideViewArea.setText("Equipment Info:\n");
-    sideViewArea.setMaxSize(300, 300);
-
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
@@ -189,22 +207,6 @@ public class MapController extends Controller {
             openIconFormWindow(event);
           }
         });
-    mapPane.autosize();
-  }
-
-  protected void mapSetUp() {
-    setUpControls();
-    zoom();
-    currFloor = MapManager.getManager().getFloor("1");
-    mapVBox.setFillWidth(true);
-
-    scrollPane.setMaxSize(470, 470);
-    mapHBox.getChildren().addAll(floorDropDown, filterCheckBox, refreshButton);
-    mapVBox.getChildren().addAll(scrollPane, mapHBox, sideViewArea);
-    mapVBox.setAlignment(Pos.TOP_CENTER);
-    mapVBox.setSpacing(15);
-    mapHBox.setAlignment(Pos.CENTER);
-    checkDropDown();
   }
 
   /** Checks the value of the floor drop down and matches it with the corresponding map png */
@@ -221,144 +223,55 @@ public class MapController extends Controller {
       }
     }
     PopupController.getController().closePopUp();
-    String url = floorDropDown.getValue().toString() + ".png";
-    mapImage.setImage(new Image(url));
-    mapImage.setFitWidth(600);
-    mapImage.setFitHeight(600);
-    getFloor();
   }
 
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
-  public String getFloor() {
-    String result = "";
-    if (floorDropDown.getValue() == null) {
-      floorDropDown.setValue("1st Floor");
-    }
-    System.out.println(floorDropDown.getValue().toString());
-    switch (floorDropDown.getValue().toString()) {
-      case "Lower Level 1":
-        currFloor = MapManager.getManager().getFloor("L1");
-        result = "L1";
-        break;
-      case "Lower Level 2":
-        currFloor = MapManager.getManager().getFloor("L2");
-        result = "L2";
-        break;
-      case "1st Floor":
-        currFloor = MapManager.getManager().getFloor("1");
-        result = "1";
-        break;
-      case "2nd Floor":
-        currFloor = MapManager.getManager().getFloor("2");
-        result = "2";
-        break;
-      case "3rd Floor":
-        currFloor = MapManager.getManager().getFloor("3");
-        result = "3";
-        break;
-      case "4th Floor":
-        currFloor = MapManager.getManager().getFloor("4");
-        result = "4";
-        break;
-      case "5th Floor":
-        currFloor = MapManager.getManager().getFloor("5");
-        result = "5";
-        break;
-      case "Side View":
-        currFloor = MapManager.getManager().getFloor("SV");
-        result = "SV";
-        break;
-    }
+  public void setFloor(String floor) {
+    floorName = floor;
+    currFloor = MapManager.getManager().getFloor(floorName);
+    mapImage.setImage(currFloor.getMap());
     populateFloorIconArr();
-
-    return result;
   }
 
   // Loads the floor's icons in accordance with filter
   @FXML
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
-
-    // for side view controllers
-    sideViewArea.setVisible(false);
-    if (currFloor.getFloorName().equals("SV")) {
-      populateSideViewInfo();
-    } else {
-
-      ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-      currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
-      for (Icon icon : currFloor.getIconList()) {
-        if (filter.size() > 0 && !currFloor.getFloorName().equals("SV")) {
-          // System.out.println(icon.iconType);
-          if (filter.contains("Service Requests") && icon.iconType.equals("Location")) {
-            assert icon instanceof LocationIcon;
-            if (((LocationIcon) icon).getRequestsArr().size() > 0) {
-              if (filter.contains("Active Requests") && ((LocationIcon) icon).hasActiveRequests()) {
-                filterByActiveRequestType((LocationIcon) icon);
-              } else {
-                filterByRequestType((LocationIcon) icon);
-              }
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
+    for (Icon icon : currFloor.getIconList()) {
+      if (filter.size() > 0 && !currFloor.getFloorName().equals("SV")) {
+        // System.out.println(icon.iconType);
+        if (filter.contains("Service Requests") && icon.iconType.equals("Location")) {
+          assert icon instanceof LocationIcon;
+          if (((LocationIcon) icon).getRequestsArr().size() > 0) {
+            if (filter.contains("Active Requests") && ((LocationIcon) icon).hasActiveRequests()) {
+              filterByActiveRequestType((LocationIcon) icon);
+            } else {
+              filterByRequestType((LocationIcon) icon);
             }
           }
-          if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
-            assert icon instanceof EquipmentIcon;
-            EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
-            if (filter.contains("Clean Equipment")) {
-              if (equipmentIcon.hasCleanEquipment()) {
-                mapPane.getChildren().add(icon.getImage());
-              }
-            } else {
+        }
+        if (filter.contains("Equipment") && icon.iconType.equals("Equipment")) {
+          assert icon instanceof EquipmentIcon;
+          EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
+          if (filter.contains("Clean Equipment")) {
+            if (equipmentIcon.hasCleanEquipment()) {
               mapPane.getChildren().add(icon.getImage());
             }
-          }
-          if (filter.contains("Locations") && icon.iconType.equals("Location")) {
-            filterByLocation((LocationIcon) icon);
-          }
-        } else {
-          if (!mapPane.getChildren().contains(icon.getImage())) {
+          } else {
             mapPane.getChildren().add(icon.getImage());
           }
         }
-      }
-    }
-  }
-
-  public void populateSideViewInfo() {
-    ArrayList<Floor> floorList = MapManager.getManager().getFloorList();
-    ArrayList<Icon> tempIconList;
-    String dirtyStatus;
-
-    for (int f = 0; f < floorList.size() - 1; f++) {
-      tempIconList = floorList.get(f).getIconList();
-      String floorInfo = floorList.get(f).getFloorName() + ": \n";
-      for (int i = 0; i < tempIconList.size(); i++) {
-        if (tempIconList.get(i).getIconType().equals("Equipment")) {
-          EquipmentIcon tempIcon = (EquipmentIcon) tempIconList.get(i);
-          for (int e = 0; e < tempIcon.getEquipmentList().size(); e++) {
-            Equipment tempEquip = tempIcon.getEquipmentList().get(e);
-
-            if (tempEquip.getIsDirty()) {
-              dirtyStatus = "  Clean Storage";
-            } else {
-              dirtyStatus = "  Dirty Equipment pick-up";
-            }
-            floorInfo +=
-                tempEquip.getID()
-                    + ":   X: "
-                    + tempEquip.getX()
-                    + "   Y: "
-                    + tempEquip.getY()
-                    + dirtyStatus
-                    + " \n";
-          }
+        if (filter.contains("Locations") && icon.iconType.equals("Location")) {
+          filterByLocation((LocationIcon) icon);
+        }
+      } else {
+        if (!mapPane.getChildren().contains(icon.getImage())) {
+          mapPane.getChildren().add(icon.getImage());
         }
       }
-      String oldInfo = sideViewArea.getText();
-
-      sideViewArea.setText(oldInfo + "\n" + floorInfo + "\n");
     }
-
-    sideViewArea.setVisible(true);
   }
 
   public void filterByActiveRequestType(LocationIcon icon) {
@@ -454,7 +367,7 @@ public class MapController extends Controller {
         RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
-    MapManager.getManager().getFloor(getFloor()).addIcon(icon);
+    MapManager.getManager().getFloor(floorName).addIcon(icon);
     checkDropDown();
   }
 
@@ -480,7 +393,7 @@ public class MapController extends Controller {
                 addIcon(
                     new LocationIcon(
                         PopupController.getController()
-                            .getLocation(xPos + 25, yPos + 15, getFloor())));
+                            .getLocation(xPos + 25, yPos + 15, floorName)));
               } else {
                 Text missingFields = new Text("Please fill all fields");
                 missingFields.setFill(Color.RED);
