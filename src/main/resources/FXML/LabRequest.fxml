@@ -113,18 +113,21 @@
       </VBox>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="496.0" prefWidth="318.0" style="-fx-background-color: #5c677d;" GridPane.rowIndex="1">
          <content>
-            <VBox alignment="TOP_CENTER" prefHeight="598.0" prefWidth="355.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+            <VBox alignment="TOP_CENTER" prefHeight="598.0" prefWidth="355.0" spacing="15.0" style="-fx-background-color: #5c677d;">
                <children>
+                  <Label text="Location Node ID" textFill="WHITE" />
                   <TextField id="nodeID" fx:id="nodeID" layoutX="41.0" layoutY="50.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="253.0" promptText="Location Node ID">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
+                  <Label layoutX="141.0" layoutY="50.0" text="Employee ID" textFill="WHITE" />
                   <TextField id="userID" fx:id="employeeID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="Employee ID">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
+                  <Label layoutX="154.0" layoutY="123.0" text="Patient ID" textFill="WHITE" />
                   <TextField id="patientID" fx:id="patientID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Patient ID">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
