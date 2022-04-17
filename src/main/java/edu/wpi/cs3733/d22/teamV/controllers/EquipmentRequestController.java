@@ -74,9 +74,13 @@ public class EquipmentRequestController extends RequestController {
     setTitleText("Equipment Delivery Request");
     fillTopPane();
     mapSetUp();
+
     filterCheckBox.getCheckModel().check("Equipment");
     filterCheckBox.getCheckModel().check("Clean Equipment");
     filterCheckBox.getCheckModel().check("Equipment Delivery Requests");
+
+    setColumnSizes(1520);
+
     tablePlane
         .widthProperty()
         .addListener(
@@ -86,6 +90,7 @@ public class EquipmentRequestController extends RequestController {
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = tablePlane.getWidth();
                 equipmentRequestTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
               }
             });
 
@@ -269,6 +274,17 @@ public class EquipmentRequestController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(patientIDCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 8);
+    setColumnSize(firstNameCol, (w - 30) / 8);
+    setColumnSize(lastNameCol, (w - 30) / 8);
+    setColumnSize(posCol, (w - 30) / 8);
+    setColumnSize(equipCol, (w - 30) / 8);
+    setColumnSize(quantCol, (w - 30) / 8);
+    setColumnSize(notesCol, (w - 30) / 8);
   }
 
   @Override
