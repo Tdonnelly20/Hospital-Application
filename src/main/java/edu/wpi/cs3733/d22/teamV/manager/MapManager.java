@@ -83,7 +83,7 @@ public class MapManager {
       }
     }
 
-    for (Equipment e : requestSystem.getEquipment()) {
+    /*for (Equipment e : requestSystem.getEquipment()) {
       Location l = new Location(e.getX(), e.getY(), e.getFloor());
       EquipmentIcon equipmentIcon = new EquipmentIcon(l);
       equipmentIcon.addToEquipmentList(e);
@@ -111,8 +111,20 @@ public class MapManager {
           floorList.get(6).addIcon(equipmentIcon);
           break;
       }
-    }
+    }*/
+    loadEquipment();
     loadRequests();
+  }
+
+  public void loadEquipment() {
+    for (Equipment e : requestSystem.getEquipment()) {
+      if (getFloor(e.getFloor()).hasEquipmentIconAt(e.getX(), e.getY())) {
+        getFloor(e.getFloor()).addToEquipmentIcon(e.getX(), e.getY(), e);
+      } else {
+        e.setIcon(new EquipmentIcon(new Location(e.getX(), e.getY(), e.getFloor())));
+        getFloor(e.getFloor()).addIcon(e.getIcon());
+      }
+    }
   }
 
   /** Loads every location and gives each the correct icon image */

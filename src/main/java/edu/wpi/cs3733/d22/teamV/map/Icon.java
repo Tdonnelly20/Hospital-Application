@@ -54,13 +54,5 @@ public abstract class Icon {
           image.setFitWidth(30);
           image.setFitHeight(30);
         });
-    image.setOnMouseReleased(
-        event -> {
-          location.setXCoord(location.getXCoord() + event.getX());
-          location.setYCoord(location.getYCoord() + event.getY());
-          checkBounds();
-        });
   }
-
-  public abstract void checkBounds();
 }

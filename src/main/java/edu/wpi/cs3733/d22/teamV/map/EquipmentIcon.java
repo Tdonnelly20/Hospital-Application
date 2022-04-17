@@ -1,13 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,13 +13,11 @@ import lombok.Setter;
 @Setter
 public class EquipmentIcon extends Icon {
 
-  ArrayList<Equipment> equipmentList;
+  ArrayList<Equipment> equipmentList = new ArrayList<>();
 
   public EquipmentIcon(Location location) {
     super(location);
     this.iconType = "Equipment";
-    equipmentList = new ArrayList<>();
-    setImage();
     image.setFitWidth(30);
     image.setFitHeight(30);
     image.setTranslateX((xCoord) - 25);
@@ -41,7 +37,12 @@ public class EquipmentIcon extends Icon {
   }
 
   public void addToEquipmentList(Equipment equipment) {
-    equipmentList.add(equipment);
+    if (equipment.getIsDirty()) {
+      equipmentList.add(equipment);
+    } else {
+      image.setImage(MapManager.getManager().cleanEquipment);
+      equipmentList.add(0, equipment);
+    }
     setImage();
   }
 
@@ -71,20 +72,19 @@ public class EquipmentIcon extends Icon {
   }
 
   public void checkBounds() {
-    List<EquipmentIcon> iconList = new ArrayList<>();
     for (EquipmentIcon icon :
         MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
       if (icon != this) {
         if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
           System.out.println("Intersection");
-          equipmentList.addAll(icon.getEquipmentList());
+          /*equipmentList.addAll(icon.getEquipmentList());
           for (Equipment equipment : icon.getEquipmentList()) {
             equipment.setX(getXCoord());
             equipment.setY(getYCoord());
           }
           icon.getEquipmentList().clear();
           MapController.getController().getMapPane().getChildren().remove(icon.getImage());
-          MapManager.getManager().getFloor(getLocation().getFloor()).removeIcon(icon);
+          MapManager.getManager().getFloor(getLocation().getFloor()).removeIcon(icon);*/
         }
       }
     }

@@ -30,9 +30,6 @@ public class LocationIcon extends Icon {
         });
   }
 
-  @Override
-  public void checkBounds() {}
-
   public void addToRequests(ServiceRequest request) {
     requestsArr.add(request);
     if (location.getRequests().contains(request)) {

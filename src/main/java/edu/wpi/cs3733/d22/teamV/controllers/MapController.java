@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import java.awt.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -108,7 +107,7 @@ public class MapController extends Controller {
     mapVBox.setAlignment(Pos.CENTER);
     mapVBox.setSpacing(15);
     controlsVBox.setAlignment(Pos.CENTER);
-    checkDropDown();
+    checkFilter();
   }
 
   /** Allows users to zoom in and out of the map without */
@@ -132,11 +131,6 @@ public class MapController extends Controller {
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     group.getChildren().add(mapImage);
     group.getChildren().add(mapPane);
-
-    System.out.println(
-        "Image width: " + mapImage.getFitWidth() + " height: " + mapImage.getFitHeight());
-    System.out.println(
-        "Pane width: " + mapPane.getMinWidth() + " height: " + mapPane.getMinHeight());
 
     group.getChildren().add(stackPane);
     zoomProperty.bind(zoomPane.scale);
@@ -197,21 +191,20 @@ public class MapController extends Controller {
         .addListener(
             (ListChangeListener<String>)
                 change -> {
-                  checkDropDown();
+                  checkFilter();
                 });
 
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            System.out.println("CLICK RECEIVED");
             openIconFormWindow(event);
           }
         });
   }
 
-  /** Checks the value of the floor drop down and matches it with the corresponding map png */
+  /** Filters out icons based on filterCheckBox */
   @FXML
-  public void checkDropDown() {
+  public void checkFilter() {
     if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
       if (!filterCheckBox.getCheckModel().isChecked("Service Requests")) {
         filterCheckBox.getCheckModel().check("Service Requests");
@@ -223,6 +216,7 @@ public class MapController extends Controller {
       }
     }
     PopupController.getController().closePopUp();
+    populateFloorIconArr();
   }
 
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
@@ -368,14 +362,14 @@ public class MapController extends Controller {
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
-    checkDropDown();
+    checkFilter();
   }
 
   public void addEquipmentIcon(Equipment equipment) {
     PopupController.getController().closePopUp();
     RequestSystem.getSystem().addEquipment(equipment);
     MapManager.getManager().setUpFloors();
-    checkDropDown();
+    checkFilter();
   }
 
   public void deleteIcon(Icon icon) {

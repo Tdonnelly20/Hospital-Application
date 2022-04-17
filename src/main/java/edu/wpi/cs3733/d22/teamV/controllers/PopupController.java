@@ -407,7 +407,7 @@ public class PopupController {
               System.out.println(newLocation.toString());
               addIcon(newLocation);
               clearPopupForm();
-              MapController.getController().checkDropDown();
+              MapController.getController().checkFilter();
 
             } else {
               missingFields.setText("No information has been modified. Please input corrections");

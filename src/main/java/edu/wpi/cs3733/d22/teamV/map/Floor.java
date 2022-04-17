@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
@@ -58,5 +59,23 @@ public class Floor {
       }
     }
     return equipmentIcons;
+  }
+
+  public boolean hasEquipmentIconAt(double x, double y) {
+    for (EquipmentIcon icon : getEquipmentIcons()) {
+      if ((icon.xCoord == x) && (icon.yCoord == y)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void addToEquipmentIcon(double x, double y, Equipment equipment) {
+    for (EquipmentIcon icon : getEquipmentIcons()) {
+      if ((icon.xCoord == x) && (icon.yCoord == y)) {
+        icon.addToEquipmentList(equipment);
+        break;
+      }
+    }
   }
 }
