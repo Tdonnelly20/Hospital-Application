@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
+   <children>
+      <VBox prefHeight="800.0" prefWidth="1200.0">
+         <children>
+            <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="138.0" prefWidth="1200.0" style="-fx-background-color: #012D5Aff;">
+               <children>
+                  <ImageView fitHeight="88.0" fitWidth="122.0" layoutX="29.0" layoutY="22.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="131.0" layoutY="27.0" prefHeight="74.0" prefWidth="602.0" stylesheets="@../CSS/DashboardCSS.css" text="Map Dashboard" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="51.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../BackButton.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../ExitButton.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../HomeButton.png" />
+                     </image>
+                  </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="53.0" layoutX="-1.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" width="1202.0" />
+               </children>
+            </Pane>
+            <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1200.0" style="-fx-background-color: #5f6c83;">
+               <children>
+                  <VBox fx:id="leftVBox" prefHeight="327.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
+                     <children>
+                        <TitledPane fx:id="sideViewTPane" animated="false" collapsible="false" text="Side View Map">
+                           <content>
+                              <Pane fx:id="sideViewPane" prefHeight="790.0" prefWidth="400.0">
+                                 <children>
+                                    <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../SideView.PNG" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox fx:id="centerVBox" prefHeight="552.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
+                     <children>
+                        <TitledPane fx:id="infoTPane" animated="false" collapsible="false" prefHeight="434.0" prefWidth="313.0" style="-fx-background-color: #000000;" text="Detailed Information">
+                           <content>
+                              <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                                <tabs>
+                                  <Tab text="Equipment">
+                                       <content>
+                                          <TreeTableView prefHeight="230.0" prefWidth="298.0">
+                                            <columns>
+                                              <TreeTableColumn fx:id="equipmentIDCol" prefWidth="75.0" text="ID" />
+                                              <TreeTableColumn fx:id="isDirtyCol" prefWidth="75.0" text="Status" />
+                                            </columns>
+                                          </TreeTableView>
+                                       </content>
+                                  </Tab>
+                                  <Tab text="Service Requests">
+                                       <content>
+                                          <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                                            <columns>
+                                              <TreeTableColumn fx:id="typeCol" prefWidth="54.39999198913574" text="Type" />
+                                              <TreeTableColumn fx:id="locationCol" prefWidth="93.60003662109375" text="Location" />
+                                                <TreeTableColumn fx:id="startTimeCol" prefWidth="88.79998779296875" text="Start Time" />
+                                            </columns>
+                                          </TreeTableView>
+                                       </content>
+                                  </Tab>
+                                    <Tab text="Patients">
+                                       <content>
+                                          <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                                             <columns>
+                                                <TreeTableColumn fx:id="patientIDCol" prefWidth="46.39999580383301" text="ID" />
+                                                <TreeTableColumn fx:id="lastCol" prefWidth="66.39995574951172" text="Last" />
+                                                <TreeTableColumn fx:id="SRCol" prefWidth="128.79998779296875" text="Requests" />
+                                             </columns>
+                                          </TreeTableView>
+                                       </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <TitledPane fx:id="countsTPane" animated="false" collapsible="false" prefHeight="262.0" prefWidth="283.0" text="Counts">
+                           <content>
+                              <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TreeTableColumn prefWidth="75.0" text="C1" />
+                                  <TreeTableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TreeTableView>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
+                     <children>
+                        <TitledPane fx:id="mapTPane" animated="false" collapsible="false" prefHeight="492.0" prefWidth="330.0" text="Interactive Map">
+                           <content>
+                              <ImageView fitHeight="301.0" fitWidth="340.0" onMouseClicked="#switchToMap" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../1st Floor.png" />
+                                 </image>
+                              </ImageView>
+                           </content>
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" top="40.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <TitledPane fx:id="alertsTPane" animated="false" collapsible="false" prefHeight="314.0" prefWidth="256.0" style="-fx-padding: 10;" text="Alerts">
+                           <content>
+                              <TreeTableView fx:id="alertTable" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TreeTableColumn prefWidth="75.0" text="C1" />
+                                  <TreeTableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TreeTableView>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="40.0" left="20.0" right="20.0" top="10.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="42.0" prefWidth="1158.0" spacing="50.0" style="-fx-background-color: #5f6c83#5f6c83;">
+               <children>
+                  <Button fx:id="ll2" mnemonicParsing="false" onAction="#switchToLL2" text="LL2">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
+                  <Button fx:id="ll1" mnemonicParsing="false" onAction="#switchToLL1" text="LL1">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
+                  <Button fx:id="f1" mnemonicParsing="false" onAction="#switchToF1" text="1">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
+                  <Button fx:id="f2" mnemonicParsing="false" onAction="#switchToF2" text="2" />
+                  <Button fx:id="f3" mnemonicParsing="false" onAction="#switchToF3" text="3" />
+                  <Button fx:id="f4" mnemonicParsing="false" onAction="#switchToF4" text="4">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="f5" mnemonicParsing="false" onAction="#switchToF5" text="5" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</Pane>

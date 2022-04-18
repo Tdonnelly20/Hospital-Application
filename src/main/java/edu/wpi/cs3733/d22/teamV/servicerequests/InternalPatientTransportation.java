@@ -27,6 +27,7 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.employeeID = employeeID;
     this.requestDetails = requestDetails;
     this.type = "Internal Patient Transportation Request";
+    this.status = "Not Started";
   }
 
   public String getPatientFirstName() {

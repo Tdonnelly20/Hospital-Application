@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.manager;
 
-import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.*;
@@ -9,9 +8,7 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +16,6 @@ import lombok.Setter;
 @Setter
 public class MapManager {
   private ArrayList<Floor> floorList;
-  @FXML private ImageView tempIcon = new ImageView("locationMarker.png");
   List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   RequestSystem requestSystem = Vdb.requestSystem;
   public Image cleanEquipment = new Image("cleanEquipment.png");
@@ -27,9 +23,9 @@ public class MapManager {
   public Image locationMarker = new Image("locationMarker.png");
   public Image requestMarker = new Image("requestMarker.png");
 
+  /** Gets every service request and sets up the floors */
   public void init() {
     serviceRequests = requestSystem.getEveryServiceRequest();
-    // System.out.println(serviceRequests.size());
     setUpFloors();
   }
 
@@ -45,14 +41,13 @@ public class MapManager {
   public void setUpFloors() {
     floorList = new ArrayList<>();
 
-    Floor l1 = new Floor("L1");
-    Floor l2 = new Floor("L2");
-    Floor f1 = new Floor("1");
-    Floor f2 = new Floor("2");
-    Floor f3 = new Floor("3");
-    Floor f4 = new Floor("4");
-    Floor f5 = new Floor("5");
-    Floor sv = new Floor("SV");
+    Floor l1 = new Floor("L1", new Image("Lower Level 1.png"));
+    Floor l2 = new Floor("L2", new Image("Lower Level 2.png"));
+    Floor f1 = new Floor("1", new Image("1st Floor.png"));
+    Floor f2 = new Floor("2", new Image("2nd Floor.png"));
+    Floor f3 = new Floor("3", new Image("3rd Floor.png"));
+    Floor f4 = new Floor("4", new Image("4th Floor.png"));
+    Floor f5 = new Floor("5", new Image("5th Floor.png"));
 
     floorList.add(l1);
     floorList.add(l2);
@@ -61,8 +56,13 @@ public class MapManager {
     floorList.add(f3);
     floorList.add(f4);
     floorList.add(f5);
-    floorList.add(sv);
 
+    loadEquipment();
+    setUpLocations();
+    loadRequests();
+  }
+
+  private void setUpLocations() {
     for (Location l : requestSystem.getLocations()) {
       switch (l.getFloor()) {
         case "L1":
@@ -88,43 +88,24 @@ public class MapManager {
           break;
       }
     }
-
-    for (Equipment e : requestSystem.getEquipment()) {
-      Location l = new Location(e.getX(), e.getY(), e.getFloor());
-      EquipmentIcon equipmentIcon = new EquipmentIcon(l);
-      equipmentIcon.addToEquipmentList(e);
-      equipmentIcon.setImage();
-      switch (e.getFloor()) {
-        case "L1":
-          floorList.get(0).addIcon(equipmentIcon);
-          break;
-        case "L2":
-          floorList.get(1).addIcon(equipmentIcon);
-          break;
-        case "1":
-          floorList.get(2).addIcon(equipmentIcon);
-          break;
-        case "2":
-          floorList.get(3).addIcon(equipmentIcon);
-          break;
-        case "3":
-          floorList.get(4).addIcon(equipmentIcon);
-          break;
-        case "4":
-          floorList.get(5).addIcon(equipmentIcon);
-          break;
-        case "5":
-          floorList.get(6).addIcon(equipmentIcon);
-          break;
-      }
-    }
-    loadRequests();
   }
 
+  public void loadEquipment() {
+    for (Equipment e : requestSystem.getEquipment()) {
+      if (getFloor(e.getFloor()).hasEquipmentIconAt(e.getX(), e.getY())) {
+        getFloor(e.getFloor()).addToEquipmentIcon(e.getX(), e.getY(), e);
+      } else {
+        e.setIcon(new EquipmentIcon(new Location(e.getX(), e.getY(), e.getFloor())));
+        getFloor(e.getFloor()).addIcon(e.getIcon());
+      }
+    }
+  }
+
+  /** Loads every location and gives each the correct icon image */
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
-      if (floorList.get(i).containsIcon(l)) {
-        if (floorList.get(i).getIcon(l).iconType.equals("Location")) {
+      if (floorList.get(i).containsIcon(l, Icon.IconType.Location)) {
+        if (floorList.get(i).getIcon(l).iconType.equals(Icon.IconType.Location)) {
           if (l.getIcon().hasActiveRequests()) {
             l.getIcon().changeImages();
           }
@@ -141,17 +122,22 @@ public class MapManager {
     }
   }
 
+  /** Loads each request into it's corresponding location's list */
   public void loadRequests() {
     if (serviceRequests.size() > 0) {
       for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
         for (Floor floor : floorList) {
           for (Icon icon : floor.getIconList()) {
-            if (icon.iconType.equals("Location")
-                && icon.getLocation()
-                    .getNodeID()
-                    .equals(serviceRequest.getLocation().getNodeID())) {
-              icon.getLocation().getRequests().add(serviceRequest);
-              ((LocationIcon) icon).addToRequests(serviceRequest);
+            if (serviceRequest.getLocation() != null) {
+              if (serviceRequest.getLocation().getNodeID() != null) {
+                if (icon.iconType.equals(Icon.IconType.Location)
+                    && icon.getLocation()
+                        .getNodeID()
+                        .equals(serviceRequest.getLocation().getNodeID())) {
+                  icon.getLocation().getRequests().add(serviceRequest);
+                  ((LocationIcon) icon).addToRequests(serviceRequest);
+                }
+              }
             }
           }
         }
@@ -183,22 +169,5 @@ public class MapManager {
         return floorList.get(7);
     }
     return null;
-  }
-
-  public void isTempIconVisible(boolean isVisible) {
-    tempIcon.setVisible(isVisible);
-  }
-
-  public void placeTempIcon(double xPos, double yPos) {
-    // Place Icon
-    tempIcon.setVisible(true);
-    tempIcon.setTranslateX(xPos);
-    tempIcon.setTranslateX(yPos);
-    if (!MapController.getController().getMapPane().getChildren().contains(tempIcon)) {
-      // System.out.println("X:" + xPos + " Y:" + yPos);
-      tempIcon.setFitWidth(30);
-      tempIcon.setFitHeight(30);
-      MapController.getController().getMapPane().getChildren().add(tempIcon);
-    }
   }
 }

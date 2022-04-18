@@ -45,6 +45,11 @@
          <children>
             <VBox alignment="TOP_CENTER" layoutY="1.0" prefHeight="500.0" prefWidth="168.0" spacing="10.0" style="-fx-background-color: #5c677d;">
                <children>
+                  <Button alignment="CENTER" layoutX="24.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToMap" style="-fx-background-color: #5c677d;" text="Map" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
                   <Button alignment="CENTER" layoutX="15.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToLocationDB" style="-fx-background-color: #5c677d;" text="Location Database" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -56,6 +61,11 @@
                      </font>
                   </Button>
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToEmployeeDB" style="-fx-background-color: #5c677d;" text="Employee Database" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToDashboard" style="-fx-background-color: #5c677d;" text="Dashboard" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

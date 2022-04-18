@@ -10,7 +10,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class Icon {
-  public String iconType;
+
+  public enum IconType {
+    Location,
+    Equipment
+  }
+
+  public IconType iconType;
   protected Location location;
   protected double xCoord;
   protected double yCoord;
@@ -21,8 +27,8 @@ public abstract class Icon {
     this.yCoord = location.getYCoord();
     this.location = location;
     this.image = new ImageView();
-    image.setFitWidth(30);
-    image.setFitHeight(30);
+    image.setFitWidth(15);
+    image.setFitHeight(15);
     image.setTranslateX(xCoord);
     image.setTranslateY(yCoord);
     image.setOnMousePressed(
@@ -51,13 +57,8 @@ public abstract class Icon {
         });
     image.setOnMouseExited(
         event -> {
-          image.setFitWidth(30);
-          image.setFitHeight(30);
-        });
-    image.setOnMouseReleased(
-        event -> {
-          location.setXCoord(location.getXCoord() + event.getX());
-          location.setYCoord(location.getYCoord() + event.getY());
+          image.setFitWidth(15);
+          image.setFitHeight(15);
         });
   }
 }

@@ -67,6 +67,13 @@ public class Equipment {
     isDirty = bool;
   }
 
+  public String setIsDirtyString(String str) {
+    if (str.equals("Dirty")) {
+      isDirty = true;
+    }
+    return "Clean";
+  }
+
   public void setIcon(EquipmentIcon icon) {
     this.icon = icon;
   }

@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
@@ -13,14 +14,14 @@ import lombok.Setter;
 @Setter
 public class EquipmentIcon extends Icon {
 
-  ArrayList<Equipment> equipmentList = new ArrayList<>();
+  ArrayList<Equipment> equipmentList;
 
   public EquipmentIcon(Location location) {
     super(location);
-    setImage();
-    this.iconType = "Equipment";
-    image.setFitWidth(30);
-    image.setFitHeight(30);
+    this.iconType = IconType.Equipment;
+    equipmentList = new ArrayList<>();
+    image.setFitWidth(20);
+    image.setFitHeight(20);
     image.setTranslateX((xCoord) - 25);
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(
@@ -29,10 +30,29 @@ public class EquipmentIcon extends Icon {
             PopupController.getController().equipmentForm(event, this);
           }
         });
+    image.setOnMouseReleased(
+        event -> {
+          location.setXCoord(location.getXCoord() + event.getX());
+          location.setYCoord(location.getYCoord() + event.getY());
+          checkBounds();
+        });
+    image.setOnMouseExited(
+        event -> {
+          image.setFitWidth(15);
+          image.setFitHeight(15);
+        });
   }
 
   public void addToEquipmentList(Equipment equipment) {
-    equipmentList.add(equipment);
+    if (equipment.getIsDirty()) {
+      equipmentList.add(equipment);
+      if (equipmentList.size() == 1) {
+        image.setImage(MapManager.getManager().dirtyEquipment);
+      }
+    } else {
+      image.setImage(MapManager.getManager().cleanEquipment);
+      equipmentList.add(0, equipment);
+    }
     setImage();
   }
 
@@ -59,5 +79,28 @@ public class EquipmentIcon extends Icon {
       }
     }
     return false;
+  }
+
+  public void checkBounds() {
+    for (EquipmentIcon icon :
+        MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
+      if (icon != this && iconType.equals(IconType.Equipment)) {
+        if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
+          System.out.println("Intersection");
+          equipmentList.addAll(icon.getEquipmentList());
+          updateLocation();
+          icon.getEquipmentList().clear();
+          MapController.getController().deleteIcon(icon);
+          setImage();
+        }
+      }
+    }
+  }
+
+  public void updateLocation() {
+    for (Equipment equipment : equipmentList) {
+      equipment.setX(location.getXCoord());
+      equipment.setY(location.getYCoord());
+    }
   }
 }

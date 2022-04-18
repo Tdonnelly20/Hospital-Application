@@ -79,14 +79,17 @@
       </Pane>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <content>
-            <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="40.0" style="-fx-background-color: #5c677d;">
+            <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="15.0" style="-fx-background-color: #5c677d;">
                <children>
+                  <Label text="Employee ID" textFill="WHITE" />
                   <TextField fx:id="employeeID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee ID" />
+                  <Label layoutX="201.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                   <TextField fx:id="patientID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient ID">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
+                  <Label layoutX="201.0" layoutY="50.0" text="Room Number" textFill="WHITE" />
                   <TextField fx:id="nodeID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Room Number">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
@@ -106,7 +109,9 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXComboBox>
+                  <Label layoutX="195.0" layoutY="197.0" text="Dosage" textFill="WHITE" />
                   <TextField fx:id="dosage" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Dosage" />
+                  <Label layoutX="214.0" layoutY="311.0" text="Request Details" textFill="WHITE" />
                   <TextArea fx:id="requestDetails" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Request Details (optional)" wrapText="true">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />

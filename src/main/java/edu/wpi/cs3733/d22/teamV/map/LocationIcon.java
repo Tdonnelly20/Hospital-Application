@@ -16,10 +16,10 @@ public class LocationIcon extends Icon {
 
   public LocationIcon(Location location) {
     super(location);
-    this.iconType = "Location";
+    this.iconType = IconType.Location;
     image.setImage(new Image("locationMarker.png"));
-    image.setFitWidth(30);
-    image.setFitHeight(30);
+    image.setFitWidth(15);
+    image.setFitHeight(15);
     image.setTranslateX((xCoord) - 25);
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(

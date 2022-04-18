@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,7 +17,6 @@ import javafx.stage.Stage;
 public abstract class Controller extends Application {
   private Parent root;
   FXMLLoader loader = new FXMLLoader();
-  String filterString = "";
 
   @Override
   public void init() {}
@@ -74,6 +74,13 @@ public abstract class Controller extends Application {
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+  }
+
+  // Switches scene to the map
+  @FXML
+  protected void switchToMap(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Map.fxml"));
+    switchScene(event);
   }
 
   // Switches scene to the location database
@@ -144,7 +151,6 @@ public abstract class Controller extends Application {
   protected void switchToInternalPatientTransport(ActionEvent event) {
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
-    filterString = "Internal Patient Transportation Requests";
     switchScene(event);
   }
 
@@ -155,15 +161,20 @@ public abstract class Controller extends Application {
   }
 
   @FXML
-  protected void switchToEmployeeDB(ActionEvent event) throws IOException {
+  protected void switchToEmployeeDB(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/EmployeeDatabase.fxml"));
     switchScene(event);
   }
 
   @FXML
-  protected void switchToPatientDB(ActionEvent event) throws IOException {
-    URL fxmlLocation = getClass().getClassLoader().getResource("FXML/PatientDatabase.fxml");
-    loader.setLocation(fxmlLocation);
+  protected void switchToPatientDB(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/PatientDatabase.fxml"));
+    switchScene(event);
+  }
+
+  @FXML
+  protected void switchToDashboard(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/MapDashboard.fxml"));
     switchScene(event);
   }
 
@@ -177,8 +188,6 @@ public abstract class Controller extends Application {
     }
     Controller controller = loader.getController();
     controller.init();
-    // MapController.getController().filterCheckBox.getCheckModel().clearChecks();
-    // MapController.getController().populateFloorIconArr();
 
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

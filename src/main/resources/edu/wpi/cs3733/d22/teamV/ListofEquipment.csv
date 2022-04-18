@@ -50,10 +50,10 @@ ipump27,Infusion Pump,3,145,450,N/A,1
 ipump28,Infusion Pump,3,145,450,N/A,1
 ipump29,Infusion Pump,3,145,450,N/A,1
 ipump30,Infusion Pump,3,145,450,N/A,1
-recliner1,Patient Recliner,1,100,300,N/A,1
-recliner2,Patient Recliner,1,100,300,N/A,1
-recliner3,Patient Recliner,1,100,300,N/A,1
-recliner4,Patient Recliner,1,100,300,N/A,1
+recliner1,Patient Recliner,1,100,300,N/A,0
+recliner2,Patient Recliner,1,100,300,N/A,0
+recliner3,Patient Recliner,1,100,300,N/A,0
+recliner4,Patient Recliner,1,100,300,N/A,0
 recliner5,Patient Recliner,1,100,300,N/A,0
 recliner6,Patient Recliner,1,100,300,N/A,0
 bed21,Bed,4,125,235,N/A,0

@@ -32,18 +32,23 @@
                <children>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="519.0" prefWidth="318.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+                        <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="15.0" style="-fx-background-color: #5c677d;">
                            <padding>
                               <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
                            </padding>
                            <children>
+                              <Label text="Hospital ID" textFill="WHITE" />
                               <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Hospital ID">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin></TextField>
+                              <Label layoutX="134.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                               <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
+                              <Label layoutX="137.0" layoutY="123.0" text="Patient First Name" textFill="WHITE" />
                               <TextField fx:id="firstName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient First Name" />
+                              <Label layoutX="115.0" layoutY="197.0" text="Patient Last Name" textFill="WHITE" />
                               <TextField fx:id="lastName" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Patient Last Name" />
+                              <Label layoutX="115.0" layoutY="270.0" text="Location" textFill="WHITE" />
                               <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#checkValidation" prefWidth="244.0" promptText="Location" />
                               <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#checkValidation" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                  <items>
@@ -56,6 +61,7 @@
                                     </FXCollections>
                                  </items>
                               </JFXComboBox>
+                              <Label layoutX="141.0" layoutY="343.0" text="Request Details" textFill="WHITE" />
                               <TextArea fx:id="requestDetails" onKeyReleased="#checkValidation" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
                               <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
                               <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetFields" text="Reset" />
