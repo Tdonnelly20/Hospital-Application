@@ -8,13 +8,16 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class EmployeeController extends MapController {
+public class EmployeeController extends RequestController {
 
   private static final EmployeeDao employeeDao = (EmployeeDao) Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
@@ -31,6 +34,7 @@ public class EmployeeController extends MapController {
   }
 
   @FXML private TreeTableView<Employee> employeeTable;
+  @FXML private Pane employeePane;
   @FXML private TreeTableColumn<Employee, Integer> employeeIDCol;
   @FXML private TreeTableColumn<Employee, String> firstNameCol;
   @FXML private TreeTableColumn<Employee, String> lastNameCol;
@@ -40,12 +44,14 @@ public class EmployeeController extends MapController {
   @FXML private TreeTableColumn<Employee, String> employeeServiceRequestIDCol;
 
   @FXML private TreeTableView<Patient> patientsTable;
+  @FXML private Pane patientPane;
   @FXML private TreeTableColumn<Patient, Integer> patientIDCol;
   @FXML private TreeTableColumn<Patient, String> patientFirstNameCol;
   @FXML private TreeTableColumn<Patient, String> patientLastNameCol;
   @FXML private TreeTableColumn<Patient, String> patientServiceRequestIDCol;
 
   @FXML private TreeTableView<ServiceRequest> serviceRequestTable;
+  @FXML private Pane serviceRequestPane;
   @FXML private TreeTableColumn<ServiceRequest, String> serviceRequestIDCol;
   @FXML private TreeTableColumn<ServiceRequest, String> serviceRequestPatientIDSCol;
   @FXML private TreeTableColumn<ServiceRequest, String> serviceTypeCol;
@@ -212,6 +218,113 @@ public class EmployeeController extends MapController {
     }
   }
 
+  @Override
+  public void init() {
+    setTitleText("Employee Database");
+    fillTopPane();
+
+    setColumnSizes(910);
+
+    employeePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = employeePane.getWidth();
+                employeeTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    employeePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = employeePane.getHeight();
+                employeeTable.setPrefHeight(h - 75);
+              }
+            });
+
+    patientPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = patientPane.getWidth();
+                patientsTable.setPrefWidth(w - 30);
+                setColumnSizes2(w);
+              }
+            });
+
+    patientPane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = patientPane.getHeight();
+                patientsTable.setPrefHeight(h - 75);
+              }
+            });
+
+    serviceRequestPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = serviceRequestPane.getWidth();
+                serviceRequestTable.setPrefWidth(w - 30);
+                setColumnSizes3(w);
+              }
+            });
+
+    serviceRequestPane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = serviceRequestPane.getHeight();
+                serviceRequestTable.setPrefHeight(h - 75);
+              }
+            });
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(employeeIDCol, (w - 30) / 7);
+    setColumnSize(firstNameCol, (w - 30) / 7);
+    setColumnSize(lastNameCol, (w - 30) / 7);
+    setColumnSize(employeePositionCol, (w - 30) / 7);
+    setColumnSize(patientIDSCol, (w - 30) / 7);
+    setColumnSize(specialtiesCol, (w - 30) / 7);
+    setColumnSize(employeeServiceRequestIDCol, (w - 30) / 7);
+  }
+
+  void setColumnSizes2(double w) {
+    setColumnSize(patientIDCol, (w - 30) / 4);
+    setColumnSize(patientFirstNameCol, (w - 30) / 4);
+    setColumnSize(patientLastNameCol, (w - 30) / 4);
+    setColumnSize(patientServiceRequestIDCol, (w - 30) / 4);
+  }
+
+  void setColumnSizes3(double w) {
+    setColumnSize(serviceRequestIDCol, (w - 30) / 4);
+    setColumnSize(serviceRequestPatientIDSCol, (w - 30) / 4);
+    setColumnSize(serviceTypeCol, (w - 30) / 4);
+    setColumnSize(statusCol, (w - 30) / 4);
+  }
+
   /** Determines if an employee is valid, and sends it to the Dao */
   public void sendRequest() {
     // If any field is left blank, (except for request details) throw an error
@@ -244,6 +357,9 @@ public class EmployeeController extends MapController {
       updateEmployeeTreeTable();
     }
   }
+
+  @Override
+  void updateTreeTable() {}
 
   @FXML
   public void resetForm() {
