@@ -29,6 +29,7 @@ public class EquipmentDelivery extends ServiceRequest {
     setServiceID(serviceID);
     this.quantity = quantity;
     this.status = status;
+    this.dao = RequestSystem.Dao.EquipmentDelivery;
   }
 
   public EquipmentDelivery(

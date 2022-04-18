@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -19,6 +20,7 @@ public abstract class ServiceRequest {
   protected Employee hospitalEmployee;
   protected Timestamp timestamp;
   protected String type;
+  protected RequestSystem.Dao dao;
   protected String notes;
   protected String status;
   protected Icon icon;

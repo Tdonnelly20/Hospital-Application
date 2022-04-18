@@ -14,6 +14,7 @@ public class LaundryRequest extends ServiceRequest {
     this.details = details;
     this.type = "Laundry Request";
     this.status = "Not Started";
+    this.dao = RequestSystem.Dao.LaundryRequest;
   }
 
   public LaundryRequest(
@@ -23,6 +24,7 @@ public class LaundryRequest extends ServiceRequest {
     this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
     this.details = details;
     this.status = status;
+    this.dao = RequestSystem.Dao.LaundryRequest;
   }
 
   public String getDetails() {

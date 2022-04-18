@@ -99,6 +99,76 @@ public class RequestSystem {
     }
   }
 
+  public void addServiceRequest(ServiceRequest request) {
+    switch (request.getDao()) {
+      case EquipmentDelivery:
+        try {
+          equipmentDeliveryDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case InternalPatientTransportation:
+        try {
+          internalPatientTransportationDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case LabRequest:
+        try {
+          labRequestDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case LaundryRequest:
+        try {
+          laundryRequestDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case LocationDao:
+        try {
+          locationDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case MealRequest:
+        try {
+          mealRequestDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case MedicineDelivery:
+        try {
+          medicineDeliveryDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case ReligiousRequest:
+        try {
+          religiousRequestDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      case SanitationRequest:
+        try {
+          sanitationRequestDao.addServiceRequest(request);
+        } catch (IOException | SQLException e) {
+          e.printStackTrace();
+        }
+        break;
+      default:
+        System.out.println("L + touch grass");
+    }
+  }
+
   /**
    * Creates new service request in specified DAO
    *
@@ -147,9 +217,8 @@ public class RequestSystem {
    * @throws IOException
    * @throws SQLException
    */
-  public void removeServiceRequest(ServiceRequest request, Dao dao)
-      throws IOException, SQLException {
-    switch (dao) {
+  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+    switch (request.getDao()) {
       case EquipmentDelivery:
         equipmentDeliveryDao.removeServiceRequest(request);
       case InternalPatientTransportation:
@@ -167,36 +236,6 @@ public class RequestSystem {
       case ReligiousRequest:
         religiousRequestDao.removeServiceRequest(request);
       case SanitationRequest:
-        sanitationRequestDao.removeServiceRequest(request);
-      default:
-        System.out.println("L + touch grass");
-    }
-  }
-
-  /**
-   * Removes a service request based on type of request
-   *
-   * @param request
-   * @throws IOException
-   * @throws SQLException
-   */
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
-    switch (request.getType()) {
-      case "Equipment Delivery":
-        equipmentDeliveryDao.removeServiceRequest(request);
-      case "Internal Patient Transportation Request":
-        internalPatientTransportationDao.removeServiceRequest(request);
-      case "Lab Request":
-        labRequestDao.removeServiceRequest(request);
-      case "Laundry Request":
-        laundryRequestDao.removeServiceRequest(request);
-      case "Meal Request":
-        mealRequestDao.removeServiceRequest(request);
-      case "Medicine Delivery":
-        medicineDeliveryDao.removeServiceRequest(request);
-      case "Religious Request":
-        religiousRequestDao.removeServiceRequest(request);
-      case "Sanitation Request":
         sanitationRequestDao.removeServiceRequest(request);
       default:
         System.out.println("L + touch grass");

@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
@@ -26,6 +27,7 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.requestDetails = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = "Not Started";
+    this.dao = RequestSystem.Dao.InternalPatientTransportation;
   }
 
   public String getPatientFirstName() {

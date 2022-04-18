@@ -33,6 +33,7 @@ public class SanitationRequest extends ServiceRequest {
     this.hazardName = hazardName;
     this.roomLocation = nodeID;
     this.type = "Sanitation Request";
+    this.dao = RequestSystem.Dao.SanitationRequest;
     this.status = "Not Started";
   }
 

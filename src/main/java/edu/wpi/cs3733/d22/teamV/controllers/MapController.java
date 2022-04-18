@@ -230,41 +230,57 @@ public class MapController extends Controller {
     populateFloorIconArr();
   }
 
-  // Loads the floor's icons in accordance with filter
+  /** Loads the floor's icons in accordance with filter */
   @FXML
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
-    for (Icon icon : currFloor.getIconList()) {
-      if (filter.contains("Service Requests") && icon.iconType.equals(Icon.IconType.Location)) {
-        assert icon instanceof LocationIcon;
-        if (((LocationIcon) icon).getRequestsArr().size() > 0) {
-          if (filter.contains("Active Requests") && ((LocationIcon) icon).hasActiveRequests()) {
-            filterByActiveRequestType((LocationIcon) icon);
-          } else {
-            filterByRequestType((LocationIcon) icon);
-          }
-        }
+    if (filter.size() > 0) {
+      filterRequestsAndLocations();
+      filterEquipment();
+    } else {
+      for (Icon icon : currFloor.getIconList()) {
+        mapPane.getChildren().add(icon.getImage());
       }
-      if (filter.contains("Equipment") && icon.iconType.equals(Icon.IconType.Equipment)) {
-        assert icon instanceof EquipmentIcon;
-        EquipmentIcon equipmentIcon = (EquipmentIcon) icon;
+    }
+  }
+
+  /** Filter by Equipment */
+  private void filterEquipment() {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (filter.contains("Equipment")) { // Filter Equipment
+      for (EquipmentIcon icon : currFloor.getEquipmentIcons()) {
         if (filter.contains("Clean Equipment")) {
-          if (equipmentIcon.hasCleanEquipment()) {
+          if (icon.hasCleanEquipment()) {
             mapPane.getChildren().add(icon.getImage());
           }
         } else {
           mapPane.getChildren().add(icon.getImage());
         }
       }
-      if (filter.contains("Locations") && icon.iconType.equals(Icon.IconType.Location)) {
-        assert icon instanceof LocationIcon;
-        filterByLocation((LocationIcon) icon);
+    }
+  }
+
+  /** Filters by service requests and locations */
+  private void filterRequestsAndLocations() {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (filter.contains("Service Requests") || filter.contains("Locations")) {
+      for (LocationIcon icon : currFloor.getLocationIcons()) {
+        if (filter.contains("Service Requests")) { // Filter Service Request
+          if (filter.contains("Active Requests") && (icon).hasActiveRequests()) {
+            filterByActiveRequestType(icon);
+          } else {
+            filterByRequestType(icon);
+          }
+        } else { // Filter Location
+          filterByLocation(icon);
+        }
       }
     }
   }
 
+  /** Filters by active request and by request type */
   public void filterByActiveRequestType(LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (!filter.contains("Lab Requests")
@@ -293,6 +309,7 @@ public class MapController extends Controller {
     }
   }
 
+  /** Filter by request type */
   public void filterByRequestType(LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (!filter.contains("Lab Requests")
@@ -324,6 +341,7 @@ public class MapController extends Controller {
     }
   }
 
+  /** Filter by location type */
   public void filterByLocation(LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (!filter.contains("Department")
@@ -351,7 +369,7 @@ public class MapController extends Controller {
     }
   }
 
-  // Adds icon to map
+  /** Adds the given icon to the map */
   public void addIcon(Icon icon) {
     switch (icon.iconType) {
       case Location:
@@ -364,10 +382,11 @@ public class MapController extends Controller {
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
-    setFloor(floorName);
-    checkFilter();
+    currFloor = MapManager.getManager().getFloor(floorName);
+    populateFloorIconArr();
   }
 
+  /** Removes Icon from map */
   public void deleteIcon(Icon icon) {
     MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
     if (icon.iconType.equals(Icon.IconType.Location)) {
@@ -379,8 +398,8 @@ public class MapController extends Controller {
     if (PopupController.getController().stage.isShowing()) {
       PopupController.getController().closePopUp();
     }
-    setFloor(floorName);
-    checkFilter();
+    currFloor = MapManager.getManager().getFloor(floorName);
+    populateFloorIconArr();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {

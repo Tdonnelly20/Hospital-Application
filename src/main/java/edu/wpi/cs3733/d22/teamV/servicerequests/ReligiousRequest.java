@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 
 public class ReligiousRequest extends ServiceRequest {
@@ -24,6 +25,7 @@ public class ReligiousRequest extends ServiceRequest {
     this.employeeID = patientID;
     this.religion = religion;
     this.type = "Religious Request";
+    this.dao = RequestSystem.Dao.ReligiousRequest;
   }
 
   public int getPatientID() {

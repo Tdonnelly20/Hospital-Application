@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -108,6 +110,15 @@ public class Floor {
       if ((icon.xCoord == x) && (icon.yCoord == y)) {
         icon.addToEquipmentList(equipment);
         break;
+      }
+    }
+  }
+
+  public void addRequest(ServiceRequest request) {
+    for (LocationIcon icon : locationIcons) {
+      if (icon.getLocation().equals(request.getLocation())) {
+        icon.getRequestsArr().add(request);
+        RequestSystem.getSystem().addServiceRequest(request);
       }
     }
   }

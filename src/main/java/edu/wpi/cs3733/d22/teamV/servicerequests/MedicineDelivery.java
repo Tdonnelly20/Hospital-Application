@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 
 public class MedicineDelivery extends ServiceRequest {
@@ -28,6 +29,7 @@ public class MedicineDelivery extends ServiceRequest {
     hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.medicineName = medicineName;
     this.type = "Medicine Delivery";
+    this.dao = RequestSystem.Dao.MedicineDelivery;
   }
 
   public String getPatientFirstName() {
