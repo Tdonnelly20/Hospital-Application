@@ -60,6 +60,30 @@ public class Patient extends DirectionalAssoc {
     return serviceIDs;
   }
 
+  public ArrayList<Employee> getEmployeeList() {
+    ArrayList<Employee> employees = new ArrayList<>();
+    for (int employeeID : employeeIDs) {
+      for (Employee employee : Vdb.requestSystem.getEmployees()) {
+        if (employee.getEmployeeID() == employeeID) {
+          employees.add(employee);
+        }
+      }
+    }
+    return employees;
+  }
+
+  public ArrayList<ServiceRequest> getServiceRequestList() {
+    ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
+    for (int serviceID : serviceIDs) {
+      for (ServiceRequest request : Vdb.requestSystem.getEveryServiceRequest()) {
+        if (request.getServiceID() == serviceID) {
+          serviceRequests.add(request);
+        }
+      }
+    }
+    return serviceRequests;
+  }
+
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
     // Check to see what updated and its type

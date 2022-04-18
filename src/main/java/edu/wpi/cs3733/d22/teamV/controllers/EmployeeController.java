@@ -121,7 +121,7 @@ public class EmployeeController extends MapController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (Patient patient : currPatients) {
-      TreeItem<Employee> item = new TreeItem(patient);
+      TreeItem<Patient> item = new TreeItem(patient);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
@@ -158,7 +158,7 @@ public class EmployeeController extends MapController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (ServiceRequest request : currRequests) {
-      TreeItem<Employee> item = new TreeItem(request);
+      TreeItem<ServiceRequest> item = new TreeItem(request);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
@@ -173,15 +173,9 @@ public class EmployeeController extends MapController {
   }
 
   @FXML
-  public void updateAllTreeTables() {
-    updateEmployeeTreeTable();
-  }
-
-  @FXML
   public void checkIfSelected() {
     try {
       selectedEmployee = employeeTable.getSelectionModel().getSelectedItem().getValue();
-      System.out.println("Selected employee!");
       updatePatientTreeTable();
       updateServiceRequestTreeTable();
     } catch (NullPointerException e) {
