@@ -7,10 +7,8 @@ import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 public class ReligiousRequest extends ServiceRequest {
   private int patientID;
   private int employeeID;
-  private int roomNumber;
   private String religion;
-  private int serviceID;
-
+  private String details;
   /**
    * @param employeeID
    * @param patientID
@@ -19,12 +17,19 @@ public class ReligiousRequest extends ServiceRequest {
    */
   public ReligiousRequest(
       int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
-    this.patientID = employeeID;
+    this.patientID = patientID;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
+<<<<<<< Updated upstream
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.employeeID = patientID;
+=======
+    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.employeeID = employeeID;
+>>>>>>> Stashed changes
     this.religion = religion;
+    this.details = specialRequests;
     this.type = "Religious Request";
   }
 
@@ -32,6 +37,7 @@ public class ReligiousRequest extends ServiceRequest {
     return patientID;
   }
 
+<<<<<<< Updated upstream
   public int getServiceID() {
     return serviceID;
   }
@@ -42,6 +48,8 @@ public class ReligiousRequest extends ServiceRequest {
     updateAllObservers();
   }
 
+=======
+>>>>>>> Stashed changes
   public int getEmpID() {
     return employeeID;
   }
@@ -50,11 +58,16 @@ public class ReligiousRequest extends ServiceRequest {
     return religion;
   }
 
+<<<<<<< Updated upstream
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
     super.update(directionalAssoc);
     Vdb.requestSystem
         .getDao(RequestSystem.Dao.ReligiousRequest)
         .updateServiceRequest(this, getServiceID());
+=======
+  public String getDetails() {
+    return details;
+>>>>>>> Stashed changes
   }
 }
