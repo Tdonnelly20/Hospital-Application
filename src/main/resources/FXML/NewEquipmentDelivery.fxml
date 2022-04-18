@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.EquipmentRequestController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.EquipmentRequestController">
   <items>
     <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -104,7 +104,7 @@
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <TabPane prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane prefHeight="920.0" prefWidth="1550.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <tabs>
                               <Tab text="Map View">
                                  <content>
@@ -117,36 +117,40 @@
                               </Tab>
                               <Tab onSelectionChanged="#updateTreeTable" text="Equipment Requests">
                                  <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <VBox layoutX="87.0" layoutY="38.0" prefHeight="891.0" prefWidth="1610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <VBox layoutX="184.0" layoutY="149.0" prefHeight="891.0" prefWidth="1550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <GridPane>
-                                                  <columnConstraints>
-                                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                                                   <columnConstraints>
                                                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                  </columnConstraints>
-                                                  <rowConstraints>
-                                                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                                                  </rowConstraints>
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
                                                    <children>
                                                       <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
                                                       <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" GridPane.columnIndex="1" />
                                                    </children>
                                                 </GridPane>
-                                                <TreeTableView fx:id="equipmentRequestTable" prefHeight="553.0" prefWidth="538.0">
-                                                   <columns>
-                                                      <TreeTableColumn fx:id="employeeIDCol" prefWidth="79.99993705749512" text="Employee ID" />
-                                                      <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
-                                                      <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
-                                                      <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
-                                                      <TreeTableColumn fx:id="posCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
-                                                      <TreeTableColumn fx:id="equipCol" minWidth="0.0" prefWidth="56.7999267578125" text="Equipment" />
-                                                      <TreeTableColumn fx:id="quantCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Quantity" />
-                                                      <TreeTableColumn fx:id="notesCol" maxWidth="500.0" minWidth="-1.0" prefWidth="500.0" text="Notes" />
-                                                   </columns>
-                                                </TreeTableView>
+                                                <Pane prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <TreeTableView fx:id="equipmentRequestTable" layoutX="15.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="816.0" prefWidth="1520.0">
+                                                         <columns>
+                                                            <TreeTableColumn fx:id="employeeIDCol" maxWidth="190.0" minWidth="-1.0" prefWidth="190.0" text="Employee ID" />
+                                                            <TreeTableColumn fx:id="patientIDCol" maxWidth="190.0" minWidth="0.0" prefWidth="190.0" text="Patient ID" />
+                                                            <TreeTableColumn fx:id="firstNameCol" maxWidth="190.0" minWidth="-Infinity" prefWidth="190.0" text="First Name" />
+                                                            <TreeTableColumn fx:id="lastNameCol" maxWidth="190.0" prefWidth="190.0" text="Last Name" />
+                                                            <TreeTableColumn fx:id="posCol" maxWidth="190.0" minWidth="0.0" prefWidth="190.0" text="Location" />
+                                                            <TreeTableColumn fx:id="equipCol" maxWidth="190.0" minWidth="0.0" prefWidth="190.0" text="Equipment" />
+                                                            <TreeTableColumn fx:id="quantCol" maxWidth="190.0" minWidth="3.20001220703125" prefWidth="190.0" text="Quantity" />
+                                                            <TreeTableColumn fx:id="notesCol" maxWidth="190.0" minWidth="-1.0" prefWidth="190.0" text="Notes" />
+                                                         </columns>
+                                                      </TreeTableView>
+                                                   </children>
+                                                </Pane>
                                              </children>
                                           </VBox>
                                        </children>
