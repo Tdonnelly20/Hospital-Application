@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
+import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
@@ -54,6 +55,7 @@ public class EquipmentIcon extends Icon {
       equipmentList.add(0, equipment);
     }
     setImage();
+    alertSixBeds();
   }
 
   public void removeEquipment(Equipment equipment) {
@@ -62,6 +64,7 @@ public class EquipmentIcon extends Icon {
     if (equipmentList.size() == 0) {
       setImage();
     }
+    alertSixBeds();
   }
 
   public void setImage() {
@@ -102,5 +105,29 @@ public class EquipmentIcon extends Icon {
       equipment.setX(location.getXCoord());
       equipment.setY(location.getYCoord());
     }
+  }
+
+  // it's called everytime there's an update.
+  // it checks equipment list, sends info to checkAlertSixBeds in MapDashboardController
+  // if the equipment is a bed and is dirty
+  public void alertSixBeds() {
+    int alertCounter = 0;
+    boolean alert = false;
+
+    for (Equipment equipment : equipmentList) {
+      for (Equipment equipmentTwo : equipmentList) {
+        if (equipment.getFloor() == equipmentTwo.getFloor())
+          if (equipment.getX() == equipment.getX()) {
+            boolean d = equipment.getIsDirty();
+            int i =
+                MapDashboardController.getController().checkAlertSixBeds(equipment.getName(), d);
+            alertCounter += i;
+          }
+      }
+    }
+    if (alertCounter > 5) {
+      alert = true;
+    }
+    MapDashboardController.getController().addBedAlertToArray(alert);
   }
 }
