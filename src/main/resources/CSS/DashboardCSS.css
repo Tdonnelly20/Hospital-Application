@@ -103,6 +103,15 @@
 
 }
 
+.vbox-label{
+    -fx-font-family:"Ebrima";
+    -fx-background-color: #3b5480;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-fill-width: true;
+    -fx-border-style: outset;
+}
+
 
 
 

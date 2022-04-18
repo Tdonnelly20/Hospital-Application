@@ -14,7 +14,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class EmployeeController extends MapController {
+public class EmployeeController extends Controller {
 
   private static final EmployeeDao employeeDao = (EmployeeDao) Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;

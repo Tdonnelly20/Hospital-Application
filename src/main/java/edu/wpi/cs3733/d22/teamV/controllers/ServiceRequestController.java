@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class ServiceRequestController extends MapController {
+public class ServiceRequestController extends Controller {
 
   @FXML private Label labelM;
   @FXML private Label labelD;
@@ -16,12 +16,6 @@ public class ServiceRequestController extends MapController {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  @Override
-  public void init() {
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Service Requests");
-  }
 
   @FXML
   private void hideLabels() {

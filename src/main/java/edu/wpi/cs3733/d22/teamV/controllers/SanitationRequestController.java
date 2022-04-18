@@ -50,9 +50,7 @@ public class SanitationRequestController extends RequestController {
 
   @Override
   public void init() {
-    mapSetUp();
     updateTreeTable();
-    filterCheckBox.getCheckModel().check("Sanitation Requests");
     setTitleText("Sanitation Request Service");
     fillTopPane();
     updating = false;

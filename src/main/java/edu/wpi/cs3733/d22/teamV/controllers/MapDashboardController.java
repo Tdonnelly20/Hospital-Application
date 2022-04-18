@@ -86,17 +86,6 @@ public class MapDashboardController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  public void goBack(MouseEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
   public void goExit(MouseEvent mouseEvent) {
     stop();
   }
@@ -112,14 +101,6 @@ public class MapDashboardController extends Controller {
     stage.show();
   }
 
-  public void updateEquipTable() {}
-
-  @FXML
-  public void updateEquipmentCount() {
-    int totalCounter = curFloor.getEquipmentIcons().size();
-    int cleanCounter;
-    int dirtyCounter;
-  }
   /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
   private Floor curFloor = MapManager.getManager().getFloor("1");
@@ -338,34 +319,25 @@ public class MapDashboardController extends Controller {
   }
 
   @FXML
-  private void updateCounts() {
+  public void updateCounts() {
+    curFloor = MapManager.getManager().getFloor(curFloor.getFloorName());
     int srCount = 0;
     int dirty = 0;
     int clean = 0;
-    ArrayList<ServiceRequest> currRequests =
-        (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
 
-    ArrayList<Equipment> equip = Vdb.requestSystem.getEquipment();
-
-    if (!currRequests.isEmpty()) {
-
-      for (ServiceRequest pos : currRequests) {
-        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
-          srCount++;
+    for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
+      if (equipment.getFloor().equals(curFloor.getFloorName())) {
+        if (equipment.getIsDirty()) {
+          dirty++;
+        } else {
+          clean++;
         }
       }
     }
 
-    if (!equip.isEmpty()) {
-
-      for (Equipment e : equip) {
-        if (e.getFloor().equals(curFloor.getFloorName())) {
-          if (e.getIsDirty()) {
-            dirty++;
-          } else {
-            clean++;
-          }
-        }
+    for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
+      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+        srCount++;
       }
     }
     countsArea.setText(
@@ -384,6 +356,11 @@ public class MapDashboardController extends Controller {
     updatePatientTable();
     updateEquipmentTable();
     // updateServiceRequestTable();
+    updateCounts();
+  }
+
+  @Override
+  public void init() {
     updateCounts();
   }
 }

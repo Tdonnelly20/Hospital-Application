@@ -12,7 +12,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class PatientController extends MapController {
+public class PatientController extends Controller {
 
   private static final PatientDao patientDao = Vdb.requestSystem.getPatientDao();
   private boolean updating = false;

@@ -46,8 +46,6 @@ public class RobotController extends RequestController {
   public void init() {
     setTitleText("Robot Request");
     fillTopPane();
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Robot Requests");
   }
 
   @Override

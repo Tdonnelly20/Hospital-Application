@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LocationController extends MapController {
+public class LocationController extends Controller {
   private static final LocationDao locationDao = Vdb.requestSystem.getLocationDao();
   @FXML private TreeTableView<Location> table;
   @FXML private TreeTableColumn<Location, String> nodeIDCol;
@@ -71,9 +71,6 @@ public class LocationController extends MapController {
 
   @Override
   public void init() {
-    mapSetUp();
-    filterCheckBox.getCheckModel().clearChecks();
-    filterCheckBox.getCheckModel().check("Locations");
     setElements();
     resetPage();
   }

@@ -8,7 +8,7 @@ public abstract class DirectionalAssoc {
   public void updateAllObservers() {
     System.out.println("Running update! for " + observers.size());
     for (DirectionalAssoc observer : observers) {
-      observer.update(this);
+      // observer.update(this);
     }
   }
 
