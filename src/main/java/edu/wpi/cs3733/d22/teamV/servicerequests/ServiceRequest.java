@@ -18,12 +18,14 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   private int serviceID;
   public Patient patient;
   protected Employee employee;
+  public boolean toBeDeleted = false;
   protected Timestamp timestamp;
   protected String type;
   protected String notes;
   protected String status;
   protected Icon icon;
   public Image image;
+  private String nodeID;
 
   public String getRequestName() {
     if (patient != null) {
@@ -31,6 +33,16 @@ public abstract class ServiceRequest extends DirectionalAssoc {
       return type + ": " + patient.getLastName() + ", " + patient.getFirstName();
     }
     return type;
+  }
+
+  public String getNodeID() {
+    return location.getNodeID();
+  }
+
+  public void detachAll() {
+    toBeDeleted = true;
+    updateAllObservers();
+    releaseAll();
   }
 
   public void setPatient(Patient patient) {

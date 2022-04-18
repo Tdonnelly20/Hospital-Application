@@ -189,6 +189,7 @@ public class LaundryRequestDao extends DaoInterface {
   public void removeServiceRequest(ServiceRequest request) {
     LaundryRequest laundryRequest = (LaundryRequest) request;
     allLaundryRequests.removeIf(value -> value.getServiceID() == laundryRequest.getServiceID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }

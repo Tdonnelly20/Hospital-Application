@@ -97,27 +97,33 @@ public class Employee extends DirectionalAssoc {
     // Check to see what updated and its type
     if (directionalAssoc instanceof Patient) {
       Patient patient = (Patient) directionalAssoc;
-      boolean employeeContains = patientIDs.contains(patient.getPatientID());
+      int patientID = patient.getPatientID();
+      boolean employeeContains = patientIDs.contains(patientID);
       boolean patientContains = patient.getEmployeeIDs().contains(getEmployeeID());
 
       // Check to see if the patient has a state change relevant to the employee containing it
       if (employeeContains && !patientContains) {
-        patientIDs.removeIf(currID -> currID == patient.getPatientID());
+        patientIDs.removeIf(currID -> currID == patientID);
 
       } else if (!employeeContains && patientContains) {
-        patientIDs.add(patient.getPatientID());
+        patientIDs.add(patientID);
       }
 
     } else if (directionalAssoc instanceof ServiceRequest) {
-      ServiceRequest serviceRequest = (ServiceRequest) directionalAssoc;
-      boolean employeeContains = serviceRequestIDs.contains(serviceRequest.getServiceID());
-      boolean serviceRequestContains =
-          serviceRequest.getEmployee().getEmployeeID() == getEmployeeID();
 
-      if (employeeContains && !serviceRequestContains) {
-        serviceRequestIDs.removeIf(currID -> currID == serviceRequest.getServiceID());
+      ServiceRequest serviceRequest = (ServiceRequest) directionalAssoc;
+      int employeeID = serviceRequest.getEmployee().getEmployeeID();
+      int serviceID = serviceRequest.getServiceID();
+      int patientID = serviceRequest.getPatient().getPatientID();
+      boolean employeeContains = serviceRequestIDs.contains(serviceID);
+      boolean serviceRequestContains = (employeeID == getEmployeeID());
+
+      if (employeeContains && !serviceRequestContains || serviceRequest.toBeDeleted) {
+        serviceRequestIDs.removeIf(currID -> currID == serviceID);
+        patientIDs.removeIf(currID -> currID == patientID);
       } else if (!employeeContains && serviceRequestContains) {
-        serviceRequestIDs.add(serviceRequest.getServiceID());
+        serviceRequestIDs.add(serviceID);
+        if (!patientIDs.contains(patientID)) patientIDs.add(patientID);
       }
     }
 

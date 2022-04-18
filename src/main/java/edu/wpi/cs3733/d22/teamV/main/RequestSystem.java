@@ -2,10 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
-import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
-import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,6 +24,7 @@ public class RequestSystem {
   private MealRequestDao mealRequestDao;
   private MedicineDeliveryDao medicineDeliveryDao;
   private ReligiousRequestDao religiousRequestDao;
+  private RobotDao robotDao;
   private SanitationRequestDao sanitationRequestDao;
 
   public RequestSystem() {}
@@ -44,6 +42,7 @@ public class RequestSystem {
     mealRequestDao = new MealRequestDao();
     medicineDeliveryDao = new MedicineDeliveryDao();
     religiousRequestDao = new ReligiousRequestDao();
+    robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
 
     triDirectionalityInit();
@@ -64,6 +63,7 @@ public class RequestSystem {
     MealRequest,
     MedicineDelivery,
     ReligiousRequest,
+    RobotRequest,
     SanitationRequest
   }
 
@@ -91,6 +91,8 @@ public class RequestSystem {
         return medicineDeliveryDao;
       case ReligiousRequest:
         return religiousRequestDao;
+      case RobotRequest:
+        return robotDao;
       case SanitationRequest:
         return sanitationRequestDao;
       default:
@@ -127,6 +129,8 @@ public class RequestSystem {
         break;
       case ReligiousRequest:
         religiousRequestDao.addServiceRequest(request);
+      case RobotRequest:
+        robotDao.addServiceRequest(request);
         break;
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
@@ -159,6 +163,8 @@ public class RequestSystem {
         medicineDeliveryDao.removeServiceRequest(request);
       case ReligiousRequest:
         religiousRequestDao.removeServiceRequest(request);
+      case RobotRequest:
+        robotDao.removeServiceRequest(request);
       case SanitationRequest:
         sanitationRequestDao.removeServiceRequest(request);
       default:
@@ -217,6 +223,8 @@ public class RequestSystem {
         return medicineDeliveryDao.getAllServiceRequests();
       case ReligiousRequest:
         return religiousRequestDao.getAllServiceRequests();
+      case RobotRequest:
+        return robotDao.getAllServiceRequests();
       case SanitationRequest:
         return sanitationRequestDao.getAllServiceRequests();
       default:
@@ -349,6 +357,8 @@ public class RequestSystem {
         medicineDeliveryDao.setAllServiceRequests(serviceRequests);
       case ReligiousRequest:
         religiousRequestDao.setAllServiceRequests(serviceRequests);
+      case RobotRequest:
+        robotDao.setAllServiceRequests(serviceRequests);
       case SanitationRequest:
         sanitationRequestDao.setAllServiceRequests(serviceRequests);
       default:

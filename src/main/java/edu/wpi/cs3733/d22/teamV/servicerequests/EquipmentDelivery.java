@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class EquipmentDelivery extends ServiceRequest {
   private final String equipment, notes;
@@ -62,6 +63,12 @@ public class EquipmentDelivery extends ServiceRequest {
     return quantity;
   }
 
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
+  }
+
   public String getPatientFirstName() {
     return patient.getFirstName();
   }
@@ -80,5 +87,13 @@ public class EquipmentDelivery extends ServiceRequest {
 
   public int getPatientID() {
     return patient.getPatientID();
+  }
+
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    super.update(directionalAssoc);
+    Vdb.requestSystem
+        .getDao(RequestSystem.Dao.EquipmentDelivery)
+        .updateServiceRequest(this, getServiceID());
   }
 }

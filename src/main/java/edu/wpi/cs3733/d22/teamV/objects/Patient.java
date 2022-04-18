@@ -60,31 +60,65 @@ public class Patient extends DirectionalAssoc {
     return serviceIDs;
   }
 
+  public ArrayList<Employee> getEmployeeList() {
+    ArrayList<Employee> employees = new ArrayList<>();
+    for (int employeeID : employeeIDs) {
+      for (Employee employee : Vdb.requestSystem.getEmployees()) {
+        if (employee.getEmployeeID() == employeeID) {
+          employees.add(employee);
+        }
+      }
+    }
+    return employees;
+  }
+
+  public ArrayList<ServiceRequest> getServiceRequestList() {
+    ArrayList<ServiceRequest> serviceRequests = new ArrayList<>();
+    for (int serviceID : serviceIDs) {
+      for (ServiceRequest request : Vdb.requestSystem.getEveryServiceRequest()) {
+        if (request.getServiceID() == serviceID) {
+          serviceRequests.add(request);
+        }
+      }
+    }
+    return serviceRequests;
+  }
+
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
     // Check to see what updated and its type
     if (directionalAssoc instanceof Employee) {
       Employee employee = (Employee) directionalAssoc;
-      boolean patientContains = employeeIDs.contains(employee.getEmployeeID());
-      boolean employeeContains = employee.getPatientIDs().contains(getPatientID());
+      int employeeID = employee.getEmployeeID();
 
+      boolean patientContains = employeeIDs.contains(employeeID);
+      boolean employeeContains = employee.getPatientIDs().contains(getPatientID());
       // Check to see if the patient has a state change relevant to the employee containing it
       if (patientContains && !employeeContains) {
-        employeeIDs.removeIf(currID -> currID == employee.getEmployeeID());
+        employeeIDs.removeIf(currID -> currID == employeeID);
 
       } else if (!patientContains && employeeContains) {
-        employeeIDs.add(employee.getEmployeeID());
+        employeeIDs.add(employeeID);
       }
 
     } else if (directionalAssoc instanceof ServiceRequest) {
       ServiceRequest serviceRequest = (ServiceRequest) directionalAssoc;
-      boolean patientContains = serviceIDs.contains(serviceRequest.getServiceID());
-      boolean serviceRequestContains = serviceRequest.getPatient().getPatientID() == patientID;
+      // IDs from the subject
+      int employeeID = serviceRequest.getEmployee().getEmployeeID();
+      int serviceID = serviceRequest.getServiceID();
+      int patientID = serviceRequest.getPatient().getPatientID();
 
-      if (patientContains && !serviceRequestContains) {
-        serviceIDs.removeIf(currID -> currID == serviceRequest.getServiceID());
+      boolean patientContains = serviceIDs.contains(serviceID);
+      boolean serviceRequestContains = patientID == getPatientID();
+
+      if (patientContains && !serviceRequestContains || serviceRequest.toBeDeleted) {
+        serviceIDs.removeIf(currID -> currID == serviceID);
+        employeeIDs.removeIf(currID -> currID == employeeID);
+
       } else if (!patientContains && serviceRequestContains) {
         serviceIDs.add(serviceRequest.getServiceID());
+
+        if (!employeeIDs.contains(employeeID)) employeeIDs.add(employeeID);
       }
     }
 

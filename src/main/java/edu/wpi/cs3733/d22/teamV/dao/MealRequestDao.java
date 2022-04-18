@@ -202,6 +202,7 @@ public class MealRequestDao extends DaoInterface {
   public void removeServiceRequest(ServiceRequest request) {
     MealRequest mealDelivery = (MealRequest) request;
     allMealDeliveries.removeIf(value -> value.getServiceID() == mealDelivery.getServiceID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }

@@ -43,7 +43,7 @@
       </Pane>
       <Pane prefHeight="527.0" prefWidth="110.0" style="-fx-background-color: #5c677d;" GridPane.rowIndex="2">
          <children>
-            <VBox alignment="TOP_CENTER" layoutY="1.0" prefHeight="500.0" prefWidth="168.0" spacing="15.0" style="-fx-background-color: #5c677d;">
+            <VBox alignment="TOP_CENTER" layoutY="1.0" prefHeight="500.0" prefWidth="168.0" spacing="10.0" style="-fx-background-color: #5c677d;">
                <children>
                   <Button alignment="CENTER" layoutX="15.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToLocationDB" style="-fx-background-color: #5c677d;" text="Location Database" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
@@ -69,7 +69,7 @@
                            <content>
                               <VBox alignment="TOP_CENTER" prefHeight="463.0" prefWidth="166.0" spacing="10.0" style="-fx-background-color: #5c677d;">
                                  <children>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToLabRequest" style="-fx-background-color: #5c677d;" text="Lab Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToLabRequest" style="-fx-background-color: #5c677d;" text="Lab Request" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -133,6 +133,11 @@
                                           <Insets />
                                        </VBox.margin>
                                     </Button>
+                                    <Button mnemonicParsing="false" onAction="#switchToRobot" style="-fx-background-color: #5c677d;" text="Robot Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Button>
                                  </children>
                               </VBox>
                            </content>
@@ -145,7 +150,7 @@
                      </font></Text>
                </children>
                <padding>
-                  <Insets top="15.0" />
+                  <Insets top="10.0" />
                </padding>
             </VBox>
          </children>
