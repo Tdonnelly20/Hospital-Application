@@ -49,8 +49,6 @@ public class LabRequestController extends RequestController {
   public void init() {
     setTitleText("Lab Request");
     fillTopPane();
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Lab Requests");
   }
 
   @Override

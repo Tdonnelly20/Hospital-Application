@@ -75,7 +75,6 @@ public class MapDashboardController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-
   public void goExit(MouseEvent mouseEvent) {
     stop();
   }

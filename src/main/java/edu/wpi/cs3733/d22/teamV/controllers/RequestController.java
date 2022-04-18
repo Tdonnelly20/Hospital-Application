@@ -15,7 +15,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public abstract class RequestController extends MapController {
+public abstract class RequestController extends Controller {
 
   // This is the header Gridpane
   @FXML private GridPane headerPane = new GridPane();

@@ -245,7 +245,6 @@ public class MapController extends Controller {
   public void populateFloorIconArr() {
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
     if (filter.size() > 0) {
       filterRequestsAndLocations();
       filterEquipment();
