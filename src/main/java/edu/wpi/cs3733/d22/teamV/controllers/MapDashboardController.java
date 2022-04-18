@@ -44,7 +44,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
-  private @FXML TreeTableView countTable;
+  private @FXML TextArea countsArea;
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
@@ -318,5 +318,47 @@ public class MapDashboardController extends Controller {
       patientTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
+  }
+
+  @FXML
+  private void updateCounts() {
+    int srCount = 0;
+    int dirty = 0;
+    int clean = 0;
+    ArrayList<ServiceRequest> currRequests =
+        (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
+
+    ArrayList<Equipment> equip = Vdb.requestSystem.getEquipment();
+
+    if (!currRequests.isEmpty()) {
+
+      for (ServiceRequest pos : currRequests) {
+        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+          srCount++;
+        }
+      }
+    }
+
+    if (!equip.isEmpty()) {
+
+      for (Equipment e : equip) {
+        if (e.getFloor().equals(curFloor.getFloorName())) {
+          if (e.getIsDirty()) {
+            dirty++;
+          } else {
+            clean++;
+          }
+        }
+      }
+    }
+    countsArea.setText(
+        "Active Service Requests: "
+            + srCount
+            + "\n"
+            + "Clean Equipment: "
+            + clean
+            + "\n"
+            + "Dirty Equipment: "
+            + dirty);
   }
 }
