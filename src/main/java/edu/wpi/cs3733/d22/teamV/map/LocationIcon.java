@@ -109,10 +109,13 @@ public class LocationIcon extends Icon {
 
   public boolean hasActiveRequests() {
     for (ServiceRequest serviceRequest : requestsArr) {
-      if (serviceRequest.getStatus().equals("Not Started")
-          || serviceRequest.getStatus().equals("Processing")) {
+      System.out.println(serviceRequest.getStatus());
+      if (serviceRequest.getStatus() != null) {
+        if (serviceRequest.getStatus().equals("Not Started")
+            || serviceRequest.getStatus().equals("Processing")) {
 
-        return true;
+          return true;
+        }
       }
     }
     return false;

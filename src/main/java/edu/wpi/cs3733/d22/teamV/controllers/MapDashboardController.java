@@ -44,7 +44,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
-  private @FXML TextArea countsArea;
+  private @FXML TextArea countsArea = new TextArea();
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
