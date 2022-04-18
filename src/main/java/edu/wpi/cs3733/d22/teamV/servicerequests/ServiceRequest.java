@@ -25,6 +25,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   protected String status;
   protected Icon icon;
   public Image image;
+  private String nodeID;
 
   public String getRequestName() {
     if (patient != null) {
@@ -32,6 +33,10 @@ public abstract class ServiceRequest extends DirectionalAssoc {
       return type + ": " + patient.getLastName() + ", " + patient.getFirstName();
     }
     return type;
+  }
+
+  public String getNodeID() {
+    return location.getNodeID();
   }
 
   public void detachAll() {

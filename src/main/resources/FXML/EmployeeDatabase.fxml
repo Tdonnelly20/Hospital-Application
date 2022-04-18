@@ -123,11 +123,11 @@
                         <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                      </content>
                   </Tab>
-                  <Tab fx:id="employeeDatabaseTab" onSelectionChanged="#updateTreeTable" text="Employee Database">
+                  <Tab fx:id="employeeDatabaseTab" onSelectionChanged="#updateAllTreeTables" text="Employee Database">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
                            <children>
-                              <TreeTableView fx:id="employeeTable" layoutX="8.0" layoutY="55.0" prefHeight="651.0" prefWidth="929.0">
+                              <TreeTableView fx:id="employeeTable" layoutX="8.0" layoutY="55.0" onMouseClicked="#checkIfSelected" prefHeight="651.0" prefWidth="929.0">
                                  <columns>
                                     <TreeTableColumn fx:id="employeeIDCol" prefWidth="79.99999809265137" text="Employee ID" />
                                     <TreeTableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="88.79999542236328" text="First Name" />
@@ -135,7 +135,7 @@
                                     <TreeTableColumn fx:id="employeePositionCol" prefWidth="100.7999267578125" text="Position" />
                                     <TreeTableColumn fx:id="specialtiesCol" minWidth="0.0" prefWidth="172.79989624023438" text="Specialties" />
                                     <TreeTableColumn fx:id="patientIDSCol" minWidth="0.0" prefWidth="172.7999267578125" text="Patient IDs" />
-                                    <TreeTableColumn fx:id="serviceRequestIDSCol" minWidth="3.20001220703125" prefWidth="240.0" text="Service Requests IDs" />
+                                    <TreeTableColumn fx:id="employeeServiceRequestIDCol" minWidth="3.20001220703125" prefWidth="240.0" text="Service Requests IDs" />
                                  </columns>
                               </TreeTableView>
                               <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
@@ -144,7 +144,7 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="patientsTab" onSelectionChanged="#updateTreeTable" text="Patients">
+                  <Tab fx:id="patientsTab" onSelectionChanged="#updateAllTreeTables" text="Patients">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
                            <children>
@@ -153,7 +153,7 @@
                                     <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="143.20001792907715" text="Patient ID" />
                                     <TreeTableColumn fx:id="patientFirstNameCol" minWidth="0.0" prefWidth="250.39996337890625" text="First Name" />
                                     <TreeTableColumn fx:id="patientLastNameCol" maxWidth="329.5999450683594" prefWidth="276.7999572753906" text="Last Name" />
-                                    <TreeTableColumn fx:id="serviceRequestIDSCol" minWidth="3.20001220703125" prefWidth="259.2000732421875" text="Service Requests IDs" />
+                                    <TreeTableColumn fx:id="patientServiceRequestIDCol" minWidth="3.20001220703125" prefWidth="259.2000732421875" text="Service Requests IDs" />
                                  </columns>
                               </TreeTableView>
                               <Text layoutX="29.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Employee in Employee Database to see their patients!" wrappingWidth="374.1367874145508" />
@@ -161,14 +161,14 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="serviceRequestTab" onSelectionChanged="#updateTreeTable" text="Service Requests">
+                  <Tab fx:id="serviceRequestTab" onSelectionChanged="#updateAllTreeTables" text="Service Requests">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
                            <children>
                               <TreeTableView fx:id="serviceRequestTable" layoutX="8.0" layoutY="55.0" prefHeight="651.0" prefWidth="929.0">
                                  <columns>
                                     <TreeTableColumn fx:id="serviceRequestIDCol" minWidth="0.0" prefWidth="132.79999351501465" text="Service ID" />
-                                    <TreeTableColumn fx:id="serviceRequestPatientIDCol" minWidth="3.20001220703125" prefWidth="130.39996337890625" text="Patient ID" />
+                                    <TreeTableColumn fx:id="serviceRequestPatientIDSCol" minWidth="3.20001220703125" prefWidth="130.39996337890625" text="Patient ID" />
                                     <TreeTableColumn fx:id="serviceTypeCol" minWidth="0.0" prefWidth="320.0000305175781" text="Service Type" />
                                     <TreeTableColumn fx:id="statusCol" maxWidth="207.99990844726562" prefWidth="172.7999267578125" text="Status" />
                                     <TreeTableColumn fx:id="locationCol" minWidth="3.20001220703125" prefWidth="175.2000732421875" text="Location" />
