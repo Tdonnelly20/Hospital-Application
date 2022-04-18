@@ -35,7 +35,7 @@
          <children>
             <SplitPane dividerPositions="0.29797979797979796" layoutX="591.0" layoutY="261.0" prefHeight="872.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="300.0">
+                <AnchorPane maxWidth="360.0" minHeight="0.0" minWidth="360.0" prefHeight="160.0" prefWidth="360.0">
                      <children>
                         <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="920.0" prefWidth="300.0" spacing="15.0" style="-fx-background-color: #5c677d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>

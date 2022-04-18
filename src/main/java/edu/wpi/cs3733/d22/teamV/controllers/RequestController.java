@@ -15,7 +15,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public abstract class RequestController extends MapController {
+public abstract class RequestController extends Controller {
 
   // This is the header Gridpane
   @FXML private GridPane headerPane = new GridPane();
@@ -82,13 +82,13 @@ public abstract class RequestController extends MapController {
 
     logo.setFitHeight(80);
     logo.setFitWidth(80);
-    headerTitle.setFont(new Font("Ebrima", 50));
+    headerTitle.setFont(new Font("Ebrima", 40));
     headerTitle.setTextFill(Color.WHITE);
 
     ColumnConstraints hCol0Cons =
         new ColumnConstraints(150, 150, 150, Priority.NEVER, HPos.CENTER, false);
     ColumnConstraints hCol1Cons =
-        new ColumnConstraints(650, 650, 650, Priority.NEVER, HPos.CENTER, false);
+        new ColumnConstraints(650, 650, 650, Priority.NEVER, HPos.LEFT, false);
 
     ColumnConstraints hCol2Cons =
         new ColumnConstraints(

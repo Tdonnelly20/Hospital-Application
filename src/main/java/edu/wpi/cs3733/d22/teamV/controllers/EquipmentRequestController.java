@@ -71,16 +71,10 @@ public class EquipmentRequestController extends RequestController {
 
   @Override
   public void init() {
-    System.out.println("In init Equipment Request");
     setTitleText("Equipment Delivery Request");
     fillTopPane();
-    mapSetUp();
 
-    filterCheckBox.getCheckModel().check("Equipment");
-    filterCheckBox.getCheckModel().check("Clean Equipment");
-    filterCheckBox.getCheckModel().check("Equipment Delivery Requests");
-
-    setColumnSizes(1520);
+    setColumnSizes(910);
 
     tablePlane
         .widthProperty()
