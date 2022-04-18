@@ -44,7 +44,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
-  private @FXML TreeTableView countTable;
+  private @FXML TextArea countsArea;
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
@@ -75,16 +75,6 @@ public class MapDashboardController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  public void goBack(MouseEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
 
   public void goExit(MouseEvent mouseEvent) {
     stop();
@@ -194,42 +184,49 @@ public class MapDashboardController extends Controller {
   public void switchToLL2(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("LL2");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToLL1(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("LL1");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF1(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("1");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF2(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("2");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF3(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("3");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF4(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("4");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF5(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("5");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
@@ -318,5 +315,55 @@ public class MapDashboardController extends Controller {
       patientTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
+  }
+
+  @FXML
+  private void updateCounts() {
+    int srCount = 0;
+    int dirty = 0;
+    int clean = 0;
+    ArrayList<ServiceRequest> currRequests =
+        (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
+
+    ArrayList<Equipment> equip = Vdb.requestSystem.getEquipment();
+
+    if (!currRequests.isEmpty()) {
+
+      for (ServiceRequest pos : currRequests) {
+        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+          srCount++;
+        }
+      }
+    }
+
+    if (!equip.isEmpty()) {
+
+      for (Equipment e : equip) {
+        if (e.getFloor().equals(curFloor.getFloorName())) {
+          if (e.getIsDirty()) {
+            dirty++;
+          } else {
+            clean++;
+          }
+        }
+      }
+    }
+    countsArea.setText(
+        "Active Service Requests: "
+            + srCount
+            + "\n"
+            + "Clean Equipment: "
+            + clean
+            + "\n"
+            + "Dirty Equipment: "
+            + dirty);
+  }
+
+  @FXML
+  private void updateAll() {
+    updateEquipmentTable();
+    updatePatientTable();
+    updateServiceRequestTable();
+    updateCounts();
   }
 }

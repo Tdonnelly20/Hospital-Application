@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
@@ -32,17 +35,17 @@
                         <Font name="System Bold" size="51.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../BackButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" onMouseClicked="#goExit" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../ExitButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../HomeButton.png" />
                      </image>
@@ -56,13 +59,36 @@
                      <children>
                         <TitledPane fx:id="sideViewTPane" animated="false" collapsible="false" text="Side View Map">
                            <content>
-                              <Pane fx:id="sideViewPane" prefHeight="790.0" prefWidth="400.0">
+                              <Pane fx:id="sideViewPane" prefHeight="486.0" prefWidth="303.0">
                                  <children>
-                                    <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="50.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                        <image>
                                           <Image url="@../SideView.PNG" />
                                        </image>
                                     </ImageView>
+                                    <Group layoutX="140.0" layoutY="20.0">
+                                       <children>
+                                          <Button layoutX="25.0" mnemonicParsing="false" onAction="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
+                                          <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" styleClass="sideViewButtonf4" />
+                                          <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" styleClass="sideViewButtonf3" />
+                                          <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" styleClass="sideViewButtonf2" />
+                                          <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" styleClass="sideViewButtonf1" />
+                                          <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" styleClass="sideViewButtonll1" />
+                                          <Button layoutY="300.0" mnemonicParsing="false" onAction="#switchToLL2" styleClass="sideViewButtonll2" />
+                                       </children>
+                                    </Group>
+                                    <Group layoutX="63.0" layoutY="20.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" prefWidth="107.0" styleClass="floorLabelButton" text="5" />
+                                          <Button layoutY="50.0" mnemonicParsing="false" styleClass="floorLabelButton" text="4" />
+                                          <Button layoutY="100.0" mnemonicParsing="false" styleClass="floorLabelButton" text="3" />
+                                          <Button layoutY="150.0" mnemonicParsing="false" styleClass="floorLabelButton" text="2" />
+                                          <Button layoutY="200.0" mnemonicParsing="false" styleClass="floorLabelButton" text="1" />
+                                          <Button layoutY="250.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL1" />
+                                          <Button layoutY="300.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL2" />
+                                       </children>
+                                    </Group>
+                                    <ProgressBar fx:id="cleanProgress" layoutX="65.0" layoutY="405.0" prefHeight="40.0" prefWidth="228.0" progress="0.0" />
                                  </children>
                               </Pane>
                            </content>
@@ -81,7 +107,7 @@
                            <content>
                               <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                                 <tabs>
-                                  <Tab text="Equipment">
+                                  <Tab onSelectionChanged="#updateAll" text="Equipment">
                                        <content>
                                           <TreeTableView prefHeight="230.0" prefWidth="298.0">
                                             <columns>
@@ -91,7 +117,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                  <Tab text="Service Requests">
+                                  <Tab onSelectionChanged="#updateAll" text="Service Requests">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                             <columns>
@@ -102,7 +128,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                    <Tab text="Patients">
+                                    <Tab onSelectionChanged="#updateAll" text="Patients">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                              <columns>
@@ -121,17 +147,12 @@
                            </VBox.margin>
                         </TitledPane>
                         <TitledPane fx:id="countsTPane" animated="false" collapsible="false" prefHeight="262.0" prefWidth="283.0" text="Counts">
-                           <content>
-                              <TreeTableView prefHeight="200.0" prefWidth="200.0">
-                                <columns>
-                                  <TreeTableColumn prefWidth="75.0" text="C1" />
-                                  <TreeTableColumn prefWidth="75.0" text="C2" />
-                                </columns>
-                              </TreeTableView>
-                           </content>
                            <VBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
                            </VBox.margin>
+                           <content>
+                              <TextArea fx:id="countsArea" prefHeight="200.0" prefWidth="200.0" />
+                           </content>
                         </TitledPane>
                      </children>
                      <HBox.margin>
