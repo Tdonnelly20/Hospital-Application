@@ -1,17 +1,17 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -19,19 +19,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class EquipmentRequestController extends RequestController {
-  @FXML private TreeTableView<EquipmentDelivery> equipmentRequestTable;
-  @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> posCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
-  @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
-
+  // These are the buttons, text fields and labels that appear in the right column of the request
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
   @FXML private Label status;
@@ -42,21 +34,33 @@ public class EquipmentRequestController extends RequestController {
   @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Button sendRequest;
 
-  private static final LocationDao locationDao =
-      (LocationDao) Vdb.requestSystem.getDao(Dao.LocationDao);
+  // This is the table and columns for the equipment request table
+  @FXML private TreeTableView<EquipmentDelivery> equipmentRequestTable;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> patientIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> firstNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> lastNameCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> posCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
+  @FXML private Pane tablePlane;
 
-  @FXML private TreeTableView<Location> table;
-  @FXML private TreeTableColumn<Location, String> nodeIDCol;
-  @FXML private TreeTableColumn<Location, Integer> xCol;
-  @FXML private TreeTableColumn<Location, Integer> yCol;
-  @FXML private TreeTableColumn<Location, String> floorCol;
-  @FXML private TreeTableColumn<Location, String> buildingCol;
-  @FXML private TreeTableColumn<Location, String> nodeTypeCol;
-  @FXML private TreeTableColumn<Location, Boolean> shortNameCol;
+  // This is the table and columns for the equipment table
+  @FXML private TreeTableView<Equipment> table;
+  @FXML private TreeTableColumn<Equipment, String> nodeIDCol;
+  @FXML private TreeTableColumn<Equipment, Integer> xCol;
+  @FXML private TreeTableColumn<Equipment, Integer> yCol;
+  @FXML private TreeTableColumn<Equipment, String> floorCol;
+  @FXML private TreeTableColumn<Equipment, String> buildingCol;
+  @FXML private TreeTableColumn<Equipment, String> nodeTypeCol;
+  @FXML private TreeTableColumn<Equipment, Boolean> shortNameCol;
 
+  // The two fields that are required for when a request is being updated
   private boolean updating = false;
   private int updateServiceID;
 
+  // Helper for setting up
   private static class SingletonHelper {
     private static final EquipmentRequestController controller = new EquipmentRequestController();
   }
@@ -67,12 +71,41 @@ public class EquipmentRequestController extends RequestController {
 
   @Override
   public void init() {
+    System.out.println("In init Equipment Request");
     setTitleText("Equipment Delivery Request");
     fillTopPane();
     mapSetUp();
+
     filterCheckBox.getCheckModel().check("Equipment");
     filterCheckBox.getCheckModel().check("Clean Equipment");
     filterCheckBox.getCheckModel().check("Equipment Delivery Requests");
+
+    setColumnSizes(1520);
+
+    tablePlane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePlane.getWidth();
+                equipmentRequestTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePlane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePlane.getHeight();
+                equipmentRequestTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   @FXML
@@ -242,6 +275,17 @@ public class EquipmentRequestController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(patientIDCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 8);
+    setColumnSize(firstNameCol, (w - 30) / 8);
+    setColumnSize(lastNameCol, (w - 30) / 8);
+    setColumnSize(posCol, (w - 30) / 8);
+    setColumnSize(equipCol, (w - 30) / 8);
+    setColumnSize(quantCol, (w - 30) / 8);
+    setColumnSize(notesCol, (w - 30) / 8);
   }
 
   @Override

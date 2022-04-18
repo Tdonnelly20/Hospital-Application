@@ -99,7 +99,8 @@
                                                 <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
                                                 <TreeTableColumn fx:id="roomLocationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
                                                 <TreeTableColumn fx:id="hazardCol" minWidth="0.0" prefWidth="56.7999267578125" text="Hazard" />
-                                                <TreeTableColumn fx:id="requestDetailsCol" prefWidth="64.80001831054688" text="Other Info" />
+                                                <TreeTableColumn fx:id="statusCol" prefWidth="60.800048828125" text="Status" />
+                                                <TreeTableColumn fx:id="requestDetailsCol" prefWidth="78.4000244140625" text="Other Info" />
                                              </columns>
                                           </TreeTableView>
                                        </children>

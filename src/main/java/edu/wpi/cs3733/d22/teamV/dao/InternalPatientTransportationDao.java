@@ -15,7 +15,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
   private static ArrayList<InternalPatientTransportation> allInternalPatientTransportations;
 
   /** Initialize the arraylist */
-  public InternalPatientTransportationDao() throws SQLException, IOException {
+  public InternalPatientTransportationDao() {
     allInternalPatientTransportations = new ArrayList<InternalPatientTransportation>();
     createSQLTable();
     loadFromCSV();
@@ -48,110 +48,130 @@ public class InternalPatientTransportationDao extends DaoInterface {
   }
 
   @Override
-  public void loadFromCSV() throws IOException, SQLException {
-    String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "/PatientTransportations.CSV");
-    BufferedReader br = new BufferedReader(fr);
-    String headerLine = br.readLine();
-    String splitToken = ",";
-    ArrayList<InternalPatientTransportation> transportations = new ArrayList<>();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data;
-      data = line.split(splitToken);
-      InternalPatientTransportation transportation =
-          new InternalPatientTransportation(
-              data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3]);
-      transportation.setServiceID(Integer.parseInt(data[4]));
-      transportations.add(transportation);
+  public void loadFromCSV() {
+    try {
+
+      String line = "";
+      FileReader fr = new FileReader(VApp.currentPath + "/PatientTransportations.CSV");
+      BufferedReader br = new BufferedReader(fr);
+      String headerLine = br.readLine();
+      String splitToken = ",";
+      ArrayList<InternalPatientTransportation> transportations = new ArrayList<>();
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data;
+        data = line.split(splitToken);
+        InternalPatientTransportation transportation =
+            new InternalPatientTransportation(
+                data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3]);
+        transportation.setServiceID(Integer.parseInt(data[4]));
+        transportations.add(transportation);
+      }
+      allInternalPatientTransportations = transportations;
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    allInternalPatientTransportations = transportations;
   }
 
   @Override
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/PatientTransportations.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("location,patientID,hospitalID,requestDetails,serviceID");
+  public void saveToCSV() {
+    try {
 
-    for (ServiceRequest request : getAllServiceRequests()) {
+      FileWriter fw = new FileWriter(VApp.currentPath + "/PatientTransportations.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append("location,patientID,hospitalID,requestDetails,serviceID");
+
+      for (ServiceRequest request : getAllServiceRequests()) {
+
+        InternalPatientTransportation internalPatientTransportation =
+            (InternalPatientTransportation) request;
+
+        String[] outputData = {
+          internalPatientTransportation.getNodeID(),
+          String.valueOf(internalPatientTransportation.getPatientID()),
+          String.valueOf(internalPatientTransportation.getEmployeeID()),
+          internalPatientTransportation.getRequestDetails(),
+          String.valueOf(internalPatientTransportation.getServiceID())
+        };
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
+      }
+      bw.close();
+      fw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void createSQLTable() {
+    try {
+
+      Connection connection = Vdb.Connect();
+      Statement exampleStatement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+
+      ResultSet set = meta.getTables(null, null, "PATIENTTRANSPORTATION", new String[] {"TABLE"});
+      String query = "";
+
+      if (!set.next()) {
+        query =
+            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, hospitalID int, requestDetails char(250), serviceID int)";
+        exampleStatement.execute(query);
+      } else {
+        query = "DROP TABLE PATIENTTRANSPORTATION";
+        exampleStatement.execute(query);
+        createSQLTable();
+        return;
+      }
+      for (InternalPatientTransportation internalPatientTransportation :
+          allInternalPatientTransportations) {
+        addToSQLTable(internalPatientTransportation);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest request) {
+    try {
 
       InternalPatientTransportation internalPatientTransportation =
           (InternalPatientTransportation) request;
 
-      String[] outputData = {
-        internalPatientTransportation.getNodeID(),
-        String.valueOf(internalPatientTransportation.getPatientID()),
-        String.valueOf(internalPatientTransportation.getEmployeeID()),
-        internalPatientTransportation.getRequestDetails(),
-        String.valueOf(internalPatientTransportation.getServiceID())
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
-      }
-    }
-    bw.close();
-    fw.close();
-  }
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
 
-  @Override
-  public void createSQLTable() throws SQLException {
-    Connection connection = Vdb.Connect();
-    Statement exampleStatement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-
-    ResultSet set = meta.getTables(null, null, "PATIENTTRANSPORTATION", new String[] {"TABLE"});
-    String query = "";
-
-    if (!set.next()) {
       query =
-          "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, hospitalID int, requestDetails char(250), serviceID int)";
-      exampleStatement.execute(query);
-    } else {
-      query = "DROP TABLE PATIENTTRANSPORTATION";
-      exampleStatement.execute(query);
-      createSQLTable();
-      return;
-    }
-    for (InternalPatientTransportation internalPatientTransportation :
-        allInternalPatientTransportations) {
-      addToSQLTable(internalPatientTransportation);
+          "INSERT INTO PATIENTTRANSPORTATION("
+              + "location,patientID,hospitalID,requestDetails,serviceID) VALUES "
+              + "('"
+              + internalPatientTransportation.getNodeID()
+              + "', "
+              + internalPatientTransportation.getPatientID()
+              + ", "
+              + internalPatientTransportation.getEmployeeID()
+              + ", '"
+              + internalPatientTransportation.getRequestDetails()
+              + "', "
+              + internalPatientTransportation.getServiceID()
+              + ")";
+
+      statement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
   @Override
-  public void addToSQLTable(ServiceRequest request) throws SQLException {
-    InternalPatientTransportation internalPatientTransportation =
-        (InternalPatientTransportation) request;
-
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
-
-    query =
-        "INSERT INTO PATIENTTRANSPORTATION("
-            + "location,patientID,hospitalID,requestDetails,serviceID) VALUES "
-            + "('"
-            + internalPatientTransportation.getNodeID()
-            + "', "
-            + internalPatientTransportation.getPatientID()
-            + ", "
-            + internalPatientTransportation.getEmployeeID()
-            + ", '"
-            + internalPatientTransportation.getRequestDetails()
-            + "', "
-            + internalPatientTransportation.getServiceID()
-            + ")";
-
-    statement.execute(query);
-  }
-
-  @Override
-  public void updateServiceRequest(ServiceRequest request, int serviceID)
-      throws SQLException, IOException {
+  public void updateServiceRequest(ServiceRequest request, int serviceID) {
     InternalPatientTransportation transportation = (InternalPatientTransportation) request;
     transportation.setServiceID(serviceID);
     removeServiceRequest(transportation);
@@ -161,22 +181,27 @@ public class InternalPatientTransportationDao extends DaoInterface {
   }
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-    InternalPatientTransportation internalPatientTransportation =
-        (InternalPatientTransportation) request;
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
+  public void removeFromSQLTable(ServiceRequest request) {
+    try {
 
-    query =
-        "DELETE FROM PATIENTTRANSPORTATION WHERE serviceID = "
-            + internalPatientTransportation.getServiceID();
-    statement.execute(query);
+      InternalPatientTransportation internalPatientTransportation =
+          (InternalPatientTransportation) request;
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+
+      query =
+          "DELETE FROM PATIENTTRANSPORTATION WHERE serviceID = "
+              + internalPatientTransportation.getServiceID();
+      statement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request) {
     InternalPatientTransportation internalPatientTransportation =
         (InternalPatientTransportation) request;
     allInternalPatientTransportations.add(internalPatientTransportation);
@@ -186,9 +211,10 @@ public class InternalPatientTransportationDao extends DaoInterface {
   }
 
   @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request) {
     allInternalPatientTransportations.removeIf(
         value -> value.getPatientID() == request.getPatient().getPatientID());
+    request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }
@@ -199,8 +225,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     allInternalPatientTransportations = (ArrayList<InternalPatientTransportation>) serviceRequests;
   }
 }

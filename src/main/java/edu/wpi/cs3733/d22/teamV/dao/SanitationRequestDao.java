@@ -20,91 +20,125 @@ public class SanitationRequestDao extends DaoInterface {
   /** Initialize the arraylist */
   public SanitationRequestDao() throws SQLException, IOException {
     allSanitationRequests = new ArrayList<SanitationRequest>();
-    createSQLTable();
     loadFromCSV();
+    createSQLTable();
   }
 
   @Override
-  public void loadFromCSV() throws IOException, SQLException {
-    String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "/SanitationRequest.CSV");
-    BufferedReader br = new BufferedReader(fr);
-    String headerLine = br.readLine();
-    String splitToken = ",";
-    ArrayList<SanitationRequest> requests = new ArrayList<>();
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data;
-      data = line.split(splitToken);
-      SanitationRequest request =
-          new SanitationRequest(
-              Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
-      requests.add(request);
-    }
-    allSanitationRequests = requests;
-  }
+  public void loadFromCSV() {
+    try {
+      String line = "";
+      FileReader fr = null;
 
-  @Override
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/SanitationRequest.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("PatientID,EmpID,Location,Hazard,Details,status,serviceID");
+      fr = new FileReader(VApp.currentPath + "/SanitationRequest.CSV");
 
-    for (ServiceRequest request : getAllServiceRequests()) {
-      SanitationRequest sanitationRequest = (SanitationRequest) request;
-      String[] outputData = {
-        Integer.toString(sanitationRequest.getPatientID()),
-        Integer.toString(sanitationRequest.getHospitalID()),
-        sanitationRequest.getRoomLocation(),
-        sanitationRequest.getHazardName(),
-        sanitationRequest.getRequestDetails(),
-        sanitationRequest.getStatus(),
-        Integer.toString(sanitationRequest.getServiceID())
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
+      BufferedReader br = new BufferedReader(fr);
+      String headerLine = br.readLine();
+      String splitToken = ",";
+      ArrayList<SanitationRequest> requests = new ArrayList<>();
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data;
+        data = line.split(splitToken);
+        SanitationRequest request =
+            new SanitationRequest(
+                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+        requests.add(request);
       }
-    }
-    bw.close();
-    fw.close();
-  }
+      allSanitationRequests = requests;
 
-  @Override
-  public void createSQLTable() throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    Statement statement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "SANITATIONREQUESTS", new String[] {"TABLE"});
-    if (!set.next()) {
-      statement.execute(
-          "CREATE TABLE SANITATIONREQUESTS(pID int, empID int, roomLocation char(40), hazard char(30), details char(150), status char(50),serviceID int)");
-    } else {
-      statement.execute("DROP TABLE SANITATIONREQUESTS");
-      createSQLTable();
-      return;
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
   @Override
-  public void addToSQLTable(ServiceRequest Request) throws SQLException {
-    SanitationRequest newSanitationRequest = (SanitationRequest) Request;
-    Connection connection = Vdb.Connect();
-    String query = "INSERT INTO SANITATIONREQUESTS VALUES(?,?,?,?,?,?,?)";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, newSanitationRequest.getPatientID());
-    statement.setInt(2, newSanitationRequest.getHospitalID());
-    statement.setString(3, newSanitationRequest.getRoomLocation());
-    statement.setString(4, newSanitationRequest.getHazardName());
-    statement.setString(5, newSanitationRequest.getRequestDetails());
-    statement.setString(6, newSanitationRequest.getStatus());
-    statement.setInt(7, newSanitationRequest.getServiceID());
+  public void saveToCSV() {
+    FileWriter fw = null;
+    try {
+      fw = new FileWriter(VApp.currentPath + "/SanitationRequest.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append("PatientID,EmpID,Location,Hazard,Details,status,serviceID");
+
+      for (ServiceRequest request : getAllServiceRequests()) {
+        SanitationRequest sanitationRequest = (SanitationRequest) request;
+        String[] outputData = {
+          Integer.toString(sanitationRequest.getPatientID()),
+          Integer.toString(sanitationRequest.getHospitalID()),
+          sanitationRequest.getRoomLocation(),
+          sanitationRequest.getHazardName(),
+          sanitationRequest.getRequestDetails(),
+          sanitationRequest.getStatus(),
+          Integer.toString(sanitationRequest.getServiceID())
+        };
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
+      }
+      bw.close();
+      fw.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void updateServiceRequest(ServiceRequest request, int serviceID) throws SQLException {
+  public void createSQLTable() {
+    try {
+      String query = "";
+      Connection connection = Vdb.Connect();
+      Statement statement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+
+      ResultSet set = meta.getTables(null, null, "SANITATIONREQUESTS", new String[] {"TABLE"});
+      if (!set.next()) {
+        statement.execute(
+            "CREATE TABLE SANITATIONREQUESTS(pID int, empID int, roomLocation char(40), hazard char(30), details char(150), status char(50),serviceID int)");
+        // System.out.println(r);
+      } else {
+        System.out.println("TABLE EXISTS, REMAKING");
+        statement.execute("DROP TABLE SANITATIONREQUESTS");
+        createSQLTable();
+        return;
+      }
+      for (SanitationRequest req : allSanitationRequests) {
+        addToSQLTable(req);
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void addToSQLTable(ServiceRequest Request) {
+    try {
+      SanitationRequest newSanitationRequest = (SanitationRequest) Request;
+      Connection connection = Vdb.Connect();
+      String query = "INSERT INTO SANITATIONREQUESTS VALUES(?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, newSanitationRequest.getPatientID());
+      statement.setInt(2, newSanitationRequest.getHospitalID());
+      statement.setString(3, newSanitationRequest.getRoomLocation());
+      statement.setString(4, newSanitationRequest.getHazardName());
+      statement.setString(5, newSanitationRequest.getRequestDetails());
+      statement.setString(6, newSanitationRequest.getStatus());
+      statement.setInt(7, newSanitationRequest.getServiceID());
+      statement.executeUpdate();
+      statement.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void updateServiceRequest(ServiceRequest request, int serviceID) {
     SanitationRequest newRequest = (SanitationRequest) request;
     request.setServiceID(serviceID);
     int index = -1;
@@ -114,55 +148,76 @@ public class SanitationRequestDao extends DaoInterface {
         break;
       }
     }
-    allSanitationRequests.set(index, newRequest);
-    updateSQLTable(request);
+    if (index > -1) {
+      System.out.println("UPDATING");
+      allSanitationRequests.set(index, newRequest);
+      saveToCSV();
+      updateSQLTable(request);
+    }
   }
   // fname char(15),lname char(15), pID int, empID int, roomLocation char(40), hazard char(30),
   // details char(150),serviceID int)");
-  public void updateSQLTable(ServiceRequest request) throws SQLException {
+  public void updateSQLTable(ServiceRequest request) {
     // also needs to add to csv
-    SanitationRequest newRequest = (SanitationRequest) request;
-    Connection connection = Vdb.Connect();
-    String query =
-        "UPDATE SANITATIONREQUESTS"
-            + "SET pID=?,empID=?,roomLocation=?,hazard=?,details=?, status=?"
-            + "WHERE serviceID=?";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, newRequest.getPatientID());
-    statement.setInt(2, newRequest.getHospitalID());
-    statement.setString(3, newRequest.getRoomLocation());
-    statement.setString(4, newRequest.getHazardName());
-    statement.setString(5, newRequest.getRequestDetails());
-    statement.setString(6, newRequest.getStatus());
-    statement.setInt(7, newRequest.getServiceID());
+
+    try {
+
+      SanitationRequest newRequest = (SanitationRequest) request;
+      Connection connection = Vdb.Connect();
+      String query =
+          "UPDATE SANITATIONREQUESTS SET pID=?, empID=?,roomLocation=?,hazard=?,details=?, status=? WHERE serviceID=?";
+      PreparedStatement statement = connection.prepareStatement(query); // error here?
+      statement.setInt(1, newRequest.getPatientID());
+      statement.setInt(2, newRequest.getHospitalID());
+      statement.setString(3, newRequest.getRoomLocation());
+      statement.setString(4, newRequest.getHazardName());
+      statement.setString(5, newRequest.getRequestDetails());
+      statement.setString(6, newRequest.getStatus());
+      statement.setInt(7, newRequest.getServiceID());
+      statement.executeUpdate();
+      statement.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void removeFromSQLTable(ServiceRequest request) throws IOException, SQLException {
-    int serviceID = request.getServiceID();
-    Connection connection = Vdb.Connect();
-    String query = "DELETE FROM SANITATIONREQUESTS" + "WHERE serviceID=?";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, serviceID);
+  public void removeFromSQLTable(ServiceRequest request) {
+    try {
+
+      int serviceID = request.getServiceID();
+      Connection connection = Vdb.Connect();
+      String query = "DELETE FROM SANITATIONREQUESTS" + " WHERE serviceID=?";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, serviceID);
+      statement.executeUpdate();
+      statement.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public void addServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void addServiceRequest(ServiceRequest request) {
     SanitationRequest newRequest = (SanitationRequest) request;
     request.setServiceID(RequestSystem.getServiceID());
-    newRequest.setServiceID(RequestSystem.getServiceID()); //
+    newRequest.setServiceID(RequestSystem.getServiceID());
     allSanitationRequests.add(newRequest);
     addToSQLTable(request);
     saveToCSV();
   }
 
   @Override
-  public void removeServiceRequest(ServiceRequest request) throws IOException, SQLException {
+  public void removeServiceRequest(ServiceRequest request) {
     int serviceID = request.getServiceID();
     Predicate<SanitationRequest> condition =
         SanitationRequest -> SanitationRequest.getServiceID() == serviceID;
-    allSanitationRequests.removeIf(condition);
+    boolean result = allSanitationRequests.removeIf(condition);
+    request.detachAll();
     removeFromSQLTable(request);
+    saveToCSV();
   }
 
   @Override
@@ -171,8 +226,7 @@ public class SanitationRequestDao extends DaoInterface {
   }
 
   @Override
-  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests)
-      throws SQLException {
+  public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     allSanitationRequests.clear();
     for (ServiceRequest r : serviceRequests) {
       SanitationRequest request = (SanitationRequest) r;

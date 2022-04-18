@@ -14,12 +14,8 @@ public class EquipmentDao {
   /** Initialize the array list */
   public EquipmentDao() {
     allEquipment = new ArrayList<Equipment>();
-    try {
-      createSQLTable();
-      loadFromCSV();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    createSQLTable();
+    loadFromCSV();
   }
 
   /**
@@ -42,119 +38,144 @@ public class EquipmentDao {
     allEquipment.add(newEquipment);
   }
 
-  public void loadFromCSV() throws IOException, SQLException {
-    String line = "";
-    FileReader fr = new FileReader(VApp.currentPath + "/ListofEquipment.CSV");
-    BufferedReader br = new BufferedReader(fr);
-    String headerLine = br.readLine();
-    String splitToken = ",";
-    ArrayList<Equipment> equipmentList = new ArrayList<>();
-    // int ID, String name, floor,double x, double y, String description, Boolean isDirty) {
-    while ((line = br.readLine()) != null) // should create a database based on csv file
-    {
-      String[] data;
-      data = line.split(splitToken);
-      Equipment equipment =
-          new Equipment(
-              data[0],
-              data[1],
-              data[2],
-              Double.parseDouble(data[3]),
-              Double.parseDouble(data[4]),
-              data[5],
-              Integer.parseInt(data[6]) == 1);
-      addEquipment(equipment);
+  public void loadFromCSV() {
+    try {
+
+      String line = "";
+      FileReader fr = new FileReader(VApp.currentPath + "/ListofEquipment.CSV");
+      BufferedReader br = new BufferedReader(fr);
+      String headerLine = br.readLine();
+      String splitToken = ",";
+      ArrayList<Equipment> equipmentList = new ArrayList<>();
+      // int ID, String name, floor,double x, double y, String description, Boolean isDirty) {
+      while ((line = br.readLine()) != null) // should create a database based on csv file
+      {
+        String[] data;
+        data = line.split(splitToken);
+        Equipment equipment =
+            new Equipment(
+                data[0],
+                data[1],
+                data[2],
+                Double.parseDouble(data[3]),
+                Double.parseDouble(data[4]),
+                data[5],
+                Integer.parseInt(data[6]) == 1);
+        addEquipment(equipment);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
-  public void saveToCSV() throws IOException {
-    FileWriter fw = new FileWriter(VApp.currentPath + "/ListofEquipment.csv");
-    BufferedWriter bw = new BufferedWriter(fw);
-    bw.append("ID,Name,Floor,X,Y,Description,isDirty");
+  public void saveToCSV() {
+    try {
 
-    for (Equipment equipment : getAllEquipment()) {
+      FileWriter fw = new FileWriter(VApp.currentPath + "/ListofEquipment.csv");
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.append("ID,Name,Floor,X,Y,Description,isDirty");
 
-      String[] outputData = {
-        equipment.getID(),
-        equipment.getName(),
-        equipment.getFloor(),
-        String.valueOf(equipment.getX()),
-        String.valueOf(equipment.getY()),
-        equipment.getDescription(),
-        String.valueOf(equipment.getIsDirty())
-      };
-      bw.append("\n");
-      for (String s : outputData) {
-        bw.append(s);
-        bw.append(',');
+      for (Equipment equipment : getAllEquipment()) {
+
+        String[] outputData = {
+          equipment.getID(),
+          equipment.getName(),
+          equipment.getFloor(),
+          String.valueOf(equipment.getX()),
+          String.valueOf(equipment.getY()),
+          equipment.getDescription(),
+          String.valueOf(equipment.getIsDirty())
+        };
+        bw.append("\n");
+        for (String s : outputData) {
+          bw.append(s);
+          bw.append(',');
+        }
       }
-    }
 
-    bw.close();
-    fw.close();
+      bw.close();
+      fw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public ArrayList<Equipment> getAllServiceRequests() {
     return allEquipment;
   }
 
-  public void createSQLTable() throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    Statement statement = connection.createStatement();
-    DatabaseMetaData meta = connection.getMetaData();
-    ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
-    if (!set.next()) {
-      statement.execute(
-          "CREATE TABLE EQUIPMENT(ID char(15),name char(40), floor char(2),x int, y int,description char(254), isDirty boolean)");
-    } else {
-      statement.execute("DROP TABLE EQUIPMENT");
-      createSQLTable();
-      return;
+  public void createSQLTable() {
+    try {
+
+      String query = "";
+      Connection connection = Vdb.Connect();
+      Statement statement = connection.createStatement();
+      DatabaseMetaData meta = connection.getMetaData();
+      ResultSet set = meta.getTables(null, null, "EQUIPMENT", new String[] {"TABLE"});
+      if (!set.next()) {
+        statement.execute(
+            "CREATE TABLE EQUIPMENT(ID char(15),name char(40), floor char(2),x int, y int,description char(254), isDirty boolean)");
+      } else {
+        statement.execute("DROP TABLE EQUIPMENT");
+        createSQLTable();
+        return;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
-  public void addToSQLTable(Equipment equipment) throws SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
+  public void addToSQLTable(Equipment equipment) {
+    try {
 
-    query =
-        "INSERT INTO EQUIPMENT("
-            + "ID,Floor,X,Y,Description,isDirty) VALUES "
-            + "('"
-            + equipment.getID()
-            + "', '"
-            + equipment.getFloor()
-            + "', "
-            + equipment.getX()
-            + ", "
-            + equipment.getY()
-            + ", '"
-            + equipment.getDescription()
-            + "', "
-            + equipment.getIsDirty()
-            + ")";
-    statement.execute(query);
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+
+      query =
+          "INSERT INTO EQUIPMENT("
+              + "ID,Floor,X,Y,Description,isDirty) VALUES "
+              + "('"
+              + equipment.getID()
+              + "', '"
+              + equipment.getFloor()
+              + "', "
+              + equipment.getX()
+              + ", "
+              + equipment.getY()
+              + ", '"
+              + equipment.getDescription()
+              + "', "
+              + equipment.getIsDirty()
+              + ")";
+      statement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void removeFromSQLTable(Equipment equipment) throws IOException, SQLException {
-    String query = "";
-    Connection connection = Vdb.Connect();
-    assert connection != null;
-    Statement statement = connection.createStatement();
+  public void removeFromSQLTable(Equipment equipment) {
+    try {
 
-    query = "DELETE FROM EQUIPMENT WHERE ID = '" + equipment.getID() + "'";
-    statement.execute(query);
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+
+      query = "DELETE FROM EQUIPMENT WHERE ID = '" + equipment.getID() + "'";
+      statement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void addEquipment(Equipment equipment) throws IOException, SQLException {
+  public void addEquipment(Equipment equipment) {
     allEquipment.add(equipment);
     addToSQLTable(equipment);
   }
 
-  public void removeEquipment(Equipment equipment) throws IOException, SQLException {
+  public void removeEquipment(Equipment equipment) {
     allEquipment.removeIf(equipment1 -> equipment1.getID().equals(equipment.getID()));
     removeFromSQLTable(equipment);
   }
@@ -163,7 +184,7 @@ public class EquipmentDao {
     return allEquipment;
   }
 
-  public void setAllEquipment(ArrayList<Equipment> allEquipment) throws SQLException {
+  public void setAllEquipment(ArrayList<Equipment> allEquipment) {
     this.allEquipment = allEquipment;
     createSQLTable();
   }

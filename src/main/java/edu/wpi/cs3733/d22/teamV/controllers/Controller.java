@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.io.IOException;
-import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -57,10 +57,16 @@ public abstract class Controller extends Application {
 
   // Switches scene to the home page
   @FXML
-  protected void switchToHome(ActionEvent event) throws IOException {
-    root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
+  protected void switchToHome(Event event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    HomeController controller = loader.getController();
+    controller.init();
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
@@ -143,6 +149,12 @@ public abstract class Controller extends Application {
   protected void switchToInternalPatientTransport(ActionEvent event) {
     loader.setLocation(
         getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
+    switchScene(event);
+  }
+
+  @FXML
+  protected void switchToRobot(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Robot.fxml"));
     switchScene(event);
   }
 

@@ -5,26 +5,24 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.RobotRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LabRequestDao extends DaoInterface {
-  private static ArrayList<LabRequest> allLabRequests;
+public class RobotDao extends DaoInterface {
+  private static ArrayList<RobotRequest> allRobotRequests;
 
   /** Initialize the array list */
-  public LabRequestDao() {
-    allLabRequests = new ArrayList<>();
-    createSQLTable();
-    loadFromCSV();
+  public RobotDao() {
+    allRobotRequests = new ArrayList<>();
   }
 
   // DaoInterface Methods
   public void loadFromCSV() {
     try {
-
-      FileReader fr = new FileReader(VApp.currentPath + "/LabRequests.csv");
+      FileReader fr = new FileReader(VApp.currentPath + "\\RobotRequest.csv");
       BufferedReader br = new BufferedReader(fr);
       String splitToken = ","; // what we split the csv file with
       ArrayList<LabRequest> labRequests = new ArrayList<>();
@@ -35,13 +33,13 @@ public class LabRequestDao extends DaoInterface {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        LabRequest newDelivery =
-            new LabRequest(
+        RobotRequest newRobot =
+            new RobotRequest(
                 Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
-        newDelivery.setServiceID(Integer.parseInt(data[5]));
-        allLabRequests.add(newDelivery);
+        newRobot.setServiceID(Integer.parseInt(data[5]));
+        allRobotRequests.add(newRobot);
       }
-      setAllServiceRequests(allLabRequests);
+      setAllServiceRequests(allRobotRequests);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -49,22 +47,21 @@ public class LabRequestDao extends DaoInterface {
 
   public void saveToCSV() {
     try {
-
-      FileWriter fw = new FileWriter(VApp.currentPath + "/LabRequests.csv");
+      FileWriter fw = new FileWriter(VApp.currentPath + "\\RobotRequest.csv");
       BufferedWriter bw = new BufferedWriter(fw);
-      bw.append("userID,patientID,nodeID,lab,status,serviceID");
+      bw.append("employeeID,botID,nodeID,details,status,serviceID");
 
       for (ServiceRequest request : getAllServiceRequests()) {
 
-        LabRequest labRequest = (LabRequest) request;
+        RobotRequest robotRequest = (RobotRequest) request;
 
         String[] outputData = {
-          String.valueOf(labRequest.getUserID()),
-          String.valueOf(labRequest.getPatientID()),
-          labRequest.getLocation().getNodeID(),
-          labRequest.getLab(),
-          labRequest.getStatus(),
-          String.valueOf(labRequest.getServiceID())
+          String.valueOf(robotRequest.getEmployeeID()),
+          String.valueOf(robotRequest.getBotID()),
+          robotRequest.getNodeID(),
+          robotRequest.getDetails(),
+          robotRequest.getStatus(),
+          String.valueOf(robotRequest.getServiceID())
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -82,28 +79,27 @@ public class LabRequestDao extends DaoInterface {
 
   public void createSQLTable() {
     try {
-
       Connection connection = Vdb.Connect();
       assert connection != null;
       Statement statement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "LABS", new String[] {"TABLE"});
+      ResultSet set = meta.getTables(null, null, "ROBOTS", new String[] {"TABLE"});
       String query = "";
 
       if (!set.next()) {
         query =
-            "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int)";
+            "CREATE TABLE ROBOTS(employeeID int, botID int, nodeID varchar(30), detaisl varchar(30), status varchar(50), serviceID int)";
         statement.execute(query);
 
       } else {
-        query = "DROP TABLE LABS";
+        query = "DROP TABLE ROBOTS";
         statement.execute(query);
         createSQLTable(); // rerun the method to generate new tables
         return;
       }
 
-      for (LabRequest labRequest : allLabRequests) {
-        addToSQLTable(labRequest);
+      for (RobotRequest robotRequest : allRobotRequests) {
+        addToSQLTable(robotRequest);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -112,8 +108,7 @@ public class LabRequestDao extends DaoInterface {
 
   public void addToSQLTable(ServiceRequest request) {
     try {
-
-      LabRequest labRequest = (LabRequest) request;
+      RobotRequest robotRequest = (RobotRequest) request;
 
       String query = "";
       Connection connection = Vdb.Connect();
@@ -121,20 +116,20 @@ public class LabRequestDao extends DaoInterface {
       Statement statement = connection.createStatement();
 
       query =
-          "INSERT INTO LABS("
-              + "userID,patientID,nodeID,lab,status,serviceID) VALUES "
+          "INSERT INTO ROBOTS("
+              + "employeeID,botID,nodeID,details,status,serviceID) VALUES "
               + "("
-              + labRequest.getUserID()
+              + robotRequest.getEmployeeID()
               + ", "
-              + labRequest.getPatientID()
+              + robotRequest.getBotID()
               + ", '"
-              + labRequest.getLocation().getNodeID()
+              + robotRequest.getNodeID()
+              + "',' "
+              + robotRequest.getDetails()
               + "', '"
-              + labRequest.getLab()
-              + "', '"
-              + labRequest.getStatus()
+              + robotRequest.getStatus()
               + "',"
-              + labRequest.getServiceID()
+              + robotRequest.getServiceID()
               + ")";
 
       statement.execute(query);
@@ -145,23 +140,22 @@ public class LabRequestDao extends DaoInterface {
 
   @Override
   public void updateServiceRequest(ServiceRequest request, int serviceID) {
-    LabRequest labRequest = (LabRequest) request;
-    labRequest.setServiceID(serviceID);
-    removeServiceRequest(labRequest);
-    allLabRequests.add(labRequest);
-    addToSQLTable(labRequest);
+    RobotRequest robotRequest = (RobotRequest) request;
+    robotRequest.setServiceID(serviceID);
+    removeServiceRequest(robotRequest);
+    allRobotRequests.add(robotRequest);
+    addToSQLTable(robotRequest);
     saveToCSV();
   }
 
   public void removeFromSQLTable(ServiceRequest request) {
     try {
-
       String query = "";
       Connection connection = Vdb.Connect();
       assert connection != null;
-      Statement statement = connection.createStatement();
-
-      query = "DELETE FROM LABS WHERE serviceID = " + request.getServiceID();
+      Statement statement = null;
+      statement = connection.createStatement();
+      query = "DELETE FROM ROBOTS WHERE serviceID = " + request.getServiceID();
       statement.execute(query);
     } catch (SQLException e) {
       e.printStackTrace();
@@ -169,36 +163,35 @@ public class LabRequestDao extends DaoInterface {
   }
 
   public void addServiceRequest(ServiceRequest request) {
-    int serviceID = RequestSystem.getServiceID();
-    LabRequest labRequest = (LabRequest) request;
-    labRequest.setServiceID(serviceID);
-    allLabRequests.add(labRequest); // Store a local copy
-
     addToSQLTable(request);
+    int serviceID = RequestSystem.getServiceID();
+    RobotRequest robotRequest = (RobotRequest) request;
+    robotRequest.setServiceID(serviceID);
+    allRobotRequests.add(robotRequest); // Store a local copy
     saveToCSV();
   }
 
   public void removeServiceRequest(ServiceRequest request) {
-    LabRequest labRequest = (LabRequest) request;
-    allLabRequests.removeIf(value -> value.getServiceID() == labRequest.getServiceID());
+    RobotRequest robotRequest = (RobotRequest) request;
+    allRobotRequests.removeIf(value -> value.getServiceID() == robotRequest.getServiceID());
     request.detachAll();
     removeFromSQLTable(request);
     saveToCSV();
   }
 
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
-    return allLabRequests;
+    return allRobotRequests;
   }
 
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     // Set all medicine deliveries
-    allLabRequests = new ArrayList<>();
+    allRobotRequests = new ArrayList<>();
 
     // Convert to subtype
     for (ServiceRequest request : serviceRequests) {
       // Cast to subtype
-      LabRequest delivery = (LabRequest) request;
-      allLabRequests.add(delivery);
+      RobotRequest robotRequest = (RobotRequest) request;
+      allRobotRequests.add(robotRequest);
       try {
         createSQLTable();
       } catch (Exception e) {
@@ -207,17 +200,17 @@ public class LabRequestDao extends DaoInterface {
     }
   }
 
-  public void removeLabRequest(int userID) {
+  public void removeLabRequest(int botID) {
     // System.out.println("Removing from arraylist...");
-    allLabRequests.removeIf(l -> l.getPatient().getPatientID() == userID);
+    allRobotRequests.removeIf(r -> r.getBotID() == botID);
 
     try {
       // System.out.println("Removing from database...");
       Connection connection;
-      connection = Vdb.Connect();
+      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
       Statement exampleStatement = connection.createStatement();
-      for (LabRequest l : allLabRequests)
-        exampleStatement.execute("DELETE FROM LOCATIONS WHERE userID = l.getUserID()");
+      for (RobotRequest r : allRobotRequests)
+        exampleStatement.execute("DELETE FROM ROBOTS WHERE botID = r.getBotID()");
 
     } catch (Exception e) {
       e.printStackTrace();

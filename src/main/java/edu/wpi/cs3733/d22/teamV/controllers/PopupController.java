@@ -9,8 +9,6 @@ import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
-import java.io.IOException;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -189,11 +187,7 @@ public class PopupController {
   void deleteIcon(Location location) {
     System.out.println("Deleted");
     for (ServiceRequest request : location.getIcon().getRequestsArr()) {
-      try {
-        RequestSystem.getSystem().removeServiceRequest(request);
-      } catch (IOException | SQLException e) {
-        e.printStackTrace();
-      }
+      RequestSystem.getSystem().removeServiceRequest(request);
     }
     mapController.deleteIcon(location.getIcon());
     clearPopupForm();
@@ -267,7 +261,7 @@ public class PopupController {
       vBox.setPrefHeight(400);
       for (ServiceRequest request : icon.getRequestsArr()) {
         System.out.println(request.toString());
-        Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getEmployeeID());
+        Label idLabel = new Label("Employee: " + request.getEmployee().getEmployeeID());
         Label locationLabel =
             new Label(
                 "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
@@ -659,7 +653,8 @@ public class PopupController {
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
                       icon.getLocation().getNodeID(),
-                      field3.getText());
+                      field3.getText(),
+                      comboBox1.getValue());
               addRequest(event, icon, request);
             });
         break;
