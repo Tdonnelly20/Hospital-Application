@@ -5,6 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
@@ -32,18 +33,21 @@ public class MapDashboardController extends Controller {
   private @FXML ImageView sideViewImage;
   private @FXML VBox centerVBox;
   private @FXML TreeTableView infoTable;
+
   private @FXML TreeTableView equipmentTable;
   private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
+
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<ServiceRequest, Double> xCol;
-  private @FXML TreeTableColumn<ServiceRequest, Double> yCol;
+  private @FXML TreeTableColumn<Location, String> locationCol;
   private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
+
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
+
   private @FXML TextArea countsArea;
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
@@ -66,6 +70,13 @@ public class MapDashboardController extends Controller {
 
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
+  }
+
+  public void init() {
+    updateEquipmentTable();
+    updateCounts();
+    setUpButtonSubjects();
+    setUpDashboardListeners();
   }
 
   public static MapDashboardController getController() {
@@ -192,14 +203,15 @@ public class MapDashboardController extends Controller {
 
   @FXML
   public void switchToLL2(MouseEvent event) {
-    curFloor = MapManager.getManager().getFloor("LL2");
+    curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
   public void switchToLL1(MouseEvent event) {
-    curFloor = MapManager.getManager().getFloor("LL1");
+    System.out.println("Barf");
+    curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
   }
@@ -273,8 +285,7 @@ public class MapDashboardController extends Controller {
   @FXML
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("x"));
-    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
     startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
 
     ArrayList<ServiceRequest> currRequests =
@@ -302,7 +313,6 @@ public class MapDashboardController extends Controller {
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
-
     ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
@@ -371,9 +381,9 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateAll() {
-    updateEquipmentTable();
     updatePatientTable();
-    updateServiceRequestTable();
+    updateEquipmentTable();
+    // updateServiceRequestTable();
     updateCounts();
   }
 }
