@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -18,6 +17,7 @@ public class EquipmentIcon extends Icon {
 
   public EquipmentIcon(Location location) {
     super(location);
+    System.out.println("New Equipment Icon");
     this.iconType = IconType.Equipment;
     equipmentList = new ArrayList<>();
     image.setFitWidth(20);
@@ -44,23 +44,25 @@ public class EquipmentIcon extends Icon {
   }
 
   public void addToEquipmentList(Equipment equipment) {
+    System.out.println("Adding Equipment to list");
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
       if (equipmentList.size() == 1) {
         image.setImage(MapManager.getManager().dirtyEquipment);
+      } else {
+        setImage();
       }
     } else {
       image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
     }
-    setImage();
   }
 
   public void removeEquipment(Equipment equipment) {
-    RequestSystem.getSystem().deleteEquipment(equipment);
+    // RequestSystem.getSystem().deleteEquipment(equipment);
     equipmentList.remove(equipment);
     if (equipmentList.size() == 0) {
-      setImage();
+      MapController.getController().deleteIcon(this);
     }
   }
 
@@ -82,16 +84,17 @@ public class EquipmentIcon extends Icon {
   }
 
   public void checkBounds() {
-    for (EquipmentIcon icon :
-        MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
-      if (icon != this && iconType.equals(IconType.Equipment)) {
-        if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
-          System.out.println("Intersection");
-          equipmentList.addAll(icon.getEquipmentList());
-          updateLocation();
-          icon.getEquipmentList().clear();
-          MapController.getController().deleteIcon(icon);
-          setImage();
+    if (MapController.getController().getCurrFloor().getEquipmentIcons().size() > 0) {
+      for (EquipmentIcon icon : MapController.getController().getCurrFloor().getEquipmentIcons()) {
+        if (icon != this && iconType.equals(IconType.Equipment)) {
+          if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
+            System.out.println("Intersection");
+            equipmentList.addAll(icon.getEquipmentList());
+            updateLocation();
+            icon.getEquipmentList().clear();
+            MapController.getController().deleteIcon(icon);
+            setImage();
+          }
         }
       }
     }

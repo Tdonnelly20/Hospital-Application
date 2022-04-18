@@ -241,7 +241,9 @@ public class MapController extends Controller {
       filterEquipment();
     } else {
       for (Icon icon : currFloor.getIconList()) {
-        mapPane.getChildren().add(icon.getImage());
+        if (!mapPane.getChildren().contains(icon.getImage())) {
+          mapPane.getChildren().add(icon.getImage());
+        }
       }
     }
   }
@@ -369,37 +371,59 @@ public class MapController extends Controller {
     }
   }
 
+  @FXML
+  private void addToMapPane(Icon icon) {
+    if (!mapPane.getChildren().contains(icon.getImage())) {
+      mapPane.getChildren().add(icon.getImage());
+    } else {
+      System.out.println("Icon already on map");
+    }
+
+    if (mapPane.getChildren().contains(icon.getImage())) {
+      System.out.println("In");
+    }
+  }
+
+  @FXML
+  private void removeFromMapPane(Icon icon) {
+    if (mapPane.getChildren().contains(icon.getImage())) {
+      mapPane.getChildren().remove(icon.getImage());
+    } else {
+      System.out.println("Icon not on map");
+    }
+    // setFloor(floorName);
+  }
+
   /** Adds the given icon to the map */
+  @FXML
   public void addIcon(Icon icon) {
-    switch (icon.iconType) {
-      case Location:
-        RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
-        break;
-      case Equipment:
-        RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
-        MapDashboardController.getController().updateEquipmentCount();
-        break;
+    MapManager.getManager().getFloor(floorName).addIcon(icon);
+    if (icon.iconType.equals(Icon.IconType.Location)) {
+      RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
+    } else {
+      RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
+      MapDashboardController.getController().updateEquipmentCount();
     }
     PopupController.getController().closePopUp();
-    MapManager.getManager().getFloor(floorName).addIcon(icon);
-    currFloor = MapManager.getManager().getFloor(floorName);
-    populateFloorIconArr();
+    addToMapPane(icon);
+    setFloor(floorName);
+    // populateFloorIconArr();
   }
 
   /** Removes Icon from map */
+  @FXML
   public void deleteIcon(Icon icon) {
+    System.out.println(icon.getLocation());
+    System.out.println(icon.getLocation().getFloor());
     MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
-    if (icon.iconType.equals(Icon.IconType.Location)) {
-      RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
-    } else {
-      RequestSystem.getSystem().deleteEquipment(((EquipmentIcon) icon));
-      MapDashboardController.getController().updateEquipmentCount();
-    }
     if (PopupController.getController().stage.isShowing()) {
       PopupController.getController().closePopUp();
     }
-    currFloor = MapManager.getManager().getFloor(floorName);
-    populateFloorIconArr();
+    removeFromMapPane(icon);
+    // currFloor = MapManager.getManager().getFloor(floorName);
+    // setFloor(floorName);
+    // checkFilter();
+    // populateFloorIconArr();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
@@ -428,7 +452,7 @@ public class MapController extends Controller {
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
       PopupController.getController().iconWindow(event);
-      setSubmitLocation(xPos, yPos);
+      // setSubmitLocation(xPos, yPos);
     }
   }
 }

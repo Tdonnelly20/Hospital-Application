@@ -44,8 +44,10 @@ public class Floor {
   public void removeIcon(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Location)) {
       locationIcons.remove((LocationIcon) icon);
+      RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     } else {
       equipmentIcons.remove((EquipmentIcon) icon);
+      RequestSystem.getSystem().deleteEquipment((EquipmentIcon) icon);
     }
   }
 

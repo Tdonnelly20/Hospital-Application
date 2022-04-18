@@ -298,8 +298,16 @@ public class RequestSystem {
   }
 
   public void deleteLocation(String nodeID) {
+    for (ServiceRequest request : getLocation(nodeID).getRequests()) {
+      try {
+        removeServiceRequest(request);
+      } catch (IOException | SQLException e) {
+        e.printStackTrace();
+      }
+    }
     locationDao.deleteLocation(nodeID);
   }
+
   /**
    * Getter specifically for equipment since it is not a service request
    *
@@ -310,7 +318,11 @@ public class RequestSystem {
   }
 
   public void addEquipment(Equipment equipment) {
-    equipmentDao.getAllEquipment().add(equipment);
+    try {
+      equipmentDao.addEquipment(equipment);
+    } catch (IOException | SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public void addEquipment(ArrayList<Equipment> equipment) {
@@ -322,7 +334,11 @@ public class RequestSystem {
   }
 
   public void deleteEquipment(Equipment equipment) {
-    equipmentDao.getAllEquipment().remove(equipment);
+    try {
+      equipmentDao.removeEquipment(equipment);
+    } catch (IOException | SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public void deleteEquipment(EquipmentIcon icon) {

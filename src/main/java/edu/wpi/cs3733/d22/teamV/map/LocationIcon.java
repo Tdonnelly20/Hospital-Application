@@ -35,7 +35,7 @@ public class LocationIcon extends Icon {
     if (location.getRequests().contains(request)) {
       location.getRequests().add(request);
     }
-    image.setImage(new Image("requestMarker.png"));
+    image.setImage(MapManager.getManager().requestMarker);
   }
 
   public void removeRequests(ServiceRequest request) {

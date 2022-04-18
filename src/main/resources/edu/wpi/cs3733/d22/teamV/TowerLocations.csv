@@ -98,3 +98,8 @@ vSTOR00104,140.0,112.0,4,Tower,STOR,4th Floor In Patient Unit Storage B,Unit Sto
 vSTOR00204,140.0,425.0,4,Tower,STOR,4th Floor In Patient Unit Storage C,Unit Storage 4C,
 vSTOR00105,420.0,112.0,5,Tower,STOR,5th Floor In Patient Unit Storage A,Unit Storage 5A,
 vSTOR00205,140.0,112.0,5,Tower,STOR,5th Floor In Patient Unit Storage B,Unit Storage 5B,
+vDEPT00201,150.0,450.0,1,Tower,DEPT,Bretholtz Center for Patients and Families,Bretholtz Center,
+vDEPT00201,150.0,450.0,1,Tower,DEPT,Bretholtz Center for Patients and Families,Bretholtz Center,
+id,181.33333333333334,128.66666666666666,1,Tower,type,short,long,
+id,350.0,119.33333333333334,1,Tower,type,short,long,
+id,508.0,126.00000000000003,1,Tower,type,short,long,
