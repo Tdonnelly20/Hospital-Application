@@ -10,6 +10,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -17,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class LaundryRequestController extends RequestController {
@@ -37,6 +40,7 @@ public class LaundryRequestController extends RequestController {
   @FXML private TreeTableColumn<LaundryRequest, String> locationCol;
   @FXML private TreeTableColumn<LaundryRequest, String> detailsCol;
   @FXML private TreeTableColumn<LaundryRequest, String> statusCol;
+  @FXML private Pane tablePane;
 
   private boolean updating = false;
   private int updateServiceID;
@@ -53,6 +57,33 @@ public class LaundryRequestController extends RequestController {
   public void init() {
     setTitleText("Laundry Request");
     fillTopPane();
+
+    setColumnSizes(910);
+
+    tablePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePane.getWidth();
+                requestTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePane.getHeight();
+                requestTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   private static final LaundryRequestDao laundryRequestDao =
@@ -173,6 +204,16 @@ public class LaundryRequestController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(userIDCol, (w - 30) / 7);
+    setColumnSize(patientIDCol, (w - 30) / 7);
+    setColumnSize(firstNameCol, (w - 30) / 7);
+    setColumnSize(lastNameCol, (w - 30) / 7);
+    setColumnSize(locationCol, (w - 30) / 7);
+    setColumnSize(detailsCol, (w - 30) / 7);
+    setColumnSize(statusCol, (w - 30) / 7);
   }
 
   @Override

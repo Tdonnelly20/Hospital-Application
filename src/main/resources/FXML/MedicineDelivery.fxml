@@ -133,7 +133,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TreeTableView fx:id="medicineDeliveryTable" layoutX="29.0" layoutY="84.0" prefHeight="794.0" prefWidth="1564.0">
+                                          <TreeTableView fx:id="medicineDeliveryTable" layoutX="14.0" layoutY="70.0" prefHeight="794.0" prefWidth="1564.0">
                                              <columns>
                                                 <TreeTableColumn fx:id="hospitalIDCol" prefWidth="78.0" text="Employee ID" />
                                                 <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="71.0" text="Patient ID" />
@@ -147,8 +147,8 @@
                                                 <TreeTableColumn fx:id="otherInfoCol" prefWidth="98.4000244140625" text="Other Info" />
                                              </columns>
                                           </TreeTableView>
-                                          <Button fx:id="removeButton" layoutX="29.0" layoutY="39.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
-                                          <Button fx:id="updateButton" layoutX="200.0" layoutY="39.0" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" />
+                                          <Button fx:id="removeButton" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
+                                          <Button fx:id="updateButton" layoutX="175.0" layoutY="22.0" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>

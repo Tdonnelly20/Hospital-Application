@@ -18,12 +18,13 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.LaundryRequestController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.LaundryRequestController">
   <items>
     <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -111,9 +112,9 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
-                            <Tab fx:id="tablePane" onSelectionChanged="#updateTreeTable" text="Table View">
+                            <Tab onSelectionChanged="#updateTreeTable" text="Table View">
                               <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <VBox layoutX="60.0" layoutY="159.0" prefHeight="891.0" prefWidth="1610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
@@ -131,17 +132,21 @@
                                                       <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" GridPane.columnIndex="1" />
                                                    </children>
                                                 </GridPane>
-                                                <TreeTableView fx:id="requestTable" prefHeight="553.0" prefWidth="538.0">
-                                                   <columns>
-                                                      <TreeTableColumn fx:id="userIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
-                                                      <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
-                                                      <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
-                                                      <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
-                                                      <TreeTableColumn fx:id="locationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
-                                                      <TreeTableColumn fx:id="detailsCol" minWidth="0.0" prefWidth="56.7999267578125" text="Details" />
-                                                      <TreeTableColumn fx:id="statusCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Status" />
-                                                   </columns>
-                                                </TreeTableView>
+                                                <Pane prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <TreeTableView fx:id="requestTable" layoutX="15.0" layoutY="10.0" prefHeight="553.0" prefWidth="538.0">
+                                                         <columns>
+                                                            <TreeTableColumn fx:id="userIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
+                                                            <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
+                                                            <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
+                                                            <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
+                                                            <TreeTableColumn fx:id="locationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
+                                                            <TreeTableColumn fx:id="detailsCol" minWidth="0.0" prefWidth="56.7999267578125" text="Details" />
+                                                            <TreeTableColumn fx:id="statusCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Status" />
+                                                         </columns>
+                                                      </TreeTableView>
+                                                   </children>
+                                                </Pane>
                                              </children>
                                           </VBox>
                                        </children></AnchorPane>
