@@ -68,7 +68,7 @@ public class MapController extends Controller {
           "Medicine Delivery Request",
           "Religious Request",
           "Sanitation Request",
-          "Internal Patient Transport Request");
+          "Internal Patient Transport Request", "Robot Request");
 
   @FXML
   ObservableList<String> filterItems =
@@ -92,7 +92,7 @@ public class MapController extends Controller {
           "Medicine Delivery Requests",
           "Religious Requests",
           "Sanitation Requests",
-          "Internal Patient Transport Requests");
+          "Internal Patient Transport Requests", "Robot Request");
 
   private static class SingletonHelper {
     private static final MapController controller = new MapController();
