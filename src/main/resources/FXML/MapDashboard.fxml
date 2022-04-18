@@ -96,7 +96,7 @@
                            <content>
                               <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                                 <tabs>
-                                  <Tab text="Equipment">
+                                  <Tab onSelectionChanged="#updateAll" text="Equipment">
                                        <content>
                                           <TreeTableView prefHeight="230.0" prefWidth="298.0">
                                             <columns>
@@ -106,7 +106,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                  <Tab text="Service Requests">
+                                  <Tab onSelectionChanged="#updateAll" text="Service Requests">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                             <columns>
@@ -117,7 +117,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                    <Tab text="Patients">
+                                    <Tab onSelectionChanged="#updateAll" text="Patients">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                              <columns>
