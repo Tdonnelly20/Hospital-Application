@@ -104,7 +104,7 @@ public class MapManager {
   /** Loads every location and gives each the correct icon image */
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
-      if (floorList.get(i).containsIcon(l)) {
+      if (floorList.get(i).containsIcon(l, Icon.IconType.Location)) {
         if (floorList.get(i).getIcon(l).iconType.equals(Icon.IconType.Location)) {
           if (l.getIcon().hasActiveRequests()) {
             l.getIcon().changeImages();
