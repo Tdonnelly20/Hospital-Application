@@ -128,9 +128,6 @@ public class MapManager {
       for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
         for (Floor floor : floorList) {
           for (Icon icon : floor.getIconList()) {
-            System.out.println("Type: " + serviceRequest.getType());
-            System.out.println("Location: " + serviceRequest.getLocation());
-            System.out.println("Node ID: " + serviceRequest.getLocation().getNodeID());
             if (serviceRequest.getLocation() != null) {
               if (serviceRequest.getLocation().getNodeID() != null) {
                 if (icon.iconType.equals(Icon.IconType.Location)
