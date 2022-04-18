@@ -129,8 +129,7 @@ public class PopupController {
     stage.setMaxWidth(450);
     stage.setMinHeight(450);
     stage.setMinWidth(450);
-    stage.setOnCloseRequest(
-        event -> clearPopupForm());
+    stage.setOnCloseRequest(event -> clearPopupForm());
   }
 
   /** Opens the initial icon window */
@@ -232,15 +231,12 @@ public class PopupController {
       stage.setTitle(icon.getLocation().getLongName());
       buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
       addButton.setText("Add a Service Request");
-      addButton.setOnAction(
-          event1 -> requestAdditionForm(event, icon));
+      addButton.setOnAction(event1 -> requestAdditionForm(event, icon));
       insertServiceRequests(icon);
     }
     formSetup(event);
-    modifyButton.setOnAction(
-        event1 -> locationModifyForm(event, icon));
-    removeButton.setOnAction(
-        event1 -> locationRemoveForm(event, icon));
+    modifyButton.setOnAction(event1 -> locationModifyForm(event, icon));
+    removeButton.setOnAction(event1 -> locationRemoveForm(event, icon));
     if (!stage.isShowing()) {
       showPopUp();
     }
@@ -339,9 +335,7 @@ public class PopupController {
                     field2.getText(),
                     Double.parseDouble(field3.getText()),
                     Double.parseDouble(field4.getText()),
-                    MapManager.getManager()
-                        .getFloor(comboBox1.getValue())
-                        .getFloorName(),
+                    MapManager.getManager().getFloor(comboBox1.getValue()).getFloorName(),
                     field5.getText(),
                     field6.getText(),
                     field7.getText(),
@@ -483,8 +477,7 @@ public class PopupController {
     content.getChildren().clear();
     formSetup(event);
     buttonBox.getChildren().addAll(returnButton, addButton, closeButton);
-    addButton.setOnAction(
-        event1 -> requestAdditionForm(event, null));
+    addButton.setOnAction(event1 -> requestAdditionForm(event, null));
   }
 
   /** */
@@ -506,8 +499,7 @@ public class PopupController {
                 "Sanitation Request",
                 "Religious Request"));
     comboBox1.setValue("Service Request");
-    comboBox1.setOnAction(
-        event1 -> fitServiceRequest(event, comboBox1.getValue(), icon));
+    comboBox1.setOnAction(event1 -> fitServiceRequest(event, comboBox1.getValue(), icon));
     comboBox2 =
         new JFXComboBox<>(FXCollections.observableArrayList("Not Started", "Processing", "Done"));
     comboBox2.setValue("Status");
@@ -548,8 +540,8 @@ public class PopupController {
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
                       icon.getLocation().getNodeID(),
-                          comboBox2.getValue(),
-                          comboBox3.getValue());
+                      comboBox2.getValue(),
+                      comboBox3.getValue());
               addRequest(event, icon, request);
             });
         break;
@@ -569,10 +561,10 @@ public class PopupController {
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
                       icon.getLocation().getNodeID(),
-                          comboBox2.getValue(),
+                      comboBox2.getValue(),
                       field4.getText(),
                       Integer.parseInt(field3.getText()),
-                          comboBox3.getValue());
+                      comboBox3.getValue());
 
               addRequest(event, icon, request);
             });
@@ -738,12 +730,9 @@ public class PopupController {
       insertEquipment(icon);
     }
     addButton.setText("Add Equipment");
-    addButton.setOnAction(
-        event1 -> equipmentAdditionForm(event, icon));
-    modifyButton.setOnAction(
-        event1 -> equipmentModifyForm());
-    removeButton.setOnAction(
-        event1 -> equipmentRemoveForm(icon));
+    addButton.setOnAction(event1 -> equipmentAdditionForm(event, icon));
+    modifyButton.setOnAction(event1 -> equipmentModifyForm());
+    removeButton.setOnAction(event1 -> equipmentRemoveForm(icon));
     stage.setTitle("Equipment");
     if (!stage.isShowing()) {
       showPopUp();

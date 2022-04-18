@@ -263,9 +263,11 @@ public class MapController extends Controller {
   /** Filters by service requests and locations */
   private void filterRequestsAndLocations() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    if (filter.contains("Service Requests") || filter.contains("Locations")) {
+    if (filter.contains("Service Requests")
+        || filter.contains("Locations")
+        || filterContainsRequests()) {
       for (LocationIcon icon : currFloor.getLocationIcons()) {
-        if (filter.contains("Service Requests")
+        if ((filter.contains("Service Requests") || filterContainsRequests())
             && icon.getRequestsArr().size() > 0) { // Filter Service Request
           if (filter.contains("Active Requests") && icon.hasActiveRequests()) {
             filterByActiveRequestType(icon);
@@ -280,20 +282,28 @@ public class MapController extends Controller {
     }
   }
 
-  public boolean filterContainsSpecificRequests() {
+  public boolean filterContainsRequests() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    return (!filter.contains("Lab Requests")
-        && !filter.contains("Equipment Delivery Requests")
-        && !filter.contains("Meal Delivery Requests")
-        && !filter.contains("Laundry Requests")
-        && !filter.contains("Medicine Delivery Requests")
-        && !filter.contains("Religious Requests")
-        && !filter.contains("Sanitation Requests")
-        && !filter.contains("Internal Patient Transport Requests"));
+    if (filter.contains("Lab Requests")
+        || filter.contains("Equipment Delivery Requests")
+        || filter.contains("Meal Delivery Requests")
+        || filter.contains("Laundry Requests")
+        || filter.contains("Medicine Delivery Requests")
+        || filter.contains("Religious Requests")
+        || filter.contains("Sanitation Requests")
+        || filter.contains("Internal Patient Transport Requests")) {
+      if (!filter.contains("Service Requests")) {
+        filterCheckBox.getCheckModel().check("Service Requests");
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
+
   /** Filters by active request and by request type */
   public void filterByActiveRequestType(LocationIcon icon) {
-    if (filterContainsSpecificRequests() && icon.hasActiveRequests()) {
+    if (!filterContainsRequests() && icon.hasActiveRequests()) {
       if (!mapPane.getChildren().contains(icon.getImage())) {
         mapPane.getChildren().add(icon.getImage());
       }
@@ -306,7 +316,7 @@ public class MapController extends Controller {
 
   /** Filter by request type */
   public void filterByRequestType(LocationIcon icon) {
-    if (filterContainsSpecificRequests()) {
+    if (!filterContainsRequests()) {
       if (!mapPane.getChildren().contains(icon.getImage())) {
         mapPane.getChildren().add(icon.getImage());
       }

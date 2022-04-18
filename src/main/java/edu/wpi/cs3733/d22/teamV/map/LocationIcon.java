@@ -60,11 +60,9 @@ public class LocationIcon extends Icon {
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setValue(request.getStatus());
         updateStatus.setPromptText(request.getStatus());
-        updateStatus.setOnAction(
-            event1 -> request.setStatus(updateStatus.getValue()));
+        updateStatus.setOnAction(event1 -> request.setStatus(updateStatus.getValue()));
         Button deleteRequest = new Button("Delete");
-        deleteRequest.setOnAction(
-            event -> removeRequests(request));
+        deleteRequest.setOnAction(event -> removeRequests(request));
 
         Accordion accordion =
             new Accordion(
@@ -105,11 +103,9 @@ public class LocationIcon extends Icon {
 
   public boolean hasActiveRequests() {
     for (ServiceRequest serviceRequest : requestsArr) {
-      System.out.println(serviceRequest.getStatus());
       if (serviceRequest.getStatus() != null) {
         if (serviceRequest.getStatus().equals("Not Started")
             || serviceRequest.getStatus().equals("Processing")) {
-
           return true;
         }
       }
