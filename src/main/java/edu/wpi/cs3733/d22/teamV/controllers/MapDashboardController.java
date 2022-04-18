@@ -185,6 +185,42 @@ public class MapDashboardController extends Controller {
   }
 
   @FXML
+  public void switchToLL1(MouseEvent event) {
+    curFloor = MapManager.getManager().getFloor("LL1");
+    updateListeners(curFloor);
+  }
+
+  @FXML
+  public void switchToF1(MouseEvent event) {
+    curFloor = MapManager.getManager().getFloor("1");
+    updateListeners(curFloor);
+  }
+
+  @FXML
+  public void switchToF2(MouseEvent event) {
+    curFloor = MapManager.getManager().getFloor("2");
+    updateListeners(curFloor);
+  }
+
+  @FXML
+  public void switchToF3(MouseEvent event) {
+    curFloor = MapManager.getManager().getFloor("3");
+    updateListeners(curFloor);
+  }
+
+  @FXML
+  public void switchToF4(MouseEvent event) {
+    curFloor = MapManager.getManager().getFloor("4");
+    updateListeners(curFloor);
+  }
+
+  @FXML
+  public void switchToF5(MouseEvent event) {
+    curFloor = MapManager.getManager().getFloor("5");
+    updateListeners(curFloor);
+  }
+
+  @FXML
   public void updateListeners(Floor floor) {
     for (DashboardListener l : listeners) {
       l.setFloor(floor);
