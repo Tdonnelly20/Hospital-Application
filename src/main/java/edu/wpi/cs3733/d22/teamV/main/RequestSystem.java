@@ -70,6 +70,9 @@ public class RequestSystem {
     return SingletonMaker.requestSystem;
   }
 
+  public EquipmentDao getEquipmentDao(){
+    return equipmentDao;
+  }
   public DaoInterface getDao(Dao dao) {
     switch (dao) {
       case EquipmentDelivery:
