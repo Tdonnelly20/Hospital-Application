@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.map;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
+import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
@@ -115,6 +116,7 @@ public class EquipmentIcon extends Icon {
       image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
     }
+    MapDashboardController.getController().updateCounts();
   }
 
   public void removeEquipment(Equipment equipment) {

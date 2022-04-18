@@ -539,7 +539,7 @@ public class MapController extends Controller {
       RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
     } else {
       RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
-      MapDashboardController.getController().updateEquipmentCount();
+      MapDashboardController.getController().updateCounts();
     }
     PopupController.getController().closePopUp();
     addToMapPane(icon);
