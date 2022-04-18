@@ -359,6 +359,7 @@ public class MapController extends Controller {
         break;
       case Equipment:
         RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
+        MapDashboardController.getController().updateEquipmentCount();
         break;
     }
     PopupController.getController().closePopUp();
@@ -373,6 +374,7 @@ public class MapController extends Controller {
       RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     } else {
       RequestSystem.getSystem().deleteEquipment(((EquipmentIcon) icon));
+      MapDashboardController.getController().updateEquipmentCount();
     }
     if (PopupController.getController().stage.isShowing()) {
       PopupController.getController().closePopUp();

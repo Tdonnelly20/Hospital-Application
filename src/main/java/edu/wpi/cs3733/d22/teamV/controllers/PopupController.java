@@ -81,8 +81,8 @@ public class PopupController {
   @FXML
   public void closePopUp() {
     if (stage.isShowing()) {
-      stage.close();
       content.getChildren().clear();
+      stage.close();
     }
   }
 
@@ -138,6 +138,7 @@ public class PopupController {
   /** */
   @FXML
   public void iconWindow(MouseEvent event) {
+    content.getChildren().clear();
     title.setText("Please choose an option");
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(locationButton, equipmentButton, requestButton, closeButton);

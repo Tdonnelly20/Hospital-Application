@@ -12,22 +12,38 @@ import lombok.Setter;
 public class Floor {
   private String floorName;
   private Image map;
-  private ArrayList<Icon> iconList = new ArrayList<Icon>();
+  private int dirtyEquipmentCount;
+  private int activeRequestCount;
   private ArrayList<EquipmentIcon> equipmentIcons = new ArrayList<>();
   private ArrayList<LocationIcon> locationIcons = new ArrayList<>();
 
   public Floor(String floorName, Image map) {
     this.floorName = floorName;
     this.map = map;
+    this.dirtyEquipmentCount = 0;
+    this.activeRequestCount = 0;
   }
 
   public void addIcon(Icon icon) {
-    iconList.add(icon);
+    if (icon.iconType.equals(Icon.IconType.Location)) {
+      locationIcons.add((LocationIcon) icon);
+    } else {
+      equipmentIcons.add((EquipmentIcon) icon);
+    }
+  }
+
+  public ArrayList<Icon> getIconList() {
+    ArrayList<Icon> iconList = new ArrayList<>();
+    iconList.addAll(equipmentIcons);
+    iconList.addAll(locationIcons);
+    return iconList;
   }
 
   public void removeIcon(Icon icon) {
-    if (iconList.contains(icon)) {
-      iconList.remove(icon);
+    if (icon.iconType.equals(Icon.IconType.Location)) {
+      locationIcons.remove((LocationIcon) icon);
+    } else {
+      equipmentIcons.remove((EquipmentIcon) icon);
     }
   }
 
@@ -35,17 +51,25 @@ public class Floor {
     return floorName;
   }
 
-  public boolean containsIcon(Location location) {
-    for (Icon icon : iconList) {
-      if (icon.getLocation().equals(location)) {
-        return true;
+  public boolean containsIcon(Location location, Icon.IconType type) {
+    if (type.equals(Icon.IconType.Location)) {
+      for (Icon icon : locationIcons) {
+        if (icon.getLocation().equals(location)) {
+          return true;
+        }
+      }
+    } else {
+      for (Icon icon : equipmentIcons) {
+        if (icon.getLocation().equals(location)) {
+          return true;
+        }
       }
     }
     return false;
   }
 
   public Icon getIcon(Location location) {
-    for (Icon icon : iconList) {
+    for (Icon icon : getIconList()) {
       if (icon.getLocation().equals(location)) {
         return icon;
       }
@@ -53,18 +77,25 @@ public class Floor {
     return null;
   }
 
-  public ArrayList<EquipmentIcon> getEquipmentIcons() {
-    ArrayList<EquipmentIcon> equipmentIcons = new ArrayList<>();
-    for (Icon icon : iconList) {
-      if (icon.iconType.equals(Icon.IconType.Equipment)) {
-        equipmentIcons.add((EquipmentIcon) icon);
+  public Icon getIcon(Location location, Icon.IconType type) {
+    if (type.equals(Icon.IconType.Location)) {
+      for (Icon icon : locationIcons) {
+        if (icon.getLocation().equals(location)) {
+          return icon;
+        }
+      }
+    } else {
+      for (Icon icon : equipmentIcons) {
+        if (icon.getLocation().equals(location)) {
+          return icon;
+        }
       }
     }
-    return equipmentIcons;
+    return null;
   }
 
   public boolean hasEquipmentIconAt(double x, double y) {
-    for (EquipmentIcon icon : getEquipmentIcons()) {
+    for (EquipmentIcon icon : equipmentIcons) {
       if ((icon.xCoord == x) && (icon.yCoord == y)) {
         return true;
       }
@@ -73,7 +104,7 @@ public class Floor {
   }
 
   public void addToEquipmentIcon(double x, double y, Equipment equipment) {
-    for (EquipmentIcon icon : getEquipmentIcons()) {
+    for (EquipmentIcon icon : equipmentIcons) {
       if ((icon.xCoord == x) && (icon.yCoord == y)) {
         icon.addToEquipmentList(equipment);
         break;

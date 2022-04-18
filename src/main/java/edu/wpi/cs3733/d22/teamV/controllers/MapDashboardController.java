@@ -64,7 +64,13 @@ public class MapDashboardController extends Controller {
   private @FXML TitledPane mapTPane;
   private @FXML TitledPane alertsTPane;
 
-  public MapDashboardController() throws IOException {}
+  private static class SingletonHelper {
+    private static final MapDashboardController controller = new MapDashboardController();
+  }
+
+  public static MapDashboardController getController() {
+    return SingletonHelper.controller;
+  }
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
@@ -97,6 +103,12 @@ public class MapDashboardController extends Controller {
 
   public void updateEquipTable() {}
 
+  @FXML
+  public void updateEquipmentCount() {
+    int totalCounter = curFloor.getEquipmentIcons().size();
+    int cleanCounter;
+    int dirtyCounter;
+  }
   /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
   private Floor curFloor = MapManager.getManager().getFloor("1");
