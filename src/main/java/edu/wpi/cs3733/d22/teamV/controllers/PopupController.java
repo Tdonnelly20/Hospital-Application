@@ -107,7 +107,7 @@ public class PopupController {
     buttonBox.setAlignment(Pos.CENTER);
     content.setAlignment(Pos.TOP_CENTER);
     contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-    contentScroll.setPrefHeight(400);
+    contentScroll.setFitToHeight(true);
     contentScroll.setFitToWidth(true);
 
     sceneVbox.getChildren().addAll(titleBox, buttonBox, contentScroll);
