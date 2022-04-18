@@ -10,7 +10,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -258,46 +257,8 @@ public class PopupController {
   /** Populates a location icon's popup window with its service requests */
   @FXML
   public void insertServiceRequests(LocationIcon icon) {
-    content.getChildren().clear();
-    ObservableList<String> statusStrings =
-        FXCollections.observableArrayList("Not Started", "Processing", "Done");
     if (icon.getRequestsArr().size() > 0) {
-      VBox vBox = new VBox();
-      ScrollPane scrollPane = new ScrollPane(vBox);
-      scrollPane.setFitToHeight(true);
-      scrollPane.setPannable(false);
-      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      vBox.setPrefWidth(450);
-      vBox.setPrefHeight(400);
-      for (ServiceRequest request : icon.getRequestsArr()) {
-        System.out.println(request.toString());
-        Label idLabel = new Label("Employee: " + request.getHospitalEmployee().getEmployeeID());
-        Label locationLabel =
-            new Label(
-                "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
-
-        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-        updateStatus.setValue(request.getStatus());
-        updateStatus.setPromptText(request.getStatus());
-        updateStatus.setOnAction(
-            event1 -> {
-              request.setStatus(updateStatus.getValue().toString());
-            });
-        Button deleteRequest = new Button("Delete");
-        deleteRequest.setOnAction(
-            event -> {
-              icon.removeRequests(request);
-            });
-
-        Accordion accordion =
-            new Accordion(
-                new TitledPane(
-                    request.getRequestName() + ": " + request.getStatus(),
-                    new VBox(15, idLabel, locationLabel, updateStatus)));
-        accordion.setPrefWidth(450);
-        vBox.getChildren().add(accordion);
-      }
-      content.getChildren().add(scrollPane);
+      content.getChildren().add(icon.compileList());
     }
   }
 
@@ -677,7 +638,8 @@ public class PopupController {
                       Integer.parseInt(field1.getText()),
                       Integer.parseInt(field2.getText()),
                       icon.getLocation().getNodeID(),
-                      field3.getText());
+                      field3.getText(),
+                      comboBox3.getValue());
               addRequest(event, icon, request);
             });
         break;
@@ -866,54 +828,8 @@ public class PopupController {
   /** Populates a location icon's popup window with its service requests */
   @FXML
   public void insertEquipment(EquipmentIcon icon) {
-    ObservableList<String> statusStrings = FXCollections.observableArrayList("Clean", "Dirty");
     if (icon.getEquipmentList().size() > 0) {
-      VBox vBox = new VBox();
-      ScrollPane scrollPane = new ScrollPane(vBox);
-      scrollPane.setFitToHeight(true);
-      scrollPane.setPannable(false);
-      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      vBox.setPrefWidth(450);
-      vBox.setPrefHeight(400);
-      for (Equipment equipment : icon.getEquipmentList()) {
-        Label idLabel = new Label("ID: " + equipment.getID());
-        Button deleteEquipment = new Button("Delete");
-        deleteEquipment.setOnAction(
-            event -> {
-              icon.removeEquipment(equipment);
-              if (icon.getEquipmentList().size() == 0) {
-                deleteIcon(equipment.getIcon());
-              }
-            });
-        Label locationLabel =
-            new Label(
-                "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
-
-        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-        updateStatus.setPromptText(equipment.getIsDirtyString());
-        updateStatus.setValue(equipment.getIsDirtyString());
-        updateStatus.setOnAction(
-            event1 -> {
-              if (comboBox2.getValue().equals("Dirty")) {
-                equipment.setIsDirty(true);
-              } else {
-                equipment.setIsDirty(false);
-              }
-            });
-        HBox hbox = new HBox(15, updateStatus, deleteEquipment);
-        Accordion accordion =
-            new Accordion(
-                new TitledPane(
-                    equipment.getName()
-                        + " ("
-                        + equipment.getIsDirtyString()
-                        + "): "
-                        + equipment.getDescription(),
-                    new VBox(15, idLabel, locationLabel, hbox)));
-        accordion.setPrefWidth(450);
-        vBox.getChildren().add(accordion);
-      }
-      content.getChildren().add(scrollPane);
+      content.getChildren().add(icon.compileList());
     }
   }
 

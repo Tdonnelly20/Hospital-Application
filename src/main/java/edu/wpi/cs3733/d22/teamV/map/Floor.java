@@ -120,7 +120,7 @@ public class Floor {
     for (LocationIcon icon : locationIcons) {
       if (icon.getLocation().equals(request.getLocation())) {
         icon.getRequestsArr().add(request);
-        RequestSystem.getSystem().addServiceRequest(request);
+        // RequestSystem.getSystem().addServiceRequest(request);
       }
     }
   }

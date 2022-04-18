@@ -1,11 +1,17 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +34,7 @@ public class EquipmentIcon extends Icon {
         event -> {
           if (event.getClickCount() == 2) {
             PopupController.getController().equipmentForm(event, this);
+            // MapController.getController().ewuipmentForm(event, this);
           }
         });
     image.setOnMouseReleased(
@@ -41,6 +48,58 @@ public class EquipmentIcon extends Icon {
           image.setFitWidth(15);
           image.setFitHeight(15);
         });
+  }
+
+  @Override
+  public ScrollPane compileList() {
+    if (equipmentList.size() > 0) {
+      ObservableList<String> statusStrings = FXCollections.observableArrayList("Clean", "Dirty");
+      VBox vBox = new VBox();
+      ScrollPane scrollPane = new ScrollPane(vBox);
+      scrollPane.setFitToHeight(true);
+      scrollPane.setPannable(false);
+      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+      vBox.setPrefWidth(450);
+      vBox.setPrefHeight(400);
+      for (Equipment equipment : equipmentList) {
+        Label idLabel = new Label("ID: " + equipment.getID());
+        Button deleteEquipment = new Button("Delete");
+        deleteEquipment.setOnAction(
+            event -> {
+              removeEquipment(equipment);
+              if (getEquipmentList().size() == 0) {
+                MapController.getController().removeIconForm(this);
+              }
+            });
+        Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
+
+        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
+        updateStatus.setPromptText(equipment.getIsDirtyString());
+        updateStatus.setValue(equipment.getIsDirtyString());
+        updateStatus.setOnAction(
+            event1 -> {
+              if (updateStatus.getValue().equals("Dirty")) {
+                equipment.setIsDirty(true);
+              } else {
+                equipment.setIsDirty(false);
+              }
+            });
+        HBox hbox = new HBox(15, updateStatus, deleteEquipment);
+        Accordion accordion =
+            new Accordion(
+                new TitledPane(
+                    equipment.getName()
+                        + " ("
+                        + equipment.getIsDirtyString()
+                        + "): "
+                        + equipment.getDescription(),
+                    new VBox(15, idLabel, locationLabel, hbox)));
+        accordion.setPrefWidth(450);
+        vBox.getChildren().add(accordion);
+      }
+      return scrollPane;
+    }
+    return null;
   }
 
   public void addToEquipmentList(Equipment equipment) {

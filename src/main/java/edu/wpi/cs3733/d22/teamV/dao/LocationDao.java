@@ -163,7 +163,7 @@ public class LocationDao {
           l.getLongName(),
           l.getShortName(),
         };
-        bw.append("/n");
+        bw.append("\n");
         for (String s : outputData) {
           bw.append(s);
           bw.append(',');

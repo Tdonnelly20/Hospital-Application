@@ -281,14 +281,14 @@ public class RequestSystem {
   }
 
   public void deleteLocation(String nodeID) {
-    for (ServiceRequest request : getLocation(nodeID).getRequests()) {
-      try {
-        removeServiceRequest(request);
-      } catch (IOException | SQLException e) {
-        e.printStackTrace();
+    if (getLocation(nodeID) != null) {
+      if (getLocation(nodeID).getRequests().size() > 0) {
+        for (ServiceRequest request : getLocation(nodeID).getRequests()) {
+          removeServiceRequest(request);
+        }
       }
+      locationDao.deleteLocation(nodeID);
     }
-    locationDao.deleteLocation(nodeID);
   }
 
   /**
@@ -301,19 +301,11 @@ public class RequestSystem {
   }
 
   public void addEquipment(Equipment equipment) {
-    try {
-      equipmentDao.addEquipment(equipment);
-    } catch (IOException | SQLException e) {
-      e.printStackTrace();
-    }
+    equipmentDao.addEquipment(equipment);
   }
 
   public void deleteEquipment(Equipment equipment) {
-    try {
-      equipmentDao.removeEquipment(equipment);
-    } catch (IOException | SQLException e) {
-      e.printStackTrace();
-    }
+    equipmentDao.removeEquipment(equipment);
   }
 
   public Equipment getEquipment(String ID) {

@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -13,7 +15,9 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -50,6 +54,9 @@ public class MapController extends Controller {
   @FXML JFXButton floor3 = new JFXButton("Floor 3");
   @FXML JFXButton floor4 = new JFXButton("Floor 4");
   @FXML JFXButton floor5 = new JFXButton("Floor 5");
+  @FXML TextField[] fields = new TextField[10];
+  @FXML JFXComboBox[] comboBoxes = new JFXComboBox[5];
+  @FXML Button submitButton = new Button("Submit");
   private String floorName = "";
 
   @FXML
@@ -99,7 +106,7 @@ public class MapController extends Controller {
   protected void mapSetUp() {
     setUpControls();
     zoom();
-
+    filterCheckBox.setMaxWidth(controlsVBox.getWidth() / 3);
     scrollPane.setPrefSize(550, 550);
     controlsVBox.getChildren().addAll(filterCheckBox, refreshButton);
     mapVBox.getChildren().addAll(scrollPane);
@@ -178,6 +185,9 @@ public class MapController extends Controller {
           System.out.println("Refresh");
           setFloor(floorName);
         });
+    for (int i = 0; i < 10; i++) {
+      fields[i] = new TextField();
+    }
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -247,7 +257,6 @@ public class MapController extends Controller {
       }
     }
   }
-
   /** Filter by Equipment */
   private void filterEquipment() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
@@ -371,6 +380,135 @@ public class MapController extends Controller {
     }
   }
 
+  /** Filter by Equipment */
+  /*private void filterEquipment() {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (filter.contains("Equipment")) { // Filter Equipment
+      for (EquipmentIcon icon : currFloor.getEquipmentIcons()) {
+        if (filter.contains("Clean Equipment")) {
+          if (icon.hasCleanEquipment()) {
+            mapPane.getChildren().add(icon.getImage());
+          }
+        } else {
+          mapPane.getChildren().add(icon.getImage());
+        }
+      }
+    }
+  }*/
+
+  /** Filters by service requests and locations */
+  /*private void filterRequestsAndLocations() {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (filter.contains("Service Requests") || filter.contains("Locations")) {
+      for (LocationIcon icon : currFloor.getLocationIcons()) {
+        if (filter.contains("Service Requests")) { // Filter Service Request
+          if (filter.contains("Active Requests") && (icon).hasActiveRequests()) {
+            filterByActiveRequestType(icon);
+          } else {
+            filterByRequestType(icon);
+          }
+        } else { // Filter Location
+          filterByLocation(icon);
+        }
+      }
+    }
+  }*/
+
+  /** Filters by active request and by request type */
+  /*public void filterByActiveRequestType(LocationIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (!filter.contains("Lab Requests")
+        && !filter.contains("Equipment Delivery Requests")
+        && !filter.contains("Meal Delivery Requests")
+        && !filter.contains("Laundry Requests")
+        && !filter.contains("Medicine Delivery Requests")
+        && !filter.contains("Religious Requests")
+        && !filter.contains("Sanitation Requests")
+        && !filter.contains("Internal Patient Transport Requests")) {
+      mapPane.getChildren().add(icon.getImage());
+    } else if ((filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request"))
+        || (filter.contains("Equipment Delivery Requests")
+            && icon.hasActiveRequestType("Equipment Delivery Request"))
+        || (filter.contains("Meal Delivery Requests")
+            && icon.hasActiveRequestType("Meal Delivery Request"))
+        || (filter.contains("Laundry Requests") && icon.hasActiveRequestType("Laundry Request"))
+        || (filter.contains("Medicine Delivery Requests")
+            && icon.hasActiveRequestType("Medicine Delivery Request"))
+        || (filter.contains("Religious Requests") && icon.hasActiveRequestType("Religious Request"))
+        || (filter.contains("Sanitation Requests")
+            && icon.hasActiveRequestType("Sanitation Request"))
+        || (filter.contains("Internal Patient Transport Requests")
+            && icon.hasActiveRequestType("Internal Patient Transport Request"))) {
+      mapPane.getChildren().add(icon.getImage());
+    }
+  }*/
+
+  /** Filter by request type */
+  /*public void filterByRequestType(LocationIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (!filter.contains("Lab Requests")
+        && !filter.contains("Equipment Delivery Requests")
+        && !filter.contains("Meal Delivery Requests")
+        && !filter.contains("Laundry Requests")
+        && !filter.contains("Medicine Delivery Requests")
+        && !filter.contains("Religious Requests")
+        && !filter.contains("Sanitation Requests")
+        && !filter.contains("Internal Patient Transport Requests")) {
+      if (!mapPane.getChildren().contains(icon.getImage())) {
+        mapPane.getChildren().add(icon.getImage());
+      }
+    } else if ((filter.contains("Lab Requests") && icon.hasRequestType("Lab Request"))
+        || (filter.contains("Equipment Delivery Requests")
+            && icon.hasRequestType("Equipment Delivery Request"))
+        || (filter.contains("Meal Delivery Requests")
+            && icon.hasRequestType("Meal Delivery Request"))
+        || (filter.contains("Laundry Requests") && icon.hasRequestType("Laundry Request"))
+        || (filter.contains("Medicine Delivery Requests")
+            && icon.hasRequestType("Medicine Delivery Request"))
+        || (filter.contains("Religious Requests") && icon.hasRequestType("Religious Request"))
+        || (filter.contains("Sanitation Requests") && icon.hasRequestType("Sanitation Request"))
+        || (filter.contains("Internal Patient Transport Requests")
+            && icon.hasRequestType("Internal Patient Transport Request"))) {
+      mapPane.getChildren().add(icon.getImage());
+    }
+  }
+
+  private boolean filterByType(String type, LocationIcon icon) {
+    Boolean hasActive = true;
+    if (filterCheckBox.getCheckModel().getCheckedItems().contains("Active Requests")) {
+      hasActive = icon.hasActiveRequestType(type);
+    }
+    return filterCheckBox.getCheckModel().getCheckedItems().contains(type + "s") && hasActive;
+  }*/
+
+  /** Filter by location type */
+  /*public void filterByLocation(LocationIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (!filter.contains("Department")
+        && !filter.contains("Hallway")
+        && !filter.contains("Service")
+        && !filter.contains("Elevator")
+        && !filter.contains("Stairway")
+        && !filter.contains("Bathroom")
+        && !filter.contains("Labs")) {
+      if (!mapPane.getChildren().contains(icon.getImage())) {
+        mapPane.getChildren().add(icon.getImage());
+      }
+    } else if ((filter.contains("Department") && icon.getLocation().getNodeType().equals("DEPT"))
+        || (filter.contains("Hallway") && icon.getLocation().getNodeType().equals("HALL"))
+        || (filter.contains("Service") && icon.getLocation().getNodeType().equals("SERV"))
+        || (filter.contains("Elevator") && icon.getLocation().getNodeType().equals("ELEV"))
+        || (filter.contains("Stairway") && icon.getLocation().getNodeType().equals("STAI"))
+        || (filter.contains("Bathroom")
+            && (icon.getLocation().getNodeType().equals("BATH")
+                || icon.getLocation().getNodeType().equals("REST")))
+        || (filter.contains("Labs") && icon.getLocation().getNodeType().equals("LABS"))) {
+      if (!mapPane.getChildren().contains(icon.getImage())) {
+        mapPane.getChildren().add(icon.getImage());
+      }
+    }
+  }*/
+
   @FXML
   private void addToMapPane(Icon icon) {
     if (!mapPane.getChildren().contains(icon.getImage())) {
@@ -413,17 +551,11 @@ public class MapController extends Controller {
   /** Removes Icon from map */
   @FXML
   public void deleteIcon(Icon icon) {
-    System.out.println(icon.getLocation());
-    System.out.println(icon.getLocation().getFloor());
-    MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
+    mapPane.getChildren().remove(icon.getImage());
+    MapManager.getManager().getFloor(floorName).removeIcon(icon);
     if (PopupController.getController().stage.isShowing()) {
       PopupController.getController().closePopUp();
     }
-    removeFromMapPane(icon);
-    // currFloor = MapManager.getManager().getFloor(floorName);
-    // setFloor(floorName);
-    // checkFilter();
-    // populateFloorIconArr();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
@@ -453,6 +585,136 @@ public class MapController extends Controller {
       double yPos = event.getY() - 25;
       PopupController.getController().iconWindow(event);
       // setSubmitLocation(xPos, yPos);
+      addLocationForm(event);
     }
+  }
+
+  @FXML
+  public void clearForm() {
+    for (TextField field : fields) {
+      field = new TextField("");
+    }
+    for (JFXComboBox cb : comboBoxes) {
+      cb = new JFXComboBox<>();
+      cb.setPromptText("Status");
+      cb.setValue(null);
+    }
+    controlsVBox.getChildren().retainAll(filterCheckBox, refreshButton);
+  }
+
+  @FXML
+  private void addAllFields() {
+    controlsVBox.getChildren().add(submitButton);
+    for (TextField field : fields) {
+      if (!field.getPromptText().equals("")) {
+        Label label = new Label(field.getPromptText() + ": ");
+        label.setMinWidth(75);
+        HBox hBox = new HBox(label, field);
+        hBox.setAlignment(Pos.CENTER);
+        controlsVBox.getChildren().add(hBox);
+      }
+    }
+  }
+
+  @FXML
+  public void IconForm(MouseEvent event) {
+    clearForm();
+    Button locationButton = new Button("Location");
+    Button equipmentButton = new Button("Equipment");
+    Button closeButton = new Button("close");
+    locationButton.setOnAction(
+        event2 -> {
+          addLocationForm(event);
+        });
+    equipmentButton.setOnAction(
+        event2 -> {
+          addEquipmentForm(event);
+        });
+    closeButton.setOnAction(
+        event2 -> {
+          clearForm();
+        });
+    controlsVBox.getChildren().addAll(locationButton, equipmentButton, closeButton);
+  }
+
+  @FXML
+  public void locationForm(MouseEvent event, LocationIcon icon) {
+    clearForm();
+    Button add;
+    Button modify = new Button("Modify Location");
+    Button delete = new Button("Delete Location");
+    if (icon == null) {
+      add = new Button("Add Location");
+      add.setOnAction(
+          event1 -> {
+            addLocationForm(event);
+          });
+    } else {
+      add = new Button("Add Service Request");
+      add.setOnAction(
+          event1 -> {
+            addRequestForm(event);
+          });
+    }
+    modify.setOnAction(event1 -> {});
+    delete.setOnAction(event1 -> {});
+  }
+
+  private void addRequestForm(MouseEvent event) {}
+
+  @FXML
+  public void addLocationForm(MouseEvent event) {
+    clearForm();
+    double xPos = event.getX();
+    double yPos = event.getY();
+    fields[0].setPromptText("Location ID");
+    fields[1].setPromptText("Type");
+    fields[2].setPromptText("Long Name");
+    fields[3].setPromptText("Short Name");
+    submitButton.setOnAction(
+        event1 -> {
+          Location newLocation =
+              new Location(
+                  fields[0].getText(),
+                  xPos + 10,
+                  yPos - 10,
+                  floorName,
+                  "Tower",
+                  fields[1].getText(),
+                  fields[2].getText(),
+                  fields[3].getText());
+          LocationIcon newIcon = new LocationIcon(newLocation);
+          newLocation.setIcon(newIcon);
+          addIcon(newIcon);
+          clearForm();
+        });
+    addAllFields();
+  }
+
+  @FXML
+  public void removeIconForm(Icon icon) {
+    clearForm();
+    System.out.println("Deleting Icon");
+    mapPane.getChildren().remove(icon.getImage());
+    MapManager.getManager().getFloor(floorName).removeIcon(icon);
+    clearForm();
+  }
+
+  @FXML
+  public void addEquipmentForm(MouseEvent event) {
+    clearForm();
+    double xPos = event.getX() - 15;
+    double yPos = event.getY() - 25;
+    fields[0].setPromptText("Node ID");
+    fields[1].setPromptText("Long Name");
+    fields[2].setPromptText("Short Name");
+    submitButton.setOnAction(
+        event1 -> {
+          addIcon(
+              new LocationIcon(
+                  PopupController.getController().getLocation(xPos + 25, yPos + 15, floorName)));
+          clearForm();
+        });
+    addAllFields();
   }
 }

@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.map;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,4 +62,7 @@ public abstract class Icon {
           image.setFitHeight(15);
         });
   }
+
+  @FXML
+  public abstract ScrollPane compileList();
 }
