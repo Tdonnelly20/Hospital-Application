@@ -194,42 +194,49 @@ public class MapDashboardController extends Controller {
   public void switchToLL2(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("LL2");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToLL1(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("LL1");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF1(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("1");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF2(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("2");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF3(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("3");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF4(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("4");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF5(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("5");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
@@ -360,5 +367,13 @@ public class MapDashboardController extends Controller {
             + "\n"
             + "Dirty Equipment: "
             + dirty);
+  }
+
+  @FXML
+  private void updateAll() {
+    updateEquipmentTable();
+    updatePatientTable();
+    updateServiceRequestTable();
+    updateCounts();
   }
 }
