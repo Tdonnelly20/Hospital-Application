@@ -6,8 +6,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import java.awt.*;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -243,21 +241,8 @@ public class MedicineDeliveryController extends RequestController {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
-
   @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
-  }
-
-  @FXML
-  private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
+  private void updateSelectedRow() throws NullPointerException {
     updating = true;
     MedicineDelivery delivery =
         medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
