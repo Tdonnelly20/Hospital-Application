@@ -75,16 +75,6 @@ public class MapDashboardController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  public void goBack(MouseEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
 
   public void goExit(MouseEvent mouseEvent) {
     stop();
