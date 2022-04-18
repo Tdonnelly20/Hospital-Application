@@ -9,8 +9,6 @@ import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
-import java.io.IOException;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -189,11 +187,7 @@ public class PopupController {
   void deleteIcon(Location location) {
     System.out.println("Deleted");
     for (ServiceRequest request : location.getIcon().getRequestsArr()) {
-      try {
-        RequestSystem.getSystem().removeServiceRequest(request);
-      } catch (IOException | SQLException e) {
-        e.printStackTrace();
-      }
+      RequestSystem.getSystem().removeServiceRequest(request);
     }
     mapController.deleteIcon(location.getIcon());
     clearPopupForm();
