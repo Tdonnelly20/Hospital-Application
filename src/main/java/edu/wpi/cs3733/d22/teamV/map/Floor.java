@@ -118,7 +118,28 @@ public class Floor {
     for (LocationIcon icon : locationIcons) {
       if (icon.getLocation().equals(request.getLocation())) {
         icon.getRequestsArr().add(request);
-        RequestSystem.getSystem().addServiceRequest(request);
+        RequestSystem.Dao t = RequestSystem.Dao.Equipment;
+        switch (request.getType()) {
+          case "Equipment":
+            t = RequestSystem.Dao.Equipment;
+          case "InternalPatientTransportation":
+            t = RequestSystem.Dao.InternalPatientTransportation;
+          case "LabRequest":
+            t = RequestSystem.Dao.LabRequest;
+          case "LaundryRequest":
+            t = RequestSystem.Dao.LaundryRequest;
+          case "MealRequest":
+            t = RequestSystem.Dao.MealRequest;
+          case "MedicineDelivery":
+            t = RequestSystem.Dao.MedicineDelivery;
+          case "ReligiousRequest":
+            t = RequestSystem.Dao.ReligiousRequest;
+          case "RobotRequest":
+            t = RequestSystem.Dao.RobotRequest;
+          case "SanitationRequest":
+            t = RequestSystem.Dao.SanitationRequest;
+        }
+        RequestSystem.getSystem().addServiceRequest(request, t);
       }
     }
   }
