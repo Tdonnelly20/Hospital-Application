@@ -57,8 +57,8 @@ public class MapManager {
     floorList.add(f4);
     floorList.add(f5);
 
-    setUpLocations();
     loadEquipment();
+    setUpLocations();
     loadRequests();
   }
 

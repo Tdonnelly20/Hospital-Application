@@ -20,8 +20,8 @@ public class EquipmentIcon extends Icon {
     super(location);
     this.iconType = IconType.Equipment;
     equipmentList = new ArrayList<>();
-    image.setFitWidth(30);
-    image.setFitHeight(30);
+    image.setFitWidth(20);
+    image.setFitHeight(20);
     image.setTranslateX((xCoord) - 25);
     image.setTranslateY((yCoord) - 15);
     image.setOnMouseClicked(
@@ -35,6 +35,11 @@ public class EquipmentIcon extends Icon {
           location.setXCoord(location.getXCoord() + event.getX());
           location.setYCoord(location.getYCoord() + event.getY());
           checkBounds();
+        });
+    image.setOnMouseExited(
+        event -> {
+          image.setFitWidth(15);
+          image.setFitHeight(15);
         });
   }
 

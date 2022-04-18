@@ -27,8 +27,8 @@ public abstract class Icon {
     this.yCoord = location.getYCoord();
     this.location = location;
     this.image = new ImageView();
-    image.setFitWidth(30);
-    image.setFitHeight(30);
+    image.setFitWidth(15);
+    image.setFitHeight(15);
     image.setTranslateX(xCoord);
     image.setTranslateY(yCoord);
     image.setOnMousePressed(
@@ -57,8 +57,8 @@ public abstract class Icon {
         });
     image.setOnMouseExited(
         event -> {
-          image.setFitWidth(30);
-          image.setFitHeight(30);
+          image.setFitWidth(15);
+          image.setFitHeight(15);
         });
   }
 }

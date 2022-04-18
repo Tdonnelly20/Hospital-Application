@@ -237,7 +237,7 @@ public class MapController extends Controller {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     currFloor = MapManager.getManager().getFloor(currFloor.getFloorName());
     for (Icon icon : currFloor.getIconList()) {
-      if (filter.contains("Service Requests") && icon.iconType.equals("Location")) {
+      if (filter.contains("Service Requests") && icon.iconType.equals(Icon.IconType.Location)) {
         assert icon instanceof LocationIcon;
         if (((LocationIcon) icon).getRequestsArr().size() > 0) {
           if (filter.contains("Active Requests") && ((LocationIcon) icon).hasActiveRequests()) {
@@ -364,6 +364,7 @@ public class MapController extends Controller {
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
     setFloor(floorName);
+    checkFilter();
   }
 
   public void deleteIcon(Icon icon) {
@@ -377,6 +378,7 @@ public class MapController extends Controller {
       PopupController.getController().closePopUp();
     }
     setFloor(floorName);
+    checkFilter();
   }
 
   public void setSubmitLocation(double xPos, double yPos) {
