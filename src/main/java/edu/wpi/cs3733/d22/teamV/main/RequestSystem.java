@@ -182,7 +182,7 @@ public class RequestSystem {
    */
   public void removeServiceRequest(ServiceRequest request) {
     switch (request.getType()) {
-      case "Equipment Delivery":
+      case "Equipment Delivery Request":
         equipmentDeliveryDao.removeServiceRequest(request);
       case "Internal Patient Transportation Request":
         internalPatientTransportationDao.removeServiceRequest(request);
@@ -192,7 +192,7 @@ public class RequestSystem {
         laundryRequestDao.removeServiceRequest(request);
       case "Meal Request":
         mealRequestDao.removeServiceRequest(request);
-      case "Medicine Delivery":
+      case "Medicine Delivery Request":
         medicineDeliveryDao.removeServiceRequest(request);
       case "Religious Request":
         religiousRequestDao.removeServiceRequest(request);

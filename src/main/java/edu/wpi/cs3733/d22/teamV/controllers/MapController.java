@@ -59,6 +59,17 @@ public class MapController extends Controller {
   @FXML Button submitButton = new Button("Submit");
   private String floorName = "";
 
+  ObservableList<String> requestTypes =
+      FXCollections.observableArrayList(
+          "Lab Request",
+          "Equipment Delivery Request",
+          "Meal Delivery Request",
+          "Laundry Request",
+          "Medicine Delivery Request",
+          "Religious Request",
+          "Sanitation Request",
+          "Internal Patient Transport Request");
+
   @FXML
   ObservableList<String> filterItems =
       FXCollections.observableArrayList(
@@ -292,62 +303,58 @@ public class MapController extends Controller {
     }
   }
 
-  public boolean filterContainsRequests() {
+  public boolean filterContainsSpecificRequests() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    return (!filter.contains("Lab Requests")
-        && !filter.contains("Equipment Delivery Requests")
-        && !filter.contains("Meal Delivery Requests")
-        && !filter.contains("Laundry Requests")
-        && !filter.contains("Medicine Delivery Requests")
-        && !filter.contains("Religious Requests")
-        && !filter.contains("Sanitation Requests")
-        && !filter.contains("Internal Patient Transport Requests"));
+    return (filter.contains("Lab Requests")
+        || filter.contains("Equipment Delivery Requests")
+        || filter.contains("Meal Delivery Requests")
+        || filter.contains("Laundry Requests")
+        || filter.contains("Medicine Delivery Requests")
+        || filter.contains("Religious Requests")
+        || filter.contains("Sanitation Requests")
+        || filter.contains("Internal Patient Transport Requests"));
   }
   /** Filters by active request and by request type */
   public void filterByActiveRequestType(LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    if (filterContainsRequests() && icon.hasActiveRequests()) {
+    if (!filterContainsSpecificRequests() && icon.hasActiveRequests()) {
       if (!mapPane.getChildren().contains(icon.getImage())) {
         mapPane.getChildren().add(icon.getImage());
       }
-    } else if ((filter.contains("Lab Requests") && icon.hasActiveRequestType("Lab Request"))
-        || (filter.contains("Equipment Delivery Requests")
-            && icon.hasActiveRequestType("Equipment Delivery Request"))
-        || (filter.contains("Meal Delivery Requests")
-            && icon.hasActiveRequestType("Meal Delivery Request"))
-        || (filter.contains("Laundry Requests") && icon.hasActiveRequestType("Laundry Request"))
-        || (filter.contains("Medicine Delivery Requests")
-            && icon.hasActiveRequestType("Medicine Delivery Request"))
-        || (filter.contains("Religious Requests") && icon.hasActiveRequestType("Religious Request"))
-        || (filter.contains("Sanitation Requests")
-            && icon.hasActiveRequestType("Sanitation Request"))
-        || (filter.contains("Internal Patient Transport Requests")
-            && icon.hasActiveRequestType("Internal Patient Transport Request"))) {
-      mapPane.getChildren().add(icon.getImage());
+    } else {
+      for (String requestType : requestTypes) {
+        filterRequests(requestType, icon);
+      }
     }
   }
 
   /** Filter by request type */
   public void filterByRequestType(LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
-    if (filterContainsRequests()) {
+    if (!filterContainsSpecificRequests()) {
       if (!mapPane.getChildren().contains(icon.getImage())) {
         mapPane.getChildren().add(icon.getImage());
       }
-    } else if ((filter.contains("Lab Requests") && icon.hasRequestType("Lab Request"))
-        || (filter.contains("Equipment Delivery Requests")
-            && icon.hasRequestType("Equipment Delivery Request"))
-        || (filter.contains("Meal Delivery Requests")
-            && icon.hasRequestType("Meal Delivery Request"))
-        || (filter.contains("Laundry Requests") && icon.hasRequestType("Laundry Request"))
-        || (filter.contains("Medicine Delivery Requests")
-            && icon.hasRequestType("Medicine Delivery Request"))
-        || (filter.contains("Religious Requests") && icon.hasRequestType("Religious Request"))
-        || (filter.contains("Sanitation Requests") && icon.hasRequestType("Sanitation Request"))
-        || (filter.contains("Internal Patient Transport Requests")
-            && icon.hasRequestType("Internal Patient Transport Request"))) {
-      if (!mapPane.getChildren().contains(icon.getImage())) {
-        mapPane.getChildren().add(icon.getImage());
+    } else {
+      for (String requestType : requestTypes) {
+        filterRequests(requestType, icon);
+      }
+    }
+  }
+
+  private void filterRequests(String requestType, LocationIcon icon) {
+    ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
+    if (filter.contains("Active Requests")) {
+      if (filter.contains(requestType + "s") && icon.hasActiveRequestType(requestType)) {
+        if (!mapPane.getChildren().contains(icon.getImage())) {
+          mapPane.getChildren().addAll(icon.getImage());
+        }
+      }
+    } else {
+      if (filter.contains(requestType + "s") && icon.hasRequestType(requestType)) {
+        if (!mapPane.getChildren().contains(icon.getImage())) {
+          mapPane.getChildren().addAll(icon.getImage());
+        }
       }
     }
   }
