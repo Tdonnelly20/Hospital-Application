@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
