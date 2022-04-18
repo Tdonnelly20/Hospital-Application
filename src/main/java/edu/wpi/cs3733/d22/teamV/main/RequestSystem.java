@@ -308,6 +308,14 @@ public class RequestSystem {
     return null;
   }
 
+  public void addEquipment(ArrayList<Equipment> equipment) {
+    for (Equipment e : equipment) {
+      if (!equipmentDao.getAllEquipment().contains(e)) {
+        addEquipment(e);
+      }
+    }
+  }
+
   public ArrayList<Patient> getPatients() {
     return patientDao.getAllPatients();
   }
