@@ -61,14 +61,10 @@ public class LocationIcon extends Icon {
         updateStatus.setValue(request.getStatus());
         updateStatus.setPromptText(request.getStatus());
         updateStatus.setOnAction(
-            event1 -> {
-              request.setStatus(updateStatus.getValue().toString());
-            });
+            event1 -> request.setStatus(updateStatus.getValue()));
         Button deleteRequest = new Button("Delete");
         deleteRequest.setOnAction(
-            event -> {
-              removeRequests(request);
-            });
+            event -> removeRequests(request));
 
         Accordion accordion =
             new Accordion(

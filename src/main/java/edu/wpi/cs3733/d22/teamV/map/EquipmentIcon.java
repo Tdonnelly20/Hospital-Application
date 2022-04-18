@@ -78,13 +78,7 @@ public class EquipmentIcon extends Icon {
         updateStatus.setPromptText(equipment.getIsDirtyString());
         updateStatus.setValue(equipment.getIsDirtyString());
         updateStatus.setOnAction(
-            event1 -> {
-              if (updateStatus.getValue().equals("Dirty")) {
-                equipment.setIsDirty(true);
-              } else {
-                equipment.setIsDirty(false);
-              }
-            });
+            event1 -> equipment.setIsDirty(updateStatus.getValue().equals("Dirty")));
         HBox hbox = new HBox(15, updateStatus, deleteEquipment);
         Accordion accordion =
             new Accordion(
