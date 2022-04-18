@@ -19,15 +19,9 @@ public class ReligiousRequest extends ServiceRequest {
       int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
     this.patientID = patientID;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
-<<<<<<< Updated upstream
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.employeeID = patientID;
-=======
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
-    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.employeeID = employeeID;
->>>>>>> Stashed changes
     this.religion = religion;
     this.details = specialRequests;
     this.type = "Religious Request";
@@ -36,20 +30,12 @@ public class ReligiousRequest extends ServiceRequest {
   public int getPatientID() {
     return patientID;
   }
-
-<<<<<<< Updated upstream
-  public int getServiceID() {
-    return serviceID;
-  }
-
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
     updateAllObservers();
   }
 
-=======
->>>>>>> Stashed changes
   public int getEmpID() {
     return employeeID;
   }
@@ -58,16 +44,14 @@ public class ReligiousRequest extends ServiceRequest {
     return religion;
   }
 
-<<<<<<< Updated upstream
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
-    super.update(directionalAssoc);
-    Vdb.requestSystem
-        .getDao(RequestSystem.Dao.ReligiousRequest)
-        .updateServiceRequest(this, getServiceID());
-=======
+      super.update(directionalAssoc);
+      Vdb.requestSystem
+              .getDao(RequestSystem.Dao.ReligiousRequest)
+              .updateServiceRequest(this, getServiceID());
+  }
   public String getDetails() {
     return details;
->>>>>>> Stashed changes
   }
 }

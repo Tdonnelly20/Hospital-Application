@@ -1,11 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
-<<<<<<< Updated upstream
-=======
 import edu.wpi.cs3733.d22.teamV.dao.ReligiousRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
->>>>>>> Stashed changes
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import java.io.IOException;
