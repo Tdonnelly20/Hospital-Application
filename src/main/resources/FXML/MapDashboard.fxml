@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
+<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
    <children>
       <VBox prefHeight="800.0" prefWidth="1200.0">
          <children>
@@ -175,22 +175,22 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button fx:id="ll1" mnemonicParsing="false" text="LL1">
+                  <Button fx:id="ll1" mnemonicParsing="false" onAction="#switchToLL1" text="LL1">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button fx:id="f1" mnemonicParsing="false" text="1">
+                  <Button fx:id="f1" mnemonicParsing="false" onAction="#switchToF1" text="1">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button fx:id="f2" mnemonicParsing="false" text="2" />
-                  <Button fx:id="f3" mnemonicParsing="false" text="3" />
-                  <Button fx:id="f4" mnemonicParsing="false" text="4">
+                  <Button fx:id="f2" mnemonicParsing="false" onAction="#switchToF2" text="2" />
+                  <Button fx:id="f3" mnemonicParsing="false" onAction="#switchToF3" text="3" />
+                  <Button fx:id="f4" mnemonicParsing="false" onAction="#switchToF4" text="4">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="f5" mnemonicParsing="false" text="5" />
+                  <Button fx:id="f5" mnemonicParsing="false" onAction="#switchToF5" text="5" />
                </children>
                <padding>
                   <Insets bottom="20.0" top="10.0" />
