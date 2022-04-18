@@ -2,9 +2,9 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.PatientDao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
-import java.io.IOException;
-import java.sql.SQLException;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class PatientController extends MapController {
 
-  private static final PatientDao patientDao = (PatientDao) Vdb.requestSystem.getPatientDao();
+  private static final PatientDao patientDao = Vdb.requestSystem.getPatientDao();
   private boolean updating = false;
 
   private static class SingletonHelper {
@@ -25,39 +25,52 @@ public class PatientController extends MapController {
     return PatientController.SingletonHelper.controller;
   }
 
-  @FXML private TreeTableView<Patient> table;
+  @FXML private TreeTableView<Patient> patientTable;
   @FXML private TreeTableColumn<Patient, Integer> patientIDCol;
   @FXML private TreeTableColumn<Patient, String> firstNameCol;
   @FXML private TreeTableColumn<Patient, String> lastNameCol;
-  @FXML private TreeTableColumn<Patient, Integer> employeeIDCol;
-  @FXML private TreeTableColumn<Patient, Integer> serviceIDCol;
+  @FXML private TreeTableColumn<Patient, Integer> patientEmployeeIDCol;
+  @FXML private TreeTableColumn<Patient, Integer> patientServiceIDSCol;
+
+  @FXML private TreeTableView<Employee> employeeTable;
+  @FXML private TreeTableColumn<Employee, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<Employee, String> employeeFirstNameCol;
+  @FXML private TreeTableColumn<Employee, String> employeeLastNameCol;
+  @FXML private TreeTableColumn<Employee, String> specialtiesCol;
+  @FXML private TreeTableColumn<Employee, String> otherServiceRequestsCol;
+  @FXML private TreeTableColumn<Employee, String> positionCol;
+
+  @FXML private TreeTableView<ServiceRequest> serviceRequestTable;
+  @FXML private TreeTableColumn<ServiceRequest, Integer> serviceRequestIDCol;
+  @FXML private TreeTableColumn<ServiceRequest, String> serviceRequestEmployeeIDSCol;
+  @FXML private TreeTableColumn<ServiceRequest, String> serviceTypeCol;
+  @FXML private TreeTableColumn<ServiceRequest, String> statusCol;
+  @FXML private TreeTableColumn<ServiceRequest, String> locationCol;
 
   @FXML private TextField firstName;
   @FXML private TextField lastName;
   @FXML private Button sendRequest;
-  @FXML private Button removeButton;
-  @FXML private Button updateButton;
-  @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
+  private Patient selectedPatient;
 
   @FXML
-  public void updateTreeTable() {
+  public void updatePatientTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeIDs"));
-    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
+    patientEmployeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeIDs"));
+    patientServiceIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
 
     // Get the current list of medicine deliveries from the DAO
-    ArrayList<Patient> currPatients = (ArrayList<Patient>) patientDao.getAllPatients();
+    ArrayList<Patient> currPatients = patientDao.getAllPatients();
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currPatients.isEmpty()) {
-      table.setRoot(null);
+      patientTable.setRoot(null);
       return;
     }
 
@@ -68,13 +81,100 @@ public class PatientController extends MapController {
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
-    table.setShowRoot(false);
+    patientTable.setShowRoot(false);
     // Root is just the first entry in our list
     TreeItem root = new TreeItem(currPatients.get(0));
     // Set the root in the table
-    table.setRoot(root);
+    patientTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root
     root.getChildren().addAll(treeItems);
+  }
+
+  @FXML
+  public void updateEmployeeTreeTable() {
+    // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
+    // name of the variable we are adding to a specific column
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
+    employeeFirstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
+    employeeLastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
+    specialtiesCol.setCellValueFactory(new TreeItemPropertyValueFactory("specialties"));
+    positionCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeePosition"));
+    otherServiceRequestsCol.setCellValueFactory(
+        new TreeItemPropertyValueFactory("serviceRequestIDs"));
+
+    // Get the current list of medicine deliveries from the DAO
+    ArrayList<Employee> currEmployees = selectedPatient.getEmployeeList();
+    // Create a list for our tree items
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    // Need to make sure the list isn't empty
+    if (currEmployees.isEmpty()) {
+      employeeTable.setRoot(null);
+      return;
+    }
+
+    // for each loop cycling through each medicine delivery currently entered into the system
+    for (Employee employee : currEmployees) {
+      TreeItem<Employee> item = new TreeItem(employee);
+      treeItems.add(item);
+    }
+    // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
+    // we get the standard table functionality
+    employeeTable.setShowRoot(false);
+    // Root is just the first entry in our list
+    TreeItem root = new TreeItem(currEmployees.get(0));
+    // Set the root in the table
+    employeeTable.setRoot(root);
+    // Set the rest of the tree items to the root, including the one we set as the root
+    root.getChildren().addAll(treeItems);
+  }
+
+  @FXML
+  public void updateServiceRequestTable() {
+    // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
+    // name of the variable we are adding to a specific column
+    serviceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceID"));
+    serviceRequestEmployeeIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+    serviceTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("location"));
+
+    // Get the current list of medicine deliveries from the DAO
+    ArrayList<ServiceRequest> currRequests = selectedPatient.getServiceRequestList();
+    // Create a list for our tree items
+    ArrayList<TreeItem> treeItems = new ArrayList<>();
+
+    // Need to make sure the list isn't empty
+    if (currRequests.isEmpty()) {
+      serviceRequestTable.setRoot(null);
+      return;
+    }
+
+    // for each loop cycling through each medicine delivery currently entered into the system
+    for (ServiceRequest request : currRequests) {
+      TreeItem<ServiceRequest> item = new TreeItem(request);
+      treeItems.add(item);
+    }
+    // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
+    // we get the standard table functionality
+    serviceRequestTable.setShowRoot(false);
+    // Root is just the first entry in our list
+    TreeItem root = new TreeItem(currRequests.get(0));
+    // Set the root in the table
+    serviceRequestTable.setRoot(root);
+    // Set the rest of the tree items to the root, including the one we set as the root
+    root.getChildren().addAll(treeItems);
+  }
+
+  @FXML
+  public void checkIfSelected() {
+    try {
+      selectedPatient = patientTable.getSelectionModel().getSelectedItem().getValue();
+      updateEmployeeTreeTable();
+      updateServiceRequestTable();
+    } catch (NullPointerException e) {
+      // selectedEmployee = null;
+    }
   }
 
   @FXML
@@ -109,10 +209,7 @@ public class PatientController extends MapController {
     {
       Patient patient =
           new Patient(
-              firstName.getText(),
-              lastName.getText(),
-              new ArrayList<Integer>(),
-              new ArrayList<Integer>());
+              firstName.getText(), lastName.getText(), new ArrayList<>(), new ArrayList<>());
       // Send the request to the Dao pattern
       try {
         if (updating) {
@@ -127,7 +224,7 @@ public class PatientController extends MapController {
       }
 
       resetForm(); // Set all fields to blank for another entry
-      updateTreeTable();
+      updatePatientTreeTable();
     }
   }
 
@@ -136,29 +233,28 @@ public class PatientController extends MapController {
     updating = false;
     firstName.setText("");
     lastName.setText("");
-    requestDetails.setText("");
     sendRequest.setDisable(true);
   }
 
   @FXML
-  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+  private void removeSelectedRow() {
     try {
-      Patient patient = table.getSelectionModel().getSelectedItem().getValue();
+      Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
       patientDao.removePatient(patient);
     } catch (NullPointerException e) {
       e.printStackTrace();
     }
-    updateTreeTable();
+    updatePatientTreeTable();
   }
 
   @FXML
-  private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
+  private void updateSelectedRow() throws NullPointerException {
     updating = true;
-    Patient patient = table.getSelectionModel().getSelectedItem().getValue();
+    Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
 
     firstName.setText(String.valueOf(patient.getFirstName()));
     lastName.setText(String.valueOf(patient.getLastName()));
-    updateTreeTable();
+    updatePatientTreeTable();
   }
 
   @Override

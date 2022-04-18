@@ -19,8 +19,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="680.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.PatientController">
+<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="852.0" prefWidth="1396.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.PatientController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
@@ -75,15 +76,13 @@
       </Pane>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <content>
-            <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="15.0" style="-fx-background-color: #5c677d;">
+            <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="40.0" style="-fx-background-color: #5c677d;">
                <children>
-                  <Label text="Patient First Name" textFill="WHITE" />
                   <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient First Name">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <Label layoutX="145.0" layoutY="50.0" text="Patient Last Name" textFill="WHITE" />
                   <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient Last Name">
                      <VBox.margin>
                         <Insets left="15.0" right="15.0" />
@@ -119,21 +118,58 @@
                         <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
                      </content>
                   </Tab>
-                  <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updateTreeTable" text="Patient Database">
+                  <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updatePatientTreeTable" text="Patient Database">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TreeTableView fx:id="table" layoutX="8.0" layoutY="55.0" prefHeight="506.0" prefWidth="538.0">
+                              <TreeTableView fx:id="patientTable" layoutX="8.0" layoutY="55.0" onMouseClicked="#checkIfSelected" prefHeight="658.0" prefWidth="921.0">
                                  <columns>
                                     <TreeTableColumn fx:id="patientIDCol" prefWidth="99.33334350585938" text="Patient ID" />
-                                    <TreeTableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="111.33334350585938" text="First Name" />
-                                    <TreeTableColumn fx:id="lastNameCol" maxWidth="200.0" prefWidth="89.33331298828125" text="Last Name" />
-                                    <TreeTableColumn fx:id="employeeIDCol" prefWidth="122.66668701171875" text="Employee ID" />
-                                    <TreeTableColumn fx:id="serviceIDCol" minWidth="0.0" prefWidth="114.0" text="Service ID" />
+                                    <TreeTableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="153.0" text="First Name" />
+                                    <TreeTableColumn fx:id="lastNameCol" maxWidth="211.0" prefWidth="157.0" text="Last Name" />
+                                    <TreeTableColumn fx:id="patientEmployeeIDCol" prefWidth="263.0" text="Employee IDs" />
+                                    <TreeTableColumn fx:id="patientServiceIDSCol" minWidth="0.0" prefWidth="247.0" text="Service IDs" />
                                  </columns>
                               </TreeTableView>
                               <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
-                              <Button fx:id="updateButton" layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Update" />
+                              <Button fx:id="updateButton" layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="patientsTab" onSelectionChanged="#updatePatientTreeTable" text="Employees">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
+                           <children>
+                              <TreeTableView fx:id="employeeTable" layoutX="8.0" layoutY="55.0" prefHeight="651.0" prefWidth="929.0">
+                                 <columns>
+                                    <TreeTableColumn fx:id="employeeIDCol" minWidth="0.0" prefWidth="143.20001792907715" text="Employee ID" />
+                                    <TreeTableColumn fx:id="employeeFirstNameCol" minWidth="0.0" prefWidth="128.0" text="First Name" />
+                                    <TreeTableColumn fx:id="employeeLastNameCol" maxWidth="329.5999450683594" prefWidth="154.0" text="Last Name" />
+                                    <TreeTableColumn fx:id="positionCol" maxWidth="329.5999450683594" prefWidth="148.0" text="Position" />
+                                    <TreeTableColumn fx:id="specialtiesCol" maxWidth="329.5999450683594" prefWidth="147.0" text="Specialties" />
+                                    <TreeTableColumn fx:id="otherServiceRequestsCol" maxWidth="329.5999450683594" prefWidth="205.0" text="Other Service Request IDs" />
+                                 </columns>
+                              </TreeTableView>
+                              <Text layoutX="29.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Patient in Patient Database to see their assigned employees!" wrappingWidth="374.1367874145508" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="serviceRequestTab" onSelectionChanged="#updatePatientTreeTable" text="Service Requests">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
+                           <children>
+                              <TreeTableView fx:id="serviceRequestTable" layoutX="8.0" layoutY="55.0" prefHeight="651.0" prefWidth="929.0">
+                                 <columns>
+                                    <TreeTableColumn fx:id="serviceRequestIDCol" minWidth="0.0" prefWidth="132.79999351501465" text="Service ID" />
+                                    <TreeTableColumn fx:id="serviceRequestEmployeeIDSCol" minWidth="3.20001220703125" prefWidth="130.39996337890625" text="Employee ID" />
+                                    <TreeTableColumn fx:id="serviceTypeCol" minWidth="0.0" prefWidth="320.0000305175781" text="Service Type" />
+                                    <TreeTableColumn fx:id="statusCol" maxWidth="207.99990844726562" prefWidth="172.7999267578125" text="Status" />
+                                    <TreeTableColumn fx:id="locationCol" minWidth="3.20001220703125" prefWidth="175.2000732421875" text="Location" />
+                                 </columns>
+                              </TreeTableView>
+                              <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Patient in Patient Database to see their service requests!" wrappingWidth="394.1367874145508" />
                            </children>
                         </AnchorPane>
                      </content>

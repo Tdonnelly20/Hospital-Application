@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -63,14 +64,7 @@ public abstract class RequestController extends MapController {
           }
         });
     homeButton.setText("Home");
-    homeButton.setOnAction(
-        event -> {
-          try {
-            switchToHome(event);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
+    homeButton.setOnAction(this::switchToHome);
     closeButton.setText("Close");
     closeButton.setOnAction(
         event -> {
@@ -124,6 +118,11 @@ public abstract class RequestController extends MapController {
 
   void setTitleText(String str) {
     headerTitle.setText(str);
+  }
+
+  void setColumnSize(TreeTableColumn c, double w) {
+    c.setPrefWidth(w);
+    c.setMaxWidth(w);
   }
 
   abstract void updateTreeTable();

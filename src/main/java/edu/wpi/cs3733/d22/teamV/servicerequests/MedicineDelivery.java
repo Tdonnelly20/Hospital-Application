@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class MedicineDelivery extends ServiceRequest {
   private String medicineName, nodeID, dosage, status, requestDetails;
@@ -25,11 +26,10 @@ public class MedicineDelivery extends ServiceRequest {
     this.nodeID = nodeID;
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.status = status;
-    patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
-    hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.medicineName = medicineName;
     this.type = "Medicine Delivery";
-    this.dao = RequestSystem.Dao.MedicineDelivery;
+    patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
   }
 
   public String getPatientFirstName() {
@@ -45,7 +45,7 @@ public class MedicineDelivery extends ServiceRequest {
   }
 
   public int getEmployeeID() {
-    return hospitalEmployee.getEmployeeID();
+    return employee.getEmployeeID();
   }
 
   public String getMedicineName() {
@@ -70,5 +70,15 @@ public class MedicineDelivery extends ServiceRequest {
 
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
+  }
+
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    super.update(directionalAssoc);
+    Vdb.requestSystem
+        .getDao(RequestSystem.Dao.MedicineDelivery)
+        .updateServiceRequest(this, getServiceID());
   }
 }

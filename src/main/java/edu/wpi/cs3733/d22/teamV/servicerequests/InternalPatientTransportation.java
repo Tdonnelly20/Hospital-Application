@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class InternalPatientTransportation extends ServiceRequest {
   private Patient patient;
@@ -21,7 +22,7 @@ public class InternalPatientTransportation extends ServiceRequest {
       String nodeID, int patientID, int employeeID, String requestDetails) {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.nodeID = nodeID;
     this.employeeID = employeeID;
     this.requestDetails = requestDetails;
@@ -50,7 +51,21 @@ public class InternalPatientTransportation extends ServiceRequest {
     return nodeID;
   }
 
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
+  }
+
   public String getRequestDetails() {
     return requestDetails;
+  }
+
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    super.update(directionalAssoc);
+    Vdb.requestSystem
+        .getDao(RequestSystem.Dao.InternalPatientTransportation)
+        .updateServiceRequest(this, getServiceID());
   }
 }

@@ -1,8 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class SanitationRequest extends ServiceRequest {
   private String roomLocation, hazardName, requestDetails;
@@ -13,28 +12,26 @@ public class SanitationRequest extends ServiceRequest {
    *
    * @param patientID
    * @param hospitalID
-   * @param nodeID
+   * @param roomLocation
    * @param hazardName
    * @param requestDetails
    */
   public SanitationRequest(
-      int patientID, int hospitalID, String nodeID, String hazardName, String requestDetails) {
+      int patientID,
+      int hospitalID,
+      String roomLocation,
+      String hazardName,
+      String requestDetails) {
 
     this.requestDetails = requestDetails;
-    if (RequestSystem.getSystem().getLocation(nodeID) == null) {
-      this.location = new Location(nodeID);
-    } else {
-      this.location = Vdb.requestSystem.getLocation(nodeID);
-    }
-    this.patient = Vdb.requestSystem.getPatientDao().getPatientFromID(patientID);
-    this.hospitalEmployee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
+    this.location = Vdb.requestSystem.getLocation(roomLocation);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
     this.patientID = patientID;
     this.hospitalID = hospitalID;
     this.hazardName = hazardName;
-    this.roomLocation = nodeID;
+    this.roomLocation = roomLocation;
     this.type = "Sanitation Request";
-    this.dao = RequestSystem.Dao.SanitationRequest;
-    this.status = "Not Started";
   }
 
   public String getPatientFirstName() {
@@ -47,6 +44,12 @@ public class SanitationRequest extends ServiceRequest {
 
   public int getPatientID() {
     return patientID;
+  }
+
+  public void setServiceID(int serviceID) {
+    super.setServiceID(serviceID);
+    DirectionalAssoc.link(employee, patient, this);
+    updateAllObservers();
   }
 
   public int getHospitalID() {
@@ -62,6 +65,6 @@ public class SanitationRequest extends ServiceRequest {
   }
 
   public String getRoomLocation() {
-    return location.getNodeID();
+    return roomLocation;
   }
 }

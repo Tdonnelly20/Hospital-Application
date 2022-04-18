@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -115,6 +116,20 @@
                                        <children>
                                           <VBox layoutX="60.0" layoutY="159.0" prefHeight="891.0" prefWidth="1610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
+                                                <GridPane>
+                                                   <columnConstraints>
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
+                                                   <children>
+                                                      <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
+                                                      <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" GridPane.columnIndex="1" />
+                                                   </children>
+                                                </GridPane>
                                                 <TreeTableView fx:id="requestTable" prefHeight="553.0" prefWidth="538.0">
                                                    <columns>
                                                       <TreeTableColumn fx:id="userIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
