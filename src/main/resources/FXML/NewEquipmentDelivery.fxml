@@ -112,15 +112,6 @@
                      <children>
                         <TabPane prefHeight="920.0" prefWidth="1550.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <tabs>
-                              <Tab text="Map View">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <VBox fx:id="mapVBox" layoutX="221.0" layoutY="125.0" prefHeight="891.0" prefWidth="1610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
                               <Tab onSelectionChanged="#updateTreeTable" text="Equipment Requests">
                                  <content>
                                     <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
