@@ -32,7 +32,7 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TreeTableColumn<ReligiousRequest, String> requestDetailsCol;
   private boolean updating;
   private int updateServiceID;
-
+  // religious request can't seem to remove things if there are more than 1 now???
   private static class SingletonHelper {
     private static final ReligiousRequestController controller = new ReligiousRequestController();
   }
