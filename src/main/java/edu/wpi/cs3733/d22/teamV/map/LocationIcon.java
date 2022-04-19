@@ -37,14 +37,6 @@ public class LocationIcon extends Icon {
             // MapController.getController().locationForm(event, this);
           }
         });
-    image.setOnMouseExited(
-        event -> {
-          image.setFitWidth(15);
-          image.setFitHeight(15);
-          setXCoord(xCoord + event.getX() - 10);
-          setYCoord(yCoord + event.getY() - 5);
-          RequestSystem.getSystem().updateLocations(this);
-        });
   }
 
   @Override
