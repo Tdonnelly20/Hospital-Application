@@ -126,7 +126,7 @@
                                 <tabs>
                                   <Tab onSelectionChanged="#updateAll" text="Equipment">
                                        <content>
-                                          <TreeTableView prefHeight="230.0" prefWidth="298.0">
+                                          <TreeTableView fx:id="equipmentTable" prefHeight="230.0" prefWidth="298.0">
                                             <columns>
                                               <TreeTableColumn fx:id="equipmentIDCol" prefWidth="75.0" text="ID" />
                                               <TreeTableColumn fx:id="isDirtyCol" prefWidth="75.0" text="Status" />
@@ -136,7 +136,7 @@
                                   </Tab>
                                   <Tab onSelectionChanged="#updateAll" text="Service Requests">
                                        <content>
-                                          <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                                          <TreeTableView fx:id="serviceRequestTable" prefHeight="200.0" prefWidth="200.0">
                                             <columns>
                                               <TreeTableColumn fx:id="typeCol" prefWidth="54.39999198913574" text="Type" />
                                               <TreeTableColumn fx:id="locationCol" prefWidth="93.60003662109375" text="Location" />
@@ -147,7 +147,7 @@
                                   </Tab>
                                     <Tab onSelectionChanged="#updateAll" text="Patients">
                                        <content>
-                                          <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                                          <TreeTableView fx:id="patientTable" prefHeight="200.0" prefWidth="200.0">
                                              <columns>
                                                 <TreeTableColumn fx:id="patientIDCol" prefWidth="46.39999580383301" text="ID" />
                                                 <TreeTableColumn fx:id="lastCol" prefWidth="66.39995574951172" text="Last" />
@@ -210,7 +210,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <TextArea fx:id="alertsArea" editable="false" maxWidth="301.0" prefHeight="200.0" prefWidth="200.0" styleClass="alert-text-area" />
+                              <TextArea fx:id="alertArea" editable="false" maxWidth="301.0" prefHeight="200.0" prefWidth="200.0" styleClass="alert-text-area" />
                            </children>
                            <VBox.margin>
                               <Insets left="10.0" right="10.0" />

@@ -32,6 +32,10 @@ public class Patient extends DirectionalAssoc {
     this.lastName = lastName;
   }
 
+  public int getPatientID() {
+    return patientID;
+  }
+
   public void setPatientID(int patientID) {
     this.patientID = patientID;
   }

@@ -7,6 +7,7 @@ import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
@@ -20,52 +21,37 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.swing.text.html.ImageView;
 
 public class MapDashboardController extends Controller {
 
-  private @FXML HBox hBox;
-  private @FXML VBox leftVBox;
-  private @FXML Pane sideViewPane;
-  private @FXML ImageView sideViewImage;
-  private @FXML VBox centerVBox;
-  private @FXML TreeTableView infoTable = new TreeTableView<>();
-  private @FXML TreeTableView equipmentTable = new TreeTableView<>();
-  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol = new TreeTableColumn<>();
-  private @FXML TreeTableColumn<Equipment, String> isDirtyCol = new TreeTableColumn<>();
-  private @FXML TreeTableView serviceRequestTable = new TreeTableView<>();
+  private @FXML TreeTableView equipmentTable;
+  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
+  private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
+  private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<ServiceRequest, Double> xCol;
-  private @FXML TreeTableColumn<ServiceRequest, Double> yCol;
+  private @FXML TreeTableColumn<Location, String> locationCol;
   private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
   private @FXML TextArea countsArea = new TextArea();
-  private @FXML TextArea alertsArea = new TextArea();
-  private @FXML VBox rightVBox;
-  private @FXML Pane mapPane;
-  private @FXML ImageView imageView;
-  private @FXML TreeTableView alertTable;
+  private @FXML TextArea alertArea;
 
-  private @FXML Button ll2 = new Button();
-  private @FXML Button ll1 = new Button();
-  private @FXML Button f1 = new Button();
-  private @FXML Button f2 = new Button();
-  private @FXML Button f3 = new Button();
-  private @FXML Button f4 = new Button();
-  private @FXML Button f5 = new Button();
+  private @FXML Button ll2;
+  private @FXML Button ll1;
+  private @FXML Button f1;
+  private @FXML Button f2;
+  private @FXML Button f3;
+  private @FXML Button f4;
+  private @FXML Button f5;
 
-  private @FXML TitledPane sideViewTPane = new TitledPane();
-  private @FXML TitledPane infoTPane = new TitledPane();
-  private @FXML TitledPane countsTPane = new TitledPane();
-  private @FXML TitledPane mapTPane = new TitledPane();
-  private @FXML TitledPane alertsTPane = new TitledPane();
+  private @FXML TitledPane sideViewTPane;
+  private @FXML TitledPane infoTPane;
+  @FXML TitledPane countsTPane;
+  private @FXML TitledPane mapTPane;
+  private @FXML TitledPane alertsTPane;
 
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
@@ -236,7 +222,6 @@ public class MapDashboardController extends Controller {
     isDirtyCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
 
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
-    // ArrayList<Equipment> currEquipment = RequestSystem.getSystem().getEquipment();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     if (!currEquipment.isEmpty()) {
@@ -247,11 +232,10 @@ public class MapDashboardController extends Controller {
           treeItems.add(item);
         }
       }
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
-      equipmentTable = new TreeTableView<>(root);
-      equipmentTable.setShowRoot(true);
 
-      // equipmentTable.setRoot(root);
+      equipmentTable.setShowRoot(false);
+      TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
+      equipmentTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
   }
@@ -259,8 +243,7 @@ public class MapDashboardController extends Controller {
   @FXML
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("x"));
-    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
     startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
 
     ArrayList<ServiceRequest> currRequests =
@@ -270,9 +253,13 @@ public class MapDashboardController extends Controller {
     if (!currRequests.isEmpty()) {
 
       for (ServiceRequest pos : currRequests) {
-        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
-          TreeItem<ServiceRequest> item = new TreeItem(pos);
-          treeItems.add(item);
+        if (pos.getLocation() != null) {
+          if (pos.getLocation().getFloor() != null) {
+            if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+              TreeItem<ServiceRequest> item = new TreeItem(pos);
+              treeItems.add(item);
+            }
+          }
         }
       }
 
@@ -288,7 +275,6 @@ public class MapDashboardController extends Controller {
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
-
     ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
@@ -330,11 +316,15 @@ public class MapDashboardController extends Controller {
       }
     }
 
-    //    for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
-    //      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
-    //        srCount++;
-    //      }
-    //    }
+    for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
+      if (request.getLocation() != null) {
+        if (request.getLocation().getFloor() != null) {
+          if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+            srCount++;
+          }
+        }
+      }
+    }
     countsArea.setText(
         "Active Service Requests: "
             + srCount
@@ -345,27 +335,6 @@ public class MapDashboardController extends Controller {
             + "Dirty Equipment: "
             + dirty);
   }
-
-  //  public int checkAlertSixBeds(String m, boolean d) {
-  //    if (m.equals("bed") && d == true) {
-  //      return 1;
-  //    } else {
-  //      return 0;
-  //    }
-  //  }
-
-  //  public void addBedAlertToArray(boolean b) {
-  //    if (b == true) {
-  //      if (!alertTable.contains("Alert: more than 6 beds")) {
-  //        alertTable.add("Alert: more than 6 beds");
-  //      }
-  //    }
-  //    if (b == false) {
-  //      if (alertTable.contains(“Alert: more than 6 beds”)) {
-  //        alertTable.remove(“Alert: more than 6 beds”);
-  //      }
-  //    }
-  //  }
 
   @FXML
   private void updateAlerts() {
@@ -401,14 +370,14 @@ public class MapDashboardController extends Controller {
       alertText = alertText + a + "\n";
     }
     System.out.println(alertText);
-    alertsArea.setText(alertText);
+    alertArea.setText(alertText);
   }
 
   @FXML
   private void updateAll() {
     updateEquipmentTable();
-    // updatePatientTable();
-    // updateServiceRequestTable();
+    updatePatientTable();
+    updateServiceRequestTable();
     updateCounts();
     updateAlerts();
   }
@@ -417,6 +386,6 @@ public class MapDashboardController extends Controller {
   public void init() {
     setUpButtonSubjects();
     setUpDashboardListeners();
-    updateAll();
+    // updateAll();
   }
 }
