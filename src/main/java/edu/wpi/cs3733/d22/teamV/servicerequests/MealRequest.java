@@ -29,7 +29,8 @@ public class MealRequest extends ServiceRequest {
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.mealName = mealName;
-    this.type = "Meal Delivery";
+    this.type = "Meal Delivery Request";
+    this.dao = RequestSystem.Dao.MealRequest;
   }
 
   public String getPatientFirstName() {

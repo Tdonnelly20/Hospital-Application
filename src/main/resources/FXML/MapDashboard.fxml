@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
@@ -16,13 +19,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
+<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
    <children>
       <VBox prefHeight="800.0" prefWidth="1200.0">
          <children>
-            <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="138.0" prefWidth="1200.0" style="-fx-background-color: #012D5Aff;">
+            <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="125.0" prefWidth="1200.0" style="-fx-background-color: #012D5Aff;">
                <children>
-                  <ImageView fitHeight="88.0" fitWidth="122.0" layoutX="29.0" layoutY="22.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="88.0" fitWidth="122.0" layoutX="21.0" layoutY="8.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                      </image>
@@ -32,17 +35,17 @@
                         <Font name="System Bold" size="51.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="896.0" layoutY="35.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../BackButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1099.0" layoutY="35.0" onMouseClicked="#goExit" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../ExitButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../HomeButton.png" />
                      </image>
@@ -52,36 +55,77 @@
             </Pane>
             <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1200.0" style="-fx-background-color: #5f6c83;">
                <children>
-                  <VBox fx:id="leftVBox" prefHeight="327.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
+                  <VBox fx:id="leftVBox" alignment="TOP_CENTER" prefHeight="327.0" prefWidth="400.0">
                      <children>
-                        <TitledPane fx:id="sideViewTPane" animated="false" collapsible="false" text="Side View Map">
-                           <content>
-                              <Pane fx:id="sideViewPane" prefHeight="790.0" prefWidth="400.0">
-                                 <children>
-                                    <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../SideView.PNG" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </Pane>
-                           </content>
+                        <Label id="vbox-label" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="21.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Sideview Map" textAlignment="CENTER" VBox.vgrow="NEVER">
+                           <font>
+                              <Font name="Ebrima" size="15.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                            <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                              <Insets />
                            </VBox.margin>
-                        </TitledPane>
+                        </Label>
+                        <Pane fx:id="sideViewPane" prefHeight="523.0" prefWidth="400.0">
+                           <children>
+                              <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="50.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../SideView.PNG" />
+                                 </image>
+                              </ImageView>
+                              <Group layoutX="140.0" layoutY="20.0">
+                                 <children>
+                                    <Button layoutX="25.0" mnemonicParsing="false" onAction="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
+                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" styleClass="sideViewButtonf4" />
+                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" styleClass="sideViewButtonf3" />
+                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" styleClass="sideViewButtonf2" />
+                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" styleClass="sideViewButtonf1" />
+                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" styleClass="sideViewButtonll1" />
+                                    <Button layoutY="300.0" mnemonicParsing="false" onAction="#switchToLL2" styleClass="sideViewButtonll2" />
+                                 </children>
+                              </Group>
+                              <Group layoutX="63.0" layoutY="20.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefWidth="107.0" styleClass="floorLabelButton" text="5" />
+                                    <Button layoutY="50.0" mnemonicParsing="false" styleClass="floorLabelButton" text="4" />
+                                    <Button layoutY="100.0" mnemonicParsing="false" styleClass="floorLabelButton" text="3" />
+                                    <Button layoutY="150.0" mnemonicParsing="false" styleClass="floorLabelButton" text="2" />
+                                    <Button layoutY="200.0" mnemonicParsing="false" styleClass="floorLabelButton" text="1" />
+                                    <Button layoutY="250.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL1" />
+                                    <Button layoutY="300.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL2" />
+                                 </children>
+                              </Group>
+                              <ProgressBar fx:id="cleanProgress" layoutX="65.0" layoutY="405.0" prefHeight="40.0" prefWidth="228.0" progress="0.0" />
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Pane>
                      </children>
                      <HBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox fx:id="centerVBox" prefHeight="552.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
+                  <VBox fx:id="centerVBox" prefHeight="536.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
                      <children>
-                        <TitledPane fx:id="infoTPane" animated="false" collapsible="false" prefHeight="434.0" prefWidth="313.0" style="-fx-background-color: #000000;" text="Detailed Information">
-                           <content>
-                              <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                        <VBox prefHeight="335.0" prefWidth="323.0">
+                           <children>
+                              <Label id="vbox-label" alignment="CENTER" prefHeight="21.0" prefWidth="324.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Detailed Information" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Ebrima" size="15.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Label>
+                              <TabPane prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                                 <tabs>
-                                  <Tab text="Equipment">
+                                  <Tab onSelectionChanged="#updateAll" text="Equipment">
                                        <content>
                                           <TreeTableView prefHeight="230.0" prefWidth="298.0">
                                             <columns>
@@ -91,7 +135,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                  <Tab text="Service Requests">
+                                  <Tab onSelectionChanged="#updateAll" text="Service Requests">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                             <columns>
@@ -102,7 +146,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                    <Tab text="Patients">
+                                    <Tab onSelectionChanged="#updateAll" text="Patients">
                                        <content>
                                           <TreeTableView prefHeight="200.0" prefWidth="200.0">
                                              <columns>
@@ -115,24 +159,21 @@
                                     </Tab>
                                 </tabs>
                               </TabPane>
-                           </content>
-                           <VBox.margin>
-                              <Insets left="20.0" right="20.0" top="20.0" />
-                           </VBox.margin>
-                        </TitledPane>
-                        <TitledPane fx:id="countsTPane" animated="false" collapsible="false" prefHeight="262.0" prefWidth="283.0" text="Counts">
-                           <content>
-                              <TreeTableView prefHeight="200.0" prefWidth="200.0">
-                                <columns>
-                                  <TreeTableColumn prefWidth="75.0" text="C1" />
-                                  <TreeTableColumn prefWidth="75.0" text="C2" />
-                                </columns>
-                              </TreeTableView>
-                           </content>
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
-                           </VBox.margin>
-                        </TitledPane>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label id="vbox-label" alignment="CENTER" prefHeight="21.0" prefWidth="324.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Counts" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Ebrima" size="15.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Label>
+                              <TextArea fx:id="countsArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -140,18 +181,26 @@
                   </VBox>
                   <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
                      <children>
-                        <TitledPane fx:id="mapTPane" animated="false" collapsible="false" prefHeight="492.0" prefWidth="330.0" text="Interactive Map">
-                           <content>
+                        <VBox alignment="CENTER" prefHeight="323.0" prefWidth="325.0">
+                           <children>
+                              <Label id="vbox-label" alignment="CENTER" maxWidth="301.0" prefHeight="21.0" prefWidth="0.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Interactive Map" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Ebrima" size="15.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Label>
                               <ImageView fitHeight="301.0" fitWidth="340.0" onMouseClicked="#switchToMap" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../1st Floor.png" />
                                  </image>
                               </ImageView>
-                           </content>
+                           </children>
                            <VBox.margin>
-                              <Insets left="20.0" right="20.0" top="40.0" />
+                              <Insets top="20.0" />
                            </VBox.margin>
-                        </TitledPane>
+                        </VBox>
                         <TitledPane fx:id="alertsTPane" animated="false" collapsible="false" prefHeight="314.0" prefWidth="256.0" style="-fx-padding: 10;" text="Alerts">
                            <content>
                               <TreeTableView fx:id="alertTable" prefHeight="200.0" prefWidth="200.0">

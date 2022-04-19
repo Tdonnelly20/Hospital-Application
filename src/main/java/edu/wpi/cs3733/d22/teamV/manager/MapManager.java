@@ -165,8 +165,6 @@ public class MapManager {
         return floorList.get(5);
       case "5":
         return floorList.get(6);
-      case "SV":
-        return floorList.get(7);
     }
     return null;
   }

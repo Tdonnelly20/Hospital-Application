@@ -26,6 +26,8 @@ public class ReligiousRequest extends ServiceRequest {
     this.employeeID = patientID;
     this.religion = religion;
     this.type = "Religious Request";
+    status = "Not Started";
+    this.dao = RequestSystem.Dao.ReligiousRequest;
   }
 
   public int getPatientID() {

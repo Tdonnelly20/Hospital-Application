@@ -2,13 +2,14 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.MedicineDeliveryDao;
+import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import java.awt.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -16,14 +17,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MedicineDeliveryController extends RequestController {
+public class MedicineDeliveryController extends Controller implements RequestInterface {
 
   @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
-  @FXML private Pane tablePlane;
 
   @FXML private TreeTableColumn<MedicineDelivery, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
@@ -58,52 +57,6 @@ public class MedicineDeliveryController extends RequestController {
 
   public static MedicineDeliveryController getController() {
     return MedicineDeliveryController.SingletonHelper.controller;
-  }
-
-  @Override
-  public void init() {
-    setTitleText("Medicine Delivery Request");
-    fillTopPane();
-
-    setColumnSizes(910);
-
-    tablePlane
-        .widthProperty()
-        .addListener(
-            new ChangeListener<Number>() {
-              @Override
-              public void changed(
-                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                double w = tablePlane.getWidth();
-                medicineDeliveryTable.setPrefWidth(w - 30);
-                setColumnSizes(w);
-              }
-            });
-
-    tablePlane
-        .heightProperty()
-        .addListener(
-            new ChangeListener<Number>() {
-              @Override
-              public void changed(
-                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                double h = tablePlane.getHeight();
-                medicineDeliveryTable.setPrefHeight(h - 75);
-              }
-            });
-  }
-
-  void setColumnSizes(double w) {
-    setColumnSize(patientIDCol, (w - 30) / 10);
-    setColumnSize(hospitalIDCol, (w - 30) / 10);
-    setColumnSize(firstNameCol, (w - 30) / 10);
-    setColumnSize(lastNameCol, (w - 30) / 10);
-    setColumnSize(nodeIDCol, (w - 30) / 10);
-    setColumnSize(medicineCol, (w - 30) / 10);
-    setColumnSize(dosageCol, (w - 30) / 10);
-    setColumnSize(otherInfoCol, (w - 30) / 10);
-    setColumnSize(serviceIDCol, (w - 30) / 10);
-    setColumnSize(statusCol, (w - 30) / 10);
   }
 
   /** Update the table with values from fields and the DB */
@@ -186,6 +139,7 @@ public class MedicineDeliveryController extends RequestController {
   }
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
+  @Override
   public void sendRequest() {
     // If any field is left blank, (except for request details) throw an error
 
@@ -241,8 +195,21 @@ public class MedicineDeliveryController extends RequestController {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
+  // used to get coordinates after clicking map
+  @FXML private TextArea coordinates;
+  private Point point = new Point();
+  private int xCoord, yCoord;
+
   @FXML
-  private void updateSelectedRow() throws NullPointerException {
+  private void mapCoordTracker() {
+    point = MouseInfo.getPointerInfo().getLocation();
+    xCoord = point.x - 712;
+    yCoord = point.y - 230;
+    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
+  }
+
+  @FXML
+  private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
     updating = true;
     MedicineDelivery delivery =
         medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
@@ -259,7 +226,7 @@ public class MedicineDeliveryController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow() throws NullPointerException {
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
     try {
       MedicineDelivery delivery =
           medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();

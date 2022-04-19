@@ -17,9 +17,6 @@ public class ServiceRequestController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  @Override
-  public void init() {}
-
   @FXML
   private void hideLabels() {
     visible = !visible;

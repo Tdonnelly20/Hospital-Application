@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -42,8 +44,10 @@ public class Floor {
   public void removeIcon(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Location)) {
       locationIcons.remove((LocationIcon) icon);
+      RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     } else {
       equipmentIcons.remove((EquipmentIcon) icon);
+      RequestSystem.getSystem().deleteEquipment((EquipmentIcon) icon);
     }
   }
 
@@ -108,6 +112,36 @@ public class Floor {
       if ((icon.xCoord == x) && (icon.yCoord == y)) {
         icon.addToEquipmentList(equipment);
         break;
+      }
+    }
+  }
+
+  public void addRequest(ServiceRequest request) {
+    for (LocationIcon icon : locationIcons) {
+      if (icon.getLocation().equals(request.getLocation())) {
+        icon.getRequestsArr().add(request);
+        RequestSystem.Dao t = RequestSystem.Dao.Equipment;
+        switch (request.getType()) {
+          case "Equipment":
+            t = RequestSystem.Dao.Equipment;
+          case "InternalPatientTransportation":
+            t = RequestSystem.Dao.InternalPatientTransportation;
+          case "LabRequest":
+            t = RequestSystem.Dao.LabRequest;
+          case "LaundryRequest":
+            t = RequestSystem.Dao.LaundryRequest;
+          case "MealRequest":
+            t = RequestSystem.Dao.MealRequest;
+          case "MedicineDelivery":
+            t = RequestSystem.Dao.MedicineDelivery;
+          case "ReligiousRequest":
+            t = RequestSystem.Dao.ReligiousRequest;
+          case "RobotRequest":
+            t = RequestSystem.Dao.RobotRequest;
+          case "SanitationRequest":
+            t = RequestSystem.Dao.SanitationRequest;
+        }
+        RequestSystem.getSystem().addServiceRequest(request, t);
       }
     }
   }

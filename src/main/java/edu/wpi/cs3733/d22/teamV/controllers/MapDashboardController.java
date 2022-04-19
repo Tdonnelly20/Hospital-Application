@@ -44,7 +44,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
-  private @FXML TreeTableView countTable;
+  private @FXML TextArea countsArea = new TextArea();
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
@@ -75,17 +75,6 @@ public class MapDashboardController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  public void goBack(MouseEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
   public void goExit(MouseEvent mouseEvent) {
     stop();
   }
@@ -101,14 +90,6 @@ public class MapDashboardController extends Controller {
     stage.show();
   }
 
-  public void updateEquipTable() {}
-
-  @FXML
-  public void updateEquipmentCount() {
-    int totalCounter = curFloor.getEquipmentIcons().size();
-    int cleanCounter;
-    int dirtyCounter;
-  }
   /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
   private Floor curFloor = MapManager.getManager().getFloor("1");
@@ -194,42 +175,49 @@ public class MapDashboardController extends Controller {
   public void switchToLL2(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("LL2");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToLL1(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("LL1");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF1(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("1");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF2(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("2");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF3(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("3");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF4(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("4");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
   public void switchToF5(MouseEvent event) {
     curFloor = MapManager.getManager().getFloor("5");
     updateListeners(curFloor);
+    updateAll();
   }
 
   @FXML
@@ -318,5 +306,51 @@ public class MapDashboardController extends Controller {
       patientTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
+  }
+
+  @FXML
+  public void updateCounts() {
+    curFloor = MapManager.getManager().getFloor(curFloor.getFloorName());
+    int srCount = 0;
+    int dirty = 0;
+    int clean = 0;
+
+    for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
+      if (equipment.getFloor().equals(curFloor.getFloorName())) {
+        if (equipment.getIsDirty()) {
+          dirty++;
+        } else {
+          clean++;
+        }
+      }
+    }
+
+    for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
+      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+        srCount++;
+      }
+    }
+    countsArea.setText(
+        "Active Service Requests: "
+            + srCount
+            + "\n"
+            + "Clean Equipment: "
+            + clean
+            + "\n"
+            + "Dirty Equipment: "
+            + dirty);
+  }
+
+  @FXML
+  private void updateAll() {
+    updateEquipmentTable();
+    updatePatientTable();
+    updateServiceRequestTable();
+    updateCounts();
+  }
+
+  @Override
+  public void init() {
+    updateCounts();
   }
 }

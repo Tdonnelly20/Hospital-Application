@@ -28,6 +28,7 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.requestDetails = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = "Not Started";
+    this.dao = RequestSystem.Dao.InternalPatientTransportation;
   }
 
   public String getPatientFirstName() {

@@ -16,6 +16,7 @@ public class RobotRequest extends ServiceRequest {
     this.nodeID = nodeID;
     this.details = details;
     this.status = status;
+    this.type = "Robot Request";
   }
 
   public int getEmployeeID() {

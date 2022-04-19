@@ -30,6 +30,7 @@ public class EquipmentDelivery extends ServiceRequest {
     setServiceID(serviceID);
     this.quantity = quantity;
     this.status = status;
+    this.dao = RequestSystem.Dao.EquipmentDelivery;
   }
 
   public EquipmentDelivery(
@@ -46,7 +47,7 @@ public class EquipmentDelivery extends ServiceRequest {
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
     this.notes = notes;
-    this.type = "Equipment Delivery";
+    this.type = "Equipment Delivery Request";
     this.quantity = quantity;
     this.status = status;
   }

@@ -182,7 +182,7 @@ public class RequestSystem {
    */
   public void removeServiceRequest(ServiceRequest request) {
     switch (request.getType()) {
-      case "Equipment Delivery":
+      case "Equipment Delivery Request":
         equipmentDeliveryDao.removeServiceRequest(request);
       case "Internal Patient Transportation Request":
         internalPatientTransportationDao.removeServiceRequest(request);
@@ -192,7 +192,7 @@ public class RequestSystem {
         laundryRequestDao.removeServiceRequest(request);
       case "Meal Request":
         mealRequestDao.removeServiceRequest(request);
-      case "Medicine Delivery":
+      case "Medicine Delivery Request":
         medicineDeliveryDao.removeServiceRequest(request);
       case "Religious Request":
         religiousRequestDao.removeServiceRequest(request);
@@ -281,8 +281,16 @@ public class RequestSystem {
   }
 
   public void deleteLocation(String nodeID) {
-    locationDao.deleteLocation(nodeID);
+    if (getLocation(nodeID) != null) {
+      if (getLocation(nodeID).getRequests().size() > 0) {
+        for (ServiceRequest request : getLocation(nodeID).getRequests()) {
+          removeServiceRequest(request);
+        }
+      }
+      locationDao.deleteLocation(nodeID);
+    }
   }
+
   /**
    * Getter specifically for equipment since it is not a service request
    *
@@ -293,11 +301,11 @@ public class RequestSystem {
   }
 
   public void addEquipment(Equipment equipment) {
-    equipmentDao.getAllEquipment().add(equipment);
+    equipmentDao.addEquipment(equipment);
   }
 
   public void deleteEquipment(Equipment equipment) {
-    equipmentDao.getAllEquipment().remove(equipment);
+    equipmentDao.removeEquipment(equipment);
   }
 
   public Equipment getEquipment(String ID) {
