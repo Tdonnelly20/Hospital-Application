@@ -155,34 +155,6 @@
             </Label>
          </children>
       </Pane>
-      <Pane prefHeight="595.0" prefWidth="738.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <children>
-            <VBox fx:id="mapVBox" prefHeight="500.0" prefWidth="548.0" />
-          <!--  <Pane fx:id="mapPane" layoutX="188.0" layoutY="43.0" prefHeight="384.0" prefWidth="382.0">
-               <children>
-                  <ImageView fx:id="mapImage" fitHeight="382.0" fitWidth="556.0" layoutY="1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../1st Floor.png" />
-                     </image>
-                     <viewport>
-                        <Rectangle2D />
-                     </viewport>
-                  </ImageView>
-               </children>
-            </Pane>
-            <JFXComboBox layoutX="284.0" layoutY="444.0" prefHeight="25.0" prefWidth="209.0" promptText="Floor" style="-fx-background-color: rgb(228,229,229);">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:id="groundFloor" fx:value="Ground Floor" />
-                     <String fx:id="lowerLevel1" fx:value="Lower Level 1" />
-                     <String fx:id="lowerLevel2" fx:value="Lower Level 2" />
-                     <String fx:id="floor1" fx:value="Floor 1" />
-                     <String fx:id="floor2" fx:value="Floor 2" />
-                     <String fx:id="floor3" fx:value="Floor 3" />
-                  </FXCollections>
-               </items>
-            </JFXComboBox>-->
-         </children>
-      </Pane>
+      <Pane prefHeight="595.0" prefWidth="738.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
    </children>
 </GridPane>

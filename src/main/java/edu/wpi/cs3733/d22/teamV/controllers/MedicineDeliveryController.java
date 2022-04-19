@@ -20,7 +20,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MedicineDeliveryController extends MapController implements RequestInterface {
+public class MedicineDeliveryController extends Controller implements RequestInterface {
 
   @FXML private TreeTableView<MedicineDelivery> medicineDeliveryTable;
 
@@ -57,13 +57,6 @@ public class MedicineDeliveryController extends MapController implements Request
 
   public static MedicineDeliveryController getController() {
     return MedicineDeliveryController.SingletonHelper.controller;
-  }
-
-  @Override
-  public void init() {
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Medicine Delivery Requests");
-    filterCheckBox.getCheckModel().check("Equipment");
   }
 
   /** Update the table with values from fields and the DB */

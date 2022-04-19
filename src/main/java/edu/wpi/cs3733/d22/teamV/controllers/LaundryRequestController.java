@@ -53,8 +53,6 @@ public class LaundryRequestController extends RequestController {
   public void init() {
     setTitleText("Laundry Request");
     fillTopPane();
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Laundry Requests");
   }
 
   private static final LaundryRequestDao laundryRequestDao =

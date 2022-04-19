@@ -39,8 +39,6 @@ public class ReligiousRequestController extends RequestController {
   public void init() {
     setTitleText("Religious Request Service");
     fillTopPane();
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Religious Requests Service");
     validateButton();
   }
 

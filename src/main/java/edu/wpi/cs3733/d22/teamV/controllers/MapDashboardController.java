@@ -48,7 +48,7 @@ public class MapDashboardController extends Controller {
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
-  private @FXML ArrayList<String> alertTable;
+  private @FXML TreeTableView alertTable;
 
   private @FXML Button ll2;
   private @FXML Button ll1;
@@ -376,28 +376,4 @@ public class MapDashboardController extends Controller {
     updateServiceRequestTable();
     updateCounts();
   }
-
-  public int checkAlertSixBeds(String m, boolean d) {
-    if (m.equals("bed") && d == true) {
-      return 1;
-    } else {
-      return 0;
-    }
-  }
-
-  public void addBedAlertToArray(boolean b) {
-
-    if (b == true) {
-      if (!alertTable.contains("Alert: more than 6 beds")) {
-        alertTable.add("Alert: more than 6 beds");
-      }
-    }
-    if (b == false) {
-      if (alertTable.contains("Alert: more than 6 beds")) {
-        alertTable.remove("Alert: more than 6 beds");
-      }
-    }
-  }
-
-
 }
