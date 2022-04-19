@@ -6,9 +6,8 @@ public abstract class DirectionalAssoc {
   ArrayList<DirectionalAssoc> observers = new ArrayList<>();
 
   public void updateAllObservers() {
-    for (int i = 0; i < observers.size(); i++) {
-      observers.get(i).update(this);
-      DirectionalAssoc.release(observers.get(i), this);
+    for (DirectionalAssoc observer : observers) {
+      observer.update(this);
     }
   }
 
