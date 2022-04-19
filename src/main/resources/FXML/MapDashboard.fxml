@@ -4,7 +4,6 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -76,7 +75,7 @@
                               </ImageView>
                               <Group layoutX="140.0" layoutY="20.0">
                                  <children>
-                                    <Button layoutX="25.0" mnemonicParsing="false" onAction="#switchToF5" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
+                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
                                     <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" />
                                     <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" />
                                     <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" />
@@ -96,7 +95,7 @@
                                     <Button layoutY="300.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL2" />
                                  </children>
                               </Group>
-                              <ProgressBar fx:id="cleanProgress" layoutX="65.0" layoutY="405.0" prefHeight="40.0" prefWidth="228.0" progress="0.0" />
+                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="65.0" layoutY="419.0" prefHeight="50.0" prefWidth="271.0" styleClass="floorLabel" />
                            </children>
                            <padding>
                               <Insets top="10.0" />

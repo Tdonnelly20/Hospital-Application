@@ -38,6 +38,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, String> SRCol;
   private @FXML TextArea countsArea = new TextArea();
   private @FXML TextArea alertArea;
+  private @FXML Label floorLabel;
 
   private @FXML Button ll2;
   private @FXML Button ll1;
@@ -108,7 +109,6 @@ public class MapDashboardController extends Controller {
 
     public void setFloor(Floor floor) {
       this.floor = floor;
-      sideViewTPane.setText("Floor: " + floor.getFloorName());
     }
   }
 
@@ -165,6 +165,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Lower Level 2");
   }
 
   @FXML
@@ -172,6 +173,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Lower Level 1");
   }
 
   @FXML
@@ -179,6 +181,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("1");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 1");
   }
 
   @FXML
@@ -186,6 +189,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("2");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 2");
   }
 
   @FXML
@@ -193,6 +197,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("3");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 3");
   }
 
   @FXML
@@ -200,6 +205,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("4");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 4");
   }
 
   @FXML
@@ -207,6 +213,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("5");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 5");
   }
 
   @FXML
