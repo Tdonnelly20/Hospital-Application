@@ -32,10 +32,10 @@ public class ReligiousRequestDao extends DaoInterface {
       Connection connection = Vdb.Connect();
       Statement statement = connection.createStatement();
       DatabaseMetaData meta = connection.getMetaData();
-      ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[]{"TABLE"});
+      ResultSet set = meta.getTables(null, null, "RELIGIOUSREQUESTS", new String[] {"TABLE"});
       if (!set.next()) {
         statement.execute(
-                "CREATE TABLE RELIGIOUSREQUESTS(pID int, empID int, nodeID char(50), religion char(35), request char(200), serviceID int)");
+            "CREATE TABLE RELIGIOUSREQUESTS(pID int, empID int, nodeID char(50), religion char(35), request char(200), serviceID int)");
       } else {
         statement.execute("DROP TABLE RELIGIOUSREQUESTS");
         createSQLTable();
@@ -61,12 +61,12 @@ public class ReligiousRequestDao extends DaoInterface {
         ReligiousRequest religiousRequest = (ReligiousRequest) request;
 
         String[] outputData = {
-                Integer.toString(religiousRequest.getPatientID()),
-                Integer.toString(religiousRequest.getEmpID()),
-                religiousRequest.getLocation().getNodeID(),
-                religiousRequest.getReligion(),
-                religiousRequest.getDetails(),
-                Integer.toString(religiousRequest.getServiceID())
+          Integer.toString(religiousRequest.getPatientID()),
+          Integer.toString(religiousRequest.getEmpID()),
+          religiousRequest.getLocation().getNodeID(),
+          religiousRequest.getReligion(),
+          religiousRequest.getDetails(),
+          Integer.toString(religiousRequest.getServiceID())
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -76,7 +76,7 @@ public class ReligiousRequestDao extends DaoInterface {
         bw.close();
         fw.close();
       }
-    }catch (IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
@@ -109,7 +109,7 @@ public class ReligiousRequestDao extends DaoInterface {
     ReligiousRequest newReligiousRequest = (ReligiousRequest) Request;
     Connection connection = Vdb.Connect();
     String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?)";
-    try{
+    try {
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setInt(1, newReligiousRequest.getEmpID());
       statement.setInt(2, newReligiousRequest.getPatientID());
@@ -118,11 +118,9 @@ public class ReligiousRequestDao extends DaoInterface {
       statement.setString(5, newReligiousRequest.getDetails());
       statement.setInt(6, newReligiousRequest.getServiceID());
       statement.executeUpdate(); // uninit params
-    }
-    catch(Exception e){
+    } catch (Exception e) {
 
     }
-
   }
 
   @Override
@@ -135,8 +133,7 @@ public class ReligiousRequestDao extends DaoInterface {
       statement.setInt(1, serviceID);
       statement.executeUpdate();
       statement.close();
-    }
-    catch(Exception e){
+    } catch (Exception e) {
 
     }
   }
@@ -149,8 +146,7 @@ public class ReligiousRequestDao extends DaoInterface {
     allReligiousRequest.add(newReligiousRequest);
     try {
       addToSQLTable(request);
-    }
-    catch(Exception e){
+    } catch (Exception e) {
 
     }
     saveToCSV();
@@ -164,8 +160,7 @@ public class ReligiousRequestDao extends DaoInterface {
     request.detachAll();
     try {
       removeFromSQLTable(request);
-    }
-    catch(Exception e){
+    } catch (Exception e) {
 
     }
     saveToCSV();
@@ -202,15 +197,12 @@ public class ReligiousRequestDao extends DaoInterface {
       allReligiousRequest.set(index, newRequest);
       try {
         updateSQLTable(request);
-      }
-      catch(Exception e){
+      } catch (Exception e) {
 
       }
       saveToCSV();
     }
   }
-
-
 
   public void updateSQLTable(ServiceRequest Request) throws SQLException {
     ReligiousRequest newRequest = (ReligiousRequest) Request;

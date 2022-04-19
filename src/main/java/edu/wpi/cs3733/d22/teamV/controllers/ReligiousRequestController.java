@@ -51,9 +51,7 @@ public class ReligiousRequestController extends RequestController {
     setTitleText("Religious Request Servic" + "e");
     updateTreeTable();
     fillTopPane();
-    mapSetUp();
     updating = false;
-    filterCheckBox.getCheckModel().check("Religious Requests Service");
     validateButton();
   }
   // empIDCol;
