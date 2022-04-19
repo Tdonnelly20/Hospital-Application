@@ -5,6 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
@@ -37,8 +38,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<ServiceRequest, Double> xCol;
-  private @FXML TreeTableColumn<ServiceRequest, Double> yCol;
+  private @FXML TreeTableColumn<Location, String> locationCol;
   private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
@@ -75,17 +75,6 @@ public class MapDashboardController extends Controller {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  public void goBack(MouseEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
   public void goExit(MouseEvent mouseEvent) {
     stop();
   }
@@ -101,14 +90,6 @@ public class MapDashboardController extends Controller {
     stage.show();
   }
 
-  public void updateEquipTable() {}
-
-  @FXML
-  public void updateEquipmentCount() {
-    int totalCounter = curFloor.getEquipmentIcons().size();
-    int cleanCounter;
-    int dirtyCounter;
-  }
   /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
   private Floor curFloor = MapManager.getManager().getFloor("1");
@@ -192,14 +173,14 @@ public class MapDashboardController extends Controller {
 
   @FXML
   public void switchToLL2(MouseEvent event) {
-    curFloor = MapManager.getManager().getFloor("LL2");
+    curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
   public void switchToLL1(MouseEvent event) {
-    curFloor = MapManager.getManager().getFloor("LL1");
+    curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
   }
@@ -273,8 +254,7 @@ public class MapDashboardController extends Controller {
   @FXML
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("x"));
-    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
     startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
 
     ArrayList<ServiceRequest> currRequests =
@@ -284,9 +264,13 @@ public class MapDashboardController extends Controller {
     if (!currRequests.isEmpty()) {
 
       for (ServiceRequest pos : currRequests) {
-        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
-          TreeItem<ServiceRequest> item = new TreeItem(pos);
-          treeItems.add(item);
+        if (pos.getLocation() != null) {
+          if (pos.getLocation().getFloor() != null) {
+            if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+              TreeItem<ServiceRequest> item = new TreeItem(pos);
+              treeItems.add(item);
+            }
+          }
         }
       }
 
@@ -302,7 +286,6 @@ public class MapDashboardController extends Controller {
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
-
     ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
@@ -328,32 +311,27 @@ public class MapDashboardController extends Controller {
   }
 
   @FXML
-  private void updateCounts() {
+  public void updateCounts() {
+    curFloor = MapManager.getManager().getFloor(curFloor.getFloorName());
     int srCount = 0;
     int dirty = 0;
     int clean = 0;
-    ArrayList<ServiceRequest> currRequests =
-        (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
 
-    ArrayList<Equipment> equip = Vdb.requestSystem.getEquipment();
-
-    if (!currRequests.isEmpty()) {
-
-      for (ServiceRequest pos : currRequests) {
-        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
-          srCount++;
+    for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
+      if (equipment.getFloor().equals(curFloor.getFloorName())) {
+        if (equipment.getIsDirty()) {
+          dirty++;
+        } else {
+          clean++;
         }
       }
     }
 
-    if (!equip.isEmpty()) {
-
-      for (Equipment e : equip) {
-        if (e.getFloor().equals(curFloor.getFloorName())) {
-          if (e.getIsDirty()) {
-            dirty++;
-          } else {
-            clean++;
+    for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
+      if (request.getLocation() != null) {
+        if (request.getLocation().getFloor() != null) {
+          if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+            srCount++;
           }
         }
       }
@@ -374,6 +352,11 @@ public class MapDashboardController extends Controller {
     updateEquipmentTable();
     updatePatientTable();
     updateServiceRequestTable();
+    updateCounts();
+  }
+
+  @Override
+  public void init() {
     updateCounts();
   }
 }
