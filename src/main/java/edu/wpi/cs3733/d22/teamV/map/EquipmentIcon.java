@@ -154,4 +154,37 @@ public class EquipmentIcon extends Icon {
       equipment.updateLocation(location.getXCoord(), location.getYCoord());
     }
   }
+
+  //  public void alertSixBeds() {
+  //    int alertCounter = 0;
+  //    boolean alert = false;
+  //    for (Equipment equipment : equipmentList) {
+  //      for (Equipment equipmentTwo : equipmentList) {
+  //        if (equipment.getFloor() == equipmentTwo.getFloor())
+  //          if (equipment.getX() == equipment.getX()) {
+  //            boolean d = equipment.getIsDirty();
+  //            int i =
+  // MapDashboardController.getController().checkAlertSixBeds(equipment.getName(), d);
+  //            alertCounter += i;
+  //          }
+  //      }
+  //    }
+  //    if (alertCounter > 5) {
+  //      alert = true;
+  //    }
+  //    //MapDashboardController.getController().addBedAlertToArray(alert);
+  //  }
+
+  public int[] pumpAlert() {
+    int dirty = 0;
+    int clean = 0;
+    for (Equipment equipment : equipmentList) {
+      // System.out.println(equipment.getName());
+      if (equipment.getName().equals("Infusion Pump")) {
+        if (equipment.getIsDirty()) dirty++;
+        else clean++;
+      }
+    }
+    return new int[] {clean, dirty};
+  }
 }

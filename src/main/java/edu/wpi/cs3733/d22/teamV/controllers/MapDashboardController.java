@@ -3,7 +3,9 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
+import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -342,35 +344,95 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
+  //  @FXML
+  //  private void updateAlerts() {
+  //    int dirty = 0;
+  //    int clean = 0;
+  //    ArrayList<String> alerts = new ArrayList<>();
+  //    String alertText = "";
+  //
+  //    for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
+  //      if (equipment.getFloor().equals(curFloor.getFloorName())) {
+  //        if (equipment.getIsDirty()) {
+  //          dirty++;
+  //        } else {
+  //          clean++;
+  //        }
+  //      }
+  //    }
+  //
+  //    if (dirty > 10) {
+  //      alerts.add("ALERT! there are " + dirty + " dirty pumps on floor " +
+  // curFloor.getFloorName());
+  //    }
+  //    if (clean < 5) {
+  //      alerts.add(
+  //          "ALERT! there are only " + clean + " clean pumps on floor " +
+  // curFloor.getFloorName());
+  //    }
+  //
+  //    for (String a : alerts) {
+  //      alertText = "\n" + alertText + a + "\n";
+  //    }
+  //
+  //    alertsArea.setText(alertText);
+  //  }
+  //
+  //  public int checkAlertSixBeds(String m, boolean d) {
+  //    if (m.equals("bed") && d == true) {
+  //      return 1;
+  //    } else {
+  //      return 0;
+  //    }
+  //  }
+
+  //  public void addBedAlertToArray(boolean b) {
+  //    if (b == true) {
+  //      if (!alertTable.contains("Alert: more than 6 beds")) {
+  //        alertTable.add("Alert: more than 6 beds");
+  //      }
+  //    }
+  //    if (b == false) {
+  //      if (alertTable.contains(“Alert: more than 6 beds”)) {
+  //        alertTable.remove(“Alert: more than 6 beds”);
+  //      }
+  //    }
+  //  }
+
   @FXML
   private void updateAlerts() {
-    int dirty = 0;
-    int clean = 0;
     ArrayList<String> alerts = new ArrayList<>();
+    ArrayList<Icon> iconList = curFloor.getIconList();
+    ArrayList<EquipmentIcon> i = new ArrayList<>();
+    int[] state;
     String alertText = "";
-
-    for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
-      if (equipment.getFloor().equals(curFloor.getFloorName())) {
-        if (equipment.getIsDirty()) {
-          dirty++;
-        } else {
-          clean++;
-        }
+    for (Icon icon : iconList) {
+      if (icon.iconType.equals(Icon.IconType.Equipment)) {
+        i.add((EquipmentIcon) icon);
+      }
+    }
+    for (EquipmentIcon e : i) {
+      state = e.pumpAlert();
+      if ((state[0] < 5) && e.hasCleanEquipment()) {
+        alerts.add(
+            "ALERT! there are only "
+                + state[0]
+                + " clean pumps at location "
+                + e.getLocation().getNodeID());
+      }
+      if (state[1] > 10) {
+        alerts.add(
+            "ALERT! there are "
+                + state[1]
+                + " dirty pumps at location "
+                + e.getLocation().getNodeID());
       }
     }
 
-    if (dirty > 10) {
-      alerts.add("ALERT! there are " + dirty + " dirty pumps on floor " + curFloor.getFloorName());
-    }
-    if (clean < 5) {
-      alerts.add(
-          "ALERT! there are only " + clean + " clean pumps on floor " + curFloor.getFloorName());
-    }
-
     for (String a : alerts) {
-      alertText = "\n" + alertText + a + "\n";
+      alertText = alertText + a + "\n";
     }
-
+    System.out.println(alertText);
     alertsArea.setText(alertText);
   }
 
