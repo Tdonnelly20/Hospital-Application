@@ -24,7 +24,6 @@ public class EquipmentIcon extends Icon {
 
   public EquipmentIcon(Location location) {
     super(location);
-    System.out.println("New Equipment Icon");
     this.iconType = IconType.Equipment;
     equipmentList = new ArrayList<>();
     image.setFitWidth(20);
@@ -98,7 +97,6 @@ public class EquipmentIcon extends Icon {
   }
 
   public void addToEquipmentList(Equipment equipment) {
-    System.out.println("Adding Equipment to list");
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
       if (equipmentList.size() == 1) {
