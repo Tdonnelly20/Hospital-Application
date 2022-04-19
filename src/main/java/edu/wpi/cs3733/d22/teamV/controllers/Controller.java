@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -176,7 +177,7 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
-  //switch to about page
+  // switch to about page
   @FXML
   protected void switchToAbout(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/About.fxml"));
@@ -186,6 +187,23 @@ public abstract class Controller extends Application {
   // Switches scene to the rootW
   @FXML
   protected void switchScene(ActionEvent event) {
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Controller controller = loader.getController();
+    controller.init();
+
+    PopupController.getController().closePopUp();
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  @FXML
+  protected void switchScene2(MouseEvent event) {
     try {
       root = loader.load();
     } catch (IOException e) {
