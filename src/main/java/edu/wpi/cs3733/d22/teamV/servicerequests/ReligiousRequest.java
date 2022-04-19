@@ -5,8 +5,6 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class ReligiousRequest extends ServiceRequest {
-  private int patientID;
-  private int employeeID;
   private String religion;
   private String details;
   /**
@@ -17,11 +15,9 @@ public class ReligiousRequest extends ServiceRequest {
    */
   public ReligiousRequest(
       int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
-    this.patientID = patientID;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.employeeID = patientID;
     this.religion = religion;
     this.details = specialRequests;
     this.type = "Religious Request";
@@ -30,17 +26,29 @@ public class ReligiousRequest extends ServiceRequest {
   }
 
   public int getPatientID() {
-    return patientID;
+    return patient.getPatientID();
+  }
+
+  public int getEmployeeID() {
+    return employee.getEmployeeID();
+  }
+
+  public String getRoomNumber() {
+    return location.getShortName();
+  }
+
+  public String getFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getLastName() {
+    return patient.getLastName();
   }
 
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
     updateAllObservers();
-  }
-
-  public int getEmpID() {
-    return employeeID;
   }
 
   public String getReligion() {

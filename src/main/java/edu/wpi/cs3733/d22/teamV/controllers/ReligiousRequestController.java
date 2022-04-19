@@ -68,6 +68,8 @@ public class ReligiousRequestController extends RequestController {
         new TreeItemPropertyValueFactory("employeeID")); // issue, but it matches textfield
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     roomCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     religionCol.setCellValueFactory(new TreeItemPropertyValueFactory("religion"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
     ArrayList<ReligiousRequest> requests =
@@ -162,7 +164,7 @@ public class ReligiousRequestController extends RequestController {
       ReligiousRequest request =
           ReligiousRequestTable.getSelectionModel().getSelectedItem().getValue();
 
-      employeeID.setText(String.valueOf(request.getEmpID()));
+      employeeID.setText(String.valueOf(request.getEmployeeID()));
       patientID.setText(String.valueOf(request.getPatientID()));
       religion.setText(request.getReligion());
       roomNumber.setText(request.getLocation().getNodeID());

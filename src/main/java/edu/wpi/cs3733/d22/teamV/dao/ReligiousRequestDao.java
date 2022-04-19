@@ -62,7 +62,7 @@ public class ReligiousRequestDao extends DaoInterface {
 
         String[] outputData = {
           Integer.toString(religiousRequest.getPatientID()),
-          Integer.toString(religiousRequest.getEmpID()),
+          Integer.toString(religiousRequest.getEmployeeID()),
           religiousRequest.getLocation().getNodeID(),
           religiousRequest.getReligion(),
           religiousRequest.getDetails(),
@@ -111,7 +111,7 @@ public class ReligiousRequestDao extends DaoInterface {
     String query = "INSERT INTO RELIGIOUSREQUESTS VALUES(?,?,?,?,?,?)";
     try {
       PreparedStatement statement = connection.prepareStatement(query);
-      statement.setInt(1, newReligiousRequest.getEmpID());
+      statement.setInt(1, newReligiousRequest.getEmployeeID());
       statement.setInt(2, newReligiousRequest.getPatientID());
       statement.setString(3, newReligiousRequest.getLocation().getNodeID());
       statement.setString(4, newReligiousRequest.getReligion());
@@ -212,7 +212,7 @@ public class ReligiousRequestDao extends DaoInterface {
             + " SET pID=?,empID=?,nodeID=?,religion=?,request=?"
             + " WHERE serviceID=?";
     PreparedStatement statement = connection.prepareStatement(query);
-    statement.setInt(1, newRequest.getEmpID());
+    statement.setInt(1, newRequest.getEmployeeID());
     statement.setInt(2, newRequest.getPatientID());
     statement.setString(3, newRequest.getLocation().getNodeID());
     statement.setString(4, newRequest.getReligion());
