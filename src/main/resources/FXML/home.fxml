@@ -85,7 +85,7 @@
                   <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="272.0" layoutY="239.0" onAction="#switchToEmployeeDB" prefHeight="98.0" prefWidth="370.0" ripplerFill="#e8e8e8" text="Employee Database" textFill="WHITE">
+            <JFXButton layoutX="259.0" layoutY="240.0" onAction="#switchToEmployeeDB" prefHeight="98.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Employee Database" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
