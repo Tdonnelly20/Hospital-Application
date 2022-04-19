@@ -6,9 +6,9 @@ public abstract class DirectionalAssoc {
   ArrayList<DirectionalAssoc> observers = new ArrayList<>();
 
   public void updateAllObservers() {
-    System.out.println("Running update! for " + observers.size());
-    for (DirectionalAssoc observer : observers) {
-      // observer.update(this);
+    for (int i = 0; i < observers.size(); i++) {
+      observers.get(i).update(this);
+      DirectionalAssoc.release(observers.get(i), this);
     }
   }
 
@@ -27,9 +27,9 @@ public abstract class DirectionalAssoc {
 
   // remove all associations from this observer
   public void releaseAll() {
-    for (DirectionalAssoc observer : observers) {
-      DirectionalAssoc.release(observer, this);
-      observer.update(this);
+    for (int i = 0; i < observers.size(); i++) {
+      observers.get(i).update(this);
+      DirectionalAssoc.release(observers.get(i), this);
     }
   }
 
