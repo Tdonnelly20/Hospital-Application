@@ -176,6 +176,13 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
+  //switch to about page
+  @FXML
+  protected void switchToAbout(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/About.fxml"));
+    switchScene(event);
+  }
+
   // Switches scene to the rootW
   @FXML
   protected void switchScene(ActionEvent event) {
