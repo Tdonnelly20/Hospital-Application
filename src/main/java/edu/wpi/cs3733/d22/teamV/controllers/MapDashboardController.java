@@ -346,27 +346,6 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-  //  public int checkAlertSixBeds(String m, boolean d) {
-  //    if (m.equals("bed") && d == true) {
-  //      return 1;
-  //    } else {
-  //      return 0;
-  //    }
-  //  }
-
-  //  public void addBedAlertToArray(boolean b) {
-  //    if (b == true) {
-  //      if (!alertTable.contains("Alert: more than 6 beds")) {
-  //        alertTable.add("Alert: more than 6 beds");
-  //      }
-  //    }
-  //    if (b == false) {
-  //      if (alertTable.contains(“Alert: more than 6 beds”)) {
-  //        alertTable.remove(“Alert: more than 6 beds”);
-  //      }
-  //    }
-  //  }
-
   @FXML
   private void updateAlerts() {
     ArrayList<String> alerts = new ArrayList<>();
