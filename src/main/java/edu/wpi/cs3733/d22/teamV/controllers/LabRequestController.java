@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.LabRequestDao;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
@@ -44,6 +45,8 @@ public class LabRequestController extends RequestController {
   private static class SingletonHelper {
     private static final LabRequestController manager = new LabRequestController();
   }
+
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   public static LabRequestController getManager() {
     return LabRequestController.SingletonHelper.manager;
@@ -98,18 +101,23 @@ public class LabRequestController extends RequestController {
   @Override
   public void validateButton() {
     try {
-      if (!(employeeID.getText().isEmpty())
-          && !(patientID.getText().isEmpty())
-          && !(requestedLab.getValue().equals("Select Lab"))) {
-        // Information verification and submission needed
-        sendRequest.setDisable(false);
-      } else if (!(employeeID.getText().isEmpty())
-          || !(patientID.getText().isEmpty())
-          || !(requestedLab.getValue().equals("Select Lab"))) {
-        status.setText("Status: Processing");
-      } else {
+      sendRequest.setDisable(true);
+      if ((employeeID.getText().isEmpty())
+          && (patientID.getText().isEmpty())
+          && (requestedLab.getValue().equals("Select Lab"))) {
         status.setText("Status: Blank");
-        sendRequest.setDisable(true);
+      } else if ((employeeID.getText().isEmpty())
+          || (patientID.getText().isEmpty())
+          || (requestedLab.getValue().equals("Select Lab"))) {
+        status.setText("Status: Processing");
+      } else if (LocationDao.getLocation(nodeID.getText()) == null) {
+        status.setText("Status: Needs valid room");
+      } else if (!isInteger(employeeID.getText())) {
+        status.setText("Status: Needs valid employee");
+      } else if (!isInteger(patientID.getText())) {
+        status.setText("Status: Needs valid patient");
+      } else {
+        sendRequest.setDisable(false);
       }
     } catch (NullPointerException e) {
 
