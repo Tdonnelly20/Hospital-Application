@@ -172,12 +172,14 @@ public class EquipmentDao {
 
   public void addEquipment(Equipment equipment) {
     allEquipment.add(equipment);
+    saveToCSV();
     addToSQLTable(equipment);
   }
 
   public void removeEquipment(Equipment equipment) {
     allEquipment.removeIf(equipment1 -> equipment1.getID().equals(equipment.getID()));
     removeFromSQLTable(equipment);
+    saveToCSV();
   }
 
   public ArrayList<Equipment> getAllEquipment() {
