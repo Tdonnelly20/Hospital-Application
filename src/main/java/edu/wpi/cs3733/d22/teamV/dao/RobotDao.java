@@ -17,6 +17,8 @@ public class RobotDao extends DaoInterface {
   /** Initialize the array list */
   public RobotDao() {
     allRobotRequests = new ArrayList<>();
+    loadFromCSV();
+    createSQLTable();
   }
 
   // DaoInterface Methods
@@ -85,10 +87,9 @@ public class RobotDao extends DaoInterface {
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "ROBOTS", new String[] {"TABLE"});
       String query = "";
-
       if (!set.next()) {
         query =
-            "CREATE TABLE ROBOTS(employeeID int, botID int, nodeID varchar(30), detaisl varchar(30), status varchar(50), serviceID int)";
+            "CREATE TABLE ROBOTS(employeeID int, botID int, nodeID varchar(30), details varchar(30), status varchar(50), serviceID int)";
         statement.execute(query);
 
       } else {
