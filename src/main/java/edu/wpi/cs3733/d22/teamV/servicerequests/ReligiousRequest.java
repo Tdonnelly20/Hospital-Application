@@ -7,10 +7,8 @@ import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 public class ReligiousRequest extends ServiceRequest {
   private int patientID;
   private int employeeID;
-  private int roomNumber;
   private String religion;
-  private int serviceID;
-
+  private String details;
   /**
    * @param employeeID
    * @param patientID
@@ -19,12 +17,13 @@ public class ReligiousRequest extends ServiceRequest {
    */
   public ReligiousRequest(
       int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
-    this.patientID = employeeID;
+    this.patientID = patientID;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.employeeID = patientID;
     this.religion = religion;
+    this.details = specialRequests;
     this.type = "Religious Request";
     status = "Not Started";
     this.dao = RequestSystem.Dao.ReligiousRequest;
@@ -33,11 +32,6 @@ public class ReligiousRequest extends ServiceRequest {
   public int getPatientID() {
     return patientID;
   }
-
-  public int getServiceID() {
-    return serviceID;
-  }
-
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
@@ -54,9 +48,12 @@ public class ReligiousRequest extends ServiceRequest {
 
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
-    super.update(directionalAssoc);
-    Vdb.requestSystem
-        .getDao(RequestSystem.Dao.ReligiousRequest)
-        .updateServiceRequest(this, getServiceID());
+      super.update(directionalAssoc);
+      Vdb.requestSystem
+              .getDao(RequestSystem.Dao.ReligiousRequest)
+              .updateServiceRequest(this, getServiceID());
+  }
+  public String getDetails() {
+    return details;
   }
 }

@@ -14,7 +14,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ReligiousRequestController">
     <items>
         <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
@@ -36,7 +37,7 @@
                            <content>
                               <VBox alignment="TOP_CENTER" prefHeight="917.0" prefWidth="306.0" spacing="40.0" style="-fx-background-color: #5c677d;">
                                  <children>
-                                    <TextField id="userID" fx:id="userID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="User ID">
+                                    <TextField id="employeeID" fx:id="employeeID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="User ID">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
@@ -46,12 +47,12 @@
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField id="lastName" fx:id="roomNumber" layoutX="40.0" layoutY="128.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="258.0" promptText="Room number">
+                                    <TextField id="room" fx:id="roomNumber" layoutX="40.0" layoutY="128.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="258.0" promptText="Room number">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField id="lastName" fx:id="religion" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Religion">
+                                    <TextField id="religion" fx:id="religion" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Religion">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
@@ -62,6 +63,17 @@
                                        </VBox.margin>
                                     </Label>
                                     <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">
+                                     <TextField id="details" fx:id="details" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Details">
+                                         <VBox.margin>
+                                             <Insets left="15.0" right="15.0" />
+                                         </VBox.margin>
+                                     </TextField>
+                                    <Label  fx:id="statusLabel" text="Please fill in the required fields." textFill="Red">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" />
+                                       </VBox.margin>
+                                    </Label >
+                                    <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request" onAction="#sendRequest">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -90,8 +102,33 @@
                                 <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <tabs>
                                         <Tab text="Table View">
+                                        <Tab text="Map View">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <VBox fx:id="mapVBox" layoutX="225.0" layoutY="122.0" prefHeight="891.0" prefWidth="1610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </Tab>
+                                        <Tab fx:id="updateTreeTable" onSelectionChanged="#updateTreeTable" text="Table View">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <TreeTableView fx:id="ReligiousRequestTable" layoutX="11.0" layoutY="56.0" prefHeight="650.0" prefWidth="538.0">
+                                                            <columns>
+                                                                <TreeTableColumn fx:id="employeeIDCol" prefWidth="79.99993705749512" text="Employee ID" />
+                                                                <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
+                                                                <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
+                                                                <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
+                                                                <TreeTableColumn fx:id="roomCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
+                                                                <TreeTableColumn fx:id="religionCol" minWidth="0.0" prefWidth="56.7999267578125" text="Religion" />
+                                                                <TreeTableColumn fx:id="requestDetailsCol" prefWidth="64.80001831054688" text="Other Info" />
+                                                            </columns>
+                                                        </TreeTableView>
+                                                        <Button fx:id="removeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
+                                                        <Button fx:id="updateButton" layoutX="171.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" />
+                                                    </children></AnchorPane>
                                             </content>
                                         </Tab>
                               <Tab text="Help">
