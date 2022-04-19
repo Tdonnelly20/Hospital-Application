@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -44,14 +43,6 @@ public class EquipmentIcon extends Icon {
           location.setYCoord(location.getYCoord() + event.getY());
           updateLocation();
           checkBounds();
-        });
-    image.setOnMouseExited(
-        event -> {
-          image.setFitWidth(20);
-          image.setFitHeight(20);
-          setXCoord(xCoord + event.getX());
-          setYCoord(yCoord + event.getY());
-          RequestSystem.getSystem().updateLocations(this);
         });
   }
 

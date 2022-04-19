@@ -1,10 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +24,7 @@ public abstract class Icon {
   protected double xCoord;
   protected double yCoord;
   @FXML protected ImageView image;
+  protected boolean isDrag = false;
 
   public Icon(Location location) {
     this.xCoord = location.getXCoord();
@@ -45,17 +48,28 @@ public abstract class Icon {
         e -> {
           // prevent pannable ScrollPane from changing cursor on drag-detected (implementation
           // detail)
+          isDrag = true;
           e.setDragDetect(false);
           Point2D offset = (Point2D) image.getUserData();
           image.setX(e.getX() - offset.getX() - 15);
           image.setY(e.getY() - offset.getY() - 20);
           e.consume(); // prevents MouseEvent from reaching ScrollPane
         });
-    image.setOnMouseEntered(
+    image.setOnMouseReleased(
         event -> {
-          image.setFitWidth(50);
-          image.setFitHeight(50);
+          if (isDrag) {
+            isDrag = false;
+            setXCoord(xCoord + event.getX());
+            setYCoord(yCoord + event.getY());
+            RequestSystem.getSystem().updateLocations(this);
+          }
         });
+
+    image.setOnMouseEntered(
+    event -> {
+      image.setFitWidth(35);
+      image.setFitHeight(35);
+    });
   }
 
   @FXML
