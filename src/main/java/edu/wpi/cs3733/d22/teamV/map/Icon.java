@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;

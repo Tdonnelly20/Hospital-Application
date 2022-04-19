@@ -46,16 +46,14 @@ public class EquipmentIcon extends Icon {
           checkBounds();
         });
     image.setOnMouseExited(
-            event -> {
-              image.setFitWidth(20);
-              image.setFitHeight(20);
-              System.out.println("Original X: " + xCoord);
-              System.out.println("Event X: " + event.getX());
-              System.out.println("Translate X: " + image.getTranslateX());
-              setXCoord(xCoord + event.getX());
-              setYCoord(yCoord + event.getY());
-              RequestSystem.getSystem().updateLocations(this);
-            });
+        event -> {
+          image.setFitWidth(20);
+          image.setFitHeight(20);
+          setXCoord(xCoord + event.getX());
+          setYCoord(yCoord + event.getY());
+          //TODO fix drag error and have equipment x and y be set to the new location
+          RequestSystem.getSystem().updateLocations(this);
+        });
   }
 
   @Override

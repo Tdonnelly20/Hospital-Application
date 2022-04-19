@@ -38,16 +38,13 @@ public class LocationIcon extends Icon {
           }
         });
     image.setOnMouseExited(
-            event -> {
-              image.setFitWidth(15);
-              image.setFitHeight(15);
-              System.out.println("Original X: " + xCoord);
-              System.out.println("Event X: " + event.getX());
-              System.out.println("Translate X: " + image.getTranslateX());
-              setXCoord(xCoord + event.getX());
-              setYCoord(yCoord + event.getY());
-              RequestSystem.getSystem().updateLocations(this);
-            });
+        event -> {
+          image.setFitWidth(15);
+          image.setFitHeight(15);
+          setXCoord(xCoord + event.getX());
+          setYCoord(yCoord + event.getY());
+          RequestSystem.getSystem().updateLocations(this);
+        });
   }
 
   @Override
