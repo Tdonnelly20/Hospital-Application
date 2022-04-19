@@ -180,7 +180,7 @@ public class MapDashboardController extends Controller {
 
   @FXML
   public void switchToLL1(MouseEvent event) {
-    curFloor = MapManager.getManager().getFloor("LL1");
+    curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
   }
@@ -264,9 +264,13 @@ public class MapDashboardController extends Controller {
     if (!currRequests.isEmpty()) {
 
       for (ServiceRequest pos : currRequests) {
-        if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
-          TreeItem<ServiceRequest> item = new TreeItem(pos);
-          treeItems.add(item);
+        if (pos.getLocation() != null) {
+          if (pos.getLocation().getFloor() != null) {
+            if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+              TreeItem<ServiceRequest> item = new TreeItem(pos);
+              treeItems.add(item);
+            }
+          }
         }
       }
 
@@ -324,8 +328,12 @@ public class MapDashboardController extends Controller {
     }
 
     for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
-      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
-        srCount++;
+      if (request.getLocation() != null) {
+        if (request.getLocation().getFloor() != null) {
+          if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+            srCount++;
+          }
+        }
       }
     }
     countsArea.setText(
