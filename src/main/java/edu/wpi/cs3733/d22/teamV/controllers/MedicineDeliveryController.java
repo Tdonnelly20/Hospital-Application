@@ -48,7 +48,7 @@ public class MedicineDeliveryController extends RequestController {
 
   // MUST take from Vdb, do NOT create
   private static final MedicineDeliveryDao medicineDeliveryDao =
-          (MedicineDeliveryDao) Vdb.requestSystem.getDao(Dao.MedicineDelivery);
+      (MedicineDeliveryDao) Vdb.requestSystem.getDao(Dao.MedicineDelivery);
   private boolean updating = false;
   private int updateServiceID;
 
@@ -68,29 +68,29 @@ public class MedicineDeliveryController extends RequestController {
     setColumnSizes(910);
 
     tablePlane
-            .widthProperty()
-            .addListener(
-                    new ChangeListener<Number>() {
-                      @Override
-                      public void changed(
-                              ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                        double w = tablePlane.getWidth();
-                        medicineDeliveryTable.setPrefWidth(w - 30);
-                        setColumnSizes(w);
-                      }
-                    });
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePlane.getWidth();
+                medicineDeliveryTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
 
     tablePlane
-            .heightProperty()
-            .addListener(
-                    new ChangeListener<Number>() {
-                      @Override
-                      public void changed(
-                              ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                        double h = tablePlane.getHeight();
-                        medicineDeliveryTable.setPrefHeight(h - 75);
-                      }
-                    });
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePlane.getHeight();
+                medicineDeliveryTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   void setColumnSizes(double w) {
@@ -123,7 +123,7 @@ public class MedicineDeliveryController extends RequestController {
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MedicineDelivery> currMedicineDeliveries =
-            (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllServiceRequests();
+        (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllServiceRequests();
     // Create a list for our tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
@@ -160,20 +160,20 @@ public class MedicineDeliveryController extends RequestController {
 
     try {
       if ((employeeID.getText().equals("")
-              && patientID.getText().equals("")
-              && nodeID.getText().equals("")
-              && dosage.getText().equals("")
-              && statusDropDown.getValue().equals("Status")
-              && medicationDropDown.getValue().equals("Select Medication"))) {
+          && patientID.getText().equals("")
+          && nodeID.getText().equals("")
+          && dosage.getText().equals("")
+          && statusDropDown.getValue().equals("Status")
+          && medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
         statusLabel.setTextFill(Color.web("Black"));
       } else if ((employeeID.getText().equals("")
-              || patientID.getText().equals("")
-              || nodeID.getText().equals("")
-              || dosage.getText().equals("")
-              || statusDropDown.getValue().equals("Status")
-              || medicationDropDown.getValue().equals("Select Medication"))) {
+          || patientID.getText().equals("")
+          || nodeID.getText().equals("")
+          || dosage.getText().equals("")
+          || statusDropDown.getValue().equals("Status")
+          || medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
         statusLabel.setTextFill(Color.web("Black"));
@@ -197,14 +197,14 @@ public class MedicineDeliveryController extends RequestController {
       // If all conditions pass, create the request
     } else {
       MedicineDelivery medicineDelivery =
-              new MedicineDelivery(
-                      nodeID.getText(),
-                      Integer.parseInt(patientID.getText()),
-                      Integer.parseInt(employeeID.getText()),
-                      medicationDropDown.getValue().toString(),
-                      dosage.getText(),
-                      statusDropDown.getValue().toString(),
-                      requestDetails.getText());
+          new MedicineDelivery(
+              nodeID.getText(),
+              Integer.parseInt(patientID.getText()),
+              Integer.parseInt(employeeID.getText()),
+              medicationDropDown.getValue().toString(),
+              dosage.getText(),
+              statusDropDown.getValue().toString(),
+              requestDetails.getText());
       // Send the request to the Dao pattern
       try {
         if (updating) {
@@ -245,7 +245,7 @@ public class MedicineDeliveryController extends RequestController {
   private void updateSelectedRow() throws NullPointerException {
     updating = true;
     MedicineDelivery delivery =
-            medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
+        medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
 
     employeeID.setText(String.valueOf(delivery.getEmployeeID()));
     patientID.setText(String.valueOf(delivery.getPatientID()));
@@ -262,7 +262,7 @@ public class MedicineDeliveryController extends RequestController {
   private void removeSelectedRow() throws NullPointerException {
     try {
       MedicineDelivery delivery =
-              medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
+          medicineDeliveryTable.getSelectionModel().getSelectedItem().getValue();
       medicineDeliveryDao.removeServiceRequest(delivery);
     } catch (NullPointerException e) {
       e.printStackTrace();
