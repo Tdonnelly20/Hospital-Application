@@ -84,7 +84,7 @@ public class EquipmentDao {
           String.valueOf(equipment.getX()),
           String.valueOf(equipment.getY()),
           equipment.getDescription(),
-          String.valueOf(equipment.getIsDirty())
+          String.valueOf(equipment.getIsDirty() ? 0 : 1)
         };
         bw.append("\n");
         for (String s : outputData) {

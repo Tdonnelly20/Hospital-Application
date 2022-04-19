@@ -438,6 +438,7 @@ public class RequestSystem {
 
   public void updateLocations(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
+      ArrayList<Equipment> equipmentList = new ArrayList<>();
       for (Equipment equipment : ((EquipmentIcon) icon).getEquipmentList()) {
         Equipment newEquipment =
             new Equipment(
@@ -450,10 +451,14 @@ public class RequestSystem {
                 equipment.getIsDirty());
 
         equipmentDao.removeEquipment(equipment);
-        newEquipment.setIcon((EquipmentIcon) icon);
-        ((EquipmentIcon) icon).addToEquipmentList(newEquipment);
-        equipmentDao.addEquipment(newEquipment);
+        equipmentList.add(newEquipment);
       }
+      for (Equipment equipment : equipmentList) {
+        equipment.setIcon((EquipmentIcon) icon);
+        ((EquipmentIcon) icon).addToEquipmentList(equipment);
+        equipmentDao.addEquipment(equipment);
+      }
+      equipmentDao.saveToCSV();
     } else {
       Location newLocation =
           new Location(
