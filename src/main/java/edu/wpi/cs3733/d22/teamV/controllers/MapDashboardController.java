@@ -10,6 +10,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -325,11 +327,11 @@ public class MapDashboardController extends Controller {
       }
     }
 
-    for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
-      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
-        srCount++;
-      }
-    }
+    //    for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
+    //      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+    //        srCount++;
+    //      }
+    //    }
     countsArea.setText(
         "Active Service Requests: "
             + srCount
@@ -342,11 +344,36 @@ public class MapDashboardController extends Controller {
   }
 
   @FXML
+  private void updateAlerts() {
+    int dirty = 0;
+    int clean = 0;
+    ArrayList<String> alerts = new ArrayList<>();
+
+    for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
+      if (equipment.getFloor().equals(curFloor.getFloorName())) {
+        if (equipment.getIsDirty()) {
+          dirty++;
+        } else {
+          clean++;
+        }
+      }
+    }
+
+    if (dirty > 10) {
+      alerts.add("ALERT! there are " + dirty + " dirty pumps on floor " + curFloor);
+    }
+    if (clean < 5) {
+      alerts.add("ALERT! there are only " + clean + " clean pumps on floor " + curFloor);
+    }
+  }
+
+  @FXML
   private void updateAll() {
     updateEquipmentTable();
     updatePatientTable();
     updateServiceRequestTable();
     updateCounts();
+    updateAlerts();
   }
 
   @Override
