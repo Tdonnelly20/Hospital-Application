@@ -4,179 +4,138 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="852.0" prefWidth="1396.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.PatientController">
-   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints maxHeight="90.0" minHeight="90.0" prefHeight="80.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="SOMETIMES" />
-   </rowConstraints>
-   <children>
-      <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="521.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="229.4000244140625" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.80002441406253" minWidth="10.0" prefWidth="222.19997558593752" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.4000305175781" minWidth="10.0" prefWidth="229.79999389648435" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="20.333335876464844" minHeight="10.0" prefHeight="18.333335876464844" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="32.33332824707031" minHeight="10.0" prefHeight="31.666664123535156" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.PatientController">
+  <items>
+    <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
-            <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="142.0" layoutY="27.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-         </children>
-      </GridPane>
-      <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+            <GridPane fx:id="headerPane" layoutX="188.0" layoutY="30.0" prefHeight="150.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+            </GridPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../IdeaProjects/TeamVeganVampires/src/main/resources/Brigham_and_Womens_Hospital_logo.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="349.0" text="Patient Database" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: rgba(153,153,153,255);" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
-         <content>
-            <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="40.0" style="-fx-background-color: #5c677d;">
-               <children>
-                  <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient First Name">
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient Last Name">
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <SplitPane dividerPositions="0.29797979797979796" layoutX="591.0" layoutY="261.0" prefHeight="872.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane maxWidth="376.0" minHeight="0.0" minWidth="300.0" prefHeight="921.0" prefWidth="376.0" stylesheets="@../CSS/testIndividualService.css">
                      <children>
-                        <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
-                        <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="104.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                        <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" prefHeight="21.0" prefWidth="138.0" text="Send Request" textAlignment="CENTER">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <padding>
-                              <Insets right="-10.0" />
-                           </padding>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
-               </padding>
-            </VBox>
-         </content>
-      </ScrollPane>
-      <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <children>
-            <TabPane fx:id="medicineTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
-               <tabs>
-                  <Tab fx:id="mapTab" text="Map View">
-                     <content>
-                        <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
-                     </content>
-                  </Tab>
-                  <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updatePatientTreeTable" text="Patient Database">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TreeTableView fx:id="patientTable" layoutX="8.0" layoutY="55.0" onMouseClicked="#checkIfSelected" prefHeight="658.0" prefWidth="921.0">
-                                 <columns>
-                                    <TreeTableColumn fx:id="patientIDCol" prefWidth="99.33334350585938" text="Patient ID" />
-                                    <TreeTableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="153.0" text="First Name" />
-                                    <TreeTableColumn fx:id="lastNameCol" maxWidth="211.0" prefWidth="157.0" text="Last Name" />
-                                    <TreeTableColumn fx:id="patientEmployeeIDCol" prefWidth="263.0" text="Employee IDs" />
-                                    <TreeTableColumn fx:id="patientServiceIDSCol" minWidth="0.0" prefWidth="247.0" text="Service IDs" />
-                                 </columns>
-                              </TreeTableView>
-                              <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
-                              <Button fx:id="updateButton" layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="patientsTab" onSelectionChanged="#updatePatientTreeTable" text="Employees">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
-                           <children>
-                              <TreeTableView fx:id="employeeTable" layoutX="8.0" layoutY="55.0" prefHeight="651.0" prefWidth="929.0">
-                                 <columns>
-                                    <TreeTableColumn fx:id="employeeIDCol" minWidth="0.0" prefWidth="143.20001792907715" text="Employee ID" />
-                                    <TreeTableColumn fx:id="employeeFirstNameCol" minWidth="0.0" prefWidth="128.0" text="First Name" />
-                                    <TreeTableColumn fx:id="employeeLastNameCol" maxWidth="329.5999450683594" prefWidth="154.0" text="Last Name" />
-                                    <TreeTableColumn fx:id="positionCol" maxWidth="329.5999450683594" prefWidth="148.0" text="Position" />
-                                    <TreeTableColumn fx:id="specialtiesCol" maxWidth="329.5999450683594" prefWidth="147.0" text="Specialties" />
-                                    <TreeTableColumn fx:id="otherServiceRequestsCol" maxWidth="329.5999450683594" prefWidth="205.0" text="Other Service Request IDs" />
-                                 </columns>
-                              </TreeTableView>
-                              <Text layoutX="29.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Patient in Patient Database to see their assigned employees!" wrappingWidth="374.1367874145508" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="serviceRequestTab" onSelectionChanged="#updatePatientTreeTable" text="Service Requests">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
-                           <children>
-                              <TreeTableView fx:id="serviceRequestTable" layoutX="8.0" layoutY="55.0" prefHeight="651.0" prefWidth="929.0">
-                                 <columns>
-                                    <TreeTableColumn fx:id="serviceRequestIDCol" minWidth="0.0" prefWidth="132.79999351501465" text="Service ID" />
-                                    <TreeTableColumn fx:id="serviceRequestEmployeeIDSCol" minWidth="3.20001220703125" prefWidth="130.39996337890625" text="Employee ID" />
-                                    <TreeTableColumn fx:id="serviceTypeCol" minWidth="0.0" prefWidth="320.0000305175781" text="Service Type" />
-                                    <TreeTableColumn fx:id="statusCol" maxWidth="207.99990844726562" prefWidth="172.7999267578125" text="Status" />
-                                    <TreeTableColumn fx:id="locationCol" minWidth="3.20001220703125" prefWidth="175.2000732421875" text="Location" />
-                                 </columns>
-                              </TreeTableView>
-                              <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Patient in Patient Database to see their service requests!" wrappingWidth="394.1367874145508" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-               </tabs>
-            </TabPane>
-         </children>
-      </VBox>
-   </children>
-</GridPane>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="920.8" prefWidth="300.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="40.0" style="-fx-background-color: #5c677d;">
+                                 <children>
+                                    <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient First Name">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient Last Name">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                       <children>
+                                          <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
+                                          <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="104.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                                          <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" prefHeight="21.0" prefWidth="138.0" text="Send Request" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                     </children></AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <tabs>
+                              <Tab fx:id="deliveryRequestTab" onSelectionChanged="#updatePatientTreeTable" text="Patient Database">
+                                 <content>
+                                    <AnchorPane fx:id="patientPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TreeTableView fx:id="patientTable" layoutX="8.0" layoutY="55.0" onMouseClicked="#checkIfSelected" prefHeight="822.0" prefWidth="1503.0">
+                                             <columns>
+                                                <TreeTableColumn fx:id="patientIDCol" prefWidth="163.20004558563232" text="Patient ID" />
+                                                <TreeTableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="195.9999542236328" text="First Name" />
+                                                <TreeTableColumn fx:id="lastNameCol" maxWidth="331.99993896484375" prefWidth="226.4000244140625" text="Last Name" />
+                                                <TreeTableColumn fx:id="patientEmployeeIDCol" prefWidth="330.39996337890625" text="Employee IDs" />
+                                                <TreeTableColumn fx:id="patientServiceIDSCol" minWidth="0.0" prefWidth="588.7999877929688" text="Service IDs" />
+                                             </columns>
+                                          </TreeTableView>
+                                          <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
+                                          <Button fx:id="updateButton" layoutX="125.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                              <Tab fx:id="patientsTab" onSelectionChanged="#updatePatientTreeTable" text="Employees">
+                                 <content>
+                                    <AnchorPane fx:id="employeePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
+                                       <children>
+                                          <TreeTableView fx:id="employeeTable" layoutX="8.0" layoutY="55.0" prefHeight="828.0" prefWidth="1510.0">
+                                             <columns>
+                                                <TreeTableColumn fx:id="employeeIDCol" minWidth="0.0" prefWidth="143.20001792907715" text="Employee ID" />
+                                                <TreeTableColumn fx:id="employeeFirstNameCol" minWidth="0.0" prefWidth="128.0" text="First Name" />
+                                                <TreeTableColumn fx:id="employeeLastNameCol" maxWidth="329.5999450683594" prefWidth="154.0" text="Last Name" />
+                                                <TreeTableColumn fx:id="positionCol" maxWidth="329.5999450683594" prefWidth="148.0" text="Position" />
+                                                <TreeTableColumn fx:id="specialtiesCol" maxWidth="329.5999450683594" prefWidth="147.0" text="Specialties" />
+                                                <TreeTableColumn fx:id="otherServiceRequestsCol" maxWidth="329.5999450683594" prefWidth="205.0" text="Other Service Request IDs" />
+                                             </columns>
+                                          </TreeTableView>
+                                          <Text layoutX="29.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Patient in Patient Database to see their assigned employees!" wrappingWidth="374.1367874145508" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                              <Tab fx:id="serviceRequestTab" onSelectionChanged="#updatePatientTreeTable" text="Service Requests">
+                                 <content>
+                                    <AnchorPane fx:id="serviceRequestPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="639.0">
+                                       <children>
+                                          <TreeTableView fx:id="serviceRequestTable" layoutX="8.0" layoutY="55.0" prefHeight="826.0" prefWidth="1510.0">
+                                             <columns>
+                                                <TreeTableColumn fx:id="serviceRequestIDCol" minWidth="0.0" prefWidth="132.79999351501465" text="Service ID" />
+                                                <TreeTableColumn fx:id="serviceRequestEmployeeIDSCol" minWidth="3.20001220703125" prefWidth="130.39996337890625" text="Employee ID" />
+                                                <TreeTableColumn fx:id="serviceTypeCol" minWidth="0.0" prefWidth="320.0000305175781" text="Service Type" />
+                                                <TreeTableColumn fx:id="statusCol" maxWidth="207.99990844726562" prefWidth="172.7999267578125" text="Status" />
+                                                <TreeTableColumn fx:id="locationCol" minWidth="3.20001220703125" prefWidth="175.2000732421875" text="Location" />
+                                             </columns>
+                                          </TreeTableView>
+                                          <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Patient in Patient Database to see their service requests!" wrappingWidth="394.1367874145508" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                           </tabs>
+                        </TabPane>
+                     </children></AnchorPane>
+              </items>
+            </SplitPane>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

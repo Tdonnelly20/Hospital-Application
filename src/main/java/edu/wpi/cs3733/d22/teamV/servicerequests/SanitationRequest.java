@@ -32,6 +32,7 @@ public class SanitationRequest extends ServiceRequest {
     this.hazardName = hazardName;
     this.roomLocation = roomLocation;
     this.type = "Sanitation Request";
+    status = "Not Started";
   }
 
   public String getPatientFirstName() {

@@ -6,14 +6,16 @@ import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class PatientController extends Controller {
-
+public class PatientController extends RequestController {
   private static final PatientDao patientDao = Vdb.requestSystem.getPatientDao();
   private boolean updating = false;
 
@@ -31,6 +33,7 @@ public class PatientController extends Controller {
   @FXML private TreeTableColumn<Patient, String> lastNameCol;
   @FXML private TreeTableColumn<Patient, Integer> patientEmployeeIDCol;
   @FXML private TreeTableColumn<Patient, Integer> patientServiceIDSCol;
+  @FXML private Pane patientPane;
 
   @FXML private TreeTableView<Employee> employeeTable;
   @FXML private TreeTableColumn<Employee, Integer> employeeIDCol;
@@ -39,6 +42,7 @@ public class PatientController extends Controller {
   @FXML private TreeTableColumn<Employee, String> specialtiesCol;
   @FXML private TreeTableColumn<Employee, String> otherServiceRequestsCol;
   @FXML private TreeTableColumn<Employee, String> positionCol;
+  @FXML private Pane employeePane;
 
   @FXML private TreeTableView<ServiceRequest> serviceRequestTable;
   @FXML private TreeTableColumn<ServiceRequest, Integer> serviceRequestIDCol;
@@ -46,6 +50,7 @@ public class PatientController extends Controller {
   @FXML private TreeTableColumn<ServiceRequest, String> serviceTypeCol;
   @FXML private TreeTableColumn<ServiceRequest, String> statusCol;
   @FXML private TreeTableColumn<ServiceRequest, String> locationCol;
+  @FXML private Pane serviceRequestPane;
 
   @FXML private TextField firstName;
   @FXML private TextField lastName;
@@ -177,6 +182,114 @@ public class PatientController extends Controller {
     }
   }
 
+  @Override
+  public void init() {
+    setTitleText("Patient Database");
+    fillTopPane();
+
+    setColumnSizes(910);
+
+    patientPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = patientPane.getWidth();
+                patientPane.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    patientPane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = patientPane.getHeight();
+                patientTable.setPrefHeight(h - 75);
+              }
+            });
+
+    employeePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = employeePane.getWidth();
+                employeeTable.setPrefWidth(w - 30);
+                setColumnSizes2(w);
+              }
+            });
+
+    employeePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = employeePane.getHeight();
+                employeeTable.setPrefHeight(h - 75);
+              }
+            });
+
+    serviceRequestPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = serviceRequestPane.getWidth();
+                serviceRequestTable.setPrefWidth(w - 30);
+                setColumnSizes3(w);
+              }
+            });
+
+    serviceRequestPane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = serviceRequestPane.getHeight();
+                serviceRequestTable.setPrefHeight(h - 75);
+              }
+            });
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(patientIDCol, (w - 30) / 5);
+    setColumnSize(patientEmployeeIDCol, (w - 30) / 5);
+    setColumnSize(firstNameCol, (w - 30) / 5);
+    setColumnSize(lastNameCol, (w - 30) / 5);
+    setColumnSize(patientServiceIDSCol, (w - 30) / 5);
+  }
+
+  void setColumnSizes2(double w) {
+    setColumnSize(employeeIDCol, (w - 30) / 6);
+    setColumnSize(employeeFirstNameCol, (w - 30) / 6);
+    setColumnSize(employeeLastNameCol, (w - 30) / 6);
+    setColumnSize(specialtiesCol, (w - 30) / 6);
+    setColumnSize(otherServiceRequestsCol, (w - 30) / 6);
+    setColumnSize(positionCol, (w - 30) / 6);
+  }
+
+  void setColumnSizes3(double w) {
+    setColumnSize(serviceRequestIDCol, (w - 30) / 5);
+    setColumnSize(serviceRequestEmployeeIDSCol, (w - 30) / 5);
+    setColumnSize(serviceTypeCol, (w - 30) / 5);
+    setColumnSize(statusCol, (w - 30) / 5);
+    setColumnSize(locationCol, (w - 30) / 5);
+  }
+
   @FXML
   public void validateButton() {
     if (updating) {
@@ -227,6 +340,9 @@ public class PatientController extends Controller {
       updatePatientTreeTable();
     }
   }
+
+  @Override
+  void updateTreeTable() {}
 
   @FXML
   public void resetForm() {

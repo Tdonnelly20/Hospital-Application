@@ -16,7 +16,7 @@ public class MapEvent {
   }
 
   private EventHandler<ScrollEvent> onZoomEventHandler =
-      new EventHandler<ScrollEvent>() {
+      new EventHandler<>() {
 
         @Override
         public void handle(ScrollEvent event) {

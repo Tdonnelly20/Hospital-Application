@@ -55,6 +55,7 @@ public class EquipmentRequestController extends RequestController {
   @FXML private TreeTableColumn<Equipment, String> buildingCol;
   @FXML private TreeTableColumn<Equipment, String> nodeTypeCol;
   @FXML private TreeTableColumn<Equipment, Boolean> shortNameCol;
+  @FXML private Pane tablePane2;
 
   // The two fields that are required for when a request is being updated
   private boolean updating = false;
@@ -75,7 +76,7 @@ public class EquipmentRequestController extends RequestController {
     setTitleText("Equipment Delivery Request");
     fillTopPane();
 
-    setColumnSizes(1520);
+    setColumnSizes(910);
 
     tablePlane
         .widthProperty()
@@ -99,6 +100,31 @@ public class EquipmentRequestController extends RequestController {
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double h = tablePlane.getHeight();
                 equipmentRequestTable.setPrefHeight(h - 75);
+              }
+            });
+
+    tablePane2
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePane2.getWidth();
+                table.setPrefWidth(w - 30);
+                setColumnSizes2(w);
+              }
+            });
+
+    tablePane2
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePane2.getHeight();
+                table.setPrefHeight(h - 30);
               }
             });
   }
@@ -281,6 +307,16 @@ public class EquipmentRequestController extends RequestController {
     setColumnSize(equipCol, (w - 30) / 8);
     setColumnSize(quantCol, (w - 30) / 8);
     setColumnSize(notesCol, (w - 30) / 8);
+  }
+
+  void setColumnSizes2(double w) {
+    setColumnSize(nodeIDCol, (w - 30) / 7);
+    setColumnSize(xCol, (w - 30) / 7);
+    setColumnSize(yCol, (w - 30) / 7);
+    setColumnSize(floorCol, (w - 30) / 7);
+    setColumnSize(buildingCol, (w - 30) / 7);
+    setColumnSize(nodeTypeCol, (w - 30) / 7);
+    setColumnSize(shortNameCol, (w - 30) / 7);
   }
 
   @Override
