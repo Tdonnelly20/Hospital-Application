@@ -41,6 +41,7 @@ public class EquipmentIcon extends Icon {
         event -> {
           location.setXCoord(location.getXCoord() + event.getX());
           location.setYCoord(location.getYCoord() + event.getY());
+          updateLocation();
           checkBounds();
         });
     image.setOnMouseExited(
@@ -155,8 +156,7 @@ public class EquipmentIcon extends Icon {
 
   public void updateLocation() {
     for (Equipment equipment : equipmentList) {
-      equipment.setX(location.getXCoord());
-      equipment.setY(location.getYCoord());
+      equipment.updateLocation(location.getXCoord(), location.getYCoord());
     }
   }
 }

@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.map;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -131,5 +132,13 @@ public class LocationIcon extends Icon {
       }
     }
     return false;
+  }
+
+  public void updateLocation() {
+    for (ServiceRequest request : requestsArr) {
+      request.setLocation(location);
+      RequestSystem.getSystem().getLocation(location.getNodeID()).setXCoord(location.getXCoord());
+      RequestSystem.getSystem().getLocation(location.getNodeID()).setYCoord(location.getYCoord());
+    }
   }
 }

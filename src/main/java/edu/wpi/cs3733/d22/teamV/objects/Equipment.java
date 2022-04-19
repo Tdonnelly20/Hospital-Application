@@ -82,4 +82,9 @@ public class Equipment {
     if (isDirty) return "Dirty";
     return "Clean";
   }
+
+  public void updateLocation(double x, double y) {
+    setX(x);
+    setY(y);
+  }
 }
