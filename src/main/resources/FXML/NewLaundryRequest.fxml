@@ -155,7 +155,7 @@
                                           <Text layoutX="78.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
                                           <Text layoutX="78.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
                                           <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters, to Hospital ID and Patient ID" />
-                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select an option in any drop-down menues " />
+                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select an option in any drop-down menus " />
                                           <Text layoutX="101.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name" />
                                           <Text layoutX="78.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests" />
                                        </children>

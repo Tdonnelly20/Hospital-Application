@@ -64,12 +64,12 @@
                   <Image url="@../homeHospitalPhoto.jpg" />
                </image>
             </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="-160.0" layoutY="9.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="-160.0" layoutY="131.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="-160.0" layoutY="250.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="292.0" layoutY="9.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="292.0" layoutY="131.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="292.0" layoutY="250.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="100.0" layoutX="-160.0" layoutY="9.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="100.0" layoutX="-160.0" layoutY="131.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="100.0" layoutX="-160.0" layoutY="250.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="100.0" layoutX="292.0" layoutY="9.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="100.0" layoutX="292.0" layoutY="131.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="100.0" layoutX="292.0" layoutY="250.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="91.0" layoutX="-217.0" layoutY="377.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
             <JFXButton layoutX="-160.0" layoutY="11.0" onAction="#switchToLabRequest" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Lab Request" textFill="WHITE">
                <font>
