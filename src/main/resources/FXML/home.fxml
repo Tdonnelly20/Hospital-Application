@@ -95,7 +95,7 @@
                   <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="-134.0" layoutY="373.0" onAction="#switchToAbout" prefHeight="104.0" prefWidth="371.0" ripplerFill="#e8e8e8" text="About" textFill="WHITE">
+            <JFXButton layoutX="-134.0" layoutY="373.0" prefHeight="104.0" prefWidth="371.0" ripplerFill="#e8e8e8" text="About" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
