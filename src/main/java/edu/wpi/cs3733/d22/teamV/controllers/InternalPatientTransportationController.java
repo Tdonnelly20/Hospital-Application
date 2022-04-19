@@ -19,7 +19,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class InternalPatientTransportationController extends MapController
+public class InternalPatientTransportationController extends RequestController
     implements RequestInterface {
 
   @FXML private TreeTableView<InternalPatientTransportation> internalPatientTransportationTable;
@@ -55,8 +55,8 @@ public class InternalPatientTransportationController extends MapController
 
   @Override
   public void init() {
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Internal Patient Transport Requests");
+    setTitleText("Internal Patient Transportation");
+    fillTopPane();
   }
 
   /** Update the table with values from fields and the DB */

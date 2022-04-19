@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.MealRequestDao;
-import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
@@ -20,7 +19,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MealDeliveryRequestController extends MapController implements RequestInterface {
+public class MealDeliveryRequestController extends RequestController {
 
   @FXML private TreeTableView<MealRequest> mealDeliveryTable;
 
@@ -62,9 +61,8 @@ public class MealDeliveryRequestController extends MapController implements Requ
 
   @Override
   public void init() {
-    mapSetUp();
-    filterCheckBox.getCheckModel().check("Meal Delivery Requests");
-    filterCheckBox.getCheckModel().check("Equipment");
+    setTitleText("Meal Delivery");
+    fillTopPane();
   }
 
   /** Update the table with values from fields and the DB */
@@ -147,7 +145,6 @@ public class MealDeliveryRequestController extends MapController implements Requ
   }
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
-  @Override
   public void sendRequest() {
     // If any field is left blank, (except for request details) throw an error
 
