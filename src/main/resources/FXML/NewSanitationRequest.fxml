@@ -49,7 +49,7 @@
                                         </TextField>
                                         <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
                                         <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Location" />
-                                        <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                        <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:id="bloodRequest" fx:value="Blood" />

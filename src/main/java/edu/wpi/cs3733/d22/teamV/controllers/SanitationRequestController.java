@@ -70,12 +70,14 @@ public class SanitationRequestController extends RequestController {
       statusLabel.setText("Please fill in the required fields.");
       statusLabel.setTextFill(Color.web("Red"));
       // Make sure the patient ID is an integer
-    } else if (!isInteger(patientID.getText()) || patientID.getText().isEmpty() ) { // needs to check if patient even exists
+    } else if (!isInteger(patientID.getText())
+        || patientID.getText().isEmpty()) { // needs to check if patient even exists
       statusLabel.setText("Invalid Patient.");
       statusLabel.setTextFill(Color.web("Red"));
 
       // If all conditions pass, create the request
-    } else if (!isInteger(hospitalID.getText()) || hospitalID.getText().isEmpty()) { // check if emp exists
+    } else if (!isInteger(hospitalID.getText())
+        || hospitalID.getText().isEmpty()) { // check if emp exists
       statusLabel.setText("Invalid Employee.");
       statusLabel.setTextFill(Color.web("Red"));
 
