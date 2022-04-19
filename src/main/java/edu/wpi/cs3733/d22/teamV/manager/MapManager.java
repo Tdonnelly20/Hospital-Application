@@ -95,7 +95,9 @@ public class MapManager {
       if (getFloor(e.getFloor()).hasEquipmentIconAt(e.getX(), e.getY())) {
         getFloor(e.getFloor()).addToEquipmentIcon(e.getX(), e.getY(), e);
       } else {
-        e.setIcon(new EquipmentIcon(new Location(e.getX(), e.getY(), e.getFloor())));
+        EquipmentIcon icon = new EquipmentIcon(new Location(e.getX(), e.getY(), e.getFloor()));
+        icon.addToEquipmentList(e);
+        e.setIcon(icon);
         getFloor(e.getFloor()).addIcon(e.getIcon());
       }
     }
