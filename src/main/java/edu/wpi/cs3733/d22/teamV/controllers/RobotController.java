@@ -65,7 +65,9 @@ public class RobotController extends RequestController {
   public void validateButton() {
     try {
       if (!(employeeID.getText().isEmpty())
+          && isInteger(employeeID.getText())
           && !(botID.getText().isEmpty())
+          && isInteger(botID.getText())
           && !(details.getText().isEmpty())) {
         // Information verification and submission needed
         sendRequest.setDisable(false);

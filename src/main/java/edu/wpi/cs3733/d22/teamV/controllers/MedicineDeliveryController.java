@@ -181,6 +181,12 @@ public class MedicineDeliveryController extends RequestController {
       } else if (LocationDao.getLocation(nodeID.getText()) == null) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Needs valid room");
+      } else if (!isInteger(employeeID.getText())) {
+        sendRequest.setDisable(true);
+        statusLabel.setText("Status: Needs valid employee ID");
+      } else if (!isInteger(patientID.getText())) {
+        sendRequest.setDisable(true);
+        statusLabel.setText("Status: Needs valid patient ID");
       } else {
         statusLabel.setText("Status: Good");
 
