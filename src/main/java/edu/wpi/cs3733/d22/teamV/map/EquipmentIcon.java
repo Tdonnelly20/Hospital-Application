@@ -105,6 +105,7 @@ public class EquipmentIcon extends Icon {
       equipmentList.add(0, equipment);
     }
     MapDashboardController.getController().updateCounts();
+    alertSixBeds();
   }
 
   public void removeEquipment(Equipment equipment) {
@@ -113,6 +114,7 @@ public class EquipmentIcon extends Icon {
     if (equipmentList.size() == 0) {
       MapController.getController().deleteIcon(this);
     }
+    alertSixBeds();
   }
 
   public void setImage() {
@@ -155,25 +157,42 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  //  public void alertSixBeds() {
-  //    int alertCounter = 0;
-  //    boolean alert = false;
-  //    for (Equipment equipment : equipmentList) {
-  //      for (Equipment equipmentTwo : equipmentList) {
-  //        if (equipment.getFloor() == equipmentTwo.getFloor())
-  //          if (equipment.getX() == equipment.getX()) {
-  //            boolean d = equipment.getIsDirty();
-  //            int i =
-  // MapDashboardController.getController().checkAlertSixBeds(equipment.getName(), d);
-  //            alertCounter += i;
-  //          }
-  //      }
-  //    }
-  //    if (alertCounter > 5) {
-  //      alert = true;
-  //    }
-  //    //MapDashboardController.getController().addBedAlertToArray(alert);
-  //  }
+  public void alertSixBeds() {
+    int alertCounter = 0;
+    boolean alert = false;
+    ArrayList<String> dirtyBeds = new ArrayList<String>();
+    int smallCount = 0;
+    String l = "";
+
+    for (Equipment equipment : equipmentList) {
+      Location one = equipment.getIcon().getLocation();
+      for (Equipment equipmentTwo : equipmentList) {
+        Location two = equipment.getIcon().getLocation();
+        if (equipment.getFloor() == equipmentTwo.getFloor())
+          if (one == two) {
+            boolean d = equipment.getIsDirty();
+            int i =
+                MapDashboardController.getController().checkAlertSixBeds(equipment.getName(), d);
+            dirtyBeds.add(String.valueOf(equipment.getIcon().getLocation()));
+            alertCounter += i;
+          }
+      }
+    }
+    if (alertCounter > 5) {
+      for (String b : dirtyBeds) {
+        for (String c : dirtyBeds) {
+          if (b == c) {
+            smallCount += 1;
+            l = b;
+          }
+        }
+      }
+    }
+    if (smallCount > 5) {
+      alert = true;
+      MapDashboardController.getController().addBedAlertToArray(alert, l);
+    }
+  }
 
   public int[] pumpAlert() {
     int dirty = 0;
