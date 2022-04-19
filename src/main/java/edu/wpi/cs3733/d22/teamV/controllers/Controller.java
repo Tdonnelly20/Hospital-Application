@@ -126,7 +126,7 @@ public abstract class Controller extends Application {
   // Switches scene to the meal delivery page
   @FXML
   protected void switchToMealDelivery(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewMealDelivery.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/MealDelivery.fxml"));
     switchScene(event);
   }
 
@@ -148,7 +148,7 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToInternalPatientTransport(ActionEvent event) {
     loader.setLocation(
-        getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
+        getClass().getClassLoader().getResource("FXML/NewInternalPatientTransportation.fxml"));
     switchScene(event);
   }
 
