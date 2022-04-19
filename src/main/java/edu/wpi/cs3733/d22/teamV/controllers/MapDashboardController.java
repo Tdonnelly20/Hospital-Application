@@ -336,8 +336,12 @@ public class MapDashboardController extends Controller {
     }
 
     for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
-      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
-        srCount++;
+      if (request.getLocation() != null) {
+        if (request.getLocation().getFloor() != null) {
+          if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+            srCount++;
+          }
+        }
       }
     }
     countsArea.setText(
@@ -356,11 +360,6 @@ public class MapDashboardController extends Controller {
     updatePatientTable();
     updateEquipmentTable();
     // updateServiceRequestTable();
-    updateCounts();
-  }
-
-  @Override
-  public void init() {
     updateCounts();
   }
 }
