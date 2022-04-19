@@ -110,7 +110,7 @@ public class ReligiousRequestController extends RequestController {
     boolean valid = true;
     String issues = "Issues:\n";
     // Information verification and submission needed
-    if (!isInteger(patientID.getText()) || patientID.getText().isEmpty()) {
+    if (!isInteger(patientID.getText()) || patientID.getText().isEmpty() || false) {
       issues += "Invalid Patient.\n";
       valid = false;
     }

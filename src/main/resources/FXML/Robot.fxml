@@ -149,7 +149,7 @@
                         <Insets left="15.0" right="15.0" />
                      </VBox.margin>
                   </TextField>
-                        <JFXComboBox id="dropDown" fx:id="statusDropDown" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
+                        <JFXComboBox id="dropDown" fx:id="statusDropDown" editable="false" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:id="notStarted" fx:value="Not Started" />
