@@ -17,6 +17,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../../../build/resources/main/CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ReligiousRequestController">
     <items>
         <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
@@ -83,6 +86,18 @@
                                              <Insets left="15.0" right="15.0" />
                                          </VBox.margin>
                                      </TextField>
+                                     <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                         <items>
+                                             <FXCollections fx:factory="observableArrayList">
+                                                 <String fx:id="notStarted" fx:value="Not Started" />
+                                                 <String fx:id="processing" fx:value="Processing" />
+                                                 <String fx:id="completed" fx:value="Completed" />
+                                             </FXCollections>
+                                         </items>
+                                         <opaqueInsets>
+                                             <Insets />
+                                         </opaqueInsets>
+                                     </JFXComboBox>
                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
                                        <VBox.margin>
                                           <Insets bottom="-30.0" top="-30.0" />
@@ -135,6 +150,7 @@
                                                                 <TreeTableColumn fx:id="roomCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
                                                                 <TreeTableColumn fx:id="religionCol" minWidth="0.0" prefWidth="56.7999267578125" text="Religion" />
                                                                 <TreeTableColumn fx:id="requestDetailsCol" prefWidth="64.80001831054688" text="Other Info" />
+                                                                <TreeTableColumn fx:id="statusCol" prefWidth="45.59991455078125" text="Status" />
                                                             </columns>
                                                         </TreeTableView>
                                                         <Button fx:id="removeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />

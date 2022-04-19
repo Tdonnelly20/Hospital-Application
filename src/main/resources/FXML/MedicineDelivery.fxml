@@ -81,7 +81,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                              </VBox.margin>
                                           </TextArea>
-                                          <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                          <JFXComboBox fx:id="statusDropDown"  blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                    <String fx:id="notStarted" fx:value="Not Started" />

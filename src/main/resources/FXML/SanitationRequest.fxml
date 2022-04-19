@@ -61,17 +61,29 @@
                                             </items>
                                         </JFXComboBox>
                                         <TextArea fx:id="requestDetails" onKeyReleased="#validateButton" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
-                                        <HBox prefHeight="100.0" prefWidth="200.0">
-                                            <children>
-                                                <Button fx:id="resetForm" minWidth="50.0" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
-                                                <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="296.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                                                <Button fx:id="sendRequest" disable="true" minWidth="110.0" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
-                                                    <font>
-                                                        <Font size="14.0" />
-                                                    </font>
-                                                </Button>
-                                            </children>
-                                        </HBox>
+                                        <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:id="notStarted" fx:value="Not Started" />
+                                                    <String fx:id="processing" fx:value="Processing" />
+                                                    <String fx:id="completed" fx:value="Completed" />
+                                                </FXCollections>
+                                            </items>
+                                            <opaqueInsets>
+                                                <Insets />
+                                            </opaqueInsets>
+                                        </JFXComboBox>
+                                        <Label fx:id="statusLabel" text="Please fill in the required fields." textFill="Red">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <Button fx:id="resetForm" minWidth="50.0" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
+                                        <Button fx:id="sendRequest" disable="true" minWidth="110.0" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Button>
                                     </children>
                                 </VBox>
                             </children></AnchorPane>
@@ -91,7 +103,7 @@
                                                                 <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
                                                                 <TreeTableColumn fx:id="roomLocationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
                                                                 <TreeTableColumn fx:id="hazardCol" minWidth="0.0" prefWidth="56.7999267578125" text="Hazard" />
-                                                <TreeTableColumn fx:id="statusCol" prefWidth="45.59991455078125" text="Status" />
+                                                                <TreeTableColumn fx:id="statusCol" prefWidth="45.59991455078125" text="Status" />
                                                                 <TreeTableColumn fx:id="requestDetailsCol" prefWidth="102.4000244140625" text="Other Info" />
                                                             </columns>
                                                         </TreeTableView>

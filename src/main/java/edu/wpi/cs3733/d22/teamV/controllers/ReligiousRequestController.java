@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.ReligiousRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +21,7 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TextField religion;
   @FXML private TextField roomNumber;
   @FXML private TextField details;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Button sendRequest;
   @FXML private Label statusLabel;
 
@@ -30,6 +33,7 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TreeTableColumn<ReligiousRequest, String> roomCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> religionCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> requestDetailsCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
   private boolean updating;
   private int updateServiceID;
   // religious request can't seem to remove things if there are more than 1 now???
@@ -71,6 +75,7 @@ public class ReligiousRequestController extends RequestController {
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     religionCol.setCellValueFactory(new TreeItemPropertyValueFactory("religion"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
     ArrayList<ReligiousRequest> requests =
         (ArrayList<ReligiousRequest>)
@@ -126,6 +131,10 @@ public class ReligiousRequestController extends RequestController {
       valid = false;
       issues += "Specify Religion.\n";
     }
+    if (statusDropDown.getValue() == null) {
+      valid = false;
+      issues += "Specify Status.\n";
+    }
     if (valid) {
       issues = "";
       sendRequest.setDisable(false);
@@ -146,6 +155,7 @@ public class ReligiousRequestController extends RequestController {
             roomNumber.getText(),
             religion.getText(),
             details.getText());
+    request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       ReligiousRequestDao.updateServiceRequest(request, request.getServiceID());
     } else {
@@ -170,6 +180,7 @@ public class ReligiousRequestController extends RequestController {
       roomNumber.setText(request.getLocation().getNodeID());
       details.setText(request.getDetails());
       updateServiceID = request.getServiceID();
+      statusDropDown.setValue(request.getStatus());
       updateTreeTable();
     }
   }
