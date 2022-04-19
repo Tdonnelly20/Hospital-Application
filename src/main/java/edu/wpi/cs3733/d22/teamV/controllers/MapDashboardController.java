@@ -10,8 +10,6 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -174,49 +172,49 @@ public class MapDashboardController extends Controller {
   }
 
   @FXML
-  public void switchToLL2(MouseEvent event) {
-    curFloor = MapManager.getManager().getFloor("LL2");
+  public void switchToLL2() {
+    curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
-  public void switchToLL1(MouseEvent event) {
-    curFloor = MapManager.getManager().getFloor("LL1");
+  public void switchToLL1() {
+    curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
-  public void switchToF1(MouseEvent event) {
+  public void switchToF1() {
     curFloor = MapManager.getManager().getFloor("1");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
-  public void switchToF2(MouseEvent event) {
+  public void switchToF2() {
     curFloor = MapManager.getManager().getFloor("2");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
-  public void switchToF3(MouseEvent event) {
+  public void switchToF3() {
     curFloor = MapManager.getManager().getFloor("3");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
-  public void switchToF4(MouseEvent event) {
+  public void switchToF4() {
     curFloor = MapManager.getManager().getFloor("4");
     updateListeners(curFloor);
     updateAll();
   }
 
   @FXML
-  public void switchToF5(MouseEvent event) {
+  public void switchToF5() {
     curFloor = MapManager.getManager().getFloor("5");
     updateListeners(curFloor);
     updateAll();
@@ -369,15 +367,15 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateAll() {
-    updateEquipmentTable();
-    updatePatientTable();
-    updateServiceRequestTable();
+    // updateEquipmentTable();
+    // updatePatientTable();
+    // updateServiceRequestTable();
     updateCounts();
     updateAlerts();
   }
 
   @Override
   public void init() {
-    updateCounts();
+    updateAll();
   }
 }
