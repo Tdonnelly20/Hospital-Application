@@ -130,8 +130,4 @@ public abstract class RequestController extends Controller {
   abstract void resetForm();
 
   abstract void validateButton();
-
-  //  abstract void fillSideBar();
-  //
-  //  abstract void fillTableBox();
 }
