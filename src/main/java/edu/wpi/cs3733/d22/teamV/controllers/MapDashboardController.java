@@ -45,6 +45,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
   private @FXML TextArea countsArea = new TextArea();
+  private @FXML TextArea alertsArea = new TextArea();
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
@@ -346,6 +347,7 @@ public class MapDashboardController extends Controller {
     int dirty = 0;
     int clean = 0;
     ArrayList<String> alerts = new ArrayList<>();
+    String alertText = "";
 
     for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
       if (equipment.getFloor().equals(curFloor.getFloorName())) {
@@ -358,11 +360,18 @@ public class MapDashboardController extends Controller {
     }
 
     if (dirty > 10) {
-      alerts.add("ALERT! there are " + dirty + " dirty pumps on floor " + curFloor);
+      alerts.add("ALERT! there are " + dirty + " dirty pumps on floor " + curFloor.getFloorName());
     }
     if (clean < 5) {
-      alerts.add("ALERT! there are only " + clean + " clean pumps on floor " + curFloor);
+      alerts.add(
+          "ALERT! there are only " + clean + " clean pumps on floor " + curFloor.getFloorName());
     }
+
+    for (String a : alerts) {
+      alertText = "\n" + alertText + a + "\n";
+    }
+
+    alertsArea.setText(alertText);
   }
 
   @FXML
