@@ -33,11 +33,11 @@ public class MapDashboardController extends Controller {
   private @FXML Pane sideViewPane;
   private @FXML ImageView sideViewImage;
   private @FXML VBox centerVBox;
-  private @FXML TreeTableView infoTable;
-  private @FXML TreeTableView equipmentTable;
-  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
-  private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
-  private @FXML TreeTableView serviceRequestTable;
+  private @FXML TreeTableView infoTable = new TreeTableView<>();
+  private @FXML TreeTableView equipmentTable = new TreeTableView<>();
+  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<Equipment, String> isDirtyCol = new TreeTableColumn<>();
+  private @FXML TreeTableView serviceRequestTable = new TreeTableView<>();
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
   private @FXML TreeTableColumn<ServiceRequest, Double> xCol;
   private @FXML TreeTableColumn<ServiceRequest, Double> yCol;
@@ -53,19 +53,19 @@ public class MapDashboardController extends Controller {
   private @FXML ImageView mapImage;
   private @FXML TreeTableView alertTable;
 
-  private @FXML Button ll2;
-  private @FXML Button ll1;
-  private @FXML Button f1;
-  private @FXML Button f2;
-  private @FXML Button f3;
-  private @FXML Button f4;
-  private @FXML Button f5;
+  private @FXML Button ll2 = new Button();
+  private @FXML Button ll1 = new Button();
+  private @FXML Button f1 = new Button();
+  private @FXML Button f2 = new Button();
+  private @FXML Button f3 = new Button();
+  private @FXML Button f4 = new Button();
+  private @FXML Button f5 = new Button();
 
-  private @FXML TitledPane sideViewTPane;
-  private @FXML TitledPane infoTPane;
-  @FXML TitledPane countsTPane;
-  private @FXML TitledPane mapTPane;
-  private @FXML TitledPane alertsTPane;
+  private @FXML TitledPane sideViewTPane = new TitledPane();
+  private @FXML TitledPane infoTPane = new TitledPane();
+  private @FXML TitledPane countsTPane = new TitledPane();
+  private @FXML TitledPane mapTPane = new TitledPane();
+  private @FXML TitledPane alertsTPane = new TitledPane();
 
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
@@ -98,10 +98,10 @@ public class MapDashboardController extends Controller {
   private Floor curFloor = MapManager.getManager().getFloor("1");
 
   public class ButtonSubject {
-    Button button;
-    Floor floor;
+    private Button button;
+    private Floor floor;
 
-    ButtonSubject(Button button, Floor floor) {
+    public ButtonSubject(Button button, Floor floor) {
       this.button = button;
       this.floor = floor;
     }
@@ -112,10 +112,10 @@ public class MapDashboardController extends Controller {
   }
 
   public class DashboardListener {
-    Floor floor;
-    TitledPane tPane;
+    private Floor floor;
+    private TitledPane tPane;
 
-    DashboardListener(Floor floor, TitledPane tPane) {
+    public DashboardListener(Floor floor, TitledPane tPane) {
       this.floor = floor;
       this.tPane = tPane;
     }
@@ -157,21 +157,21 @@ public class MapDashboardController extends Controller {
   }
 
   public void setUpDashboardListeners() {
-    DashboardListener sideViewTPanelistener =
+    DashboardListener sideViewTPaneListener =
         new DashboardListener(MapManager.getManager().getFloor("1"), sideViewTPane);
-    DashboardListener infoTPanelistener =
+    DashboardListener infoTPaneListener =
         new DashboardListener(MapManager.getManager().getFloor("1"), infoTPane);
-    DashboardListener countsTPanelistener =
+    DashboardListener countsTPaneListener =
         new DashboardListener(MapManager.getManager().getFloor("1"), countsTPane);
-    DashboardListener mapTPanelistener =
+    DashboardListener mapTPaneListener =
         new DashboardListener(MapManager.getManager().getFloor("1"), mapTPane);
-    DashboardListener alertsTPanelistener =
+    DashboardListener alertsTPaneListener =
         new DashboardListener(MapManager.getManager().getFloor("1"), alertsTPane);
-    listeners.add(sideViewTPanelistener);
-    listeners.add(infoTPanelistener);
-    listeners.add(countsTPanelistener);
-    listeners.add(mapTPanelistener);
-    listeners.add(alertsTPanelistener);
+    listeners.add(sideViewTPaneListener);
+    listeners.add(infoTPaneListener);
+    listeners.add(countsTPaneListener);
+    listeners.add(mapTPaneListener);
+    listeners.add(alertsTPaneListener);
   }
 
   @FXML
@@ -236,6 +236,7 @@ public class MapDashboardController extends Controller {
     isDirtyCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
 
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
+    // ArrayList<Equipment> currEquipment = RequestSystem.getSystem().getEquipment();
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     if (!currEquipment.isEmpty()) {
@@ -246,10 +247,11 @@ public class MapDashboardController extends Controller {
           treeItems.add(item);
         }
       }
-
-      equipmentTable.setShowRoot(false);
       TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
-      equipmentTable.setRoot(root);
+      equipmentTable = new TreeTableView<>(root);
+      equipmentTable.setShowRoot(true);
+
+      // equipmentTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
   }
@@ -438,7 +440,7 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateAll() {
-    // updateEquipmentTable();
+    updateEquipmentTable();
     // updatePatientTable();
     // updateServiceRequestTable();
     updateCounts();
@@ -447,6 +449,8 @@ public class MapDashboardController extends Controller {
 
   @Override
   public void init() {
+    setUpButtonSubjects();
+    setUpDashboardListeners();
     updateAll();
   }
 }

@@ -8,9 +8,13 @@
     -fx-pref-width:90;
     -fx-pref-height:50;
 
-    -fx-background-radius: 20;
-    -fx-border-style: outset;
+    -fx-background-radius: 20 20 20 20;
+    -fx-border-style: solid;
+    -fx-border-radius: 20 20 20 20;
+    /*
     -fx-background-image: HomeButton;
+
+     */
 }
 
 .button:hover{
@@ -26,14 +30,15 @@
     -fx-background-radius: 0;
     -fx-pref-width: 100;
     -fx-pref-height: 50;
+    -fx-border-radius:0;
 }
-
 .sideViewButtonf4{
     -fx-background-color: #1d4382;
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width: 100;
-    -fx-pref-height: 50
+    -fx-pref-height: 50;
+    -fx-border-radius:0;
 
 }
 .sideViewButtonf3{
@@ -41,13 +46,15 @@
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width:150;
-    -fx-pref-height: 50
+    -fx-pref-height: 50;
+    -fx-border-radius:0;
 }
 .sideViewButtonf2{
     -fx-background-color: #1d4382;
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width:150;
+    -fx-border-radius:0;
 
 }
 .sideViewButtonf1{
@@ -55,12 +62,14 @@
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width:150;
+    -fx-border-radius:0;
 }
 .sideViewButtonll1{
     -fx-background-color: #1d4382;
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width:150;
+    -fx-border-radius:0;
 
 }
 .sideViewButtonll2{
@@ -68,7 +77,9 @@
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width:150;
+    -fx-border-radius:0;
 }
+
 
 .floorLabelButton{
     -fx-background-color: #c2c2c2;
@@ -76,20 +87,18 @@
     -fx-text-fill: black;
     -fx-background-radius: 0;
     -fx-pref-width:50;
+    -fx-border-radius:0;
 }
 .floorLabelButton:hover{
     -fx-background-color: #c2c2c2;
 }
 
-.progress-bar{
-}
-
-
 .tree-table-view{
-    -fx-background-radius: 20;
     -fx-fit-to-height: border;
     -fx-fit-to-width: border;
     -fx-padding: 10;
+    -fx-border-radius:0;
+    -fx-background-radius:0;
 }
 
 
@@ -100,7 +109,8 @@
 .titled-pane{
     -fx-font-family:"Ebrima";
     -fx-font-style: italic;
-
+    -fx-border-radius:0;
+    -fx-background-radius:0;
 }
 
 .vbox-label{
@@ -109,7 +119,22 @@
     -fx-text-fill: white;
     -fx-font-size: 15;
     -fx-fill-width: true;
-    -fx-border-style: outset;
+    -fx-border-style: solid;
+}
+
+.count-text-area{
+    -fx-font-family:"Ebrima";
+    -fx-text-alignment: center;
+    -fx-font-size: 20;
+}
+
+.alert-text-area{
+    -fx-font-family:"Ebrima";
+    -fx-font-size: 15;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+
+
 }
 
 

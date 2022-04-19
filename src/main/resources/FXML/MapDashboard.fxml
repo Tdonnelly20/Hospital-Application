@@ -76,13 +76,13 @@
                               </ImageView>
                               <Group layoutX="140.0" layoutY="20.0">
                                  <children>
-                                    <Button layoutX="25.0" mnemonicParsing="false" onAction="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
-                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" styleClass="sideViewButtonf4" />
-                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" styleClass="sideViewButtonf3" />
-                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" styleClass="sideViewButtonf2" />
-                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" styleClass="sideViewButtonf1" />
-                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" styleClass="sideViewButtonll1" />
-                                    <Button layoutY="300.0" mnemonicParsing="false" onAction="#switchToLL2" styleClass="sideViewButtonll2" />
+                                    <Button layoutX="25.0" mnemonicParsing="false" onAction="#switchToF5" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
+                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" />
+                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" />
+                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" />
+                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" onMouseEntered="#switchToF1" styleClass="sideViewButtonf1" />
+                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" onMouseEntered="#switchToLL1" styleClass="sideViewButtonll1" />
+                                    <Button layoutY="300.0" mnemonicParsing="false" onAction="#switchToLL2" onMouseEntered="#switchToLL2" styleClass="sideViewButtonll2" />
                                  </children>
                               </Group>
                               <Group layoutX="63.0" layoutY="20.0">
@@ -170,7 +170,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <TextArea fx:id="countsArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea fx:id="countsArea" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="count-text-area" />
                            </children>
                         </VBox>
                      </children>
@@ -210,7 +210,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <TextArea fx:id="alertsArea" editable="false" maxWidth="301.0" prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea fx:id="alertsArea" editable="false" maxWidth="301.0" prefHeight="200.0" prefWidth="200.0" styleClass="alert-text-area" />
                            </children>
                            <VBox.margin>
                               <Insets left="10.0" right="10.0" />
