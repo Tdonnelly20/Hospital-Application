@@ -41,8 +41,8 @@ public class LocationIcon extends Icon {
         event -> {
           image.setFitWidth(15);
           image.setFitHeight(15);
-          setXCoord(xCoord + event.getX() - 15);
-          setYCoord(yCoord + event.getY());
+          setXCoord(xCoord + event.getX() - 10);
+          setYCoord(yCoord + event.getY() - 5);
           RequestSystem.getSystem().updateLocations(this);
         });
   }
