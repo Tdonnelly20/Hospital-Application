@@ -21,20 +21,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.swing.text.html.ImageView;
 
 public class MapDashboardController extends Controller {
 
-  private @FXML HBox hBox;
-  private @FXML VBox leftVBox;
-  private @FXML Pane sideViewPane;
-  private @FXML ImageView sideViewImage;
-  private @FXML VBox centerVBox;
-  private @FXML TreeTableView infoTable;
   private @FXML TreeTableView equipmentTable;
   private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
@@ -47,10 +37,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
   private @FXML TextArea countsArea = new TextArea();
-  private @FXML VBox rightVBox;
-  private @FXML Pane mapPane;
-  private @FXML ImageView imageView;
-  private @FXML TreeTableView alertTable;
+  private @FXML TextArea alertArea;
 
   private @FXML Button ll2;
   private @FXML Button ll1;
@@ -349,27 +336,6 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-  //  public int checkAlertSixBeds(String m, boolean d) {
-  //    if (m.equals("bed") && d == true) {
-  //      return 1;
-  //    } else {
-  //      return 0;
-  //    }
-  //  }
-
-  //  public void addBedAlertToArray(boolean b) {
-  //    if (b == true) {
-  //      if (!alertTable.contains("Alert: more than 6 beds")) {
-  //        alertTable.add("Alert: more than 6 beds");
-  //      }
-  //    }
-  //    if (b == false) {
-  //      if (alertTable.contains(“Alert: more than 6 beds”)) {
-  //        alertTable.remove(“Alert: more than 6 beds”);
-  //      }
-  //    }
-  //  }
-
   @FXML
   private void updateAlerts() {
     ArrayList<String> alerts = new ArrayList<>();
@@ -404,7 +370,7 @@ public class MapDashboardController extends Controller {
       alertText = alertText + a + "\n";
     }
     System.out.println(alertText);
-    alertsArea.setText(alertText);
+    alertArea.setText(alertText);
   }
 
   @FXML
@@ -420,6 +386,6 @@ public class MapDashboardController extends Controller {
   public void init() {
     setUpButtonSubjects();
     setUpDashboardListeners();
-    updateAll();
+    // updateAll();
   }
 }
