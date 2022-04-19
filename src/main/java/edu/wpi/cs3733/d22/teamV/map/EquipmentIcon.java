@@ -51,7 +51,6 @@ public class EquipmentIcon extends Icon {
           image.setFitHeight(20);
           setXCoord(xCoord + event.getX());
           setYCoord(yCoord + event.getY());
-          //TODO fix drag error and have equipment x and y be set to the new location
           RequestSystem.getSystem().updateLocations(this);
         });
   }
