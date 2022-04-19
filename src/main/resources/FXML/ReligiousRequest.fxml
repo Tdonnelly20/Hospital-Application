@@ -62,17 +62,11 @@
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request">
                                      <TextField id="details" fx:id="details" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Details">
                                          <VBox.margin>
                                              <Insets left="15.0" right="15.0" />
                                          </VBox.margin>
                                      </TextField>
-                                    <Label  fx:id="statusLabel" text="Please fill in the required fields." textFill="Red">
-                                       <VBox.margin>
-                                          <Insets left="15.0" right="15.0" />
-                                       </VBox.margin>
-                                    </Label >
                                     <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" text="Send Request" onAction="#sendRequest">
                                        <font>
                                           <Font size="18.0" />
@@ -101,16 +95,6 @@
                             <children>
                                 <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <tabs>
-                                        <Tab text="Table View">
-                                        <Tab text="Map View">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                    <children>
-                                                        <VBox fx:id="mapVBox" layoutX="225.0" layoutY="122.0" prefHeight="891.0" prefWidth="1610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                    </children>
-                                                </AnchorPane>
-                                            </content>
-                                        </Tab>
                                         <Tab fx:id="updateTreeTable" onSelectionChanged="#updateTreeTable" text="Table View">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

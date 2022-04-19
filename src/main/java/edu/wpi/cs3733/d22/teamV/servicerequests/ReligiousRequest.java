@@ -32,6 +32,7 @@ public class ReligiousRequest extends ServiceRequest {
   public int getPatientID() {
     return patientID;
   }
+
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
@@ -48,11 +49,12 @@ public class ReligiousRequest extends ServiceRequest {
 
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
-      super.update(directionalAssoc);
-      Vdb.requestSystem
-              .getDao(RequestSystem.Dao.ReligiousRequest)
-              .updateServiceRequest(this, getServiceID());
+    super.update(directionalAssoc);
+    Vdb.requestSystem
+        .getDao(RequestSystem.Dao.ReligiousRequest)
+        .updateServiceRequest(this, getServiceID());
   }
+
   public String getDetails() {
     return details;
   }
