@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -39,30 +38,33 @@
                            <content>
                               <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="40.0" style="-fx-background-color: #5c677d;">
                                  <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient First Name">
+                                       <VBox.margin>
+                                          <Insets bottom="-15.0" top="-15.0" />
+                                       </VBox.margin>
+                                    </Text>
                                     <TextField fx:id="firstName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient First Name">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Last Name">
+                                       <VBox.margin>
+                                          <Insets bottom="-15.0" top="-15.0" />
+                                       </VBox.margin>
+                                    </Text>
                                     <TextField fx:id="lastName" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient Last Name">
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                                       <children>
-                                          <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
-                                          <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="104.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
-                                          <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" prefHeight="21.0" prefWidth="138.0" text="Send Request" textAlignment="CENTER">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                             <padding>
-                                                <Insets right="-10.0" />
-                                             </padding>
-                                          </Button>
-                                       </children>
-                                    </HBox>
+                                    <Label fx:id="statusLabel" alignment="CENTER" prefHeight="35.0" prefWidth="104.0" text="Status: Blank" textAlignment="CENTER" wrapText="true" />
+                                    <Button fx:id="sendRequest" disable="true" mnemonicParsing="false" onAction="#sendRequest" prefHeight="21.0" prefWidth="138.0" text="Send Request" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="resetFields" mnemonicParsing="false" onAction="#resetForm" text="Reset" />
                                  </children>
                                  <padding>
                                     <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />

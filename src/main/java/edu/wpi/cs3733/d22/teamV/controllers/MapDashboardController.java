@@ -20,7 +20,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MapDashboardController extends Controller {
@@ -38,6 +41,11 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, String> SRCol;
   private @FXML TextArea countsArea = new TextArea();
   private @FXML TextArea alertArea;
+  private @FXML TextArea alertsArea = new TextArea();
+  private @FXML VBox rightVBox;
+  private @FXML Pane mapPane;
+  private @FXML ImageView imageView;
+  private @FXML ArrayList<String> alertTable;
 
   private @FXML Button ll2;
   private @FXML Button ll1;
@@ -334,6 +342,26 @@ public class MapDashboardController extends Controller {
             + "\n"
             + "Dirty Equipment: "
             + dirty);
+  }
+
+  public int checkAlertSixBeds(String m, boolean d) {
+    if (m.equals("bed") && d == true) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  public void addBedAlertToArray(boolean b, String location) {
+    alertTable.add("Alert: more than 6 beds in " + location);
+    if (b == false) {
+      if (alertTable.contains("Alert more than 6 beds in " + location)) {
+        alertTable.remove("Alert:more than 6 beds in " + location);
+      }
+    }
+    for (String s : alertTable) {
+      alertsArea.setText(s);
+    }
   }
 
   @FXML
