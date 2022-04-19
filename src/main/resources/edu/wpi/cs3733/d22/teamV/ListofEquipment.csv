@@ -1,9 +1,9 @@
 ID,Name,Floor,X,Y,Description,isDirty
-bed1,Bed,3,125,235,N/A,1
-bed2,Bed,3,80,217,N/A,1
-bed3,Bed,3,60,175,N/A,1
-bed4,Bed,3,52,130,N/A,1
-bed5,Bed,3,70,85,N/A,1
+bed1,Bed,3,125,235,N/A,0
+bed2,Bed,3,80,217,N/A,0
+bed3,Bed,3,60,175,N/A,0
+bed4,Bed,3,52,130,N/A,0
+bed5,Bed,3,70,85,N/A,0
 bed6,Bed,3,100,55,N/A,1
 bed7,Bed,3,140,50,N/A,1
 bed8,Bed,3,185,50,N/A,1
@@ -18,7 +18,7 @@ bed16,Bed,3,100,530,N/A,0
 bed17,Bed,3,145,545,N/A,0
 bed18,Bed,3,180,540,N/A,0
 bed19,Bed,3,230,520,N/A,0
-bed20,Bed,3,250,585,N/A,0
+bed20,Beds,3,250,585,N/A,0
 xray1,X-Ray Machine,3,145,545,N/A,1
 ipump1,Infusion Pump,3,145,150,N/A,1
 ipump2,Infusion Pump,3,145,150,N/A,1

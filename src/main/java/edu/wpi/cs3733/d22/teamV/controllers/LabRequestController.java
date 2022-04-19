@@ -9,9 +9,12 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class LabRequestController extends RequestController {
@@ -23,6 +26,7 @@ public class LabRequestController extends RequestController {
   @FXML private TreeTableColumn<LabRequest, String> lastNameCol;
   @FXML private TreeTableColumn<LabRequest, String> requestedLabCol;
   @FXML private TreeTableColumn<LabRequest, String> statusCol;
+  @FXML private Pane tablePlane;
 
   private static final LabRequestDao labRequestDao =
       (LabRequestDao) Vdb.requestSystem.getDao(Dao.LabRequest);
@@ -49,6 +53,33 @@ public class LabRequestController extends RequestController {
   public void init() {
     setTitleText("Lab Request");
     fillTopPane();
+
+    setColumnSizes(910);
+
+    tablePlane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePlane.getWidth();
+                table.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePlane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePlane.getHeight();
+                table.setPrefHeight(h - 75);
+              }
+            });
   }
 
   @Override
@@ -182,6 +213,16 @@ public class LabRequestController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(nodeIDCol, (w - 30) / 7);
+    setColumnSize(employeeIDCol, (w - 30) / 7);
+    setColumnSize(patientIDCol, (w - 30) / 7);
+    setColumnSize(firstNameCol, (w - 30) / 7);
+    setColumnSize(lastNameCol, (w - 30) / 7);
+    setColumnSize(requestedLabCol, (w - 30) / 7);
+    setColumnSize(statusCol, (w - 30) / 7);
   }
 
   @Override

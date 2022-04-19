@@ -19,7 +19,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class InternalPatientTransportationController extends Controller
+public class InternalPatientTransportationController extends RequestController
     implements RequestInterface {
 
   @FXML private TreeTableView<InternalPatientTransportation> internalPatientTransportationTable;
@@ -51,6 +51,12 @@ public class InternalPatientTransportationController extends Controller
 
   public static InternalPatientTransportationController getController() {
     return InternalPatientTransportationController.SingletonHelper.controller;
+  }
+
+  @Override
+  public void init() {
+    setTitleText("Internal Patient Transportation");
+    fillTopPane();
   }
 
   /** Update the table with values from fields and the DB */

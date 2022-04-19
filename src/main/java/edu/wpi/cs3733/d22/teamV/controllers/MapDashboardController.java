@@ -33,22 +33,18 @@ public class MapDashboardController extends Controller {
   private @FXML ImageView sideViewImage;
   private @FXML VBox centerVBox;
   private @FXML TreeTableView infoTable;
-
   private @FXML TreeTableView equipmentTable;
   private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
-
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
   private @FXML TreeTableColumn<Location, String> locationCol;
   private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
-
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
-
-  private @FXML TextArea countsArea;
+  private @FXML TextArea countsArea = new TextArea();
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
   private @FXML ImageView mapImage;
@@ -70,13 +66,6 @@ public class MapDashboardController extends Controller {
 
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
-  }
-
-  public void init() {
-    updateEquipmentTable();
-    updateCounts();
-    setUpButtonSubjects();
-    setUpDashboardListeners();
   }
 
   public static MapDashboardController getController() {
@@ -191,8 +180,7 @@ public class MapDashboardController extends Controller {
 
   @FXML
   public void switchToLL1(MouseEvent event) {
-    System.out.println("Barf");
-    curFloor = MapManager.getManager().getFloor("L1");
+    curFloor = MapManager.getManager().getFloor("LL1");
     updateListeners(curFloor);
     updateAll();
   }
@@ -336,12 +324,8 @@ public class MapDashboardController extends Controller {
     }
 
     for (ServiceRequest request : RequestSystem.getSystem().getEveryServiceRequest()) {
-      if (request.getLocation() != null) {
-        if (request.getLocation().getFloor() != null) {
-          if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
-            srCount++;
-          }
-        }
+      if (request.getLocation().getFloor().equals(curFloor.getFloorName())) {
+        srCount++;
       }
     }
     countsArea.setText(
@@ -357,9 +341,14 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateAll() {
-    updatePatientTable();
     updateEquipmentTable();
-    // updateServiceRequestTable();
+    updatePatientTable();
+    updateServiceRequestTable();
+    updateCounts();
+  }
+
+  @Override
+  public void init() {
     updateCounts();
   }
 }

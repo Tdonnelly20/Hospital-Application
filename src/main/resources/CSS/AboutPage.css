@@ -1,0 +1,30 @@
+#title{
+    -fx-font-size: 60px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family:"Ebrima";
+}
+
+.header{
+    -fx-font-size:25px;
+    -fx-alignment:center;
+    -fx-font-family:"Ebrima";
+    -fx-text-fill: #ffffff;
+}
+
+#info{
+    -fx-background-color: #9EABAE;
+}
+
+#meet-the-team{
+    -fx-background-color:  #5f6c83;
+}
+
+#meet-the-team-header{
+    -fx-font-size:80px;
+    -fx-alignment:center;
+    -fx-font-family:"Freestyle Script";
+    -fx-text-fill: #ffffff;
+}
+
+
+

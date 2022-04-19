@@ -56,13 +56,10 @@ public abstract class Icon {
           image.setFitWidth(50);
           image.setFitHeight(50);
         });
-    image.setOnMouseExited(
-        event -> {
-          image.setFitWidth(15);
-          image.setFitHeight(15);
-        });
   }
 
   @FXML
   public abstract ScrollPane compileList();
+
+  public abstract void updateLocation();
 }

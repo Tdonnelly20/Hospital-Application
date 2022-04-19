@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
+import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
@@ -137,7 +138,7 @@ public class RequestSystem {
         sanitationRequestDao.addServiceRequest(request);
         break;
       default:
-        System.out.println("L + touch grass");
+        System.out.println("addServiceRequest error");
     }
   }
 
@@ -169,7 +170,7 @@ public class RequestSystem {
       case SanitationRequest:
         sanitationRequestDao.removeServiceRequest(request);
       default:
-        System.out.println("L + touch grass");
+        System.out.println("RemoveServiceRequest error");
     }
   }
 
@@ -182,7 +183,7 @@ public class RequestSystem {
    */
   public void removeServiceRequest(ServiceRequest request) {
     switch (request.getType()) {
-      case "Equipment Delivery":
+      case "Equipment Delivery Request":
         equipmentDeliveryDao.removeServiceRequest(request);
       case "Internal Patient Transportation Request":
         internalPatientTransportationDao.removeServiceRequest(request);
@@ -192,14 +193,14 @@ public class RequestSystem {
         laundryRequestDao.removeServiceRequest(request);
       case "Meal Request":
         mealRequestDao.removeServiceRequest(request);
-      case "Medicine Delivery":
+      case "Medicine Delivery Request":
         medicineDeliveryDao.removeServiceRequest(request);
       case "Religious Request":
         religiousRequestDao.removeServiceRequest(request);
       case "Sanitation Request":
         sanitationRequestDao.removeServiceRequest(request);
       default:
-        System.out.println("L + touch grass");
+        System.out.println("RemoveServiceRequest error");
     }
   }
 
@@ -385,7 +386,7 @@ public class RequestSystem {
       case SanitationRequest:
         sanitationRequestDao.setAllServiceRequests(serviceRequests);
       default:
-        System.out.println("L + touch grass");
+        System.out.println("SetAllServiceRequests error");
     }
   }
 
@@ -433,5 +434,46 @@ public class RequestSystem {
 
   public static int getEmployeeID() {
     return employeeIDCounter++;
+  }
+
+  public void updateLocations(Icon icon) {
+    if (icon.iconType.equals(Icon.IconType.Equipment)) {
+      ArrayList<Equipment> equipmentList = new ArrayList<>();
+      for (Equipment equipment : ((EquipmentIcon) icon).getEquipmentList()) {
+        Equipment newEquipment =
+            new Equipment(
+                equipment.getID(),
+                equipment.getName(),
+                icon.getLocation().getFloor(),
+                icon.getXCoord(),
+                icon.getYCoord(),
+                equipment.getDescription(),
+                equipment.getIsDirty());
+
+        equipmentDao.removeEquipment(equipment);
+        equipmentList.add(newEquipment);
+      }
+      for (Equipment equipment : equipmentList) {
+        equipment.setIcon((EquipmentIcon) icon);
+        ((EquipmentIcon) icon).addToEquipmentList(equipment);
+        equipmentDao.addEquipment(equipment);
+      }
+      equipmentDao.saveToCSV();
+    } else {
+      Location newLocation =
+          new Location(
+              icon.getLocation().getNodeID(),
+              icon.getXCoord(),
+              icon.getYCoord(),
+              icon.getLocation().getFloor(),
+              icon.getLocation().getBuilding(),
+              icon.getLocation().getNodeType(),
+              icon.getLocation().getLongName(),
+              icon.getLocation().getShortName());
+
+      deleteLocation(icon.getLocation().getNodeID());
+      locationDao.addLocation(newLocation);
+      icon.setLocation(newLocation);
+    }
   }
 }

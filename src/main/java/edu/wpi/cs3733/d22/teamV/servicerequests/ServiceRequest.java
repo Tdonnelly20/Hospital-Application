@@ -24,7 +24,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   protected String type;
   protected RequestSystem.Dao dao;
   protected String notes;
-  protected String status;
+  protected String status = "Not Started";
   protected Icon icon;
   public Image image;
   private String nodeID;
