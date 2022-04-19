@@ -99,7 +99,7 @@ public abstract class Controller extends Application {
   // Switches scene to the lab request page
   @FXML
   protected void switchToLabRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLabRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/LabRequest.fxml"));
     switchScene(event);
   }
 
@@ -113,14 +113,14 @@ public abstract class Controller extends Application {
   // Switches scene to the medical equipment page
   @FXML
   protected void switchToMedEquipDelivery(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewEquipmentDelivery.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/EquipmentDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the sanitation page
   @FXML
   protected void switchToSanitationRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewSanitationRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml"));
     switchScene(event);
   }
 
@@ -134,7 +134,7 @@ public abstract class Controller extends Application {
   // Switches scene to the laundry request page
   @FXML
   protected void switchToLaundryRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLaundryRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
     switchScene(event);
   }
 
@@ -149,7 +149,7 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToInternalPatientTransport(ActionEvent event) {
     loader.setLocation(
-        getClass().getClassLoader().getResource("FXML/NewInternalPatientTransportation.fxml"));
+        getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
     switchScene(event);
   }
 
