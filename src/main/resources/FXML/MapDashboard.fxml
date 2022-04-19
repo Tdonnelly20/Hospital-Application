@@ -190,7 +190,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <ImageView fitHeight="301.0" fitWidth="340.0" onMouseClicked="#switchToMap" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="mapButton" fitHeight="301.0" fitWidth="340.0" onMouseClicked="#switchToMap" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../1st Floor.png" />
                                  </image>

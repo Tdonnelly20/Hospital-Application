@@ -50,7 +50,7 @@ public class MapDashboardController extends Controller {
   private @FXML TextArea alertsArea = new TextArea();
   private @FXML VBox rightVBox;
   private @FXML Pane mapPane;
-  private @FXML ImageView mapImage;
+  private @FXML ImageView imageView;
   private @FXML TreeTableView alertTable;
 
   private @FXML Button ll2 = new Button();
@@ -346,40 +346,6 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-  //  @FXML
-  //  private void updateAlerts() {
-  //    int dirty = 0;
-  //    int clean = 0;
-  //    ArrayList<String> alerts = new ArrayList<>();
-  //    String alertText = "";
-  //
-  //    for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
-  //      if (equipment.getFloor().equals(curFloor.getFloorName())) {
-  //        if (equipment.getIsDirty()) {
-  //          dirty++;
-  //        } else {
-  //          clean++;
-  //        }
-  //      }
-  //    }
-  //
-  //    if (dirty > 10) {
-  //      alerts.add("ALERT! there are " + dirty + " dirty pumps on floor " +
-  // curFloor.getFloorName());
-  //    }
-  //    if (clean < 5) {
-  //      alerts.add(
-  //          "ALERT! there are only " + clean + " clean pumps on floor " +
-  // curFloor.getFloorName());
-  //    }
-  //
-  //    for (String a : alerts) {
-  //      alertText = "\n" + alertText + a + "\n";
-  //    }
-  //
-  //    alertsArea.setText(alertText);
-  //  }
-  //
   //  public int checkAlertSixBeds(String m, boolean d) {
   //    if (m.equals("bed") && d == true) {
   //      return 1;
@@ -417,12 +383,12 @@ public class MapDashboardController extends Controller {
       state = e.pumpAlert();
       if ((state[0] < 5) && e.hasCleanEquipment()) {
         alerts.add(
-            "ALERT! there are only "
+            "ALERT there are only "
                 + state[0]
                 + " clean pumps at location "
                 + e.getLocation().getNodeID());
       }
-      if (state[1] > 10) {
+      if (state[1] >= 10) {
         alerts.add(
             "ALERT! there are "
                 + state[1]
