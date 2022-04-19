@@ -73,9 +73,9 @@ public class ReligiousRequestDao extends DaoInterface {
           bw.append(s);
           bw.append(',');
         }
-        bw.close();
-        fw.close();
       }
+      bw.close();
+      fw.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
