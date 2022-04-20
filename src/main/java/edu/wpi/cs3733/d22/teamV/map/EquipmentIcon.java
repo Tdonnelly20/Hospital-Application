@@ -170,7 +170,8 @@ public class EquipmentIcon extends Icon {
           boolean d1 = equipment.getIsDirty();
           boolean d2 = equipment.getIsDirty();
           int i =
-              MapDashboardController.getController().checkAlertSixBeds(equipment.getName(), d1, equipmentTwo.getName(), d2);
+              MapDashboardController.getController()
+                  .checkAlertSixBeds(equipment.getName(), d1, equipmentTwo.getName(), d2);
           dirtyBeds.add(String.valueOf(equipment.getX()));
           alertCounter += i;
           dirtyBeds.add(String.valueOf(d1));

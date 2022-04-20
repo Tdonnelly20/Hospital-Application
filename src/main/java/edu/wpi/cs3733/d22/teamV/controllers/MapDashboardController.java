@@ -369,17 +369,18 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
+  public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
     if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
-    return 0; }
-}
+      return 0;
+    }
+  }
 
-@FXML
+  @FXML
   public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBeds) {
 
-    //checks and deletes duplicate locations
+    // checks and deletes duplicate locations
     for (String dirtyBed : dirtyBeds) {
       for (int i = 0; dirtyBed.length() > i; i++) {
         for (int j = 0; dirtyBed.length() > j; j++) {
@@ -389,85 +390,87 @@ public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
         }
       }
     }
-    //adds strings with respective locations to alerTablew
+    // adds strings with respective locations to alerTablew
     if (b == true) {
       for (String dirtyBed : dirtyBeds) {
-      alertTable.add("Alert: more than 6 beds in " + dirtyBed); } }
+        alertTable.add("Alert: more than 6 beds in " + dirtyBed);
+      }
+    }
 
-    //adds strings from alerTable to alertsArea
+    // adds strings from alerTable to alertsArea
     for (String s : alertTable) {
       alertsArea.setText(s);
     }
-}
-
-    @FXML
-    private void updateAlerts() {
-      ArrayList<String> alerts = new ArrayList<>();
-      ArrayList<Icon> iconList = curFloor.getIconList();
-      ArrayList<EquipmentIcon> i = new ArrayList<>();
-      ArrayList<LocationIcon> j = new ArrayList<>();
-
-      int[] state;
-      String alertText = "";
-      for (Icon icon : iconList) {
-        if (icon.iconType.equals(Icon.IconType.Equipment)) {
-          i.add((EquipmentIcon) icon);
-        }
-      }
-      for (Icon icon : iconList) {
-        if (icon.iconType.equals(Icon.IconType.Location)) {
-          j.add((LocationIcon) icon);
-        }
-      }
-      int index = 0;
-      for (EquipmentIcon e : i) {
-        state = e.pumpAlert();
-        if ((state[0] < 5) && e.hasCleanEquipment()) {
-          alerts.add(
-                  "ALERT there are only "
-                          + state[0]
-                          + " clean pumps at location "
-                          + e.getLocation().getXCoord()
-                          + ", "
-                          + e.getLocation().getYCoord());
-        }
-        if (state[1] > 9) {
-          alerts.add(
-                  "ALERT! there are "
-                          + state[1]
-                          + " dirty pumps at location "
-                          + e.getLocation().getXCoord()
-                          + ", "
-                          + e.getLocation().getYCoord());
-
-          EquipmentDelivery equipmentDelivery =
-                  new EquipmentDelivery(
-                          11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
-          j.get(index).addToRequests(equipmentDelivery);
-        }
-        index++;
-      }
-
-      for (String a : alerts) {
-        alertText = alertText + a + "\n";
-      }
-      // System.out.println(alertText);
-      alertArea.setText(alertText);
-    }
-
-    @FXML
-    private void updateAll() {
-      updateEquipmentTable();
-      updatePatientTable();
-      updateServiceRequestTable();
-      updateCounts();
-      updateAlerts();
-    }
-
-    @Override
-    public void init() {
-      setUpButtonSubjects();
-      setUpDashboardListeners();
-      // updateAll();
-    }
   }
+
+  @FXML
+  private void updateAlerts() {
+    ArrayList<String> alerts = new ArrayList<>();
+    ArrayList<Icon> iconList = curFloor.getIconList();
+    ArrayList<EquipmentIcon> i = new ArrayList<>();
+    ArrayList<LocationIcon> j = new ArrayList<>();
+
+    int[] state;
+    String alertText = "";
+    for (Icon icon : iconList) {
+      if (icon.iconType.equals(Icon.IconType.Equipment)) {
+        i.add((EquipmentIcon) icon);
+      }
+    }
+    for (Icon icon : iconList) {
+      if (icon.iconType.equals(Icon.IconType.Location)) {
+        j.add((LocationIcon) icon);
+      }
+    }
+    int index = 0;
+    for (EquipmentIcon e : i) {
+      state = e.pumpAlert();
+      if ((state[0] < 5) && e.hasCleanEquipment()) {
+        alerts.add(
+            "ALERT there are only "
+                + state[0]
+                + " clean pumps at location "
+                + e.getLocation().getXCoord()
+                + ", "
+                + e.getLocation().getYCoord());
+      }
+      if (state[1] > 9) {
+        alerts.add(
+            "ALERT! there are "
+                + state[1]
+                + " dirty pumps at location "
+                + e.getLocation().getXCoord()
+                + ", "
+                + e.getLocation().getYCoord());
+
+        EquipmentDelivery equipmentDelivery =
+            new EquipmentDelivery(
+                11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
+        j.get(index).addToRequests(equipmentDelivery);
+      }
+      index++;
+    }
+
+    for (String a : alerts) {
+      alertText = alertText + a + "\n";
+    }
+    // System.out.println(alertText);
+    alertArea.setText(alertText);
+  }
+
+  @FXML
+  private void updateAll() {
+    updateEquipmentTable();
+    updatePatientTable();
+    updateServiceRequestTable();
+    updateCounts();
+    updateAlerts();
+  }
+
+  @Override
+  public void init() {
+    setUpButtonSubjects();
+    setUpDashboardListeners();
+    // updateAll();
+  }
+}
