@@ -48,11 +48,6 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="25.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
                            <children>
-                              <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToDashboard" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../BackButton.png" />
-                                 </image>
-                              </ImageView>
                               <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../HomeButton.png" />

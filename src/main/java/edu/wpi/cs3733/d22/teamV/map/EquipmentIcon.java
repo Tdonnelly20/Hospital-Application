@@ -40,10 +40,14 @@ public class EquipmentIcon extends Icon {
         });
     image.setOnMouseReleased(
         event -> {
-          location.setXCoord(location.getXCoord() + event.getX());
-          location.setYCoord(location.getYCoord() + event.getY());
-          updateLocation();
-          checkBounds();
+          if (isDrag) {
+            isDrag = false;
+            setXCoord(xCoord + event.getX());
+            setYCoord(yCoord + event.getY());
+            RequestSystem.getSystem().updateLocations(this);
+            checkBounds();
+          }
+          // MapController.getController().setFloor(getLocation().getFloor());
         });
   }
 
@@ -143,7 +147,7 @@ public class EquipmentIcon extends Icon {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
             equipmentList.addAll(icon.getEquipmentList());
-            updateLocation();
+            RequestSystem.getSystem().updateLocations(this);
             icon.getEquipmentList().clear();
             MapController.getController().deleteIcon(icon);
             setImage();
