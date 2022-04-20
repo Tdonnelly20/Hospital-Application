@@ -8,7 +8,6 @@ import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -35,7 +34,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<Location, String> locationCol;
+  private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
   private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
@@ -276,7 +275,7 @@ public class MapDashboardController extends Controller {
   @FXML
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
 
     ArrayList<ServiceRequest> currRequests =
