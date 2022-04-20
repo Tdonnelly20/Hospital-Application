@@ -132,7 +132,7 @@ public class LaundryRequestController extends RequestController {
   }
 
   @FXML
-  private void sendRequest() throws SQLException {
+  private void sendRequest() {
     LaundryRequest l =
         new LaundryRequest(
             Integer.parseInt(userID.getText()),

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.AboutController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.AboutController">
    <items>
       <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -23,218 +23,218 @@
       </AnchorPane>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <SplitPane dividerPositions="0.37360917941585536" prefHeight="925.0" prefWidth="1920.0" stylesheets="@../CSS/AboutPage.css">
+            <SplitPane dividerPositions="0.37360917941585536" prefHeight="650.0" prefWidth="1200.0" stylesheets="@../CSS/AboutPage.css">
               <items>
-                <AnchorPane id="info" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane id="info" minHeight="0.0" minWidth="0.0" prefHeight="595.0" prefWidth="713.0">
                      <children>
-                        <Label layoutX="87.0" layoutY="225.0" styleClass="header" text="WPI Computer Science Department" />
-                        <Label layoutX="108.0" layoutY="266.0" styleClass="header" text="CS3733-D22 Software Engineering" />
-                        <Label layoutX="171.0" layoutY="384.0" styleClass="header" text="Professor: Wilson Wong" />
-                        <Label layoutX="129.0" layoutY="424.0" styleClass="header" text="Team Coach: Luke Deratzou" />
-                        <Label layoutX="65.0" layoutY="513.0" prefHeight="333.0" prefWidth="570.0" styleClass="header" text="We would like to express our immense gratitude to Brigham and Women’s Hospital and their representative, Andrew Shinn, for their time and input in reviewing our application throughout the term. We truly appreciate them!" textAlignment="CENTER" wrapText="true" />
-                        <Label id="info-header" layoutX="83.0" layoutY="20.0" text="Team Vegan Vampires" />
+                        <Label layoutX="58.0" layoutY="156.0" styleClass="header" text="WPI Computer Science Department" />
+                        <Label layoutX="70.0" layoutY="182.0" styleClass="header" text="CS3733-D22 Software Engineering" />
+                        <Label layoutX="112.0" layoutY="253.0" styleClass="header" text="Professor: Wilson Wong" />
+                        <Label layoutX="86.0" layoutY="279.0" styleClass="header" text="Team Coach: Luke Deratzou" />
+                        <Label layoutX="65.0" layoutY="360.0" prefHeight="181.0" prefWidth="309.0" styleClass="header" text="We would like to express our immense gratitude to Brigham and Women’s Hospital and their representative, Andrew Shinn, for their time and input in reviewing our application throughout the term. We truly appreciate them!" textAlignment="CENTER" wrapText="true" />
+                        <Label id="info-header" layoutX="83.0" layoutY="32.0" text="Team Vegan Vampires" />
                      </children>
                   </AnchorPane>
                 <AnchorPane id="meet-the-team" minHeight="0.0" minWidth="0.0" prefHeight="855.0" prefWidth="1198.0">
                      <children>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="527.0" layoutY="664.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="324.0" layoutY="448.0">
                            <image>
                               <Image url="@../TeamPics/tucker.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="867.0" layoutY="420.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="563.0" layoutY="280.0">
                            <image>
                               <Image url="@../TeamPics/parker.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="181.0" layoutY="174.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="87.0" layoutY="115.0">
                            <image>
                               <Image url="@../TeamPics/matt.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="417.0" layoutY="420.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="247.0" layoutY="280.0">
                            <image>
                               <Image url="@../TeamPics/andres.JPG" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="182.0" layoutY="420.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="87.0" layoutY="280.0">
                            <image>
                               <Image url="@../TeamPics/ben.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="300.0" layoutY="664.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="166.0" layoutY="448.0">
                            <image>
                               <Image url="@../TeamPics/dylan.jpeg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="866.0" layoutY="174.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="563.0" layoutY="114.0">
                            <image>
                               <Image url="@../TeamPics/jakob.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="646.0" layoutY="174.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="406.0" layoutY="115.0">
                            <image>
                               <Image url="@../TeamPics/jason.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="642.0" layoutY="420.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="406.0" layoutY="279.0">
                            <image>
                               <Image url="@../TeamPics/jolene.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="417.0" layoutY="174.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="246.0" layoutY="115.0">
                            <image>
                               <Image url="@../TeamPics/tate.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="750.0" layoutY="664.0">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="483.0" layoutY="447.0">
                            <image>
                               <Image url="@../TeamPics/trevor.jpg" />
                            </image>
                         </ImageView>
-                        <Label layoutX="161.0" layoutY="324.0" styleClass="name" text="Matthew Hendrickson">
+                        <Label layoutX="62.0" layoutY="217.0" styleClass="name" text="Matthew Hendrickson">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="200.0" layoutY="349.0" styleClass="position" text="Project Manager">
+                        <Label layoutX="249.0" layoutY="217.0" styleClass="name" text="Tate Donnelly">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="201.0" layoutY="370.0" styleClass="position" text="PT Backend SWE">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="433.0" layoutY="324.0" styleClass="name" text="Tate Donnelly">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="456.0" layoutY="349.0" styleClass="position" text="Lead SWE">
+                        <Label layoutX="265.0" layoutY="237.0" styleClass="position" text="Lead SWE">
                            <font>
                               <Font name="Century Gothic" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="649.0" layoutY="324.0" styleClass="name" text="Jason Rockmael">
+                        <Label layoutX="399.0" layoutY="217.0" styleClass="name" text="Jason Rockmael">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="657.0" layoutY="349.0" styleClass="position" text="Assistant Lead SWE">
+                        <Label layoutX="401.0" layoutY="237.0" styleClass="position" text="Assistant Lead SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="681.0" layoutY="370.0" styleClass="position" text="(Backend)">
+                        <Label layoutX="425.0" layoutY="252.0" styleClass="position" text="(Backend)">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="904.0" layoutY="370.0" styleClass="position" text="(Frontend)">
+                        <Label layoutX="582.0" layoutY="252.0" styleClass="position" text="(Frontend)">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="877.0" layoutY="349.0" styleClass="position" text="Assistant Lead SWE">
+                        <Label layoutX="558.0" layoutY="236.0" styleClass="position" text="Assistant Lead SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="873.0" layoutY="324.0" styleClass="name" text="Jakob Simmons">
+                        <Label layoutX="561.0" layoutY="216.0" styleClass="name" text="Jakob Simmons">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="184.0" layoutY="570.0" styleClass="name" text="Benjamin Bagley">
+                        <Label layoutX="80.0" layoutY="382.0" styleClass="name" text="Benjamin Bagley">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="426.0" layoutY="570.0" styleClass="name" text="Andres Negron">
+                        <Label layoutX="243.0" layoutY="382.0" styleClass="name" text="Andres Negron">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="205.0" layoutY="597.0" styleClass="position" text="Product Owner">
+                        <Label layoutX="90.0" layoutY="403.0" styleClass="position" text="Product Owner">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="201.0" layoutY="618.0" styleClass="position" text="PT Frontend SWE">
+                        <Label layoutX="87.0" layoutY="419.0" styleClass="position" text="PT Frontend SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="435.0" layoutY="618.0" styleClass="position" text="PT Frontend SWE">
+                        <Label layoutX="248.0" layoutY="419.0" styleClass="position" text="PT Frontend SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="663.0" layoutY="618.0" styleClass="position" text="PT Frontend SWE">
+                        <Label layoutX="407.0" layoutY="419.0" styleClass="position" text="PT Frontend SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="444.0" layoutY="597.0" styleClass="position" text="Scrum Master">
+                        <Label layoutX="258.0" layoutY="403.0" styleClass="position" text="Scrum Master">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="637.0" layoutY="597.0" styleClass="position" text="Documentation Analyst">
+                        <Label layoutX="390.0" layoutY="403.0" styleClass="position" text="Documentation Analyst">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="665.0" layoutY="570.0" styleClass="name" text="Jolene Pern">
+                        <Label layoutX="415.0" layoutY="382.0" styleClass="name" text="Jolene Pern">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="870.0" layoutY="570.0" styleClass="name" text="Parker Van Ham">
+                        <Label layoutX="558.0" layoutY="382.0" styleClass="name" text="Parker Van Ham">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="886.0" layoutY="597.0" styleClass="position" text="FT Frontend SWE">
+                        <Label layoutX="168.0" layoutY="571.0" styleClass="position" text="FT Frontend SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="321.0" layoutY="847.0" styleClass="position" text="FT Frontend SWE">
+                        <Label layoutX="565.0" layoutY="401.0" styleClass="position" text="FT Frontend SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="548.0" layoutY="847.0" styleClass="position" text="FT Backend SWE">
+                        <Label layoutX="487.0" layoutY="570.0" prefHeight="18.0" prefWidth="104.0" styleClass="position" text="FT Backend SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="769.0" layoutY="847.0" styleClass="position" text="FT Backend SWE">
+                        <Label layoutX="327.0" layoutY="572.0" styleClass="position" text="FT Backend SWE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="327.0" layoutY="819.0" styleClass="name" text="Dylan Hunt">
+                        <Label layoutX="177.0" layoutY="549.0" styleClass="name" text="Dylan Hunt">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="528.0" layoutY="819.0" styleClass="name" text="Tucker Raymond">
+                        <Label layoutX="316.0" layoutY="550.0" styleClass="name" text="Tucker Raymond">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="784.0" layoutY="819.0" styleClass="name" text="Trevor Ng">
+                        <Label layoutX="503.0" layoutY="550.0" styleClass="name" text="Trevor Ng">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label id="meet-the-team-header" layoutX="410.0" layoutY="19.0" text="Meet Team V" textAlignment="CENTER" textFill="#fdf9f9">
+                        <Label id="meet-the-team-header" layoutX="278.0" layoutY="29.0" text="Meet Team V" textAlignment="CENTER" textFill="#fdf9f9">
                            <font>
                               <Font name="Freestyle Script" size="96.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="86.0" layoutY="237.0" styleClass="position" text="Project Manager">
+                           <font>
+                              <Font name="Century Gothic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="88.0" layoutY="252.0" styleClass="position" text="PT Backend SWE">
+                           <font>
+                              <Font name="Century Gothic" size="18.0" />
                            </font>
                         </Label>
                      </children>

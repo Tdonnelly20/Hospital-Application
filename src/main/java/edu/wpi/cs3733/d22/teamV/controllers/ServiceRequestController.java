@@ -12,6 +12,7 @@ public class ServiceRequestController extends Controller {
   @FXML private Label labelJ;
   @FXML private Label labelA;
   @FXML private Label labelJo;
+  @FXML private Label labelJa;
   private boolean visible = true;
 
   @Override
@@ -26,5 +27,6 @@ public class ServiceRequestController extends Controller {
     labelJ.setVisible(visible);
     labelA.setVisible(visible);
     labelJo.setVisible(visible);
+    labelJa.setVisible(visible);
   }
 }

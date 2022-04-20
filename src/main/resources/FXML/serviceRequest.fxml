@@ -119,6 +119,13 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </JFXButton>
+            <Label fx:id="labelD" layoutY="206.0" text="Dylan" />
+            <Label fx:id="labelP" layoutX="467.0" layoutY="206.0" text="Parker" />
+            <Label fx:id="labelJ" layoutY="327.0" text="Jakob" />
+            <Label fx:id="labelM" layoutX="470.0" layoutY="327.0" text="Matthew" />
+            <Label fx:id="labelA" layoutX="-81.0" layoutY="443.0" text="Andres" />
+            <Label fx:id="labelJa" layoutX="228.0" layoutY="443.0" text="Jason" />
+            <Label fx:id="labelJo" layoutX="546.0" layoutY="443.0" text="Jolene" />
          </children></Pane>
    </children>
 </GridPane>

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
-import edu.wpi.cs3733.d22.teamV.interfaces.RequestInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
@@ -19,8 +18,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class InternalPatientTransportationController extends RequestController
-    implements RequestInterface {
+public class InternalPatientTransportationController extends RequestController {
 
   @FXML private TreeTableView<InternalPatientTransportation> internalPatientTransportationTable;
 
@@ -33,8 +31,6 @@ public class InternalPatientTransportationController extends RequestController
 
   @FXML private TextField patientID;
   @FXML private TextField hospitalID;
-  @FXML private TextField firstName;
-  @FXML private TextField lastName;
   @FXML private TextField roomNum;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
@@ -57,6 +53,7 @@ public class InternalPatientTransportationController extends RequestController
   public void init() {
     setTitleText("Internal Patient Transportation");
     fillTopPane();
+    updateTreeTable();
   }
 
   /** Update the table with values from fields and the DB */
@@ -103,16 +100,12 @@ public class InternalPatientTransportationController extends RequestController
     try {
       if ((hospitalID.getText().equals("")
           && patientID.getText().equals("")
-          && firstName.getText().equals("")
-          && lastName.getText().equals("")
           && roomNum.getText().equals(""))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
         statusLabel.setTextFill(Color.web("Black"));
       } else if ((hospitalID.getText().equals("")
           || patientID.getText().equals("")
-          || firstName.getText().equals("")
-          || lastName.getText().equals("")
           || roomNum.getText().equals(""))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
@@ -126,7 +119,6 @@ public class InternalPatientTransportationController extends RequestController
   }
 
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
-  @Override
   public void sendRequest() throws SQLException, IOException {
     // If any field is left blank, (except for request details) throw an error
 
@@ -148,21 +140,6 @@ public class InternalPatientTransportationController extends RequestController
 
       internalPatientTransportationDao.addServiceRequest(internalPatientTransportation);
 
-      // For testing purposes
-      System.out.println(
-          "\nHospital ID: "
-              + hospitalID.getText()
-              + "\nPatient ID: "
-              + patientID.getText()
-              + "\nRoom #: "
-              + roomNum.getText()
-              + "\nName: "
-              + firstName.getText()
-              + " "
-              + lastName.getText()
-              + "\n\nRequest Details: "
-              + requestDetails.getText());
-
       resetForm(); // Set all fields to blank for another entry
       updateTreeTable();
     }
@@ -173,8 +150,6 @@ public class InternalPatientTransportationController extends RequestController
   public void resetForm() {
     patientID.setText("");
     hospitalID.setText("");
-    firstName.setText("");
-    lastName.setText("");
     roomNum.setText("");
     requestDetails.setText("");
     sendRequest.setDisable(true);
@@ -182,17 +157,4 @@ public class InternalPatientTransportationController extends RequestController
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
-
-  @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
-  }
 }

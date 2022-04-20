@@ -44,7 +44,7 @@
                         <Image url="@../ExitButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" onMouseReleased="#goHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../HomeButton.png" />
                      </image>
@@ -190,7 +190,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <ImageView fx:id="mapButton" fitHeight="301.0" fitWidth="340.0" onMouseClicked="#switchToMap" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="mapButton" fitHeight="301.0" fitWidth="340.0" onMouseReleased="#openMap" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../1st Floor.png" />
                                  </image>
