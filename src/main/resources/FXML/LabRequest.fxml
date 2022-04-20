@@ -73,15 +73,21 @@
                                                    <String fx:id="mriRequest" fx:value="MRI" />
                                                 </FXCollections>
                                              </items>
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                             </VBox.margin>
                                           </JFXComboBox>
                                           <JFXComboBox id="dropDown" fx:id="statusDropDown" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                    <String fx:id="statusNotStarted" fx:value="Not Started" />
                                                    <String fx:id="statusProcessing" fx:value="Processing" />
-                                                   <String fx:value="Completed" fx:id="statusCompleted" />
+                                                   <String fx:id="statusCompleted" fx:value="Completed" />
                                                 </FXCollections>
                                              </items>
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                             </VBox.margin>
                                           </JFXComboBox>
                                           <Label fx:id="status" text="Status: Processing" />
                                           <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">

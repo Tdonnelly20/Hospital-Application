@@ -378,33 +378,21 @@ public class MapDashboardController extends Controller {
     if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
-      return 0;
-    }
-  }
+    return 0; }
+}
 
   @FXML
-  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBeds) {
+  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBedsFloor) {
 
-    // checks and deletes duplicate locations
-    for (String dirtyBed : dirtyBeds) {
-      for (int i = 0; dirtyBed.length() > i; i++) {
-        for (int j = 0; dirtyBed.length() > j; j++) {
-          if (dirtyBed.charAt(i) == (dirtyBed.charAt(i))) {
-            alertTable.remove("Alert: more than 6 beds in " + i);
-          }
-        }
-      }
-    }
-    // adds strings with respective locations to alerTablew
-    if (b == true) {
-      for (String dirtyBed : dirtyBeds) {
-        alertTable.add("Alert: more than 6 beds in " + dirtyBed);
+    if (b==true) {
+      for (String s : dirtyBedsFloor) {
+        alertTable.add(s);
       }
     }
 
     // adds strings from alerTable to alertsArea
     for (String s : alertTable) {
-      alertsArea.setText(s);
+      alertsArea.setText("There are 6+ dirty beds in floor " + s);
     }
   }
 

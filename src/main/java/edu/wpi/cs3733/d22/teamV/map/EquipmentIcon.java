@@ -158,54 +158,38 @@ public class EquipmentIcon extends Icon {
   }
 
   public void alertSixBeds() {
-    int alertCounter = 1;
+
+    int alertCounter = 0;
     boolean alert = false;
-    ArrayList<String> dirtyBeds = new ArrayList<String>();
 
-    for (Equipment equipment : equipmentList) {
-      double one = equipment.getX();
-      for (Equipment equipmentTwo : equipmentList) {
-        double two = equipment.getX();
-        if (one == two) {
-          boolean d1 = equipment.getIsDirty();
-          boolean d2 = equipment.getIsDirty();
-          int i =
-              MapDashboardController.getController()
-                  .checkAlertSixBeds(equipment.getName(), d1, equipmentTwo.getName(), d2);
-          dirtyBeds.add(String.valueOf(equipment.getX()));
-          alertCounter += i;
-          dirtyBeds.add(String.valueOf(d1));
-          dirtyBeds.add(String.valueOf(d2));
-        }
+    ArrayList<Equipment> equip = new ArrayList<Equipment>();
+    equip = this.getEquipmentList();
+    ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
+
+
+    for (int i = 0; equip.size() > i; i++) {
+      if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
+        dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
+        alertCounter = +1;
       }
     }
-
-    // this deletes any duplicate locations
-    for (int x = 0; x < dirtyBeds.size(); x++) {
-      for (int y = 0; x < dirtyBeds.size(); y++) {
-        if (dirtyBeds.get(x) == dirtyBeds.get(y) && x != y) {
-          dirtyBeds.remove(x);
-        }
+      if (alertCounter > 5) {
+        alert = true;
       }
-    }
 
-    if (alertCounter > 5) {
-      alert = true;
-    }
-
-    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBeds);
+      MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
-  public int[] pumpAlert() {
-    int dirty = 0;
-    int clean = 0;
-    for (Equipment equipment : equipmentList) {
-      // System.out.println(equipment.getName());
-      if (equipment.getName().equals("Infusion Pump")) {
-        if (equipment.getIsDirty()) dirty++;
-        else clean++;
+    public int[] pumpAlert () {
+      int dirty = 0;
+      int clean = 0;
+      for (Equipment equipment : equipmentList) {
+        // System.out.println(equipment.getName());
+        if (equipment.getName().equals("Infusion Pump")) {
+          if (equipment.getIsDirty()) dirty++;
+          else clean++;
+        }
       }
+      return new int[]{clean, dirty};
     }
-    return new int[] {clean, dirty};
   }
-}
