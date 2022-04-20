@@ -377,6 +377,7 @@ public class MapDashboardController extends Controller {
     } else {
       return 0;
     }*/
+    return 0;
   }
 
   @FXML

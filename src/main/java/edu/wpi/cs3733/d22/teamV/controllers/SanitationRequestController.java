@@ -11,9 +11,12 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -36,6 +39,7 @@ public class SanitationRequestController extends RequestController {
   @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
   @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
+  @FXML private Pane tablePane;
   private boolean updating = false;
   private int updateServiceID;
 
@@ -58,6 +62,33 @@ public class SanitationRequestController extends RequestController {
     fillTopPane();
     updating = false;
     validateButton();
+
+    setColumnSizes(960);
+
+    tablePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePane.getWidth();
+                sanitationRequestTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePane.getHeight();
+                sanitationRequestTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   // ask about adding employee and patient DAOs to request System, requires them to use interface
@@ -92,7 +123,7 @@ public class SanitationRequestController extends RequestController {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-  
+
   @FXML
   void sendRequest()
       throws SQLException, IOException { // must check to see if its updating or new req
@@ -186,5 +217,16 @@ public class SanitationRequestController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(hospitalIDCol, (w - 30) / 8);
+    setColumnSize(patientIDCol, (w - 30) / 8);
+    setColumnSize(firstNameCol, (w - 30) / 8);
+    setColumnSize(lastNameCol, (w - 30) / 8);
+    setColumnSize(roomLocationCol, (w - 30) / 8);
+    setColumnSize(hazardCol, (w - 30) / 8);
+    setColumnSize(requestDetailsCol, (w - 30) / 8);
+    setColumnSize(statusCol, (w - 30) / 8);
   }
 }
