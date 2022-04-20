@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.RobotDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
@@ -38,6 +39,8 @@ public class RobotController extends RequestController {
     private static final RobotController manager = new RobotController();
   }
 
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
+
   public static RobotController getManager() {
     return RobotController.SingletonHelper.manager;
   }
@@ -46,6 +49,7 @@ public class RobotController extends RequestController {
   public void init() {
     setTitleText("Robot Request");
     fillTopPane();
+    validateButton();
   }
 
   @Override
@@ -63,21 +67,26 @@ public class RobotController extends RequestController {
   // Checks to see if the user can submit info
   @Override
   public void validateButton() {
+    sendRequest.setDisable(true);
     try {
-      if (!(employeeID.getText().isEmpty())
-          && isInteger(employeeID.getText())
-          && !(botID.getText().isEmpty())
-          && isInteger(botID.getText())
-          && !(details.getText().isEmpty())) {
-        // Information verification and submission needed
-        sendRequest.setDisable(false);
-      } else if (!(employeeID.getText().isEmpty())
-          || !(botID.getText().isEmpty())
-          || !(details.getText().isEmpty())) {
-        status.setText("Status: Processing");
-      } else {
+      if ((employeeID.getText().isEmpty())
+          && botID.getText().isEmpty()
+          && statusDropDown.getValue() == null
+          && nodeID.getText().isEmpty()) {
         status.setText("Status: Blank");
-        sendRequest.setDisable(true);
+      } else if ((employeeID.getText().isEmpty())
+          || (botID.getText().isEmpty())
+          || statusDropDown.getValue() == null
+          || nodeID.getText().isEmpty()) {
+        status.setText("Status: Processing");
+      } else if (LocationDao.getLocation(nodeID.getText()) == null) {
+        status.setText("Status: Invalid Location");
+      } else if (!isInteger(employeeID.getText())) {
+        status.setText("Status: Invalid Employee");
+      } else if (!isInteger(botID.getText())) {
+        status.setText("Status: Invalid Bot ID");
+      } else {
+        sendRequest.setDisable(false);
       }
     } catch (NullPointerException e) {
 
