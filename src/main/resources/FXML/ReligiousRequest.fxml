@@ -139,7 +139,7 @@
                                     <tabs>
                                         <Tab fx:id="updateTreeTable" onSelectionChanged="#updateTreeTable" text="Table View">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                     <children>
                                                         <TreeTableView fx:id="ReligiousRequestTable" layoutX="11.0" layoutY="56.0" prefHeight="650.0" prefWidth="538.0">
                                                             <columns>
