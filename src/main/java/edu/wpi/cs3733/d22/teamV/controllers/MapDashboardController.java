@@ -375,16 +375,18 @@ public class MapDashboardController extends Controller {
   }
 
   public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
-    if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
+    /*if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
-    return 0; }
-}
+      return 0;
+    }*/
+    return 0;
+  }
 
   @FXML
   public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBedsFloor) {
-
-    if (b==true) {
+    /*
+    if (b == true) {
       for (String s : dirtyBedsFloor) {
         alertTable.add(s);
       }
@@ -393,7 +395,7 @@ public class MapDashboardController extends Controller {
     // adds strings from alerTable to alertsArea
     for (String s : alertTable) {
       alertsArea.setText("There are 6+ dirty beds in floor " + s);
-    }
+    }*/
   }
 
   @FXML

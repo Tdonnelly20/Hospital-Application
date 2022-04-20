@@ -590,6 +590,7 @@ public class PopupController {
                       comboBox2.getValue(),
                       comboBox3.getValue());
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
       case "Equipment Delivery":
@@ -614,6 +615,7 @@ public class PopupController {
                       comboBox3.getValue());
 
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
       case "Medicine Delivery":
@@ -637,6 +639,7 @@ public class PopupController {
                       comboBox3.getValue(),
                       field4.getText());
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
       case "Internal Patient Transport":
@@ -652,6 +655,7 @@ public class PopupController {
                       Integer.parseInt(field1.getText()),
                       field3.getText());
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
       case "Laundry Request":
@@ -668,6 +672,7 @@ public class PopupController {
                       field3.getText(),
                       comboBox3.getValue());
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
       case "Meal Delivery":
@@ -691,6 +696,7 @@ public class PopupController {
                       comboBox3.getValue(),
                       field4.getText());
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
       case "Sanitation Request":
@@ -716,6 +722,7 @@ public class PopupController {
                       field3.getText());
 
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
       case "Religious Request":
@@ -735,6 +742,7 @@ public class PopupController {
                       field3.getText(),
                       field4.getText());
               addRequest(event, icon, request);
+              closePopUp();
             });
         break;
     }
@@ -875,7 +883,8 @@ public class PopupController {
     RequestSystem.getSystem().getEquipmentDao().addEquipment(equipment);
     RequestSystem.getSystem().getEquipmentDao().saveToCSV();
     MapManager.getManager().setUpFloors();
-    
+    MapController.getController().mapPane.getChildren().clear();
+    MapController.getController().setFloor("1");
   }
 
   /** deletes equipment icon */
@@ -883,61 +892,16 @@ public class PopupController {
     RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
     RequestSystem.getSystem().getEquipmentDao().saveToCSV();
     MapManager.getManager().setUpFloors();
+    MapController.getController().mapPane.getChildren().clear();
+    MapController.getController().setFloor("1");
     // MapController.getController().setFloor(equipment.getFloor());
   }
 
   /** Populates a location icon's popup window with its service requests */
   @FXML
   public void insertEquipment(EquipmentIcon icon) {
-    ObservableList<String> statusStrings = FXCollections.observableArrayList("Clean", "Dirty");
-    if (icon.getEquipmentList().size() > 0) {
-      VBox vBox = new VBox();
-      ScrollPane scrollPane = new ScrollPane(vBox);
-      scrollPane.setFitToHeight(true);
-      scrollPane.setPannable(false);
-      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      vBox.setPrefWidth(450);
-      vBox.setPrefHeight(400);
-      for (Equipment equipment : icon.getEquipmentList()) {
-        Label idLabel = new Label("ID: " + equipment.getID());
-        Button deleteEquipment = new Button("Delete");
-        deleteEquipment.setOnAction(
-            event -> {
-              icon.removeEquipment(equipment);
-              if (icon.getEquipmentList().size() == 0) {
-                deleteEquipmentIcon(equipment);
-              }
-            });
-        Label locationLabel =
-            new Label(
-                "X: " + icon.getLocation().getXCoord() + " Y: " + icon.getLocation().getYCoord());
-
-        JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
-        updateStatus.setPromptText(equipment.getIsDirtyString());
-        updateStatus.setValue(equipment.getIsDirtyString());
-        updateStatus.setOnAction(
-            event1 -> {
-              if (comboBox2.getValue().equals("Dirty")) {
-                equipment.setIsDirty(true);
-              } else {
-                equipment.setIsDirty(false);
-              }
-            });
-        HBox hbox = new HBox(15, updateStatus, deleteEquipment);
-        Accordion accordion =
-            new Accordion(
-                new TitledPane(
-                    equipment.getName()
-                        + " ("
-                        + equipment.getIsDirtyString()
-                        + "): "
-                        + equipment.getDescription(),
-                    new VBox(15, idLabel, locationLabel, hbox)));
-        accordion.setPrefWidth(450);
-        vBox.getChildren().add(accordion);
-      }
-      content.getChildren().add(scrollPane);
-    }
+    content.getChildren().clear();
+    content.getChildren().addAll(icon.compileList());
   }
 
   /** Displays the equipment modification form */
