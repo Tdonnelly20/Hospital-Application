@@ -8,7 +8,6 @@ import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -35,8 +34,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<Location, String> locationCol;
-  private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
+  private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
@@ -48,6 +46,7 @@ public class MapDashboardController extends Controller {
   private @FXML Pane mapPane;
   private @FXML ImageView imageView;
   private @FXML ArrayList<String> alertTable;
+  private @FXML Label floorLabel;
 
   private @FXML Button ll2;
   private @FXML Button ll1;
@@ -198,6 +197,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Lower Level 2");
   }
 
   @FXML
@@ -205,6 +205,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Lower Level 1");
   }
 
   @FXML
@@ -212,6 +213,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("1");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 1");
   }
 
   @FXML
@@ -219,6 +221,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("2");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 2");
   }
 
   @FXML
@@ -226,6 +229,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("3");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 3");
   }
 
   @FXML
@@ -233,6 +237,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("4");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 4");
   }
 
   @FXML
@@ -240,6 +245,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("5");
     updateListeners(curFloor);
     updateAll();
+    floorLabel.setText("Floor 5");
   }
 
   @FXML
@@ -276,8 +282,7 @@ public class MapDashboardController extends Controller {
   @FXML
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
-    startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
 
     ArrayList<ServiceRequest> currRequests =
         (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();

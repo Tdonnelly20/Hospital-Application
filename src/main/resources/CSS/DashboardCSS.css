@@ -21,7 +21,6 @@
     -fx-background-color: #8220a4;
     -fx-font-style: italic;
     -fx-border-color: #1f1c56;
-
 }
 
 .sideViewButtonf5{
@@ -78,6 +77,17 @@
     -fx-background-radius: 0;
     -fx-pref-width:150;
     -fx-border-radius:0;
+}
+
+.floorLabel{
+    -fx-text-alignment: center;
+    -fx-font-size: 30;
+    -fx-font-family:"Ebrima";
+    -fx-text-fill: white;
+    -fx-background-color: #4a65a1;
+    -fx-border-color: black;
+    -fx-border-style:sloid;
+
 }
 
 
