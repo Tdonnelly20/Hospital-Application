@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -34,7 +35,7 @@ public class EquipmentIcon extends Icon {
         event -> {
           if (event.getClickCount() == 2) {
             PopupController.getController().equipmentForm(event, this);
-            // MapController.getController().ewuipmentForm(event, this);
+            // MapController.getController().equipmentForm(event, this);
           }
         });
     image.setOnMouseReleased(
@@ -64,7 +65,8 @@ public class EquipmentIcon extends Icon {
             event -> {
               removeEquipment(equipment);
               if (getEquipmentList().size() == 0) {
-                MapController.getController().removeIconForm(this);
+                RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
+                MapController.getController().populateFloorIconArr();
               }
             });
         Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
@@ -158,7 +160,7 @@ public class EquipmentIcon extends Icon {
   }
 
   public void alertSixBeds() {
-    int alertCounter = 0;
+    /*int alertCounter = 0;
     boolean alert = false;
     ArrayList<String> dirtyBeds = new ArrayList<String>();
     int smallCount = 0;
@@ -191,7 +193,7 @@ public class EquipmentIcon extends Icon {
     if (smallCount > 5) {
       alert = true;
       MapDashboardController.getController().addBedAlertToArray(alert, l);
-    }
+    }*/
   }
 
   public int[] pumpAlert() {
