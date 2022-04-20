@@ -30,23 +30,6 @@ public class InternalPatientTransportationDao extends DaoInterface {
     return allInternalPatientTransportations;
   }
 
-  /**
-   * Receive an internal patient transportation from the controller, store it locally, then send it
-   * to Vdb
-   *
-   * @param patientID
-   * @param nodeID
-   * @param requestDetails
-   */
-  public void addInternalPatientTransportation(
-      String nodeID, int patientID, int hospitalID, String requestDetails) {
-    InternalPatientTransportation newInternalPatientTransportation =
-        new InternalPatientTransportation(nodeID, patientID, hospitalID, requestDetails);
-
-    System.out.println("Adding to local arraylist...");
-    allInternalPatientTransportations.add(newInternalPatientTransportation); // Store a local copy
-  }
-
   @Override
   public void loadFromCSV() {
     try {
@@ -65,9 +48,8 @@ public class InternalPatientTransportationDao extends DaoInterface {
             new InternalPatientTransportation(
                 data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3]);
         transportation.setServiceID(Integer.parseInt(data[4]));
-        transportations.add(transportation);
+        addServiceRequest(transportation);
       }
-      allInternalPatientTransportations = transportations;
 
     } catch (IOException e) {
       e.printStackTrace();
