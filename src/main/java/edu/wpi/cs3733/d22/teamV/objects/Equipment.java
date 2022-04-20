@@ -35,7 +35,7 @@ public class Equipment {
     return icon;
   }
 
-  public Equipment getFloor() {
+  public String getFloor() {
     return floor;
   }
 

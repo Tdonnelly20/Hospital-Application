@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -64,7 +65,9 @@ public class EquipmentIcon extends Icon {
             event -> {
               removeEquipment(equipment);
               if (getEquipmentList().size() == 0) {
-                MapController.getController().removeIconForm(this);
+                RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
+                RequestSystem.getSystem().getEquipmentDao().saveToCSV();
+                MapController.getController().populateFloorIconArr();
               }
             });
         Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
@@ -109,12 +112,11 @@ public class EquipmentIcon extends Icon {
   }
 
   public void removeEquipment(Equipment equipment) {
-    // RequestSystem.getSystem().deleteEquipment(equipment);
-    equipmentList.remove(equipment);
-    if (equipmentList.size() == 0) {
-      MapController.getController().deleteIcon(this);
-    }
+    RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
+    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
+    MapController.getController().setFloor(getLocation().getFloor());
     alertSixBeds();
+    PopupController.getController().closePopUp();
   }
 
   public void setImage() {
@@ -166,30 +168,29 @@ public class EquipmentIcon extends Icon {
     equip = this.getEquipmentList();
     ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
 
-
     for (int i = 0; equip.size() > i; i++) {
       if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
         dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
         alertCounter = +1;
       }
     }
-      if (alertCounter > 5) {
-        alert = true;
-      }
-
-      MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
-  }
-
-    public int[] pumpAlert () {
-      int dirty = 0;
-      int clean = 0;
-      for (Equipment equipment : equipmentList) {
-        // System.out.println(equipment.getName());
-        if (equipment.getName().equals("Infusion Pump")) {
-          if (equipment.getIsDirty()) dirty++;
-          else clean++;
-        }
-      }
-      return new int[]{clean, dirty};
+    if (alertCounter > 5) {
+      alert = true;
     }
+
+    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
+
+  public int[] pumpAlert() {
+    int dirty = 0;
+    int clean = 0;
+    for (Equipment equipment : equipmentList) {
+      // System.out.println(equipment.getName());
+      if (equipment.getName().equals("Infusion Pump")) {
+        if (equipment.getIsDirty()) dirty++;
+        else clean++;
+      }
+    }
+    return new int[] {clean, dirty};
+  }
+}

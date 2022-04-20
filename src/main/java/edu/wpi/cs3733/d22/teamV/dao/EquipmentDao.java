@@ -177,7 +177,10 @@ public class EquipmentDao {
   }
 
   public void removeEquipment(Equipment equipment) {
-    allEquipment.removeIf(equipment1 -> equipment1.getID().equals(equipment.getID()));
+    if (allEquipment.contains(equipment)) {
+      System.out.println("Equipment in dao");
+    }
+    allEquipment.remove(equipment);
     removeFromSQLTable(equipment);
     saveToCSV();
   }

@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -15,17 +16,12 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -194,11 +190,17 @@ public class MapController extends Controller {
         .getCheckModel()
         .getCheckedItems()
         .addListener((ListChangeListener<String>) change -> checkFilter());
-
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            openIconFormWindow(event);
+            if (!event
+                .getTarget()
+                .getClass()
+                .getTypeName()
+                .equals("javafx.scene.image.ImageView")) {
+              PopupController.getController().iconWindow(event);
+              // IconForm(event);
+            }
           }
         });
   }
@@ -372,71 +374,87 @@ public class MapController extends Controller {
     }
   }
 
-  @FXML
-  private void addToMapPane(Icon icon) {
-    if (!mapPane.getChildren().contains(icon.getImage())) {
-      mapPane.getChildren().add(icon.getImage());
-    } else {
-      System.out.println("Icon already on map");
-    }
-
-    if (mapPane.getChildren().contains(icon.getImage())) {
-      System.out.println("In");
-    }
-  }
-
-  /** Adds the given icon to the map */
-  @FXML
+  // Adds icon to map
   public void addIcon(Icon icon) {
-    MapManager.getManager().getFloor(floorName).addIcon(icon);
-    if (icon.iconType.equals(Icon.IconType.Location)) {
-      RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
-    } else {
-      RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
-      MapDashboardController.getController().updateCounts();
+    switch (icon.iconType) {
+      case Location:
+        RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
-    addToMapPane(icon);
-    setFloor(floorName);
+    MapManager.getManager().getFloor(floorName).addIcon(icon);
     // populateFloorIconArr();
+    checkFilter();
   }
 
-  /** Removes Icon from map */
+  public void addEquipmentIcon(Equipment equipment) {
+    PopupController.getController().closePopUp();
+    mapPane.getChildren().clear();
+    RequestSystem.getSystem().getEquipmentDao().addEquipment(equipment);
+    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
+    // RequestSystem.getSystem().addEquipment(equipment);
+    // MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
+    MapManager.getManager().setUpFloors();
+    checkFilter();
+  }
+
+  public void deleteIcon(Icon icon) {
+    System.out.println("Delete Icon");
+    MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
+    RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
+    MapManager.getManager().setUpFloors();
+  }
+  /*
+  private void update() {
+    MapManager.getManager().setUpFloors();
+    setFloor(floorName);
+    populateFloorIconArr();
+    clearForm();
+  }
+
+  public void addLocation(Location newLocation) {
+    mapPane.getChildren().clear();
+    RequestSystem.getSystem().getLocationDao().addLocation(newLocation);
+    RequestSystem.getSystem().getLocationDao().saveToCSV();
+    update();
+  }
+
+  public void addEquipment(Equipment equipment) {
+    mapPane.getChildren().clear();
+    RequestSystem.getSystem().getEquipmentDao().addEquipment(equipment);
+    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
+    update();
+  }
+
+
   @FXML
   public void deleteIcon(Icon icon) {
-    mapPane.getChildren().remove(icon.getImage());
-    MapManager.getManager().getFloor(floorName).removeIcon(icon);
+    // mapPane.getChildren().clear();
     if (PopupController.getController().stage.isShowing()) {
       PopupController.getController().closePopUp();
     }
-  }
+    System.out.println("HERE");
+    if (icon.iconType.equals(Icon.IconType.Location)) {
+      String nodeID = icon.getLocation().getNodeID();
+      RequestSystem.getSystem().getLocationDao().deleteLocation(nodeID);
+      System.out.println("Deleted location in dao");
+      RequestSystem.getSystem().getLocationDao().saveToCSV();
+    } else {
 
-  public void setSubmitLocation(double xPos, double yPos) {
-    PopupController.getController()
-        .submitIcon
-        .setOnAction(
-            event1 -> {
-              if (PopupController.getController().checkLocationFields()) {
-                addIcon(
-                    new LocationIcon(
-                        PopupController.getController()
-                            .getLocation(xPos + 25, yPos + 15, floorName)));
-              } else {
-                Text missingFields = new Text("Please fill all fields");
-                missingFields.setFill(Color.RED);
-                missingFields.setTextAlignment(TextAlignment.CENTER);
-                PopupController.getController().sceneVbox.getChildren().add(missingFields);
-              }
-            });
+    }
+    MapManager.getManager().setUpFloors();
+    setFloor(floorName);
+    System.out.println("Populate");
+    populateFloorIconArr();
   }
 
   // Opens and manages the location adding form
   @FXML
   public void openIconFormWindow(MouseEvent event) {
     if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
+      PopupController.getController().iconWindow(event);
       double xPos = event.getX() - 15;
       double yPos = event.getY() - 25;
-      PopupController.getController().iconWindow(event);
+      // PopupController.getController().iconWindow(event);
       // setSubmitLocation(xPos, yPos);
       addLocationForm(event);
     }
@@ -474,8 +492,8 @@ public class MapController extends Controller {
     clearForm();
     Button locationButton = new Button("Location");
     Button equipmentButton = new Button("Equipment");
-    Button closeButton = new Button("close");
-    locationButton.setOnAction(event2 -> addLocationForm(event));
+    Button closeButton = new Button("Close");
+    locationButton.setOnAction(event2 -> locationForm(event, null));
     equipmentButton.setOnAction(event2 -> addEquipmentForm(event));
     closeButton.setOnAction(event2 -> clearForm());
     controlsVBox.getChildren().addAll(locationButton, equipmentButton, closeButton);
@@ -484,18 +502,26 @@ public class MapController extends Controller {
   @FXML
   public void locationForm(MouseEvent event, LocationIcon icon) {
     clearForm();
+    VBox vBox = new VBox();
     Button add;
-    Button modify = new Button("Modify Location");
-    Button delete = new Button("Delete Location");
     if (icon == null) {
       add = new Button("Add Location");
       add.setOnAction(event1 -> addLocationForm(event));
     } else {
       add = new Button("Add Service Request");
       add.setOnAction(event1 -> addRequestForm(event));
+      if (icon.getRequestsArr().size() > 0) {
+        // vBox.getChildren().add(icon.compileList());
+      }
     }
+    Button modify = new Button("Modify Location");
+    Button delete = new Button("Delete Location");
+    Button closeButton = new Button("Close");
+    closeButton.setOnAction(event2 -> clearForm());
+    HBox hBox = new HBox(add, modify, delete, closeButton);
     modify.setOnAction(event1 -> {});
     delete.setOnAction(event1 -> {});
+    controlsVBox.getChildren().addAll(hBox, vBox);
   }
 
   private void addRequestForm(MouseEvent event) {}
@@ -521,10 +547,7 @@ public class MapController extends Controller {
                   fields[1].getText(),
                   fields[2].getText(),
                   fields[3].getText());
-          LocationIcon newIcon = new LocationIcon(newLocation);
-          newLocation.setIcon(newIcon);
-          addIcon(newIcon);
-          clearForm();
+          addLocation(newLocation);
         });
     addAllFields();
   }
@@ -533,9 +556,28 @@ public class MapController extends Controller {
   public void removeIconForm(Icon icon) {
     clearForm();
     System.out.println("Deleting Icon");
-    mapPane.getChildren().remove(icon.getImage());
+    // mapPane.getChildren().remove(icon.getImage());
     MapManager.getManager().getFloor(floorName).removeIcon(icon);
     clearForm();
+  }
+
+  @FXML
+  public void equipmentForm(MouseEvent event, EquipmentIcon icon) {
+    clearForm();
+    Button add = new Button("Add Equipment");
+    Button modify = new Button("Modify Equipment");
+    Button delete = new Button("Delete Equipment");
+    Button closeButton = new Button("Close");
+    add.setOnAction(event1 -> addEquipmentForm(event));
+    modify.setOnAction(event1 -> {});
+    delete.setOnAction(event1 -> {});
+    closeButton.setOnAction(event2 -> clearForm());
+    HBox hBox = new HBox(add, modify, delete);
+    VBox vBox = new VBox();
+    if (icon.getEquipmentList().size() > 0) {
+      vBox.getChildren().add(icon.compileList());
+    }
+    controlsVBox.getChildren().addAll(hBox, vBox);
   }
 
   @FXML
@@ -546,13 +588,8 @@ public class MapController extends Controller {
     fields[0].setPromptText("Node ID");
     fields[1].setPromptText("Long Name");
     fields[2].setPromptText("Short Name");
-    submitButton.setOnAction(
-        event1 -> {
-          addIcon(
-              new LocationIcon(
-                  PopupController.getController().getLocation(xPos + 25, yPos + 15, floorName)));
-          clearForm();
-        });
+    submitButton.setOnAction(event1 -> {});
+
     addAllFields();
-  }
+  }*/
 }

@@ -268,6 +268,10 @@ public class RequestSystem {
     return locationDao;
   }
 
+  public EquipmentDao getEquipmentDao() {
+    return equipmentDao;
+  }
+
   /**
    * Getter specifically for location since it is not a service request
    *

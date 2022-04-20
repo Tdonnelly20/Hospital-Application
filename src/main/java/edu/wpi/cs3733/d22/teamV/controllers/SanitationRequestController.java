@@ -92,22 +92,7 @@ public class SanitationRequestController extends RequestController {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  /**
-   * Determines if a String is an integer or not
-   *
-   * @param input is a string
-   * @return true if the string is an integer, false if not
-   */
-  public boolean isInteger(String input) {
-    try {
-      Integer.parseInt(input);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
-    }
-  }
-
+  
   @FXML
   void sendRequest()
       throws SQLException, IOException { // must check to see if its updating or new req
