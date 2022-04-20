@@ -1,16 +1,21 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.ReligiousRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ReligiousRequestController extends RequestController {
@@ -19,17 +24,18 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TextField religion;
   @FXML private TextField roomNumber;
   @FXML private TextField details;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Button sendRequest;
   @FXML private Label statusLabel;
+  @FXML private Pane tablePlane;
 
   @FXML private TreeTableView<ReligiousRequest> ReligiousRequestTable;
   @FXML private TreeTableColumn<ReligiousRequest, Integer> employeeIDCol;
   @FXML private TreeTableColumn<ReligiousRequest, Integer> patientIDCol;
-  @FXML private TreeTableColumn<ReligiousRequest, String> firstNameCol;
-  @FXML private TreeTableColumn<ReligiousRequest, String> lastNameCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> roomCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> religionCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> requestDetailsCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
   private boolean updating;
   private int updateServiceID;
   // religious request can't seem to remove things if there are more than 1 now???
@@ -46,14 +52,45 @@ public class ReligiousRequestController extends RequestController {
 
   private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
-  @Override
   public void init() {
-    setTitleText("Religious Request Servic" + "e");
-    updateTreeTable();
+    setTitleText("Religious Request Service");
     fillTopPane();
-    updating = false;
-    validateButton();
+    setColumnSizes(910);
+
+    tablePlane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePlane.getWidth();
+                ReligiousRequestTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePlane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePlane.getHeight();
+                ReligiousRequestTable.setPrefHeight(h - 75);
+              }
+            });
   }
+
+  void setColumnSizes(double w) {
+    setColumnSize(patientIDCol, (w - 30) / 5);
+    setColumnSize(religionCol, (w - 30) / 5);
+    setColumnSize(requestDetailsCol, (w - 30) / 5);
+    setColumnSize(employeeIDCol, (w - 30) / 5);
+    setColumnSize(roomCol, (w - 30) / 5);
+  }
+
   // empIDCol;
   // @FXML private TextField employeeID;
   // @FXML private TextField patientID;
@@ -68,9 +105,8 @@ public class ReligiousRequestController extends RequestController {
         new TreeItemPropertyValueFactory("employeeID")); // issue, but it matches textfield
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     roomCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
     religionCol.setCellValueFactory(new TreeItemPropertyValueFactory("religion"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
     ArrayList<ReligiousRequest> requests =
         (ArrayList<ReligiousRequest>)
@@ -126,6 +162,10 @@ public class ReligiousRequestController extends RequestController {
       valid = false;
       issues += "Specify Religion.\n";
     }
+    if (statusDropDown.getValue() == null) {
+      valid = false;
+      issues += "Specify Status.\n";
+    }
     if (valid) {
       issues = "";
       sendRequest.setDisable(false);
@@ -146,6 +186,7 @@ public class ReligiousRequestController extends RequestController {
             roomNumber.getText(),
             religion.getText(),
             details.getText());
+    request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       ReligiousRequestDao.updateServiceRequest(request, request.getServiceID());
     } else {
@@ -170,6 +211,7 @@ public class ReligiousRequestController extends RequestController {
       roomNumber.setText(request.getLocation().getNodeID());
       details.setText(request.getDetails());
       updateServiceID = request.getServiceID();
+      statusDropDown.setValue(request.getStatus());
       updateTreeTable();
     }
   }

@@ -105,6 +105,7 @@ public class EquipmentIcon extends Icon {
       equipmentList.add(0, equipment);
     }
     MapDashboardController.getController().updateCounts();
+    alertSixBeds();
   }
 
   public void removeEquipment(Equipment equipment) {
@@ -113,6 +114,7 @@ public class EquipmentIcon extends Icon {
     if (equipmentList.size() == 0) {
       MapController.getController().deleteIcon(this);
     }
+    alertSixBeds();
   }
 
   public void setImage() {
@@ -155,25 +157,43 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  //  public void alertSixBeds() {
-  //    int alertCounter = 0;
-  //    boolean alert = false;
-  //    for (Equipment equipment : equipmentList) {
-  //      for (Equipment equipmentTwo : equipmentList) {
-  //        if (equipment.getFloor() == equipmentTwo.getFloor())
-  //          if (equipment.getX() == equipment.getX()) {
-  //            boolean d = equipment.getIsDirty();
-  //            int i =
-  // MapDashboardController.getController().checkAlertSixBeds(equipment.getName(), d);
-  //            alertCounter += i;
-  //          }
-  //      }
-  //    }
-  //    if (alertCounter > 5) {
-  //      alert = true;
-  //    }
-  //    //MapDashboardController.getController().addBedAlertToArray(alert);
-  //  }
+  public void alertSixBeds() {
+    int alertCounter = 1;
+    boolean alert = false;
+    ArrayList<String> dirtyBeds = new ArrayList<String>();
+
+    for (Equipment equipment : equipmentList) {
+      double one = equipment.getX();
+      for (Equipment equipmentTwo : equipmentList) {
+        double two = equipment.getX();
+        if (one == two) {
+          boolean d1 = equipment.getIsDirty();
+          boolean d2 = equipment.getIsDirty();
+          int i =
+              MapDashboardController.getController().checkAlertSixBeds(equipment.getName(), d1, equipmentTwo.getName(), d2);
+          dirtyBeds.add(String.valueOf(equipment.getX()));
+          alertCounter += i;
+          dirtyBeds.add(String.valueOf(d1));
+          dirtyBeds.add(String.valueOf(d2));
+        }
+      }
+    }
+
+    // this deletes any duplicate locations
+    for (int x = 0; x < dirtyBeds.size(); x++) {
+      for (int y = 0; x < dirtyBeds.size(); y++) {
+        if (dirtyBeds.get(x) == dirtyBeds.get(y) && x != y) {
+          dirtyBeds.remove(x);
+        }
+      }
+    }
+
+    if (alertCounter > 5) {
+      alert = true;
+    }
+
+    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBeds);
+  }
 
   public int[] pumpAlert() {
     int dirty = 0;

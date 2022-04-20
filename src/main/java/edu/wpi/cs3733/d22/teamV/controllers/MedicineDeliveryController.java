@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.MedicineDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
@@ -51,6 +52,7 @@ public class MedicineDeliveryController extends RequestController {
       (MedicineDeliveryDao) Vdb.requestSystem.getDao(Dao.MedicineDelivery);
   private boolean updating = false;
   private int updateServiceID;
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   private static class SingletonHelper {
     private static final MedicineDeliveryController controller = new MedicineDeliveryController();
@@ -159,6 +161,7 @@ public class MedicineDeliveryController extends RequestController {
     }
 
     try {
+      statusLabel.setTextFill(Color.web("Black"));
       if ((employeeID.getText().equals("")
           && patientID.getText().equals("")
           && nodeID.getText().equals("")
@@ -167,7 +170,6 @@ public class MedicineDeliveryController extends RequestController {
           && medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
-        statusLabel.setTextFill(Color.web("Black"));
       } else if ((employeeID.getText().equals("")
           || patientID.getText().equals("")
           || nodeID.getText().equals("")
@@ -176,8 +178,18 @@ public class MedicineDeliveryController extends RequestController {
           || medicationDropDown.getValue().equals("Select Medication"))) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
-        statusLabel.setTextFill(Color.web("Black"));
+      } else if (LocationDao.getLocation(nodeID.getText()) == null) {
+        sendRequest.setDisable(true);
+        statusLabel.setText("Status: Needs valid room");
+      } else if (!isInteger(employeeID.getText())) {
+        sendRequest.setDisable(true);
+        statusLabel.setText("Status: Needs valid employee ID");
+      } else if (!isInteger(patientID.getText())) {
+        sendRequest.setDisable(true);
+        statusLabel.setText("Status: Needs valid patient ID");
       } else {
+        statusLabel.setText("Status: Good");
+
         sendRequest.setDisable(false);
       }
     } catch (Exception e) {

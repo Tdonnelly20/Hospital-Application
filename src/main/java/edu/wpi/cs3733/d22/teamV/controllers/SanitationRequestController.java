@@ -6,6 +6,7 @@ import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ public class SanitationRequestController extends RequestController {
   @FXML private JFXComboBox<Object> sanitationDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Label statusLabel;
 
   @FXML private TreeTableView<SanitationRequest> sanitationRequestTable;
@@ -33,6 +35,7 @@ public class SanitationRequestController extends RequestController {
   @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
   @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
   @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
   private boolean updating = false;
   private int updateServiceID;
 
@@ -62,30 +65,24 @@ public class SanitationRequestController extends RequestController {
   @FXML
   void validateButton() {
     sendRequest.setDisable(true);
+    statusLabel.setTextFill(Color.web("Red"));
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
         || hospitalID.getText().equals("")
         || roomLocation.getText().equals("")
         || sanitationDropDown.getValue() == null) {
       statusLabel.setText("Please fill in the required fields.");
-      statusLabel.setTextFill(Color.web("Red"));
       // Make sure the patient ID is an integer
     } else if (!isInteger(patientID.getText())
         || patientID.getText().isEmpty()) { // needs to check if patient even exists
       statusLabel.setText("Invalid Patient.");
-      statusLabel.setTextFill(Color.web("Red"));
-
-      // If all conditions pass, create the request
     } else if (!isInteger(hospitalID.getText())
         || hospitalID.getText().isEmpty()) { // check if emp exists
       statusLabel.setText("Invalid Employee.");
-      statusLabel.setTextFill(Color.web("Red"));
-
-      // If all conditions pass, create the request
     } else if (LocationDao.getLocation(roomLocation.getText()) == null) {
       statusLabel.setText("Invalid Room.");
-      statusLabel.setTextFill(Color.web("Red"));
-      // If all conditions pass, create the request
+    } else if (statusDropDown.getValue() == null) {
+      statusLabel.setText("Needs Status");
     } else {
       statusLabel.setText("");
       sendRequest.setDisable(false);
@@ -121,6 +118,7 @@ public class SanitationRequestController extends RequestController {
             roomLocation.getText(),
             sanitationDropDown.getValue().toString(),
             requestDetails.getText());
+    request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
     } else {
@@ -141,7 +139,7 @@ public class SanitationRequestController extends RequestController {
     roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomLocation"));
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazardName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
-
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
@@ -188,6 +186,7 @@ public class SanitationRequestController extends RequestController {
       sanitationDropDown.setValue(request.getHazardName());
       requestDetails.setText(request.getRequestDetails());
       updateServiceID = request.getServiceID();
+      statusDropDown.setValue(request.getStatus());
       updateTreeTable();
     }
   }

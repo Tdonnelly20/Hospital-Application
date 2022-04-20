@@ -6,9 +6,11 @@ import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
+import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MapDashboardController extends Controller {
@@ -38,7 +43,11 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Patient, String> SRCol;
   private @FXML TextArea countsArea = new TextArea();
   private @FXML TextArea alertArea;
-  private @FXML Label floorLabel;
+  private @FXML TextArea alertsArea = new TextArea();
+  private @FXML VBox rightVBox;
+  private @FXML Pane mapPane;
+  private @FXML ImageView imageView;
+  private @FXML ArrayList<String> alertTable;
 
   private @FXML Button ll2;
   private @FXML Button ll1;
@@ -54,6 +63,45 @@ public class MapDashboardController extends Controller {
   private @FXML TitledPane mapTPane;
   private @FXML TitledPane alertsTPane;
 
+  private Parent root;
+  FXMLLoader loader = new FXMLLoader();
+
+  public void goHome(javafx.scene.input.MouseEvent event) throws IOException {
+    root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
+    PopupController.getController().closePopUp();
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  public void goExit(javafx.scene.input.MouseEvent event) {
+    stop();
+  }
+
+  public void openMap(MouseEvent event) throws IOException {
+    root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/Map.fxml")));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Map.fxml"));
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Controller controller = loader.getController();
+    controller.init();
+
+    PopupController.getController().closePopUp();
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
   }
@@ -64,21 +112,6 @@ public class MapDashboardController extends Controller {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  public void goExit(MouseEvent mouseEvent) {
-    stop();
-  }
-
-  public void goHome(MouseEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
 
   /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
@@ -165,7 +198,6 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Lower Level 2");
   }
 
   @FXML
@@ -173,7 +205,6 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Lower Level 1");
   }
 
   @FXML
@@ -181,7 +212,6 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("1");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Floor 1");
   }
 
   @FXML
@@ -189,7 +219,6 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("2");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Floor 2");
   }
 
   @FXML
@@ -197,7 +226,6 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("3");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Floor 3");
   }
 
   @FXML
@@ -205,7 +233,6 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("4");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Floor 4");
   }
 
   @FXML
@@ -213,7 +240,6 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("5");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Floor 5");
   }
 
   @FXML
@@ -343,56 +369,105 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-  @FXML
-  private void updateAlerts() {
-    ArrayList<String> alerts = new ArrayList<>();
-    ArrayList<Icon> iconList = curFloor.getIconList();
-    ArrayList<EquipmentIcon> i = new ArrayList<>();
-    int[] state;
-    String alertText = "";
-    for (Icon icon : iconList) {
-      if (icon.iconType.equals(Icon.IconType.Equipment)) {
-        i.add((EquipmentIcon) icon);
-      }
-    }
-    for (EquipmentIcon e : i) {
-      state = e.pumpAlert();
-      if ((state[0] < 5) && e.hasCleanEquipment()) {
-        alerts.add(
-            "ALERT there are only "
-                + state[0]
-                + " clean pumps at location "
-                + e.getLocation().getNodeID());
-      }
-      if (state[1] >= 10) {
-        alerts.add(
-            "ALERT! there are "
-                + state[1]
-                + " dirty pumps at location "
-                + e.getLocation().getNodeID());
-      }
-    }
-
-    for (String a : alerts) {
-      alertText = alertText + a + "\n";
-    }
-    System.out.println(alertText);
-    alertArea.setText(alertText);
-  }
-
-  @FXML
-  private void updateAll() {
-    updateEquipmentTable();
-    updatePatientTable();
-    updateServiceRequestTable();
-    updateCounts();
-    updateAlerts();
-  }
-
-  @Override
-  public void init() {
-    setUpButtonSubjects();
-    setUpDashboardListeners();
-    // updateAll();
-  }
+public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
+    if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
+      return 1;
+    } else {
+    return 0; }
 }
+
+@FXML
+  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBeds) {
+
+    //checks and deletes duplicate locations
+    for (String dirtyBed : dirtyBeds) {
+      for (int i = 0; dirtyBed.length() > i; i++) {
+        for (int j = 0; dirtyBed.length() > j; j++) {
+          if (dirtyBed.charAt(i) == (dirtyBed.charAt(i))) {
+            alertTable.remove("Alert: more than 6 beds in " + i);
+          }
+        }
+      }
+    }
+    //adds strings with respective locations to alerTablew
+    if (b == true) {
+      for (String dirtyBed : dirtyBeds) {
+      alertTable.add("Alert: more than 6 beds in " + dirtyBed); } }
+
+    //adds strings from alerTable to alertsArea
+    for (String s : alertTable) {
+      alertsArea.setText(s);
+    }
+}
+
+    @FXML
+    private void updateAlerts() {
+      ArrayList<String> alerts = new ArrayList<>();
+      ArrayList<Icon> iconList = curFloor.getIconList();
+      ArrayList<EquipmentIcon> i = new ArrayList<>();
+      ArrayList<LocationIcon> j = new ArrayList<>();
+
+      int[] state;
+      String alertText = "";
+      for (Icon icon : iconList) {
+        if (icon.iconType.equals(Icon.IconType.Equipment)) {
+          i.add((EquipmentIcon) icon);
+        }
+      }
+      for (Icon icon : iconList) {
+        if (icon.iconType.equals(Icon.IconType.Location)) {
+          j.add((LocationIcon) icon);
+        }
+      }
+      int index = 0;
+      for (EquipmentIcon e : i) {
+        state = e.pumpAlert();
+        if ((state[0] < 5) && e.hasCleanEquipment()) {
+          alerts.add(
+                  "ALERT there are only "
+                          + state[0]
+                          + " clean pumps at location "
+                          + e.getLocation().getXCoord()
+                          + ", "
+                          + e.getLocation().getYCoord());
+        }
+        if (state[1] > 9) {
+          alerts.add(
+                  "ALERT! there are "
+                          + state[1]
+                          + " dirty pumps at location "
+                          + e.getLocation().getXCoord()
+                          + ", "
+                          + e.getLocation().getYCoord());
+
+          EquipmentDelivery equipmentDelivery =
+                  new EquipmentDelivery(
+                          11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
+          j.get(index).addToRequests(equipmentDelivery);
+        }
+        index++;
+      }
+
+      for (String a : alerts) {
+        alertText = alertText + a + "\n";
+      }
+      // System.out.println(alertText);
+      alertArea.setText(alertText);
+    }
+
+    @FXML
+    private void updateAll() {
+      updateEquipmentTable();
+      updatePatientTable();
+      updateServiceRequestTable();
+      updateCounts();
+      updateAlerts();
+    }
+
+    @Override
+    public void init() {
+      setUpButtonSubjects();
+      setUpDashboardListeners();
+      // updateAll();
+    }
+  }

@@ -130,4 +130,13 @@ public abstract class RequestController extends Controller {
   abstract void resetForm();
 
   abstract void validateButton();
+
+  public boolean isInteger(String input) {
+    try {
+      Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
 }
