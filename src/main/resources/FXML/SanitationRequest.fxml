@@ -16,12 +16,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.SanitationRequestController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.SanitationRequestController">
     <items>
         <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -37,17 +36,20 @@
                     <items>
                         <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #5c677d;">
                             <children>
-                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+                                <VBox alignment="TOP_CENTER" prefHeight="518.0" prefWidth="302.0" spacing="15.0" style="-fx-background-color: #5c677d;">
                                     <padding>
                                         <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
                                     </padding>
                                     <children>
+                              <Label text="Hospital ID" textFill="WHITE" />
                                         <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Hospital ID">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin>
                                         </TextField>
+                              <Label layoutX="132.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                                         <TextField fx:id="patientID" maxWidth="-Infinity" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="Patient ID" />
+                              <Label layoutX="135.0" layoutY="123.0" text="Location" textFill="WHITE" />
                                         <TextField fx:id="roomLocation" maxWidth="-Infinity" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Location" />
                                         <JFXComboBox fx:id="sanitationDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="209.0" promptText="Select Hazard" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
@@ -60,7 +62,14 @@
                                                 </FXCollections>
                                             </items>
                                         </JFXComboBox>
-                                        <TextArea fx:id="requestDetails" onKeyReleased="#validateButton" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true" />
+                              <Label layoutX="139.0" layoutY="197.0" text="Request Details" textFill="WHITE" />
+                                        <TextArea fx:id="requestDetails" onKeyReleased="#validateButton" prefHeight="40.0" prefWidth="247.0" promptText="Request Details" wrapText="true">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" />
+                                 </padding></TextArea>
                                         <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
@@ -72,6 +81,9 @@
                                             <opaqueInsets>
                                                 <Insets />
                                             </opaqueInsets>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" />
+                                 </padding>
                                         </JFXComboBox>
                                         <Label fx:id="statusLabel" text="Please fill in the required fields." textFill="Red">
                                             <VBox.margin>
@@ -93,7 +105,7 @@
                                     <tabs>
                                         <Tab fx:id="updateTreeTable" onSelectionChanged="#updateTreeTable" text="Table View">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                     <children>
                                                         <TreeTableView fx:id="sanitationRequestTable" layoutX="11.0" layoutY="56.0" prefHeight="650.0" prefWidth="538.0">
                                                             <columns>
@@ -124,7 +136,7 @@
                                           <Text layoutX="78.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
                                           <Text layoutX="78.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
                                           <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters, to Hospital ID and Patient ID" />
-                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select an option in any drop-down menus " />
+                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Write location of request, from the drop-down menu select a hazard and add any details below." />
                                           <Text layoutX="101.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name" />
                                           <Text layoutX="78.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests" />
                                        </children>

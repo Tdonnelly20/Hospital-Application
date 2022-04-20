@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
+<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
    <children>
       <VBox prefHeight="800.0" prefWidth="1200.0">
          <children>
@@ -75,7 +66,7 @@
                               </ImageView>
                               <Group layoutX="140.0" layoutY="20.0">
                                  <children>
-                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
+                                    <Button layoutX="25.0" mnemonicParsing="false" onAction="#switchToF5" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
                                     <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" />
                                     <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" />
                                     <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" />
@@ -95,7 +86,7 @@
                                     <Button layoutY="300.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL2" />
                                  </children>
                               </Group>
-                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="65.0" layoutY="419.0" prefHeight="50.0" prefWidth="271.0" styleClass="floorLabel" />
+                              <ProgressBar fx:id="cleanProgress" layoutX="65.0" layoutY="405.0" prefHeight="40.0" prefWidth="228.0" progress="0.0" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -139,7 +130,6 @@
                                             <columns>
                                               <TreeTableColumn fx:id="typeCol" prefWidth="54.39999198913574" text="Type" />
                                               <TreeTableColumn fx:id="locationCol" prefWidth="93.60003662109375" text="Location" />
-                                                <TreeTableColumn fx:id="startTimeCol" prefWidth="88.79998779296875" text="Start Time" />
                                             </columns>
                                           </TreeTableView>
                                        </content>

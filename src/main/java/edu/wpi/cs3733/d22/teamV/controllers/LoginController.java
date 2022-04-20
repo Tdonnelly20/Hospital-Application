@@ -4,9 +4,12 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -17,6 +20,39 @@ import javafx.stage.Stage;
 public class LoginController extends Controller {
 
   public LoginController() {}
+
+  @Override
+  public void init() {
+    System.out.println("Login init");
+
+    ChangeListener<Number> listener =
+        new ChangeListener<Number>() {
+          @Override
+          public void changed(
+              ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            double w = pane.getWidth();
+            double h = pane.getHeight();
+
+            if (w / 3 * 2 > h) {
+              iv.setFitWidth(w);
+              iv.setFitHeight(w / 3 * 2);
+            }
+
+            if (h / 2 * 3 > w) {
+              iv.setFitWidth(h / 2 * 3);
+              iv.setFitHeight(h);
+            }
+
+            group.setLayoutX(w / 2 - 249);
+            group.setLayoutY(h / 2 - 189);
+            dBMenu.setLayoutX(w - 142);
+            dBMenu.setLayoutY(h - 35);
+          }
+        };
+
+    pane.widthProperty().addListener(listener);
+    pane.heightProperty().addListener(listener);
+  }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -34,6 +70,7 @@ public class LoginController extends Controller {
   @FXML private TextField dbIP;
   @FXML private TextField dbPath;
   @FXML private Button dbButton;
+  @FXML private Group group;
 
   @FXML
   public void setDB() {

@@ -12,6 +12,7 @@ public class RobotRequest extends ServiceRequest {
 
   public RobotRequest(int hospitalID, int botID, String nodeID, String details, String status) {
     employee = new Employee(hospitalID);
+    this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;
     this.details = details;

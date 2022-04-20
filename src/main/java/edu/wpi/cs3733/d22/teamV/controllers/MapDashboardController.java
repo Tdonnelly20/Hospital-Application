@@ -8,7 +8,6 @@ import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -35,8 +34,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<Location, String> locationCol;
-  private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
+  private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
@@ -276,8 +274,7 @@ public class MapDashboardController extends Controller {
   @FXML
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
-    startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
 
     ArrayList<ServiceRequest> currRequests =
         (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
@@ -316,10 +313,15 @@ public class MapDashboardController extends Controller {
       for (Patient pos : currPatients) {
         for (ServiceRequest s : RequestSystem.getSystem().getEveryServiceRequest()) {
           for (int i : pos.getServiceIDs()) {
-            if (i == s.getServiceID()
-                && s.getLocation().getFloor().equals(curFloor.getFloorName())) {
-              TreeItem<Patient> item = new TreeItem(pos);
-              treeItems.add(item);
+            if (i == s.getServiceID()) {
+              if (s.getLocation() != null) {
+                if (s.getLocation().getFloor() != null) {
+                  if (s.getLocation().getFloor().equals(curFloor.getFloorName())) {
+                    TreeItem<Patient> item = new TreeItem(pos);
+                    treeItems.add(item);
+                  }
+                }
+              }
             }
           }
         }
@@ -369,105 +371,98 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
-    if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
+  public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
+    /*if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
-    return 0; }
-}
-
-@FXML
-  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBeds) {
-
-    //checks and deletes duplicate locations
-    for (String dirtyBed : dirtyBeds) {
-      for (int i = 0; dirtyBed.length() > i; i++) {
-        for (int j = 0; dirtyBed.length() > j; j++) {
-          if (dirtyBed.charAt(i) == (dirtyBed.charAt(i))) {
-            alertTable.remove("Alert: more than 6 beds in " + i);
-          }
-        }
-      }
-    }
-    //adds strings with respective locations to alerTablew
-    if (b == true) {
-      for (String dirtyBed : dirtyBeds) {
-      alertTable.add("Alert: more than 6 beds in " + dirtyBed); } }
-
-    //adds strings from alerTable to alertsArea
-    for (String s : alertTable) {
-      alertsArea.setText(s);
-    }
-}
-
-    @FXML
-    private void updateAlerts() {
-      ArrayList<String> alerts = new ArrayList<>();
-      ArrayList<Icon> iconList = curFloor.getIconList();
-      ArrayList<EquipmentIcon> i = new ArrayList<>();
-      ArrayList<LocationIcon> j = new ArrayList<>();
-
-      int[] state;
-      String alertText = "";
-      for (Icon icon : iconList) {
-        if (icon.iconType.equals(Icon.IconType.Equipment)) {
-          i.add((EquipmentIcon) icon);
-        }
-      }
-      for (Icon icon : iconList) {
-        if (icon.iconType.equals(Icon.IconType.Location)) {
-          j.add((LocationIcon) icon);
-        }
-      }
-      int index = 0;
-      for (EquipmentIcon e : i) {
-        state = e.pumpAlert();
-        if ((state[0] < 5) && e.hasCleanEquipment()) {
-          alerts.add(
-                  "ALERT there are only "
-                          + state[0]
-                          + " clean pumps at location "
-                          + e.getLocation().getXCoord()
-                          + ", "
-                          + e.getLocation().getYCoord());
-        }
-        if (state[1] > 9) {
-          alerts.add(
-                  "ALERT! there are "
-                          + state[1]
-                          + " dirty pumps at location "
-                          + e.getLocation().getXCoord()
-                          + ", "
-                          + e.getLocation().getYCoord());
-
-          EquipmentDelivery equipmentDelivery =
-                  new EquipmentDelivery(
-                          11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
-          j.get(index).addToRequests(equipmentDelivery);
-        }
-        index++;
-      }
-
-      for (String a : alerts) {
-        alertText = alertText + a + "\n";
-      }
-      // System.out.println(alertText);
-      alertArea.setText(alertText);
-    }
-
-    @FXML
-    private void updateAll() {
-      updateEquipmentTable();
-      updatePatientTable();
-      updateServiceRequestTable();
-      updateCounts();
-      updateAlerts();
-    }
-
-    @Override
-    public void init() {
-      setUpButtonSubjects();
-      setUpDashboardListeners();
-      // updateAll();
-    }
+      return 0;
+    }*/
+    return 0;
   }
+
+  @FXML
+  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBedsFloor) {
+    /*
+    if (b == true) {
+      for (String s : dirtyBedsFloor) {
+        alertTable.add(s);
+      }
+    }
+
+    // adds strings from alerTable to alertsArea
+    for (String s : alertTable) {
+      alertsArea.setText("There are 6+ dirty beds in floor " + s);
+    }*/
+  }
+
+  @FXML
+  private void updateAlerts() {
+    ArrayList<String> alerts = new ArrayList<>();
+    ArrayList<Icon> iconList = curFloor.getIconList();
+    ArrayList<EquipmentIcon> i = new ArrayList<>();
+    ArrayList<LocationIcon> j = new ArrayList<>();
+
+    int[] state;
+    String alertText = "";
+    for (Icon icon : iconList) {
+      if (icon.iconType.equals(Icon.IconType.Equipment)) {
+        i.add((EquipmentIcon) icon);
+      }
+    }
+    for (Icon icon : iconList) {
+      if (icon.iconType.equals(Icon.IconType.Location)) {
+        j.add((LocationIcon) icon);
+      }
+    }
+    int index = 0;
+    for (EquipmentIcon e : i) {
+      state = e.pumpAlert();
+      if ((state[0] < 5) && e.hasCleanEquipment()) {
+        alerts.add(
+            "ALERT there are only "
+                + state[0]
+                + " clean pumps at location "
+                + e.getLocation().getXCoord()
+                + ", "
+                + e.getLocation().getYCoord());
+      }
+      if (state[1] > 9) {
+        alerts.add(
+            "ALERT! there are "
+                + state[1]
+                + " dirty pumps at location "
+                + e.getLocation().getXCoord()
+                + ", "
+                + e.getLocation().getYCoord());
+
+        EquipmentDelivery equipmentDelivery =
+            new EquipmentDelivery(
+                11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
+        j.get(index).addToRequests(equipmentDelivery);
+      }
+      index++;
+    }
+
+    for (String a : alerts) {
+      alertText = alertText + a + "\n";
+    }
+    // System.out.println(alertText);
+    alertArea.setText(alertText);
+  }
+
+  @FXML
+  private void updateAll() {
+    updateEquipmentTable();
+    updatePatientTable();
+    updateServiceRequestTable();
+    updateCounts();
+    updateAlerts();
+  }
+
+  @Override
+  public void init() {
+    setUpButtonSubjects();
+    setUpDashboardListeners();
+    // updateAll();
+  }
+}

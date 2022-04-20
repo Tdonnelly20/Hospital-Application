@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -17,10 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../../../build/resources/main/CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ReligiousRequestController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../../../../build/resources/main/CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ReligiousRequestController">
     <items>
         <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
             <children>
@@ -81,6 +81,11 @@
                                           <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
                                     </TextField>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
+                                       <VBox.margin>
+                                          <Insets bottom="-30.0" top="-30.0" />
+                                       </VBox.margin>
+                                    </Text>
                                      <TextField id="details" fx:id="details" layoutX="40.0" layoutY="158.0" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Details">
                                          <VBox.margin>
                                              <Insets left="15.0" right="15.0" />
@@ -97,12 +102,10 @@
                                          <opaqueInsets>
                                              <Insets />
                                          </opaqueInsets>
-                                     </JFXComboBox>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
                                        <VBox.margin>
-                                          <Insets bottom="-30.0" top="-30.0" />
+                                          <Insets left="15.0" right="15.0" />
                                        </VBox.margin>
-                                    </Text>
+                                     </JFXComboBox>
 
                                     <Label fx:id="statusLabel" text="Please fill in the required fields." textFill="Red">
                                        <VBox.margin>
@@ -170,7 +173,7 @@
                                           <Text layoutX="78.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
                                           <Text layoutX="78.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
                                           <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters in UserID, PatientID and Room number." />
-                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Write down religious rites needed in Religion field and any details in Details field." />
+                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Write down religious rites needed in Religion field and any details in Details field below." />
                                           <Text layoutX="101.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name." />
                                           <Text layoutX="78.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests." />
                                        </children>
