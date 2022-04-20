@@ -45,8 +45,8 @@
                            <content>
                               <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="0.0" prefWidth="360.0" spacing="15.0" style="-fx-background-color: #5c677d;">
                                  <children>
-                                    <Label text="User ID" textFill="WHITE" />
-                                    <TextField fx:id="userID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="User ID" />
+                                    <Label text="Employee ID" textFill="WHITE" />
+                                    <TextField fx:id="userID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee ID" />
                                     <Label layoutX="171.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                                     <TextField fx:id="patientID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient ID">
                                        <VBox.margin>
