@@ -2,15 +2,10 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
-import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class InternalPatientTransportation extends ServiceRequest {
-  private Patient patient;
-  private Employee employee;
   private String nodeID, requestDetails;
-  private int employeeID;
 
   /**
    * @param patientID
@@ -25,11 +20,9 @@ public class InternalPatientTransportation extends ServiceRequest {
     System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.nodeID = nodeID;
-    this.employeeID = employeeID;
     this.requestDetails = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = "Not Started";
-    this.dao = RequestSystem.Dao.InternalPatientTransportation;
   }
 
   public String getPatientFirstName() {

@@ -63,8 +63,11 @@ public class MapDashboardController extends Controller {
   private @FXML TitledPane mapTPane;
   private @FXML TitledPane alertsTPane;
 
+  private Parent root;
+  FXMLLoader loader = new FXMLLoader();
+
   public void goHome(javafx.scene.input.MouseEvent event) throws IOException {
-    Parent root =
+    root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
     PopupController.getController().closePopUp();
@@ -79,9 +82,19 @@ public class MapDashboardController extends Controller {
   }
 
   public void openMap(MouseEvent event) throws IOException {
-    Parent root =
+    root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/Map.fxml")));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Map.fxml"));
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Controller controller = loader.getController();
+    controller.init();
+
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
