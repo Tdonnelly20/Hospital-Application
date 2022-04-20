@@ -35,7 +35,6 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableView serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
   private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
-  private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol;
   private @FXML TreeTableView patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
@@ -276,7 +275,6 @@ public class MapDashboardController extends Controller {
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
     locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timestamp"));
 
     ArrayList<ServiceRequest> currRequests =
         (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
@@ -377,13 +375,14 @@ public class MapDashboardController extends Controller {
     if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
-    return 0; }
-}
+      return 0;
+    }
+  }
 
   @FXML
   public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBedsFloor) {
 
-    if (b==true) {
+    if (b == true) {
       for (String s : dirtyBedsFloor) {
         alertTable.add(s);
       }
