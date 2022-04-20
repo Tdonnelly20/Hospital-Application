@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -16,7 +17,7 @@
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.HomeController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="100.0" prefWidth="700.0" />
+      <ColumnConstraints hgrow="SOMETIMES" prefWidth="700.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
@@ -69,42 +70,46 @@
                   <Image url="@../homeHospitalPhoto.jpg" />
                </image>
             </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="-152.0" layoutY="84.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="-152.0" layoutY="235.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="256.0" layoutY="235.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="256.0" layoutY="84.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="256.0" layoutY="371.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="-152.0" layoutY="371.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-            <JFXButton layoutX="-145.0" layoutY="85.0" onAction="#switchToMap" prefHeight="102.0" prefWidth="371.0" ripplerFill="#e8e8e8" text="Map" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </JFXButton>
-            <JFXButton layoutX="259.0" layoutY="85.0" onAction="#switchToPatientDB" prefHeight="104.0" prefWidth="371.0" ripplerFill="#e8e8e8" text="Patient Database" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </JFXButton>
-            <JFXButton layoutX="259.0" layoutY="240.0" onAction="#switchToEmployeeDB" prefHeight="98.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Employee Database" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </JFXButton>
-            <JFXButton layoutX="-137.0" layoutY="239.0" onAction="#switchToDashboard" prefHeight="104.0" prefWidth="371.0" ripplerFill="#e8e8e8" text="Dashboard" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </JFXButton>
-            <JFXButton layoutX="-134.0" layoutY="373.0" onAction="#switchToAbout" prefHeight="104.0" prefWidth="371.0" ripplerFill="#e8e8e8" text="About" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </JFXButton>
-            <JFXButton layoutX="260.0" layoutY="373.0" onAction="#switchToServiceRequest" prefHeight="104.0" prefWidth="371.0" ripplerFill="#e8e8e8" text="Service Requests" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </JFXButton>
+            <Group layoutX="-152.0" layoutY="84.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="408.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutY="151.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="408.0" layoutY="151.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutY="287.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="408.0" layoutY="287.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                  <JFXButton onAction="#switchToMap" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Map" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton layoutX="408.0" onAction="#switchToPatientDB" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Patient Database" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton layoutY="151.0" onAction="#switchToDashboard" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Dashboard" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton layoutX="408.0" layoutY="151.0" onAction="#switchToEmployeeDB" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Employee Database" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton layoutY="287.0" onAction="#switchToAbout" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="About" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton layoutX="408.0" layoutY="287.0" onAction="#switchToServiceRequest" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Service Requests" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Group>
          </children>
       </AnchorPane>
    </children>

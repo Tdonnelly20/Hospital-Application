@@ -73,32 +73,32 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="91.0" layoutX="-217.0" layoutY="377.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="91.0" layoutX="99.0" layoutY="377.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="91.0" layoutX="413.0" layoutY="377.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
-            <JFXButton layoutX="-160.0" layoutY="11.0" onAction="#switchToLabRequest" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Lab Request" textFill="WHITE">
+            <JFXButton layoutX="-160.0" layoutY="9.0" onAction="#switchToLabRequest" prefHeight="100.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Lab Request" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="292.0" layoutY="11.0" onAction="#switchToMedEquipDelivery" prefHeight="109.0" prefWidth="378.0" text="Medical Equipment Delivery" textFill="WHITE">
+            <JFXButton layoutX="292.0" layoutY="11.0" onAction="#switchToMedEquipDelivery" prefHeight="100.0" prefWidth="378.0" text="Medical Equipment Delivery" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="-160.0" layoutY="131.0" onAction="#switchToSanitationRequest" prefHeight="109.0" prefWidth="378.0" text="Sanitation Requests" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="-160.0" layoutY="131.0" onAction="#switchToSanitationRequest" prefHeight="100.0" prefWidth="378.0" text="Sanitation Requests" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="292.0" layoutY="131.0" onAction="#switchToMealDelivery" prefHeight="109.0" prefWidth="378.0" text="Meal Delivery" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="292.0" layoutY="131.0" onAction="#switchToMealDelivery" prefHeight="100.0" prefWidth="378.0" text="Meal Delivery" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="-160.0" layoutY="250.0" onAction="#switchToLaundryRequest" prefHeight="109.0" prefWidth="378.0" text="Laundry Request" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="-160.0" layoutY="250.0" onAction="#switchToLaundryRequest" prefHeight="100.0" prefWidth="378.0" text="Laundry Request" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="292.0" layoutY="250.0" onAction="#switchToMedicineDelivery" prefHeight="109.0" prefWidth="378.0" text="Medicine Delivery" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="292.0" layoutY="250.0" onAction="#switchToMedicineDelivery" prefHeight="100.0" prefWidth="378.0" text="Medicine Delivery" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
