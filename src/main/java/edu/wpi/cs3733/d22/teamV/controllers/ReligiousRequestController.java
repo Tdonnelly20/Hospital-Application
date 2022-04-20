@@ -117,8 +117,6 @@ public class ReligiousRequestController extends RequestController {
       ReligiousRequestTable.setRoot(null);
     } else {
       for (ReligiousRequest r : requests) {
-        System.out.println(
-            "details " + r.getLocation().getNodeID()); // so the request is fully made,
         TreeItem<ReligiousRequest> item = new TreeItem(r);
         treeItems.add(item);
       }

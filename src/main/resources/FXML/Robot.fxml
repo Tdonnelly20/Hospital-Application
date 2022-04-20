@@ -23,179 +23,142 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.RobotController">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="200.0" prefWidth="200.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1500.0" minWidth="380.0" prefWidth="380.0" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints maxHeight="90.0" minHeight="90.0" prefHeight="80.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="1000.0" minHeight="600.0" prefHeight="540.0" vgrow="SOMETIMES" />
-    </rowConstraints>
-    <children>
-        <GridPane alignment="CENTER_RIGHT" minWidth="-Infinity" prefHeight="90.0" prefWidth="521.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="408.0000366210937" minWidth="10.0" prefWidth="259.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="367.80002441406253" minWidth="10.0" prefWidth="156.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="251.4000305175781" minWidth="10.0" prefWidth="150.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints maxHeight="20.333335876464844" minHeight="10.0" prefHeight="18.333335876464844" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="32.33332824707031" minHeight="10.0" prefHeight="31.666664123535156" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
+<?import javafx.scene.control.SplitPane?>
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../../../build/resources/main/CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.RobotController">
+    <items>
+        <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
             <children>
-                <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="142.0" layoutY="27.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Home" textAlignment="CENTER" textFill="WHITE"  GridPane.columnIndex="1"  GridPane.rowIndex="1">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Button>
-            </children>
-        </GridPane>
-        <Pane id="Menu" fx:id="menu" minHeight="-Infinity" prefHeight="76.0" prefWidth="920.0" style="-fx-background-color: #012D5Aff;">
+                <GridPane fx:id="headerPane" layoutX="188.0" layoutY="30.0" prefHeight="150.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                </GridPane>
+            </children></AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <children>
-                <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="16.0" layoutY="14.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
-                    </image>
-                </ImageView>
-                <Label layoutX="69.0" layoutY="19.0" prefHeight="36.0" prefWidth="349.0" text="Robot Request" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="25.0" />
-                    </font>
-                </Label>
+                <SplitPane dividerPositions="0.29797979797979796" layoutX="591.0" layoutY="261.0" prefHeight="872.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="300.0" prefHeight="919.0" prefWidth="0.0">
+                            <children>
+                                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="919.0" prefWidth="318.0" style="-fx-background-color: #5c677d;">
+                                    <content>
+                                        <VBox alignment="TOP_CENTER" prefHeight="917.0" prefWidth="306.0" spacing="40.0" style="-fx-background-color: #5c677d;">
+                                            <children>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Location Node ID">
+                                                    <VBox.margin>
+                                                        <Insets bottom="-20.0" top="-20.0" />
+                                                    </VBox.margin>
+                                                </Text>
+                                                <TextField id="nodeID" fx:id="nodeID" layoutX="41.0" layoutY="50.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="253.0" promptText="Location Node ID">
+                                                    <VBox.margin>
+                                                        <Insets left="15.0" right="15.0" />
+                                                    </VBox.margin>
+                                                </TextField>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID">
+                                                    <VBox.margin>
+                                                        <Insets bottom="-20.0" top="-20.0" />
+                                                    </VBox.margin>
+                                                </Text>
+                                                <TextField id="userID" fx:id="employeeID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="Employee ID">
+                                                    <VBox.margin>
+                                                        <Insets left="15.0" right="15.0" />
+                                                    </VBox.margin>
+                                                </TextField>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bot ID">
+                                                    <VBox.margin>
+                                                        <Insets bottom="-20.0" top="-20.0" />
+                                                    </VBox.margin>
+                                                </Text>
+                                                <TextField id="botID" fx:id="botID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Bot ID">
+                                                    <VBox.margin>
+                                                        <Insets left="15.0" right="15.0" />
+                                                    </VBox.margin>
+                                                </TextField>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
+                                                    <VBox.margin>
+                                                        <Insets bottom="-20.0" top="-20.0" />
+                                                    </VBox.margin>
+                                                </Text>
+                                                <TextField fx:id="details" promptText="Details">
+                                                    <VBox.margin>
+                                                        <Insets left="15.0" right="15.0" />
+                                                    </VBox.margin>
+                                                </TextField>
+                                                <JFXComboBox id="dropDown" fx:id="statusDropDown" editable="false" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
+                                                    <items>
+                                                        <FXCollections fx:factory="observableArrayList">
+                                                            <String fx:id="notStarted" fx:value="Not Started" />
+                                                            <String fx:id="processing" fx:value="Processing" />
+                                                            <String fx:id="completed" fx:value="Completed" />
+                                                        </FXCollections>
+                                                    </items>
+                                                </JFXComboBox>
+                                                <Label fx:id="status" text="Status: Processing" />
+                                                <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button id="sendRequest" fx:id="Reset" layoutX="95.0" layoutY="391.0" mnemonicParsing="false" onAction="#resetForm" text="Reset">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
+                                            </padding>
+                                        </VBox>
+                                    </content>
+                                </ScrollPane>
+                            </children></AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                            <children>
+                                <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <tabs>
+                                        <Tab fx:id="tableTab" onSelectionChanged="#updateTreeTable" text="Robot Requests">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <TreeTableView id="table" fx:id="table" layoutX="-2.0" layoutY="-1.0" prefHeight="476.0" prefWidth="594.0">
+                                                            <columns>
+                                                                <TreeTableColumn id="nodeID" fx:id="nodeIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Location ID" />
+                                                                <TreeTableColumn id="userID" fx:id="employeeIDCol" editable="false" maxWidth="250.0" prefWidth="57.555511474609375" text="Bot ID" />
+                                                                <TreeTableColumn id="botID" fx:id="botIDCol" editable="false" maxWidth="250.0" prefWidth="79.11102294921875" text="Patient ID" />
+                                                                <TreeTableColumn id="details" fx:id="detailsCol" editable="false" maxWidth="250.0" prefWidth="100.0" text="Details" />
+                                                                <TreeTableColumn id="status" fx:id="statusCol" prefWidth="86.0" text="Status" />
+                                                            </columns>
+                                                        </TreeTableView>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </Tab>
+                                        <Tab text="Help">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <Text layoutX="46.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help Page">
+                                                            <font>
+                                                                <Font size="24.0" />
+                                                            </font>
+                                                        </Text>
+                                                        <Text layoutX="78.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
+                                                        <Text layoutX="78.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
+                                                        <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters, to Employee ID and Bot ID" />
+                                                        <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select an option in any drop-down menus " />
+                                                        <Text layoutX="101.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name" />
+                                                        <Text layoutX="78.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests" />
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </Tab>
+                                    </tabs>
+                                </TabPane>
+                            </children></AnchorPane>
+                    </items>
+                </SplitPane>
             </children>
-        </Pane>
-        <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <children>
-                <TabPane fx:id="medicineTabPane" prefHeight="967.0" prefWidth="1493.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                        <Tab fx:id="mapTab" text="Map View">
-                            <content>
-                                <VBox fx:id="mapVBox" prefHeight="367.0" prefWidth="548.0" />
-                            </content>
-                        </Tab>
-                        <Tab fx:id="tableTab" onSelectionChanged="#updateTreeTable" text="Robot Requests">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                    <children>
-                                        <TreeTableView id="table" fx:id="table" layoutX="-2.0" layoutY="-1.0" prefHeight="476.0" prefWidth="594.0">
-                                            <columns>
-                                                <TreeTableColumn id="nodeID" fx:id="nodeIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Location ID" />
-                                                <TreeTableColumn id="userID" fx:id="employeeIDCol" editable="false" maxWidth="250.0" prefWidth="57.555511474609375" text="Bot ID" />
-                                                <TreeTableColumn id="botID" fx:id="botIDCol" editable="false" maxWidth="250.0" prefWidth="79.11102294921875" text="Patient ID" />
-                                                <TreeTableColumn id="details" fx:id="detailsCol" editable="false" maxWidth="250.0" prefWidth="100.0" text="Details" />
-                                                <TreeTableColumn id="status" fx:id="statusCol" prefWidth="86.0" text="Status" />
-                                            </columns>
-                                        </TreeTableView>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-                  <Tab text="Help">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Text layoutX="46.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help Page">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="78.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
-                              <Text layoutX="78.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
-                              <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters, to Employee ID and Bot ID" />
-                              <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select an option in any drop-down menus " />
-                              <Text layoutX="101.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name" />
-                              <Text layoutX="78.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                    </tabs>
-                </TabPane>
-            </children>
-        </VBox>
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="496.0" prefWidth="318.0" style="-fx-background-color: #5c677d;" GridPane.rowIndex="1">
-            <content>
-                <VBox alignment="TOP_CENTER" prefHeight="598.0" prefWidth="355.0" spacing="40.0" style="-fx-background-color: #5c677d;">
-                    <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Location Node ID">
-                     <VBox.margin>
-                        <Insets bottom="-20.0" top="-20.0" />
-                     </VBox.margin>
-                  </Text>
-                        <TextField id="nodeID" fx:id="nodeID" layoutX="41.0" layoutY="50.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="253.0" promptText="Location Node ID">
-                            <VBox.margin>
-                                <Insets left="15.0" right="15.0" />
-                            </VBox.margin>
-                        </TextField>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID">
-                     <VBox.margin>
-                        <Insets bottom="-20.0" top="-20.0" />
-                     </VBox.margin>
-                  </Text>
-                        <TextField id="userID" fx:id="employeeID" layoutX="41.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="244.0" promptText="Employee ID">
-                            <VBox.margin>
-                                <Insets left="15.0" right="15.0" />
-                            </VBox.margin>
-                        </TextField>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bot ID">
-                     <VBox.margin>
-                        <Insets bottom="-20.0" top="-20.0" />
-                     </VBox.margin>
-                  </Text>
-                        <TextField id="botID" fx:id="botID" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="332.0" promptText="Bot ID">
-                            <VBox.margin>
-                                <Insets left="15.0" right="15.0" />
-                            </VBox.margin>
-                        </TextField>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
-                     <VBox.margin>
-                        <Insets bottom="-20.0" top="-20.0" />
-                     </VBox.margin>
-                  </Text>
-                  <TextField fx:id="details" promptText="Details">
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </TextField>
-                        <JFXComboBox id="dropDown" fx:id="statusDropDown" editable="false" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
-                            <items>
-                                <FXCollections fx:factory="observableArrayList">
-                                    <String fx:id="notStarted" fx:value="Not Started" />
-                                    <String fx:id="processing" fx:value="Processing" />
-                                    <String fx:id="completed" fx:value="Completed" />
-                                </FXCollections>
-                            </items>
-                        </JFXComboBox>
-                        <Label fx:id="status" text="Status: Processing" />
-                        <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </Button>
-                        <Button id="sendRequest" fx:id="Reset" layoutX="95.0" layoutY="391.0" mnemonicParsing="false" onAction="#resetForm" text="Reset">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </Button>
-                    </children>
-                    <padding>
-                        <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
-                    </padding>
-                </VBox>
-            </content>
-        </ScrollPane>
-    </children>
-
-</GridPane>
+        </AnchorPane>
+    </items>
+</SplitPane>
