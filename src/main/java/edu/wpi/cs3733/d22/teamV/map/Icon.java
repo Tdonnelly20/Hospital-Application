@@ -64,12 +64,6 @@ public abstract class Icon {
             RequestSystem.getSystem().updateLocations(this);
           }
         });
-
-    image.setOnMouseEntered(
-        event -> {
-          image.setFitWidth(35);
-          image.setFitHeight(35);
-        });
   }
 
   @FXML

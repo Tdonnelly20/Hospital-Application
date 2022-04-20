@@ -149,7 +149,8 @@ public class EquipmentIcon extends Icon {
             equipmentList.addAll(icon.getEquipmentList());
             RequestSystem.getSystem().updateLocations(this);
             icon.getEquipmentList().clear();
-            MapController.getController().deleteIcon(icon);
+            MapManager.getManager().setUpFloors();
+            // MapController.getController().deleteIcon(icon);
             setImage();
           }
         }
