@@ -117,7 +117,6 @@ public class SanitationRequestController extends RequestController {
     } else {
       statusLabel.setText("");
       sendRequest.setDisable(false);
-      // Set the label to green, and let the user know it has been processed
     }
   }
 
