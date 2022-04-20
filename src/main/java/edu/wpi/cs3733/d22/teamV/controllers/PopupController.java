@@ -126,10 +126,10 @@ public class PopupController {
     submitIcon.setMinWidth(100);
     clearResponse.setMinWidth(100);
 
-    stage.setMaxHeight(450);
-    stage.setMaxWidth(450);
-    stage.setMinHeight(450);
-    stage.setMinWidth(450);
+    stage.setMaxHeight(400);
+    // stage.setMaxWidth(450);
+    stage.setMinHeight(400);
+    // stage.setMinWidth(450);
     stage.setOnCloseRequest(
         event -> {
           // MapManager.getManager().isTempIconVisible(false);
@@ -884,7 +884,7 @@ public class PopupController {
     RequestSystem.getSystem().getEquipmentDao().saveToCSV();
     MapManager.getManager().setUpFloors();
     MapController.getController().mapPane.getChildren().clear();
-    MapController.getController().setFloor("1");
+    MapController.getController().setFloor(MapController.getController().currFloor.getFloorName());
   }
 
   /** deletes equipment icon */
@@ -893,7 +893,7 @@ public class PopupController {
     RequestSystem.getSystem().getEquipmentDao().saveToCSV();
     MapManager.getManager().setUpFloors();
     MapController.getController().mapPane.getChildren().clear();
-    MapController.getController().setFloor("1");
+    MapController.getController().setFloor(MapController.getController().currFloor.getFloorName());
     // MapController.getController().setFloor(equipment.getFloor());
   }
 

@@ -60,7 +60,7 @@ public class EquipmentIcon extends Icon {
       scrollPane.setFitToHeight(true);
       scrollPane.setPannable(false);
       scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      vBox.setPrefWidth(450);
+      // vBox.setPrefWidth(450);
       vBox.setPrefHeight(400);
       for (Equipment equipment : equipmentList) {
         Label idLabel = new Label("ID: " + equipment.getID());
@@ -91,7 +91,8 @@ public class EquipmentIcon extends Icon {
                         + "): "
                         + equipment.getDescription(),
                     new VBox(15, idLabel, locationLabel, hbox)));
-        accordion.setPrefWidth(450);
+        accordion.setPrefWidth(1000);
+        // accordion.width
         vBox.getChildren().add(accordion);
       }
       return scrollPane;
@@ -116,6 +117,7 @@ public class EquipmentIcon extends Icon {
   }
 
   public void removeEquipment(Equipment equipment) {
+    equipmentList.remove(equipment);
     RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
     RequestSystem.getSystem().getEquipmentDao().saveToCSV();
     MapController.getController().setFloor(getLocation().getFloor());
@@ -147,6 +149,10 @@ public class EquipmentIcon extends Icon {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
             equipmentList.addAll(icon.getEquipmentList());
+            for (Equipment equipment : icon.getEquipmentList()) {
+              RequestSystem.getSystem().getEquipmentDao().getAllEquipment().remove(equipment);
+            }
+            RequestSystem.getSystem().getEquipmentDao().saveToCSV();
             RequestSystem.getSystem().updateLocations(this);
             icon.getEquipmentList().clear();
             MapManager.getManager().setUpFloors();
