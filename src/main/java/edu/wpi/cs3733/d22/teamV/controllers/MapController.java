@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -30,7 +29,7 @@ import org.controlsfx.control.CheckComboBox;
 @Setter
 @Getter
 public class MapController extends Controller {
-  protected Floor currFloor = MapManager.getManager().getFloor("1st Floor");
+  protected Floor currFloor = MapManager.getManager().getFloor("1");
   @FXML protected VBox mapVBox = new VBox(15);
   @FXML protected Button refreshButton = new Button("Refresh");
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();

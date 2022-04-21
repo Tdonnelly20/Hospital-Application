@@ -69,5 +69,6 @@ public abstract class Icon {
   @FXML
   public abstract ScrollPane compileList();
 
-  public abstract void updateLocation();
+  @FXML
+  public abstract void setImage();
 }

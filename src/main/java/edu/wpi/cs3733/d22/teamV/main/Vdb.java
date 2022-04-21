@@ -2,8 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
-import edu.wpi.cs3733.d22.teamV.dao.*;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import java.sql.*;
 
 public class Vdb {

@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.map;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +22,7 @@ public class LocationIcon extends Icon {
   public LocationIcon(Location location) {
     super(location);
     this.iconType = IconType.Location;
-    image.setImage(new Image("locationMarker.png"));
+    image.setImage(MapManager.getManager().getLocationMarker());
     image.setFitWidth(15);
     image.setFitHeight(15);
     image.setTranslateX((xCoord) - 25);
@@ -78,28 +76,27 @@ public class LocationIcon extends Icon {
     return null;
   }
 
+  @Override
+  public void setImage() {
+    if (requestsArr.size() == 0) {
+      image.setImage(MapManager.getManager().getLocationMarker());
+    } else {
+      image.setImage(MapManager.getManager().getRequestMarker());
+    }
+  }
+
   public void addToRequests(ServiceRequest request) {
     requestsArr.add(request);
     if (location.getRequests().contains(request)) {
       location.getRequests().add(request);
     }
-    image.setImage(MapManager.getManager().requestMarker);
+    setImage();
   }
 
   public void removeRequests(ServiceRequest request) {
     requestsArr.remove(request);
     location.getRequests().remove(request);
-    if (requestsArr.size() == 0) {
-      image.setImage(MapManager.getManager().locationMarker);
-    }
-  }
-
-  public void changeImages() {
-    if (hasActiveRequests()) {
-      image.setImage(MapManager.getManager().requestMarker);
-    } else {
-      image.setImage(MapManager.getManager().locationMarker);
-    }
+    setImage();
   }
 
   public boolean hasActiveRequests() {

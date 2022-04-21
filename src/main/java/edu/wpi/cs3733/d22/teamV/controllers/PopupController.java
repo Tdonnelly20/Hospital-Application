@@ -2,10 +2,10 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
@@ -53,7 +53,6 @@ public class PopupController {
   @FXML JFXComboBox<String> comboBox1 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox2 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox3 = new JFXComboBox<>();
-  MapManager mapManager = MapManager.getManager();
   MapController mapController = MapController.getController();
   RequestSystem requestSystem = RequestSystem.getSystem();
 
@@ -149,8 +148,6 @@ public class PopupController {
 
   @FXML
   public void formSetup(MouseEvent event) {
-    // MapManager.getManager().isTempIconVisible(true);
-
     clearResponse.setOnAction(
         event1 -> {
           clearPopupForm();
@@ -159,7 +156,6 @@ public class PopupController {
         event1 -> {
           closePopUp();
           content.getChildren().clear();
-          // MapManager.getManager().isTempIconVisible(false);
         });
     returnButton.setOnAction(
         event1 -> {
@@ -299,7 +295,21 @@ public class PopupController {
     fields[1].setPromptText("Node Type");
     fields[2].setPromptText("Short Name");
     fields[3].setPromptText("Long Name");
-
+    submitIcon.setOnAction(
+        event1 -> {
+          RequestSystem.getSystem()
+              .getLocationDao()
+              .addLocation(
+                  new Location(
+                      fields[0].getText(),
+                      event.getX(),
+                      event.getY(),
+                      MapController.getController().getFloorName(),
+                      "Tower",
+                      fields[1].getText(),
+                      fields[3].getText(),
+                      fields[2].getText()));
+        });
     // Scene and Stage
     stage.setTitle("Add New Location");
     showPopUp();
@@ -350,9 +360,7 @@ public class PopupController {
                     fields[1].getText(),
                     Double.parseDouble(fields[2].getText()),
                     Double.parseDouble(fields[3].getText()),
-                    MapManager.getManager()
-                        .getFloor(comboBox1.getValue().toString())
-                        .getFloorName(),
+                    comboBox1.getValue().toString(),
                     fields[4].getText(),
                     fields[5].getText(),
                     fields[6].getText(),
@@ -754,10 +762,7 @@ public class PopupController {
               "Lab Request",
               "LabRequest" + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
               "LabRequest" + fields[1].getText());
-      MapManager.getManager()
-          .getFloor(MapController.getController().currFloor.getFloorName())
-          .getIconList()
-          .add(new LocationIcon(location));
+      MapController.getController().currFloor.getIconList().add(new LocationIcon(location));
     } else {
       icon.addToRequests(request);
     }

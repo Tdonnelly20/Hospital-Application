@@ -1,8 +1,7 @@
-package edu.wpi.cs3733.d22.teamV.manager;
+package edu.wpi.cs3733.d22.teamV.map;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
@@ -108,9 +107,7 @@ public class MapManager {
     if (floorList.size() > 0) {
       if (floorList.get(i).containsIcon(l, Icon.IconType.Location)) {
         if (floorList.get(i).getIcon(l).iconType.equals(Icon.IconType.Location)) {
-          if (l.getIcon().hasActiveRequests()) {
-            l.getIcon().changeImages();
-          }
+          l.getIcon().setImage();
         }
       } else {
         LocationIcon locationIcon = new LocationIcon(l);
@@ -126,21 +123,14 @@ public class MapManager {
 
   /** Loads each request into it's corresponding location's list */
   public void loadRequests() {
-    if (serviceRequests.size() > 0) {
+    if (requestSystem.getEveryServiceRequest().size() > 0) {
       for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
-        for (Floor floor : floorList) {
-          for (Icon icon : floor.getIconList()) {
-            if (serviceRequest.getLocation() != null) {
-              if (serviceRequest.getLocation().getNodeID() != null) {
-                if (icon.iconType.equals(Icon.IconType.Location)
-                    && icon.getLocation()
-                        .getNodeID()
-                        .equals(serviceRequest.getLocation().getNodeID())) {
-                  icon.getLocation().getRequests().add(serviceRequest);
-                  ((LocationIcon) icon).addToRequests(serviceRequest);
-                }
-              }
-            }
+        if (serviceRequest.getLocation() != null) {
+          if (serviceRequest.getLocation().getNodeID() != null) {
+            requestSystem
+                .getLocation(serviceRequest.getLocation().getNodeID())
+                .getIcon()
+                .addToRequests(serviceRequest);
           }
         }
       }

@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d22.teamV.objects;
+package edu.wpi.cs3733.d22.teamV.map;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-//Test example and some inspiration/code taken from https://www.baeldung.com/java-dijkstra
+// Test example and some inspiration/code taken from https://www.baeldung.com/java-dijkstra
 public class Pathfinder {
 
   private ArrayList<Node> allNodes = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Pathfinder {
       System.out.println(" " + node.getName());
     }
 
-    //Polling the first element in the queue gives us the distance of the entire journey
+    // Polling the first element in the queue gives us the distance of the entire journey
     System.out.println("Distance = " + path.poll().getWeight());
   }
 
@@ -178,7 +178,8 @@ public class Pathfinder {
     return closestNode;
   }
 
-  // Recursive algorithm that Tate is unable to comprehend (all it does is create a list from the previous nodes)
+  // Recursive algorithm that Tate is unable to comprehend (all it does is create a list from the
+  // previous nodes)
   public Queue<Node> getPath(Queue<Node> path, Node node) {
     path.add(node);
     if (node.previous != null) {
