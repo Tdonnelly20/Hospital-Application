@@ -1,110 +1,189 @@
 package edu.wpi.cs3733.d22.teamV.objects;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Pathfinder {
-    //For testing purposes
-    public static void main(String[] args){
 
+  private ArrayList<Node> allNodes = new ArrayList<>();
+
+  public static void main(String[] args) {
+    // See https://www.baeldung.com/wp-content/uploads/2017/01/initial-graph.png for a picture of
+    // what I'm creating here
+    Node nodeA = new Node("A");
+    Node nodeB = new Node("B");
+    Node nodeC = new Node("C");
+    Node nodeD = new Node("D");
+    Node nodeE = new Node("E");
+    Node nodeF = new Node("F");
+
+    // Add links to each of the nodes (one directional but I could make it bi-directional if you
+    // need it)
+    nodeA.addLink(new Link(nodeB, 10));
+    nodeA.addLink(new Link(nodeC, 15));
+
+    nodeB.addLink(new Link(nodeD, 12));
+    nodeB.addLink(new Link(nodeF, 15));
+
+    nodeC.addLink(new Link(nodeE, 10));
+
+    nodeD.addLink(new Link(nodeF, 1));
+    nodeD.addLink(new Link(nodeE, 2));
+
+    nodeF.addLink(new Link(nodeF, 5));
+
+    // Add all the nodes to the list
+    ArrayList<Node> nodes = new ArrayList<>();
+
+    nodes.add(nodeA);
+    nodes.add(nodeB);
+    nodes.add(nodeC);
+    nodes.add(nodeD);
+    nodes.add(nodeE);
+    nodes.add(nodeF);
+
+    // Create the pathfinder object
+    Pathfinder pathfinder = new Pathfinder(nodes);
+    // Feel free to mess around with the destinations, just keep in mind that nodes are
+    // one-directional, not bi-directional. (A has a link to C, C does not have a link to A)
+    Queue<Node> path = pathfinder.pathfind("A", "E");
+
+    // Prints out from the destination to the starting position
+    for (Node node : path) {
+      System.out.println(" " + node.getName());
     }
 
-    //We need to have every node have a list of connects to other nodes, and the weight between them
-    private class Link{
-        @Getter
-        @Setter
-        private Node node;
-        private double distance;
-        public Link(Node node, double distance){
-            this.node = node;
-            this.distance = distance;
+    //Polling the first element in the queue gives us the distance of the entire journey
+    System.out.println("Distance = " + path.poll().getWeight());
+  }
+
+  // We need to have every node have a list of connects to other nodes, and the weight between them
+  @Getter
+  @Setter
+  private static class Link {
+    private Node node;
+    private double distance;
+
+    public Link(Node node, double distance) {
+      this.node = node;
+      this.distance = distance;
+    }
+  }
+
+  // Nodes contain a list of links and distances to other nodes, which will be used in the
+  // pathfinding algorithm
+  @Getter
+  @Setter
+  private static class Node {
+    private ArrayList<Link> links = new ArrayList<>();
+    private String name;
+    private Node previous = null;
+    private boolean visited = false; // All nodes must be marked unvisited to start
+    private double weight = Double.MAX_VALUE;
+
+    public Node(String name) {
+      this.name = name;
+    }
+
+    public void addLink(Link link) {
+      links.add(link);
+    }
+
+    public void removeLink(Link link) {
+      links.remove(link);
+    }
+  }
+
+  private ArrayList<Node> nodes;
+
+  public Pathfinder(ArrayList<Node> nodes) {
+    this.nodes = nodes;
+  }
+
+  public Node getNodeFromName(String name) {
+    for (Node node : nodes) {
+      if (node.name.equals(name)) {
+        return node;
+      }
+    }
+    return null;
+  }
+
+  // Pathfind from the start node to the end node, and return a queue of the shortest path
+
+  public Queue<Node> pathfind(String startNodeName, String endNodeName) {
+    // Get the start and end node from their names
+    Node startNode = getNodeFromName(startNodeName);
+    Node endNode = getNodeFromName(endNodeName);
+    // We can't have either be null and the destination cannot be equal to the starting position
+    assert (startNode != null && endNode != null && startNode != endNode);
+    // Create a list of nodes that are still unsettled
+    ArrayList<Node> unsettledNodes = new ArrayList<>();
+    // Add the starting node to the list of unsettled nodes
+    unsettledNodes.add(startNode);
+    // Set the starting weight of the current node to 0 (since we're already there)
+    startNode.weight = 0;
+    // Make sure that all nodes are marked as unvisited and that their weight is the max value
+    for (Node node : allNodes) {
+      if (!node.equals(startNode)) {
+        node.visited = false;
+        node.previous = null;
+        node.weight = Double.MAX_VALUE;
+      }
+    }
+
+    // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
+    while (!unsettledNodes.isEmpty()) {
+      Node currentNode = getLowestNode(unsettledNodes);
+      unsettledNodes.remove(currentNode);
+
+      double currentNodeWeight = currentNode.getWeight();
+      for (Link link : currentNode.getLinks()) {
+        Node destinationNode = link.getNode();
+        double distance = link.getDistance();
+        double destinationNodeWeight = destinationNode.getWeight();
+
+        double distanceFromCurrentNode = currentNodeWeight + distance;
+
+        if (distanceFromCurrentNode < destinationNodeWeight) {
+          destinationNode.setWeight(distanceFromCurrentNode);
+          destinationNode.setPrevious(currentNode);
+          unsettledNodes.add(destinationNode);
         }
+      }
     }
 
-    //Nodes contain a list of links and distances to other nodes, which will be used in the pathfinding algorithm
-    private class Node{
-        @Getter
-        @Setter
-        private ArrayList<Link> links;
-        private String name;
-        private boolean visited = false; //All nodes must be marked unvisited to start
-        private double weight = Double.MAX_VALUE;
-        public Node(String name, ArrayList<Link> links){
-            this.name = name;
-            this.links = links;
-        }
+    // Create the queue that will return the shortest path
+    Queue<Node> path = new LinkedList<>();
+
+    // return the shortest path from the end node
+    return getPath(path, endNode);
+  }
+
+  public Node getLowestNode(ArrayList<Node> nodes) {
+    Node closestNode = null;
+    double shortestDistance = Double.MAX_VALUE;
+    for (Node node : nodes) {
+      if (node.weight < shortestDistance) {
+        shortestDistance = node.weight;
+        closestNode = node;
+      }
     }
+    return closestNode;
+  }
 
-    private ArrayList<Node> nodes;
-    public Pathfinder(ArrayList<Node> nodes){
-        this.nodes = nodes;
+  // Recursive algorithm that Tate is unable to comprehend (all it does is create a list from the previous nodes)
+  public Queue<Node> getPath(Queue<Node> path, Node node) {
+    path.add(node);
+    if (node.previous != null) {
+      return getPath(path, node.previous);
+    } else {
+      return path;
     }
-
-    public Node getNodeFromName(String name){
-        for(Node node : nodes){
-            if(node.name.equals(name)){
-                return node;
-            }
-        }
-        return null;
-    }
-
-    //Pathfind from the start node to the end node, and return a queue of the shortest path
-
-    /* Taken from Javatpoint https://www.javatpoint.com/dijkstra-algorithm-java
-    Step1: All nodes should be marked as unvisited.
-
-    Step2: All the nodes must be initialized with the "infinite" (a big number) weight. The starting node must be initialized with zero.
-
-    Step3: Mark starting node as the current node.
-
-    Step4: From the current node, analyze all of its neighbors that are not visited yet, and compute their distances by adding the weight of the edge, which establishes the connection between the current node and neighbor node to the current weight of the current node.
-
-    Step5: Now, compare the recently computed weight with the weight allotted to the neighboring node, and treat it as the current weight of the neighboring node,
-
-    Step6: After that, the surrounding neighbors of the current node, which has not been visited, are considered, and the current nodes are marked as visited.
-
-    Step7: When the ending node is marked as visited, then the algorithm has done its job; otherwise,
-
-    Step8: Pick the unvisited node which has been allotted the minimum weight and treat it as the new current node. After that, start again from step4.
-     */
-    public Queue<Node> pathfind(String startNodeName, String endNodeName){
-        //Get the start and end node from their names
-        Node startNode = getNodeFromName(startNodeName);
-        Node endNode = getNodeFromName(endNodeName);
-        //We can't have either be null and the destination cannot be equal to the starting position
-        assert (startNode != null && endNode != null && startNode != endNode);
-        //Create the queue that will return the shortest path
-        Queue<Node> path = new LinkedList<>();
-        path.add(startNode);
-
-        Node lowestNode = startNode;
-
-        while(!endNode.visited){
-            double currentWeight;
-            double lowestWeight = Double.MAX_VALUE;
-            Node currentNode = lowestNode;
-            currentNode.visited = true;
-            for(Link link : currentNode.links){
-                //the currentWeight is simply the sum of the weight of the current node and the link of the distance
-                currentWeight = currentNode.weight + link.distance;
-                link.node.weight = currentWeight;
-                //determine our next node based on what has the lowest weight
-                if(currentWeight < lowestWeight){
-                    lowestNode = link.node;
-                    lowestWeight = currentWeight;
-                }
-            }
-            //Add the lowest node to the path
-            path.add(lowestNode);
-        }
-        return path;
-    }
-
-
-
+  }
 }
