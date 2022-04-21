@@ -8,6 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+//Test example and some inspiration/code taken from https://www.baeldung.com/java-dijkstra
 public class Pathfinder {
 
   private ArrayList<Node> allNodes = new ArrayList<>();
