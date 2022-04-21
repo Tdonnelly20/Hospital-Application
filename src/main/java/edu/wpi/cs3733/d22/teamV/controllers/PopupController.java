@@ -49,15 +49,7 @@ public class PopupController {
   @FXML HBox titleBox = new HBox(25, title);
   @FXML HBox buttonBox = new HBox(15, submitIcon, clearResponse, closeButton);
   @FXML Text missingFields = new Text("Please fill all fields");
-  @FXML TextField field1 = new TextField();
-  @FXML TextField field2 = new TextField();
-  @FXML TextField field3 = new TextField();
-  @FXML TextField field4 = new TextField();
-  @FXML TextField field5 = new TextField();
-  @FXML TextField field6 = new TextField();
-  @FXML TextField field7 = new TextField();
-  @FXML TextField field8 = new TextField();
-  @FXML TextField field9 = new TextField();
+  @FXML TextField[] fields = new TextField[10];
   @FXML JFXComboBox<String> comboBox1 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox2 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox3 = new JFXComboBox<>();
@@ -114,25 +106,19 @@ public class PopupController {
     sceneVbox.getChildren().addAll(titleBox, buttonBox, contentScroll);
     sceneVbox.setAlignment(Pos.TOP_CENTER);
 
-    field1.setMaxWidth(250);
-    field2.setMaxWidth(250);
-    field3.setMaxWidth(250);
-    field4.setMaxWidth(250);
-    field5.setMaxWidth(250);
-    field6.setMaxWidth(250);
-    field7.setMaxWidth(250);
-    field8.setMaxWidth(250);
-    field9.setMaxWidth(250);
+    for (int i = 0; i < fields.length; i++) {
+      fields[i] = new TextField();
+      fields[i].setMaxWidth(250);
+    }
+
     submitIcon.setMinWidth(100);
     clearResponse.setMinWidth(100);
 
     stage.setMaxHeight(400);
-    // stage.setMaxWidth(450);
     stage.setMinHeight(400);
-    // stage.setMinWidth(450);
     stage.setOnCloseRequest(
         event -> {
-          // MapManager.getManager().isTempIconVisible(false);
+          clearPopupForm();
         });
   }
 
@@ -304,15 +290,15 @@ public class PopupController {
   public void locationAdditionForm(MouseEvent event) {
     title.setText("Add A Location");
     content.getChildren().clear();
-    content.getChildren().addAll(field1, field2, field3, field4);
+    content.getChildren().addAll(fields[0], fields[1], fields[2], fields[3]);
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
     // Form
     submitIcon.setText("Add Location");
-    field1.setPromptText("Node ID");
-    field2.setPromptText("Node Type");
-    field3.setPromptText("Short Name");
-    field4.setPromptText("Long Name");
+    fields[0].setPromptText("Node ID");
+    fields[1].setPromptText("Node Type");
+    fields[2].setPromptText("Short Name");
+    fields[3].setPromptText("Long Name");
 
     // Scene and Stage
     stage.setTitle("Add New Location");
@@ -331,10 +317,10 @@ public class PopupController {
     clearPopupForm();
     submitIcon.setText("Modify Location");
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
-    field1.setPromptText("Old Node ID");
-    field2.setPromptText("Node ID");
-    field3.setPromptText("X-Coordinate");
-    field4.setPromptText("Y-Coordinate");
+    fields[0].setPromptText("Old Node ID");
+    fields[1].setPromptText("Node ID");
+    fields[2].setPromptText("X-Coordinate");
+    fields[3].setPromptText("Y-Coordinate");
     comboBox1 =
         new JFXComboBox<>(
             FXCollections.observableArrayList(
@@ -345,59 +331,63 @@ public class PopupController {
                 "3rd Floor",
                 "4th Floor",
                 "5th Floor"));
-    field5.setPromptText("Building");
-    field6.setPromptText("Node Type");
-    field8.setPromptText("Short Name");
-    field7.setPromptText("Long Name");
+    fields[4].setPromptText("Building");
+    fields[5].setPromptText("Node Type");
+    fields[7].setPromptText("Short Name");
+    fields[6].setPromptText("Long Name");
     if (icon == null) {
       content
           .getChildren()
-          .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, field8);
+          .addAll(
+              fields[0], fields[1], fields[2], fields[3], fields[4], comboBox1, fields[5],
+              fields[6], fields[7]);
       submitIcon.setOnAction(
           event1 -> {
-            deleteIcon(field1.getText());
+            deleteIcon(fields[0].getText());
 
             Location newLocation =
                 new Location(
-                    field2.getText(),
-                    Double.parseDouble(field3.getText()),
-                    Double.parseDouble(field4.getText()),
+                    fields[1].getText(),
+                    Double.parseDouble(fields[2].getText()),
+                    Double.parseDouble(fields[3].getText()),
                     MapManager.getManager()
                         .getFloor(comboBox1.getValue().toString())
                         .getFloorName(),
-                    field5.getText(),
-                    field6.getText(),
-                    field7.getText(),
-                    field8.getText());
+                    fields[4].getText(),
+                    fields[5].getText(),
+                    fields[6].getText(),
+                    fields[7].getText());
 
             addIcon(newLocation);
             locationForm(event, newLocation.getIcon());
           });
     } else {
-      field2.setPromptText("Node ID: " + icon.getLocation().getNodeID());
-      field3.setPromptText("X-Coordinate: " + icon.getLocation().getXCoord());
-      field4.setPromptText("Y-Coordinate: " + icon.getLocation().getYCoord());
+      fields[1].setPromptText("Node ID: " + icon.getLocation().getNodeID());
+      fields[2].setPromptText("X-Coordinate: " + icon.getLocation().getXCoord());
+      fields[3].setPromptText("Y-Coordinate: " + icon.getLocation().getYCoord());
       comboBox1.setValue(icon.getLocation().getFloor());
       comboBox1.setPromptText(icon.getLocation().getFloor());
-      field5.setPromptText("Building: " + icon.getLocation().getBuilding());
-      field6.setPromptText("Node Type: " + icon.getLocation().getNodeType());
-      field7.setPromptText("Long Name: " + icon.getLocation().getLongName());
-      field8.setPromptText("Short Name: " + icon.getLocation().getShortName());
+      fields[4].setPromptText("Building: " + icon.getLocation().getBuilding());
+      fields[5].setPromptText("Node Type: " + icon.getLocation().getNodeType());
+      fields[6].setPromptText("Long Name: " + icon.getLocation().getLongName());
+      fields[7].setPromptText("Short Name: " + icon.getLocation().getShortName());
       content
           .getChildren()
-          .addAll(field2, field3, field4, field5, comboBox1, field6, field7, field8);
-      field1.setText(icon.getLocation().getNodeID());
+          .addAll(
+              fields[1], fields[2], fields[3], fields[4], comboBox1, fields[5], fields[6],
+              fields[7]);
+      fields[0].setText(icon.getLocation().getNodeID());
       submitIcon.setOnAction(
           event1 -> { // If user doesn't fill in information, assume old information is retained
             System.out.println(icon.getLocation().toString());
-            if (!(field2.getText().equals(icon.getLocation().getNodeID())
-                && field3.getText().equals(String.valueOf(icon.getLocation().getXCoord()))
-                && field4.getText().equals(String.valueOf(icon.getLocation().getYCoord()))
+            if (!(fields[1].getText().equals(icon.getLocation().getNodeID())
+                && fields[2].getText().equals(String.valueOf(icon.getLocation().getXCoord()))
+                && fields[3].getText().equals(String.valueOf(icon.getLocation().getYCoord()))
                 && comboBox1.getValue().equals(icon.getLocation().getFloor())
-                && field5.getText().equals(icon.getLocation().getBuilding())
-                && field6.getText().equals(icon.getLocation().getNodeType())
-                && field7.getText().equals(icon.getLocation().getLongName())
-                && field8.getText().equals(icon.getLocation().getShortName()))) {
+                && fields[4].getText().equals(icon.getLocation().getBuilding())
+                && fields[5].getText().equals(icon.getLocation().getNodeType())
+                && fields[6].getText().equals(icon.getLocation().getLongName())
+                && fields[7].getText().equals(icon.getLocation().getShortName()))) {
               Location newLocation = ifFilterEmpty(icon);
               try {
                 deleteIcon(icon.getLocation());
@@ -422,55 +412,55 @@ public class PopupController {
 
   public Location ifFilterEmpty(Icon icon) {
     Location location = new Location();
-    if (field2.getText().isEmpty()) {
-      field2.setText(icon.getLocation().getNodeID());
+    if (fields[1].getText().isEmpty()) {
+      fields[1].setText(icon.getLocation().getNodeID());
       location.setNodeID(icon.getLocation().getNodeID());
     } else {
-      location.setNodeID(field2.getText());
+      location.setNodeID(fields[1].getText());
     }
-    if (field3.getText().isEmpty()) {
-      field3.setText(String.valueOf(icon.getLocation().getXCoord()));
+    if (fields[2].getText().isEmpty()) {
+      fields[2].setText(String.valueOf(icon.getLocation().getXCoord()));
       System.out.println("'" + icon.getLocation().getXCoord() + "'");
-      System.out.println("'" + field3.getText() + "'");
+      System.out.println("'" + fields[2].getText() + "'");
       location.setXCoord(icon.getLocation().getXCoord());
     } else {
-      location.setXCoord(Double.parseDouble(field3.getText()));
+      location.setXCoord(Double.parseDouble(fields[2].getText()));
     }
-    if (field4.getText().isEmpty()) {
-      field4.setText(String.valueOf(icon.getLocation().getYCoord()));
+    if (fields[3].getText().isEmpty()) {
+      fields[3].setText(String.valueOf(icon.getLocation().getYCoord()));
       System.out.println("'" + icon.getLocation().getYCoord() + "'");
-      System.out.println("'" + field4.getText() + "'");
+      System.out.println("'" + fields[3].getText() + "'");
       location.setYCoord(icon.getLocation().getYCoord());
     } else {
-      location.setYCoord(Double.parseDouble(field4.getText()));
+      location.setYCoord(Double.parseDouble(fields[3].getText()));
     }
     if (comboBox1.getValue().equals("")) {
       location.setFloor(icon.getLocation().getFloor());
     } else {
       location.setFloor(comboBox1.getValue());
     }
-    if (field5.getText().isEmpty()) {
-      field5.setText(icon.getLocation().getBuilding());
+    if (fields[4].getText().isEmpty()) {
+      fields[4].setText(icon.getLocation().getBuilding());
       location.setBuilding(icon.getLocation().getBuilding());
     } else {
-      location.setBuilding(field5.getText());
+      location.setBuilding(fields[4].getText());
     }
-    if (field6.getText().isEmpty()) {
-      field6.setText(icon.getLocation().getNodeType());
+    if (fields[5].getText().isEmpty()) {
+      fields[5].setText(icon.getLocation().getNodeType());
       location.setNodeType(icon.getLocation().getNodeType());
     } else {
-      location.setNodeType(field6.getText());
+      location.setNodeType(fields[5].getText());
     }
-    if (field7.getText().isEmpty()) {
-      field7.setText(icon.getLocation().getLongName());
+    if (fields[6].getText().isEmpty()) {
+      fields[6].setText(icon.getLocation().getLongName());
       location.setLongName(icon.getLocation().getLongName());
     } else {
-      location.setLongName(field7.getText());
+      location.setLongName(fields[6].getText());
     }
-    if (field8.getText().isEmpty()) {
+    if (fields[7].getText().isEmpty()) {
       location.setShortName(icon.getLocation().getShortName());
     } else {
-      location.setShortName(field8.getText());
+      location.setShortName(fields[7].getText());
     }
     return location;
   }
@@ -481,13 +471,13 @@ public class PopupController {
     content.getChildren().clear();
     buttonBox.getChildren().clear();
     submitIcon.setText("Delete Location");
-    field1.setPromptText("Old Node ID");
+    fields[0].setPromptText("Old Node ID");
     if (icon == null) {
       buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
-      content.getChildren().addAll(field1);
+      content.getChildren().addAll(fields[0]);
     } else {
       buttonBox.getChildren().addAll(returnButton, submitIcon, closeButton);
-      field1.setText(icon.getLocation().getNodeID());
+      fields[0].setText(icon.getLocation().getNodeID());
     }
     submitIcon.setOnAction(
         event1 -> {
@@ -498,7 +488,7 @@ public class PopupController {
               e.printStackTrace();
             }
           } else {
-            String nodeID = field1.getText();
+            String nodeID = fields[0].getText();
             deleteIcon(nodeID);
           }
           closePopUp();
@@ -528,6 +518,9 @@ public class PopupController {
   @FXML
   public void requestAdditionForm(MouseEvent event, LocationIcon icon) {
     title.setText("Add A Service Request");
+    for (TextField field : fields) {
+      field = new TextField();
+    }
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, clearResponse, closeButton);
     // Form
@@ -565,27 +558,27 @@ public class PopupController {
     content.getChildren().clear();
     buttonBox.getChildren().clear();
     submitIcon.setText("Add Request");
-    field1.setPromptText("Employee ID");
+    fields[0].setPromptText("Employee ID");
     comboBox3 =
         new JFXComboBox<>(FXCollections.observableArrayList("Not Started", "Processing", "Done"));
     comboBox3.setPromptText("Not Started");
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
-    content.getChildren().addAll(comboBox1, field1);
+    content.getChildren().addAll(comboBox1, fields[0]);
 
     switch (serviceRequest) {
       case "Lab Request":
-        field2.setPromptText("Patient ID");
+        fields[1].setPromptText("Patient ID");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Blood Sample", "Urine Sample", "X-Ray", "CAT", "MRI"));
-        content.getChildren().addAll(field2, comboBox2);
+        content.getChildren().addAll(fields[1], comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               LabRequest request =
                   new LabRequest(
-                      Integer.parseInt(field1.getText()),
-                      Integer.parseInt(field2.getText()),
+                      Integer.parseInt(fields[0].getText()),
+                      Integer.parseInt(fields[1].getText()),
                       icon.getLocation().getNodeID(),
                       comboBox2.getValue(),
                       comboBox3.getValue());
@@ -594,24 +587,24 @@ public class PopupController {
             });
         break;
       case "Equipment Delivery":
-        field2.setPromptText("Patient ID");
-        field3.setPromptText("Quantity");
-        field4.setPromptText("Notes");
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Quantity");
+        fields[3].setPromptText("Notes");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Bed", "Portable X-Ray", "Blood Infusion Machine", "Patient Recliner"));
-        content.getChildren().addAll(field2, field3, field4, comboBox2);
+        content.getChildren().addAll(fields[1], fields[2], fields[3], comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               EquipmentDelivery request =
                   new EquipmentDelivery(
-                      Integer.parseInt(field1.getText()),
-                      Integer.parseInt(field2.getText()),
+                      Integer.parseInt(fields[0].getText()),
+                      Integer.parseInt(fields[1].getText()),
                       icon.getLocation().getNodeID(),
                       comboBox2.getValue(),
-                      field4.getText(),
-                      Integer.parseInt(field3.getText()),
+                      fields[3].getText(),
+                      Integer.parseInt(fields[2].getText()),
                       comboBox3.getValue());
 
               addRequest(event, icon, request);
@@ -619,89 +612,89 @@ public class PopupController {
             });
         break;
       case "Medicine Delivery":
-        field2.setPromptText("Patient ID");
-        field3.setPromptText("Dosage");
-        field4.setPromptText("Request Details");
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Dosage");
+        fields[3].setPromptText("Request Details");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Tylenol", "Morphine", "Epinephrine", "Adderall", "Cyclosporine"));
-        content.getChildren().addAll(field2, field3, field4, comboBox2);
+        content.getChildren().addAll(fields[1], fields[2], fields[3], comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               MedicineDelivery request =
                   new MedicineDelivery(
                       icon.getLocation().getNodeID(),
-                      Integer.parseInt(field1.getText()),
-                      Integer.parseInt(field2.getText()),
+                      Integer.parseInt(fields[0].getText()),
+                      Integer.parseInt(fields[1].getText()),
                       comboBox2.getValue(),
-                      field3.getText(),
+                      fields[2].getText(),
                       comboBox3.getValue(),
-                      field4.getText());
+                      fields[3].getText());
               addRequest(event, icon, request);
               closePopUp();
             });
         break;
       case "Internal Patient Transport":
-        field2.setPromptText("Patient ID");
-        field3.setPromptText("Notes");
-        content.getChildren().addAll(field2, field3);
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Notes");
+        content.getChildren().addAll(fields[1], fields[2]);
         submitIcon.setOnAction(
             event1 -> {
               InternalPatientTransportation request =
                   new InternalPatientTransportation(
                       icon.getLocation().getNodeID(),
-                      Integer.parseInt(field2.getText()),
-                      Integer.parseInt(field1.getText()),
-                      field3.getText());
+                      Integer.parseInt(fields[1].getText()),
+                      Integer.parseInt(fields[0].getText()),
+                      fields[2].getText());
               addRequest(event, icon, request);
               closePopUp();
             });
         break;
       case "Laundry Request":
-        field2.setPromptText("Patient ID");
-        field3.setPromptText("Notes");
-        content.getChildren().addAll(field2, field3);
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Notes");
+        content.getChildren().addAll(fields[1], fields[2]);
         submitIcon.setOnAction(
             event1 -> {
               LaundryRequest request =
                   new LaundryRequest(
-                      Integer.parseInt(field1.getText()),
-                      Integer.parseInt(field2.getText()),
+                      Integer.parseInt(fields[0].getText()),
+                      Integer.parseInt(fields[1].getText()),
                       icon.getLocation().getNodeID(),
-                      field3.getText(),
+                      fields[2].getText(),
                       comboBox3.getValue());
               addRequest(event, icon, request);
               closePopUp();
             });
         break;
       case "Meal Delivery":
-        field2.setPromptText("Patient ID");
-        field3.setPromptText("Allergy");
-        field4.setPromptText("Request Details");
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Allergy");
+        fields[3].setPromptText("Request Details");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Cheeseburger", "Chicken Nuggies", "Hot Dog", "Fries", "Crackers"));
-        content.getChildren().addAll(field2, field3, field4, comboBox2);
+        content.getChildren().addAll(fields[1], fields[2], fields[3], comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               MedicineDelivery request =
                   new MedicineDelivery(
                       icon.getLocation().getNodeID(),
-                      Integer.parseInt(field1.getText()),
-                      Integer.parseInt(field2.getText()),
+                      Integer.parseInt(fields[0].getText()),
+                      Integer.parseInt(fields[1].getText()),
                       comboBox2.getValue(),
-                      field3.getText(),
+                      fields[2].getText(),
                       comboBox3.getValue(),
-                      field4.getText());
+                      fields[3].getText());
               addRequest(event, icon, request);
               closePopUp();
             });
         break;
       case "Sanitation Request":
-        field2.setPromptText("Patient ID");
-        field3.setPromptText("Notes");
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Notes");
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
@@ -710,37 +703,37 @@ public class PopupController {
                     "Other Bodily Fluids",
                     "Broken Glass",
                     "No Hazard/General Mess"));
-        content.getChildren().addAll(field2, field3, comboBox2);
+        content.getChildren().addAll(fields[1], fields[2], comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               SanitationRequest request =
                   new SanitationRequest(
-                      Integer.parseInt(field1.getText()),
-                      Integer.parseInt(field2.getText()),
+                      Integer.parseInt(fields[0].getText()),
+                      Integer.parseInt(fields[1].getText()),
                       icon.getLocation().getNodeID(),
                       comboBox2.getValue(),
-                      field3.getText());
+                      fields[2].getText());
 
               addRequest(event, icon, request);
               closePopUp();
             });
         break;
       case "Religious Request":
-        field2.setPromptText("Patient ID");
-        field3.setPromptText("Religion");
-        field4.setPromptText("Special Requests");
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Religion");
+        fields[3].setPromptText("Special Requests");
 
-        content.getChildren().addAll(field2);
+        content.getChildren().addAll(fields[1]);
 
         submitIcon.setOnAction(
             event1 -> {
               ReligiousRequest request =
                   new ReligiousRequest(
-                      Integer.parseInt(field2.getText()),
-                      Integer.parseInt(field1.getText()),
+                      Integer.parseInt(fields[1].getText()),
+                      Integer.parseInt(fields[0].getText()),
                       icon.getLocation().getNodeID(),
-                      field3.getText(),
-                      field4.getText());
+                      fields[2].getText(),
+                      fields[3].getText());
               addRequest(event, icon, request);
               closePopUp();
             });
@@ -753,14 +746,14 @@ public class PopupController {
     if (icon == null) {
       Location location =
           new Location(
-              request.getType() + field2.getText() + field1.getText() + comboBox2.getValue(),
+              request.getType() + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
               event.getX(),
               event.getY(),
               MapController.getController().currFloor.getFloorName(),
               "Tower",
               "Lab Request",
-              "LabRequest" + field2.getText() + field1.getText() + comboBox2.getValue(),
-              "LabRequest" + field2.getText());
+              "LabRequest" + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
+              "LabRequest" + fields[1].getText());
       MapManager.getManager()
           .getFloor(MapController.getController().currFloor.getFloorName())
           .getIconList()
@@ -814,35 +807,35 @@ public class PopupController {
     buttonBox.getChildren().clear();
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
 
-    field1.setPromptText("Equipment ID");
-    field2.setPromptText("Type of Equipment");
-    field3.setPromptText("Notes");
+    fields[0].setPromptText("Equipment ID");
+    fields[1].setPromptText("Type of Equipment");
+    fields[2].setPromptText("Notes");
     comboBox1.setValue("Status");
     comboBox1 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
     content.getChildren().clear();
-    content.getChildren().addAll(field1, field2, field3, comboBox1);
+    content.getChildren().addAll(fields[0], fields[1], fields[2], comboBox1);
 
     submitIcon.setOnAction(
         event1 -> {
           if (icon == null) {
             Equipment equipment =
                 new Equipment(
-                    field1.getText(),
-                    field2.getText(),
+                    fields[0].getText(),
+                    fields[1].getText(),
                     MapController.getController().currFloor.getFloorName(),
                     event.getX(),
                     event.getY(),
-                    field3.getText(),
+                    fields[2].getText(),
                     false);
             equipment.setIcon(
                 new EquipmentIcon(
                     new Location(
-                        field1.getText() + field2.getText() + comboBox1.getValue(),
+                        fields[0].getText() + fields[1].getText() + comboBox1.getValue(),
                         event.getX(),
                         event.getY(),
                         "Tower",
                         MapController.getController().currFloor.getFloorName(),
-                        field1.getText(),
+                        fields[0].getText(),
                         "",
                         "")));
             addEquipmentIcon(equipment);
@@ -851,12 +844,12 @@ public class PopupController {
           } else {
             Equipment equipment =
                 new Equipment(
-                    field1.getText(),
-                    field2.getText(),
+                    fields[0].getText(),
+                    fields[1].getText(),
                     MapController.getController().currFloor.getFloorName(),
                     event.getX(),
                     event.getY(),
-                    field3.getText(),
+                    fields[2].getText(),
                     false);
             submitIcon.setOnAction(
                 event2 -> {
@@ -913,10 +906,10 @@ public class PopupController {
     clearPopupForm();
     submitIcon.setText("Modify Equipment");
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
-    field1.setPromptText("Old Equipment ID");
-    field2.setPromptText("Equipment ID");
-    field3.setPromptText("X-Coordinate");
-    field4.setPromptText("Y-Coordinate");
+    fields[0].setPromptText("Old Equipment ID");
+    fields[1].setPromptText("Equipment ID");
+    fields[2].setPromptText("X-Coordinate");
+    fields[3].setPromptText("Y-Coordinate");
     comboBox1 =
         new JFXComboBox<>(
             FXCollections.observableArrayList(
@@ -927,26 +920,28 @@ public class PopupController {
                 "3rd Floor",
                 "4th Floor",
                 "5th Floor"));
-    field5.setPromptText("Building");
-    field6.setPromptText("Type");
-    field7.setPromptText("Description");
+    fields[4].setPromptText("Building");
+    fields[5].setPromptText("Type");
+    fields[6].setPromptText("Description");
     comboBox2.setValue("Status");
     comboBox2 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
     content
         .getChildren()
-        .addAll(field1, field2, field3, field4, field5, comboBox1, field6, field7, comboBox2);
+        .addAll(
+            fields[0], fields[1], fields[2], fields[3], fields[4], comboBox1, fields[5], fields[6],
+            comboBox2);
     submitIcon.setOnAction(
         event1 -> {
-          deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(field1.getText()));
+          deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(fields[0].getText()));
 
           Equipment equipment =
               new Equipment(
-                  field2.getText(),
-                  field6.getText(),
+                  fields[1].getText(),
+                  fields[5].getText(),
                   comboBox1.getValue().toString(),
-                  Double.parseDouble(field3.getText()),
-                  Double.parseDouble(field4.getText()),
-                  field7.getText(),
+                  Double.parseDouble(fields[2].getText()),
+                  Double.parseDouble(fields[3].getText()),
+                  fields[6].getText(),
                   false);
           if (comboBox2.getValue().equals("Dirty")) {
             equipment.setIsDirty(true);
@@ -968,49 +963,43 @@ public class PopupController {
     content.getChildren().clear();
     buttonBox.getChildren().clear();
     submitIcon.setText("Delete Equipment");
-    field1.setPromptText("Equipment ID");
+    fields[0].setPromptText("Equipment ID");
     buttonBox.getChildren().addAll(returnButton, submitIcon, clearResponse, closeButton);
-    content.getChildren().addAll(field1);
+    content.getChildren().addAll(fields[0]);
     submitIcon.setOnAction(
         event1 -> {
-          deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(field1.getText()));
+          deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(fields[0].getText()));
           closePopUp();
         });
   }
 
   /** Makes sure the location fields aren't empty */
   public boolean checkLocationFields() {
-    return !field1.getText().isEmpty()
-        && !field2.getText().isEmpty()
-        && !field3.getText().isEmpty()
-        && !field4.getText().isEmpty();
+    return !fields[0].getText().isEmpty()
+        && !fields[1].getText().isEmpty()
+        && !fields[2].getText().isEmpty()
+        && !fields[3].getText().isEmpty();
   }
 
   /** Gets a new location based on the field info and mouse position */
   public Location getLocation(double xPos, double yPos, String floor) {
     return new Location(
-        field1.getText(),
+        fields[0].getText(),
         xPos,
         yPos,
         floor,
         "Tower",
-        field2.getText(),
-        field3.getText(),
-        field4.getText());
+        fields[1].getText(),
+        fields[2].getText(),
+        fields[3].getText());
   }
 
   /** Clears the pop up form fields */
   @FXML
   void clearPopupForm() {
-    field1.setText("");
-    field2.setText("");
-    field3.setText("");
-    field4.setText("");
-    field5.setText("");
-    field6.setText("");
-    field7.setText("");
-    field8.setText("");
-    field9.setText("");
+    for (TextField field : fields) {
+      field.setText("");
+    }
     comboBox1.setValue("Status");
     comboBox2.setValue("Status");
     comboBox3.setValue("Status");
