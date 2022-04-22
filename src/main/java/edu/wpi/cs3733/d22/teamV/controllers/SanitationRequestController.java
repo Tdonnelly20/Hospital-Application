@@ -137,11 +137,9 @@ public class SanitationRequestController extends RequestController {
       statusLabel.setText("Invalid Employee.");
     } else if (LocationDao.getLocation(roomLocation.getText()) == null) {
       statusLabel.setText("Invalid Room.");
-    }
-    else if (sanitationDropDown.getValue() == null) {
+    } else if (sanitationDropDown.getValue() == null) {
       statusLabel.setText("Needs Hazard");
-    }
-    else if (statusDropDown.getValue() == null) {
+    } else if (statusDropDown.getValue() == null) {
       statusLabel.setText("Needs Status");
     } else {
       statusLabel.setText("");
