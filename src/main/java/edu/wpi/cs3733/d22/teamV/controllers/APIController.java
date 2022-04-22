@@ -16,5 +16,7 @@ public class APIController extends Controller {
   @FXML private ImageView closeButton;
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) throws Exception {
+
+  }
 }
