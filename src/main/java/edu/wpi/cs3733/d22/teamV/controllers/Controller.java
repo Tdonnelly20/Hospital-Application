@@ -207,4 +207,10 @@ public abstract class Controller extends Application {
     stage.setScene(scene);
     stage.show();
   }
+
+  @FXML
+  protected void runOurAPI() throws IOException {
+    Runtime runtime = Runtime.getRuntime();
+    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\SoftEngRobotAPI.jar");
+  }
 }
