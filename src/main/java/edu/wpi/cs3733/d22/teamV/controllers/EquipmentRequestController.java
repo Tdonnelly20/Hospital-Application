@@ -44,6 +44,7 @@ public class EquipmentRequestController extends RequestController {
   @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
+  @FXML private TreeTableColumn<Equipment, Boolean> statusCol;
   @FXML private Pane tablePlane;
 
   // This is the table and columns for the equipment table
@@ -140,6 +141,7 @@ public class EquipmentRequestController extends RequestController {
     equipCol.setCellValueFactory(new TreeItemPropertyValueFactory("equipment"));
     quantCol.setCellValueFactory(new TreeItemPropertyValueFactory("quantity"));
     notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
 
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
         (ArrayList<EquipmentDelivery>)
@@ -199,6 +201,7 @@ public class EquipmentRequestController extends RequestController {
     dropDown.setValue(null);
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
+    statusDropDown.setValue(null);
   }
 
   @FXML
@@ -301,13 +304,14 @@ public class EquipmentRequestController extends RequestController {
 
   void setColumnSizes(double w) {
     setColumnSize(patientIDCol, (w - 30) / 8);
-    setColumnSize(employeeIDCol, (w - 30) / 8);
-    setColumnSize(firstNameCol, (w - 30) / 8);
-    setColumnSize(lastNameCol, (w - 30) / 8);
-    setColumnSize(posCol, (w - 30) / 8);
-    setColumnSize(equipCol, (w - 30) / 8);
-    setColumnSize(quantCol, (w - 30) / 8);
-    setColumnSize(notesCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 9);
+    setColumnSize(firstNameCol, (w - 30) / 9);
+    setColumnSize(lastNameCol, (w - 30) / 9);
+    setColumnSize(posCol, (w - 30) / 9);
+    setColumnSize(equipCol, (w - 30) / 9);
+    setColumnSize(quantCol, (w - 30) / 9);
+    setColumnSize(notesCol, (w - 30) / 9);
+    setColumnSize(statusCol, (w - 30) / 9);
   }
 
   void setColumnSizes2(double w) {
