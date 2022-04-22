@@ -230,6 +230,7 @@ public class MealDeliveryRequestController extends RequestController {
     requestDetails.setText("");
     statusDropDown.setValue("Status");
     sendRequest.setDisable(true);
+    validateButton();
   }
 
   @Override

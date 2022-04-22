@@ -104,6 +104,7 @@ public class LaundryRequestController extends RequestController {
     status.setText("Status: Blank");
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
+    validateButton();
   }
 
   boolean findPatient() { // returns true if finds patient
