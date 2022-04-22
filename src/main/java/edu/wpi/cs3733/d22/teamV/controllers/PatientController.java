@@ -11,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -355,8 +356,9 @@ public class PatientController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow() {
+  private void removeSelectedRow(MouseEvent event) {
     try {
+
       Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
       patientDao.removePatient(patient);
     } catch (NullPointerException e) {

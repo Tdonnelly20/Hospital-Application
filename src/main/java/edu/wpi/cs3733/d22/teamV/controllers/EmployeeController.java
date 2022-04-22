@@ -10,9 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -63,7 +66,12 @@ public class EmployeeController extends RequestController {
   @FXML private TextField employeePosition;
   @FXML private Button sendRequest;
   @FXML private Label statusLabel;
+
+  @FXML private TextField searchBar;
+
   private Employee selectedEmployee;
+
+  ObservableList<Employee> employeeObservableList = FXCollections.observableArrayList();
 
   @FXML
   public void updateEmployeeTreeTable() {
@@ -77,6 +85,7 @@ public class EmployeeController extends RequestController {
     specialtiesCol.setCellValueFactory(new TreeItemPropertyValueFactory("specialties"));
     employeeServiceRequestIDCol.setCellValueFactory(
         new TreeItemPropertyValueFactory("serviceRequestIDs"));
+
 
     // Get the current list of medicine deliveries from the DAO
     ArrayList<Employee> currEmployees = employeeDao.getAllEmployees();
@@ -371,7 +380,8 @@ public class EmployeeController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+  private void removeSelectedRow(MouseEvent event)
+      throws IOException, NullPointerException, SQLException {
     try {
       Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
       employeeDao.removeEmployee(employee);
