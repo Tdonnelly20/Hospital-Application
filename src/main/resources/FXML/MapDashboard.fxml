@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
+<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
    <children>
       <VBox prefHeight="800.0" prefWidth="1200.0">
          <children>
@@ -64,29 +73,19 @@
                                     <Image url="@../SideView.PNG" />
                                  </image>
                               </ImageView>
-                              <Group layoutX="140.0" layoutY="20.0">
+                              <Group layoutX="125.0" layoutY="20.0">
                                  <children>
-                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
-                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" />
-                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" />
-                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" />
-                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" onMouseEntered="#switchToF1" styleClass="sideViewButtonf1" />
-                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" onMouseEntered="#switchToLL1" styleClass="sideViewButtonll1" />
-                                    <Button layoutY="300.0" mnemonicParsing="false" onAction="#switchToLL2" onMouseEntered="#switchToLL2" styleClass="sideViewButtonll2" />
+                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" text="5" />
+                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" text="4" />
+                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" text="3" />
+                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" text="2" />
+                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" onMouseEntered="#switchToF1" styleClass="sideViewButtonf1" text="1" />
+                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" onMouseEntered="#switchToLL1" styleClass="sideViewButtonll1" text="LL1" />
+                                    <Button layoutY="300.0" mnemonicParsing="false" onAction="#switchToLL2" onMouseEntered="#switchToLL2" styleClass="sideViewButtonll2" text="LL2" />
                                  </children>
                               </Group>
-                              <Group layoutX="63.0" layoutY="20.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefWidth="107.0" styleClass="floorLabelButton" text="5" />
-                                    <Button layoutY="50.0" mnemonicParsing="false" styleClass="floorLabelButton" text="4" />
-                                    <Button layoutY="100.0" mnemonicParsing="false" styleClass="floorLabelButton" text="3" />
-                                    <Button layoutY="150.0" mnemonicParsing="false" styleClass="floorLabelButton" text="2" />
-                                    <Button layoutY="200.0" mnemonicParsing="false" styleClass="floorLabelButton" text="1" />
-                                    <Button layoutY="250.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL1" />
-                                    <Button layoutY="300.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL2" />
-                                 </children>
-                              </Group>
-                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="65.0" layoutY="419.0" prefHeight="50.0" prefWidth="271.0" styleClass="floorLabel" />
+                              <Group layoutX="63.0" layoutY="20.0" />
+                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="65.0" layoutY="404.0" prefHeight="50.0" prefWidth="271.0" styleClass="floorLabel" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
