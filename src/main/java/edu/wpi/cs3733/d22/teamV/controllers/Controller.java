@@ -95,6 +95,13 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
+  //Switches scene to API landing page
+  @FXML
+  protected void switchToAPI(ActionEvent event) throws IOException{
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/APILandingPage"));
+    switchScene(event);
+  }
+
   // Switches scene to the lab request page
   @FXML
   protected void switchToLabRequest(ActionEvent event) {
