@@ -2,11 +2,11 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
@@ -92,8 +92,8 @@ public class MapDashboardController extends Controller {
       e.printStackTrace();
     }
 
-    Controller controller = loader.getController();
-    controller.init();
+    MapController controller = loader.getController();
+    controller.initFloor(curFloor.getFloorName());
 
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

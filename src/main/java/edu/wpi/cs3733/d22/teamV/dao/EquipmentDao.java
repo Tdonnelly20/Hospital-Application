@@ -171,18 +171,37 @@ public class EquipmentDao {
   }
 
   public void addEquipment(Equipment equipment) {
-    allEquipment.add(equipment);
-    saveToCSV();
-    addToSQLTable(equipment);
+    if (getEquipment(equipment.getID()) == null) {
+      allEquipment.add(equipment);
+      saveToCSV();
+      addToSQLTable(equipment);
+    } else {
+      // System.out.println("Equipment already exists");
+    }
+  }
+
+  public void addEquipment(ArrayList<Equipment> equipmentList) {
+    for (Equipment equipment : equipmentList) {
+      addEquipment(equipment);
+    }
+  }
+
+  public Equipment getEquipment(String id) {
+    for (Equipment equipment : allEquipment) {
+      if (equipment.getID().equals(id)) {
+        return equipment;
+      }
+    }
+    return null;
   }
 
   public void removeEquipment(Equipment equipment) {
     if (allEquipment.contains(equipment)) {
-      System.out.println("Equipment in dao");
+      // System.out.println("Equipment in dao");
+      allEquipment.remove(equipment);
+      removeFromSQLTable(equipment);
+      saveToCSV();
     }
-    allEquipment.remove(equipment);
-    removeFromSQLTable(equipment);
-    saveToCSV();
   }
 
   public ArrayList<Equipment> getAllEquipment() {

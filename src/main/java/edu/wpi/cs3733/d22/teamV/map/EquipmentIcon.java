@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
@@ -42,10 +41,11 @@ public class EquipmentIcon extends Icon {
         event -> {
           if (isDrag) {
             isDrag = false;
-            setXCoord(xCoord + event.getX());
-            setYCoord(yCoord + event.getY());
-            RequestSystem.getSystem().updateLocations(this);
+            xCoord += event.getX();
+            yCoord += event.getY();
+            RequestSystem.getSystem().updateLocations(this, xCoord, yCoord);
             checkBounds();
+            MapManager.getManager().setUpFloors();
           }
           // MapController.getController().setFloor(getLocation().getFloor());
         });
@@ -69,8 +69,7 @@ public class EquipmentIcon extends Icon {
             event -> {
               removeEquipment(equipment);
               if (getEquipmentList().size() == 0) {
-                RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
-                RequestSystem.getSystem().getEquipmentDao().saveToCSV();
+                RequestSystem.getSystem().removeEquipment(equipment);
                 MapController.getController().populateFloorIconArr();
               }
             });
@@ -103,24 +102,19 @@ public class EquipmentIcon extends Icon {
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
-      if (equipmentList.size() == 1) {
-        image.setImage(MapManager.getManager().dirtyEquipment);
-      } else {
-        setImage();
-      }
+      setImage();
     } else {
-      image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
     }
+    setImage();
+    // RequestSystem.getSystem().addEquipment(equipment);
     MapDashboardController.getController().updateCounts();
     alertSixBeds();
   }
 
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
-    RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
-    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
-    MapController.getController().setFloor(getLocation().getFloor());
+    RequestSystem.getSystem().removeEquipment(equipment);
     alertSixBeds();
     PopupController.getController().closePopUp();
   }
@@ -144,29 +138,21 @@ public class EquipmentIcon extends Icon {
 
   public void checkBounds() {
     if (MapController.getController().getCurrFloor().getEquipmentIcons().size() > 0) {
-      for (EquipmentIcon icon : MapController.getController().getCurrFloor().getEquipmentIcons()) {
+      for (EquipmentIcon icon :
+          MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
         if (icon != this && iconType.equals(IconType.Equipment)) {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
-            equipmentList.addAll(icon.getEquipmentList());
-            for (Equipment equipment : icon.getEquipmentList()) {
-              RequestSystem.getSystem().getEquipmentDao().getAllEquipment().remove(equipment);
+            ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
+            RequestSystem.getSystem().removeEquipment(icon);
+            for (Equipment equipment : tempEquipmentList) {
+              equipment.updateLocation(location.getXCoord(), location.getYCoord());
             }
-            RequestSystem.getSystem().getEquipmentDao().saveToCSV();
-            RequestSystem.getSystem().updateLocations(this);
-            icon.getEquipmentList().clear();
-            MapManager.getManager().setUpFloors();
-            // MapController.getController().deleteIcon(icon);
+            RequestSystem.getSystem().addEquipment(tempEquipmentList);
             setImage();
           }
         }
       }
-    }
-  }
-
-  public void updateLocation() {
-    for (Equipment equipment : equipmentList) {
-      equipment.updateLocation(location.getXCoord(), location.getYCoord());
     }
   }
 

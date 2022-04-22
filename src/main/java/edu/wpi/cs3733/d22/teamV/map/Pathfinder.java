@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d22.teamV.objects;
+package edu.wpi.cs3733.d22.teamV.map;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
