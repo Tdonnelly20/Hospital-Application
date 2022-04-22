@@ -5,6 +5,8 @@ import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.MedicineDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import java.awt.*;
 import java.util.ArrayList;
@@ -151,6 +153,32 @@ public class MedicineDeliveryController extends RequestController {
     root.getChildren().addAll(treeItems);
   }
 
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
   /** Determine whether or not all fields have been filled out, so we can submit the info */
   @FXML
   public void validateButton() {
@@ -159,16 +187,15 @@ public class MedicineDeliveryController extends RequestController {
     } else {
       sendRequest.setText("Send Request");
     }
-
     try {
       statusLabel.setTextFill(Color.web("Black"));
+      sendRequest.setDisable(true);
       if ((employeeID.getText().equals("")
           && patientID.getText().equals("")
           && nodeID.getText().equals("")
           && dosage.getText().equals("")
           && statusDropDown.getValue().equals("Status")
           && medicationDropDown.getValue().equals("Select Medication"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
       } else if ((employeeID.getText().equals("")
           || patientID.getText().equals("")
@@ -176,20 +203,15 @@ public class MedicineDeliveryController extends RequestController {
           || dosage.getText().equals("")
           || statusDropDown.getValue().equals("Status")
           || medicationDropDown.getValue().equals("Select Medication"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
       } else if (LocationDao.getLocation(nodeID.getText()) == null) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Needs valid room");
-      } else if (!isInteger(employeeID.getText())) {
-        sendRequest.setDisable(true);
+      } else if (!findEmployee()) {
         statusLabel.setText("Status: Needs valid employee ID");
-      } else if (!isInteger(patientID.getText())) {
-        sendRequest.setDisable(true);
+      } else if (!findPatient()) {
         statusLabel.setText("Status: Needs valid patient ID");
       } else {
         statusLabel.setText("Status: Good");
-
         sendRequest.setDisable(false);
       }
     } catch (Exception e) {
@@ -248,6 +270,7 @@ public class MedicineDeliveryController extends RequestController {
     requestDetails.setText("");
     statusDropDown.setValue("Status");
     sendRequest.setDisable(true);
+    validateButton();
   }
 
   @Override
