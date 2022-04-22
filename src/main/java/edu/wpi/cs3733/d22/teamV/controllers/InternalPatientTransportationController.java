@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
@@ -28,6 +29,7 @@ public class InternalPatientTransportationController extends RequestController {
   @FXML private TreeTableColumn<InternalPatientTransportation, String> lastNameCol;
   @FXML private TreeTableColumn<InternalPatientTransportation, String> roomNumberCol;
   @FXML private TreeTableColumn<InternalPatientTransportation, String> otherInfoCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, String> statusCol;
 
   @FXML private TextField patientID;
   @FXML private TextField hospitalID;
@@ -35,6 +37,11 @@ public class InternalPatientTransportationController extends RequestController {
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
+  @FXML private JFXComboBox<Object> statusDropDown;
+
+  // The two fields that are required for when a request is being updated
+  private boolean updating = false;
+  private int updateServiceID;
 
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
       (InternalPatientTransportationDao)
@@ -69,16 +76,17 @@ public class InternalPatientTransportationController extends RequestController {
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
     roomNumberCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
 
     // Create list for tree items
     ArrayList<TreeItem> treeItems = new ArrayList<>();
     ArrayList<InternalPatientTransportation> currInternalPatientTransportations =
         internalPatientTransportationDao.getInternalPatientTransportations();
     // make sure the list isn't empty
-    if (!currInternalPatientTransportations.isEmpty()) {
+    if (currInternalPatientTransportations.isEmpty()) {
+      internalPatientTransportationTable.setRoot(null);
 
-      // for each loop cycling through each patient transportation request currently entered into
-      // the system
+    } else {
       for (InternalPatientTransportation transport : currInternalPatientTransportations) {
         TreeItem<InternalPatientTransportation> item = new TreeItem(transport);
         treeItems.add(item);
@@ -95,24 +103,39 @@ public class InternalPatientTransportationController extends RequestController {
     }
   }
 
+  /** Sets all the fields to their default value for another entry */
+  @FXML
+  public void resetForm() {
+    patientID.setText("");
+    hospitalID.setText("");
+    roomNum.setText("");
+    statusDropDown.setValue(null);
+    requestDetails.setText("");
+    sendRequest.setDisable(true);
+    sendRequest.setText("Send Request");
+  }
+
   /** Determine whether or not all fields have been filled out, so we can submit the info */
   @FXML
   public void validateButton() {
 
     try {
       if ((hospitalID.getText().equals("")
-          && patientID.getText().equals("")
-          && roomNum.getText().equals(""))) {
+              && patientID.getText().equals("")
+              && roomNum.getText().equals(""))
+          && statusDropDown.getValue() == null) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
         statusLabel.setTextFill(Color.web("Black"));
       } else if ((hospitalID.getText().equals("")
-          || patientID.getText().equals("")
-          || roomNum.getText().equals(""))) {
+              || patientID.getText().equals("")
+              || roomNum.getText().equals(""))
+          || statusDropDown.getValue() == null) {
         sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
         statusLabel.setTextFill(Color.web("Black"));
       } else {
+        statusLabel.setText("Status: Done");
         sendRequest.setDisable(false);
       }
     } catch (Exception e) {
@@ -138,23 +161,57 @@ public class InternalPatientTransportationController extends RequestController {
               roomNum.getText(),
               Integer.parseInt(patientID.getText()),
               Integer.parseInt(hospitalID.getText()),
-              requestDetails.getText());
+              requestDetails.getText(),
+              statusDropDown.getValue().toString());
 
-      internalPatientTransportationDao.addServiceRequest(internalPatientTransportation);
+      try {
+        if (updating) {
+          Vdb.requestSystem
+              .getDao(RequestSystem.Dao.InternalPatientTransportation)
+              .updateServiceRequest(internalPatientTransportation, updateServiceID);
+          updating = false;
+        } else {
+          RequestSystem.getSystem()
+              .addServiceRequest(
+                  internalPatientTransportation, RequestSystem.Dao.InternalPatientTransportation);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
 
       resetForm(); // Set all fields to blank for another entry
       updateTreeTable();
     }
   }
 
-  /** Sets all the fields to their default value for another entry */
   @FXML
-  public void resetForm() {
-    patientID.setText("");
-    hospitalID.setText("");
-    roomNum.setText("");
-    requestDetails.setText("");
-    sendRequest.setDisable(true);
+  private void updateSelectedRow() throws NullPointerException {
+    updating = true;
+    InternalPatientTransportation transport =
+        internalPatientTransportationTable.getSelectionModel().getSelectedItem().getValue();
+
+    hospitalID.setText(String.valueOf(transport.getEmployeeID()));
+    patientID.setText(String.valueOf(transport.getPatientID()));
+    roomNum.setText(transport.getNodeID());
+    requestDetails.setText(transport.getRequestDetails());
+    statusDropDown.setValue(transport.getStatus());
+    updateServiceID = transport.getServiceID();
+    sendRequest.setText("Update");
+    updateTreeTable();
+  }
+
+  @FXML
+  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+    try {
+      InternalPatientTransportation transport =
+          internalPatientTransportationTable.getSelectionModel().getSelectedItem().getValue();
+      RequestSystem.getSystem()
+          .getDao(RequestSystem.Dao.InternalPatientTransportation)
+          .removeServiceRequest(transport);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+    updateTreeTable();
   }
 
   @Override

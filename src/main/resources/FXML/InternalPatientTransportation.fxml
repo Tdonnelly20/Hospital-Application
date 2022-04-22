@@ -18,6 +18,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -105,22 +107,44 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TreeTableView fx:id="internalPatientTransportationTable" layoutX="6.0" prefHeight="602.0" prefWidth="892.0">
-                                             <columns>
-                                                <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Employee ID" />
-                                                <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" text="Patient ID" />
-                                                <TreeTableColumn prefWidth="75.0" text="Patient Name">
-                                                   <columns>
-                                                      <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First" />
-                                                      <TreeTableColumn fx:id="lastNameCol" text="Last" />
-                                                   </columns>
-                                                </TreeTableColumn>
-                                                <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location ID" />
-                                                <TreeTableColumn fx:id="otherInfoCol" text="Other Info" />
-                                                <TreeTableColumn fx:id="status" text="Status" />
-                                                <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
-                                             </columns>
-                                          </TreeTableView>
+                                          <VBox layoutX="145.0" layoutY="-7.0" prefHeight="611.0" prefWidth="910.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <GridPane>
+                                                   <columnConstraints>
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
+                                                   <children>
+                                                      <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
+                                                      <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Update Request" GridPane.columnIndex="1" />
+                                                   </children>
+                                                </GridPane>
+                                                <Pane prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <TreeTableView fx:id="internalPatientTransportationTable" layoutX="15.0" layoutY="10.0" prefHeight="602.0" prefWidth="892.0">
+                                                         <columns>
+                                                            <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Employee ID" />
+                                                            <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" text="Patient ID" />
+                                                            <TreeTableColumn prefWidth="75.0" text="Patient Name">
+                                                               <columns>
+                                                                  <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First" />
+                                                                  <TreeTableColumn fx:id="lastNameCol" text="Last" />
+                                                               </columns>
+                                                            </TreeTableColumn>
+                                                            <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location ID" />
+                                                            <TreeTableColumn fx:id="otherInfoCol" text="Other Info" />
+                                                            <TreeTableColumn fx:id="statusCol" text="Status" />
+                                                            <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
+                                                         </columns>
+                                                      </TreeTableView>
+                                                   </children>
+                                                </Pane>
+                                             </children>
+                                          </VBox>
                                        </children></AnchorPane>
                               </content>
                             </Tab>
