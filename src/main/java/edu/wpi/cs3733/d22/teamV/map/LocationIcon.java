@@ -3,15 +3,15 @@ package edu.wpi.cs3733.d22.teamV.map;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class LocationIcon extends Icon {
   public LocationIcon(Location location) {
     super(location);
     this.iconType = IconType.Location;
-    image.setImage(new Image("locationMarker.png"));
+    image.setImage(MapManager.getManager().getLocationMarker());
     image.setFitWidth(15);
     image.setFitHeight(15);
     image.setTranslateX((xCoord) - 25);
@@ -61,15 +61,25 @@ public class LocationIcon extends Icon {
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setValue(request.getStatus());
         updateStatus.setPromptText(request.getStatus());
-        updateStatus.setOnAction(event1 -> request.setStatus(updateStatus.getValue()));
+        updateStatus.setOnAction(
+            event1 -> {
+              RequestSystem.getSystem().removeServiceRequest(request);
+              request.setStatus(updateStatus.getValue());
+              RequestSystem.getSystem().addServiceRequest(request);
+            });
         Button deleteRequest = new Button("Delete");
-        deleteRequest.setOnAction(event -> removeRequests(request));
-
+        deleteRequest.setOnAction(
+            event -> {
+              removeRequests(request);
+              PopupController.getController().closePopUp();
+            });
+        HBox requestUpdates = new HBox(15, updateStatus, deleteRequest);
+        requestUpdates.setAlignment(Pos.CENTER_LEFT);
         Accordion accordion =
             new Accordion(
                 new TitledPane(
                     request.getRequestName() + ": " + request.getStatus(),
-                    new VBox(15, idLabel, locationLabel, updateStatus)));
+                    new VBox(15, idLabel, locationLabel, requestUpdates)));
         accordion.setPrefWidth(450);
         vBox.getChildren().add(accordion);
       }
@@ -78,28 +88,29 @@ public class LocationIcon extends Icon {
     return null;
   }
 
+  @Override
+  public void setImage() {
+    if (requestsArr.size() == 0) {
+      image.setImage(MapManager.getManager().getLocationMarker());
+    } else {
+      image.setImage(MapManager.getManager().getRequestMarker());
+    }
+  }
+
   public void addToRequests(ServiceRequest request) {
     requestsArr.add(request);
     if (location.getRequests().contains(request)) {
       location.getRequests().add(request);
     }
-    image.setImage(MapManager.getManager().requestMarker);
+    RequestSystem.getSystem().addServiceRequest(request);
+    setImage();
   }
 
   public void removeRequests(ServiceRequest request) {
     requestsArr.remove(request);
     location.getRequests().remove(request);
-    if (requestsArr.size() == 0) {
-      image.setImage(MapManager.getManager().locationMarker);
-    }
-  }
-
-  public void changeImages() {
-    if (hasActiveRequests()) {
-      image.setImage(MapManager.getManager().requestMarker);
-    } else {
-      image.setImage(MapManager.getManager().locationMarker);
-    }
+    RequestSystem.getSystem().removeServiceRequest(request);
+    setImage();
   }
 
   public boolean hasActiveRequests() {

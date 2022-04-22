@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
+import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
@@ -137,8 +138,55 @@ public class RequestSystem {
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
         break;
+
       default:
         System.out.println("addServiceRequest error");
+    }
+  }
+  /**
+   * Removes a service request based on type of request
+   *
+   * @param request
+   * @throws IOException
+   * @throws SQLException
+   */
+  public void addServiceRequest(ServiceRequest request) {
+    if (!getEveryServiceRequest().contains(request)) {
+      switch (request.getType()) {
+        case "Equipment Delivery Request":
+          equipmentDeliveryDao.addServiceRequest(request);
+          break;
+        case "Internal Patient Transportation Request":
+          internalPatientTransportationDao.addServiceRequest(request);
+          break;
+        case "Lab Request":
+          labRequestDao.addServiceRequest(request);
+          break;
+        case "Laundry Request":
+          laundryRequestDao.addServiceRequest(request);
+          break;
+        case "Meal Delivery Request":
+          mealRequestDao.addServiceRequest(request);
+          break;
+        case "Medicine Delivery Request":
+          medicineDeliveryDao.addServiceRequest(request);
+          break;
+        case "Religious Request":
+          religiousRequestDao.addServiceRequest(request);
+          break;
+        case "Sanitation Request":
+          sanitationRequestDao.addServiceRequest(request);
+          break;
+        case "Robot Request":
+          robotDao.addServiceRequest(request);
+          break;
+        default:
+          System.out.println("AddServiceRequest error");
+          System.out.println(request.getRequestName());
+      }
+    } else {
+      System.out.println("Service request " + request.getServiceID() + " already exists");
+      System.out.println(request.getRequestName());
     }
   }
 
@@ -153,22 +201,31 @@ public class RequestSystem {
     switch (dao) {
       case EquipmentDelivery:
         equipmentDeliveryDao.removeServiceRequest(request);
+        break;
       case InternalPatientTransportation:
         internalPatientTransportationDao.removeServiceRequest(request);
+        break;
       case LabRequest:
         labRequestDao.removeServiceRequest(request);
+        break;
       case LaundryRequest:
         laundryRequestDao.removeServiceRequest(request);
+        break;
       case MealRequest:
         mealRequestDao.removeServiceRequest(request);
+        break;
       case MedicineDelivery:
         medicineDeliveryDao.removeServiceRequest(request);
+        break;
       case ReligiousRequest:
         religiousRequestDao.removeServiceRequest(request);
+        break;
       case RobotRequest:
         robotDao.removeServiceRequest(request);
+        break;
       case SanitationRequest:
         sanitationRequestDao.removeServiceRequest(request);
+        break;
       default:
         System.out.println("RemoveServiceRequest error");
     }
@@ -185,20 +242,31 @@ public class RequestSystem {
     switch (request.getType()) {
       case "Equipment Delivery Request":
         equipmentDeliveryDao.removeServiceRequest(request);
+        break;
       case "Internal Patient Transportation Request":
         internalPatientTransportationDao.removeServiceRequest(request);
+        break;
       case "Lab Request":
         labRequestDao.removeServiceRequest(request);
+        break;
       case "Laundry Request":
         laundryRequestDao.removeServiceRequest(request);
+        break;
       case "Meal Request":
         mealRequestDao.removeServiceRequest(request);
+        break;
       case "Medicine Delivery Request":
         medicineDeliveryDao.removeServiceRequest(request);
+        break;
       case "Religious Request":
         religiousRequestDao.removeServiceRequest(request);
+        break;
       case "Sanitation Request":
         sanitationRequestDao.removeServiceRequest(request);
+        break;
+      case "Robot Request":
+        robotDao.removeServiceRequest(request);
+        break;
       default:
         System.out.println("RemoveServiceRequest error");
     }
@@ -267,11 +335,6 @@ public class RequestSystem {
   public LocationDao getLocationDao() {
     return locationDao;
   }
-
-  public EquipmentDao getEquipmentDao() {
-    return equipmentDao;
-  }
-
   /**
    * Getter specifically for location since it is not a service request
    *
@@ -285,6 +348,13 @@ public class RequestSystem {
     return locationDao.getLocation(nodeID);
   }
 
+  public void addLocation(Location location) {
+    locationDao.addLocation(location);
+    for (ServiceRequest request : location.getRequests()) {
+      addServiceRequest(request);
+    }
+  }
+
   public void deleteLocation(String nodeID) {
     if (getLocation(nodeID) != null) {
       if (getLocation(nodeID).getRequests().size() > 0) {
@@ -293,6 +363,8 @@ public class RequestSystem {
         }
       }
       locationDao.deleteLocation(nodeID);
+    } else {
+      System.out.println("Location does not exist");
     }
   }
 
@@ -309,7 +381,7 @@ public class RequestSystem {
     equipmentDao.addEquipment(equipment);
   }
 
-  public void deleteEquipment(Equipment equipment) {
+  public void removeEquipment(Equipment equipment) {
     equipmentDao.removeEquipment(equipment);
   }
 
@@ -322,18 +394,14 @@ public class RequestSystem {
     return null;
   }
 
-  public void deleteEquipment(EquipmentIcon icon) {
+  public void removeEquipment(EquipmentIcon icon) {
     for (Equipment equipment : icon.getEquipmentList()) {
-      deleteEquipment(equipment);
+      removeEquipment(equipment);
     }
   }
 
   public void addEquipment(ArrayList<Equipment> equipment) {
-    for (Equipment e : equipment) {
-      if (!equipmentDao.getAllEquipment().contains(e)) {
-        addEquipment(e);
-      }
-    }
+    equipmentDao.addEquipment(equipment);
   }
 
   public ArrayList<Patient> getPatients() {
@@ -440,29 +508,16 @@ public class RequestSystem {
     return employeeIDCounter++;
   }
 
-  public void updateLocations(Icon icon) {
+  public void updateLocations(Icon icon, double x, double y) {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
-      ArrayList<Equipment> equipmentList = new ArrayList<>();
-      for (Equipment equipment : ((EquipmentIcon) icon).getEquipmentList()) {
-        Equipment newEquipment =
-            new Equipment(
-                equipment.getID(),
-                equipment.getName(),
-                icon.getLocation().getFloor(),
-                icon.getXCoord(),
-                icon.getYCoord(),
-                equipment.getDescription(),
-                equipment.getIsDirty());
-
-        equipmentDao.removeEquipment(equipment);
-        equipmentList.add(newEquipment);
-      }
+      ArrayList<Equipment> equipmentList =
+          new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
+      System.out.println(equipmentList.size());
+      removeEquipment(((EquipmentIcon) icon));
       for (Equipment equipment : equipmentList) {
-        equipment.setIcon((EquipmentIcon) icon);
-        ((EquipmentIcon) icon).addToEquipmentList(equipment);
-        equipmentDao.addEquipment(equipment);
+        equipment.updateLocation(x, y);
+        addEquipment(equipment);
       }
-      equipmentDao.saveToCSV();
     } else {
       Location newLocation =
           new Location(
@@ -474,10 +529,10 @@ public class RequestSystem {
               icon.getLocation().getNodeType(),
               icon.getLocation().getLongName(),
               icon.getLocation().getShortName());
-
-      deleteLocation(icon.getLocation().getNodeID());
+      locationDao.deleteLocation(icon.getLocation().getNodeID());
       locationDao.addLocation(newLocation);
       icon.setLocation(newLocation);
     }
+    MapManager.getManager().setUpFloors();
   }
 }
