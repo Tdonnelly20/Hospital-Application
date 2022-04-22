@@ -41,8 +41,8 @@
                                         <Insets bottom="40.0" left="15.0" right="15.0" top="40.0" />
                                     </padding>
                                     <children>
-                              <Label text="Hospital ID" textFill="WHITE" />
-                                        <TextField fx:id="hospitalID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Hospital ID">
+                              <Label text="Employee ID" textFill="WHITE" />
+                                        <TextField fx:id="employeeID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="244.0" promptText="Employee ID">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin>
@@ -109,7 +109,7 @@
                                                     <children>
                                                         <TreeTableView fx:id="sanitationRequestTable" layoutX="11.0" layoutY="56.0" prefHeight="650.0" prefWidth="538.0">
                                                             <columns>
-                                                                <TreeTableColumn fx:id="hospitalIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
+                                                                <TreeTableColumn fx:id="employeeIDCol" prefWidth="79.99993705749512" text="Employee ID" />
                                                                 <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
                                                                 <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
                                                                 <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
@@ -135,7 +135,7 @@
                                           </Text>
                                           <Text layoutX="78.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
                                           <Text layoutX="78.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
-                                          <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters, to Hospital ID and Patient ID" />
+                                          <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters, to Employee ID and Patient ID" />
                                           <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Write location of request, from the drop-down menu select a hazard and add any details below." />
                                           <Text layoutX="101.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name" />
                                           <Text layoutX="78.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests" />

@@ -5,20 +5,20 @@ import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class SanitationRequest extends ServiceRequest {
   private String roomLocation, hazardName, requestDetails;
-  private int patientID, hospitalID, serviceID;
+  private int patientID, employeeID, serviceID;
 
   /**
    * Creates a basic data structure for holding medicine delivery request
    *
    * @param patientID
-   * @param hospitalID
+   * @param employeeID
    * @param roomLocation
    * @param hazardName
    * @param requestDetails
    */
   public SanitationRequest(
       int patientID,
-      int hospitalID,
+      int employeeID,
       String roomLocation,
       String hazardName,
       String requestDetails) {
@@ -26,9 +26,9 @@ public class SanitationRequest extends ServiceRequest {
     this.requestDetails = requestDetails;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
-    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patientID = patientID;
-    this.hospitalID = hospitalID;
+    this.employeeID = employeeID;
     this.hazardName = hazardName;
     this.roomLocation = roomLocation;
     this.type = "Sanitation Request";
@@ -53,8 +53,8 @@ public class SanitationRequest extends ServiceRequest {
     updateAllObservers();
   }
 
-  public int getHospitalID() {
-    return hospitalID;
+  public int getEmployeeID() {
+    return employeeID;
   }
 
   public String getHazardName() {
