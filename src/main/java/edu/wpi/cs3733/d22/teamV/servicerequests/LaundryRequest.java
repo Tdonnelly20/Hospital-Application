@@ -4,11 +4,15 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public class LaundryRequest extends ServiceRequest {
   String details;
 
   public LaundryRequest(
       int employeeID, int patientID, String nodeID, String details, String status) {
+    this.timeMade= Timestamp.from(Instant.now());
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);

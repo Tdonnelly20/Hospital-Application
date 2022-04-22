@@ -13,6 +13,8 @@ public class Pathfinder {
 
   private ArrayList<Node> allNodes = new ArrayList<>();
 
+  public Pathfinder() {}
+
   public static void main(String[] args) {
     // See https://www.baeldung.com/wp-content/uploads/2017/01/initial-graph.png for a picture of
     // what I'm creating here
@@ -66,7 +68,7 @@ public class Pathfinder {
   // We need to have every node have a list of connects to other nodes, and the weight between them
   @Getter
   @Setter
-  private static class Link {
+  public static class Link {
     private Node node;
     private double distance;
 
@@ -80,7 +82,7 @@ public class Pathfinder {
   // pathfinding algorithm
   @Getter
   @Setter
-  private static class Node {
+  public static class Node {
     private ArrayList<Link> links = new ArrayList<>();
     private String name;
     private Node previous = null;
@@ -100,13 +102,17 @@ public class Pathfinder {
     }
   }
 
-  private ArrayList<Node> nodes;
+  private static ArrayList<Node> nodes = new ArrayList<>();
 
   public Pathfinder(ArrayList<Node> nodes) {
     this.nodes = nodes;
   }
 
-  public Node getNodeFromName(String name) {
+  public static ArrayList<Node> getNodes() {
+    return nodes;
+  }
+
+  public static Node getNodeFromName(String name) {
     for (Node node : nodes) {
       if (node.name.equals(name)) {
         return node;
@@ -187,5 +193,13 @@ public class Pathfinder {
     } else {
       return path;
     }
+  }
+
+  public static void addNode(Node node) {
+    nodes.add(node);
+  }
+
+  public static void removeNode(Node node) {
+    nodes.remove(node);
   }
 }
