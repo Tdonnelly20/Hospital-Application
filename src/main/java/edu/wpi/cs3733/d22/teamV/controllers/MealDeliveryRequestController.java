@@ -148,6 +148,7 @@ public class MealDeliveryRequestController extends RequestController {
       sendRequest.setText("Send Request");
     }
     statusLabel.setTextFill(Color.web("Black"));
+    sendRequest.setDisable(true);
     try {
       if ((employeeID.getText().equals("")
           && patientID.getText().equals("")
@@ -155,7 +156,6 @@ public class MealDeliveryRequestController extends RequestController {
           && allergy.getText().equals("")
           && statusDropDown.getValue().equals("Status")
           && mealDropDown.getValue().equals("Select Meal"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
       } else if ((employeeID.getText().equals("")
           || patientID.getText().equals("")
@@ -163,16 +163,12 @@ public class MealDeliveryRequestController extends RequestController {
           || allergy.getText().equals("")
           || statusDropDown.getValue().equals("Status")
           || mealDropDown.getValue().equals("Select Meal"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
       } else if (LocationDao.getLocation(nodeID.getText()) == null) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Needs valid room");
       } else if (!findEmployee()) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Needs valid employee");
       } else if (!findPatient()) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Needs valid patient");
       } else {
         statusLabel.setText("Status: Valid Request");

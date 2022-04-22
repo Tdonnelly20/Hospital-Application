@@ -143,13 +143,10 @@ public class LaundryRequestController extends RequestController {
         && statusDropDown.getValue() == null) {
       status.setText("Status: Blank");
     } else if (LocationDao.getLocation(roomNumber.getText()) == null) {
-      sendRequest.setDisable(true);
       status.setText("Status: Needs valid room");
     } else if (!findEmployee()) {
-      sendRequest.setDisable(true);
       status.setText("Status: Needs valid employee");
     } else if (!findPatient()) {
-      sendRequest.setDisable(true);
       status.setText("Status: Needs valid patient");
     } else {
       sendRequest.setDisable(false);
