@@ -47,7 +47,7 @@ public class Floor {
       RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     } else {
       equipmentIcons.remove((EquipmentIcon) icon);
-      RequestSystem.getSystem().deleteEquipment((EquipmentIcon) icon);
+      RequestSystem.getSystem().removeEquipment((EquipmentIcon) icon);
     }
   }
 

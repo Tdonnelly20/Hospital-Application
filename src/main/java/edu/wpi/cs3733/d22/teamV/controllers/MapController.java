@@ -29,7 +29,7 @@ import org.controlsfx.control.CheckComboBox;
 @Setter
 @Getter
 public class MapController extends Controller {
-  protected Floor currFloor = MapManager.getManager().getFloor("1");
+  protected Floor currFloor = MapManager.getManager().getFloor("1st Floor");
   @FXML protected VBox mapVBox = new VBox(15);
   @FXML protected Button refreshButton = new Button("Refresh");
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
@@ -377,7 +377,7 @@ public class MapController extends Controller {
   public void addIcon(Icon icon) {
     switch (icon.iconType) {
       case Location:
-        RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
+        RequestSystem.getSystem().addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
@@ -388,9 +388,7 @@ public class MapController extends Controller {
   public void addEquipmentIcon(Equipment equipment) {
     PopupController.getController().closePopUp();
     mapPane.getChildren().clear();
-    RequestSystem.getSystem().getEquipmentDao().addEquipment(equipment);
-    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
-    // RequestSystem.getSystem().addEquipment(equipment);
+    RequestSystem.getSystem().addEquipment(equipment);
     // MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
     MapManager.getManager().setUpFloors();
     checkFilter();

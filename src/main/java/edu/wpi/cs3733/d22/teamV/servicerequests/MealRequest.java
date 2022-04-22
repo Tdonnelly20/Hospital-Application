@@ -24,7 +24,7 @@ public class MealRequest extends ServiceRequest {
     this.allergy = allergy;
     this.requestDetails = requestDetails;
     this.nodeID = nodeID;
-    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.status = status;
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);

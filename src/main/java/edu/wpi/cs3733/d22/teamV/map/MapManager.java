@@ -25,6 +25,21 @@ public class MapManager {
   /** Gets every service request and sets up the floors */
   public void init() {
     serviceRequests = requestSystem.getEveryServiceRequest();
+    floorList = new ArrayList<>();
+    Floor l1 = new Floor("L1", new Image("Lower Level 1.png"));
+    Floor l2 = new Floor("L2", new Image("Lower Level 2.png"));
+    Floor f1 = new Floor("1", new Image("1st Floor.png"));
+    Floor f2 = new Floor("2", new Image("2nd Floor.png"));
+    Floor f3 = new Floor("3", new Image("3rd Floor.png"));
+    Floor f4 = new Floor("4", new Image("4th Floor.png"));
+    Floor f5 = new Floor("5", new Image("5th Floor.png"));
+    floorList.add(l1);
+    floorList.add(l2);
+    floorList.add(f1);
+    floorList.add(f2);
+    floorList.add(f3);
+    floorList.add(f4);
+    floorList.add(f5);
     setUpFloors();
   }
 
@@ -38,24 +53,10 @@ public class MapManager {
 
   /** Sets up floor elements */
   public void setUpFloors() {
-    floorList = new ArrayList<>();
-
-    Floor l1 = new Floor("L1", new Image("Lower Level 1.png"));
-    Floor l2 = new Floor("L2", new Image("Lower Level 2.png"));
-    Floor f1 = new Floor("1", new Image("1st Floor.png"));
-    Floor f2 = new Floor("2", new Image("2nd Floor.png"));
-    Floor f3 = new Floor("3", new Image("3rd Floor.png"));
-    Floor f4 = new Floor("4", new Image("4th Floor.png"));
-    Floor f5 = new Floor("5", new Image("5th Floor.png"));
-
-    floorList.add(l1);
-    floorList.add(l2);
-    floorList.add(f1);
-    floorList.add(f2);
-    floorList.add(f3);
-    floorList.add(f4);
-    floorList.add(f5);
-
+    for (Floor floor : floorList) {
+      floor.getEquipmentIcons().clear();
+      floor.getLocationIcons().clear();
+    }
     loadEquipment();
     setUpLocations();
     loadRequests();
