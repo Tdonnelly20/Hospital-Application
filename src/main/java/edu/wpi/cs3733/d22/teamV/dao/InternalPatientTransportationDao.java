@@ -62,7 +62,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       FileWriter fw = new FileWriter(VApp.currentPath + "/PatientTransportations.csv");
       BufferedWriter bw = new BufferedWriter(fw);
-      bw.append("location,patientID,hospitalID,requestDetails,serviceID");
+      bw.append("location,patientID,employeeID,requestDetails,serviceID");
 
       for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -102,7 +102,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, hospitalID int, requestDetails char(250), serviceID int)";
+            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, employeeID int, requestDetails char(250), serviceID int)";
         exampleStatement.execute(query);
       } else {
         query = "DROP TABLE PATIENTTRANSPORTATION";
@@ -133,7 +133,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       query =
           "INSERT INTO PATIENTTRANSPORTATION("
-              + "location,patientID,hospitalID,requestDetails,serviceID) VALUES "
+              + "location,patientID,employeeID,requestDetails,serviceID) VALUES "
               + "('"
               + internalPatientTransportation.getNodeID()
               + "', "

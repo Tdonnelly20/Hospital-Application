@@ -95,6 +95,7 @@ public class MedicineDeliveryController extends RequestController {
                 medicineDeliveryTable.setPrefHeight(h - 75);
               }
             });
+    updateTreeTable();
   }
 
   void setColumnSizes(double w) {
