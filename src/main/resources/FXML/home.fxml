@@ -61,6 +61,11 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <Button mnemonicParsing="false" onAction="#switchToAPI" style="-fx-background-color: #012D5Aff;" text="API" textFill="WHITE" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </GridPane>
       <AnchorPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
