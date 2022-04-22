@@ -41,11 +41,10 @@ public class EquipmentIcon extends Icon {
         event -> {
           if (isDrag) {
             isDrag = false;
-            xCoord += event.getX();
-            yCoord += event.getY();
-            RequestSystem.getSystem().updateLocations(this, xCoord, yCoord);
+            setXCoord(xCoord + event.getX());
+            setYCoord(yCoord + event.getY());
+            RequestSystem.getSystem().updateLocations(this);
             checkBounds();
-            MapManager.getManager().setUpFloors();
           }
           // MapController.getController().setFloor(getLocation().getFloor());
         });
@@ -60,7 +59,7 @@ public class EquipmentIcon extends Icon {
       scrollPane.setFitToHeight(true);
       scrollPane.setPannable(false);
       scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      // vBox.setPrefWidth(450);
+      vBox.setPrefWidth(450);
       vBox.setPrefHeight(400);
       for (Equipment equipment : equipmentList) {
         Label idLabel = new Label("ID: " + equipment.getID());
@@ -90,8 +89,7 @@ public class EquipmentIcon extends Icon {
                         + "): "
                         + equipment.getDescription(),
                     new VBox(15, idLabel, locationLabel, hbox)));
-        accordion.setPrefWidth(1000);
-        // accordion.width
+        accordion.setPrefWidth(450);
         vBox.getChildren().add(accordion);
       }
       return scrollPane;
@@ -102,19 +100,22 @@ public class EquipmentIcon extends Icon {
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
-      setImage();
+      if (equipmentList.size() == 1) {
+        image.setImage(MapManager.getManager().dirtyEquipment);
+      } else {
+        setImage();
+      }
     } else {
+      image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
     }
-    setImage();
-    // RequestSystem.getSystem().addEquipment(equipment);
     MapDashboardController.getController().updateCounts();
     alertSixBeds();
   }
 
   public void removeEquipment(Equipment equipment) {
-    equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
+    MapController.getController().setFloor(getLocation().getFloor());
     alertSixBeds();
     PopupController.getController().closePopUp();
   }
@@ -138,17 +139,15 @@ public class EquipmentIcon extends Icon {
 
   public void checkBounds() {
     if (MapController.getController().getCurrFloor().getEquipmentIcons().size() > 0) {
-      for (EquipmentIcon icon :
-          MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
+      for (EquipmentIcon icon : MapController.getController().getCurrFloor().getEquipmentIcons()) {
         if (icon != this && iconType.equals(IconType.Equipment)) {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
-            ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
-            RequestSystem.getSystem().removeEquipment(icon);
-            for (Equipment equipment : tempEquipmentList) {
-              equipment.updateLocation(location.getXCoord(), location.getYCoord());
-            }
-            RequestSystem.getSystem().addEquipment(tempEquipmentList);
+            equipmentList.addAll(icon.getEquipmentList());
+            RequestSystem.getSystem().updateLocations(this);
+            icon.getEquipmentList().clear();
+            MapManager.getManager().setUpFloors();
+            // MapController.getController().deleteIcon(icon);
             setImage();
           }
         }
@@ -156,10 +155,15 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  public void alertSixBeds() {
+  public void updateLocation() {
+    for (Equipment equipment : equipmentList) {
+      equipment.updateLocation(location.getXCoord(), location.getYCoord());
+    }
+  }
+
+  public int alertSixBeds() {
 
     int alertCounter = 0;
-    boolean alert = false;
 
     ArrayList<Equipment> equip = new ArrayList<Equipment>();
     equip = this.getEquipmentList();
@@ -171,11 +175,7 @@ public class EquipmentIcon extends Icon {
         alertCounter = +1;
       }
     }
-    if (alertCounter > 5) {
-      alert = true;
-    }
-
-    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+    return alertCounter;
   }
 
   public int[] pumpAlert() {
