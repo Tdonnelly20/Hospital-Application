@@ -9,11 +9,12 @@ public class LaundryRequest extends ServiceRequest {
 
   public LaundryRequest(
       int employeeID, int patientID, String nodeID, String details, String status) {
-    this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.details = details;
     this.status = status;
+    this.type = "Laundry Request";
   }
 
   public String getDetails() {

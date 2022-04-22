@@ -59,9 +59,8 @@ public abstract class Icon {
         event -> {
           if (isDrag) {
             isDrag = false;
-            setXCoord(xCoord + event.getX());
-            setYCoord(yCoord + event.getY());
-            RequestSystem.getSystem().updateLocations(this);
+            RequestSystem.getSystem()
+                .updateLocations(this, xCoord + event.getX() + 5, yCoord + event.getY() + 5);
           }
         });
   }
@@ -69,5 +68,6 @@ public abstract class Icon {
   @FXML
   public abstract ScrollPane compileList();
 
-  public abstract void updateLocation();
+  @FXML
+  public abstract void setImage();
 }
