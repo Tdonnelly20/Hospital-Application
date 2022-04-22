@@ -387,29 +387,26 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-  public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
+  public void checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
     /*if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
       return 0;
-    }*/
-    return 0;
+    }
+    return 0; */
   }
 
+  /*
   @FXML
-  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBedsFloor) {
-    /*
-    if (b == true) {
-      for (String s : dirtyBedsFloor) {
-        alertTable.add(s);
-      }
-    }
+  public void addBedAlertToArray(int b) {
 
     // adds strings from alerTable to alertsArea
-    for (String s : alertTable) {
-      alertsArea.setText("There are 6+ dirty beds in floor " + s);
-    }*/
+    if (b > 5) {
+      alertsArea.setText("There are 6+ dirty beds");
+    }
   }
+  /
+   */
 
   @FXML
   private void updateAlerts() {
@@ -430,8 +427,17 @@ public class MapDashboardController extends Controller {
         j.add((LocationIcon) icon);
       }
     }
+
     int index = 0;
     for (EquipmentIcon e : i) {
+      if (e.alertSixBeds() > 5) {
+        alerts.add(
+            "There are 6+ dirty beds at location "
+                + e.getLocation().getXCoord()
+                + ", "
+                + e.getLocation().getYCoord());
+      }
+
       state = e.pumpAlert();
       if ((state[0] < 5) && e.hasCleanEquipment()) {
         alerts.add(
@@ -456,6 +462,7 @@ public class MapDashboardController extends Controller {
                 11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
         j.get(index).addToRequests(equipmentDelivery);
       }
+
       index++;
     }
 

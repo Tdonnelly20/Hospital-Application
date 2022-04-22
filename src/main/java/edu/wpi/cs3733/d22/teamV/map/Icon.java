@@ -59,8 +59,9 @@ public abstract class Icon {
         event -> {
           if (isDrag) {
             isDrag = false;
-            RequestSystem.getSystem()
-                .updateLocations(this, xCoord + event.getX() + 5, yCoord + event.getY() + 5);
+            setXCoord(xCoord + event.getX());
+            setYCoord(yCoord + event.getY());
+            RequestSystem.getSystem().updateLocations(this);
           }
         });
   }

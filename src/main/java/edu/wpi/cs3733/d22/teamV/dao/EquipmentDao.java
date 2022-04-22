@@ -80,7 +80,7 @@ public class EquipmentDao {
         String[] outputData = {
           equipment.getID(),
           equipment.getName(),
-          equipment.getFloor(),
+          String.valueOf(equipment.getFloor()),
           String.valueOf(equipment.getX()),
           String.valueOf(equipment.getY()),
           equipment.getDescription(),

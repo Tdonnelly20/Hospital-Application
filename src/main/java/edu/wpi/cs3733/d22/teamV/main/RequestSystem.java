@@ -508,14 +508,14 @@ public class RequestSystem {
     return employeeIDCounter++;
   }
 
-  public void updateLocations(Icon icon, double x, double y) {
+  public void updateLocations(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
       ArrayList<Equipment> equipmentList =
           new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
       System.out.println(equipmentList.size());
       removeEquipment(((EquipmentIcon) icon));
       for (Equipment equipment : equipmentList) {
-        equipment.updateLocation(x, y);
+        equipment.updateLocation(icon.getXCoord(), icon.getYCoord());
         addEquipment(equipment);
       }
     } else {
