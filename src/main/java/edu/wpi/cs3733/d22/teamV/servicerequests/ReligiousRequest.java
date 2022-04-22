@@ -4,6 +4,9 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public class ReligiousRequest extends ServiceRequest {
   private String religion;
   private String details;
@@ -15,6 +18,7 @@ public class ReligiousRequest extends ServiceRequest {
    */
   public ReligiousRequest(
       int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
+    this.timeMade= Timestamp.from(Instant.now());
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
