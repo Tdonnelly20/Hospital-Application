@@ -9,6 +9,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -30,6 +33,7 @@ public class InternalPatientTransportationController extends RequestController {
   @FXML private TreeTableColumn<InternalPatientTransportation, String> roomNumberCol;
   @FXML private TreeTableColumn<InternalPatientTransportation, String> otherInfoCol;
   @FXML private TreeTableColumn<InternalPatientTransportation, String> statusCol;
+  @FXML private Pane tablePane;
 
   @FXML private TextField patientID;
   @FXML private TextField hospitalID;
@@ -61,6 +65,32 @@ public class InternalPatientTransportationController extends RequestController {
     setTitleText("Internal Patient Transportation");
     fillTopPane();
     updateTreeTable();
+    setColumnSizes(910);
+
+    tablePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePane.getWidth();
+                internalPatientTransportationTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePane.getHeight();
+                internalPatientTransportationTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   /** Update the table with values from fields and the DB */
@@ -212,6 +242,16 @@ public class InternalPatientTransportationController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(patientIDCol, (w - 30) / 7);
+    setColumnSize(hospitalIDCol, (w - 30) / 7);
+    setColumnSize(firstNameCol, (w - 30) / 7);
+    setColumnSize(lastNameCol, (w - 30) / 7);
+    setColumnSize(roomNumberCol, (w - 30) / 7);
+    setColumnSize(otherInfoCol, (w - 30) / 7);
+    setColumnSize(statusCol, (w - 30) / 7);
   }
 
   @Override

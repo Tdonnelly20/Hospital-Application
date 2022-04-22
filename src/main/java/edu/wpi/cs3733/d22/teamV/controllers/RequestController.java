@@ -21,32 +21,34 @@ public abstract class RequestController extends Controller {
   // This is the header Gridpane
   @FXML private GridPane headerPane = new GridPane();
 
+  // The logo and headers in the upper right corner
   @FXML private ImageView logo = new ImageView(new Image("Brigham_and_Womens_Hospital_logo.png"));
   @FXML private Label headerTitle = new Label();
 
+  // The gridpane that the close, home and back buttons go in
   @FXML private GridPane buttonBox = new GridPane();
 
+  // The close home and back buttons
   @FXML private ImageView backButton = new ImageView(new Image("BackButton.png"));
   @FXML private ImageView homeButton = new ImageView(new Image("HomeButton.png"));
   @FXML private ImageView closeButton = new ImageView(new Image("ExitButton.png"));
 
-  //  @FXML protected VBox sideBar = new VBox();
-  //
-  //  @FXML protected VBox tableBox = new VBox();
-
+  /** This function is used to fill the header on a request page */
   void fillTopPane() {
+    // Set the basic attributes of the headerPane
     headerPane.setMinSize(Region.USE_COMPUTED_SIZE, 150);
     headerPane.setPrefSize(1920, 150);
     headerPane.setMaxSize(Region.USE_COMPUTED_SIZE, 150);
     headerPane.setAlignment(Pos.CENTER);
     headerPane.setStyle("-fx-background-color: #1F355B");
 
+    // Set the basic attributes of the buttonBox
     buttonBox.setMinSize(180, 150);
     buttonBox.setPrefSize(180, 150);
     buttonBox.setMaxSize(180, 150);
     buttonBox.setAlignment(Pos.CENTER);
 
-    // Creates the box to put the buttons in at the top right
+    // Creates the constraints for the buttonBox
     ColumnConstraints bCol0Cons = new ColumnConstraints(80);
     bCol0Cons.setHalignment(HPos.CENTER);
     ColumnConstraints bCol1Cons = new ColumnConstraints(80);
@@ -56,6 +58,7 @@ public abstract class RequestController extends Controller {
     RowConstraints bRowCons = new RowConstraints(240);
     bRowCons.setValignment(VPos.CENTER);
 
+    // Make the back button
     backButton.setFitHeight(55);
     backButton.setFitWidth(55);
     backButton.setOnMouseClicked(
@@ -70,6 +73,7 @@ public abstract class RequestController extends Controller {
           }
         });
 
+    // Make the home button
     homeButton.setFitHeight(55);
     homeButton.setFitWidth(55);
     homeButton.setOnMouseClicked(
@@ -80,6 +84,7 @@ public abstract class RequestController extends Controller {
           }
         });
 
+    // Make the close button
     closeButton.setFitHeight(55);
     closeButton.setFitWidth(55);
     closeButton.setOnMouseClicked(
@@ -90,20 +95,26 @@ public abstract class RequestController extends Controller {
           }
         });
 
+    // Add the buttons to the button box
     buttonBox.add(backButton, 0, 0);
     buttonBox.add(homeButton, 1, 0);
     buttonBox.add(closeButton, 2, 0);
 
+    // Set the row and column constraints for the button box
     buttonBox.getColumnConstraints().add(bCol0Cons);
     buttonBox.getColumnConstraints().add(bCol1Cons);
     buttonBox.getColumnConstraints().add(bCol2Cons);
     buttonBox.getRowConstraints().add(bRowCons);
 
+    // Set the logo size
     logo.setFitHeight(80);
     logo.setFitWidth(80);
+
+    // Set the header
     headerTitle.setFont(new Font("Ebrima", 40));
     headerTitle.setTextFill(Color.WHITE);
 
+    // Make the column constraints for the header pane
     ColumnConstraints hCol0Cons =
         new ColumnConstraints(150, 150, 150, Priority.NEVER, HPos.CENTER, false);
     ColumnConstraints hCol1Cons =
@@ -123,10 +134,12 @@ public abstract class RequestController extends Controller {
 
     RowConstraints hRowCons = new RowConstraints(150, 150, 150, Priority.NEVER, VPos.CENTER, false);
 
+    // Add the items to the header pane
     headerPane.addColumn(0, logo);
     headerPane.addColumn(1, headerTitle);
     headerPane.addColumn(3, buttonBox);
 
+    // Add the constraints to the header pane
     headerPane.getColumnConstraints().clear();
     headerPane.getColumnConstraints().add(hCol0Cons);
     headerPane.getColumnConstraints().add(hCol1Cons);

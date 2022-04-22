@@ -46,7 +46,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
         data = line.split(splitToken);
         InternalPatientTransportation transportation =
             new InternalPatientTransportation(
-                data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3]);
+                data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], data[5]);
         transportation.setServiceID(Integer.parseInt(data[4]));
         addServiceRequest(transportation);
       }
@@ -74,7 +74,8 @@ public class InternalPatientTransportationDao extends DaoInterface {
           String.valueOf(internalPatientTransportation.getPatientID()),
           String.valueOf(internalPatientTransportation.getEmployeeID()),
           internalPatientTransportation.getRequestDetails(),
-          String.valueOf(internalPatientTransportation.getServiceID())
+          String.valueOf(internalPatientTransportation.getServiceID()),
+          String.valueOf(internalPatientTransportation.getStatus())
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -102,7 +103,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, hospitalID int, requestDetails char(250), serviceID int)";
+            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, hospitalID int, requestDetails char(250), serviceID int, status char(50))";
         exampleStatement.execute(query);
       } else {
         query = "DROP TABLE PATIENTTRANSPORTATION";
@@ -133,7 +134,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       query =
           "INSERT INTO PATIENTTRANSPORTATION("
-              + "location,patientID,hospitalID,requestDetails,serviceID) VALUES "
+              + "location,patientID,hospitalID,requestDetails,serviceID,status) VALUES "
               + "('"
               + internalPatientTransportation.getNodeID()
               + "', "
@@ -144,7 +145,9 @@ public class InternalPatientTransportationDao extends DaoInterface {
               + internalPatientTransportation.getRequestDetails()
               + "', "
               + internalPatientTransportation.getServiceID()
-              + ")";
+              + ", '"
+              + internalPatientTransportation.getStatus()
+              + "')";
 
       statement.execute(query);
     } catch (SQLException e) {
