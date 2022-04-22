@@ -65,18 +65,7 @@ public class RobotController extends RequestController {
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
   }
-  boolean findPatient() { // returns true if finds patient
-    boolean result = false;
-    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
-      for (Patient p : Vdb.requestSystem.getPatients()) {
-        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  }
+
 
   boolean findEmployee() { // returns true if finds patient
     boolean result = false;

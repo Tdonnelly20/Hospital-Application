@@ -185,7 +185,6 @@ public class SanitationRequestController extends RequestController {
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
-
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     if (currSanitationRequests.isEmpty()) {
