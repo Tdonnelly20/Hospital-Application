@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
+import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
@@ -184,7 +185,8 @@ public class RequestSystem {
           System.out.println(request.getRequestName());
       }
     } else {
-      System.out.println("Service request "+request.getServiceID()+" already exists");
+      System.out.println("Service request " + request.getServiceID() + " already exists");
+      System.out.println(request.getRequestName());
     }
   }
 
@@ -506,26 +508,15 @@ public class RequestSystem {
     return employeeIDCounter++;
   }
 
-  public void updateLocations(Icon icon) {
+  public void updateLocations(Icon icon, double x, double y) {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
-      ArrayList<Equipment> equipmentList = new ArrayList<>();
-      for (Equipment equipment : ((EquipmentIcon) icon).getEquipmentList()) {
-        Equipment newEquipment =
-            new Equipment(
-                equipment.getID(),
-                equipment.getName(),
-                icon.getLocation().getFloor(),
-                icon.getXCoord(),
-                icon.getYCoord(),
-                equipment.getDescription(),
-                equipment.getIsDirty());
-
-        equipmentDao.removeEquipment(equipment);
-      }
+      ArrayList<Equipment> equipmentList =
+          new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
+      System.out.println(equipmentList.size());
+      removeEquipment(((EquipmentIcon) icon));
       for (Equipment equipment : equipmentList) {
-        // equipment.setIcon((EquipmentIcon) icon);
-        // ((EquipmentIcon) icon).addToEquipmentList(equipment);
-        equipmentDao.addEquipment(equipment);
+        equipment.updateLocation(x, y);
+        addEquipment(equipment);
       }
     } else {
       Location newLocation =
@@ -542,5 +533,6 @@ public class RequestSystem {
       locationDao.addLocation(newLocation);
       icon.setLocation(newLocation);
     }
+    MapManager.getManager().setUpFloors();
   }
 }

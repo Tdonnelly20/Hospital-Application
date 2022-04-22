@@ -41,9 +41,9 @@ public class EquipmentIcon extends Icon {
         event -> {
           if (isDrag) {
             isDrag = false;
-            setXCoord(xCoord + event.getX());
-            setYCoord(yCoord + event.getY());
-            RequestSystem.getSystem().updateLocations(this);
+            xCoord += event.getX();
+            yCoord += event.getY();
+            RequestSystem.getSystem().updateLocations(this, xCoord, yCoord);
             checkBounds();
             MapManager.getManager().setUpFloors();
           }
@@ -106,6 +106,7 @@ public class EquipmentIcon extends Icon {
     } else {
       equipmentList.add(0, equipment);
     }
+    setImage();
     // RequestSystem.getSystem().addEquipment(equipment);
     MapDashboardController.getController().updateCounts();
     alertSixBeds();
@@ -142,8 +143,8 @@ public class EquipmentIcon extends Icon {
         if (icon != this && iconType.equals(IconType.Equipment)) {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
-            RequestSystem.getSystem().removeEquipment(icon);
             ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
+            RequestSystem.getSystem().removeEquipment(icon);
             for (Equipment equipment : tempEquipmentList) {
               equipment.updateLocation(location.getXCoord(), location.getYCoord());
             }

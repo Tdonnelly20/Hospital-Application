@@ -171,7 +171,7 @@ public class PopupController {
         fields[2].getText(),
         fields[3].getText());
   }
-  
+
   private String convertFloor(String floor) {
     switch (floor) {
       case "Ground Floor":

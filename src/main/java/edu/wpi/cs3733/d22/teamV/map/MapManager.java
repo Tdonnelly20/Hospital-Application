@@ -99,6 +99,7 @@ public class MapManager {
         icon.addToEquipmentList(e);
         e.setIcon(icon);
         getFloor(e.getFloor()).addIcon(e.getIcon());
+        icon.setImage();
       }
     }
   }

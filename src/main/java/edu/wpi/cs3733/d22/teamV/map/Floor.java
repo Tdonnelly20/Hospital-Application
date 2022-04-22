@@ -111,6 +111,7 @@ public class Floor {
     for (EquipmentIcon icon : equipmentIcons) {
       if ((icon.xCoord == x) && (icon.yCoord == y)) {
         icon.addToEquipmentList(equipment);
+        icon.setImage();
         break;
       }
     }

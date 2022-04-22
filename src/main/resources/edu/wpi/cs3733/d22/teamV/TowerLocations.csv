@@ -1,5 +1,4 @@
 nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
-vDEPT00101,210.0,190.0,1,Tower,DEPT,Center for International Medicine,CIM,
 vDEPT00201,150.0,450.0,1,Tower,DEPT,Bretholtz Center for Patients and Families,Bretholtz Center,
 vDEPT00301,310.0,270.0,1,Tower,DEPT,Multifaith Chapel,Chapel,
 vDEPT00401,400.0,480.0,1,Tower,DEPT,Sharf Admitting Center,Sharf Center,
@@ -98,6 +97,6 @@ vSTOR00105,420.0,112.0,5,Tower,STOR,5th Floor In Patient Unit Storage A,Unit Sto
 vSTOR00205,140.0,112.0,5,Tower,STOR,5th Floor In Patient Unit Storage B,Unit Storage 5B,
 test,140.0,112.0,5,Tower,STOR,5th Floor In Patient Unit Storage B,Unit Storage 5B,
 vHALL00401,309.0,213.66666666666669,1,Tower,HALL,Tower Hallway 1-3,Hallway 1-3,
-vSTAI00101,308.33333333333337,175.66666666666666,1,Tower,STAI,Tower Stairway 1,Stairway,
 vHALL00301,398.3333333333335,276.33333333333337,1,Tower,HALL,Tower Hallway 1-2,Hallway 1-2,
-testRobot,427.66666666666674,143.00000000000003,1,Tower,type,robot,robot,
+vSTAI00101,311.0,201.00000000000003,1,Tower,STAI,Tower Stairway 1,Stairway,
+vDEPT00101,210.0,190.0,1,Tower,DEPT,Center for International Medicine,CIM,
