@@ -4,7 +4,6 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,11 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.text.Text?>
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.HomeController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.HomeController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" />
       <ColumnConstraints hgrow="SOMETIMES" prefWidth="700.0" />
@@ -44,130 +39,6 @@
             </Label>
          </children>
       </Pane>
-      <Pane prefHeight="527.0" prefWidth="110.0" style="-fx-background-color: #5c677d;" GridPane.rowIndex="2">
-         <children>
-            <VBox alignment="TOP_CENTER" layoutY="1.0" prefHeight="500.0" prefWidth="168.0" spacing="10.0" style="-fx-background-color: #5c677d;">
-               <children>
-                  <Button alignment="CENTER" layoutX="24.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToMap" style="-fx-background-color: #5c677d;" text="Map" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" layoutX="15.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToLocationDB" style="-fx-background-color: #5c677d;" text="Location Database" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToPatientDB" style="-fx-background-color: #5c677d;" text="Patient Database" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToEmployeeDB" style="-fx-background-color: #5c677d;" text="Employee Database" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToDashboard" style="-fx-background-color: #5c677d;" text="Dashboard" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Accordion prefHeight="489.0" prefWidth="168.0" style="-fx-background-color: null;">
-                     <panes>
-                        <TitledPane animated="false" prefHeight="498.0" prefWidth="168.0" style="-fx-background-color: null; -fx-border-color: null;" text="Service Requests" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <content>
-                              <VBox alignment="TOP_CENTER" prefHeight="463.0" prefWidth="166.0" spacing="10.0" style="-fx-background-color: #5c677d;">
-                                 <children>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToLabRequest" style="-fx-background-color: #5c677d;" text="Lab Request" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToMedEquipDelivery" prefHeight="74.0" prefWidth="143.0" style="-fx-background-color: #5c677d;" text="Equipment Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToMealDelivery" style="-fx-background-color: #5c677d;" text="Meal Delivery" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToLaundryRequest" style="-fx-background-color: #5c677d;" text="Laundry Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToMedicineDelivery" style="-fx-background-color: #5c677d;" text="Medicine Delivery" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToSanitationRequest" style="-fx-background-color: #5c677d;" text="Sanitation Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToReligiousRequest" style="-fx-background-color: #5c677d;" text="Religious Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToInternalPatientTransport" prefHeight="87.0" prefWidth="143.0" style="-fx-background-color: #5c677d;" text="Internal Patient Transport" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#switchToRobot" style="-fx-background-color: #5c677d;" text="Robot Request" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </TitledPane>
-                     </panes>
-                  </Accordion>
-                  <Text fx:id="currTime" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font></Text>
-               </children>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-            </VBox>
-         </children>
-      </Pane>
       <GridPane alignment="CENTER_RIGHT" prefHeight="76.0" prefWidth="224.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <columnConstraints>
             <ColumnConstraints />
@@ -190,7 +61,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="APIButton" mnemonicParsing="false" onAction="#switchToAPI" style="-fx-background-color: #012D5Aff;" text="API" textFill="WHITE" GridPane.rowIndex="1">
+            <Button mnemonicParsing="false" onAction="#switchToAPI" style="-fx-background-color: #012D5Aff;" text="API" textFill="WHITE" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
