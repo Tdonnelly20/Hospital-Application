@@ -4,7 +4,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -15,7 +14,7 @@ public class RobotRequest extends ServiceRequest {
 
   public RobotRequest(int hospitalID, int botID, String nodeID, String details, String status) {
     employee = new Employee(hospitalID);
-    this.timeMade= Timestamp.from(Instant.now());
+    this.timeMade = Timestamp.from(Instant.now());
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;

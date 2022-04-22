@@ -4,11 +4,10 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.sql.Timestamp;
 import java.time.Instant;
+import lombok.Getter;
+import lombok.Setter;
 
 @Setter
 @Getter
@@ -22,7 +21,7 @@ public class LabRequest extends ServiceRequest {
   private String lastName;
 
   public LabRequest(int userID, int patientID, String nodeID, String lab, String status) {
-    this.timeMade= Timestamp.from(Instant.now());
+    this.timeMade = Timestamp.from(Instant.now());
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
