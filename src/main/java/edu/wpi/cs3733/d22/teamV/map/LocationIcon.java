@@ -37,6 +37,15 @@ public class LocationIcon extends Icon {
             // MapController.getController().locationForm(event, this);
           }
         });
+    image.setOnMouseReleased(
+        event -> {
+          if (isDrag) {
+            isDrag = false;
+            xCoord += event.getX();
+            yCoord += event.getY();
+            RequestSystem.getSystem().updateLocations(this);
+          }
+        });
   }
 
   @Override
@@ -68,6 +77,7 @@ public class LocationIcon extends Icon {
               RequestSystem.getSystem().addServiceRequest(request);
             });
         Button deleteRequest = new Button("Delete");
+        deleteRequest.setStyle("-fx-background-color: #5C7B9F; -fx-text-fill: white;");
         deleteRequest.setOnAction(
             event -> {
               removeRequests(request);

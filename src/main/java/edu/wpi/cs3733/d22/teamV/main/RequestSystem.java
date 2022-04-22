@@ -184,11 +184,11 @@ public class RequestSystem {
           break;
         default:
           System.out.println("AddServiceRequest error");
-          System.out.println(request.getRequestName());
+          // System.out.println(request.getRequestName());
       }
     } else {
-      System.out.println("Service request " + request.getServiceID() + " already exists");
-      System.out.println(request.getRequestName());
+      // System.out.println("Service request " + request.getServiceID() + " already exists");
+      // System.out.println(request.getRequestName());
     }
   }
 
@@ -510,14 +510,14 @@ public class RequestSystem {
     return employeeIDCounter++;
   }
 
-  public void updateLocations(Icon icon, double x, double y) {
+  public void updateLocations(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
       ArrayList<Equipment> equipmentList =
           new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
-      System.out.println(equipmentList.size());
+      // System.out.println(equipmentList.size());
       removeEquipment(((EquipmentIcon) icon));
       for (Equipment equipment : equipmentList) {
-        equipment.updateLocation(x, y);
+        equipment.updateLocation(icon.getXCoord(), icon.getYCoord());
         addEquipment(equipment);
       }
     } else {

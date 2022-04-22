@@ -43,7 +43,7 @@ public class EquipmentIcon extends Icon {
             isDrag = false;
             xCoord += event.getX();
             yCoord += event.getY();
-            RequestSystem.getSystem().updateLocations(this, xCoord, yCoord);
+            RequestSystem.getSystem().updateLocations(this);
             checkBounds();
             MapManager.getManager().setUpFloors();
           }
@@ -65,6 +65,7 @@ public class EquipmentIcon extends Icon {
       for (Equipment equipment : equipmentList) {
         Label idLabel = new Label("ID: " + equipment.getID());
         Button deleteEquipment = new Button("Delete");
+        deleteEquipment.setStyle("-fx-background-color: #5C7B9F; -fx-text-fill: white;");
         deleteEquipment.setOnAction(
             event -> {
               removeEquipment(equipment);

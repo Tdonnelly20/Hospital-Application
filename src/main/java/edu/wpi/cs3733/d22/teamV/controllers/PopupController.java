@@ -38,9 +38,8 @@ public class PopupController {
   @FXML Button addButton = new Button("Add");
   @FXML Button modifyButton = new Button("Modify");
   @FXML Button removeButton = new Button("Remove");
-  @FXML VBox content = new VBox(25);
-  @FXML ScrollPane contentScroll = new ScrollPane(content);
-  @FXML VBox sceneVbox = new VBox(25);
+  @FXML VBox content = new VBox();
+  @FXML VBox sceneVbox = new VBox();
   @FXML Scene scene = new Scene(sceneVbox, 450, 450);
   @FXML Stage stage = new Stage();
   @FXML Label title = new Label();
@@ -64,6 +63,7 @@ public class PopupController {
 
   public void init() {
     setUpPopup();
+    scene.getStylesheets().add("CSS/Popup.css");
   }
 
   /** Closes the popup window */
@@ -95,15 +95,14 @@ public class PopupController {
     title.setTextFill(Color.WHITE);
     title.setFont(new Font("System Bold", 28));
     titleBox.setAlignment(Pos.CENTER);
-    titleBox.setStyle("-fx-background-color: #012D5Aff;");
 
     buttonBox.setAlignment(Pos.CENTER);
     content.setAlignment(Pos.CENTER);
-    contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-    contentScroll.setPrefHeight(400);
-    contentScroll.setFitToWidth(true);
-
-    sceneVbox.getChildren().addAll(titleBox, buttonBox, contentScroll);
+    VBox header = new VBox(15, titleBox, buttonBox);
+    header.setAlignment(Pos.CENTER);
+    header.setStyle("-fx-background-color: #5C7B9F;-fx-padding: 15;");
+    content.setStyle("-fx-end-margin: 15;");
+    sceneVbox.getChildren().addAll(header, content);
     sceneVbox.setAlignment(Pos.TOP_CENTER);
 
     for (int i = 0; i < fields.length; i++) {

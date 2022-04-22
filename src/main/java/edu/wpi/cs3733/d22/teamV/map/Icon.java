@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -54,14 +53,6 @@ public abstract class Icon {
           image.setX(e.getX() - offset.getX() - 15);
           image.setY(e.getY() - offset.getY() - 20);
           e.consume(); // prevents MouseEvent from reaching ScrollPane
-        });
-    image.setOnMouseReleased(
-        event -> {
-          if (isDrag) {
-            isDrag = false;
-            RequestSystem.getSystem()
-                .updateLocations(this, xCoord + event.getX() + 5, yCoord + event.getY() + 5);
-          }
         });
   }
 

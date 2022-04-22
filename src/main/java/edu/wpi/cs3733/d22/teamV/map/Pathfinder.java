@@ -186,6 +186,7 @@ public class Pathfinder {
 
   // Recursive algorithm that Tate is unable to comprehend (all it does is create a list from the
   // previous nodes)
+  // Fuck off, Matt
   public Queue<Node> getPath(Queue<Node> path, Node node) {
     path.add(node);
     if (node.previous != null) {
