@@ -78,13 +78,13 @@
          <right>
             <VBox fx:id="floorVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="260.0" minWidth="260.0" prefHeight="700.0" prefWidth="260.0" scaleShape="false" styleClass="vBox" stylesheets="@../CSS/Map.css" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton id="jfxButton" fx:id="LL2" layoutX="93.0" layoutY="339.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="LL2" />
-                  <JFXButton id="jfxButton" fx:id="LL1" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="LL1" />
-                  <JFXButton id="jfxButton" fx:id="floor1" defaultButton="true" layoutX="93.0" layoutY="304.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="1" />
-                  <JFXButton id="jfxButton" fx:id="floor2" layoutX="93.0" layoutY="409.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="2" />
-                  <JFXButton id="jfxButton" fx:id="floor3" layoutX="93.0" layoutY="444.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="3" />
-                  <JFXButton id="jfxButton" fx:id="floor4" layoutX="93.0" layoutY="409.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="4" />
                   <JFXButton id="jfxButton" fx:id="floor5" layoutX="93.0" layoutY="479.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="5" />
+                  <JFXButton id="jfxButton" fx:id="floor4" layoutX="93.0" layoutY="409.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="4" />
+                  <JFXButton id="jfxButton" fx:id="floor3" layoutX="93.0" layoutY="444.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="3" />
+                  <JFXButton id="jfxButton" fx:id="floor2" layoutX="93.0" layoutY="409.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="2" />
+                  <JFXButton id="jfxButton" fx:id="floor1" defaultButton="true" layoutX="93.0" layoutY="304.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="1" />
+                  <JFXButton id="jfxButton" fx:id="LL1" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="LL1" />
+                  <JFXButton id="jfxButton" fx:id="LL2" layoutX="93.0" layoutY="339.0" ripplerFill="#1f4d7f" stylesheets="@../CSS/Map.css" text="LL2" />
                </children>
             </VBox>
          </right>

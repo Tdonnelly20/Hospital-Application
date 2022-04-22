@@ -46,7 +46,7 @@
                               <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="0.0" prefWidth="360.0" spacing="15.0" style="-fx-background-color: #5c677d;">
                                  <children>
                                     <Label text="Employee ID" textFill="WHITE" />
-                                    <TextField fx:id="userID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee ID" />
+                                    <TextField fx:id="employeeID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee ID" />
                                     <Label layoutX="171.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                                     <TextField fx:id="patientID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient ID">
                                        <VBox.margin>
@@ -127,7 +127,7 @@
                                                    <children>
                                                       <TreeTableView fx:id="requestTable" layoutX="15.0" layoutY="10.0" prefHeight="553.0" prefWidth="538.0">
                                                          <columns>
-                                                            <TreeTableColumn fx:id="userIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
+                                                            <TreeTableColumn fx:id="employeeIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
                                                             <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
                                                             <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
                                                             <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />

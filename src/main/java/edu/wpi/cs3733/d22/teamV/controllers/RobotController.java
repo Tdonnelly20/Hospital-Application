@@ -6,6 +6,8 @@ import edu.wpi.cs3733.d22.teamV.dao.RobotDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.RobotRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -64,6 +66,20 @@ public class RobotController extends RequestController {
     sendRequest.setText("Send Request");
   }
 
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
   // Checks to see if the user can submit info
   @Override
   public void validateButton() {
@@ -81,7 +97,7 @@ public class RobotController extends RequestController {
         status.setText("Status: Processing");
       } else if (LocationDao.getLocation(nodeID.getText()) == null) {
         status.setText("Status: Invalid Location");
-      } else if (!isInteger(employeeID.getText())) {
+      } else if (!findEmployee()) {
         status.setText("Status: Invalid Employee");
       } else if (!isInteger(botID.getText())) {
         status.setText("Status: Invalid Bot ID");

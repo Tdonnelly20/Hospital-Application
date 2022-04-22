@@ -57,7 +57,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       FileWriter fw = new FileWriter(VApp.currentPath + "/LaundryRequest.csv");
       BufferedWriter bw = new BufferedWriter(fw);
-      bw.append("userID,patientID,roomNumber,details,status,serviceID");
+      bw.append("employeeID,patientID,roomNumber,details,status,serviceID");
 
       for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -98,7 +98,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE LAUNDRY(userID int, patientID int, roomNumber char(50), details char(100), status char(100), serviceID int)";
+            "CREATE TABLE LAUNDRY(employeeID int, patientID int, roomNumber char(50), details char(100), status char(100), serviceID int)";
         statement.execute(query);
 
       } else {
@@ -129,7 +129,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       query =
           "INSERT INTO LAUNDRY("
-              + "userID,patientID,roomNumber,details,status,serviceID) VALUES "
+              + "employeeID,patientID,roomNumber,details,status,serviceID) VALUES "
               + "("
               + laundryRequest.getEmployee().getEmployeeID()
               + ","

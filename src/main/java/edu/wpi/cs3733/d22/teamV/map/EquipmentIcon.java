@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
@@ -69,8 +68,7 @@ public class EquipmentIcon extends Icon {
             event -> {
               removeEquipment(equipment);
               if (getEquipmentList().size() == 0) {
-                RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
-                RequestSystem.getSystem().getEquipmentDao().saveToCSV();
+                RequestSystem.getSystem().removeEquipment(equipment);
                 MapController.getController().populateFloorIconArr();
               }
             });
@@ -116,8 +114,7 @@ public class EquipmentIcon extends Icon {
   }
 
   public void removeEquipment(Equipment equipment) {
-    RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
-    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
+    RequestSystem.getSystem().removeEquipment(equipment);
     MapController.getController().setFloor(getLocation().getFloor());
     alertSixBeds();
     PopupController.getController().closePopUp();
@@ -164,10 +161,9 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  public void alertSixBeds() {
+  public int alertSixBeds() {
 
     int alertCounter = 0;
-    boolean alert = false;
 
     ArrayList<Equipment> equip = new ArrayList<Equipment>();
     equip = this.getEquipmentList();
@@ -179,11 +175,7 @@ public class EquipmentIcon extends Icon {
         alertCounter = +1;
       }
     }
-    if (alertCounter > 5) {
-      alert = true;
-    }
-
-    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+    return alertCounter;
   }
 
   public int[] pumpAlert() {

@@ -2,16 +2,17 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
+import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.fxml.FXML;
@@ -21,9 +22,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -43,7 +44,7 @@ public class MapDashboardController extends Controller {
   private @FXML TextArea alertArea;
   private @FXML TextArea alertsArea = new TextArea();
   private @FXML VBox rightVBox;
-  private @FXML Pane mapPane;
+  private @FXML ImageView mapButton;
   private @FXML ImageView imageView;
   private @FXML ArrayList<String> alertTable;
   private @FXML Label floorLabel;
@@ -91,8 +92,8 @@ public class MapDashboardController extends Controller {
       e.printStackTrace();
     }
 
-    Controller controller = loader.getController();
-    controller.init();
+    MapController controller = loader.getController();
+    controller.initFloor(curFloor.getFloorName());
 
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -198,6 +199,7 @@ public class MapDashboardController extends Controller {
     updateListeners(curFloor);
     updateAll();
     floorLabel.setText("Lower Level 2");
+    updateMap("L2");
   }
 
   @FXML
@@ -206,6 +208,7 @@ public class MapDashboardController extends Controller {
     updateListeners(curFloor);
     updateAll();
     floorLabel.setText("Lower Level 1");
+    updateMap("L1");
   }
 
   @FXML
@@ -214,6 +217,7 @@ public class MapDashboardController extends Controller {
     updateListeners(curFloor);
     updateAll();
     floorLabel.setText("Floor 1");
+    updateMap("F1");
   }
 
   @FXML
@@ -222,6 +226,7 @@ public class MapDashboardController extends Controller {
     updateListeners(curFloor);
     updateAll();
     floorLabel.setText("Floor 2");
+    updateMap("F2");
   }
 
   @FXML
@@ -230,6 +235,7 @@ public class MapDashboardController extends Controller {
     updateListeners(curFloor);
     updateAll();
     floorLabel.setText("Floor 3");
+    updateMap("F3");
   }
 
   @FXML
@@ -238,6 +244,7 @@ public class MapDashboardController extends Controller {
     updateListeners(curFloor);
     updateAll();
     floorLabel.setText("Floor 4");
+    updateMap("F4");
   }
 
   @FXML
@@ -246,6 +253,7 @@ public class MapDashboardController extends Controller {
     updateListeners(curFloor);
     updateAll();
     floorLabel.setText("Floor 5");
+    updateMap("F5");
   }
 
   @FXML
@@ -379,29 +387,26 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-  public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
+  public void checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
     /*if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
       return 0;
-    }*/
-    return 0;
+    }
+    return 0; */
   }
 
+  /*
   @FXML
-  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBedsFloor) {
-    /*
-    if (b == true) {
-      for (String s : dirtyBedsFloor) {
-        alertTable.add(s);
-      }
-    }
+  public void addBedAlertToArray(int b) {
 
     // adds strings from alerTable to alertsArea
-    for (String s : alertTable) {
-      alertsArea.setText("There are 6+ dirty beds in floor " + s);
-    }*/
+    if (b > 5) {
+      alertsArea.setText("There are 6+ dirty beds");
+    }
   }
+  /
+   */
 
   @FXML
   private void updateAlerts() {
@@ -422,8 +427,17 @@ public class MapDashboardController extends Controller {
         j.add((LocationIcon) icon);
       }
     }
+
     int index = 0;
     for (EquipmentIcon e : i) {
+      if (e.alertSixBeds() > 5) {
+        alerts.add(
+            "There are 6+ dirty beds at location "
+                + e.getLocation().getXCoord()
+                + ", "
+                + e.getLocation().getYCoord());
+      }
+
       state = e.pumpAlert();
       if ((state[0] < 5) && e.hasCleanEquipment()) {
         alerts.add(
@@ -448,6 +462,7 @@ public class MapDashboardController extends Controller {
                 11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
         j.get(index).addToRequests(equipmentDelivery);
       }
+
       index++;
     }
 
@@ -472,5 +487,102 @@ public class MapDashboardController extends Controller {
     setUpButtonSubjects();
     setUpDashboardListeners();
     // updateAll();
+  }
+
+  @FXML
+  private void updateMap(String floor) {
+    Image m = null;
+    URL _url;
+    switch (floor) {
+      case "L2":
+        _url = this.getClass().getResource("/Lower Level 2.png");
+
+        try {
+          m = new Image(_url.toExternalForm());
+
+        } catch (NullPointerException e) {
+          e.printStackTrace();
+        }
+
+        mapButton.setImage(m);
+        break;
+
+      case "L1":
+        _url = this.getClass().getResource("/Lower Level 1.png");
+
+        try {
+          m = new Image(_url.toExternalForm());
+
+        } catch (NullPointerException e) {
+          e.printStackTrace();
+        }
+        mapButton.setImage(m);
+        break;
+
+      case "F1":
+        _url = this.getClass().getResource("/1st Floor.png");
+
+        try {
+          m = new Image(_url.toExternalForm());
+
+        } catch (NullPointerException e) {
+          e.printStackTrace();
+        }
+
+        mapButton.setImage(m);
+        break;
+
+      case "F2":
+        _url = this.getClass().getResource("/2nd Floor.png");
+
+        try {
+          m = new Image(_url.toExternalForm());
+
+        } catch (NullPointerException e) {
+          e.printStackTrace();
+        }
+
+        mapButton.setImage(m);
+        break;
+
+      case "F3":
+        _url = this.getClass().getResource("/3rd Floor.png");
+
+        try {
+          m = new Image(_url.toExternalForm());
+
+        } catch (NullPointerException e) {
+          e.printStackTrace();
+        }
+
+        mapButton.setImage(m);
+        break;
+
+      case "F4":
+        _url = this.getClass().getResource("/4th Floor.png");
+
+        try {
+          m = new Image(_url.toExternalForm());
+
+        } catch (NullPointerException e) {
+          e.printStackTrace();
+        }
+
+        mapButton.setImage(m);
+        break;
+
+      case "F5":
+        _url = this.getClass().getResource("/5th Floor.png");
+
+        try {
+          m = new Image(_url.toExternalForm());
+
+        } catch (NullPointerException e) {
+          e.printStackTrace();
+        }
+
+        mapButton.setImage(m);
+        break;
+    }
   }
 }

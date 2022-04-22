@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -108,6 +107,11 @@ public class MapController extends Controller {
   @Override
   public void init() {
     setFloor("1");
+    mapSetUp();
+  }
+
+  public void initFloor(String floor) {
+    setFloor(floor);
     mapSetUp();
   }
 
@@ -378,7 +382,7 @@ public class MapController extends Controller {
   public void addIcon(Icon icon) {
     switch (icon.iconType) {
       case Location:
-        RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
+        RequestSystem.getSystem().addLocation(icon.getLocation());
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
@@ -389,9 +393,7 @@ public class MapController extends Controller {
   public void addEquipmentIcon(Equipment equipment) {
     PopupController.getController().closePopUp();
     mapPane.getChildren().clear();
-    RequestSystem.getSystem().getEquipmentDao().addEquipment(equipment);
-    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
-    // RequestSystem.getSystem().addEquipment(equipment);
+    RequestSystem.getSystem().addEquipment(equipment);
     // MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
     MapManager.getManager().setUpFloors();
     checkFilter();
