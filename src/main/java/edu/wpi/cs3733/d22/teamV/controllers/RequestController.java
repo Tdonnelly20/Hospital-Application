@@ -2,15 +2,16 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.awt.*;
 import java.io.IOException;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -24,9 +25,10 @@ public abstract class RequestController extends Controller {
   @FXML private Label headerTitle = new Label();
 
   @FXML private GridPane buttonBox = new GridPane();
-  @FXML private Button closeButton = new Button();
-  @FXML private Button homeButton = new Button();
-  @FXML private Button backButton = new Button();
+
+  @FXML private ImageView backButton = new ImageView(new Image("BackButton.png"));
+  @FXML private ImageView homeButton = new ImageView(new Image("HomeButton.png"));
+  @FXML private ImageView closeButton = new ImageView(new Image("ExitButton.png"));
 
   //  @FXML protected VBox sideBar = new VBox();
   //
@@ -39,36 +41,53 @@ public abstract class RequestController extends Controller {
     headerPane.setAlignment(Pos.CENTER);
     headerPane.setStyle("-fx-background-color: #1F355B");
 
-    buttonBox.setMinSize(450, 150);
-    buttonBox.setPrefSize(450, 150);
-    buttonBox.setMaxSize(450, 150);
+    buttonBox.setMinSize(180, 150);
+    buttonBox.setPrefSize(180, 150);
+    buttonBox.setMaxSize(180, 150);
     buttonBox.setAlignment(Pos.CENTER);
 
     // Creates the box to put the buttons in at the top right
-    ColumnConstraints bCol0Cons = new ColumnConstraints(150);
+    ColumnConstraints bCol0Cons = new ColumnConstraints(80);
     bCol0Cons.setHalignment(HPos.CENTER);
-    ColumnConstraints bCol1Cons = new ColumnConstraints(150);
+    ColumnConstraints bCol1Cons = new ColumnConstraints(80);
     bCol1Cons.setHalignment(HPos.CENTER);
-    ColumnConstraints bCol2Cons = new ColumnConstraints(150);
+    ColumnConstraints bCol2Cons = new ColumnConstraints(80);
     bCol2Cons.setHalignment(HPos.CENTER);
-    RowConstraints bRowCons = new RowConstraints(150);
+    RowConstraints bRowCons = new RowConstraints(240);
     bRowCons.setValignment(VPos.CENTER);
 
-    backButton.setText("Service Requests");
-    backButton.setOnAction(
-        event -> {
-          try {
-            switchToServiceRequest(event);
-          } catch (IOException e) {
-            e.printStackTrace();
+    backButton.setFitHeight(55);
+    backButton.setFitWidth(55);
+    backButton.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            try {
+              switchToServiceRequest(event);
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
           }
         });
-    homeButton.setText("Home");
-    homeButton.setOnAction(this::switchToHome);
-    closeButton.setText("Close");
-    closeButton.setOnAction(
-        event -> {
-          stop();
+
+    homeButton.setFitHeight(55);
+    homeButton.setFitWidth(55);
+    homeButton.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            switchToHome(event);
+          }
+        });
+
+    closeButton.setFitHeight(55);
+    closeButton.setFitWidth(55);
+    closeButton.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            stop();
+          }
         });
 
     buttonBox.add(backButton, 0, 0);
@@ -100,7 +119,7 @@ public abstract class RequestController extends Controller {
             false);
 
     ColumnConstraints hCol3Cons =
-        new ColumnConstraints(450, 450, 450, Priority.NEVER, HPos.CENTER, false);
+        new ColumnConstraints(240, 240, 240, Priority.NEVER, HPos.CENTER, false);
 
     RowConstraints hRowCons = new RowConstraints(150, 150, 150, Priority.NEVER, VPos.CENTER, false);
 

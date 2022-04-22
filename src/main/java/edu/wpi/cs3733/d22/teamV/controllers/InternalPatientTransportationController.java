@@ -59,6 +59,8 @@ public class InternalPatientTransportationController extends RequestController {
   /** Update the table with values from fields and the DB */
   @Override
   public void updateTreeTable() {
+    // TODO add Date and time column
+
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));

@@ -90,7 +90,7 @@ public abstract class Controller extends Application {
 
   // Switches scene to the service request page
   @FXML
-  protected void switchToServiceRequest(ActionEvent event) throws IOException {
+  protected void switchToServiceRequest(Event event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/serviceRequest.fxml"));
     switchScene(event);
   }
@@ -185,7 +185,7 @@ public abstract class Controller extends Application {
 
   // Switches scene to the rootW
   @FXML
-  protected void switchScene(ActionEvent event) {
+  protected void switchScene(Event event) {
     try {
       root = loader.load();
     } catch (IOException e) {

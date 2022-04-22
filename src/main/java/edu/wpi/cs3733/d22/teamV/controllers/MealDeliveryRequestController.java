@@ -26,7 +26,6 @@ public class MealDeliveryRequestController extends RequestController {
 
   @FXML private TreeTableColumn<MealRequest, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<MealRequest, Integer> patientIDCol;
-  @FXML private TreeTableColumn<MealRequest, Integer> serviceIDCol;
   @FXML private TreeTableColumn<MealRequest, String> firstNameCol;
   @FXML private TreeTableColumn<MealRequest, String> lastNameCol;
   @FXML private TreeTableColumn<MealRequest, String> nodeIDCol;
@@ -75,7 +74,6 @@ public class MealDeliveryRequestController extends RequestController {
     // name of the variable we are adding to a specific column
     hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
     nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));

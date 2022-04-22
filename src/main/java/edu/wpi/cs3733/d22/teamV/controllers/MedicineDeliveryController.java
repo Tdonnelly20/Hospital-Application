@@ -28,7 +28,6 @@ public class MedicineDeliveryController extends RequestController {
 
   @FXML private TreeTableColumn<MedicineDelivery, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
-  @FXML private TreeTableColumn<MedicineDelivery, Integer> serviceIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> nodeIDCol;
@@ -96,16 +95,15 @@ public class MedicineDeliveryController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(patientIDCol, (w - 30) / 10);
-    setColumnSize(hospitalIDCol, (w - 30) / 10);
-    setColumnSize(firstNameCol, (w - 30) / 10);
-    setColumnSize(lastNameCol, (w - 30) / 10);
-    setColumnSize(nodeIDCol, (w - 30) / 10);
-    setColumnSize(medicineCol, (w - 30) / 10);
-    setColumnSize(dosageCol, (w - 30) / 10);
-    setColumnSize(otherInfoCol, (w - 30) / 10);
-    setColumnSize(serviceIDCol, (w - 30) / 10);
-    setColumnSize(statusCol, (w - 30) / 10);
+    setColumnSize(patientIDCol, (w - 30) / 9);
+    setColumnSize(hospitalIDCol, (w - 30) / 9);
+    setColumnSize(firstNameCol, (w - 30) / 9);
+    setColumnSize(lastNameCol, (w - 30) / 9);
+    setColumnSize(nodeIDCol, (w - 30) / 9);
+    setColumnSize(medicineCol, (w - 30) / 9);
+    setColumnSize(dosageCol, (w - 30) / 9);
+    setColumnSize(otherInfoCol, (w - 30) / 9);
+    setColumnSize(statusCol, (w - 30) / 9);
   }
 
   /** Update the table with values from fields and the DB */
@@ -115,7 +113,6 @@ public class MedicineDeliveryController extends RequestController {
     // name of the variable we are adding to a specific column
     hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
     nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));

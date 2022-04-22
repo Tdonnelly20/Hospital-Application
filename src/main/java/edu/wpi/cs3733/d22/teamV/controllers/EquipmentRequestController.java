@@ -131,6 +131,7 @@ public class EquipmentRequestController extends RequestController {
 
   @FXML
   void updateTreeTable() {
+    // TODO add status, and date and time column
     employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
