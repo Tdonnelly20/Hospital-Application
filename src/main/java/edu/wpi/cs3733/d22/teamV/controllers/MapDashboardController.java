@@ -92,8 +92,8 @@ public class MapDashboardController extends Controller {
       e.printStackTrace();
     }
 
-    Controller controller = loader.getController();
-    controller.init();
+    MapController controller = loader.getController();
+    controller.initFloor(curFloor.getFloorName());
 
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
