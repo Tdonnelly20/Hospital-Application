@@ -8,10 +8,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-//Test example and some inspiration/code taken from https://www.baeldung.com/java-dijkstra
+// Test example and some inspiration/code taken from https://www.baeldung.com/java-dijkstra
 public class Pathfinder {
 
   private ArrayList<Node> allNodes = new ArrayList<>();
+
+  public Pathfinder() {}
 
   public static void main(String[] args) {
     // See https://www.baeldung.com/wp-content/uploads/2017/01/initial-graph.png for a picture of
@@ -59,14 +61,14 @@ public class Pathfinder {
       System.out.println(" " + node.getName());
     }
 
-    //Polling the first element in the queue gives us the distance of the entire journey
+    // Polling the first element in the queue gives us the distance of the entire journey
     System.out.println("Distance = " + path.poll().getWeight());
   }
 
   // We need to have every node have a list of connects to other nodes, and the weight between them
   @Getter
   @Setter
-  private static class Link {
+  public static class Link {
     private Node node;
     private double distance;
 
@@ -80,7 +82,7 @@ public class Pathfinder {
   // pathfinding algorithm
   @Getter
   @Setter
-  private static class Node {
+  public static class Node {
     private ArrayList<Link> links = new ArrayList<>();
     private String name;
     private Node previous = null;
@@ -100,13 +102,17 @@ public class Pathfinder {
     }
   }
 
-  private ArrayList<Node> nodes;
+  private static ArrayList<Node> nodes = new ArrayList<>();
 
   public Pathfinder(ArrayList<Node> nodes) {
     this.nodes = nodes;
   }
 
-  public Node getNodeFromName(String name) {
+  public static ArrayList<Node> getNodes() {
+    return nodes;
+  }
+
+  public static Node getNodeFromName(String name) {
     for (Node node : nodes) {
       if (node.name.equals(name)) {
         return node;
@@ -178,7 +184,8 @@ public class Pathfinder {
     return closestNode;
   }
 
-  // Recursive algorithm that Tate is unable to comprehend (all it does is create a list from the previous nodes)
+  // Recursive algorithm that Tate is unable to comprehend (all it does is create a list from the
+  // previous nodes)
   public Queue<Node> getPath(Queue<Node> path, Node node) {
     path.add(node);
     if (node.previous != null) {
@@ -186,5 +193,13 @@ public class Pathfinder {
     } else {
       return path;
     }
+  }
+
+  public static void addNode(Node node) {
+    nodes.add(node);
+  }
+
+  public static void removeNode(Node node) {
+    nodes.remove(node);
   }
 }

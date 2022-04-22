@@ -28,6 +28,7 @@ public class RequestSystem {
   private ReligiousRequestDao religiousRequestDao;
   private RobotDao robotDao;
   private SanitationRequestDao sanitationRequestDao;
+  private PathfindingDao pathfindingDao;
 
   public RequestSystem() {}
 
@@ -46,6 +47,7 @@ public class RequestSystem {
     religiousRequestDao = new ReligiousRequestDao();
     robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
+    pathfindingDao = new PathfindingDao();
 
     triDirectionalityInit();
   }
