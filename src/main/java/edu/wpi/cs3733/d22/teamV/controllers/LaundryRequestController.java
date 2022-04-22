@@ -6,6 +6,8 @@ import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
 import java.awt.*;
 import java.io.IOException;
@@ -26,7 +28,7 @@ import javafx.stage.Stage;
 public class LaundryRequestController extends RequestController {
 
   @FXML private Label status;
-  @FXML private TextField userID;
+  @FXML private TextField employeeID;
   @FXML private TextField patientID;
   @FXML private TextField roomNumber;
   @FXML private TextArea details;
@@ -34,7 +36,7 @@ public class LaundryRequestController extends RequestController {
   @FXML private Button sendRequest;
 
   @FXML private TreeTableView<LaundryRequest> requestTable;
-  @FXML private TreeTableColumn<LaundryRequest, Integer> userIDCol;
+  @FXML private TreeTableColumn<LaundryRequest, Integer> employeeIDCol;
   @FXML private TreeTableColumn<LaundryRequest, Integer> patientIDCol;
   @FXML private TreeTableColumn<LaundryRequest, String> firstNameCol;
   @FXML private TreeTableColumn<LaundryRequest, String> lastNameCol;
@@ -94,7 +96,7 @@ public class LaundryRequestController extends RequestController {
 
   @FXML
   void resetForm() {
-    userID.setText("");
+    employeeID.setText("");
     patientID.setText("");
     roomNumber.setText("");
     details.setText("");
@@ -104,30 +106,54 @@ public class LaundryRequestController extends RequestController {
     sendRequest.setText("Send Request");
   }
 
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
   // Checks to see if the user can submit info
   @FXML
   void validateButton() {
-    if ((!userID.getText().isEmpty())
-        && !(patientID.getText().isEmpty())
-        && (LocationDao.getLocation(roomNumber.getText()) != null)
-        && (statusDropDown.getValue() != null)) {
-      // Information verification and submission needed
-      status.setText("Status: Done");
-      sendRequest.setDisable(false);
-
-    } else if ((userID.getText().isEmpty())
-        || (patientID.getText().isEmpty())
-        || (roomNumber.getText().isEmpty())
-        || (statusDropDown.getValue() == null)) {
-      sendRequest.setDisable(true);
-      status.setText("Status: Processing");
-
+    sendRequest.setDisable(true);
+    String issues = "Issues:\n";
+    if (employeeID.getText().isEmpty()
+        && patientID.getText().isEmpty()
+        && roomNumber.getText().isEmpty()
+        && statusDropDown.getValue() == null) {
+      status.setText("Status: Blank");
     } else if (LocationDao.getLocation(roomNumber.getText()) == null) {
       sendRequest.setDisable(true);
       status.setText("Status: Needs valid room");
-    } else {
+    } else if (!findEmployee()) {
       sendRequest.setDisable(true);
-      status.setText("Status: Blank");
+      status.setText("Status: Needs valid employee");
+    } else if (!findPatient()) {
+      sendRequest.setDisable(true);
+      status.setText("Status: Needs valid patient");
+    } else {
+      sendRequest.setDisable(false);
+      status.setText("Status: Good");
     }
   }
 
@@ -135,7 +161,7 @@ public class LaundryRequestController extends RequestController {
   private void sendRequest() {
     LaundryRequest l =
         new LaundryRequest(
-            Integer.parseInt(userID.getText()),
+            Integer.parseInt(employeeID.getText()),
             Integer.parseInt(patientID.getText()),
             roomNumber.getText(),
             details.getText(),
@@ -156,7 +182,7 @@ public class LaundryRequestController extends RequestController {
   }
 
   public void updateTreeTable() {
-    userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
@@ -189,7 +215,7 @@ public class LaundryRequestController extends RequestController {
     updating = true;
     LaundryRequest l = requestTable.getSelectionModel().getSelectedItem().getValue();
 
-    userID.setText(String.valueOf(l.getEmployeeID()));
+    employeeID.setText(String.valueOf(l.getEmployeeID()));
     patientID.setText(String.valueOf(l.getPatientID()));
     roomNumber.setText(l.getLocationID());
     details.setText(l.getDetails());
@@ -211,7 +237,7 @@ public class LaundryRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(userIDCol, (w - 30) / 7);
+    setColumnSize(employeeIDCol, (w - 30) / 7);
     setColumnSize(patientIDCol, (w - 30) / 7);
     setColumnSize(firstNameCol, (w - 30) / 7);
     setColumnSize(lastNameCol, (w - 30) / 7);
