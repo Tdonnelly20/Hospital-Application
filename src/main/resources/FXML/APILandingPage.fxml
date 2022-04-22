@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.HomeController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.APIController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" />
       <ColumnConstraints hgrow="SOMETIMES" prefWidth="700.0" />
@@ -52,12 +52,12 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ImageView fx:id="homeButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ImageView fx:id="homeFromAPIButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@../HomeButton.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="closeButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#stop" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <ImageView fx:id="closeFromAPIButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#stop" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
                   <Image url="@../ExitButton.png" />
                </image>
