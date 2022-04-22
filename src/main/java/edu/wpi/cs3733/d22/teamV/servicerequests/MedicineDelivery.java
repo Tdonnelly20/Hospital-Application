@@ -4,6 +4,9 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public class MedicineDelivery extends ServiceRequest {
   private String medicineName, nodeID, dosage, status, requestDetails;
   /**
@@ -21,6 +24,7 @@ public class MedicineDelivery extends ServiceRequest {
       String dosage,
       String status,
       String requestDetails) {
+    this.timeMade= Timestamp.from(Instant.now());
     this.dosage = dosage;
     this.requestDetails = requestDetails;
     this.nodeID = nodeID;
