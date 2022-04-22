@@ -185,22 +185,31 @@ public class RequestSystem {
     switch (request.getType()) {
       case "Equipment Delivery Request":
         equipmentDeliveryDao.removeServiceRequest(request);
+        break;
       case "Internal Patient Transportation Request":
         internalPatientTransportationDao.removeServiceRequest(request);
+        break;
       case "Lab Request":
         labRequestDao.removeServiceRequest(request);
+        break;
       case "Laundry Request":
         laundryRequestDao.removeServiceRequest(request);
+        break;
       case "Meal Request":
         mealRequestDao.removeServiceRequest(request);
+        break;
       case "Medicine Delivery Request":
         medicineDeliveryDao.removeServiceRequest(request);
+        break;
       case "Religious Request":
         religiousRequestDao.removeServiceRequest(request);
+        break;
       case "Sanitation Request":
         sanitationRequestDao.removeServiceRequest(request);
+        break;
       default:
         System.out.println("RemoveServiceRequest error");
+        break;
     }
   }
 
