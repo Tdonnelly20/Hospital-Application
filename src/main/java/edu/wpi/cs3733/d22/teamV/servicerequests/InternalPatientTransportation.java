@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -18,7 +17,7 @@ public class InternalPatientTransportation extends ServiceRequest {
    */
   public InternalPatientTransportation(
       String nodeID, int patientID, int employeeID, String requestDetails) {
-    this.timeMade= Timestamp.from(Instant.now());
+    this.timeMade = Timestamp.from(Instant.now());
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     System.out.println(employee.getEmployeeID());

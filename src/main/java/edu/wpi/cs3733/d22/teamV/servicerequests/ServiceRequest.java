@@ -7,7 +7,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import java.sql.Timestamp;
-import java.time.Instant;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +20,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   public Patient patient;
   protected Employee employee;
   public boolean toBeDeleted = false;
-  protected Timestamp timeMade;//when this was made
+  protected Timestamp timeMade; // when this was made
   protected String type;
   protected RequestSystem.Dao dao;
   protected String notes;

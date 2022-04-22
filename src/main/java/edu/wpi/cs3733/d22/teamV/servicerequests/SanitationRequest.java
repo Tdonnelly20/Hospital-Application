@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -25,7 +24,7 @@ public class SanitationRequest extends ServiceRequest {
       String roomLocation,
       String hazardName,
       String requestDetails) {
-    this.timeMade= Timestamp.from(Instant.now());
+    this.timeMade = Timestamp.from(Instant.now());
     this.requestDetails = requestDetails;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
