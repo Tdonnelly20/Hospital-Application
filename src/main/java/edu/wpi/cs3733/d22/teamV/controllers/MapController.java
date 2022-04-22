@@ -111,6 +111,11 @@ public class MapController extends Controller {
     mapSetUp();
   }
 
+  public void initFloor(String floor) {
+    setFloor(floor);
+    mapSetUp();
+  }
+
   /** Allows users to zoom in and out of the map without */
   protected void mapSetUp() {
     setUpControls();
