@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -33,7 +32,7 @@
                   <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
                </image>
             </ImageView>
-            <Label layoutX="69.0" layoutY="19.0" prefHeight="17.0" prefWidth="128.0" text="Home" textFill="WHITE">
+            <Label layoutX="69.0" layoutY="19.0" prefHeight="17.0" prefWidth="128.0" text="API" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
@@ -42,8 +41,9 @@
       </Pane>
       <GridPane alignment="CENTER_RIGHT" prefHeight="76.0" prefWidth="224.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="10.0" prefWidth="440.66656494140625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="0.0" prefWidth="35.33343505859375" />
             <ColumnConstraints />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="119.44442749023438" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.33331298828125" minWidth="10.0" prefWidth="73.88890584309894" />
          </columnConstraints>
          <rowConstraints>
@@ -52,16 +52,16 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="closeButtonMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: #012D5Aff;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToServiceRequest" prefHeight="29.0" prefWidth="141.0" style="-fx-background-color: #012D5Aff;" text="Service Requests" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
+            <ImageView fx:id="homeButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../HomeButton.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="closeButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#stop" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../ExitButton.png" />
+               </image>
+            </ImageView>
          </children>
       </GridPane>
       <AnchorPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
@@ -76,17 +76,17 @@
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="408.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="204.0" layoutY="151.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-                  <JFXButton layoutX="204.0" layoutY="151.0" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team V API" textFill="WHITE">
+                  <JFXButton fx:id="TeamVAPI" layoutX="204.0" layoutY="151.0" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team V API" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team # API" textFill="WHITE">
+                  <JFXButton fx:id="Team1API" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team 1 API" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton layoutX="408.0" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team # API" textFill="WHITE">
+                  <JFXButton fx:id="Team2API" layoutX="408.0" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team 2 API" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
