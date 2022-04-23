@@ -145,7 +145,12 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJ6" layoutX="60.0" layoutY="389.0" text="&quot;To the Shadow Realm&quot; -Jason">
+                              <Label fx:id="labelJ6" layoutX="43.0" layoutY="389.0" text="&quot;What if you had a million quotes,">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJ7" layoutX="101.0" layoutY="424.0" text="but no quotes?&quot; -Jason">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
