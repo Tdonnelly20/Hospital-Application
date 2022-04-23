@@ -24,6 +24,7 @@ public abstract class Icon {
   protected double yCoord;
   @FXML protected ImageView image;
   protected boolean isDrag = false;
+  protected Floor floor;
 
   public Icon(Location location) {
     this.xCoord = location.getXCoord();

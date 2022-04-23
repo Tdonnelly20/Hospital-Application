@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MapManager {
-  private ArrayList<Floor> floorList;
+  private ArrayList<Floor> floorList = new ArrayList<>();
   List<? extends ServiceRequest> serviceRequests = new ArrayList<>();
   RequestSystem requestSystem = Vdb.requestSystem;
   public Image cleanEquipment = new Image("cleanEquipment.png");
@@ -25,7 +25,6 @@ public class MapManager {
   /** Gets every service request and sets up the floors */
   public void init() {
     serviceRequests = requestSystem.getEveryServiceRequest();
-    floorList = new ArrayList<>();
     Floor l1 = new Floor("L1", new Image("Lower Level 1.png"));
     Floor l2 = new Floor("L2", new Image("Lower Level 2.png"));
     Floor f1 = new Floor("1", new Image("1st Floor.png"));
@@ -100,6 +99,7 @@ public class MapManager {
         e.setIcon(icon);
         getFloor(e.getFloor()).addIcon(e.getIcon());
         icon.setImage();
+        icon.setFloor(getFloor(e.getFloor()));
       }
     }
   }
@@ -115,11 +115,13 @@ public class MapManager {
         LocationIcon locationIcon = new LocationIcon(l);
         l.setIcon(locationIcon);
         floorList.get(i).addIcon(locationIcon);
+        locationIcon.setFloor(floorList.get(i));
       }
     } else {
       LocationIcon locationIcon = new LocationIcon(l);
       l.setIcon(locationIcon);
       floorList.get(i).addIcon(locationIcon);
+      locationIcon.setFloor(floorList.get(i));
     }
   }
 
@@ -133,6 +135,8 @@ public class MapManager {
                 .getLocation(serviceRequest.getLocation().getNodeID())
                 .getIcon()
                 .addToRequests(serviceRequest);
+            serviceRequest.setFloor(
+                MapManager.getManager().getFloor(serviceRequest.getLocation().getFloor()));
           }
         }
       }

@@ -53,6 +53,18 @@ public class PopupController {
   MapController mapController = MapController.getController();
   RequestSystem requestSystem = RequestSystem.getSystem();
 
+  JFXComboBox<String> floorCB =
+      new JFXComboBox<>(
+          FXCollections.observableArrayList(
+              "Ground Floor",
+              "Lower Level 2",
+              "Lower Level 1",
+              "1st Floor",
+              "2nd Floor",
+              "3rd Floor",
+              "4th Floor",
+              "5th Floor"));
+
   private static class SingletonHelper {
     private static final PopupController controller = new PopupController();
   }
@@ -158,17 +170,8 @@ public class PopupController {
     return true;
   }
 
-  /** Gets a new location based on the field info and mouse position */
-  private Location getLocation(double xPos, double yPos, String floor) {
-    return new Location(
-        fields[0].getText(),
-        xPos,
-        yPos,
-        floor,
-        "Tower",
-        fields[1].getText(),
-        fields[2].getText(),
-        fields[3].getText());
+  private String convertFloor() {
+    return convertFloor(floorCB.getValue());
   }
 
   private String convertFloor(String floor) {
@@ -317,6 +320,7 @@ public class PopupController {
     fields[2].setPromptText("Short Name");
     fields[3].setPromptText("Long Name");
     insertFields();
+    content.getChildren().add(floorCB);
     submitIcon.setOnAction(
         event1 -> {
           if (checkFields()) {
@@ -326,7 +330,7 @@ public class PopupController {
                         fields[0].getText(),
                         event.getX(),
                         event.getY(),
-                        MapController.getController().getFloorName(),
+                        convertFloor(),
                         "Tower",
                         fields[1].getText(),
                         fields[3].getText(),
@@ -351,27 +355,15 @@ public class PopupController {
     fields[1].setPromptText("Node ID");
     fields[2].setPromptText("X-Coordinate");
     fields[3].setPromptText("Y-Coordinate");
-    comboBox1 =
-        new JFXComboBox<>(
-            FXCollections.observableArrayList(
-                "Ground Floor",
-                "Lower Level 2",
-                "Lower Level 1",
-                "1st Floor",
-                "2nd Floor",
-                "3rd Floor",
-                "4th Floor",
-                "5th Floor"));
     fields[4].setPromptText("Building");
     fields[5].setPromptText("Node Type");
     fields[7].setPromptText("Short Name");
     fields[6].setPromptText("Long Name");
+    floorCB.setPromptText("Floor");
     if (icon == null) {
       content
           .getChildren()
-          .addAll(
-              fields[0], fields[1], fields[2], fields[3], fields[4], comboBox1, fields[5],
-              fields[6], fields[7]);
+          .addAll(fields[0], fields[1], fields[4], floorCB, fields[5], fields[6], fields[7]);
       submitIcon.setOnAction(
           event1 -> {
             if (checkFields()) {
@@ -382,7 +374,7 @@ public class PopupController {
                       fields[1].getText(),
                       Double.parseDouble(fields[2].getText()),
                       Double.parseDouble(fields[3].getText()),
-                      convertFloor(comboBox1.getValue()),
+                      convertFloor(),
                       fields[4].getText(),
                       fields[5].getText(),
                       fields[6].getText(),
@@ -394,16 +386,15 @@ public class PopupController {
             }
           });
     } else {
-      fields[1].setPromptText("Node ID: " + icon.getLocation().getNodeID());
-      fields[2].setPromptText("X-Coordinate: " + icon.getLocation().getXCoord());
-      fields[3].setPromptText("Y-Coordinate: " + icon.getLocation().getYCoord());
-      comboBox1.setValue(icon.getLocation().getFloor());
-      comboBox1.setPromptText(icon.getLocation().getFloor());
-      fields[4].setPromptText("Building: " + icon.getLocation().getBuilding());
-      fields[5].setPromptText("Node Type: " + icon.getLocation().getNodeType());
-      fields[6].setPromptText("Long Name: " + icon.getLocation().getLongName());
-      fields[7].setPromptText("Short Name: " + icon.getLocation().getShortName());
-      content.getChildren().add(comboBox1);
+      fields[1].setPromptText(icon.getLocation().getNodeID());
+      fields[2].setPromptText("" + icon.getLocation().getXCoord());
+      fields[3].setPromptText("" + icon.getLocation().getYCoord());
+      floorCB.setValue(icon.getLocation().getFloor());
+      fields[4].setPromptText(icon.getLocation().getBuilding());
+      fields[5].setPromptText(icon.getLocation().getNodeType());
+      fields[6].setPromptText(icon.getLocation().getLongName());
+      fields[7].setPromptText(icon.getLocation().getShortName());
+      content.getChildren().add(floorCB);
       insertFields();
       submitIcon.setOnAction(
           event1 -> { // If user doesn't fill in information, assume old information is retained
@@ -411,7 +402,7 @@ public class PopupController {
             if (!(fields[1].getText().equals(icon.getLocation().getNodeID())
                 && fields[2].getText().equals(String.valueOf(icon.getLocation().getXCoord()))
                 && fields[3].getText().equals(String.valueOf(icon.getLocation().getYCoord()))
-                && convertFloor(comboBox1.getValue()).equals(icon.getLocation().getFloor())
+                && convertFloor().equals(icon.getLocation().getFloor())
                 && fields[4].getText().equals(icon.getLocation().getBuilding())
                 && fields[5].getText().equals(icon.getLocation().getNodeType())
                 && fields[6].getText().equals(icon.getLocation().getLongName())
@@ -460,10 +451,10 @@ public class PopupController {
     } else {
       location.setYCoord(Double.parseDouble(fields[3].getText()));
     }
-    if (comboBox1.getValue().equals("")) {
+    if (floorCB.getValue().equals("")) {
       location.setFloor(icon.getLocation().getFloor());
     } else {
-      location.setFloor(convertFloor(comboBox1.getValue()));
+      location.setFloor(convertFloor());
     }
     if (fields[4].getText().isEmpty()) {
       fields[4].setText(icon.getLocation().getBuilding());
@@ -574,6 +565,9 @@ public class PopupController {
     comboBox3 =
         new JFXComboBox<>(FXCollections.observableArrayList("Not Started", "Processing", "Done"));
     comboBox3.setPromptText("Not Started");
+    if (icon == null) {
+      content.getChildren().add(floorCB);
+    }
     switch (serviceRequest) {
       case "Lab Request":
         fields[1].setPromptText("Patient ID");
@@ -802,7 +796,7 @@ public class PopupController {
               request.getType() + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
               event.getX(),
               event.getY(),
-              MapController.getController().currFloor.getFloorName(),
+              convertFloor(),
               "Tower",
               request.getType(),
               request.getType() + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
@@ -857,7 +851,7 @@ public class PopupController {
     comboBox1.setPromptText("Clean");
     comboBox1.setValue("Clean");
     comboBox1 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
-    content.getChildren().addAll(comboBox1);
+    content.getChildren().addAll(comboBox1, floorCB);
 
     submitIcon.setOnAction(
         event1 -> {
@@ -867,7 +861,7 @@ public class PopupController {
                   new Equipment(
                       fields[0].getText(),
                       fields[1].getText(),
-                      MapController.getController().currFloor.getFloorName(),
+                      convertFloor(),
                       event.getX(),
                       event.getY(),
                       fields[2].getText(),
@@ -879,7 +873,7 @@ public class PopupController {
                           event.getX(),
                           event.getY(),
                           "Tower",
-                          MapController.getController().currFloor.getFloorName(),
+                          convertFloor(),
                           fields[0].getText(),
                           "",
                           "")));
@@ -890,7 +884,7 @@ public class PopupController {
                   new Equipment(
                       fields[0].getText(),
                       fields[1].getText(),
-                      MapController.getController().currFloor.getFloorName(),
+                      convertFloor(),
                       event.getX(),
                       event.getY(),
                       fields[2].getText(),
@@ -950,25 +944,13 @@ public class PopupController {
     fields[1].setPromptText("Equipment ID");
     fields[2].setPromptText("X-Coordinate");
     fields[3].setPromptText("Y-Coordinate");
-    comboBox1.setPromptText("Floor");
-    comboBox1 =
-        new JFXComboBox<>(
-            FXCollections.observableArrayList(
-                "Ground Floor",
-                "Lower Level 2",
-                "Lower Level 1",
-                "1st Floor",
-                "2nd Floor",
-                "3rd Floor",
-                "4th Floor",
-                "5th Floor"));
     fields[4].setPromptText("Building");
     fields[5].setPromptText("Type");
     fields[6].setPromptText("Description");
     comboBox2.setPromptText("Clean");
     comboBox2 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
     insertFields();
-    content.getChildren().addAll(comboBox1, comboBox2);
+    content.getChildren().addAll(floorCB, comboBox2);
     submitIcon.setOnAction(
         event1 -> {
           if (checkFields()) {
@@ -978,16 +960,12 @@ public class PopupController {
                 new Equipment(
                     fields[1].getText(),
                     fields[5].getText(),
-                    convertFloor(comboBox1.getValue()),
+                    convertFloor(),
                     Double.parseDouble(fields[2].getText()),
                     Double.parseDouble(fields[3].getText()),
                     fields[6].getText(),
                     false);
-            if (comboBox2.getValue().equals("Dirty")) {
-              equipment.setIsDirty(true);
-            } else {
-              equipment.setIsDirty(false);
-            }
+            equipment.setIsDirty(comboBox2.getValue().equals("Dirty"));
             addEquipmentIcon(equipment);
             closePopUp();
           }
