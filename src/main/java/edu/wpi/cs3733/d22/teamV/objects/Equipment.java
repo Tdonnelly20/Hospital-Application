@@ -84,7 +84,7 @@ public class Equipment {
   }
 
   public void updateLocation(double x, double y) {
-    setX(x);
-    setY(y);
+    this.x = x;
+    this.y = y;
   }
 }

@@ -515,8 +515,18 @@ public class RequestSystem {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
       ArrayList<Equipment> equipmentList =
           new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
-      // System.out.println(equipmentList.size());
-      addEquipment(((EquipmentIcon) icon).getEquipmentList());
+      for (Equipment e : equipmentList) {
+        equipmentDao.updateEquipment(
+            new Equipment(
+                e.getID(),
+                e.getName(),
+                icon.getFloor().getFloorName(),
+                icon.getXCoord(),
+                icon.getYCoord(),
+                e.getDescription(),
+                e.getIsDirty()),
+            e.getID());
+      }
     } else {
       Location newLocation =
           new Location(
