@@ -176,11 +176,10 @@ public class EquipmentDao {
     saveToCSV();
   }
 
-  public void updateEquipment(Equipment newEquipment, String equipmentID){
+  public void updateEquipment(Equipment newEquipment, String equipmentID) {
     newEquipment.setID(equipmentID);
     removeEquipment(equipmentID);
     addEquipment(newEquipment);
-
   }
 
   public void addEquipment(ArrayList<Equipment> equipmentList) {

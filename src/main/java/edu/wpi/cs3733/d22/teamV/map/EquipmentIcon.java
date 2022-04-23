@@ -146,11 +146,10 @@ public class EquipmentIcon extends Icon {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
             ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
-            RequestSystem.getSystem().removeEquipment(icon);
-            for (Equipment equipment : tempEquipmentList) {
-              equipment.updateLocation(location.getXCoord(), location.getYCoord());
-            }
-            RequestSystem.getSystem().addEquipment(tempEquipmentList);
+            tempEquipmentList.addAll(equipmentList);
+            equipmentList.clear();
+            equipmentList.addAll(tempEquipmentList);
+            RequestSystem.getSystem().updateLocations(this);
             setImage();
           }
         }
