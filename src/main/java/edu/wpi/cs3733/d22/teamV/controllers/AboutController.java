@@ -60,6 +60,17 @@ public class AboutController extends RequestController {
   @FXML private Pane paneB;
   private boolean visibleB = false;
 
+  @FXML private Label labelA;
+  @FXML private Label labelA1;
+  @FXML private Label labelA2;
+  @FXML private Label labelA3;
+  @FXML private Label labelA4;
+  @FXML private Label labelA5;
+  @FXML private Label labelA6;
+  @FXML private Label labelA7;
+  @FXML private Pane paneA;
+  private boolean visibleA = false;
+
   @Override
   public void init() {
     setTitleText("About");
@@ -109,6 +120,16 @@ public class AboutController extends RequestController {
     labelB5.setVisible(false);
     labelB6.setVisible(false);
     paneB.setVisible(false);
+
+    labelA.setVisible(false);
+    labelA1.setVisible(false);
+    labelA2.setVisible(false);
+    labelA3.setVisible(false);
+    labelA4.setVisible(false);
+    labelA5.setVisible(false);
+    labelA6.setVisible(false);
+    labelA7.setVisible(false);
+    paneA.setVisible(false);
 
     fillTopPane();
   }
@@ -186,5 +207,19 @@ public class AboutController extends RequestController {
     labelB5.setVisible(visibleB);
     labelB6.setVisible(visibleB);
     paneB.setVisible(visibleB);
+  }
+
+  @FXML
+  private void showInfoAndres() {
+    visibleA = !visibleA;
+    labelA.setVisible(visibleA);
+    labelA1.setVisible(visibleA);
+    labelA2.setVisible(visibleA);
+    labelA3.setVisible(visibleA);
+    labelA4.setVisible(visibleA);
+    labelA5.setVisible(visibleA);
+    labelA6.setVisible(visibleA);
+    labelA7.setVisible(visibleA);
+    paneA.setVisible(visibleA);
   }
 }
