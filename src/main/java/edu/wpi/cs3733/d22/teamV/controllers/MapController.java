@@ -232,9 +232,16 @@ public class MapController extends Controller {
     populateFloorIconArr();
   }
 
+  // what was originally called by the refresh button.
+  public void refresh() {
+    System.out.println("Refresh");
+    setFloor(floorName);
+  }
+
   /** Loads the floor's icons in accordance with filter */
   @FXML
   public void populateFloorIconArr() {
+    System.out.println("populating icons");
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.size() > 0) {
@@ -384,7 +391,7 @@ public class MapController extends Controller {
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
-    // populateFloorIconArr();
+    populateFloorIconArr();
     checkFilter();
   }
 
@@ -403,12 +410,13 @@ public class MapController extends Controller {
     RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     MapManager.getManager().setUpFloors();
   }
+
   /*
   private void update() {
     MapManager.getManager().setUpFloors();
     setFloor(floorName);
-    populateFloorIconArr();
-    clearForm();
+    // populateFloorIconArr();
+    // clearForm();
   }
 
   public void addLocation(Location newLocation) {
