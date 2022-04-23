@@ -38,7 +38,7 @@ public class PopupController {
   @FXML Button addButton = new Button("Add");
   @FXML Button modifyButton = new Button("Modify");
   @FXML Button removeButton = new Button("Remove");
-  @FXML VBox content = new VBox();
+  @FXML VBox content = new VBox(15);
   @FXML VBox sceneVbox = new VBox();
   @FXML Scene scene = new Scene(sceneVbox, 450, 450);
   @FXML Stage stage = new Stage();
