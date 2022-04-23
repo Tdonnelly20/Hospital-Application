@@ -18,7 +18,7 @@ public class PathfindingDao {
   }
 
   public void pathfind() {
-    Queue<Pathfinder.Node> path = pathfinder.pathfind("FHALL00401", "FSERV00101");
+    Queue<Pathfinder.Node> path = pathfinder.pathfind("vHALL00401", "vSERV00101");
 
     // Prints out from the destination to the starting position
     for (Pathfinder.Node node : path) {
@@ -53,8 +53,6 @@ public class PathfindingDao {
 
           startNode = Pathfinder.getNodeFromName(data[1]);
           endNode = Pathfinder.getNodeFromName(data[2]);
-
-          System.out.println(data[1] + " " + data[2]);
 
           if (startNode == null) {
             startNode = new Pathfinder.Node(data[1]);
