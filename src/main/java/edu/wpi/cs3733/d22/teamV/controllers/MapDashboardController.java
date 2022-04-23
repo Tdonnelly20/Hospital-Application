@@ -108,6 +108,8 @@ public class MapDashboardController extends Controller {
     stage.show();
   }
 
+  public void addBedAlertToArray(boolean alert, ArrayList<String> dirtyBedsFloor) {}
+
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
   }
@@ -434,7 +436,7 @@ public class MapDashboardController extends Controller {
 
     int index = 0;
     for (EquipmentIcon e : i) {
-      if (e.alertSixBeds() > 5) {
+      if (e.alertSixBeds()) {
         alerts.add(
             "There are 6+ dirty beds at location "
                 + e.getLocation().getXCoord()

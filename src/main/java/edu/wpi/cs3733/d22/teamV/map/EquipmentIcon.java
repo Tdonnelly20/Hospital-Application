@@ -157,7 +157,7 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  public void alertSixBeds() {
+  public boolean alertSixBeds() {
 
     int alertCounter = 0;
     boolean alert = false;
@@ -177,6 +177,7 @@ public class EquipmentIcon extends Icon {
     }
 
     MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+    return alert;
   }
 
   public int[] pumpAlert() {
