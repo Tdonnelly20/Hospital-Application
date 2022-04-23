@@ -55,6 +55,10 @@ public class RequestSystem {
 
   private void triDirectionalityInit() {}
 
+  public EquipmentDao getEquipmentDao() {
+    return equipmentDao;
+  }
+
   /** Choose type of DAO for the methods called */
   public enum Dao {
     Employee,

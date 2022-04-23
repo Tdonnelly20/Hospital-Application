@@ -11,7 +11,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -320,15 +319,17 @@ public class PopupController {
         event -> {
           if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
             // TODO Draw line based on pathfinder
-            ArrayList<Location> locations =
-                RequestSystem.getSystem()
-                    .getPaths(
-                        firstLocation.getLocation().getNodeID(),
-                        RequestSystem.getSystem().getLocation(fields[0].getText()).getNodeID());
-            for (int i = 0; i < locations.size() - 1; i++) {
-              MapController.getController()
-                  .drawPath(locations.get(i).getIcon(), locations.get(i + 1).getIcon());
-            }
+            /*
+             ArrayList<Location> locations =
+                 RequestSystem.getSystem()
+                     //.getPaths(
+                     //    firstLocation.getLocation().getNodeID(),
+                      //   RequestSystem.getSystem().getLocation(fields[0].getText()).getNodeID());
+             for (int i = 0; i < locations.size() - 1; i++) {
+               //MapController.getController().drawPath(locations.get(i).getIcon(), locations.get(i + 1).getIcon());
+             }
+
+            */
             closePopUp();
           }
         });
