@@ -41,10 +41,11 @@ public class EquipmentIcon extends Icon {
         event -> {
           if (isDrag) {
             isDrag = false;
-            setXCoord(xCoord + event.getX());
-            setYCoord(yCoord + event.getY());
+            xCoord += event.getX();
+            yCoord += event.getY();
             RequestSystem.getSystem().updateLocations(this);
             checkBounds();
+            MapManager.getManager().setUpFloors();
           }
           // MapController.getController().setFloor(getLocation().getFloor());
         });
@@ -64,6 +65,7 @@ public class EquipmentIcon extends Icon {
       for (Equipment equipment : equipmentList) {
         Label idLabel = new Label("ID: " + equipment.getID());
         Button deleteEquipment = new Button("Delete");
+        deleteEquipment.setStyle("-fx-background-color: #5C7B9F; -fx-text-fill: white;");
         deleteEquipment.setOnAction(
             event -> {
               removeEquipment(equipment);
@@ -114,7 +116,6 @@ public class EquipmentIcon extends Icon {
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
-    MapController.getController().setFloor(getLocation().getFloor());
     alertSixBeds();
     PopupController.getController().closePopUp();
   }
@@ -137,18 +138,18 @@ public class EquipmentIcon extends Icon {
   }
 
   public void checkBounds() {
-    if (getFloor().getEquipmentIcons().size() > 0) {
+    if (MapManager.getManager().getFloor(this.getLocation().getFloor()).getEquipmentIcons().size()
+        > 0) {
       for (EquipmentIcon icon :
           MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
         if (icon != this && iconType.equals(IconType.Equipment)) {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
             ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
-            RequestSystem.getSystem().removeEquipment(icon);
-            for (Equipment equipment : tempEquipmentList) {
-              equipment.updateLocation(location.getXCoord(), location.getYCoord());
-            }
-            RequestSystem.getSystem().addEquipment(tempEquipmentList);
+            tempEquipmentList.addAll(equipmentList);
+            equipmentList.clear();
+            equipmentList.addAll(tempEquipmentList);
+            RequestSystem.getSystem().updateLocations(this);
             setImage();
           }
         }
@@ -175,7 +176,7 @@ public class EquipmentIcon extends Icon {
       alert = true;
     }
 
-    //MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
   public int[] pumpAlert() {
