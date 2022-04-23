@@ -187,13 +187,11 @@ public class LaundryRequestDao extends DaoInterface {
   }
 
   public void removeServiceRequest(ServiceRequest request) {
-    if (request.getType().equals("Laundry Request")) {
-      LaundryRequest laundryRequest = (LaundryRequest) request;
-      allLaundryRequests.removeIf(value -> value.getServiceID() == laundryRequest.getServiceID());
-      request.detachAll();
-      removeFromSQLTable(request);
-      saveToCSV();
-    }
+    LaundryRequest laundryRequest = (LaundryRequest) request;
+    allLaundryRequests.removeIf(value -> value.getServiceID() == laundryRequest.getServiceID());
+    request.detachAll();
+    removeFromSQLTable(request);
+    saveToCSV();
   }
 
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {

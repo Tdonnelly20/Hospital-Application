@@ -20,6 +20,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
@@ -62,6 +66,8 @@ public class MapDashboardController extends Controller {
   @FXML TitledPane countsTPane;
   private @FXML TitledPane mapTPane;
   private @FXML TitledPane alertsTPane;
+
+  private @FXML BarChart bedBarChart;
 
   private Parent root;
   FXMLLoader loader = new FXMLLoader();
@@ -112,8 +118,6 @@ public class MapDashboardController extends Controller {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
   private Floor curFloor = MapManager.getManager().getFloor("1");
 
@@ -198,7 +202,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Lower Level 2");
+    floorLabel.setText("LL2");
     updateMap("L2");
   }
 
@@ -207,7 +211,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Lower Level 1");
+    floorLabel.setText("LL1");
     updateMap("L1");
   }
 
@@ -486,6 +490,7 @@ public class MapDashboardController extends Controller {
   public void init() {
     setUpButtonSubjects();
     setUpDashboardListeners();
+    setUpBarChart();
     // updateAll();
   }
 
@@ -584,5 +589,24 @@ public class MapDashboardController extends Controller {
         mapButton.setImage(m);
         break;
     }
+  }
+
+  @FXML
+  public void setUpBarChart() {
+    // x axis
+    CategoryAxis x = new CategoryAxis();
+    x.setLabel("Item");
+    // y axis
+    NumberAxis y = new NumberAxis();
+    y.setLabel("Count");
+    // add values
+    XYChart.Series ds = new XYChart.Series();
+    ds.setName("Beds");
+    ds.getData().add(new XYChart.Data("Clean", curFloor.getDirtyEquipmentCount()));
+    ds.getData()
+        .add(
+            new XYChart.Data(
+                "Dirty", curFloor.getEquipmentIcons().size() - curFloor.getDirtyEquipmentCount()));
+    bedBarChart.getData().add(ds);
   }
 }

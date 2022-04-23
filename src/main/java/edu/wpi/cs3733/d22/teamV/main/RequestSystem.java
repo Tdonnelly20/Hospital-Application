@@ -271,6 +271,7 @@ public class RequestSystem {
         break;
       default:
         System.out.println("RemoveServiceRequest error");
+        break;
     }
   }
 
@@ -514,12 +515,8 @@ public class RequestSystem {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
       ArrayList<Equipment> equipmentList =
           new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
-      System.out.println(equipmentList.size());
-      removeEquipment(((EquipmentIcon) icon));
-      for (Equipment equipment : equipmentList) {
-        equipment.updateLocation(icon.getXCoord(), icon.getYCoord());
-        addEquipment(equipment);
-      }
+      // System.out.println(equipmentList.size());
+      addEquipment(((EquipmentIcon) icon).getEquipmentList());
     } else {
       Location newLocation =
           new Location(

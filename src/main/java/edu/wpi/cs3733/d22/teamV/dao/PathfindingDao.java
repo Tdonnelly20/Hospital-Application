@@ -18,7 +18,7 @@ public class PathfindingDao {
   }
 
   public void pathfind() {
-    Queue<Pathfinder.Node> path = pathfinder.pathfind("FHALL00401", "FSERV00101");
+    Queue<Pathfinder.Node> path = pathfinder.pathfind("vHALL00401", "vSERV00101");
 
     // Prints out from the destination to the starting position
     for (Pathfinder.Node node : path) {

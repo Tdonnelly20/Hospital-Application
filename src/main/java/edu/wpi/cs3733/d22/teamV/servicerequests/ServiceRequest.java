@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Getter
 public abstract class ServiceRequest extends DirectionalAssoc {
   protected Location location;
+  protected Floor floor;
   private int serviceID;
   public Patient patient;
   protected Employee employee;

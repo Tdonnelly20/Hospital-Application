@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -116,6 +117,13 @@ public class PatientDao {
   }
 
   public void removePatient(Patient patient) {
+    replacePatient(patient);
+    for (ServiceRequest request : patient.getServiceRequestList()) {
+      Vdb.requestSystem.removeServiceRequest(request);
+    }
+  }
+
+  public void replacePatient(Patient patient) {
     allPatients.removeIf(currPatient -> patient.getPatientID() == currPatient.getPatientID());
     removeFromSQLTable(patient);
     saveToCSV();
@@ -204,7 +212,7 @@ public class PatientDao {
       }
     }
     // System.out.println("No patient with ID: " + patientID);
-    Patient patient = new Patient("Null", "Null");
+    Patient patient = new Patient("Not", "Found");
     patient.setPatientID(patientID);
     return patient;
   }
@@ -212,7 +220,7 @@ public class PatientDao {
   public void updatePatient(Patient patient, int patientID) {
     Patient oldPatient = getPatient(patientID);
     patient.setPatientID(patientID);
-    removePatient(oldPatient);
+    replacePatient(oldPatient);
     allPatients.add(patient);
     addToSQLTable(patient);
     saveToCSV();
