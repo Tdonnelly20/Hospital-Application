@@ -11,6 +11,7 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -129,14 +130,8 @@ public class PopupController {
 
     stage.setMaxHeight(400);
     stage.setMinHeight(400);
-    stage.setOnCloseRequest(
-        event -> {
-          clearPopupForm();
-        });
-    clearResponse.setOnAction(
-        event1 -> {
-          clearPopupForm();
-        });
+    stage.setOnCloseRequest(event -> clearPopupForm());
+    clearResponse.setOnAction(event1 -> clearPopupForm());
     closeButton.setOnAction(
         event1 -> {
           closePopUp();
@@ -288,10 +283,7 @@ public class PopupController {
     removeButton.setText("Remove");
     if (icon == null) {
       clear("Location", "Location");
-      addButton.setOnAction(
-          event1 -> {
-            locationAdditionForm(event);
-          });
+      addButton.setOnAction(event1 -> locationAdditionForm(event));
       addButton.setText("Add a Location");
       buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     } else {
@@ -305,22 +297,13 @@ public class PopupController {
         content.getChildren().add(icon.compileList());
       }
       addButton.setText("Add a Service Request");
-      addButton.setOnAction(
-          event1 -> {
-            requestAdditionForm(event, icon);
-          });
+      addButton.setOnAction(event1 -> requestAdditionForm(event, icon));
       buttonBox
           .getChildren()
           .addAll(addButton, pathfindingButton, modifyButton, removeButton, closeButton);
     }
-    modifyButton.setOnAction(
-        event1 -> {
-          locationModifyForm(event, icon);
-        });
-    removeButton.setOnAction(
-        event1 -> {
-          locationRemoveForm(event, icon);
-        });
+    modifyButton.setOnAction(event1 -> locationModifyForm(event, icon));
+    removeButton.setOnAction(event1 -> locationRemoveForm(icon));
     if (!stage.isShowing()) {
       showPopUp();
     }
@@ -328,15 +311,24 @@ public class PopupController {
 
   private void directionsForm(LocationIcon firstLocation) {
     clear("Directions", "Directions");
-    fields[0].setPromptText(firstLocation.getLocation().getNodeID());
-    fields[1].setPromptText("Destination Node ID");
-    inputGenerator(fields[0].getPromptText(), "Starting Location", fields[0]);
-    inputGenerator(fields[1].getPromptText(), "Destination", fields[1]);
+    // fields[0].setPromptText(firstLocation.getLocation().getNodeID());
+    fields[0].setPromptText("Destination Node ID");
+    // inputGenerator(fields[0].getPromptText(), "Starting Location", fields[0]);
+    inputGenerator(fields[0].getPromptText(), "Destination", fields[0]);
     submitIcon.setText("Get Directions");
     submitIcon.setOnAction(
         event -> {
-          if (checkFields() && RequestSystem.getSystem().getLocation(fields[1].getText()) != null) {
+          if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
             // TODO Draw line based on pathfinder
+            ArrayList<Location> locations =
+                RequestSystem.getSystem()
+                    .getPaths(
+                        firstLocation.getLocation().getNodeID(),
+                        RequestSystem.getSystem().getLocation(fields[0].getText()).getNodeID());
+            for (int i = 0; i < locations.size() - 1; i++) {
+              MapController.getController()
+                  .drawPath(locations.get(i).getIcon(), locations.get(i + 1).getIcon());
+            }
             closePopUp();
           }
         });
@@ -522,7 +514,7 @@ public class PopupController {
   }
 
   @FXML
-  public void locationRemoveForm(MouseEvent event, LocationIcon icon) {
+  public void locationRemoveForm(LocationIcon icon) {
     submitIcon.setText("Delete Location");
     if (icon == null) {
       clear("Delete a Location", "Delete a Location");
@@ -557,10 +549,7 @@ public class PopupController {
   public void requestForm(MouseEvent event) {
     clear("Service Request", "Service Request");
     buttonBox.getChildren().addAll(addButton);
-    addButton.setOnAction(
-        event1 -> {
-          requestAdditionForm(event, null);
-        });
+    addButton.setOnAction(event1 -> requestAdditionForm(event, null));
   }
 
   @FXML
@@ -585,10 +574,7 @@ public class PopupController {
                 "Sanitation Request",
                 "Religious Request",
                 "Robot Request"));
-    comboBox1.setOnAction(
-        event1 -> {
-          fitServiceRequest(event, comboBox1.getValue(), icon);
-        });
+    comboBox1.setOnAction(event1 -> fitServiceRequest(event, comboBox1.getValue(), icon));
     content.getChildren().add(comboBox1);
   }
 
@@ -620,6 +606,7 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
+                assert icon != null;
                 LabRequest request =
                     new LabRequest(
                         Integer.parseInt(fields[0].getText()),
@@ -863,18 +850,9 @@ public class PopupController {
       buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     }
     addButton.setText("Add Equipment");
-    addButton.setOnAction(
-        event1 -> {
-          equipmentAdditionForm(event, icon);
-        });
-    modifyButton.setOnAction(
-        event1 -> {
-          equipmentModifyForm(event, icon);
-        });
-    removeButton.setOnAction(
-        event1 -> {
-          equipmentRemoveForm(event, icon);
-        });
+    addButton.setOnAction(event1 -> equipmentAdditionForm(event, icon));
+    modifyButton.setOnAction(event1 -> equipmentModifyForm(icon));
+    removeButton.setOnAction(event1 -> equipmentRemoveForm(icon));
     stage.setTitle("Equipment");
     if (!stage.isShowing()) {
       showPopUp();
@@ -931,12 +909,8 @@ public class PopupController {
                       event.getY(),
                       fields[2].getText(),
                       false);
-              boolean isDirty = false;
-              if (comboBox1.getValue().equals("Dirty")) {
-                isDirty = true;
-              } else {
-                isDirty = false;
-              }
+              boolean isDirty;
+              isDirty = comboBox1.getValue().equals("Dirty");
               equipment.setIsDirty(isDirty);
               icon.getEquipmentList().add(equipment);
               clearPopupForm();
@@ -963,7 +937,6 @@ public class PopupController {
     MapManager.getManager().setUpFloors();
     MapController.getController().mapPane.getChildren().clear();
     MapController.getController().setFloor(equipment.getFloor());
-    // MapController.getController().setFloor(equipment.getFloor());
   }
 
   /** Populates a location icon's popup window with its service requests */
@@ -975,7 +948,7 @@ public class PopupController {
   // TODO Rework modification and deletion forms
   /** Displays the equipment modification form */
   @FXML
-  public void equipmentModifyForm(MouseEvent event, EquipmentIcon icon) {
+  public void equipmentModifyForm(EquipmentIcon icon) {
     title.setText("Modify Equipment");
     content.getChildren().clear();
     buttonBox.getChildren().clear();
@@ -1019,7 +992,7 @@ public class PopupController {
 
   /** Displays the equipment removal form */
   @FXML
-  public void equipmentRemoveForm(MouseEvent event, EquipmentIcon icon) {
+  public void equipmentRemoveForm(EquipmentIcon icon) {
     title.setText("Delete Equipment");
     content.getChildren().clear();
     buttonBox.getChildren().clear();
