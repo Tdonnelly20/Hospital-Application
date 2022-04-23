@@ -38,7 +38,10 @@ public class PopupController {
   @FXML Button addButton = new Button("Add");
   @FXML Button modifyButton = new Button("Modify");
   @FXML Button removeButton = new Button("Remove");
+
   @FXML VBox content = new VBox(15);
+
+  @FXML ScrollPane contentScrollPane = new ScrollPane(content);
   @FXML VBox sceneVbox = new VBox();
   @FXML Scene scene = new Scene(sceneVbox, 450, 450);
   @FXML Stage stage = new Stage();
@@ -50,8 +53,6 @@ public class PopupController {
   @FXML JFXComboBox<String> comboBox1 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox2 = new JFXComboBox<>();
   @FXML JFXComboBox<String> comboBox3 = new JFXComboBox<>();
-  MapController mapController = MapController.getController();
-  RequestSystem requestSystem = RequestSystem.getSystem();
 
   JFXComboBox<String> floorCB =
       new JFXComboBox<>(
@@ -75,6 +76,7 @@ public class PopupController {
 
   public void init() {
     setUpPopup();
+    floorCB.setPromptText("Floor");
     scene.getStylesheets().add("CSS/Popup.css");
   }
 
@@ -113,7 +115,7 @@ public class PopupController {
     VBox header = new VBox(15, titleBox, buttonBox);
     header.setAlignment(Pos.CENTER);
     header.setStyle("-fx-background-color: #5C7B9F;-fx-padding: 15;");
-    content.setStyle("-fx-end-margin: 15;");
+    content.setStyle("-fx-end-margin: 15;-fx-padding: 10");
     sceneVbox.getChildren().addAll(header, content);
     sceneVbox.setAlignment(Pos.TOP_CENTER);
 
@@ -142,17 +144,24 @@ public class PopupController {
         });
   }
 
+  /** Creates and inserts form fields based on the Textfield's prompt text */
   private void insertFields() {
     for (TextField field : fields) {
       if (!field.getPromptText().isEmpty()) {
-        Label prompt = new Label(field.getPromptText() + ": ");
-        prompt.setPrefWidth(100);
-        prompt.setAlignment(Pos.CENTER_LEFT);
-        HBox hBox = new HBox(prompt, field);
-        hBox.setAlignment(Pos.CENTER);
-        content.getChildren().add(hBox);
+        inputGenerator(field.getPromptText(), field.getPromptText() + ": ", field);
       }
     }
+  }
+
+  /** Creates and inserts one part of a form based on the given prompt, label, and field */
+  private void inputGenerator(String prompt, String label, TextField field) {
+    field.setPromptText(prompt);
+    Label fieldLabel = new Label(label);
+    fieldLabel.setAlignment(Pos.CENTER_LEFT);
+    fieldLabel.setMinWidth(150);
+    HBox hBox = new HBox(15, fieldLabel, field);
+    hBox.setAlignment(Pos.CENTER);
+    content.getChildren().add(hBox);
   }
 
   /** Makes sure the location fields aren't empty */
@@ -204,6 +213,7 @@ public class PopupController {
       field.setText("");
       field.setPromptText("");
     }
+    floorCB.setValue("Floor");
     comboBox1.setValue("Status");
     comboBox2.setValue("Status");
     comboBox3.setValue("Status");
@@ -247,7 +257,7 @@ public class PopupController {
   }
 
   void addIcon(Location location) {
-    if (requestSystem.getLocation(location.getNodeID()) == null) {
+    if (RequestSystem.getSystem().getLocation(location.getNodeID()) == null) {
       MapController.getController().addIcon(location.getIcon());
       clearPopupForm();
     }
@@ -262,7 +272,8 @@ public class PopupController {
   }
 
   void deleteIcon(String nodeID) {
-    mapController.deleteIcon(requestSystem.getLocation(nodeID).getIcon());
+    MapController.getController()
+        .deleteIcon(RequestSystem.getSystem().getLocation(nodeID).getIcon());
     clear();
   }
 
@@ -282,7 +293,12 @@ public class PopupController {
             locationAdditionForm(event);
           });
       addButton.setText("Add a Location");
+      buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     } else {
+      Button pathfindingButton = new Button("Directions");
+      pathfindingButton.setOnAction(event1 -> directionsForm(icon));
+
+      buttonBox.getChildren().add(pathfindingButton);
       clear(icon.getLocation().getLongName(), icon.getLocation().getShortName());
       // Populates a location icon's popup window with its service requests
       if (icon.getRequestsArr().size() > 0) {
@@ -293,6 +309,9 @@ public class PopupController {
           event1 -> {
             requestAdditionForm(event, icon);
           });
+      buttonBox
+          .getChildren()
+          .addAll(addButton, pathfindingButton, modifyButton, removeButton, closeButton);
     }
     modifyButton.setOnAction(
         event1 -> {
@@ -302,10 +321,26 @@ public class PopupController {
         event1 -> {
           locationRemoveForm(event, icon);
         });
-    buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     if (!stage.isShowing()) {
       showPopUp();
     }
+  }
+
+  private void directionsForm(LocationIcon firstLocation) {
+    clear("Directions", "Directions");
+    fields[0].setPromptText(firstLocation.getLocation().getNodeID());
+    fields[1].setPromptText("Destination Node ID");
+    inputGenerator(fields[0].getPromptText(), "Starting Location", fields[0]);
+    inputGenerator(fields[1].getPromptText(), "Destination", fields[1]);
+    submitIcon.setText("Get Directions");
+    submitIcon.setOnAction(
+        event -> {
+          if (checkFields() && RequestSystem.getSystem().getLocation(fields[1].getText()) != null) {
+            // TODO Draw line based on pathfinder
+            closePopUp();
+          }
+        });
+    content.getChildren().add(submitIcon);
   }
 
   /** Opens a form that allows users to create a new location */
@@ -427,6 +462,10 @@ public class PopupController {
     showPopUp();
   }
 
+  /**
+   * If one or more of the fields are empty, this function will replace the form's information with
+   * the icon's preexisting information
+   */
   public Location ifFilterEmpty(Icon icon) {
     Location location = new Location();
     if (fields[1].getText().isEmpty()) {
@@ -802,7 +841,10 @@ public class PopupController {
               request.getType() + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
               request.getType() + fields[1].getText());
       RequestSystem.getSystem().addLocation(location);
-      MapController.getController().currFloor.getIconList().add(new LocationIcon(location));
+      MapManager.getManager()
+          .getFloor(convertFloor())
+          .getIconList()
+          .add(new LocationIcon(location));
     } else {
       RequestSystem.getSystem().addServiceRequest(request);
       icon.addToRequests(request);
@@ -912,7 +954,7 @@ public class PopupController {
     RequestSystem.getSystem().addEquipment(equipment);
     MapManager.getManager().setUpFloors();
     MapController.getController().mapPane.getChildren().clear();
-    MapController.getController().setFloor(MapController.getController().currFloor.getFloorName());
+    MapController.getController().setFloor(equipment.getFloor());
   }
 
   /** deletes equipment icon */
@@ -920,7 +962,7 @@ public class PopupController {
     RequestSystem.getSystem().removeEquipment(equipment);
     MapManager.getManager().setUpFloors();
     MapController.getController().mapPane.getChildren().clear();
-    MapController.getController().setFloor(MapController.getController().currFloor.getFloorName());
+    MapController.getController().setFloor(equipment.getFloor());
     // MapController.getController().setFloor(equipment.getFloor());
   }
 
