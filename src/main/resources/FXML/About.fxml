@@ -157,6 +157,45 @@
                               </Label>
                            </children>
                         </Pane>
+                        <Pane fx:id="paneJA" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelJA" layoutX="118.0" layoutY="53.0" text="Jakob Simmons">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJA1" layoutX="73.0" layoutY="139.0" text="Major: Place Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJA2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJA3" layoutX="99.0" layoutY="249.0" text="Place">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJA4" layoutX="176.0" layoutY="284.0" text="Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJA5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJA6" layoutX="43.0" layoutY="389.0" text="&quot;Place Holder&quot; -Jakob">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
                 <AnchorPane id="meet-the-team" minHeight="0.0" minWidth="0.0" prefHeight="855.0" prefWidth="1198.0">
@@ -364,6 +403,8 @@
                         <JFXButton layoutX="88.0" layoutY="115.0" onAction="#showInfoMatt" prefHeight="100.0" prefWidth="98.0" />
                         <JFXButton layoutX="246.0" layoutY="115.0" onAction="#showInfoTate" prefHeight="100.0" prefWidth="98.0" />
                         <JFXButton layoutX="407.0" layoutY="115.0" onAction="#showInfoJason" prefHeight="100.0" prefWidth="98.0" />
+                        <JFXButton layoutX="562.0" layoutY="115.0" onAction="#showInfoJakob" prefHeight="100.0" prefWidth="98.0" />
+                        <Label layoutX="591.0" layoutY="64.0" text="Click Pictures for More!" textFill="WHITE" />
                      </children>
                   </AnchorPane>
               </items>
