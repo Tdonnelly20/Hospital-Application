@@ -137,7 +137,7 @@ public class EquipmentIcon extends Icon {
   }
 
   public void checkBounds() {
-    if (MapController.getController().getCurrFloor().getEquipmentIcons().size() > 0) {
+    if (getFloor().getEquipmentIcons().size() > 0) {
       for (EquipmentIcon icon :
           MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
         if (icon != this && iconType.equals(IconType.Equipment)) {
@@ -175,7 +175,7 @@ public class EquipmentIcon extends Icon {
       alert = true;
     }
 
-    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+    //MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
   public int[] pumpAlert() {
