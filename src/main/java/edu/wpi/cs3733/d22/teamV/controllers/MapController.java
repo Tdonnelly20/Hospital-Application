@@ -29,7 +29,6 @@ import org.controlsfx.control.CheckComboBox;
 @Setter
 @Getter
 public class MapController extends Controller {
-  protected Floor currFloor = MapManager.getManager().getFloor("1st Floor");
   @FXML protected VBox mapVBox = new VBox(15);
   @FXML protected Button refreshButton = new Button("Refresh");
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
@@ -229,21 +228,27 @@ public class MapController extends Controller {
   // Sets the mapImage to the corresponding floor dropdown and returns the floor string
   public void setFloor(String floor) {
     floorName = floor;
-    currFloor = MapManager.getManager().getFloor(floorName);
-    mapImage.setImage(currFloor.getMap());
+    mapImage.setImage(MapManager.getManager().getFloor(floorName).getMap());
     populateFloorIconArr();
+  }
+
+  // what was originally called by the refresh button.
+  public void refresh() {
+    System.out.println("Refresh");
+    setFloor(floorName);
   }
 
   /** Loads the floor's icons in accordance with filter */
   @FXML
   public void populateFloorIconArr() {
+    System.out.println("populating icons");
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.size() > 0) {
       filterRequestsAndLocations();
       filterEquipment();
     } else {
-      for (Icon icon : currFloor.getIconList()) {
+      for (Icon icon : MapManager.getManager().getFloor(floorName).getIconList()) {
         if (!mapPane.getChildren().contains(icon.getImage())) {
           mapPane.getChildren().add(icon.getImage());
         }
@@ -254,7 +259,7 @@ public class MapController extends Controller {
   private void filterEquipment() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.contains("Equipment")) { // Filter Equipment
-      for (EquipmentIcon icon : currFloor.getEquipmentIcons()) {
+      for (EquipmentIcon icon : MapManager.getManager().getFloor(floorName).getEquipmentIcons()) {
         if (filter.contains("Clean Equipment")) {
           if (icon.hasCleanEquipment()) {
             mapPane.getChildren().add(icon.getImage());
@@ -272,7 +277,7 @@ public class MapController extends Controller {
     if (filter.contains("Service Requests")
         || filter.contains("Locations")
         || filterContainsRequests()) {
-      for (LocationIcon icon : currFloor.getLocationIcons()) {
+      for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
         if ((filter.contains("Service Requests") || filterContainsRequests())
             && icon.getRequestsArr().size() > 0) { // Filter Service Request
           if (filter.contains("Active Requests") && icon.hasActiveRequests()) {
@@ -386,7 +391,7 @@ public class MapController extends Controller {
     }
     PopupController.getController().closePopUp();
     MapManager.getManager().getFloor(floorName).addIcon(icon);
-    // populateFloorIconArr();
+    populateFloorIconArr();
     checkFilter();
   }
 
@@ -405,12 +410,13 @@ public class MapController extends Controller {
     RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     MapManager.getManager().setUpFloors();
   }
+
   /*
   private void update() {
     MapManager.getManager().setUpFloors();
     setFloor(floorName);
-    populateFloorIconArr();
-    clearForm();
+    // populateFloorIconArr();
+    // clearForm();
   }
 
   public void addLocation(Location newLocation) {

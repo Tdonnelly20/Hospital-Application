@@ -59,7 +59,7 @@ public class EquipmentIcon extends Icon {
       scrollPane.setFitToHeight(true);
       scrollPane.setPannable(false);
       scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      vBox.setPrefWidth(450);
+      // vBox.setPrefWidth(450);
       vBox.setPrefHeight(400);
       for (Equipment equipment : equipmentList) {
         Label idLabel = new Label("ID: " + equipment.getID());
@@ -89,7 +89,8 @@ public class EquipmentIcon extends Icon {
                         + "): "
                         + equipment.getDescription(),
                     new VBox(15, idLabel, locationLabel, hbox)));
-        accordion.setPrefWidth(450);
+        accordion.setPrefWidth(1000);
+        // accordion.width
         vBox.getChildren().add(accordion);
       }
       return scrollPane;
@@ -100,20 +101,18 @@ public class EquipmentIcon extends Icon {
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
-      if (equipmentList.size() == 1) {
-        image.setImage(MapManager.getManager().dirtyEquipment);
-      } else {
-        setImage();
-      }
+      setImage();
     } else {
-      image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
     }
+    setImage();
+    // RequestSystem.getSystem().addEquipment(equipment);
     MapDashboardController.getController().updateCounts();
     alertSixBeds();
   }
 
   public void removeEquipment(Equipment equipment) {
+    equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
     MapController.getController().setFloor(getLocation().getFloor());
     alertSixBeds();
@@ -139,15 +138,17 @@ public class EquipmentIcon extends Icon {
 
   public void checkBounds() {
     if (MapController.getController().getCurrFloor().getEquipmentIcons().size() > 0) {
-      for (EquipmentIcon icon : MapController.getController().getCurrFloor().getEquipmentIcons()) {
+      for (EquipmentIcon icon :
+          MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
         if (icon != this && iconType.equals(IconType.Equipment)) {
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
             System.out.println("Intersection");
-            equipmentList.addAll(icon.getEquipmentList());
-            RequestSystem.getSystem().updateLocations(this);
-            icon.getEquipmentList().clear();
-            MapManager.getManager().setUpFloors();
-            // MapController.getController().deleteIcon(icon);
+            ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
+            RequestSystem.getSystem().removeEquipment(icon);
+            for (Equipment equipment : tempEquipmentList) {
+              equipment.updateLocation(location.getXCoord(), location.getYCoord());
+            }
+            RequestSystem.getSystem().addEquipment(tempEquipmentList);
             setImage();
           }
         }
@@ -155,15 +156,10 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  public void updateLocation() {
-    for (Equipment equipment : equipmentList) {
-      equipment.updateLocation(location.getXCoord(), location.getYCoord());
-    }
-  }
-
-  public int alertSixBeds() {
+  public void alertSixBeds() {
 
     int alertCounter = 0;
+    boolean alert = false;
 
     ArrayList<Equipment> equip = new ArrayList<Equipment>();
     equip = this.getEquipmentList();
@@ -175,7 +171,11 @@ public class EquipmentIcon extends Icon {
         alertCounter = +1;
       }
     }
-    return alertCounter;
+    if (alertCounter > 5) {
+      alert = true;
+    }
+
+    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
   public int[] pumpAlert() {

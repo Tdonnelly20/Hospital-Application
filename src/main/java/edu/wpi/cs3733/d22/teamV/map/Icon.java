@@ -25,6 +25,7 @@ public abstract class Icon {
   protected double yCoord;
   @FXML protected ImageView image;
   protected boolean isDrag = false;
+  protected Floor floor;
 
   public Icon(Location location) {
     this.xCoord = location.getXCoord();
@@ -55,15 +56,7 @@ public abstract class Icon {
           image.setY(e.getY() - offset.getY() - 20);
           e.consume(); // prevents MouseEvent from reaching ScrollPane
         });
-    image.setOnMouseReleased(
-        event -> {
-          if (isDrag) {
-            isDrag = false;
-            setXCoord(xCoord + event.getX());
-            setYCoord(yCoord + event.getY());
-            RequestSystem.getSystem().updateLocations(this);
-          }
-        });
+    
   }
 
   @FXML

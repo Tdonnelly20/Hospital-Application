@@ -1,0 +1,15 @@
+.button {
+    -fx-font-size:12px;
+    -fx-font-family:"Ebrima";
+    -fx-background-color: #E9EDF2;
+    -fx-min-width:75;
+    -fx-background-radius: 20;
+}
+
+.header{
+    -fx-background-color: #5C7B9F;
+}
+
+#header{
+    -fx-background-color: #5C7B9F;
+}
