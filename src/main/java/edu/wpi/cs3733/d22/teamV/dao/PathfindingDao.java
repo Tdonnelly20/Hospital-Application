@@ -54,8 +54,6 @@ public class PathfindingDao {
           startNode = Pathfinder.getNodeFromName(data[1]);
           endNode = Pathfinder.getNodeFromName(data[2]);
 
-          System.out.println(data[1] + " " + data[2]);
-
           if (startNode == null) {
             startNode = new Pathfinder.Node(data[1]);
           }

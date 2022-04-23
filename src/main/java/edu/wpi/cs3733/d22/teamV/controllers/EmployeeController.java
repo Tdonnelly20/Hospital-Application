@@ -5,8 +5,6 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +17,7 @@ import javafx.stage.Stage;
 
 public class EmployeeController extends RequestController {
 
-  private static final EmployeeDao employeeDao = (EmployeeDao) Vdb.requestSystem.getEmployeeDao();
+  private static final EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
   private int updateID;
 
@@ -319,10 +317,11 @@ public class EmployeeController extends RequestController {
   }
 
   void setColumnSizes3(double w) {
-    setColumnSize(serviceRequestIDCol, (w - 30) / 4);
-    setColumnSize(serviceRequestPatientIDSCol, (w - 30) / 4);
-    setColumnSize(serviceTypeCol, (w - 30) / 4);
-    setColumnSize(statusCol, (w - 30) / 4);
+    setColumnSize(serviceRequestIDCol, (w - 30) / 5);
+    setColumnSize(serviceRequestPatientIDSCol, (w - 30) / 5);
+    setColumnSize(serviceTypeCol, (w - 30) / 5);
+    setColumnSize(statusCol, (w - 30) / 5);
+    setColumnSize(locationCol, (w - 30) / 5);
   }
 
   /** Determines if an employee is valid, and sends it to the Dao */
@@ -371,7 +370,7 @@ public class EmployeeController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
+  private void removeSelectedRow() throws NullPointerException {
     try {
       Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
       employeeDao.removeEmployee(employee);
@@ -382,7 +381,7 @@ public class EmployeeController extends RequestController {
   }
 
   @FXML
-  private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
+  private void updateSelectedRow() throws NullPointerException {
     updating = true;
     Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
     updateID = employee.getEmployeeID();
