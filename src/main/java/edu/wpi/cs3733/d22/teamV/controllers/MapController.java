@@ -90,12 +90,13 @@ public class MapController extends Controller {
           "Internal Patient Transport Requests",
           "Robot Request");
 
-  private static class SingletonHelper {
-    private static final MapController controller = new MapController();
-  }
+  private static MapController controller = null;
 
   public static MapController getController() {
-    return SingletonHelper.controller;
+    if (controller == null) {
+      controller = new MapController();
+    }
+    return controller;
   }
 
   @Override
