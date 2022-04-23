@@ -515,11 +515,7 @@ public class RequestSystem {
       ArrayList<Equipment> equipmentList =
           new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
       // System.out.println(equipmentList.size());
-      removeEquipment(((EquipmentIcon) icon));
-      for (Equipment equipment : equipmentList) {
-        equipment.updateLocation(icon.getXCoord(), icon.getYCoord());
-        addEquipment(equipment);
-      }
+      addEquipment(((EquipmentIcon) icon).getEquipmentList());
     } else {
       Location newLocation =
           new Location(

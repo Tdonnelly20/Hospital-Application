@@ -171,13 +171,15 @@ public class EquipmentDao {
   }
 
   public void addEquipment(Equipment equipment) {
-    if (getEquipment(equipment.getID()) == null) {
-      allEquipment.add(equipment);
+    if (getEquipment(equipment.getID()) != null) {
+      System.out.println("Equipment already exists, no");
+      removeEquipment(getEquipment(equipment.getID()));
       saveToCSV();
       addToSQLTable(equipment);
-    } else {
-      // System.out.println("Equipment already exists");
     }
+    allEquipment.add(equipment);
+    saveToCSV();
+    addToSQLTable(equipment);
   }
 
   public void addEquipment(ArrayList<Equipment> equipmentList) {
