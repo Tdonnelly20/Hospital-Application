@@ -82,8 +82,10 @@ public class EquipmentIcon extends Icon {
         updateStatus.setOnAction(
             event1 -> {
               equipment.setIsDirty(updateStatus.getValue().equals("Dirty"));
-              RequestSystem.getSystem().getEquipmentDao().updateEquipment(equipment,equipment.getID());
-              });
+              RequestSystem.getSystem()
+                  .getEquipmentDao()
+                  .updateEquipment(equipment, equipment.getID());
+            });
         HBox hbox = new HBox(15, updateStatus, deleteEquipment);
         Accordion accordion =
             new Accordion(
