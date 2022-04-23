@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
@@ -7,6 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.AboutController">
@@ -33,6 +35,84 @@
                         <Label layoutX="86.0" layoutY="279.0" styleClass="header" text="Team Coach: Luke Deratzou" />
                         <Label layoutX="65.0" layoutY="360.0" prefHeight="181.0" prefWidth="309.0" styleClass="header" text="We would like to express our immense gratitude to Brigham and Women’s Hospital and their representative, Andrew Shinn, for their time and input in reviewing our application throughout the term. We truly appreciate them!" textAlignment="CENTER" wrapText="true" />
                         <Label id="info-header" layoutX="83.0" layoutY="32.0" text="Team Vegan Vampires" />
+                        <Pane fx:id="paneM" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelM" layoutX="77.0" layoutY="55.0" text="Matthew Hendrickson">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelM1" layoutX="60.0" layoutY="139.0" text="Major: CS/IMGD Double Major">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelM2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelM3" layoutX="51.0" layoutY="249.0" text="Work For A Triple A Video Game">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelM4" layoutX="97.0" layoutY="284.0" text="Development Company">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelM5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelM6" layoutX="52.0" layoutY="389.0" text="&quot;I want to fist fight Wong&quot; -Matt">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="paneT" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelT" layoutX="131.0" layoutY="54.0" text="Tate Donnelly">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelT1" layoutX="60.0" layoutY="139.0" text="Major: CS/IMGD Double Major">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelT2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelT3" layoutX="77.0" layoutY="249.0" text="Work to Create Story Based">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelT4" layoutX="152.0" layoutY="284.0" text="Video Games">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelT5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelT6" layoutX="4.0" layoutY="389.0" text="&quot;This doctor has a Potato Specialty&quot; -Tate">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
                 <AnchorPane id="meet-the-team" minHeight="0.0" minWidth="0.0" prefHeight="855.0" prefWidth="1198.0">
@@ -237,6 +317,8 @@
                               <Font name="Century Gothic" size="18.0" />
                            </font>
                         </Label>
+                        <JFXButton layoutX="88.0" layoutY="115.0" onAction="#showInfoMatt" prefHeight="100.0" prefWidth="98.0" />
+                        <JFXButton layoutX="246.0" layoutY="115.0" onAction="#showInfoTate" prefHeight="100.0" prefWidth="98.0" />
                      </children>
                   </AnchorPane>
               </items>
