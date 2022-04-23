@@ -3,6 +3,8 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 public class MealRequest extends ServiceRequest {
   private String mealName, nodeID, allergy, status, requestDetails;
@@ -21,6 +23,7 @@ public class MealRequest extends ServiceRequest {
       String allergy,
       String status,
       String requestDetails) {
+    this.timeMade = Timestamp.from(Instant.now());
     this.allergy = allergy;
     this.requestDetails = requestDetails;
     this.nodeID = nodeID;

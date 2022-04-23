@@ -20,7 +20,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   public Patient patient;
   protected Employee employee;
   public boolean toBeDeleted = false;
-  protected Timestamp timestamp;
+  protected Timestamp timeMade; // when this was made
   protected String type;
   protected RequestSystem.Dao dao;
   protected String notes;

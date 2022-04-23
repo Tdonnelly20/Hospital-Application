@@ -7,7 +7,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
-import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.RobotRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -65,7 +64,20 @@ public class RobotController extends RequestController {
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
   }
-
+  /*
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+  */
 
   boolean findEmployee() { // returns true if finds patient
     boolean result = false;
