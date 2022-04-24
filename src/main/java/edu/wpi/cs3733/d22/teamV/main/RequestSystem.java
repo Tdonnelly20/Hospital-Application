@@ -2,10 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
-import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
-import edu.wpi.cs3733.d22.teamV.map.Icon;
-import edu.wpi.cs3733.d22.teamV.map.MapManager;
-import edu.wpi.cs3733.d22.teamV.map.Pathfinder;
+import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
@@ -530,31 +527,23 @@ public class RequestSystem {
       ArrayList<Equipment> equipmentList =
           new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
       for (Equipment e : equipmentList) {
+
         equipmentDao.updateEquipment(
             new Equipment(
                 e.getID(),
                 e.getName(),
                 icon.getFloor().getFloorName(),
-                icon.getXCoord(),
-                icon.getYCoord(),
+                ((EquipmentIcon) icon).getXCoord(),
+                ((EquipmentIcon) icon).getYCoord(),
                 e.getDescription(),
                 e.getIsDirty()),
             e.getID());
       }
     } else {
-      Location newLocation =
-          new Location(
-              icon.getLocation().getNodeID(),
-              icon.getXCoord(),
-              icon.getYCoord(),
-              icon.getLocation().getFloor(),
-              icon.getLocation().getBuilding(),
-              icon.getLocation().getNodeType(),
-              icon.getLocation().getLongName(),
-              icon.getLocation().getShortName());
-      locationDao.deleteLocation(icon.getLocation().getNodeID());
+      Location newLocation = ((LocationIcon) icon).getLocation();
+      locationDao.deleteLocation(newLocation.getNodeID());
       locationDao.addLocation(newLocation);
-      icon.setLocation(newLocation);
+      ((LocationIcon) icon).setLocation(newLocation);
     }
     MapManager.getManager().setUpFloors();
   }

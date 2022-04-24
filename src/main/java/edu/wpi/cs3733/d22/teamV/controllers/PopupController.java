@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
-import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
@@ -232,26 +231,29 @@ public class PopupController {
     comboBox3.setPromptText("Status");
   }
 
+  /** Clears the popup's contents and sets up the stage name + header */
   private void clear(String stageTitle, String headerTitle) {
     clear();
     title.setText(headerTitle);
     stage.setTitle(stageTitle);
   }
 
+  /** Clears the popup's contents */
   private void clear() {
     clearPopupForm();
     content.getChildren().clear();
     buttonBox.getChildren().clear();
   }
 
+  /** Updates the Map */
   private void update() {
     MapManager.getManager().setUpFloors();
     MapController.getController().mapPane.getChildren().clear();
     MapController.getController().setFloor(MapController.getController().getFloorName());
     clear();
-    closePopUp();
   }
 
+  /** Opens the general icon window and sets up actions */
   @FXML
   public void iconWindow(MouseEvent event) {
     clear("Options", "Please choose an option");
@@ -270,6 +272,7 @@ public class PopupController {
     showPopUp();
   }
 
+  /** Adds an icon to the map */
   void addIcon(Location location) {
     if (RequestSystem.getSystem().getLocation(location.getNodeID()) == null) {
       RequestSystem.getSystem().addLocation(location);
@@ -277,11 +280,13 @@ public class PopupController {
     }
   }
 
+  /** Removes an icon from the map */
   void deleteIcon(Location location) {
     RequestSystem.getSystem().deleteLocation(location.getNodeID());
     update();
   }
 
+  /** Removes an icon from the map */
   void deleteIcon(String nodeID) {
     deleteIcon(RequestSystem.getSystem().getLocation(nodeID));
   }
@@ -326,6 +331,7 @@ public class PopupController {
     }
   }
 
+  /** Opens/sets up the pathfinder form */
   private void directionsForm(LocationIcon firstLocation) {
     clear("Directions", "Directions");
     buttonBox.getChildren().addAll(submitIcon, closeButton);
@@ -338,8 +344,6 @@ public class PopupController {
     submitIcon.setOnAction(
         event -> {
           if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
-            // TODO Perfect Pathfinder
-
             LinkedList<Location> locations =
                 RequestSystem.getSystem()
                     .getPaths(
@@ -349,7 +353,6 @@ public class PopupController {
               MapController.getController()
                   .drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
             }
-
             stage.close();
             clear();
           }
@@ -381,6 +384,7 @@ public class PopupController {
                     fields[1].getText(),
                     fields[3].getText(),
                     fields[2].getText()));
+            closePopUp();
           }
         });
     showPopUp();
@@ -423,6 +427,7 @@ public class PopupController {
                 deleteIcon(fields[0].getText());
                 addIcon(newLocation);
                 locationForm(event, newLocation.getIcon());
+                
               } else {
                 missingFields.setText("Invalid Location ID");
                 if (!content.getChildren().contains(missingFields)) {
@@ -466,7 +471,7 @@ public class PopupController {
    * If one or more of the fields are empty, this function will replace the form's information with
    * the icon's preexisting information
    */
-  public Location ifFilterEmpty(Icon icon) {
+  public Location ifFilterEmpty(LocationIcon icon) {
     Location location = new Location();
     if (fields[1].getText().isEmpty()) {
       fields[1].setText(icon.getLocation().getNodeID());
@@ -505,6 +510,7 @@ public class PopupController {
     return location;
   }
 
+  /** Opens/sets up the remove location form */
   @FXML
   public void locationRemoveForm(LocationIcon icon) {
     submitIcon.setText("Delete Location");
@@ -521,6 +527,7 @@ public class PopupController {
         event1 -> {
           if (icon != null) {
             deleteIcon(icon.getLocation());
+            closePopUp();
           } else {
             if (checkFields()) {
               String nodeID = fields[0].getText();
@@ -539,6 +546,7 @@ public class PopupController {
         });
   }
 
+  /** Opens/sets up the add request form based on the given icon */
   @FXML
   public void requestAdditionForm(LocationIcon icon) {
     clear("Add A Service Request", "Add A Service Request");
@@ -793,12 +801,14 @@ public class PopupController {
     content.getChildren().addAll(comboBox3);
   }
 
+  /** Add request and update the map */
   public void addRequest(LocationIcon icon, ServiceRequest request) {
     icon.addToRequests(request);
     RequestSystem.getSystem().addServiceRequest(request);
     update();
   }
 
+  /** Opens/sets up the general equipment form based on the given event and icon */
   @FXML
   public void equipmentForm(MouseEvent event, EquipmentIcon icon) {
     clear("Equipment", "Equipment");
@@ -818,6 +828,7 @@ public class PopupController {
     }
   }
 
+  /** Opens/sets up the equipment addition form based on the given event */
   @FXML
   public void equipmentAdditionForm(MouseEvent event, EquipmentIcon icon) {
     clear("Add Equipment", "Add Equipment");
@@ -835,15 +846,28 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (checkFields()) {
-            addEquipmentIcon(
-                new Equipment(
-                    fields[0].getText(),
-                    fields[1].getText(),
-                    MapController.getController().getFloorName(),
-                    event.getX(),
-                    event.getY(),
-                    fields[2].getText(),
-                    comboBox1.getValue().equals("Dirty")));
+            if (icon == null) {
+              addEquipmentIcon(
+                  new Equipment(
+                      fields[0].getText(),
+                      fields[1].getText(),
+                      MapController.getController().getFloorName(),
+                      event.getX(),
+                      event.getY(),
+                      fields[2].getText(),
+                      comboBox1.getValue().equals("Dirty")));
+            } else {
+              addEquipmentIcon(
+                  new Equipment(
+                      fields[0].getText(),
+                      fields[1].getText(),
+                      MapController.getController().getFloorName(),
+                      icon.getXCoord(),
+                      icon.getYCoord(),
+                      fields[2].getText(),
+                      comboBox1.getValue().equals("Dirty")));
+            }
+            closePopUp();
           }
         });
     // Scene and Stage
@@ -909,6 +933,7 @@ public class PopupController {
                       y,
                       fields[6].getText(),
                       comboBox2.getValue().equals("Dirty")));
+              closePopUp();
             }
           } else {
             String oldID = equipment.getID();
@@ -918,7 +943,9 @@ public class PopupController {
             equipment.setFloor(convertFloor());
             equipment.setIsDirty(comboBox2.getValue().equals("Dirty"));
             RequestSystem.getSystem().getEquipmentDao().updateEquipment(equipment, oldID);
+            closePopUp();
           }
+          
         });
     stage.setTitle("Modify Equipment");
     showPopUp();

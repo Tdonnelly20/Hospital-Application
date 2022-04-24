@@ -19,30 +19,32 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LocationIcon extends Icon {
-  private ArrayList<ServiceRequest> requestsArr = new ArrayList<>();
+  private ArrayList<ServiceRequest> requestsArr = new ArrayList<>(); // Requests at this location
+  private Location location;
 
   public LocationIcon(Location location) {
-    super(location);
+    super();
+    this.location = location;
     this.iconType = IconType.Location;
     image.setImage(MapManager.getManager().getLocationMarker());
     image.setFitWidth(15);
     image.setFitHeight(15);
-    image.setTranslateX((xCoord) - 25);
-    image.setTranslateY((yCoord) - 15);
+    image.setTranslateX((location.getXCoord()) - image.getFitWidth());
+    image.setTranslateY((location.getYCoord()) - image.getFitHeight());
     image.setOnMouseClicked(
         event -> {
+          // Opens the location form in the popup
           if (event.getClickCount() == 2) {
             PopupController.getController().locationForm(event, this);
-            // System.out.println("Clicks received");
-            // MapController.getController().locationForm(event, this);
           }
         });
     image.setOnMouseReleased(
         event -> {
+          // If released from drag, update the xy coors
           if (isDrag) {
             isDrag = false;
-            xCoord += event.getX();
-            yCoord += event.getY();
+            location.setXCoord(location.getXCoord() + event.getX() - 7.5);
+            location.setYCoord(location.getYCoord() + event.getY() - 7.5);
             RequestSystem.getSystem().updateLocations(this);
           }
         });
@@ -91,6 +93,7 @@ public class LocationIcon extends Icon {
     return null;
   }
 
+  /** Sets the icon image depending on the amount of requests */
   @Override
   public void setImage() {
     if (requestsArr.size() == 0) {
@@ -100,6 +103,7 @@ public class LocationIcon extends Icon {
     }
   }
 
+  /** Adds a request to requestArr and updates the image */
   public void addToRequests(ServiceRequest request) {
     requestsArr.add(request);
     if (location.getRequests().contains(request)) {
@@ -109,6 +113,7 @@ public class LocationIcon extends Icon {
     setImage();
   }
 
+  /** Removes a request to requestArr and updates the image */
   public void removeRequests(ServiceRequest request) {
     requestsArr.remove(request);
     location.getRequests().remove(request);
@@ -116,6 +121,7 @@ public class LocationIcon extends Icon {
     setImage();
   }
 
+  /** Returns true if a request in requestArr is active, otherwise return false */
   public boolean hasActiveRequests() {
     for (ServiceRequest serviceRequest : requestsArr) {
       if (serviceRequest.getStatus() != null) {
@@ -128,6 +134,7 @@ public class LocationIcon extends Icon {
     return false;
   }
 
+  /** Returns true if icon has a request with the given type */
   public boolean hasRequestType(String type) {
     for (ServiceRequest serviceRequest : requestsArr) {
       if (serviceRequest.getType().equals(type)) {
@@ -137,6 +144,7 @@ public class LocationIcon extends Icon {
     return false;
   }
 
+  /** Returns true if icon has an active request with the given type */
   public boolean hasActiveRequestType(String type) {
     for (ServiceRequest serviceRequest : requestsArr) {
       if ((serviceRequest.getStatus().equals("Not Started")
@@ -146,13 +154,5 @@ public class LocationIcon extends Icon {
       }
     }
     return false;
-  }
-
-  public void updateLocation() {
-    for (ServiceRequest request : requestsArr) {
-      request.setLocation(location);
-      RequestSystem.getSystem().getLocation(location.getNodeID()).setXCoord(location.getXCoord());
-      RequestSystem.getSystem().getLocation(location.getNodeID()).setYCoord(location.getYCoord());
-    }
   }
 }
