@@ -99,7 +99,7 @@ public class MapDashboardController extends Controller {
     }
 
     MapController controller = loader.getController();
-    controller.initFloor(curFloor.getFloorName());
+    controller.init();
 
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -197,9 +197,7 @@ public class MapDashboardController extends Controller {
     listeners.add(alertsTPaneListener);
   }
 
-  /**
-   * Switches to lower level 2 and updates all information
-   */
+  /** Switches to lower level 2 and updates all information */
   @FXML
   public void switchToLL2() {
     curFloor = MapManager.getManager().getFloor("L2");
@@ -209,9 +207,7 @@ public class MapDashboardController extends Controller {
     updateMap("L2");
   }
 
-  /**
-   * Switches to lower level 1 and updates all information
-   */
+  /** Switches to lower level 1 and updates all information */
   @FXML
   public void switchToLL1() {
     curFloor = MapManager.getManager().getFloor("L1");
@@ -221,9 +217,7 @@ public class MapDashboardController extends Controller {
     updateMap("L1");
   }
 
-  /**
-   * Switches to floor 1 and updates all information
-   */
+  /** Switches to floor 1 and updates all information */
   @FXML
   public void switchToF1() {
     curFloor = MapManager.getManager().getFloor("1");
@@ -233,9 +227,7 @@ public class MapDashboardController extends Controller {
     updateMap("F1");
   }
 
-  /**
-   * Switches to floor 2 and updates all information
-   */
+  /** Switches to floor 2 and updates all information */
   @FXML
   public void switchToF2() {
     curFloor = MapManager.getManager().getFloor("2");
@@ -245,9 +237,7 @@ public class MapDashboardController extends Controller {
     updateMap("F2");
   }
 
-  /**
-   * Switches to floor 3 and updates all information
-   */
+  /** Switches to floor 3 and updates all information */
   @FXML
   public void switchToF3() {
     curFloor = MapManager.getManager().getFloor("3");
@@ -257,9 +247,7 @@ public class MapDashboardController extends Controller {
     updateMap("F3");
   }
 
-  /**
-   * Switches to floor 4 and updates all information
-   */
+  /** Switches to floor 4 and updates all information */
   @FXML
   public void switchToF4() {
     curFloor = MapManager.getManager().getFloor("4");
@@ -269,9 +257,7 @@ public class MapDashboardController extends Controller {
     updateMap("F4");
   }
 
-  /**
-   * Switches to floor 5 and updates all information
-   */
+  /** Switches to floor 5 and updates all information */
   @FXML
   public void switchToF5() {
     curFloor = MapManager.getManager().getFloor("5");
@@ -288,9 +274,7 @@ public class MapDashboardController extends Controller {
     }
   }
 
-  /**
-   * Updates values in the Equipment table based on the current floor
-   */
+  /** Updates values in the Equipment table based on the current floor */
   @FXML
   private void updateEquipmentTable() {
     equipmentIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("ID"));
@@ -315,9 +299,7 @@ public class MapDashboardController extends Controller {
     }
   }
 
-  /**
-   * Updates values in the Service Request table based on the current floor
-   */
+  /** Updates values in the Service Request table based on the current floor */
   @FXML
   private void updateServiceRequestTable() {
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
@@ -347,9 +329,7 @@ public class MapDashboardController extends Controller {
     }
   }
 
-  /**
-   * Updates the values in the patient table with values based on the current floor
-   */
+  /** Updates the values in the patient table with values based on the current floor */
   @FXML
   private void updatePatientTable() {
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
@@ -384,9 +364,7 @@ public class MapDashboardController extends Controller {
     }
   }
 
-  /**
-   * Updates text field with correct equipment counts
-   */
+  /** Updates text field with correct equipment counts */
   @FXML
   public void updateCounts() {
     curFloor = MapManager.getManager().getFloor(curFloor.getFloorName());
@@ -506,9 +484,7 @@ public class MapDashboardController extends Controller {
     alertArea.setText(alertText);
   }
 
-  /**
-   * Updates all information on the map dashboard based on the current floor.
-   */
+  /** Updates all information on the map dashboard based on the current floor. */
   @FXML
   private void updateAll() {
     updateEquipmentTable();

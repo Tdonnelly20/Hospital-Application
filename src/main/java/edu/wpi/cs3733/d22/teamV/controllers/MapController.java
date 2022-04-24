@@ -2,7 +2,10 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.*;
+import edu.wpi.cs3733.d22.teamV.objects.Location;
+import java.util.LinkedList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -50,6 +53,9 @@ public class MapController extends Controller {
   @FXML JFXComboBox[] comboBoxes = new JFXComboBox[5];
   @FXML Button submitButton = new Button("Submit");
   private String floorName = "1";
+
+  private String startLocationID = null;
+  private String endLocationID = null;
 
   ObservableList<String> requestTypes =
       FXCollections.observableArrayList(
@@ -104,11 +110,6 @@ public class MapController extends Controller {
   public void init() {
     controller = this;
     setFloor(floorName);
-    mapSetUp();
-  }
-
-  public void initFloor(String floor) {
-    setFloor(floor);
     mapSetUp();
   }
 
@@ -394,5 +395,18 @@ public class MapController extends Controller {
                 icon.getImage().getTranslateY(),
                 icon1.getImage().getTranslateX(),
                 icon1.getImage().getTranslateY()));
+  }
+
+  /** Draws a path between icons you click on */
+  public void drawPath() {
+    if (startLocationID != null && endLocationID != null) {
+      LinkedList<Location> locations =
+          RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
+      for (int i = 1; i < locations.size(); i++) {
+        drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
+      }
+    }
+    startLocationID = null;
+    endLocationID = null;
   }
 }

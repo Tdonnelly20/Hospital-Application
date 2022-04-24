@@ -123,10 +123,8 @@ public class EquipmentIcon extends Icon {
   /** Adds equipment to the list and updates icon image */
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
-      if(equipment.getName().equals("Infusion Pump"))
-        dirtyPumps++;
-      else if(equipment.getName().equals("Bed"))
-        dirtyBeds++;
+      if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
+      else if (equipment.getName().equals("Bed")) dirtyBeds++;
       equipmentList.add(equipment);
     } else {
       equipmentList.add(0, equipment);
@@ -141,12 +139,10 @@ public class EquipmentIcon extends Icon {
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
-    if(equipment.getName().equals("Infusion Pump")) {
-      if(equipment.getIsDirty())
-        dirtyPumps--;
-      else
-        cleanPumps--;
-    } else if(equipment.getName().equals("Bed")) {
+    if (equipment.getName().equals("Infusion Pump")) {
+      if (equipment.getIsDirty()) dirtyPumps--;
+      else cleanPumps--;
+    } else if (equipment.getName().equals("Bed")) {
       dirtyBeds--;
     }
     alertSixBeds(equipment, false);

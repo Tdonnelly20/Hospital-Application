@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -34,8 +35,19 @@ public class LocationIcon extends Icon {
     image.setOnMouseClicked(
         event -> {
           // Opens the location form in the popup
-          if (event.getClickCount() == 2) {
-            PopupController.getController().locationForm(event, this);
+          if (event.isShiftDown()) {
+            if (event.getClickCount() == 2) {
+              if (MapController.getController().getStartLocationID() == null) {
+                MapController.getController().setStartLocationID(location.getNodeID());
+              } else {
+                MapController.getController().setEndLocationID(location.getNodeID());
+                MapController.getController().drawPath();
+              }
+            }
+          } else {
+            if (event.getClickCount() == 2) {
+              PopupController.getController().locationForm(event, this);
+            }
           }
         });
     image.setOnMouseReleased(
