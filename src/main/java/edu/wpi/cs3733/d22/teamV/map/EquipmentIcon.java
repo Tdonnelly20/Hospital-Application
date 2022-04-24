@@ -25,50 +25,67 @@ public class EquipmentIcon extends Icon {
 
   ArrayList<Equipment> equipmentList;
   int dirtyBeds = 0;
+  ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
+  private double xCoord;
+  private double yCoord;
+  private int cleanPumps = 0;
+  private int dirtyPumps = 0;
 
   public EquipmentIcon(Location location) {
-    super(location);
+    super();
+    xCoord = location.getXCoord();
+    yCoord = location.getYCoord();
+    floor = MapManager.getManager().getFloor(location.getFloor());
     this.iconType = IconType.Equipment;
     equipmentList = new ArrayList<>();
     image.setFitWidth(20);
     image.setFitHeight(20);
-    image.setTranslateX((xCoord) - 25);
-    image.setTranslateY((yCoord) - 15);
+    image.setTranslateX(xCoord - image.getFitWidth() / 2);
+    image.setTranslateY((yCoord) - image.getFitHeight() / 2);
     image.setOnMouseClicked(
         event -> {
+          // Opens Popup when clicked twice
           if (event.getClickCount() == 2) {
             PopupController.getController().equipmentForm(event, this);
-            // MapController.getController().ewuipmentForm(event, this);
           }
         });
     image.setOnMouseReleased(
         event -> {
-          location.setXCoord(location.getXCoord() + event.getX());
-          location.setYCoord(location.getYCoord() + event.getY());
-          updateLocation();
-          checkBounds();
+          // Updates xy and checks if it is touching another icon when it is released from drag
+          if (isDrag) {
+            isDrag = false;
+
+            xCoord += event.getX() - 7;
+            yCoord += ((event.getY()) - 10);
+            RequestSystem.getSystem().updateLocations(this);
+            checkBounds();
+            MapManager.getManager().setUpFloors();
+          }
         });
   }
 
+  /** Returns a VBox which displays information about each piece of equipment */
   @Override
-  public ScrollPane compileList() {
+  public VBox compileList() {
     if (equipmentList.size() > 0) {
       ObservableList<String> statusStrings = FXCollections.observableArrayList("Clean", "Dirty");
       VBox vBox = new VBox();
-      ScrollPane scrollPane = new ScrollPane(vBox);
-      scrollPane.setFitToHeight(true);
-      scrollPane.setPannable(false);
-      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      vBox.setPrefWidth(450);
-      vBox.setPrefHeight(400);
       for (Equipment equipment : equipmentList) {
         Label idLabel = new Label("ID: " + equipment.getID());
         Button deleteEquipment = new Button("Delete");
+        deleteEquipment.setStyle("-fx-background-color: #5C7B9F; -fx-text-fill: white;");
+        Button modifyEquipment = new Button("Modify");
+        modifyEquipment.setStyle("-fx-background-color: #5C7B9F; -fx-text-fill: white;");
+        modifyEquipment.setOnAction(
+            event -> PopupController.getController().equipmentModifyForm(equipment));
         deleteEquipment.setOnAction(
             event -> {
               removeEquipment(equipment);
               if (getEquipmentList().size() == 0) {
-                MapController.getController().removeIconForm(this);
+                RequestSystem.getSystem().removeEquipment(equipment);
+                MapManager.getManager().setUpFloors();
+                MapController.getController()
+                    .setFloor(MapController.getController().getFloorName());
               }
             });
         Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
@@ -77,8 +94,17 @@ public class EquipmentIcon extends Icon {
         updateStatus.setPromptText(equipment.getIsDirtyString());
         updateStatus.setValue(equipment.getIsDirtyString());
         updateStatus.setOnAction(
-            event1 -> equipment.setIsDirty(updateStatus.getValue().equals("Dirty")));
-        HBox hbox = new HBox(15, updateStatus, deleteEquipment);
+            event1 -> {
+              System.out.println("'" + updateStatus.getValue() + "'");
+              equipment.setIsDirty(updateStatus.getValue().equals("Dirty"));
+              RequestSystem.getSystem()
+                  .getEquipmentDao()
+                  .updateEquipment(equipment, equipment.getID());
+              MapManager.getManager().setUpFloors();
+              MapController.getController().setFloor(MapController.getController().getFloorName());
+            });
+        HBox hbox = new HBox(15, updateStatus, modifyEquipment, deleteEquipment);
+        Label description = new Label("Description: " + equipment.getDescription());
         Accordion accordion =
             new Accordion(
                 new TitledPane(
@@ -86,41 +112,48 @@ public class EquipmentIcon extends Icon {
                         + " ("
                         + equipment.getIsDirtyString()
                         + "): "
-                        + equipment.getDescription(),
-                    new VBox(15, idLabel, locationLabel, hbox)));
-        accordion.setPrefWidth(450);
+                        + equipment.getID(),
+                    new VBox(15, idLabel, description, hbox)));
+
+        // accordion.width
         vBox.getChildren().add(accordion);
       }
-      return scrollPane;
+      return vBox;
     }
     return null;
   }
 
+  /** Adds equipment to the list and updates icon image */
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
+      if(equipment.getName().equals("Infusion Pump"))
+        dirtyPumps++;
       equipmentList.add(equipment);
-      if (equipmentList.size() == 1) {
-        image.setImage(MapManager.getManager().dirtyEquipment);
-      } else {
-        setImage();
-      }
     } else {
-      image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
+      if(equipment.getName().equals("Infusion Pump"))
+        cleanPumps++;
     }
+    setImage();
     alertSixBeds(equipment, true);
     MapDashboardController.getController().updateCounts();
   }
 
+  /** Removes equipment and calls alerts */
   public void removeEquipment(Equipment equipment) {
-    // RequestSystem.getSystem().deleteEquipment(equipment);
     equipmentList.remove(equipment);
-    if (equipmentList.size() == 0) {
-      MapController.getController().deleteIcon(this);
+    RequestSystem.getSystem().removeEquipment(equipment);
+    if(equipment.getName().equals("Infusion Pump")) {
+      if(equipment.getIsDirty())
+        dirtyPumps--;
+      else
+        cleanPumps--;
     }
     alertSixBeds(equipment, false);
+    PopupController.getController().closePopUp();
   }
 
+  /** Sets the icon image depending on if it has clean equipment */
   public void setImage() {
     if (hasCleanEquipment()) {
       image.setImage(MapManager.getManager().cleanEquipment);
@@ -129,6 +162,7 @@ public class EquipmentIcon extends Icon {
     }
   }
 
+  /** Determines if the icon has clean equipment */
   public boolean hasCleanEquipment() {
     for (Equipment equipment : equipmentList) {
       if (!equipment.getIsDirty()) {
@@ -138,24 +172,63 @@ public class EquipmentIcon extends Icon {
     return false;
   }
 
+  /**
+   * If this icon touches another icon then 1. The other icon's equipment is transferred to the
+   * first icon 2. The x and y coordinates are changed to the second icon and the equipment
+   * locations are updated 3. The map is refreshed
+   */
   public void checkBounds() {
-    if (MapController.getController().getCurrFloor().getEquipmentIcons().size() > 0) {
-      for (EquipmentIcon icon : MapController.getController().getCurrFloor().getEquipmentIcons()) {
+    ArrayList<EquipmentIcon> floorEquipmentIcons =
+        MapManager.getManager().getFloor(floor.getFloorName()).getEquipmentIcons();
+    if (floorEquipmentIcons.size() > 1) {
+      for (EquipmentIcon icon : floorEquipmentIcons) {
         if (icon != this && iconType.equals(IconType.Equipment)) {
+          // If icon touches another icon
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
-            System.out.println("Intersection");
-            equipmentList.addAll(icon.getEquipmentList());
-            updateLocation();
-            icon.getEquipmentList().clear();
-            MapController.getController().deleteIcon(icon);
-            setImage();
+            // Transferring equipment to this icon
+            ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
+            tempEquipmentList.addAll(equipmentList);
+            equipmentList.clear();
+            equipmentList.addAll(tempEquipmentList);
+            // Updates the xy coordinates for equipment
+            this.xCoord = icon.xCoord;
+            this.yCoord = icon.yCoord;
+            RequestSystem.getSystem().updateLocations(this);
+            // Updating Map
+            MapManager.getManager().setUpFloors();
+            MapController.getController().setFloor(floor.getFloorName());
+            break;
           }
         }
       }
     }
   }
 
-  public void updateLocation() {
+  public void alertSixBeds() {
+
+    int alertCounter = 0;
+    boolean alert = false;
+
+    ArrayList<Equipment> equip = new ArrayList<Equipment>();
+    equip = this.getEquipmentList();
+    ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
+
+    for (int i = 0; equip.size() > i; i++) {
+      if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
+        dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
+        alertCounter = +1;
+      }
+    }
+    if (alertCounter > 5) {
+      alert = true;
+    }
+
+    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+  }
+
+  public int[] pumpAlert() {
+    int clean = 0;
+    int dirty = 0;
     for (Equipment equipment : equipmentList) {
       equipment.updateLocation(location.getXCoord(), location.getYCoord());
     }

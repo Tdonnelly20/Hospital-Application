@@ -18,7 +18,7 @@ public class SanitationRequestDao extends DaoInterface {
       allSanitationRequests; // A local list of all sanitation requests, updated via Vdb
 
   /** Initialize the arraylist */
-  public SanitationRequestDao() throws SQLException, IOException {
+  public SanitationRequestDao() {
     allSanitationRequests = new ArrayList<SanitationRequest>();
     loadFromCSV();
     createSQLTable();
@@ -101,7 +101,6 @@ public class SanitationRequestDao extends DaoInterface {
             "CREATE TABLE SANITATIONREQUESTS(pID int, empID int, roomLocation char(40), hazard char(30), details char(150), status char(50),serviceID int)");
         // System.out.println(r);
       } else {
-        System.out.println("TABLE EXISTS, REMAKING");
         statement.execute("DROP TABLE SANITATIONREQUESTS");
         createSQLTable();
         return;

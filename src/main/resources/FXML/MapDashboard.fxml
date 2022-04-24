@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
+<Pane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/DashboardCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController">
    <children>
       <VBox prefHeight="800.0" prefWidth="1200.0">
          <children>
@@ -34,7 +46,7 @@
                         <Image url="@../ExitButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="997.0" layoutY="35.0" onMouseReleased="#goHome" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../HomeButton.png" />
                      </image>
@@ -59,34 +71,31 @@
                         </Label>
                         <Pane fx:id="sideViewPane" prefHeight="523.0" prefWidth="400.0">
                            <children>
+                              <BarChart fx:id="bedBarChart" layoutX="171.0" layoutY="94.0" prefHeight="335.0" prefWidth="215.0" styleClass="bar-chart">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </BarChart>
                               <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="50.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../SideView.PNG" />
                                  </image>
                               </ImageView>
-                              <Group layoutX="140.0" layoutY="20.0">
+                              <Group layoutX="25.0" layoutY="34.0">
                                  <children>
-                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseReleased="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" />
-                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onMouseReleased="#switchToF4" styleClass="sideViewButtonf4" />
-                                    <Button layoutY="100.0" mnemonicParsing="false" onMouseReleased="#switchToF3" styleClass="sideViewButtonf3" />
-                                    <Button layoutY="150.0" mnemonicParsing="false" onMouseReleased="#switchToF2" styleClass="sideViewButtonf2" />
-                                    <Button layoutY="200.0" mnemonicParsing="false" onMouseReleased="#switchToF1" styleClass="sideViewButtonf1" />
-                                    <Button layoutY="250.0" mnemonicParsing="false" onMouseReleased="#switchToLL1" styleClass="sideViewButtonll1" />
-                                    <Button layoutY="300.0" mnemonicParsing="false" onMouseReleased="#switchToLL2" styleClass="sideViewButtonll2" />
+                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" text="5" />
+                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" text="4" />
+                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" text="3" />
+                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" text="2" />
+                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" onMouseEntered="#switchToF1" styleClass="sideViewButtonf1" text="1" />
+                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" onMouseEntered="#switchToLL1" styleClass="sideViewButtonll1" text="LL1" />
+                                    <Button layoutY="300.0" minHeight="36.0" mnemonicParsing="false" onAction="#switchToLL2" onMouseEntered="#switchToLL2" prefWidth="141.0" styleClass="sideViewButtonll2" text="LL2" />
                                  </children>
                               </Group>
-                              <Group layoutX="63.0" layoutY="20.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefWidth="107.0" styleClass="floorLabelButton" text="5" />
-                                    <Button layoutY="50.0" mnemonicParsing="false" styleClass="floorLabelButton" text="4" />
-                                    <Button layoutY="100.0" mnemonicParsing="false" styleClass="floorLabelButton" text="3" />
-                                    <Button layoutY="150.0" mnemonicParsing="false" styleClass="floorLabelButton" text="2" />
-                                    <Button layoutY="200.0" mnemonicParsing="false" styleClass="floorLabelButton" text="1" />
-                                    <Button layoutY="250.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL1" />
-                                    <Button layoutY="300.0" mnemonicParsing="false" styleClass="floorLabelButton" text="LL2" />
-                                 </children>
-                              </Group>
-                              <ProgressBar fx:id="cleanProgress" layoutX="65.0" layoutY="405.0" prefHeight="40.0" prefWidth="228.0" progress="0.0" />
+                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="34.0" prefHeight="47.0" prefWidth="141.0" styleClass="floorLabel" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -114,7 +123,7 @@
                               </Label>
                               <TabPane prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                                 <tabs>
-                                  <Tab onSelectionChanged="#updateEquipmentTable" text="Equipment">
+                                  <Tab onSelectionChanged="#updateAll" text="Equipment">
                                        <content>
                                           <TreeTableView fx:id="equipmentTable" prefHeight="230.0" prefWidth="298.0">
                                             <columns>
@@ -124,7 +133,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                  <Tab onSelectionChanged="#updateServiceRequestTable" text="Service Requests">
+                                  <Tab onSelectionChanged="#updateAll" text="Service Requests">
                                        <content>
                                           <TreeTableView fx:id="serviceRequestTable" prefHeight="200.0" prefWidth="200.0">
                                             <columns>
@@ -135,7 +144,7 @@
                                           </TreeTableView>
                                        </content>
                                   </Tab>
-                                    <Tab onSelectionChanged="#updatePatientTable" text="Patients">
+                                    <Tab onSelectionChanged="#updateAll" text="Patients">
                                        <content>
                                           <TreeTableView fx:id="patientTable" prefHeight="200.0" prefWidth="200.0">
                                              <columns>
@@ -160,7 +169,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <TextArea fx:id="countsArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea fx:id="countsArea" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="count-text-area" />
                            </children>
                         </VBox>
                      </children>
@@ -180,9 +189,9 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <ImageView fitHeight="301.0" fitWidth="340.0" onMouseClicked="#switchToMap" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="mapButton" fitHeight="301.0" fitWidth="340.0" onMouseReleased="#openMap" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../1st Floor.png" />
+                                    <Image url="@../1st%20Floor.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -190,19 +199,22 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </VBox>
-                        <TitledPane fx:id="alertsTPane" animated="false" collapsible="false" prefHeight="314.0" prefWidth="256.0" style="-fx-padding: 10;" text="Alerts">
-                           <content>
-                              <TreeTableView fx:id="alertTable" prefHeight="200.0" prefWidth="200.0">
-                                <columns>
-                                  <TreeTableColumn prefWidth="75.0" text="C1" />
-                                  <TreeTableColumn prefWidth="75.0" text="C2" />
-                                </columns>
-                              </TreeTableView>
-                           </content>
+                        <VBox alignment="CENTER" prefHeight="213.0" prefWidth="350.0">
+                           <children>
+                              <Label id="vbox-label" alignment="CENTER" prefHeight="21.0" prefWidth="301.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Alerts" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Ebrima" size="15.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Label>
+                              <TextArea fx:id="alertArea" editable="false" maxWidth="301.0" prefHeight="200.0" prefWidth="200.0" styleClass="alert-text-area" />
+                           </children>
                            <VBox.margin>
-                              <Insets bottom="40.0" left="20.0" right="20.0" top="10.0" />
+                              <Insets left="10.0" right="10.0" />
                            </VBox.margin>
-                        </TitledPane>
+                        </VBox>
                      </children>
                   </VBox>
                </children>

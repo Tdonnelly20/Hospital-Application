@@ -19,11 +19,11 @@ public class LabRequest extends ServiceRequest {
   private String lastName;
 
   public LabRequest(int userID, int patientID, String nodeID, String lab, String status) {
-    this.location = RequestSystem.getSystem().getLocationDao().getLocation(nodeID);
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
     this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
-
+    notes = lab;
     this.lab = lab;
     this.status = status;
     this.patientID = patientID;

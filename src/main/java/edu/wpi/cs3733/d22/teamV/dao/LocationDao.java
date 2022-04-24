@@ -22,11 +22,20 @@ public class LocationDao {
 
   public Location getLocation(String nodeID) {
     for (Location l : allLocations) {
-      if (l.getNodeID().equals(nodeID)) {
+      if (l.getNodeID().equalsIgnoreCase(nodeID)) {
         return l;
       }
     }
-    System.out.print("Unable to find node:" + nodeID);
+    System.out.println("Unable to find node: " + nodeID);
+    return null;
+  }
+
+  public Location getLocationPathfinding(String nodeID) {
+    for (Location l : allLocations) {
+      if (l.getNodeID().substring(1).equalsIgnoreCase(nodeID.substring(1))) {
+        return l;
+      }
+    }
     return null;
   }
 

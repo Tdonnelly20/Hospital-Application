@@ -5,12 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class ReligiousRequest extends ServiceRequest {
-  private int patientID;
-  private int employeeID;
-  private int roomNumber;
   private String religion;
-  private int serviceID;
-
   /**
    * @param employeeID
    * @param patientID
@@ -19,33 +14,41 @@ public class ReligiousRequest extends ServiceRequest {
    */
   public ReligiousRequest(
       int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
-    this.patientID = employeeID;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.employeeID = patientID;
     this.religion = religion;
+    this.details = specialRequests;
     this.type = "Religious Request";
     status = "Not Started";
+    notes = religion;
     this.dao = RequestSystem.Dao.ReligiousRequest;
   }
 
   public int getPatientID() {
-    return patientID;
+    return patient.getPatientID();
   }
 
-  public int getServiceID() {
-    return serviceID;
+  public int getEmployeeID() {
+    return employee.getEmployeeID();
+  }
+
+  public String getRoomNumber() {
+    return location.getShortName();
+  }
+
+  public String getFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getLastName() {
+    return patient.getLastName();
   }
 
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
     updateAllObservers();
-  }
-
-  public int getEmpID() {
-    return employeeID;
   }
 
   public String getReligion() {
@@ -58,5 +61,9 @@ public class ReligiousRequest extends ServiceRequest {
     Vdb.requestSystem
         .getDao(RequestSystem.Dao.ReligiousRequest)
         .updateServiceRequest(this, getServiceID());
+  }
+
+  public String getDetails() {
+    return details;
   }
 }

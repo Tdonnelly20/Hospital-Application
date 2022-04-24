@@ -2,15 +2,10 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
-import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class InternalPatientTransportation extends ServiceRequest {
-  private Patient patient;
-  private Employee employee;
-  private String nodeID, requestDetails;
-  private int employeeID;
+  private String nodeID;
 
   /**
    * @param patientID
@@ -20,15 +15,14 @@ public class InternalPatientTransportation extends ServiceRequest {
    */
   public InternalPatientTransportation(
       String nodeID, int patientID, int employeeID, String requestDetails) {
-    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.nodeID = nodeID;
-    this.employeeID = employeeID;
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = "Not Started";
-    this.dao = RequestSystem.Dao.InternalPatientTransportation;
   }
 
   public String getPatientFirstName() {
@@ -58,7 +52,7 @@ public class InternalPatientTransportation extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
+    return details;
   }
 
   @Override

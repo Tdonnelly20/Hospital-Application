@@ -7,16 +7,21 @@ import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class RobotRequest extends ServiceRequest {
   private Employee employee;
-  private String details, nodeID, status;
+  private String nodeID;
   private int botID;
 
   public RobotRequest(int hospitalID, int botID, String nodeID, String details, String status) {
     employee = new Employee(hospitalID);
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;
     this.details = details;
     this.status = status;
     this.type = "Robot Request";
+  }
+
+  public Employee getEmployee() {
+    return employee;
   }
 
   public int getEmployeeID() {

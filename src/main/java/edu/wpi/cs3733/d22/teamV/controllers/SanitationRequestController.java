@@ -6,13 +6,17 @@ import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -23,6 +27,7 @@ public class SanitationRequestController extends RequestController {
   @FXML private JFXComboBox<Object> sanitationDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Label statusLabel;
 
   @FXML private TreeTableView<SanitationRequest> sanitationRequestTable;
@@ -33,6 +38,8 @@ public class SanitationRequestController extends RequestController {
   @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
   @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
   @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
+  @FXML private Pane tablePane;
   private boolean updating = false;
   private int updateServiceID;
 
@@ -55,6 +62,33 @@ public class SanitationRequestController extends RequestController {
     fillTopPane();
     updating = false;
     validateButton();
+
+    setColumnSizes(960);
+
+    tablePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePane.getWidth();
+                sanitationRequestTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePane.getHeight();
+                sanitationRequestTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   // ask about adding employee and patient DAOs to request System, requires them to use interface
@@ -62,52 +96,32 @@ public class SanitationRequestController extends RequestController {
   @FXML
   void validateButton() {
     sendRequest.setDisable(true);
+    statusLabel.setTextFill(Color.web("Red"));
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
         || hospitalID.getText().equals("")
         || roomLocation.getText().equals("")
         || sanitationDropDown.getValue() == null) {
       statusLabel.setText("Please fill in the required fields.");
-      statusLabel.setTextFill(Color.web("Red"));
       // Make sure the patient ID is an integer
-    } else if (!isInteger(patientID.getText()) || false) { // needs to check if patient even exists
+    } else if (!isInteger(patientID.getText())
+        || patientID.getText().isEmpty()) { // needs to check if patient even exists
       statusLabel.setText("Invalid Patient.");
-      statusLabel.setTextFill(Color.web("Red"));
-
-      // If all conditions pass, create the request
-    } else if (!isInteger(hospitalID.getText())) { // check if emp exists
+    } else if (!isInteger(hospitalID.getText())
+        || hospitalID.getText().isEmpty()) { // check if emp exists
       statusLabel.setText("Invalid Employee.");
-      statusLabel.setTextFill(Color.web("Red"));
-
-      // If all conditions pass, create the request
     } else if (LocationDao.getLocation(roomLocation.getText()) == null) {
       statusLabel.setText("Invalid Room.");
-      statusLabel.setTextFill(Color.web("Red"));
-      // If all conditions pass, create the request
+    } else if (statusDropDown.getValue() == null) {
+      statusLabel.setText("Needs Status");
     } else {
       statusLabel.setText("");
       sendRequest.setDisable(false);
-      // Set the label to green, and let the user know it has been processed
     }
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  /**
-   * Determines if a String is an integer or not
-   *
-   * @param input is a string
-   * @return true if the string is an integer, false if not
-   */
-  public boolean isInteger(String input) {
-    try {
-      Integer.parseInt(input);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
-    }
-  }
 
   @FXML
   void sendRequest()
@@ -119,6 +133,7 @@ public class SanitationRequestController extends RequestController {
             roomLocation.getText(),
             sanitationDropDown.getValue().toString(),
             requestDetails.getText());
+    request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
     } else {
@@ -139,7 +154,7 @@ public class SanitationRequestController extends RequestController {
     roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomLocation"));
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazardName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
-
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
@@ -186,6 +201,7 @@ public class SanitationRequestController extends RequestController {
       sanitationDropDown.setValue(request.getHazardName());
       requestDetails.setText(request.getRequestDetails());
       updateServiceID = request.getServiceID();
+      statusDropDown.setValue(request.getStatus());
       updateTreeTable();
     }
   }
@@ -200,5 +216,16 @@ public class SanitationRequestController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(hospitalIDCol, (w - 30) / 8);
+    setColumnSize(patientIDCol, (w - 30) / 8);
+    setColumnSize(firstNameCol, (w - 30) / 8);
+    setColumnSize(lastNameCol, (w - 30) / 8);
+    setColumnSize(roomLocationCol, (w - 30) / 8);
+    setColumnSize(hazardCol, (w - 30) / 8);
+    setColumnSize(requestDetailsCol, (w - 30) / 8);
+    setColumnSize(statusCol, (w - 30) / 8);
   }
 }

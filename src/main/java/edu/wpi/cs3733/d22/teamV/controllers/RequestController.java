@@ -131,7 +131,12 @@ public abstract class RequestController extends Controller {
 
   abstract void validateButton();
 
-  //  abstract void fillSideBar();
-  //
-  //  abstract void fillTableBox();
+  public boolean isInteger(String input) {
+    try {
+      Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
 }

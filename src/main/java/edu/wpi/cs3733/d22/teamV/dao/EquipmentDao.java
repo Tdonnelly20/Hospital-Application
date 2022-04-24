@@ -18,26 +18,6 @@ public class EquipmentDao {
     loadFromCSV();
   }
 
-  /**
-   * Adds equipment to the CSV
-   *
-   * @param ID
-   * @param name
-   * @param floor
-   * @param x
-   * @param y
-   * @param desc
-   * @param isDirty
-   * @throws SQLException
-   */
-  public void addEquipment(
-      String ID, String name, String floor, int x, int y, String desc, Boolean isDirty)
-      throws SQLException {
-    Equipment newEquipment = new Equipment(ID, name, floor, x, y, desc, isDirty);
-
-    allEquipment.add(newEquipment);
-  }
-
   public void loadFromCSV() {
     try {
 
@@ -76,7 +56,6 @@ public class EquipmentDao {
       bw.append("ID,Name,Floor,X,Y,Description,isDirty");
 
       for (Equipment equipment : getAllEquipment()) {
-
         String[] outputData = {
           equipment.getID(),
           equipment.getName(),
@@ -84,7 +63,7 @@ public class EquipmentDao {
           String.valueOf(equipment.getX()),
           String.valueOf(equipment.getY()),
           equipment.getDescription(),
-          String.valueOf(equipment.getIsDirty() ? 0 : 1)
+          String.valueOf(equipment.getIsDirty() ? 1 : 0)
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -170,14 +149,63 @@ public class EquipmentDao {
     }
   }
 
+  public void removeFromSQLTable(String equipmentID) {
+    try {
+
+      String query = "";
+      Connection connection = Vdb.Connect();
+      assert connection != null;
+      Statement statement = connection.createStatement();
+
+      query = "DELETE FROM EQUIPMENT WHERE ID = '" + equipmentID + "'";
+      statement.execute(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
   public void addEquipment(Equipment equipment) {
+    if (getEquipment(equipment.getID()) != null) {
+      System.out.println("Equipment with ID " + equipment.getID() + " already exists!");
+      removeEquipment(getEquipment(equipment.getID()));
+      removeFromSQLTable(equipment);
+    }
     allEquipment.add(equipment);
     addToSQLTable(equipment);
+    saveToCSV();
+  }
+
+  public void updateEquipment(Equipment newEquipment, String equipmentID) {
+    newEquipment.setID(equipmentID);
+    removeEquipment(equipmentID);
+    addEquipment(newEquipment);
+  }
+
+  public void addEquipment(ArrayList<Equipment> equipmentList) {
+    for (Equipment equipment : equipmentList) {
+      addEquipment(equipment);
+    }
+  }
+
+  public Equipment getEquipment(String id) {
+    for (Equipment equipment : allEquipment) {
+      if (equipment.getID().equals(id)) {
+        return equipment;
+      }
+    }
+    return null;
   }
 
   public void removeEquipment(Equipment equipment) {
-    allEquipment.removeIf(equipment1 -> equipment1.getID().equals(equipment.getID()));
+    allEquipment.removeIf(currEquipment -> equipment.getID().equals(currEquipment.getID()));
     removeFromSQLTable(equipment);
+    saveToCSV();
+  }
+
+  public void removeEquipment(String equipmentID) {
+    allEquipment.removeIf(currEquipment -> equipmentID.equals(currEquipment.getID()));
+    removeFromSQLTable(equipmentID);
+    saveToCSV();
   }
 
   public ArrayList<Equipment> getAllEquipment() {

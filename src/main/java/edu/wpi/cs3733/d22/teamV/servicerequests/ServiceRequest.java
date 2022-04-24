@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -16,15 +17,17 @@ import lombok.Setter;
 @Getter
 public abstract class ServiceRequest extends DirectionalAssoc {
   protected Location location;
-  private int serviceID;
+  protected Floor floor;
+  protected int serviceID;
   public Patient patient;
   protected Employee employee;
   public boolean toBeDeleted = false;
   protected Timestamp timestamp;
   protected String type;
   protected RequestSystem.Dao dao;
-  protected String notes;
+  protected String details;
   protected String status = "Not Started";
+  protected String notes;
   protected Icon icon;
   public Image image;
   private String nodeID;
@@ -49,21 +52,6 @@ public abstract class ServiceRequest extends DirectionalAssoc {
 
   public void setPatient(Patient patient) {
     this.patient = patient;
-  }
-
-  public String toString() {
-    if (patient == null || employee == null) {
-      return "Location: " + location.getNodeID() + " Service ID: " + serviceID;
-    } else {
-      return "Location: "
-          + location.getNodeID()
-          + " Service ID: "
-          + serviceID
-          + " Patient ID: "
-          + patient.getPatientID()
-          + " Employee ID: "
-          + employee.getEmployeeID();
-    }
   }
 
   @Override
@@ -97,5 +85,54 @@ public abstract class ServiceRequest extends DirectionalAssoc {
     }
 
     // Updated in individual classes
+  }
+
+  public String toString() {
+    String detailString;
+    String typeInfo = type;
+    if (details == null || details.equals("null")) {
+      detailString = "N/A";
+    } else {
+      detailString = details;
+    }
+    if (notes != null) {
+      typeInfo.concat(" - " + notes);
+    }
+    if (patient == null) {
+      return "Location: "
+          + location.getNodeID()
+          + "\nX: "
+          + getLocation().getXCoord()
+          + "    Y: "
+          + getLocation().getYCoord()
+          + "\nEmployee ID: "
+          + employee.getEmployeeID()
+          + "\nService ID: "
+          + serviceID
+          + " ("
+          + typeInfo
+          + ")\nDetails: "
+          + detailString;
+    }
+    return "Location: "
+        + location.getNodeID()
+        + "\nX: "
+        + getLocation().getXCoord()
+        + "    Y: "
+        + getLocation().getYCoord()
+        + "\nEmployee ID: "
+        + employee.getEmployeeID()
+        + "\nPatient ID: "
+        + patient.getPatientID()
+        + " ("
+        + patient.getLastName()
+        + ", "
+        + patient.getFirstName()
+        + ")\nService ID: "
+        + serviceID
+        + " ("
+        + typeInfo
+        + ")\nDetails: "
+        + detailString;
   }
 }

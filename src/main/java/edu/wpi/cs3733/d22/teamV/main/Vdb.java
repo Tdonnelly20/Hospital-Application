@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
-import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
-import edu.wpi.cs3733.d22.teamV.dao.*;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import java.sql.*;
 
 public class Vdb {
@@ -14,7 +12,6 @@ public class Vdb {
   private static String ip;
   private static String serverPath;
   public static MapManager mapManager = MapManager.getManager();
-  public static MapController mapController = MapController.getController();
   public static PopupController popupController = PopupController.getController();
 
   /**
@@ -32,7 +29,6 @@ public class Vdb {
     requestSystem.init();
     requestSystem.getMaxIDs();
     mapManager.init();
-    mapController.init();
     popupController.init();
 
     System.out.println("-------Apache Derby Connection Testing --------");

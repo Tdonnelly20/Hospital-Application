@@ -326,7 +326,9 @@ public class PatientController extends RequestController {
       // Send the request to the Dao pattern
       try {
         if (updating) {
-          patientDao.updatePatient(patient, Vdb.requestSystem.getPatientID());
+          selectedPatient.setFirstName(firstName.getText());
+          selectedPatient.setLastName(lastName.getText());
+          patientDao.updatePatient(selectedPatient, selectedPatient.getPatientID());
           updating = false;
         } else {
           patientDao.addPatient(patient);
@@ -366,10 +368,11 @@ public class PatientController extends RequestController {
   @FXML
   private void updateSelectedRow() throws NullPointerException {
     updating = true;
-    Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
+    selectedPatient = patientTable.getSelectionModel().getSelectedItem().getValue();
 
-    firstName.setText(String.valueOf(patient.getFirstName()));
-    lastName.setText(String.valueOf(patient.getLastName()));
+    firstName.setText(String.valueOf(selectedPatient.getFirstName()));
+    lastName.setText(String.valueOf(selectedPatient.getLastName()));
+
     updatePatientTreeTable();
   }
 

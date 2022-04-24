@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.LaundryRequestDao;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
@@ -48,6 +49,8 @@ public class LaundryRequestController extends RequestController {
   private static class SingletonHelper {
     private static final LaundryRequestController controller = new LaundryRequestController();
   }
+
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   public static LaundryRequestController getController() {
     return LaundryRequestController.SingletonHelper.controller;
@@ -106,9 +109,8 @@ public class LaundryRequestController extends RequestController {
   void validateButton() {
     if ((!userID.getText().isEmpty())
         && !(patientID.getText().isEmpty())
-        && !(roomNumber.getText().isEmpty())
-        && !(details.getText().isEmpty())
-        && !(statusDropDown.getValue() == null)) {
+        && (LocationDao.getLocation(roomNumber.getText()) != null)
+        && (statusDropDown.getValue() != null)) {
       // Information verification and submission needed
       status.setText("Status: Done");
       sendRequest.setDisable(false);
@@ -116,11 +118,13 @@ public class LaundryRequestController extends RequestController {
     } else if ((userID.getText().isEmpty())
         || (patientID.getText().isEmpty())
         || (roomNumber.getText().isEmpty())
-        || !(details.getText().isEmpty())
-        || !(statusDropDown.getValue() == null)) {
+        || (statusDropDown.getValue() == null)) {
       sendRequest.setDisable(true);
       status.setText("Status: Processing");
 
+    } else if (LocationDao.getLocation(roomNumber.getText()) == null) {
+      sendRequest.setDisable(true);
+      status.setText("Status: Needs valid room");
     } else {
       sendRequest.setDisable(true);
       status.setText("Status: Blank");
@@ -128,7 +132,7 @@ public class LaundryRequestController extends RequestController {
   }
 
   @FXML
-  private void sendRequest() throws SQLException {
+  private void sendRequest() {
     LaundryRequest l =
         new LaundryRequest(
             Integer.parseInt(userID.getText()),
