@@ -393,16 +393,17 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
+  /* was used to check for beds that are dirty, could be used again if main function has to be changed in the future.
   public void checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
-    /*if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
+    if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
       return 0;
     }
-    return 0; */
-  }
+    return 0;
+  } */
 
-  /*
+  /* was used to add dirty beds to alertsArea, could be used again if main function has to be changed in the future.
   @FXML
   public void addBedAlertToArray(int b) {
 

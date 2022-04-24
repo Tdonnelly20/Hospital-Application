@@ -157,6 +157,7 @@ public class EquipmentIcon extends Icon {
     }
   }
 
+  //finds beds that are dirty in the same place. When counter > 5, it returns true.
   public boolean alertSixBeds() {
 
     int alertCounter = 0;
