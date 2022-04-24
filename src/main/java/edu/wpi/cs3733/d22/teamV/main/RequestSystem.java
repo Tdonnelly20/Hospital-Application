@@ -338,6 +338,11 @@ public class RequestSystem {
     return serviceRequests;
   }
 
+  /** Returns Pathfinder */
+  public Pathfinder getPathfinder() {
+    return pathfindingDao.getPathfinder();
+  }
+
   public EmployeeDao getEmployeeDao() {
     return employeeDao;
   }

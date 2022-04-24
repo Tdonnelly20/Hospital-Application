@@ -25,17 +25,18 @@ public class Floor {
   }
 
   public void addIcon(Icon icon) {
-    if (icon.iconType.equals(Icon.IconType.Location) && !alertIcons.contains((EquipmentIcon) icon)) {
+    if (icon.iconType.equals(Icon.IconType.Location)) {
       locationIcons.add((LocationIcon) icon);
     } else {
       equipmentIcons.add((EquipmentIcon) icon);
-      if((((EquipmentIcon) icon).getCleanPumps() < 5) && !alertIcons.contains((EquipmentIcon) icon)) {
+      if ((((EquipmentIcon) icon).getCleanPumps() < 5)
+          && !alertIcons.contains((EquipmentIcon) icon)) {
         alertIcons.add((EquipmentIcon) icon);
-      }
-      else if((((EquipmentIcon) icon).getDirtyPumps() > 9) && !alertIcons.contains((EquipmentIcon) icon)) {
+      } else if ((((EquipmentIcon) icon).getDirtyPumps() > 9)
+          && !alertIcons.contains((EquipmentIcon) icon)) {
         alertIcons.add((EquipmentIcon) icon);
-      }
-      else if((((EquipmentIcon)icon).getDirtyBeds() > 5) && !alertIcons.contains((EquipmentIcon) icon)) {
+      } else if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
+          && !alertIcons.contains((EquipmentIcon) icon)) {
         alertIcons.add((EquipmentIcon) icon);
       }
     }
