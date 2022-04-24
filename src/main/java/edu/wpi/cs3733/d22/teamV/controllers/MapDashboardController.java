@@ -437,9 +437,9 @@ public class MapDashboardController extends Controller {
 
     int index = 0;
     for (EquipmentIcon e : i) {
-      if (e.alertSixBeds()) {
+      /* if (e.alertSixBeds()) {
         alerts.add("There are 6+ dirty beds at location " + e.getXCoord() + ", " + e.getYCoord());
-      }
+      } */
 
       state = e.pumpAlert();
       if ((state[0] < 5) && e.hasCleanEquipment()) {
@@ -483,8 +483,6 @@ public class MapDashboardController extends Controller {
     updateServiceRequestTable();
     updateCounts();
     updateAlerts();
-    updateBeds();
-    updatePumps();
   }
 
   @Override
@@ -610,7 +608,7 @@ public class MapDashboardController extends Controller {
                 "Dirty", curFloor.getEquipmentIcons().size() - curFloor.getDirtyEquipmentCount()));
     bedBarChart.getData().add(ds);
   }
-
+/*
   @FXML
   public void updateBeds() {
     bedBarChart.getData().clear();
@@ -667,4 +665,5 @@ public class MapDashboardController extends Controller {
     c.getData().add(new XYChart.Data("Dirty", dirt));
     bedBarChart.getData().add(c);
   }
+ */
 }
