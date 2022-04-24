@@ -56,7 +56,6 @@ public class EquipmentDao {
       bw.append("ID,Name,Floor,X,Y,Description,isDirty");
 
       for (Equipment equipment : getAllEquipment()) {
-
         String[] outputData = {
           equipment.getID(),
           equipment.getName(),
@@ -64,7 +63,7 @@ public class EquipmentDao {
           String.valueOf(equipment.getX()),
           String.valueOf(equipment.getY()),
           equipment.getDescription(),
-          String.valueOf(equipment.getIsDirty() ? 0 : 1)
+          String.valueOf(equipment.getIsDirty() ? 1 : 0)
         };
         bw.append("\n");
         for (String s : outputData) {

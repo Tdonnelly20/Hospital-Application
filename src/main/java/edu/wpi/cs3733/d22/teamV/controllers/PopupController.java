@@ -9,8 +9,6 @@ import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
-import java.io.IOException;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -245,6 +243,14 @@ public class PopupController {
     buttonBox.getChildren().clear();
   }
 
+  private void update() {
+    MapManager.getManager().setUpFloors();
+    MapController.getController().mapPane.getChildren().clear();
+    MapController.getController().setFloor(MapController.getController().getFloorName());
+    clear();
+    closePopUp();
+  }
+
   @FXML
   public void iconWindow(MouseEvent event) {
     clear("Options", "Please choose an option");
@@ -269,23 +275,18 @@ public class PopupController {
 
   void addIcon(Location location) {
     if (RequestSystem.getSystem().getLocation(location.getNodeID()) == null) {
-      MapController.getController().addIcon(location.getIcon());
-      clearPopupForm();
+      RequestSystem.getSystem().addLocation(location);
+      update();
     }
   }
 
-  void deleteIcon(Location location) throws SQLException, IOException {
-    System.out.println("Deleted");
+  void deleteIcon(Location location) {
     RequestSystem.getSystem().deleteLocation(location.getNodeID());
-    MapManager.getManager().setUpFloors();
-    MapManager.getManager().setUpFloors();
-    clear();
+    update();
   }
 
   void deleteIcon(String nodeID) {
-    MapController.getController()
-        .deleteIcon(RequestSystem.getSystem().getLocation(nodeID).getIcon());
-    clear();
+    deleteIcon(RequestSystem.getSystem().getLocation(nodeID));
   }
 
   /**
@@ -369,23 +370,19 @@ public class PopupController {
     fields[2].setPromptText("Short Name");
     fields[3].setPromptText("Long Name");
     insertFields();
-    content.getChildren().add(floorCB);
     submitIcon.setOnAction(
         event1 -> {
           if (checkFields()) {
-            RequestSystem.getSystem()
-                .addLocation(
-                    new Location(
-                        fields[0].getText(),
-                        event.getX(),
-                        event.getY(),
-                        convertFloor(),
-                        "Tower",
-                        fields[1].getText(),
-                        fields[3].getText(),
-                        fields[2].getText()));
-            MapManager.getManager().setUpFloors();
-            closePopUp();
+            addIcon(
+                new Location(
+                    fields[0].getText(),
+                    event.getX(),
+                    event.getY(),
+                    MapController.getController().getFloorName(),
+                    "Tower",
+                    fields[1].getText(),
+                    fields[3].getText(),
+                    fields[2].getText()));
           }
         });
     showPopUp();
@@ -402,8 +399,6 @@ public class PopupController {
     buttonBox.getChildren().addAll(submitIcon, clearResponse, closeButton);
     fields[0].setPromptText("Old Node ID");
     fields[1].setPromptText("Node ID");
-    fields[2].setPromptText("X-Coordinate");
-    fields[3].setPromptText("Y-Coordinate");
     fields[4].setPromptText("Building");
     fields[5].setPromptText("Node Type");
     fields[7].setPromptText("Short Name");
@@ -416,28 +411,23 @@ public class PopupController {
       submitIcon.setOnAction(
           event1 -> {
             if (checkFields()) {
-              deleteIcon(fields[0].getText());
-
               Location newLocation =
                   new Location(
                       fields[1].getText(),
-                      Double.parseDouble(fields[2].getText()),
-                      Double.parseDouble(fields[3].getText()),
+                      RequestSystem.getSystem().getLocation(fields[0].getText()).getXCoord(),
+                      RequestSystem.getSystem().getLocation(fields[0].getText()).getYCoord(),
                       convertFloor(),
                       fields[4].getText(),
                       fields[5].getText(),
                       fields[6].getText(),
                       fields[7].getText());
-
+              deleteIcon(fields[0].getText());
               addIcon(newLocation);
               locationForm(event, newLocation.getIcon());
-              closePopUp();
             }
           });
     } else {
       fields[1].setPromptText(icon.getLocation().getNodeID());
-      fields[2].setPromptText("" + icon.getLocation().getXCoord());
-      fields[3].setPromptText("" + icon.getLocation().getYCoord());
       floorCB.setValue(icon.getLocation().getFloor());
       fields[4].setPromptText(icon.getLocation().getBuilding());
       fields[5].setPromptText(icon.getLocation().getNodeType());
@@ -449,24 +439,14 @@ public class PopupController {
           event1 -> { // If user doesn't fill in information, assume old information is retained
             System.out.println(icon.getLocation().toString());
             if (!(fields[1].getText().equals(icon.getLocation().getNodeID())
-                && fields[2].getText().equals(String.valueOf(icon.getLocation().getXCoord()))
-                && fields[3].getText().equals(String.valueOf(icon.getLocation().getYCoord()))
                 && convertFloor().equals(icon.getLocation().getFloor())
                 && fields[4].getText().equals(icon.getLocation().getBuilding())
                 && fields[5].getText().equals(icon.getLocation().getNodeType())
                 && fields[6].getText().equals(icon.getLocation().getLongName())
                 && fields[7].getText().equals(icon.getLocation().getShortName()))) {
               Location newLocation = ifFilterEmpty(icon);
-              try {
-                deleteIcon(icon.getLocation());
-                System.out.println(newLocation.toString());
-                addIcon(newLocation);
-                clearPopupForm();
-                MapController.getController().checkFilter();
-                closePopUp();
-              } catch (SQLException | IOException e) {
-                e.printStackTrace();
-              }
+              deleteIcon(icon.getLocation());
+              addIcon(newLocation);
             } else {
               missingFields.setText("No information has been modified. Please input corrections");
               content.getChildren().add(missingFields);
@@ -487,22 +467,6 @@ public class PopupController {
       location.setNodeID(icon.getLocation().getNodeID());
     } else {
       location.setNodeID(fields[1].getText());
-    }
-    if (fields[2].getText().isEmpty()) {
-      fields[2].setText(String.valueOf(icon.getLocation().getXCoord()));
-      System.out.println("'" + icon.getLocation().getXCoord() + "'");
-      System.out.println("'" + fields[2].getText() + "'");
-      location.setXCoord(icon.getLocation().getXCoord());
-    } else {
-      location.setXCoord(Double.parseDouble(fields[2].getText()));
-    }
-    if (fields[3].getText().isEmpty()) {
-      fields[3].setText(String.valueOf(icon.getLocation().getYCoord()));
-      System.out.println("'" + icon.getLocation().getYCoord() + "'");
-      System.out.println("'" + fields[3].getText() + "'");
-      location.setYCoord(icon.getLocation().getYCoord());
-    } else {
-      location.setYCoord(Double.parseDouble(fields[3].getText()));
     }
     if (floorCB.getValue().equals("")) {
       location.setFloor(icon.getLocation().getFloor());
@@ -550,12 +514,7 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
-            closePopUp();
-            try {
-              deleteIcon(icon.getLocation());
-            } catch (SQLException | IOException e) {
-              e.printStackTrace();
-            }
+            deleteIcon(icon.getLocation());
           } else {
             if (checkFields()) {
               String nodeID = fields[0].getText();
@@ -570,7 +529,7 @@ public class PopupController {
   @FXML
   public void requestForm(MouseEvent event) {
     clear("Service Request", "Service Request");
-    buttonBox.getChildren().addAll(addButton);
+    buttonBox.getChildren().addAll(addButton, closeButton);
     addButton.setOnAction(event1 -> requestAdditionForm(event, null));
   }
 
@@ -614,7 +573,6 @@ public class PopupController {
     comboBox3.setPromptText("Not Started");
     String locationID;
     if (icon == null) { // addRequest() handles locations for null icons
-      content.getChildren().add(floorCB);
       locationID = "";
     } else {
       locationID = icon.getLocation().getNodeID();
@@ -632,15 +590,15 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                LabRequest request =
+                addRequest(
+                    event,
+                    icon,
                     new LabRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         comboBox2.getValue(),
-                        comboBox3.getValue());
-                addRequest(event, icon, request);
-                closePopUp();
+                        comboBox3.getValue()));
               }
             });
         break;
@@ -658,7 +616,9 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                EquipmentDelivery request =
+                addRequest(
+                    event,
+                    icon,
                     new EquipmentDelivery(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
@@ -666,10 +626,7 @@ public class PopupController {
                         comboBox2.getValue(),
                         fields[3].getText(),
                         Integer.parseInt(fields[2].getText()),
-                        comboBox3.getValue());
-
-                addRequest(event, icon, request);
-                closePopUp();
+                        comboBox3.getValue()));
               }
             });
         break;
@@ -687,7 +644,9 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                MedicineDelivery request =
+                addRequest(
+                    event,
+                    icon,
                     new MedicineDelivery(
                         locationID,
                         Integer.parseInt(fields[0].getText()),
@@ -695,9 +654,7 @@ public class PopupController {
                         comboBox2.getValue(),
                         fields[2].getText(),
                         comboBox3.getValue(),
-                        fields[3].getText());
-                addRequest(event, icon, request);
-                closePopUp();
+                        fields[3].getText()));
               }
             });
         break;
@@ -708,14 +665,14 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                InternalPatientTransportation request =
+                addRequest(
+                    event,
+                    icon,
                     new InternalPatientTransportation(
                         locationID,
                         Integer.parseInt(fields[1].getText()),
                         Integer.parseInt(fields[0].getText()),
-                        fields[2].getText());
-                addRequest(event, icon, request);
-                closePopUp();
+                        fields[2].getText()));
               }
             });
         break;
@@ -726,15 +683,15 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                LaundryRequest request =
+                addRequest(
+                    event,
+                    icon,
                     new LaundryRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         fields[2].getText(),
-                        comboBox3.getValue());
-                addRequest(event, icon, request);
-                closePopUp();
+                        comboBox3.getValue()));
               }
             });
         break;
@@ -752,7 +709,9 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                MealRequest request =
+                addRequest(
+                    event,
+                    icon,
                     new MealRequest(
                         locationID,
                         Integer.parseInt(fields[0].getText()),
@@ -760,9 +719,7 @@ public class PopupController {
                         comboBox2.getValue(),
                         fields[2].getText(),
                         comboBox3.getValue(),
-                        fields[3].getText());
-                addRequest(event, icon, request);
-                closePopUp();
+                        fields[3].getText()));
               }
             });
         break;
@@ -783,16 +740,15 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                SanitationRequest request =
+                addRequest(
+                    event,
+                    icon,
                     new SanitationRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         comboBox2.getValue(),
-                        fields[2].getText());
-
-                addRequest(event, icon, request);
-                closePopUp();
+                        fields[2].getText()));
               }
             });
         break;
@@ -805,15 +761,15 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                ReligiousRequest request =
+                addRequest(
+                    event,
+                    icon,
                     new ReligiousRequest(
                         Integer.parseInt(fields[1].getText()),
                         Integer.parseInt(fields[0].getText()),
                         locationID,
                         fields[2].getText(),
-                        fields[3].getText());
-                addRequest(event, icon, request);
-                closePopUp();
+                        fields[3].getText()));
               }
             });
         break;
@@ -824,15 +780,15 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                RobotRequest request =
+                addRequest(
+                    event,
+                    icon,
                     new RobotRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         fields[2].getText(),
-                        comboBox3.getValue());
-                addRequest(event, icon, request);
-                closePopUp();
+                        comboBox3.getValue()));
               }
             });
         break;
@@ -844,12 +800,12 @@ public class PopupController {
     if (icon == null) {
       String x = "" + Math.round(event.getX());
       String y = "" + Math.round(event.getY());
-      Location location =
+      addIcon(
           new Location(
               "sr" + x + y,
               event.getX(),
               event.getY(),
-              convertFloor(),
+              MapController.getController().getFloorName(),
               "Tower",
               "Request",
               request.getType()
@@ -857,18 +813,11 @@ public class PopupController {
                   + request.getServiceID()
                   + "-"
                   + request.getEmployee().getEmployeeID(),
-              request.getType() + "-" + request.getEmployee().getEmployeeID());
-      request.setLocation(location);
-      location.getRequests().add(request);
-      RequestSystem.getSystem().addLocation(location);
-      MapManager.getManager()
-          .getFloor(convertFloor())
-          .getIconList()
-          .add(new LocationIcon(location));
+              request.getType() + "-" + request.getEmployee().getEmployeeID()));
     } else {
-      RequestSystem.getSystem().addServiceRequest(request);
       icon.addToRequests(request);
     }
+    RequestSystem.getSystem().addServiceRequest(request);
     clearPopupForm();
     locationForm(event, icon);
   }
@@ -904,51 +853,20 @@ public class PopupController {
     comboBox1.setPromptText("Clean");
     comboBox1.setValue("Clean");
     comboBox1 = new JFXComboBox<>(FXCollections.observableArrayList("Clean", "Dirty"));
-    content.getChildren().addAll(comboBox1, floorCB);
+    content.getChildren().addAll(comboBox1);
 
     submitIcon.setOnAction(
         event1 -> {
           if (checkFields()) {
-            if (icon == null) {
-              Equipment equipment =
-                  new Equipment(
-                      fields[0].getText(),
-                      fields[1].getText(),
-                      convertFloor(),
-                      event.getX(),
-                      event.getY(),
-                      fields[2].getText(),
-                      false);
-              equipment.setIcon(
-                  new EquipmentIcon(
-                      new Location(
-                          fields[0].getText() + fields[1].getText() + comboBox1.getValue(),
-                          event.getX(),
-                          event.getY(),
-                          "Tower",
-                          convertFloor(),
-                          fields[0].getText(),
-                          "",
-                          "")));
-              addEquipmentIcon(equipment);
-              clearPopupForm();
-            } else {
-              Equipment equipment =
-                  new Equipment(
-                      fields[0].getText(),
-                      fields[1].getText(),
-                      convertFloor(),
-                      event.getX(),
-                      event.getY(),
-                      fields[2].getText(),
-                      false);
-              boolean isDirty;
-              isDirty = comboBox1.getValue().equals("Dirty");
-              equipment.setIsDirty(isDirty);
-              icon.getEquipmentList().add(equipment);
-              clearPopupForm();
-            }
-            closePopUp();
+            addEquipmentIcon(
+                new Equipment(
+                    fields[0].getText(),
+                    fields[1].getText(),
+                    MapController.getController().getFloorName(),
+                    event.getX(),
+                    event.getY(),
+                    fields[2].getText(),
+                    comboBox1.getValue().equals("Dirty")));
           }
         });
     // Scene and Stage
@@ -959,17 +877,13 @@ public class PopupController {
   /** adds equipment icon */
   public void addEquipmentIcon(Equipment equipment) {
     RequestSystem.getSystem().addEquipment(equipment);
-    MapManager.getManager().setUpFloors();
-    MapController.getController().mapPane.getChildren().clear();
-    MapController.getController().setFloor(equipment.getFloor());
+    update();
   }
 
   /** deletes equipment icon */
   public void deleteEquipmentIcon(Equipment equipment) {
     RequestSystem.getSystem().removeEquipment(equipment);
-    MapManager.getManager().setUpFloors();
-    MapController.getController().mapPane.getChildren().clear();
-    MapController.getController().setFloor(equipment.getFloor());
+    update();
   }
 
   /** Populates a location icon's popup window with its service requests */
@@ -990,8 +904,6 @@ public class PopupController {
     buttonBox.getChildren().addAll(submitIcon, clearResponse, closeButton);
     fields[0].setPromptText("Old Equipment ID");
     fields[1].setPromptText("Equipment ID");
-    fields[2].setPromptText("X-Coordinate");
-    fields[3].setPromptText("Y-Coordinate");
     fields[4].setPromptText("Building");
     fields[5].setPromptText("Type");
     fields[6].setPromptText("Description");
@@ -1002,23 +914,20 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (checkFields()) {
+            double x = RequestSystem.getSystem().getEquipment(fields[0].getText()).getX();
+            double y = RequestSystem.getSystem().getEquipment(fields[0].getText()).getY();
             deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(fields[0].getText()));
-
-            Equipment equipment =
+            addEquipmentIcon(
                 new Equipment(
                     fields[1].getText(),
                     fields[5].getText(),
                     convertFloor(),
-                    Double.parseDouble(fields[2].getText()),
-                    Double.parseDouble(fields[3].getText()),
+                    x,
+                    y,
                     fields[6].getText(),
-                    false);
-            equipment.setIsDirty(comboBox2.getValue().equals("Dirty"));
-            addEquipmentIcon(equipment);
-            closePopUp();
+                    comboBox2.getValue().equals("Dirty")));
           }
         });
-
     stage.setTitle("Modify Equipment");
     showPopUp();
   }
@@ -1037,7 +946,6 @@ public class PopupController {
         event1 -> {
           if (checkFields()) {
             deleteEquipmentIcon(RequestSystem.getSystem().getEquipment(fields[0].getText()));
-            closePopUp();
           }
         });
   }

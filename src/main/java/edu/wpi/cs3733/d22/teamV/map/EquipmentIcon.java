@@ -65,7 +65,9 @@ public class EquipmentIcon extends Icon {
               removeEquipment(equipment);
               if (getEquipmentList().size() == 0) {
                 RequestSystem.getSystem().removeEquipment(equipment);
-                MapController.getController().populateFloorIconArr();
+                MapManager.getManager().setUpFloors();
+                MapController.getController()
+                    .setFloor(MapController.getController().getFloorName());
               }
             });
         Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
@@ -75,10 +77,13 @@ public class EquipmentIcon extends Icon {
         updateStatus.setValue(equipment.getIsDirtyString());
         updateStatus.setOnAction(
             event1 -> {
+              System.out.println("'" + updateStatus.getValue() + "'");
               equipment.setIsDirty(updateStatus.getValue().equals("Dirty"));
               RequestSystem.getSystem()
                   .getEquipmentDao()
                   .updateEquipment(equipment, equipment.getID());
+              MapManager.getManager().setUpFloors();
+              MapController.getController().setFloor(MapController.getController().getFloorName());
             });
         HBox hbox = new HBox(15, updateStatus, deleteEquipment);
         Label description = new Label("Description: " + equipment.getDescription());
@@ -128,6 +133,15 @@ public class EquipmentIcon extends Icon {
     }
   }
 
+  private void sortList() {
+    ArrayList<Equipment> dirtyEquipment = new ArrayList<>();
+    for (Equipment equipment : equipmentList) {
+      if (equipment.getIsDirty()) {
+        dirtyEquipment.add(equipment);
+      }
+    }
+  }
+
   public boolean hasCleanEquipment() {
     for (Equipment equipment : equipmentList) {
       if (!equipment.getIsDirty()) {
@@ -149,8 +163,13 @@ public class EquipmentIcon extends Icon {
             tempEquipmentList.addAll(equipmentList);
             equipmentList.clear();
             equipmentList.addAll(tempEquipmentList);
+            this.xCoord = icon.xCoord;
+            this.yCoord = icon.yCoord;
             RequestSystem.getSystem().updateLocations(this);
             setImage();
+            MapManager.getManager().setUpFloors();
+            MapController.getController().setFloor(MapController.getController().getFloorName());
+            break;
           }
         }
       }
