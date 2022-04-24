@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class LaundryRequest extends ServiceRequest {
-  String details;
 
   public LaundryRequest(
       int employeeID, int patientID, String nodeID, String details, String status) {

@@ -69,7 +69,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
           String.valueOf(equipmentDelivery.getPatientID()),
           equipmentDelivery.getLocation().getNodeID(),
           equipmentDelivery.getEquipment(),
-          equipmentDelivery.getNotes(),
+          equipmentDelivery.getDetails(),
           String.valueOf(equipmentDelivery.getQuantity()),
           equipmentDelivery.getStatus(),
           String.valueOf(equipmentDelivery.getServiceID())
@@ -140,7 +140,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
               + "', '"
               + equipmentDelivery.getEquipment()
               + "','"
-              + equipmentDelivery.getNotes()
+              + equipmentDelivery.getDetails()
               + "',"
               + equipmentDelivery.getQuantity()
               + ",'"

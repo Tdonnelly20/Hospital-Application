@@ -8,7 +8,6 @@ import java.time.Instant;
 
 public class ReligiousRequest extends ServiceRequest {
   private String religion;
-  private String details;
   /**
    * @param employeeID
    * @param patientID
@@ -25,6 +24,7 @@ public class ReligiousRequest extends ServiceRequest {
     this.details = specialRequests;
     this.type = "Religious Request";
     status = "Not Started";
+    notes = religion;
     this.dao = RequestSystem.Dao.ReligiousRequest;
   }
 

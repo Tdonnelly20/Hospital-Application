@@ -9,7 +9,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
-import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -309,7 +308,7 @@ public class EquipmentRequestController extends RequestController {
     pos.setText(delivery.getLocationName());
     dropDown.setValue(delivery.getEquipment());
     quant.setText(Integer.toString(delivery.getQuantity()));
-    notes.setText(delivery.getNotes());
+    notes.setText(delivery.getDetails());
     statusDropDown.setValue(delivery.getStatus());
     updateServiceID = delivery.getServiceID();
     sendRequest.setText("Update");
