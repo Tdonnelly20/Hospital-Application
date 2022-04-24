@@ -111,20 +111,20 @@ public class MedicineDeliveryController extends RequestController {
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory("medicineName"));
-    dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory("dosage"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
-    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("medicineName"));
+    dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("dosage"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MedicineDelivery> currMedicineDeliveries =
         (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllServiceRequests();
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<MedicineDelivery>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currMedicineDeliveries.isEmpty()) {
@@ -134,14 +134,14 @@ public class MedicineDeliveryController extends RequestController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (MedicineDelivery delivery : currMedicineDeliveries) {
-      TreeItem<MedicineDelivery> item = new TreeItem(delivery);
+      TreeItem<MedicineDelivery> item = new TreeItem<>(delivery);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     medicineDeliveryTable.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currMedicineDeliveries.get(0));
+    TreeItem<MedicineDelivery> root = new TreeItem<>(currMedicineDeliveries.get(0));
     // Set the root in the table
     medicineDeliveryTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root

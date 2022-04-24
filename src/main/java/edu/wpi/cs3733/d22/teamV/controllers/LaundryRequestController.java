@@ -156,19 +156,19 @@ public class LaundryRequestController extends RequestController {
   }
 
   public void updateTreeTable() {
-    userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationID"));
-    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("locationID"));
+    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 
     ArrayList<LaundryRequest> currLaundryRequest =
         (ArrayList<LaundryRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.LaundryRequest);
 
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<LaundryRequest>> treeItems = new ArrayList<>();
 
     if (currLaundryRequest.isEmpty()) {
       requestTable.setRoot(null);
@@ -178,7 +178,7 @@ public class LaundryRequestController extends RequestController {
         treeItems.add(item);
       }
       requestTable.setShowRoot(false);
-      TreeItem root = new TreeItem<>(currLaundryRequest.get(0));
+      TreeItem<LaundryRequest> root = new TreeItem<>(currLaundryRequest.get(0));
       requestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }

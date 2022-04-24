@@ -72,20 +72,20 @@ public class MealDeliveryRequestController extends RequestController {
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    mealCol.setCellValueFactory(new TreeItemPropertyValueFactory("mealName"));
-    allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory("allergy"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
-    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    mealCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("mealName"));
+    allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("allergy"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MealRequest> currMealDeliveries =
         (ArrayList<MealRequest>) mealRequestDao.getAllServiceRequests();
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<MealRequest>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currMealDeliveries.isEmpty()) {
@@ -95,14 +95,14 @@ public class MealDeliveryRequestController extends RequestController {
 
     // for each loop cycling through each meal delivery currently entered into the system
     for (MealRequest delivery : currMealDeliveries) {
-      TreeItem<MealRequest> item = new TreeItem(delivery);
+      TreeItem<MealRequest> item = new TreeItem<>(delivery);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     mealDeliveryTable.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currMealDeliveries.get(0));
+    TreeItem<MealRequest> root = new TreeItem<>(currMealDeliveries.get(0));
     // Set the root in the table
     mealDeliveryTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root
@@ -208,19 +208,6 @@ public class MealDeliveryRequestController extends RequestController {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
-
-  @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
-  }
 
   @FXML
   private void updateSelectedRow() throws IOException, NullPointerException, SQLException {

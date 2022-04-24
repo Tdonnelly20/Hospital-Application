@@ -133,31 +133,31 @@ public class EquipmentRequestController extends RequestController {
   @FXML
   void updateTreeTable() {
     // TODO add status, and date and time column
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    posCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationName"));
-    equipCol.setCellValueFactory(new TreeItemPropertyValueFactory("equipment"));
-    quantCol.setCellValueFactory(new TreeItemPropertyValueFactory("quantity"));
-    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    posCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("locationName"));
+    equipCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("equipment"));
+    quantCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("quantity"));
+    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("notes"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
         (ArrayList<EquipmentDelivery>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.EquipmentDelivery);
 
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<EquipmentDelivery>> treeItems = new ArrayList<>();
 
     if (currEquipmentDeliveries.isEmpty()) {
       equipmentRequestTable.setRoot(null);
     } else {
       for (EquipmentDelivery delivery : currEquipmentDeliveries) {
-        TreeItem<EquipmentDelivery> item = new TreeItem(delivery);
+        TreeItem<EquipmentDelivery> item = new TreeItem<>(delivery);
         treeItems.add(item);
       }
       equipmentRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(currEquipmentDeliveries.get(0));
+      TreeItem<EquipmentDelivery> root = new TreeItem<>(currEquipmentDeliveries.get(0));
       equipmentRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -165,26 +165,26 @@ public class EquipmentRequestController extends RequestController {
 
   @FXML
   private void updateEquipmentTable() {
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("ID"));
-    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("x"));
-    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
-    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("floor"));
-    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
-    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("description"));
-    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("ID"));
+    xCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("x"));
+    yCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("y"));
+    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("floor"));
+    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
+    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
+    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("isDirtyString"));
 
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<Equipment>> treeItems = new ArrayList<>();
 
     if (!currEquipment.isEmpty()) {
 
       for (Equipment pos : currEquipment) {
-        TreeItem<Equipment> item = new TreeItem(pos);
+        TreeItem<Equipment> item = new TreeItem<>(pos);
         treeItems.add(item);
       }
 
       table.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
+      TreeItem<Equipment> root = new TreeItem<>(RequestSystem.getSystem().getEquipment().get(0));
       table.setRoot(root);
       root.getChildren().addAll(treeItems);
     }

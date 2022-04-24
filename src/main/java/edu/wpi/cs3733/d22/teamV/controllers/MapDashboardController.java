@@ -29,13 +29,13 @@ import javafx.stage.Stage;
 
 public class MapDashboardController extends Controller {
 
-  private @FXML TreeTableView equipmentTable;
+  private @FXML TreeTableView<Equipment> equipmentTable;
   private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
   private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
-  private @FXML TreeTableView serviceRequestTable;
+  private @FXML TreeTableView<ServiceRequest> serviceRequestTable;
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
   private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
-  private @FXML TreeTableView patientTable;
+  private @FXML TreeTableView<Patient> patientTable;
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
   private @FXML TreeTableColumn<Patient, String> lastCol;
   private @FXML TreeTableColumn<Patient, String> SRCol;
@@ -152,7 +152,7 @@ public class MapDashboardController extends Controller {
 
   @FXML private ArrayList<DashboardListener> listeners = new ArrayList<DashboardListener>();
 
-  public ArrayList getListeners() {
+  public ArrayList<DashboardListener> getListeners() {
     return listeners;
   }
 
@@ -257,23 +257,23 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateEquipmentTable() {
-    equipmentIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("ID"));
-    isDirtyCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
+    equipmentIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("ID"));
+    isDirtyCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("isDirtyString"));
 
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<Equipment>> treeItems = new ArrayList<>();
 
     if (!currEquipment.isEmpty()) {
 
       for (Equipment pos : currEquipment) {
         if (pos.getFloor().equals(curFloor.getFloorName())) {
-          TreeItem<Equipment> item = new TreeItem(pos);
+          TreeItem<Equipment> item = new TreeItem<>(pos);
           treeItems.add(item);
         }
       }
 
       equipmentTable.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
+      TreeItem<Equipment> root = new TreeItem<>(RequestSystem.getSystem().getEquipment().get(0));
       equipmentTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -281,12 +281,12 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateServiceRequestTable() {
-    typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
+    typeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("type"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
 
     ArrayList<ServiceRequest> currRequests =
         (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<ServiceRequest>> treeItems = new ArrayList<>();
 
     if (!currRequests.isEmpty()) {
 
@@ -302,7 +302,7 @@ public class MapDashboardController extends Controller {
       }
 
       serviceRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getEveryServiceRequest().get(0));
+      TreeItem<ServiceRequest> root = new TreeItem<>(RequestSystem.getSystem().getEveryServiceRequest().get(0));
       serviceRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -310,11 +310,11 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updatePatientTable() {
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    lastCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
+    SRCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceIDs"));
     ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<Patient>> treeItems = new ArrayList<>();
 
     if (!currPatients.isEmpty()) {
 
@@ -325,7 +325,7 @@ public class MapDashboardController extends Controller {
               if (s.getLocation() != null) {
                 if (s.getLocation().getFloor() != null) {
                   if (s.getLocation().getFloor().equals(curFloor.getFloorName())) {
-                    TreeItem<Patient> item = new TreeItem(pos);
+                    TreeItem<Patient> item = new TreeItem<>(pos);
                     treeItems.add(item);
                   }
                 }
@@ -336,7 +336,7 @@ public class MapDashboardController extends Controller {
       }
 
       patientTable.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getPatients().get(0));
+      TreeItem<Patient> root = new TreeItem<>(RequestSystem.getSystem().getPatients().get(0));
       patientTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }

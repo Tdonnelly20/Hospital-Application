@@ -147,29 +147,29 @@ public class SanitationRequestController extends RequestController {
 
   @FXML
   void updateTreeTable() {
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomLocation"));
-    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazardName"));
-    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hospitalID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("roomLocation"));
+    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
+    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
 
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<SanitationRequest>> treeItems = new ArrayList<>();
 
     if (currSanitationRequests.isEmpty()) {
       sanitationRequestTable.setRoot(null);
     } else {
       for (SanitationRequest delivery : currSanitationRequests) {
-        TreeItem<SanitationRequest> item = new TreeItem(delivery); // claims null pointer
+        TreeItem<SanitationRequest> item = new TreeItem<>(delivery); // claims null pointer
         treeItems.add(item);
       }
       sanitationRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(currSanitationRequests.get(0));
+      TreeItem<SanitationRequest> root = new TreeItem<>(currSanitationRequests.get(0));
       sanitationRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
