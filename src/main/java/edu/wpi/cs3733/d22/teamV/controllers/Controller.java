@@ -152,38 +152,42 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
+  /** Switches to the robot request page */
   @FXML
   protected void switchToRobot(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/Robot.fxml"));
     switchScene(event);
   }
 
+  /** Switches to the employee database page */
   @FXML
   protected void switchToEmployeeDB(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/EmployeeDatabase.fxml"));
     switchScene(event);
   }
 
+  /** Switches to the patient database page */
   @FXML
   protected void switchToPatientDB(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/PatientDatabase.fxml"));
     switchScene(event);
   }
 
+  /** Switches to the map dashboard page */
   @FXML
   protected void switchToDashboard(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/MapDashboard.fxml"));
     switchScene(event);
   }
 
-  // switch to about page
+  /** Switches to the about page */
   @FXML
   protected void switchToAbout(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/About.fxml"));
     switchScene(event);
   }
 
-  // Switches scene to the rootW
+  // Switches scene to the root
   @FXML
   protected void switchScene(ActionEvent event) {
     try {

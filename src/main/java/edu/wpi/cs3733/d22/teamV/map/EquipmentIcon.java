@@ -20,37 +20,45 @@ import lombok.Setter;
 @Setter
 public class EquipmentIcon extends Icon {
 
-  ArrayList<Equipment> equipmentList;
+  ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
+  private double xCoord;
+  private double yCoord;
 
+  /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
-    super(location);
+    super();
+    xCoord = location.getXCoord();
+    yCoord = location.getYCoord();
+    floor = MapManager.getManager().getFloor(location.getFloor());
     this.iconType = IconType.Equipment;
     equipmentList = new ArrayList<>();
     image.setFitWidth(20);
     image.setFitHeight(20);
-    image.setTranslateX((xCoord) - 25);
-    image.setTranslateY((yCoord) - 15);
+    image.setTranslateX(xCoord - image.getFitWidth() / 2);
+    image.setTranslateY((yCoord) - image.getFitHeight() / 2);
     image.setOnMouseClicked(
         event -> {
+          // Opens Popup when clicked twice
           if (event.getClickCount() == 2) {
             PopupController.getController().equipmentForm(event, this);
-            // MapController.getController().ewuipmentForm(event, this);
           }
         });
     image.setOnMouseReleased(
         event -> {
+          // Updates xy and checks if it is touching another icon when it is released from drag
           if (isDrag) {
             isDrag = false;
-            xCoord += event.getX();
-            yCoord += event.getY();
+
+            xCoord += event.getX() - 7;
+            yCoord += ((event.getY()) - 10);
             RequestSystem.getSystem().updateLocations(this);
             checkBounds();
             MapManager.getManager().setUpFloors();
           }
-          // MapController.getController().setFloor(getLocation().getFloor());
         });
   }
 
+  /** Returns a VBox which displays information about each piece of equipment */
   @Override
   public VBox compileList() {
     if (equipmentList.size() > 0) {
@@ -109,19 +117,18 @@ public class EquipmentIcon extends Icon {
     return null;
   }
 
+  /** Adds equipment to the list and updates icon image */
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
-      setImage();
     } else {
       equipmentList.add(0, equipment);
     }
     setImage();
-    // RequestSystem.getSystem().addEquipment(equipment);
-    MapDashboardController.getController().updateCounts();
     alertSixBeds();
   }
 
+  /** Removes equipment and calls alerts */
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
@@ -129,6 +136,7 @@ public class EquipmentIcon extends Icon {
     PopupController.getController().closePopUp();
   }
 
+  /** Sets the icon image depending on if it has clean equipment */
   public void setImage() {
     if (hasCleanEquipment()) {
       image.setImage(MapManager.getManager().cleanEquipment);
@@ -137,15 +145,7 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  private void sortList() {
-    ArrayList<Equipment> dirtyEquipment = new ArrayList<>();
-    for (Equipment equipment : equipmentList) {
-      if (equipment.getIsDirty()) {
-        dirtyEquipment.add(equipment);
-      }
-    }
-  }
-
+  /** Determines if the icon has clean equipment */
   public boolean hasCleanEquipment() {
     for (Equipment equipment : equipmentList) {
       if (!equipment.getIsDirty()) {
@@ -155,24 +155,31 @@ public class EquipmentIcon extends Icon {
     return false;
   }
 
+  /**
+   * If this icon touches another icon then 1. The other icon's equipment is transferred to the
+   * first icon 2. The x and y coordinates are changed to the second icon and the equipment
+   * locations are updated 3. The map is refreshed
+   */
   public void checkBounds() {
-    if (MapManager.getManager().getFloor(this.getLocation().getFloor()).getEquipmentIcons().size()
-        > 0) {
-      for (EquipmentIcon icon :
-          MapManager.getManager().getFloor(location.getFloor()).getEquipmentIcons()) {
+    ArrayList<EquipmentIcon> floorEquipmentIcons =
+        MapManager.getManager().getFloor(floor.getFloorName()).getEquipmentIcons();
+    if (floorEquipmentIcons.size() > 1) {
+      for (EquipmentIcon icon : floorEquipmentIcons) {
         if (icon != this && iconType.equals(IconType.Equipment)) {
+          // If icon touches another icon
           if (icon.getImage().getBoundsInParent().intersects(this.image.getBoundsInParent())) {
-            System.out.println("Intersection");
+            // Transferring equipment to this icon
             ArrayList<Equipment> tempEquipmentList = new ArrayList<>(icon.getEquipmentList());
             tempEquipmentList.addAll(equipmentList);
             equipmentList.clear();
             equipmentList.addAll(tempEquipmentList);
+            // Updates the xy coordinates for equipment
             this.xCoord = icon.xCoord;
             this.yCoord = icon.yCoord;
             RequestSystem.getSystem().updateLocations(this);
-            setImage();
+            // Updating Map
             MapManager.getManager().setUpFloors();
-            MapController.getController().setFloor(MapController.getController().getFloorName());
+            MapController.getController().setFloor(floor.getFloorName());
             break;
           }
         }
@@ -203,8 +210,8 @@ public class EquipmentIcon extends Icon {
   }
 
   public int[] pumpAlert() {
-    int dirty = 0;
     int clean = 0;
+    int dirty = 0;
     for (Equipment equipment : equipmentList) {
       // System.out.println(equipment.getName());
       if (equipment.getName().equals("Infusion Pump")) {

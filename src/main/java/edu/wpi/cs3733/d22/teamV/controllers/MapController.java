@@ -2,10 +2,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.*;
-import edu.wpi.cs3733.d22.teamV.objects.Equipment;
-import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -52,7 +49,7 @@ public class MapController extends Controller {
   @FXML TextField[] fields = new TextField[10];
   @FXML JFXComboBox[] comboBoxes = new JFXComboBox[5];
   @FXML Button submitButton = new Button("Submit");
-  private String floorName = "";
+  private String floorName = "1";
 
   ObservableList<String> requestTypes =
       FXCollections.observableArrayList(
@@ -106,7 +103,7 @@ public class MapController extends Controller {
   @Override
   public void init() {
     controller = this;
-    setFloor("1");
+    setFloor(floorName);
     mapSetUp();
   }
 
@@ -163,6 +160,7 @@ public class MapController extends Controller {
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }
 
+  /** Sets up the buttons, filter, and the mapPane */
   void setUpControls() {
     System.out.println("setting up controls");
     LL2.setOnAction(event -> setFloor("L2"));
@@ -226,17 +224,11 @@ public class MapController extends Controller {
     populateFloorIconArr();
   }
 
-  // Sets the mapImage to the corresponding floor dropdown and returns the floor string
+  /** Sets the mapImage to the corresponding floor dropdown and returns the floor string */
   public void setFloor(String floor) {
     floorName = floor;
     mapImage.setImage(MapManager.getManager().getFloor(floorName).getMap());
     populateFloorIconArr();
-  }
-
-  // what was originally called by the refresh button.
-  public void refresh() {
-    System.out.println("Refresh");
-    setFloor(floorName);
   }
 
   /** Loads the floor's icons in accordance with filter */
@@ -294,6 +286,9 @@ public class MapController extends Controller {
     }
   }
 
+  /**
+   * Puts location icons on the mapPane if the filter contains a request type that the location has
+   */
   public boolean filterContainsRequests() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.contains("Lab Requests")
@@ -339,6 +334,10 @@ public class MapController extends Controller {
     }
   }
 
+  /**
+   * Puts location icons on the map depending on the type of service request they have and their
+   * active status
+   */
   private void filterRequests(String requestType, LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.contains("Active Requests")) {
@@ -384,34 +383,7 @@ public class MapController extends Controller {
     }
   }
 
-  // Adds icon to map
-  public void addIcon(Icon icon) {
-    switch (icon.iconType) {
-      case Location:
-        RequestSystem.getSystem().addLocation(icon.getLocation());
-    }
-    PopupController.getController().closePopUp();
-    MapManager.getManager().getFloor(floorName).addIcon(icon);
-    populateFloorIconArr();
-    checkFilter();
-  }
-
-  public void addEquipmentIcon(Equipment equipment) {
-    PopupController.getController().closePopUp();
-    mapPane.getChildren().clear();
-    RequestSystem.getSystem().addEquipment(equipment);
-    // MapManager.getManager().getFloor(getFloor()).addIcon(equipment.getIcon());
-    MapManager.getManager().setUpFloors();
-    checkFilter();
-  }
-
-  public void deleteIcon(Icon icon) {
-    System.out.println("Delete Icon");
-    MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
-    RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
-    MapManager.getManager().setUpFloors();
-  }
-
+  /** Draws a path from one location to another */
   @FXML
   public void drawPath(LocationIcon icon, LocationIcon icon1) {
     mapPane
@@ -423,194 +395,4 @@ public class MapController extends Controller {
                 icon1.getImage().getTranslateX(),
                 icon1.getImage().getTranslateY()));
   }
-
-  /*
-  private void update() {
-    MapManager.getManager().setUpFloors();
-    setFloor(floorName);
-    // populateFloorIconArr();
-    // clearForm();
-  }
-
-  public void addLocation(Location newLocation) {
-    mapPane.getChildren().clear();
-    RequestSystem.getSystem().getLocationDao().addLocation(newLocation);
-    RequestSystem.getSystem().getLocationDao().saveToCSV();
-    update();
-  }
-
-  public void addEquipment(Equipment equipment) {
-    mapPane.getChildren().clear();
-    RequestSystem.getSystem().getEquipmentDao().addEquipment(equipment);
-    RequestSystem.getSystem().getEquipmentDao().saveToCSV();
-    update();
-  }
-
-
-  @FXML
-  public void deleteIcon(Icon icon) {
-    // mapPane.getChildren().clear();
-    if (PopupController.getController().stage.isShowing()) {
-      PopupController.getController().closePopUp();
-    }
-    System.out.println("HERE");
-    if (icon.iconType.equals(Icon.IconType.Location)) {
-      String nodeID = icon.getLocation().getNodeID();
-      RequestSystem.getSystem().getLocationDao().deleteLocation(nodeID);
-      System.out.println("Deleted location in dao");
-      RequestSystem.getSystem().getLocationDao().saveToCSV();
-    } else {
-
-    }
-    MapManager.getManager().setUpFloors();
-    setFloor(floorName);
-    System.out.println("Populate");
-    populateFloorIconArr();
-  }
-
-  // Opens and manages the location adding form
-  @FXML
-  public void openIconFormWindow(MouseEvent event) {
-    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
-      PopupController.getController().iconWindow(event);
-      double xPos = event.getX() - 15;
-      double yPos = event.getY() - 25;
-      // PopupController.getController().iconWindow(event);
-      // setSubmitLocation(xPos, yPos);
-      addLocationForm(event);
-    }
-  }
-
-  @FXML
-  public void clearForm() {
-    for (TextField field : fields) {
-      field.setText("");
-    }
-    for (JFXComboBox cb : comboBoxes) {
-      cb = new JFXComboBox<>();
-      cb.setPromptText("Status");
-      cb.setValue(null);
-    }
-    controlsVBox.getChildren().retainAll(filterCheckBox, refreshButton);
-  }
-
-  @FXML
-  private void addAllFields() {
-    controlsVBox.getChildren().add(submitButton);
-    for (TextField field : fields) {
-      if (!field.getPromptText().equals("")) {
-        Label label = new Label(field.getPromptText() + ": ");
-        label.setMinWidth(75);
-        HBox hBox = new HBox(label, field);
-        hBox.setAlignment(Pos.CENTER);
-        controlsVBox.getChildren().add(hBox);
-      }
-    }
-  }
-
-  @FXML
-  public void IconForm(MouseEvent event) {
-    clearForm();
-    Button locationButton = new Button("Location");
-    Button equipmentButton = new Button("Equipment");
-    Button closeButton = new Button("Close");
-    locationButton.setOnAction(event2 -> locationForm(event, null));
-    equipmentButton.setOnAction(event2 -> addEquipmentForm(event));
-    closeButton.setOnAction(event2 -> clearForm());
-    controlsVBox.getChildren().addAll(locationButton, equipmentButton, closeButton);
-  }
-
-  @FXML
-  public void locationForm(MouseEvent event, LocationIcon icon) {
-    clearForm();
-    VBox vBox = new VBox();
-    Button add;
-    if (icon == null) {
-      add = new Button("Add Location");
-      add.setOnAction(event1 -> addLocationForm(event));
-    } else {
-      add = new Button("Add Service Request");
-      add.setOnAction(event1 -> addRequestForm(event));
-      if (icon.getRequestsArr().size() > 0) {
-        // vBox.getChildren().add(icon.compileList());
-      }
-    }
-    Button modify = new Button("Modify Location");
-    Button delete = new Button("Delete Location");
-    Button closeButton = new Button("Close");
-    closeButton.setOnAction(event2 -> clearForm());
-    HBox hBox = new HBox(add, modify, delete, closeButton);
-    modify.setOnAction(event1 -> {});
-    delete.setOnAction(event1 -> {});
-    controlsVBox.getChildren().addAll(hBox, vBox);
-  }
-
-  private void addRequestForm(MouseEvent event) {}
-
-  @FXML
-  public void addLocationForm(MouseEvent event) {
-    clearForm();
-    double xPos = event.getX();
-    double yPos = event.getY();
-    fields[0].setPromptText("Location ID");
-    fields[1].setPromptText("Type");
-    fields[2].setPromptText("Long Name");
-    fields[3].setPromptText("Short Name");
-    submitButton.setOnAction(
-        event1 -> {
-          Location newLocation =
-              new Location(
-                  fields[0].getText(),
-                  xPos + 10,
-                  yPos - 10,
-                  floorName,
-                  "Tower",
-                  fields[1].getText(),
-                  fields[2].getText(),
-                  fields[3].getText());
-          addLocation(newLocation);
-        });
-    addAllFields();
-  }
-
-  @FXML
-  public void removeIconForm(Icon icon) {
-    clearForm();
-    System.out.println("Deleting Icon");
-    // mapPane.getChildren().remove(icon.getImage());
-    MapManager.getManager().getFloor(floorName).removeIcon(icon);
-    clearForm();
-  }
-
-  @FXML
-  public void equipmentForm(MouseEvent event, EquipmentIcon icon) {
-    clearForm();
-    Button add = new Button("Add Equipment");
-    Button modify = new Button("Modify Equipment");
-    Button delete = new Button("Delete Equipment");
-    Button closeButton = new Button("Close");
-    add.setOnAction(event1 -> addEquipmentForm(event));
-    modify.setOnAction(event1 -> {});
-    delete.setOnAction(event1 -> {});
-    closeButton.setOnAction(event2 -> clearForm());
-    HBox hBox = new HBox(add, modify, delete);
-    VBox vBox = new VBox();
-    if (icon.getEquipmentList().size() > 0) {
-      vBox.getChildren().add(icon.compileList());
-    }
-    controlsVBox.getChildren().addAll(hBox, vBox);
-  }
-
-  @FXML
-  public void addEquipmentForm(MouseEvent event) {
-    clearForm();
-    double xPos = event.getX() - 15;
-    double yPos = event.getY() - 25;
-    fields[0].setPromptText("Node ID");
-    fields[1].setPromptText("Long Name");
-    fields[2].setPromptText("Short Name");
-    submitButton.setOnAction(event1 -> {});
-
-    addAllFields();
-  }*/
 }

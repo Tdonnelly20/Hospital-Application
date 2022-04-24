@@ -91,13 +91,15 @@ public class MapManager {
 
   public void loadEquipment() {
     for (Equipment e : requestSystem.getEquipment()) {
-      if (getFloor(e.getFloor()).hasEquipmentIconAt(e.getX(), e.getY())) {
+      if (getFloor(e.getFloor()).containsIcon(e.getX(), e.getY())) {
         getFloor(e.getFloor()).addToEquipmentIcon(e.getX(), e.getY(), e);
+        e.setFloor(e.getFloor());
       } else {
         EquipmentIcon icon = new EquipmentIcon(new Location(e.getX(), e.getY(), e.getFloor()));
         icon.addToEquipmentList(e);
         e.setIcon(icon);
         getFloor(e.getFloor()).addIcon(e.getIcon());
+        icon.setFloor(getFloor(e.getFloor()));
         icon.setImage();
         icon.setFloor(getFloor(e.getFloor()));
       }
@@ -107,17 +109,6 @@ public class MapManager {
   /** Loads every location and gives each the correct icon image */
   public void loadLocations(int i, Location l) {
     if (floorList.size() > 0) {
-      if (floorList.get(i).containsIcon(l, Icon.IconType.Location)) {
-        if (floorList.get(i).getIcon(l).iconType.equals(Icon.IconType.Location)) {
-          l.getIcon().setImage();
-        }
-      } else {
-        LocationIcon locationIcon = new LocationIcon(l);
-        l.setIcon(locationIcon);
-        floorList.get(i).addIcon(locationIcon);
-        locationIcon.setFloor(floorList.get(i));
-      }
-    } else {
       LocationIcon locationIcon = new LocationIcon(l);
       l.setIcon(locationIcon);
       floorList.get(i).addIcon(locationIcon);

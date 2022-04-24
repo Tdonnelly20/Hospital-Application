@@ -475,18 +475,18 @@ public class MapDashboardController extends Controller {
             "ALERT there are only "
                 + state[0]
                 + " clean pumps at location "
-                + e.getLocation().getXCoord()
+                + e.getXCoord()
                 + ", "
-                + e.getLocation().getYCoord());
+                + e.getYCoord());
       }
       if (state[1] > 9) {
         alerts.add(
             "ALERT! there are "
                 + state[1]
                 + " dirty pumps at location "
-                + e.getLocation().getXCoord()
+                + e.getXCoord()
                 + ", "
-                + e.getLocation().getYCoord());
+                + e.getYCoord());
 
         EquipmentDelivery equipmentDelivery =
             new EquipmentDelivery(
