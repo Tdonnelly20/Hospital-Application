@@ -13,6 +13,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.fxml.FXML;
@@ -437,9 +439,12 @@ public class MapDashboardController extends Controller {
 
     int index = 0;
     for (EquipmentIcon e : i) {
-      if (e.alertSixBeds()) {
+      /*
+      if (e.alertSixBeds(e,true)) {
         alerts.add("There are 6+ dirty beds at location " + e.getXCoord() + ", " + e.getYCoord());
       }
+
+       */
 
       state = e.pumpAlert();
       if ((state[0] < 5) && e.hasCleanEquipment()) {
@@ -462,7 +467,15 @@ public class MapDashboardController extends Controller {
 
         EquipmentDelivery equipmentDelivery =
             new EquipmentDelivery(
-                11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
+                11,
+                5,
+                "vDEPT00301",
+                "Infusion Pump",
+                "none",
+                state[1],
+                "Not Completed",
+                -1,
+                Timestamp.from(Instant.now()).toString());
         j.get(index).addToRequests(equipmentDelivery);
       }
 

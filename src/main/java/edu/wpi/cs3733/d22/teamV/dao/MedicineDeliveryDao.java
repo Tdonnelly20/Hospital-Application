@@ -43,7 +43,9 @@ public class MedicineDeliveryDao extends DaoInterface {
                 data[3],
                 data[4],
                 data[5],
-                data[6]);
+                data[6],
+                Integer.parseInt(data[7]),
+                data[8]);
 
         newDelivery.setServiceID(Integer.parseInt(data[7]));
         medicineDeliveries.add(newDelivery);
@@ -75,7 +77,8 @@ public class MedicineDeliveryDao extends DaoInterface {
           medicineDelivery.getDosage(),
           medicineDelivery.getStatus(),
           medicineDelivery.getRequestDetails(),
-          String.valueOf(medicineDelivery.getServiceID())
+          String.valueOf(medicineDelivery.getServiceID()),
+          medicineDelivery.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {

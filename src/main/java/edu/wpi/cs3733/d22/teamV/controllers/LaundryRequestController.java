@@ -12,6 +12,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -163,7 +165,9 @@ public class LaundryRequestController extends RequestController {
             Integer.parseInt(patientID.getText()),
             roomNumber.getText(),
             details.getText(),
-            statusDropDown.getValue().toString());
+            statusDropDown.getValue().toString(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
     try {
       if (updating) {
         Vdb.requestSystem.getDao(Dao.LaundryRequest).updateServiceRequest(l, updateServiceID);

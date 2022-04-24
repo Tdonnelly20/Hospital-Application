@@ -37,7 +37,13 @@ public class LabRequestDao extends DaoInterface {
         String[] data = line.split(splitToken);
         LabRequest newDelivery =
             new LabRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+                Integer.parseInt(data[0]),
+                Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
         newDelivery.setServiceID(Integer.parseInt(data[5]));
         allLabRequests.add(newDelivery);
       }
@@ -64,7 +70,8 @@ public class LabRequestDao extends DaoInterface {
           labRequest.getLocation().getNodeID(),
           labRequest.getLab(),
           labRequest.getStatus(),
-          String.valueOf(labRequest.getServiceID())
+          String.valueOf(labRequest.getServiceID()),
+          labRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {

@@ -16,8 +16,19 @@ public class InternalPatientTransportation extends ServiceRequest {
    * @param requestDetails
    */
   public InternalPatientTransportation(
-      String nodeID, int patientID, int employeeID, String requestDetails) {
-    this.timeMade = Timestamp.from(Instant.now());
+      String nodeID,
+      int patientID,
+      int employeeID,
+      String requestDetails,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     System.out.println(employee.getEmployeeID());
@@ -25,7 +36,8 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.nodeID = nodeID;
     this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
-    this.status = "Not Started";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
   }
 
   public String getPatientFirstName() {

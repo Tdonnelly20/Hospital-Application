@@ -9,6 +9,8 @@ import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import java.awt.*;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -238,8 +240,10 @@ public class MedicineDeliveryController extends RequestController {
               Integer.parseInt(employeeID.getText()),
               medicationDropDown.getValue().toString(),
               dosage.getText(),
+              requestDetails.getText(),
               statusDropDown.getValue().toString(),
-              requestDetails.getText());
+              -1,
+              Timestamp.from(Instant.now()).toString());
       // Send the request to the Dao pattern
       try {
         if (updating) {

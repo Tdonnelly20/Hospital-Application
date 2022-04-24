@@ -20,18 +20,32 @@ public class LabRequest extends ServiceRequest {
   private String firstName;
   private String lastName;
 
-  public LabRequest(int userID, int patientID, String nodeID, String lab, String status) {
-    this.timeMade = Timestamp.from(Instant.now());
+  public LabRequest(
+      int userID,
+      int patientID,
+      String nodeID,
+      String lab,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
     this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
     notes = lab;
     this.lab = lab;
-    this.status = status;
     this.patientID = patientID;
     this.userID = userID;
     this.type = "Lab Request";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+    setServiceID(RequestSystem.getServiceID());
   }
 
   public int getEmployeeID() {

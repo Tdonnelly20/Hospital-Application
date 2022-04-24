@@ -6,9 +6,10 @@ import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
-import java.util.ArrayList;
-
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -25,7 +26,7 @@ public class EquipmentIcon extends Icon {
   private double xCoord;
   private double yCoord;
 
-  private int dirtyBeds=0;
+  private int dirtyBeds = 0;
 
   /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
@@ -192,22 +193,45 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  //checks if isAdding is true, if so finds beds that are dirty in the same place.
-  //when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
-  //else, dirtyBeds decreases by 1.
+  // checks if isAdding is true, if so finds beds that are dirty in the same place.
+  // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
+  // else, dirtyBeds decreases by 1.
+  //      int employeeID,
+  //      int patientID,
+  //      String patientFirstName,
+  //      String patientLastName,
+  //      String nodeID,
+  //      String equipment,
+  //      String notes,
+  //      int quantity,
+  //      String status,
+  //      int serviceID,      String date) {
   public void alertSixBeds(Equipment e, boolean isAdding) {
     if (isAdding) {
       if (e.getIsDirty() && e.getName() == "Bed") {
         dirtyBeds += 1;
       }
       if (dirtyBeds > 5) {
-        EquipmentDelivery request = new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started");
+        EquipmentDelivery request =
+            new EquipmentDelivery(
+                -1,
+                -1,
+                "OR",
+                "LN",
+                e.getID(),
+                e.getID().toString(),
+                "Notes",
+                1,
+                "Not Started",
+                RequestSystem.getServiceID(),
+                Timestamp.from(Instant.now()).toString());
+
         RequestSystem.getSystem().addServiceRequest(request);
       }
+    } else {
+      dirtyBeds--;
     }
-    else { dirtyBeds--; }
   }
-
 
   public int[] pumpAlert() {
     int clean = 0;

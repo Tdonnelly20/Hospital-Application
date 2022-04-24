@@ -11,6 +11,8 @@ import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -277,7 +279,9 @@ public class EquipmentRequestController extends RequestController {
             dropDown.getValue().toString(),
             notes.getText(),
             Integer.parseInt(quant.getText()),
-            status.getText());
+            status.getText(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
 
     try {
       if (updating) {

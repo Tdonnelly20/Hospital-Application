@@ -37,7 +37,13 @@ public class RobotDao extends DaoInterface {
         String[] data = line.split(splitToken);
         RobotRequest newRobot =
             new RobotRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+                Integer.parseInt(data[0]),
+                Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
         newRobot.setServiceID(Integer.parseInt(data[5]));
         allRobotRequests.add(newRobot);
       }
@@ -63,7 +69,8 @@ public class RobotDao extends DaoInterface {
           robotRequest.getNodeID(),
           robotRequest.getDetails(),
           robotRequest.getStatus(),
-          String.valueOf(robotRequest.getServiceID())
+          String.valueOf(robotRequest.getServiceID()),
+          robotRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -204,7 +211,6 @@ public class RobotDao extends DaoInterface {
   public void removeLabRequest(int botID) {
     // System.out.println("Removing from arraylist...");
     allRobotRequests.removeIf(r -> r.getBotID() == botID);
-
     try {
       // System.out.println("Removing from database...");
       Connection connection;

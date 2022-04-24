@@ -12,14 +12,32 @@ public class RobotRequest extends ServiceRequest {
   private String nodeID;
   private int botID;
 
-  public RobotRequest(int hospitalID, int botID, String nodeID, String details, String status) {
+  public RobotRequest(
+      int hospitalID,
+      int botID,
+      String nodeID,
+      String details,
+      String status,
+      int serviceID,
+      String date) {
     employee = new Employee(hospitalID);
-    this.timeMade = Timestamp.from(Instant.now());
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;
     this.details = details;
     this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+    if (serviceID < 0) { // calls system to set id
+      // setServiceID(RequestSystem.getServiceID());
+    } else {
+      // setServiceID(serviceID);
+    }
     this.type = "Robot Request";
   }
 

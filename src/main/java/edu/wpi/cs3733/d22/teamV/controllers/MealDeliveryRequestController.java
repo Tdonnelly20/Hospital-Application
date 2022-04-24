@@ -11,6 +11,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -197,8 +199,10 @@ public class MealDeliveryRequestController extends RequestController {
               Integer.parseInt(employeeID.getText()),
               mealDropDown.getValue().toString(),
               allergy.getText(),
+              requestDetails.getText(),
               statusDropDown.getValue().toString(),
-              requestDetails.getText());
+              -1,
+              Timestamp.from(Instant.now()).toString());
       // Send the request to the Dao pattern
       try {
         if (updating) {

@@ -11,6 +11,8 @@ import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -207,7 +209,9 @@ public class LabRequestController extends RequestController {
               Integer.parseInt(patientID.getText()),
               nodeID.getText(),
               requestedLab.getValue().toString(),
-              statusDropDown.getValue().toString());
+              statusDropDown.getValue().toString(),
+              -1,
+              Timestamp.from(Instant.now()).toString());
       try {
         if (updating) {
           Vdb.requestSystem.getDao(Dao.LabRequest).updateServiceRequest(l, updateServiceID);

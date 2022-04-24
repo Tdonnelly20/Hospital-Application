@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import java.sql.Timestamp;
@@ -23,8 +24,16 @@ public class SanitationRequest extends ServiceRequest {
       int employeeID,
       String roomLocation,
       String hazardName,
-      String requestDetails) {
-    this.timeMade = Timestamp.from(Instant.now());
+      String requestDetails,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.requestDetails = requestDetails;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
@@ -34,7 +43,13 @@ public class SanitationRequest extends ServiceRequest {
     this.hazardName = hazardName;
     this.roomLocation = roomLocation;
     this.type = "Sanitation Request";
-    status = "Not Started";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+    if (serviceID < 0) { // calls system to set id
+      // setServiceID(RequestSystem.getServiceID());
+    } else {
+      // setServiceID(serviceID);
+    }
   }
 
   public String getPatientFirstName() {

@@ -10,6 +10,8 @@ import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.servicerequests.RobotRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -64,20 +66,6 @@ public class RobotController extends RequestController {
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
   }
-  /*
-  boolean findPatient() { // returns true if finds patient
-    boolean result = false;
-    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
-      for (Patient p : Vdb.requestSystem.getPatients()) {
-        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  }
-  */
 
   boolean findEmployee() { // returns true if finds patient
     boolean result = false;
@@ -173,7 +161,9 @@ public class RobotController extends RequestController {
               Integer.parseInt(botID.getText()),
               nodeID.getText(),
               details.getText(),
-              statusDropDown.getValue().toString());
+              statusDropDown.getValue().toString(),
+              -1,
+              Timestamp.from(Instant.now()).toString());
       try {
         if (updating) {
           Vdb.requestSystem.getDao(Dao.RobotRequest).updateServiceRequest(r, updateServiceID);

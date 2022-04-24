@@ -21,9 +21,15 @@ public class MedicineDelivery extends ServiceRequest {
       int employeeID,
       String medicineName,
       String dosage,
+      String requestDetails,
       String status,
-      String requestDetails) {
-    this.timeMade = Timestamp.from(Instant.now());
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.from(Instant.now());
+    } else {
+      this.timeMade = Timestamp.valueOf(date);
+    }
     this.dosage = dosage;
     this.details = requestDetails;
     this.nodeID = nodeID;
@@ -34,6 +40,8 @@ public class MedicineDelivery extends ServiceRequest {
     notes = medicineName + ": " + dosage;
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
   }
 
   public String getPatientFirstName() {

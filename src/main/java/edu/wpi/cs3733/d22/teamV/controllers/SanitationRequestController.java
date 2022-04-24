@@ -12,6 +12,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -159,7 +161,10 @@ public class SanitationRequestController extends RequestController {
             Integer.parseInt(patientID.getText()),
             roomLocation.getText(),
             sanitationDropDown.getValue().toString(),
-            requestDetails.getText());
+            requestDetails.getText(),
+            statusDropDown.getValue().toString(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
@@ -167,7 +172,6 @@ public class SanitationRequestController extends RequestController {
       SanitationRequestDao.addServiceRequest(request);
     }
     updating = false;
-    // System.out.println(employeeID + patientID + roomLocation,sanitationDropDown,requestDetails);
     updateTreeTable();
     resetForm(); // Set all fields to blank for another entry
   }
