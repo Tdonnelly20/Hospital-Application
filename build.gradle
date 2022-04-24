@@ -31,6 +31,7 @@ dependencies {
             'org.apache.derby:derby:10.14.2.0',
             'org.apache.derby:derbytools:10.14.2.0',
             'org.apache.derby:derbyclient:10.14.2.0',
+            'ai.djl:api:0.16.0',
 
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
