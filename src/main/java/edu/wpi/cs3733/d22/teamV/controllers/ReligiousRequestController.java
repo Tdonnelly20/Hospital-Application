@@ -5,10 +5,14 @@ import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.ReligiousRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -134,7 +138,34 @@ public class ReligiousRequestController extends RequestController {
     roomNumber.setText("");
     religion.setText("");
     sendRequest.setDisable(true);
+    statusDropDown.setValue(null);
     validateButton();
+  }
+
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
   }
 
   // Checks to see if the user can submit info
@@ -144,11 +175,11 @@ public class ReligiousRequestController extends RequestController {
     boolean valid = true;
     String issues = "Issues:\n";
     // Information verification and submission needed
-    if (!isInteger(patientID.getText()) || patientID.getText().isEmpty() || false) {
+    if (!findPatient()) { // nned to check if patient exists
       issues += "Invalid Patient.\n";
       valid = false;
     }
-    if (!isInteger(employeeID.getText()) || employeeID.getText().isEmpty()) {
+    if (!findEmployee()) {
       issues += "Invalid Employee.\n";
       valid = false;
     }
@@ -183,7 +214,10 @@ public class ReligiousRequestController extends RequestController {
             Integer.parseInt(employeeID.getText()),
             roomNumber.getText(),
             religion.getText(),
-            details.getText());
+            details.getText(),
+            statusDropDown.getValue().toString(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       ReligiousRequestDao.updateServiceRequest(request, request.getServiceID());

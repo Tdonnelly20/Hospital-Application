@@ -47,7 +47,7 @@ public class RequestSystem {
     religiousRequestDao = new ReligiousRequestDao();
     robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
-    pathfindingDao = new PathfindingDao();
+    // pathfindingDao = new PathfindingDao();
 
     triDirectionalityInit();
   }
@@ -196,11 +196,11 @@ public class RequestSystem {
           break;
         default:
           System.out.println("AddServiceRequest error");
-          // System.out.println(request.getRequestName());
+          System.out.println(request.getRequestName());
       }
     } else {
-      // System.out.println("Service request " + request.getServiceID() + " already exists");
-      // System.out.println(request.getRequestName());
+      System.out.println("Service request " + request.getServiceID() + " already exists");
+      System.out.println(request.getRequestName());
     }
   }
 
@@ -283,6 +283,7 @@ public class RequestSystem {
         break;
       default:
         System.out.println("RemoveServiceRequest error");
+        break;
     }
   }
 
@@ -488,6 +489,7 @@ public class RequestSystem {
       }
     }
     serviceIDCounter = highestID + 1;
+    System.out.println("MAX serviceIDs is " + serviceIDCounter);
 
     // Patients
     highestID = patientIDCounter;

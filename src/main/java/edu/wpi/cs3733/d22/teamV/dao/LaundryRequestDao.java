@@ -41,7 +41,13 @@ public class LaundryRequestDao extends DaoInterface {
         String[] data = line.split(splitToken);
         LaundryRequest newDelivery =
             new LaundryRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+                Integer.parseInt(data[0]),
+                Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
         newDelivery.setServiceID(Integer.parseInt(data[5]));
         laundryRequests.add(newDelivery);
       }
@@ -57,7 +63,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       FileWriter fw = new FileWriter(VApp.currentPath + "/LaundryRequest.csv");
       BufferedWriter bw = new BufferedWriter(fw);
-      bw.append("userID,patientID,roomNumber,details,status,serviceID");
+      bw.append("employeeID,patientID,roomNumber,details,status,serviceID");
 
       for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -69,7 +75,8 @@ public class LaundryRequestDao extends DaoInterface {
           String.valueOf(laundryRequest.getLocation().getNodeID()),
           String.valueOf(laundryRequest.getDetails()),
           String.valueOf(laundryRequest.getStatus()),
-          String.valueOf(laundryRequest.getServiceID())
+          String.valueOf(laundryRequest.getServiceID()),
+          laundryRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -98,7 +105,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE LAUNDRY(userID int, patientID int, roomNumber char(50), details char(100), status char(100), serviceID int)";
+            "CREATE TABLE LAUNDRY(employeeID int, patientID int, roomNumber char(50), details char(100), status char(100), serviceID int)";
         statement.execute(query);
 
       } else {
@@ -129,7 +136,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       query =
           "INSERT INTO LAUNDRY("
-              + "userID,patientID,roomNumber,details,status,serviceID) VALUES "
+              + "employeeID,patientID,roomNumber,details,status,serviceID) VALUES "
               + "("
               + laundryRequest.getEmployee().getEmployeeID()
               + ","
@@ -187,13 +194,11 @@ public class LaundryRequestDao extends DaoInterface {
   }
 
   public void removeServiceRequest(ServiceRequest request) {
-    if (request.getType().equals("Laundry Request")) {
-      LaundryRequest laundryRequest = (LaundryRequest) request;
-      allLaundryRequests.removeIf(value -> value.getServiceID() == laundryRequest.getServiceID());
-      request.detachAll();
-      removeFromSQLTable(request);
-      saveToCSV();
-    }
+    LaundryRequest laundryRequest = (LaundryRequest) request;
+    allLaundryRequests.removeIf(value -> value.getServiceID() == laundryRequest.getServiceID());
+    request.detachAll();
+    removeFromSQLTable(request);
+    saveToCSV();
   }
 
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {

@@ -6,10 +6,14 @@ import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,7 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class SanitationRequestController extends RequestController {
-  @FXML private TextField hospitalID;
+  @FXML private TextField employeeID;
   @FXML private TextField patientID;
   @FXML private TextField roomLocation;
   @FXML private JFXComboBox<Object> sanitationDropDown;
@@ -32,7 +36,7 @@ public class SanitationRequestController extends RequestController {
 
   @FXML private TreeTableView<SanitationRequest> sanitationRequestTable;
   @FXML private TreeTableColumn<SanitationRequest, Integer> patientIDCol;
-  @FXML private TreeTableColumn<SanitationRequest, Integer> hospitalIDCol;
+  @FXML private TreeTableColumn<SanitationRequest, Integer> employeeIDCol;
   @FXML private TreeTableColumn<SanitationRequest, String> firstNameCol;
   @FXML private TreeTableColumn<SanitationRequest, String> lastNameCol;
   @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
@@ -91,7 +95,32 @@ public class SanitationRequestController extends RequestController {
             });
   }
 
-  // ask about adding employee and patient DAOs to request System, requires them to use interface
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
   /** Determines if a medical delivery request is valid, and sends it to the Dao */
   @FXML
   void validateButton() {
@@ -99,19 +128,19 @@ public class SanitationRequestController extends RequestController {
     statusLabel.setTextFill(Color.web("Red"));
     // If any field is left blank, (except for request details) throw an error
     if (patientID.getText().equals("")
-        || hospitalID.getText().equals("")
+        || employeeID.getText().equals("")
         || roomLocation.getText().equals("")
         || sanitationDropDown.getValue() == null) {
       statusLabel.setText("Please fill in the required fields.");
       // Make sure the patient ID is an integer
-    } else if (!isInteger(patientID.getText())
-        || patientID.getText().isEmpty()) { // needs to check if patient even exists
+    } else if (!findPatient()) {
       statusLabel.setText("Invalid Patient.");
-    } else if (!isInteger(hospitalID.getText())
-        || hospitalID.getText().isEmpty()) { // check if emp exists
+    } else if (!findEmployee()) { // check if emp exists
       statusLabel.setText("Invalid Employee.");
     } else if (LocationDao.getLocation(roomLocation.getText()) == null) {
       statusLabel.setText("Invalid Room.");
+    } else if (sanitationDropDown.getValue() == null) {
+      statusLabel.setText("Needs Hazard");
     } else if (statusDropDown.getValue() == null) {
       statusLabel.setText("Needs Status");
     } else {
@@ -128,11 +157,14 @@ public class SanitationRequestController extends RequestController {
       throws SQLException, IOException { // must check to see if its updating or new req
     SanitationRequest request =
         new SanitationRequest(
-            Integer.parseInt(hospitalID.getText()),
+            Integer.parseInt(employeeID.getText()),
             Integer.parseInt(patientID.getText()),
             roomLocation.getText(),
             sanitationDropDown.getValue().toString(),
-            requestDetails.getText());
+            requestDetails.getText(),
+            statusDropDown.getValue().toString(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
@@ -140,14 +172,13 @@ public class SanitationRequestController extends RequestController {
       SanitationRequestDao.addServiceRequest(request);
     }
     updating = false;
-    // System.out.println(hospitalID + patientID + roomLocation,sanitationDropDown,requestDetails);
     updateTreeTable();
     resetForm(); // Set all fields to blank for another entry
   }
 
   @FXML
   void updateTreeTable() {
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("hospitalID"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
@@ -158,7 +189,6 @@ public class SanitationRequestController extends RequestController {
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
-
     ArrayList<TreeItem> treeItems = new ArrayList<>();
 
     if (currSanitationRequests.isEmpty()) {
@@ -179,12 +209,13 @@ public class SanitationRequestController extends RequestController {
   @FXML
   void resetForm() {
     patientID.setText("");
-    hospitalID.setText("");
+    employeeID.setText("");
     roomLocation.setText("");
     sanitationDropDown.setValue(null);
     requestDetails.setText("");
     statusLabel.setText("");
     sendRequest.setDisable(true);
+    validateButton();
   }
 
   // same error as remove, pressing sendrequest causes issue
@@ -195,7 +226,7 @@ public class SanitationRequestController extends RequestController {
       SanitationRequest request =
           sanitationRequestTable.getSelectionModel().getSelectedItem().getValue();
 
-      hospitalID.setText(String.valueOf(request.getHospitalID()));
+      employeeID.setText(String.valueOf(request.getEmployeeID()));
       patientID.setText(String.valueOf(request.getPatientID()));
       roomLocation.setText(request.getRoomLocation());
       sanitationDropDown.setValue(request.getHazardName());
@@ -219,7 +250,7 @@ public class SanitationRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(hospitalIDCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 8);
     setColumnSize(patientIDCol, (w - 30) / 8);
     setColumnSize(firstNameCol, (w - 30) / 8);
     setColumnSize(lastNameCol, (w - 30) / 8);

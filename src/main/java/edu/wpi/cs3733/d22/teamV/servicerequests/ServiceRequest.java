@@ -22,7 +22,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   public Patient patient;
   protected Employee employee;
   public boolean toBeDeleted = false;
-  protected Timestamp timestamp;
+  protected Timestamp timeMade; // when this was made
   protected String type;
   protected RequestSystem.Dao dao;
   protected String details;
@@ -44,6 +44,10 @@ public abstract class ServiceRequest extends DirectionalAssoc {
     return location.getNodeID();
   }
 
+  public Timestamp getTimeMade() {
+    return timeMade;
+  }
+
   public void detachAll() {
     toBeDeleted = true;
     updateAllObservers();
@@ -52,39 +56,6 @@ public abstract class ServiceRequest extends DirectionalAssoc {
 
   public void setPatient(Patient patient) {
     this.patient = patient;
-  }
-
-  @Override
-  public void update(DirectionalAssoc directionalAssoc) {
-    // Check to see what updated and its type
-    System.out.println("running service request update!");
-    if (directionalAssoc instanceof Employee) {
-      Employee employee = (Employee) directionalAssoc;
-      boolean serviceRequestContains = getEmployee().getEmployeeID() == employee.getEmployeeID();
-      boolean employeeContains = employee.getServiceRequestIDs().contains(serviceID);
-
-      // Check to see if the patient has a state change relevant to the employee containing it
-      if (serviceRequestContains && !employeeContains) {
-        setEmployee(null);
-
-      } else if (!serviceRequestContains && employeeContains) {
-        setEmployee(employee);
-      }
-
-    } else if (directionalAssoc instanceof Patient) {
-      Patient patient = (Patient) directionalAssoc;
-      boolean serviceRequestContains = getPatient().getPatientID() == patient.getPatientID();
-      boolean patientContains = patient.getPatientID() == getPatient().getPatientID();
-
-      if (serviceRequestContains && !patientContains) {
-        setPatient(null);
-
-      } else if (!serviceRequestContains && patientContains) {
-        setPatient(patient);
-      }
-    }
-
-    // Updated in individual classes
   }
 
   public String toString() {
@@ -134,5 +105,42 @@ public abstract class ServiceRequest extends DirectionalAssoc {
         + typeInfo
         + ")\nDetails: "
         + detailString;
+  }
+
+  public int getServiceID() {
+    return serviceID;
+  }
+
+  @Override
+  public void update(DirectionalAssoc directionalAssoc) {
+    // Check to see what updated and its type
+    System.out.println("running service request update!");
+    if (directionalAssoc instanceof Employee) {
+      Employee employee = (Employee) directionalAssoc;
+      boolean serviceRequestContains = getEmployee().getEmployeeID() == employee.getEmployeeID();
+      boolean employeeContains = employee.getServiceRequestIDs().contains(serviceID);
+
+      // Check to see if the patient has a state change relevant to the employee containing it
+      if (serviceRequestContains && !employeeContains) {
+        setEmployee(null);
+
+      } else if (!serviceRequestContains && employeeContains) {
+        setEmployee(employee);
+      }
+
+    } else if (directionalAssoc instanceof Patient) {
+      Patient patient = (Patient) directionalAssoc;
+      boolean serviceRequestContains = getPatient().getPatientID() == patient.getPatientID();
+      boolean patientContains = patient.getPatientID() == getPatient().getPatientID();
+
+      if (serviceRequestContains && !patientContains) {
+        setPatient(null);
+
+      } else if (!serviceRequestContains && patientContains) {
+        setPatient(patient);
+      }
+    }
+
+    // Updated in individual classes
   }
 }

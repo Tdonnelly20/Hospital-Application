@@ -3,6 +3,8 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 public class InternalPatientTransportation extends ServiceRequest {
   private String nodeID;
@@ -14,7 +16,19 @@ public class InternalPatientTransportation extends ServiceRequest {
    * @param requestDetails
    */
   public InternalPatientTransportation(
-      String nodeID, int patientID, int employeeID, String requestDetails) {
+      String nodeID,
+      int patientID,
+      int employeeID,
+      String requestDetails,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     System.out.println(employee.getEmployeeID());
@@ -22,7 +36,8 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.nodeID = nodeID;
     this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
-    this.status = "Not Started";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
   }
 
   public String getPatientFirstName() {

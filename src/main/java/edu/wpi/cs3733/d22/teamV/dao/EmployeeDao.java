@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d22.teamV.dao;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -144,6 +145,13 @@ public class EmployeeDao {
   }
 
   public void removeEmployee(Employee employee) {
+    replaceEmployee(employee);
+    for (ServiceRequest request : employee.getServiceRequestList()) {
+      Vdb.requestSystem.removeServiceRequest(request);
+    }
+  }
+
+  public void replaceEmployee(Employee employee) {
     allEmployees.removeIf(currEmployee -> employee.getEmployeeID() == currEmployee.getEmployeeID());
     removeFromSQLTable(employee);
     saveToCSV();
@@ -237,7 +245,7 @@ public class EmployeeDao {
 
   public void updateEmployee(Employee employee, int employeeID) {
     Employee oldEmployee = getEmployee(employeeID);
-    removeEmployee(oldEmployee);
+    replaceEmployee(oldEmployee);
     employee.setEmployeeID(employeeID);
     allEmployees.add(employee);
     addToSQLTable(employee);

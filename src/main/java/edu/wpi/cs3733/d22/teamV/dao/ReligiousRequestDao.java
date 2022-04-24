@@ -66,7 +66,9 @@ public class ReligiousRequestDao extends DaoInterface {
           religiousRequest.getLocation().getNodeID(),
           religiousRequest.getReligion(),
           religiousRequest.getDetails(),
-          Integer.toString(religiousRequest.getServiceID())
+          religiousRequest.getStatus(),
+          Integer.toString(religiousRequest.getServiceID()),
+          religiousRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -95,7 +97,14 @@ public class ReligiousRequestDao extends DaoInterface {
         data = line.split(splitToken);
         ReligiousRequest request =
             new ReligiousRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+                Integer.parseInt(data[0]),
+                Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                data[5],
+                Integer.parseInt(data[6]),
+                data[7]);
         requests.add(request);
       }
       allReligiousRequest = requests;

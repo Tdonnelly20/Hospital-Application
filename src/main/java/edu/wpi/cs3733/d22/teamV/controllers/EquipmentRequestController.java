@@ -1,13 +1,18 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -59,7 +64,7 @@ public class EquipmentRequestController extends RequestController {
   // The two fields that are required for when a request is being updated
   private boolean updating = false;
   private int updateServiceID;
-
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
   // Helper for setting up
   private static class SingletonHelper {
     private static final EquipmentRequestController controller = new EquipmentRequestController();
@@ -197,42 +202,69 @@ public class EquipmentRequestController extends RequestController {
     dropDown.setValue(null);
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
+    validateButton();
+  }
+
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
   }
 
   @FXML
   void validateButton() {
-
-    if (!(employeeID.getText().isEmpty())
-        && !(patientID.getText().isEmpty())
-        && !(employeeID.getText().isEmpty())
-        && !(pos.getText().isEmpty())
-        && !(dropDown.getValue() == null)
-        && !(notes.getText().isEmpty())
-        && !(quant.getText().isEmpty())
-        && isInteger(quant.getText())
-        && !(statusDropDown.getValue() == null)) {
-      status.setText("Status: Done");
-      sendRequest.setDisable(false);
-
-    } else if (!(employeeID.getText().isEmpty())
-        || !(patientID.getText().isEmpty())
-        || !(employeeID.getText().isEmpty())
-        || !(status.getText().isEmpty())
-        || !(pos.getText().isEmpty())
-        || !(dropDown.getValue() == null)
-        || !(notes.getText().isEmpty())
-        || !(quant.getText().isEmpty())
-        || !(statusDropDown.getValue() == null)) {
-      status.setText("Status: Processing");
-      sendRequest.setDisable(true);
-
-      if (!isInteger(quant.getText()) && !quant.getText().isEmpty()) {
-        status.setText("Status: Quantity is not a number");
-      }
-
-    } else {
+    sendRequest.setDisable(true);
+    if (employeeID.getText().isEmpty()
+        && patientID.getText().isEmpty()
+        && employeeID.getText().isEmpty()
+        && pos.getText().isEmpty()
+        && dropDown.getValue() == null
+        && quant.getText().isEmpty()
+        && statusDropDown.getValue() == null) {
       status.setText("Status: Blank");
+    } else if (employeeID.getText().isEmpty()
+        || patientID.getText().isEmpty()
+        || employeeID.getText().isEmpty()
+        || status.getText().isEmpty()
+        || pos.getText().isEmpty()
+        || dropDown.getValue() == null
+        || quant.getText().isEmpty()
+        || statusDropDown.getValue() == null) {
+      status.setText("Status: Processing");
+    } else if (!quant.getText().isEmpty() && !isInteger(quant.getText())) {
+      status.setText("Status: Quantity is not a number");
+    } else if (!findPatient()) {
+      status.setText("Invalid Patient.");
       sendRequest.setDisable(true);
+    } else if (!findEmployee()) { // check if emp exists
+      status.setText("Invalid Employee.");
+      sendRequest.setDisable(true);
+    } else if (LocationDao.getLocation(pos.getText()) == null) {
+      status.setText("Invalid Room.");
+      sendRequest.setDisable(true);
+    } else {
+      status.setText("Status: Good");
+      sendRequest.setDisable(false);
     }
   }
 
@@ -247,7 +279,9 @@ public class EquipmentRequestController extends RequestController {
             dropDown.getValue().toString(),
             notes.getText(),
             Integer.parseInt(quant.getText()),
-            status.getText());
+            status.getText(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
 
     try {
       if (updating) {

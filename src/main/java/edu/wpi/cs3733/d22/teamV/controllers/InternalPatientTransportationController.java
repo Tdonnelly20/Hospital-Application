@@ -1,12 +1,18 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -22,7 +28,7 @@ public class InternalPatientTransportationController extends RequestController {
 
   @FXML private TreeTableView<InternalPatientTransportation> internalPatientTransportationTable;
 
-  @FXML private TreeTableColumn<InternalPatientTransportation, Integer> hospitalIDCol;
+  @FXML private TreeTableColumn<InternalPatientTransportation, Integer> employeeIDCol;
   @FXML private TreeTableColumn<InternalPatientTransportation, Integer> patientIDCol;
   @FXML private TreeTableColumn<InternalPatientTransportation, String> firstNameCol;
   @FXML private TreeTableColumn<InternalPatientTransportation, String> lastNameCol;
@@ -30,15 +36,17 @@ public class InternalPatientTransportationController extends RequestController {
   @FXML private TreeTableColumn<InternalPatientTransportation, String> otherInfoCol;
 
   @FXML private TextField patientID;
-  @FXML private TextField hospitalID;
+  @FXML private TextField employeeID;
   @FXML private TextField roomNum;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Label statusLabel;
 
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
       (InternalPatientTransportationDao)
           Vdb.requestSystem.getDao(RequestSystem.Dao.InternalPatientTransportation);
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   private static class SingletonHelper {
     private static final InternalPatientTransportationController controller =
@@ -61,7 +69,7 @@ public class InternalPatientTransportationController extends RequestController {
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
@@ -93,25 +101,55 @@ public class InternalPatientTransportationController extends RequestController {
     }
   }
 
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
   /** Determine whether or not all fields have been filled out, so we can submit the info */
   @FXML
   public void validateButton() {
-
+    statusLabel.setTextFill(Color.web("Black"));
+    sendRequest.setDisable(true);
     try {
-      if ((hospitalID.getText().equals("")
+      if ((employeeID.getText().equals("")
           && patientID.getText().equals("")
           && roomNum.getText().equals(""))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
-        statusLabel.setTextFill(Color.web("Black"));
-      } else if ((hospitalID.getText().equals("")
+      } else if ((employeeID.getText().equals("")
           || patientID.getText().equals("")
           || roomNum.getText().equals(""))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
-        statusLabel.setTextFill(Color.web("Black"));
+      } else if (LocationDao.getLocation(roomNum.getText()) == null) {
+        statusLabel.setText("Status: Needs valid room");
+      } else if (!findEmployee()) {
+        statusLabel.setText("Status: Needs valid employee");
+      } else if (!findPatient()) {
+        statusLabel.setText("Status: Needs valid patient");
       } else {
         sendRequest.setDisable(false);
+        statusLabel.setText("Status: Good");
       }
     } catch (Exception e) {
       sendRequest.setDisable(true);
@@ -123,7 +161,7 @@ public class InternalPatientTransportationController extends RequestController {
     // If any field is left blank, (except for request details) throw an error
 
     // Make sure the patient ID is an integer
-    if (!isInteger(patientID.getText()) || !isInteger(hospitalID.getText())) {
+    if (!isInteger(patientID.getText()) || !isInteger(employeeID.getText())) {
       statusLabel.setText("Status: Failed. Patient/Hospital ID must be a number!");
       statusLabel.setTextFill(Color.web("Red"));
 
@@ -135,8 +173,11 @@ public class InternalPatientTransportationController extends RequestController {
           new InternalPatientTransportation(
               roomNum.getText(),
               Integer.parseInt(patientID.getText()),
-              Integer.parseInt(hospitalID.getText()),
-              requestDetails.getText());
+              Integer.parseInt(employeeID.getText()),
+              requestDetails.getText(),
+              statusDropDown.getValue().toString(),
+              -1,
+              Timestamp.from(Instant.now()).toString());
 
       internalPatientTransportationDao.addServiceRequest(internalPatientTransportation);
 
@@ -149,7 +190,7 @@ public class InternalPatientTransportationController extends RequestController {
   @FXML
   public void resetForm() {
     patientID.setText("");
-    hospitalID.setText("");
+    employeeID.setText("");
     roomNum.setText("");
     requestDetails.setText("");
     sendRequest.setDisable(true);

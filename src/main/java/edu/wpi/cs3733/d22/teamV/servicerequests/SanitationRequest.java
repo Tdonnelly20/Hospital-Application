@@ -1,39 +1,55 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 public class SanitationRequest extends ServiceRequest {
-  private String roomLocation, hazardName;
-  private int patientID, hospitalID, serviceID;
+  private String roomLocation, hazardName, requestDetails;
+  private int patientID, employeeID, serviceID;
 
   /**
    * Creates a basic data structure for holding medicine delivery request
    *
    * @param patientID
-   * @param hospitalID
+   * @param employeeID
    * @param roomLocation
    * @param hazardName
    * @param requestDetails
    */
   public SanitationRequest(
       int patientID,
-      int hospitalID,
+      int employeeID,
       String roomLocation,
       String hazardName,
-      String requestDetails) {
+      String requestDetails,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
 
-    this.details = requestDetails;
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
+    this.requestDetails = requestDetails;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
-    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patientID = patientID;
-    this.hospitalID = hospitalID;
+    this.employeeID = employeeID;
     this.hazardName = hazardName;
-    notes = hazardName;
     this.roomLocation = roomLocation;
     this.type = "Sanitation Request";
-    status = "Not Started";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+    if (serviceID < 0) { // calls system to set id
+      // setServiceID(RequestSystem.getServiceID());
+    } else {
+      // setServiceID(serviceID);
+    }
   }
 
   public String getPatientFirstName() {
@@ -54,8 +70,8 @@ public class SanitationRequest extends ServiceRequest {
     updateAllObservers();
   }
 
-  public int getHospitalID() {
-    return hospitalID;
+  public int getEmployeeID() {
+    return employeeID;
   }
 
   public String getHazardName() {
@@ -63,7 +79,7 @@ public class SanitationRequest extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return details;
+    return requestDetails;
   }
 
   public String getRoomLocation() {
