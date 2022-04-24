@@ -5,12 +5,10 @@ import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
-import java.util.ArrayList;
-
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -22,8 +20,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EquipmentIcon extends Icon {
-
-  ArrayList<Equipment> equipmentList;
   int dirtyBeds = 0;
   ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
   private double xCoord;
@@ -126,13 +122,11 @@ public class EquipmentIcon extends Icon {
   /** Adds equipment to the list and updates icon image */
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
-      if(equipment.getName().equals("Infusion Pump"))
-        dirtyPumps++;
+      if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
       equipmentList.add(equipment);
     } else {
       equipmentList.add(0, equipment);
-      if(equipment.getName().equals("Infusion Pump"))
-        cleanPumps++;
+      if (equipment.getName().equals("Infusion Pump")) cleanPumps++;
     }
     setImage();
     alertSixBeds(equipment, true);
@@ -143,11 +137,9 @@ public class EquipmentIcon extends Icon {
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
-    if(equipment.getName().equals("Infusion Pump")) {
-      if(equipment.getIsDirty())
-        dirtyPumps--;
-      else
-        cleanPumps--;
+    if (equipment.getName().equals("Infusion Pump")) {
+      if (equipment.getIsDirty()) dirtyPumps--;
+      else cleanPumps--;
     }
     alertSixBeds(equipment, false);
     PopupController.getController().closePopUp();
@@ -226,29 +218,29 @@ public class EquipmentIcon extends Icon {
     MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
-  public int[] pumpAlert() {
+  /* public int[] pumpAlert() {
     int clean = 0;
     int dirty = 0;
     for (Equipment equipment : equipmentList) {
-      equipment.updateLocation(location.getXCoord(), location.getYCoord());
+      equipment.updateLocation(getXCoord(), getYCoord());
     }
-  }
+  }*/
 
-  //checks if isAdding is true, if so finds beds that are dirty in the same place.
-//when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
-//else, dirtyBeds decreases by 1.
+  // checks if isAdding is true, if so finds beds that are dirty in the same place.
+  // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
+  // else, dirtyBeds decreases by 1.
   public void alertSixBeds(Equipment e, boolean isAdding) {
     if (isAdding) {
       if (e.getIsDirty() && e.getName() == "Bed") {
         dirtyBeds += 1;
       }
       if (dirtyBeds > 5) {
-        EquipmentDelivery request = new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started");
+        EquipmentDelivery request =
+            new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started");
         RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
       }
+    } else {
+      dirtyBeds--;
     }
-    else { dirtyBeds--; }
   }
-
-
 }
