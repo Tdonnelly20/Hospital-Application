@@ -90,22 +90,21 @@ public class MapController extends Controller {
           "Internal Patient Transport Requests",
           "Robot Request");
 
-  private static MapController controller = null;
+  private static MapController controller;
 
   public static MapController getController() {
-    if (controller == null) {
-      controller = new MapController();
-    }
     return controller;
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    controller = this;
     init();
   }
 
   @Override
   public void init() {
+    controller = this;
     setFloor("1");
     mapSetUp();
   }
