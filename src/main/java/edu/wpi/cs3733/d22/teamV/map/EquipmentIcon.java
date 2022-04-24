@@ -4,10 +4,13 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
+import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.util.ArrayList;
+
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -21,6 +24,7 @@ import lombok.Setter;
 public class EquipmentIcon extends Icon {
 
   ArrayList<Equipment> equipmentList;
+  int dirtyBeds = 0;
 
   public EquipmentIcon(Location location) {
     super(location);
@@ -104,6 +108,7 @@ public class EquipmentIcon extends Icon {
       image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
     }
+    alertSixBeds(equipment, true);
     MapDashboardController.getController().updateCounts();
   }
 
@@ -113,6 +118,7 @@ public class EquipmentIcon extends Icon {
     if (equipmentList.size() == 0) {
       MapController.getController().deleteIcon(this);
     }
+    alertSixBeds(equipment, false);
   }
 
   public void setImage() {
@@ -154,4 +160,22 @@ public class EquipmentIcon extends Icon {
       equipment.updateLocation(location.getXCoord(), location.getYCoord());
     }
   }
+
+  //checks if isAdding is true, if so finds beds that are dirty in the same place.
+//when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
+//else, dirtyBeds decreases by 1.
+  public void alertSixBeds(Equipment e, boolean isAdding) {
+    if (isAdding) {
+      if (e.getIsDirty() && e.getName() == "Bed") {
+        dirtyBeds += 1;
+      }
+      if (dirtyBeds > 5) {
+        EquipmentDelivery request = new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started");
+        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+      }
+    }
+    else { dirtyBeds--; }
+  }
+
+
 }
