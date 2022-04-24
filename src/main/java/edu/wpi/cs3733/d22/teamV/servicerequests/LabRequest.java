@@ -26,7 +26,7 @@ public class LabRequest extends ServiceRequest {
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
     this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
-
+    notes = lab;
     this.lab = lab;
     this.status = status;
     this.patientID = patientID;
