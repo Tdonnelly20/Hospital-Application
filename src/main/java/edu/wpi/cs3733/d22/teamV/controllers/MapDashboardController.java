@@ -443,7 +443,7 @@ public class MapDashboardController extends Controller {
       if (e.alertSixBeds(e,true)) {
         alerts.add("There are 6+ dirty beds at location " + e.getXCoord() + ", " + e.getYCoord());
       }
-
+      
        */
 
       state = e.pumpAlert();
