@@ -128,8 +128,8 @@ public class LabRequestController extends RequestController {
     nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
     requestedLabCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lab"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 

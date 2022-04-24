@@ -66,6 +66,8 @@ public class MedicineDeliveryController extends RequestController {
     setTitleText("Medicine Delivery Request");
     fillTopPane();
 
+    updateTreeTable();
+
     setColumnSizes(910);
 
     tablePlane

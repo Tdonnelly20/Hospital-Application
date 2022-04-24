@@ -147,11 +147,11 @@ public class SanitationRequestController extends RequestController {
 
   @FXML
   void updateTreeTable() {
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hospitalID"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
-    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("roomLocation"));
+    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));

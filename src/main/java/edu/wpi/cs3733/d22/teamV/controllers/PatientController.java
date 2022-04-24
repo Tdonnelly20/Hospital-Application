@@ -140,7 +140,8 @@ public class PatientController extends RequestController {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     serviceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceID"));
-    serviceRequestEmployeeIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    serviceRequestEmployeeIDSCol.setCellValueFactory(
+        new TreeItemPropertyValueFactory<>("patientID"));
     serviceTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("type"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("location"));

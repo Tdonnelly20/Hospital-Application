@@ -31,24 +31,12 @@ public class LabRequest extends ServiceRequest {
     this.type = "Lab Request";
   }
 
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public String getFirstName() {
+  public String getPatientFirstName() {
     return patient.getFirstName();
   }
 
-  public String getLastName() {
+  public String getPatientLastName() {
     return patient.getLastName();
-  }
-
-  public String getNodeID() {
-    return location.getNodeID();
   }
 
   public void setServiceID(int serviceID) {

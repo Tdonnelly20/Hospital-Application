@@ -65,6 +65,7 @@ public class MealDeliveryRequestController extends RequestController {
   public void init() {
     setTitleText("Meal Delivery");
     fillTopPane();
+    updateTreeTable();
   }
 
   /** Update the table with values from fields and the DB */

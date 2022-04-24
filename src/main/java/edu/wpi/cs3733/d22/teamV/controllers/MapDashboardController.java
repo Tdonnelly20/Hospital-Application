@@ -302,7 +302,8 @@ public class MapDashboardController extends Controller {
       }
 
       serviceRequestTable.setShowRoot(false);
-      TreeItem<ServiceRequest> root = new TreeItem<>(RequestSystem.getSystem().getEveryServiceRequest().get(0));
+      TreeItem<ServiceRequest> root =
+          new TreeItem<>(RequestSystem.getSystem().getEveryServiceRequest().get(0));
       serviceRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }

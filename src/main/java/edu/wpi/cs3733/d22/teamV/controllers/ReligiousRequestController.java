@@ -36,6 +36,9 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TreeTableColumn<ReligiousRequest, String> religionCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> requestDetailsCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
+
   private boolean updating;
   private int updateServiceID;
   // religious request can't seem to remove things if there are more than 1 now???
@@ -104,10 +107,13 @@ public class ReligiousRequestController extends RequestController {
     employeeIDCol.setCellValueFactory(
         new TreeItemPropertyValueFactory<>("employeeID")); // issue, but it matches textfield
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
-    roomCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("roomNumber"));
+    roomCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     religionCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("religion"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+
     ArrayList<ReligiousRequest> requests =
         (ArrayList<ReligiousRequest>)
             RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.ReligiousRequest);

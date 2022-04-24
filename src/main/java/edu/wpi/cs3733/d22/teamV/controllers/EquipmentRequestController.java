@@ -137,7 +137,7 @@ public class EquipmentRequestController extends RequestController {
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
-    posCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("locationName"));
+    posCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     equipCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("equipment"));
     quantCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("quantity"));
     notesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("notes"));
@@ -280,7 +280,7 @@ public class EquipmentRequestController extends RequestController {
 
     employeeID.setText(String.valueOf(delivery.getEmployeeID()));
     patientID.setText(String.valueOf(delivery.getPatientID()));
-    pos.setText(delivery.getLocationName());
+    pos.setText(delivery.getNodeID());
     dropDown.setValue(delivery.getEquipment());
     quant.setText(Integer.toString(delivery.getQuantity()));
     notes.setText(delivery.getNotes());

@@ -158,9 +158,9 @@ public class LaundryRequestController extends RequestController {
   public void updateTreeTable() {
     userIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("locationID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 

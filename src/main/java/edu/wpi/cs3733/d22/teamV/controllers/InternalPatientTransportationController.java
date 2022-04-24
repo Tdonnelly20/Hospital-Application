@@ -124,7 +124,8 @@ public class InternalPatientTransportationController extends RequestController {
       // we get the standard table functionality
       internalPatientTransportationTable.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem<InternalPatientTransportation> root = new TreeItem<>(currInternalPatientTransportations.get(0));
+      TreeItem<InternalPatientTransportation> root =
+          new TreeItem<>(currInternalPatientTransportations.get(0));
       // Set the root in the table
       internalPatientTransportationTable.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root

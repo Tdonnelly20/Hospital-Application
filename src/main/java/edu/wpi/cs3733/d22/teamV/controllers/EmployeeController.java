@@ -84,8 +84,7 @@ public class EmployeeController extends RequestController {
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
     specialtiesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("specialties"));
     employeeServiceRequestIDCol.setCellValueFactory(
-            new TreeItemPropertyValueFactory<>("serviceRequestIDs"));
-
+        new TreeItemPropertyValueFactory<>("serviceRequestIDs"));
 
     // Get the current list of medicine deliveries from the DAO
     ArrayList<Employee> currEmployees = employeeDao.getAllEmployees();
@@ -121,7 +120,8 @@ public class EmployeeController extends RequestController {
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
     patientFirstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
     patientLastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
-    patientServiceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceIDs"));
+    patientServiceRequestIDCol.setCellValueFactory(
+        new TreeItemPropertyValueFactory<>("serviceIDs"));
 
     // Get the current list of medicine deliveries from the DAO
     ArrayList<Patient> currPatients = selectedEmployee.getPatientList();
@@ -155,7 +155,8 @@ public class EmployeeController extends RequestController {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
     serviceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceID"));
-    serviceRequestPatientIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    serviceRequestPatientIDSCol.setCellValueFactory(
+        new TreeItemPropertyValueFactory<>("patientID"));
     serviceTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("type"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("location"));
