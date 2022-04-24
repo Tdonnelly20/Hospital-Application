@@ -5,11 +5,13 @@ import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.Pathfinder;
 import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class RequestSystem {
   public static int serviceIDCounter = 0;
@@ -57,6 +59,15 @@ public class RequestSystem {
 
   public EquipmentDao getEquipmentDao() {
     return equipmentDao;
+  }
+
+  public LinkedList<Location> getPaths(String startLocation, String endLocation) {
+    LinkedList<Location> locations = new LinkedList<>();
+    for (Pathfinder.Node node :
+        pathfindingDao.getPathfinder().pathfind(startLocation, endLocation)) {
+      locations.addLast(RequestSystem.getSystem().getLocation(node.getName()));
+    }
+    return locations;
   }
 
   /** Choose type of DAO for the methods called */

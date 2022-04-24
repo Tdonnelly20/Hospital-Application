@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -409,6 +410,18 @@ public class MapController extends Controller {
     MapManager.getManager().getFloor(icon.getLocation().getFloor()).removeIcon(icon);
     RequestSystem.getSystem().deleteLocation(icon.getLocation().getNodeID());
     MapManager.getManager().setUpFloors();
+  }
+
+  @FXML
+  public void drawPath(LocationIcon icon, LocationIcon icon1) {
+    mapPane
+        .getChildren()
+        .add(
+            new Line(
+                icon.getImage().getTranslateX(),
+                icon.getImage().getTranslateY(),
+                icon1.getImage().getTranslateX(),
+                icon1.getImage().getTranslateY()));
   }
 
   /*

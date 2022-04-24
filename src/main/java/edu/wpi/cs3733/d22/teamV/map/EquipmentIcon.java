@@ -60,6 +60,10 @@ public class EquipmentIcon extends Icon {
         Label idLabel = new Label("ID: " + equipment.getID());
         Button deleteEquipment = new Button("Delete");
         deleteEquipment.setStyle("-fx-background-color: #5C7B9F; -fx-text-fill: white;");
+        Button modifyEquipment = new Button("Modify");
+        modifyEquipment.setStyle("-fx-background-color: #5C7B9F; -fx-text-fill: white;");
+        modifyEquipment.setOnAction(
+            event -> PopupController.getController().equipmentModifyForm(equipment));
         deleteEquipment.setOnAction(
             event -> {
               removeEquipment(equipment);
@@ -85,7 +89,7 @@ public class EquipmentIcon extends Icon {
               MapManager.getManager().setUpFloors();
               MapController.getController().setFloor(MapController.getController().getFloorName());
             });
-        HBox hbox = new HBox(15, updateStatus, deleteEquipment);
+        HBox hbox = new HBox(15, updateStatus, modifyEquipment, deleteEquipment);
         Label description = new Label("Description: " + equipment.getDescription());
         Accordion accordion =
             new Accordion(
