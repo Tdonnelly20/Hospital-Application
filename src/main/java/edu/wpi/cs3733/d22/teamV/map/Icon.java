@@ -3,9 +3,9 @@ package edu.wpi.cs3733.d22.teamV.map;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -58,7 +58,7 @@ public abstract class Icon {
   }
 
   @FXML
-  public abstract ScrollPane compileList();
+  public abstract VBox compileList();
 
   @FXML
   public abstract void setImage();

@@ -6,7 +6,7 @@ import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class EquipmentDelivery extends ServiceRequest {
-  private final String equipment, notes;
+  private final String equipment;
   private final int quantity;
 
   public EquipmentDelivery(
@@ -24,7 +24,7 @@ public class EquipmentDelivery extends ServiceRequest {
     this.employee = new Employee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
-    this.notes = notes;
+    this.details = notes;
     this.type = "Equipment Delivery";
     this.status = status;
     setServiceID(serviceID);
@@ -46,7 +46,8 @@ public class EquipmentDelivery extends ServiceRequest {
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
-    this.notes = notes;
+    this.details = notes;
+    notes = equipment + "x" + quantity;
     this.type = "Equipment Delivery Request";
     this.quantity = quantity;
     this.status = status;
@@ -56,8 +57,8 @@ public class EquipmentDelivery extends ServiceRequest {
     return equipment;
   }
 
-  public String getNotes() {
-    return notes;
+  public String getDetails() {
+    return details;
   }
 
   public int getQuantity() {
