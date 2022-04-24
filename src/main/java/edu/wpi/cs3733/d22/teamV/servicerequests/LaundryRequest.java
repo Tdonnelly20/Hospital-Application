@@ -14,30 +14,11 @@ public class LaundryRequest extends ServiceRequest {
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.details = details;
     this.status = status;
+    this.type = "Laundry Request";
   }
 
   public String getDetails() {
     return details;
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public String getFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getLastName() {
-    return patient.getFirstName();
-  }
-
-  public String getLocationID() {
-    return location.getNodeID();
   }
 
   public void setServiceID(int serviceID) {

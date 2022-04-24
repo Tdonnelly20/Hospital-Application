@@ -195,9 +195,9 @@ public class SanitationRequestController extends RequestController {
       SanitationRequest request =
           sanitationRequestTable.getSelectionModel().getSelectedItem().getValue();
 
-      hospitalID.setText(String.valueOf(request.getHospitalID()));
+      hospitalID.setText(String.valueOf(request.getEmployeeID()));
       patientID.setText(String.valueOf(request.getPatientID()));
-      roomLocation.setText(request.getRoomLocation());
+      roomLocation.setText(request.getNodeID());
       sanitationDropDown.setValue(request.getHazardName());
       requestDetails.setText(request.getRequestDetails());
       updateServiceID = request.getServiceID();

@@ -66,8 +66,8 @@ public class SanitationRequestDao extends DaoInterface {
         SanitationRequest sanitationRequest = (SanitationRequest) request;
         String[] outputData = {
           Integer.toString(sanitationRequest.getPatientID()),
-          Integer.toString(sanitationRequest.getHospitalID()),
-          sanitationRequest.getRoomLocation(),
+          Integer.toString(sanitationRequest.getEmployeeID()),
+          sanitationRequest.getNodeID(),
           sanitationRequest.getHazardName(),
           sanitationRequest.getRequestDetails(),
           sanitationRequest.getStatus(),
@@ -122,8 +122,8 @@ public class SanitationRequestDao extends DaoInterface {
       String query = "INSERT INTO SANITATIONREQUESTS VALUES(?,?,?,?,?,?,?)";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setInt(1, newSanitationRequest.getPatientID());
-      statement.setInt(2, newSanitationRequest.getHospitalID());
-      statement.setString(3, newSanitationRequest.getRoomLocation());
+      statement.setInt(2, newSanitationRequest.getEmployeeID());
+      statement.setString(3, newSanitationRequest.getNodeID());
       statement.setString(4, newSanitationRequest.getHazardName());
       statement.setString(5, newSanitationRequest.getRequestDetails());
       statement.setString(6, newSanitationRequest.getStatus());
@@ -167,8 +167,8 @@ public class SanitationRequestDao extends DaoInterface {
           "UPDATE SANITATIONREQUESTS SET pID=?, empID=?,roomLocation=?,hazard=?,details=?, status=? WHERE serviceID=?";
       PreparedStatement statement = connection.prepareStatement(query); // error here?
       statement.setInt(1, newRequest.getPatientID());
-      statement.setInt(2, newRequest.getHospitalID());
-      statement.setString(3, newRequest.getRoomLocation());
+      statement.setInt(2, newRequest.getEmployeeID());
+      statement.setString(3, newRequest.getNodeID());
       statement.setString(4, newRequest.getHazardName());
       statement.setString(5, newRequest.getRequestDetails());
       statement.setString(6, newRequest.getStatus());

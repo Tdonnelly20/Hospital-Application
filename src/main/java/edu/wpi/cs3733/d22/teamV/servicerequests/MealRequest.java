@@ -33,22 +33,6 @@ public class MealRequest extends ServiceRequest {
     this.dao = RequestSystem.Dao.MealRequest;
   }
 
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
   public String getMealName() {
     return mealName;
   }
@@ -59,14 +43,6 @@ public class MealRequest extends ServiceRequest {
 
   public String getRequestDetails() {
     return requestDetails;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getNodeID() {
-    return nodeID;
   }
 
   public void setServiceID(int serviceID) {

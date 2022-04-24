@@ -191,7 +191,7 @@ public class LaundryRequestController extends RequestController {
 
     userID.setText(String.valueOf(l.getEmployeeID()));
     patientID.setText(String.valueOf(l.getPatientID()));
-    roomNumber.setText(l.getLocationID());
+    roomNumber.setText(l.getNodeID());
     details.setText(l.getDetails());
     statusDropDown.setValue(l.getStatus());
     updateServiceID = l.getServiceID();

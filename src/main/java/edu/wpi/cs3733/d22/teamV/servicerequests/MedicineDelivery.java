@@ -32,22 +32,6 @@ public class MedicineDelivery extends ServiceRequest {
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
   }
 
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
   public String getMedicineName() {
     return medicineName;
   }
@@ -58,14 +42,6 @@ public class MedicineDelivery extends ServiceRequest {
 
   public String getRequestDetails() {
     return requestDetails;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getNodeID() {
-    return nodeID;
   }
 
   public void setServiceID(int serviceID) {

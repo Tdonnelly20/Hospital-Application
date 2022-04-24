@@ -23,7 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class EquipmentRequestController extends RequestController {
-  // These are the buttons, text fields and labels that appear in the right column of the request
+  // These are the buttons, text fields and labels that appear in the left column of the request
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
   @FXML private Label status;
@@ -62,15 +62,21 @@ public class EquipmentRequestController extends RequestController {
   private boolean updating = false;
   private int updateServiceID;
 
-  // Helper for setting up
+  // Helper for setting up singleton
   private static class SingletonHelper {
     private static final EquipmentRequestController controller = new EquipmentRequestController();
   }
 
+  /**
+   * Getter for the singleton
+   *
+   * @return the singleton controller
+   */
   public static EquipmentRequestController getController() {
     return EquipmentRequestController.SingletonHelper.controller;
   }
 
+  /** This function is used to start up the controller and set up the scaling for the fx page */
   @Override
   public void init() {
     System.out.println("In init Equipment Request");
@@ -130,6 +136,7 @@ public class EquipmentRequestController extends RequestController {
             });
   }
 
+  /** This function is used to update the request tree table for this page */
   @FXML
   void updateTreeTable() {
     // TODO add status, and date and time column
@@ -163,6 +170,7 @@ public class EquipmentRequestController extends RequestController {
     }
   }
 
+  /** This function is used to update the equipment table */
   @FXML
   private void updateEquipmentTable() {
     nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("ID"));
@@ -190,6 +198,7 @@ public class EquipmentRequestController extends RequestController {
     }
   }
 
+  /** This function is used to reset all of the fields on the left side of the */
   @FXML
   void resetForm() {
     employeeID.setText("");
@@ -200,10 +209,15 @@ public class EquipmentRequestController extends RequestController {
     quant.setText("");
     dropDown.setValue(null);
     sendRequest.setDisable(true);
+    updating = false;
     sendRequest.setText("Send Request");
     statusDropDown.setValue(null);
   }
 
+  /**
+   * This function is used to check if the fields are filled in order to send a service request, the
+   * button is disabled if they are not
+   */
   @FXML
   void validateButton() {
 
@@ -241,6 +255,11 @@ public class EquipmentRequestController extends RequestController {
     }
   }
 
+  /**
+   * This sends a request to the database based on the fields currently filled out
+   *
+   * @throws SQLException not sure
+   */
   @FXML
   private void sendRequest() throws SQLException {
 
@@ -272,6 +291,11 @@ public class EquipmentRequestController extends RequestController {
     updateTreeTable();
   }
 
+  /**
+   * This function is used to update a row from within the tree table
+   *
+   * @throws NullPointerException When no row is selected
+   */
   @FXML
   private void updateSelectedRow() throws NullPointerException {
     updating = true;
@@ -290,6 +314,13 @@ public class EquipmentRequestController extends RequestController {
     updateTreeTable();
   }
 
+  /**
+   * This removes the selected row in the tree table
+   *
+   * @throws IOException
+   * @throws NullPointerException when no row is selected
+   * @throws SQLException
+   */
   @FXML
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
     try {
@@ -302,6 +333,12 @@ public class EquipmentRequestController extends RequestController {
     updateTreeTable();
   }
 
+  /**
+   * Used as a helper function to set the size of each column based on scaling, this is for the
+   * request table
+   *
+   * @param w width of the current screen
+   */
   void setColumnSizes(double w) {
     setColumnSize(patientIDCol, (w - 30) / 8);
     setColumnSize(employeeIDCol, (w - 30) / 9);
@@ -314,6 +351,12 @@ public class EquipmentRequestController extends RequestController {
     setColumnSize(statusCol, (w - 30) / 9);
   }
 
+  /**
+   * Used as a helper function to set the size of each column based on scaling, this is for the
+   * equipment table
+   *
+   * @param w width of the current screen
+   */
   void setColumnSizes2(double w) {
     setColumnSize(nodeIDCol, (w - 30) / 7);
     setColumnSize(xCol, (w - 30) / 7);
