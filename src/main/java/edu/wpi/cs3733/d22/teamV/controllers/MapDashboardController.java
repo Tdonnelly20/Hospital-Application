@@ -404,49 +404,62 @@ public class MapDashboardController extends Controller {
     }*/
   }
 
+  // updates the alertsArea TextArea when the currFloor changes
   @FXML
   private void updateAlerts() {
     ArrayList<String> alerts = new ArrayList<>();
+
+    // list of icons on the current floor where each icon represents a different location
     ArrayList<Icon> iconList = curFloor.getIconList();
     ArrayList<EquipmentIcon> i = new ArrayList<>();
     ArrayList<LocationIcon> j = new ArrayList<>();
 
-    int[] state;
+    int dirtyPumps;
+    int cleanPumps;
+
     String alertText = "";
+
+    // casts the list of equpimentIcons into their own list
     for (Icon icon : iconList) {
       if (icon.iconType.equals(Icon.IconType.Equipment)) {
         i.add((EquipmentIcon) icon);
       }
     }
+    // casts the list of locationIcons into their own list
     for (Icon icon : iconList) {
       if (icon.iconType.equals(Icon.IconType.Location)) {
         j.add((LocationIcon) icon);
       }
     }
     int index = 0;
+
+    // iterates through the list of equipmentIcons and adds alerts to the list of Strings, alerts
     for (EquipmentIcon e : i) {
-      state = e.pumpAlert();
-      if ((state[0] < 5) && e.hasCleanEquipment()) {
+      dirtyPumps = e.getDirtyPumps();
+      cleanPumps = e.getCleanPumps();
+
+      if ((cleanPumps < 5) && e.hasCleanEquipment()) {
         alerts.add(
             "ALERT there are only "
-                + state[0]
+                + cleanPumps
                 + " clean pumps at location "
                 + e.getLocation().getXCoord()
                 + ", "
                 + e.getLocation().getYCoord());
       }
-      if (state[1] > 9) {
+      if (dirtyPumps > 9) {
         alerts.add(
             "ALERT! there are "
-                + state[1]
+                + dirtyPumps
                 + " dirty pumps at location "
                 + e.getLocation().getXCoord()
                 + ", "
                 + e.getLocation().getYCoord());
 
+        // creates a service request
         EquipmentDelivery equipmentDelivery =
             new EquipmentDelivery(
-                11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
+                11, 5, "vDEPT00301", "Infusion Pump", "none", dirtyPumps, "Not Completed");
         j.get(index).addToRequests(equipmentDelivery);
       }
       index++;

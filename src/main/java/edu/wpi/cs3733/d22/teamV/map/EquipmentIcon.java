@@ -22,6 +22,8 @@ import lombok.Setter;
 public class EquipmentIcon extends Icon {
 
   ArrayList<Equipment> equipmentList;
+  private int cleanPumps = 0;
+  private int dirtyPumps = 0;
 
   public EquipmentIcon(Location location) {
     super(location);
@@ -102,6 +104,7 @@ public class EquipmentIcon extends Icon {
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
       equipmentList.add(equipment);
+      if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
       if (equipmentList.size() == 1) {
         image.setImage(MapManager.getManager().dirtyEquipment);
       } else {
@@ -110,6 +113,7 @@ public class EquipmentIcon extends Icon {
     } else {
       image.setImage(MapManager.getManager().cleanEquipment);
       equipmentList.add(0, equipment);
+      if (equipment.getName().equals("Infusion Pump")) cleanPumps++;
     }
     MapDashboardController.getController().updateCounts();
     alertSixBeds();
@@ -119,6 +123,10 @@ public class EquipmentIcon extends Icon {
     RequestSystem.getSystem().getEquipmentDao().removeEquipment(equipment);
     RequestSystem.getSystem().getEquipmentDao().saveToCSV();
     MapController.getController().setFloor(getLocation().getFloor());
+    if (equipment.getName().equals("Infusion Pump")) {
+      if (equipment.getIsDirty()) dirtyPumps--;
+      else cleanPumps--;
+    }
     alertSixBeds();
     PopupController.getController().closePopUp();
   }
@@ -186,16 +194,4 @@ public class EquipmentIcon extends Icon {
     MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
-  public int[] pumpAlert() {
-    int dirty = 0;
-    int clean = 0;
-    for (Equipment equipment : equipmentList) {
-      // System.out.println(equipment.getName());
-      if (equipment.getName().equals("Infusion Pump")) {
-        if (equipment.getIsDirty()) dirty++;
-        else clean++;
-      }
-    }
-    return new int[] {clean, dirty};
-  }
 }
