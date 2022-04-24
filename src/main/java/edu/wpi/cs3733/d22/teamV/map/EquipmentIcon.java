@@ -23,6 +23,8 @@ public class EquipmentIcon extends Icon {
   ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
   private double xCoord;
   private double yCoord;
+  private int cleanPumps = 0;
+  private int dirtyPumps = 0;
 
   /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
@@ -120,9 +122,13 @@ public class EquipmentIcon extends Icon {
   /** Adds equipment to the list and updates icon image */
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
+      if(equipment.getName().equals("Infusion Pump"))
+        dirtyPumps++;
       equipmentList.add(equipment);
     } else {
       equipmentList.add(0, equipment);
+      if(equipment.getName().equals("Infusion Pump"))
+        cleanPumps++;
     }
     setImage();
     alertSixBeds();
@@ -132,6 +138,12 @@ public class EquipmentIcon extends Icon {
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
+    if(equipment.getName().equals("Infusion Pump")) {
+      if(equipment.getIsDirty())
+        dirtyPumps--;
+      else
+        cleanPumps--;
+    }
     alertSixBeds();
     PopupController.getController().closePopUp();
   }
