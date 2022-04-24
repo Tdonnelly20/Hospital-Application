@@ -279,6 +279,201 @@
                               </Label>
                            </children>
                         </Pane>
+                        <Pane fx:id="paneJO" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelJO" layoutX="145.0" layoutY="53.0" text="Jolene Pern">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJO1" layoutX="171.0" layoutY="142.0" text="Major: Place Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJO2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJO3" layoutX="101.0" layoutY="249.0" text="Place">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJO4" layoutX="127.0" layoutY="284.0" text="Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJO5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJO6" layoutX="56.0" layoutY="389.0" text="&quot;Place Holder&quot; Jolene">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="paneP" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelP" layoutX="116.0" layoutY="51.0" text="Parker Van Ham">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelP1" layoutX="171.0" layoutY="142.0" text="Major: Place Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelP2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelP3" layoutX="101.0" layoutY="249.0" text="Place">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelP4" layoutX="127.0" layoutY="284.0" text="Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelP5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelP6" layoutX="56.0" layoutY="389.0" text="&quot;Place Holder&quot; Parker">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="paneD" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelD" layoutX="148.0" layoutY="52.0" text="Dylan Hunt">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelD1" layoutX="172.0" layoutY="142.0" text="Major: CS">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelD2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelD3" layoutX="101.0" layoutY="249.0" text="Continue working with">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelD4" layoutX="127.0" layoutY="284.0" text="Computer Science">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelD5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelD6" layoutX="89.0" layoutY="389.0" text="&quot;I hate innovation&quot; Dylan">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="paneTU" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelTU" layoutX="112.0" layoutY="54.0" text="Tucker Raymond">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTU1" layoutX="172.0" layoutY="142.0" text="Major:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTU2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTU3" layoutX="101.0" layoutY="249.0" text="Place">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTU4" layoutX="127.0" layoutY="284.0" text="Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTU5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTU6" layoutX="89.0" layoutY="389.0" text="&quot;Place Holder&quot; Tucker">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="paneTR" layoutY="125.0" prefHeight="517.0" prefWidth="446.0" style="-fx-background-color: #81919E;">
+                           <children>
+                              <Label fx:id="labelTR" layoutX="156.0" layoutY="54.0" text="Trevor Ng">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTR1" layoutX="172.0" layoutY="142.0" text="Major:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTR2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTR3" layoutX="101.0" layoutY="249.0" text="Place">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTR4" layoutX="127.0" layoutY="284.0" text="Holder">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTR5" layoutX="187.0" layoutY="354.0" lineSpacing="1.0" text="Quote:" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelTR6" layoutX="89.0" layoutY="389.0" text="&quot;Place Holder&quot; Trevor">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
                 <AnchorPane id="meet-the-team" minHeight="0.0" minWidth="0.0" prefHeight="855.0" prefWidth="1198.0">
@@ -490,6 +685,11 @@
                         <JFXButton layoutX="562.0" layoutY="115.0" onAction="#showInfoJakob" prefHeight="100.0" prefWidth="98.0" />
                         <JFXButton layoutX="86.0" layoutY="280.0" onAction="#showInfoBen" prefHeight="100.0" prefWidth="98.0" />
                         <JFXButton layoutX="248.0" layoutY="280.0" onAction="#showInfoAndres" prefHeight="100.0" prefWidth="98.0" />
+                        <JFXButton layoutX="405.0" layoutY="280.0" onAction="#showInfoJolene" prefHeight="100.0" prefWidth="98.0" />
+                        <JFXButton layoutX="564.0" layoutY="280.0" onAction="#showInfoParker" prefHeight="100.0" prefWidth="98.0" />
+                        <JFXButton layoutX="166.0" layoutY="448.0" onAction="#showInfoDylan" prefHeight="100.0" prefWidth="98.0" />
+                        <JFXButton layoutX="325.0" layoutY="448.0" onAction="#showInfoTucker" prefHeight="100.0" prefWidth="98.0" />
+                        <JFXButton layoutX="484.0" layoutY="447.0" onAction="#showInfoTrevor" prefHeight="100.0" prefWidth="98.0" />
                      </children>
                   </AnchorPane>
               </items>
