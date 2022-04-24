@@ -112,7 +112,7 @@ public class LoginController extends Controller {
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
-  private void checkLogin(Event event) throws IOException {
+  public void checkLogin(Event event) throws IOException {
 
     Employee user = new Employee();
 
