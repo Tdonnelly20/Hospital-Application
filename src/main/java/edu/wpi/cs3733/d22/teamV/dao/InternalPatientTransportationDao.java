@@ -46,7 +46,13 @@ public class InternalPatientTransportationDao extends DaoInterface {
         data = line.split(splitToken);
         InternalPatientTransportation transportation =
             new InternalPatientTransportation(
-                data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3]);
+                data[0],
+                Integer.parseInt(data[1]),
+                Integer.parseInt(data[2]),
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
         transportation.setServiceID(Integer.parseInt(data[4]));
         addServiceRequest(transportation);
       }
@@ -74,7 +80,9 @@ public class InternalPatientTransportationDao extends DaoInterface {
           String.valueOf(internalPatientTransportation.getPatientID()),
           String.valueOf(internalPatientTransportation.getEmployeeID()),
           internalPatientTransportation.getRequestDetails(),
-          String.valueOf(internalPatientTransportation.getServiceID())
+          internalPatientTransportation.getStatus(),
+          String.valueOf(internalPatientTransportation.getServiceID()),
+          internalPatientTransportation.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {

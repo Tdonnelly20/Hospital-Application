@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class EquipmentDelivery extends ServiceRequest {
-  private final String equipment, notes;
+  private final String equipment;
   private final int quantity;
 
   public EquipmentDelivery(
@@ -21,13 +21,19 @@ public class EquipmentDelivery extends ServiceRequest {
       String notes,
       int quantity,
       String status,
-      int serviceID) {
-    this.timeMade = Timestamp.from(Instant.now());
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = new Employee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
-    this.notes = notes;
+    this.details = notes;
     this.type = "Equipment Delivery";
     this.status = status;
     setServiceID(serviceID);
@@ -43,24 +49,34 @@ public class EquipmentDelivery extends ServiceRequest {
       String equipment,
       String notes,
       int quantity,
-      String status) {
-    System.out.println(Vdb.requestSystem);
+      String status,
+      int serviceID,
+      String date) {
+    System.out.println("DATE IS :" + date);
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
-    this.notes = notes;
+    this.details = notes;
+    notes = equipment + "x" + quantity;
     this.type = "Equipment Delivery Request";
     this.quantity = quantity;
     this.status = status;
+    setServiceID(RequestSystem.getServiceID());
   }
 
   public String getEquipment() {
     return equipment;
   }
 
-  public String getNotes() {
-    return notes;
+  public String getDetails() {
+    return details;
   }
 
   public int getQuantity() {

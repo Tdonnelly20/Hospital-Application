@@ -41,7 +41,13 @@ public class LaundryRequestDao extends DaoInterface {
         String[] data = line.split(splitToken);
         LaundryRequest newDelivery =
             new LaundryRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+                Integer.parseInt(data[0]),
+                Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
         newDelivery.setServiceID(Integer.parseInt(data[5]));
         laundryRequests.add(newDelivery);
       }
@@ -69,7 +75,8 @@ public class LaundryRequestDao extends DaoInterface {
           String.valueOf(laundryRequest.getLocation().getNodeID()),
           String.valueOf(laundryRequest.getDetails()),
           String.valueOf(laundryRequest.getStatus()),
-          String.valueOf(laundryRequest.getServiceID())
+          String.valueOf(laundryRequest.getServiceID()),
+          laundryRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {

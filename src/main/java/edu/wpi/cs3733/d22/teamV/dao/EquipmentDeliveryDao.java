@@ -42,7 +42,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
                 data[3],
                 data[4],
                 Integer.parseInt(data[5]),
-                data[6]);
+                data[6],
+                Integer.parseInt(data[7]),
+                data[8]);
         equipmentDelivery.setServiceID(Integer.parseInt(data[7]));
         deliveries.add(equipmentDelivery);
       }
@@ -69,10 +71,11 @@ public class EquipmentDeliveryDao extends DaoInterface {
           String.valueOf(equipmentDelivery.getPatientID()),
           equipmentDelivery.getLocation().getNodeID(),
           equipmentDelivery.getEquipment(),
-          equipmentDelivery.getNotes(),
+          equipmentDelivery.getDetails(),
           String.valueOf(equipmentDelivery.getQuantity()),
           equipmentDelivery.getStatus(),
-          String.valueOf(equipmentDelivery.getServiceID())
+          String.valueOf(equipmentDelivery.getServiceID()),
+          equipmentDelivery.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -140,7 +143,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
               + "', '"
               + equipmentDelivery.getEquipment()
               + "','"
-              + equipmentDelivery.getNotes()
+              + equipmentDelivery.getDetails()
               + "',"
               + equipmentDelivery.getQuantity()
               + ",'"

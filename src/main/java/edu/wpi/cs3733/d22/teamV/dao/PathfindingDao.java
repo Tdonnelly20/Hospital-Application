@@ -17,6 +17,10 @@ public class PathfindingDao {
     loadFromCSV();
   }
 
+  public Pathfinder getPathfinder() {
+    return pathfinder;
+  }
+
   public void pathfind() {
     Queue<Pathfinder.Node> path = pathfinder.pathfind("vHALL00401", "vSERV00101");
 

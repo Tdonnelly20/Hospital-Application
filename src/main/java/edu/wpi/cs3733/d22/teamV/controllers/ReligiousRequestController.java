@@ -11,6 +11,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -212,7 +214,10 @@ public class ReligiousRequestController extends RequestController {
             Integer.parseInt(employeeID.getText()),
             roomNumber.getText(),
             religion.getText(),
-            details.getText());
+            details.getText(),
+            statusDropDown.getValue().toString(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       ReligiousRequestDao.updateServiceRequest(request, request.getServiceID());

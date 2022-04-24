@@ -31,6 +31,7 @@ public class Location {
     longName = null;
     shortName = null;
     icon = new LocationIcon(this);
+    // icon.setFloor(MapManager.getManager().getFloor("1"));
   }
 
   public Location(double xCoord, double yCoord, String floor) {
@@ -43,6 +44,7 @@ public class Location {
     longName = null;
     shortName = null;
     icon = new LocationIcon(this);
+    // icon.setFloor(MapManager.getManager().getFloor(floor));
   }
 
   public Location(
@@ -63,6 +65,7 @@ public class Location {
     this.longName = longName;
     this.shortName = shortName;
     icon = new LocationIcon(this);
+    // icon.setFloor(MapManager.getManager().getFloor(floor));
   }
 
   public Location(String nodeID) {
@@ -75,6 +78,7 @@ public class Location {
     longName = null;
     shortName = null;
     icon = new LocationIcon(this);
+    // icon.setFloor(MapManager.getManager().getFloor("1"));
   }
 
   public String getNodeID() {

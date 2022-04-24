@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.InternalPatientTransportationDao;
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
@@ -10,6 +11,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -37,6 +40,7 @@ public class InternalPatientTransportationController extends RequestController {
   @FXML private TextField roomNum;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
+  @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Label statusLabel;
 
   public static final InternalPatientTransportationDao internalPatientTransportationDao =
@@ -170,7 +174,10 @@ public class InternalPatientTransportationController extends RequestController {
               roomNum.getText(),
               Integer.parseInt(patientID.getText()),
               Integer.parseInt(employeeID.getText()),
-              requestDetails.getText());
+              requestDetails.getText(),
+              statusDropDown.getValue().toString(),
+              -1,
+              Timestamp.from(Instant.now()).toString());
 
       internalPatientTransportationDao.addServiceRequest(internalPatientTransportation);
 

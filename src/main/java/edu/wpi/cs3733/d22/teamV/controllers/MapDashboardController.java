@@ -13,6 +13,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.fxml.FXML;
@@ -20,6 +22,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
@@ -63,6 +69,8 @@ public class MapDashboardController extends Controller {
   private @FXML TitledPane mapTPane;
   private @FXML TitledPane alertsTPane;
 
+  private @FXML BarChart bedBarChart;
+
   private Parent root;
   FXMLLoader loader = new FXMLLoader();
 
@@ -102,6 +110,8 @@ public class MapDashboardController extends Controller {
     stage.show();
   }
 
+  public void addBedAlertToArray(boolean alert, ArrayList<String> dirtyBedsFloor) {}
+
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
   }
@@ -112,8 +122,6 @@ public class MapDashboardController extends Controller {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  /// STUFF FOR OBSERVER LISTENER PATTERN TO UPDATE ALL DASHBOARD COMPONENTS BY FLOOR BUTTONS
 
   private Floor curFloor = MapManager.getManager().getFloor("1");
 
@@ -198,7 +206,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L2");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Lower Level 2");
+    floorLabel.setText("LL2");
     updateMap("L2");
   }
 
@@ -207,7 +215,7 @@ public class MapDashboardController extends Controller {
     curFloor = MapManager.getManager().getFloor("L1");
     updateListeners(curFloor);
     updateAll();
-    floorLabel.setText("Lower Level 1");
+    floorLabel.setText("LL1");
     updateMap("L1");
   }
 
@@ -387,16 +395,17 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
+  /* was used to check for beds that are dirty, could be used again if main function has to be changed in the future.
   public void checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
-    /*if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
+    if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
       return 0;
     }
-    return 0; */
-  }
+    return 0;
+  } */
 
-  /*
+  /* was used to add dirty beds to alertsArea, could be used again if main function has to be changed in the future.
   @FXML
   public void addBedAlertToArray(int b) {
 
@@ -430,13 +439,11 @@ public class MapDashboardController extends Controller {
 
     int index = 0;
     for (EquipmentIcon e : i) {
-      if (e.alertSixBeds() > 5) {
-        alerts.add(
-            "There are 6+ dirty beds at location "
-                + e.getLocation().getXCoord()
-                + ", "
-                + e.getLocation().getYCoord());
+      /*
+      if (e.alertSixBeds(e,true)) {
+        alerts.add("There are 6+ dirty beds at location " + e.getXCoord() + ", " + e.getYCoord());
       }
+       */
 
       state = e.pumpAlert();
       if ((state[0] < 5) && e.hasCleanEquipment()) {
@@ -444,22 +451,30 @@ public class MapDashboardController extends Controller {
             "ALERT there are only "
                 + state[0]
                 + " clean pumps at location "
-                + e.getLocation().getXCoord()
+                + e.getXCoord()
                 + ", "
-                + e.getLocation().getYCoord());
+                + e.getYCoord());
       }
       if (state[1] > 9) {
         alerts.add(
             "ALERT! there are "
                 + state[1]
                 + " dirty pumps at location "
-                + e.getLocation().getXCoord()
+                + e.getXCoord()
                 + ", "
-                + e.getLocation().getYCoord());
+                + e.getYCoord());
 
         EquipmentDelivery equipmentDelivery =
             new EquipmentDelivery(
-                11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
+                11,
+                5,
+                "vDEPT00301",
+                "Infusion Pump",
+                "none",
+                state[1],
+                "Not Completed",
+                -1,
+                Timestamp.from(Instant.now()).toString());
         j.get(index).addToRequests(equipmentDelivery);
       }
 
@@ -480,12 +495,15 @@ public class MapDashboardController extends Controller {
     updateServiceRequestTable();
     updateCounts();
     updateAlerts();
+    updateBeds();
+    updatePumps();
   }
 
   @Override
   public void init() {
     setUpButtonSubjects();
     setUpDashboardListeners();
+    setUpBarChart();
     // updateAll();
   }
 
@@ -584,5 +602,81 @@ public class MapDashboardController extends Controller {
         mapButton.setImage(m);
         break;
     }
+  }
+
+  @FXML
+  public void setUpBarChart() {
+    // x axis
+    CategoryAxis x = new CategoryAxis();
+    x.setLabel("Item");
+    // y axis
+    NumberAxis y = new NumberAxis();
+    y.setLabel("Count");
+    // add values
+    XYChart.Series ds = new XYChart.Series();
+    ds.setName("Beds");
+    ds.getData().add(new XYChart.Data("Clean", curFloor.getDirtyEquipmentCount() + 1));
+    ds.getData()
+        .add(
+            new XYChart.Data(
+                "Dirty", curFloor.getEquipmentIcons().size() - curFloor.getDirtyEquipmentCount()));
+    bedBarChart.getData().add(ds);
+  }
+
+  @FXML
+  public void updateBeds() {
+    bedBarChart.getData().clear();
+    XYChart.Series c = new XYChart.Series();
+    c.setName("Beds");
+    int dirt = 0;
+    int clean = 0;
+    for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
+      for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
+        if (curFloor
+            .getEquipmentIcons()
+            .get(i)
+            .getEquipmentList()
+            .get(j)
+            .getName()
+            .equalsIgnoreCase("bed")) {
+          if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
+            dirt++;
+          } else {
+            clean++;
+          }
+        }
+      }
+    }
+    c.getData().add(new XYChart.Data("Clean", clean));
+    c.getData().add(new XYChart.Data("Dirty", dirt));
+    bedBarChart.getData().add(c);
+  }
+
+  @FXML
+  public void updatePumps() {
+    XYChart.Series c = new XYChart.Series();
+    c.setName("Pumps");
+    int dirt = 0;
+    int clean = 0;
+    for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
+      for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
+        if (curFloor
+            .getEquipmentIcons()
+            .get(i)
+            .getEquipmentList()
+            .get(j)
+            .getName()
+            .equalsIgnoreCase("infusion pump")) {
+          if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
+            dirt++;
+          } else {
+            clean++;
+          }
+        }
+      }
+    }
+    c.getData().add(new XYChart.Data("Clean", clean));
+    c.getData().add(new XYChart.Data("Dirty", dirt));
+    bedBarChart.getData().add(c);
   }
 }

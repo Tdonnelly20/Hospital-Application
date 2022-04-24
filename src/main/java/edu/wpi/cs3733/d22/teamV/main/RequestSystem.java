@@ -2,14 +2,13 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
-import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
-import edu.wpi.cs3733.d22.teamV.map.Icon;
-import edu.wpi.cs3733.d22.teamV.map.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.*;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class RequestSystem {
   public static int serviceIDCounter = 0;
@@ -48,12 +47,25 @@ public class RequestSystem {
     religiousRequestDao = new ReligiousRequestDao();
     robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
-    pathfindingDao = new PathfindingDao();
+    // pathfindingDao = new PathfindingDao();
 
     triDirectionalityInit();
   }
 
   private void triDirectionalityInit() {}
+
+  public EquipmentDao getEquipmentDao() {
+    return equipmentDao;
+  }
+
+  public LinkedList<Location> getPaths(String startLocation, String endLocation) {
+    LinkedList<Location> locations = new LinkedList<>();
+    for (Pathfinder.Node node :
+        pathfindingDao.getPathfinder().pathfind(startLocation, endLocation)) {
+      locations.addLast(RequestSystem.getSystem().getLocation(node.getName()));
+    }
+    return locations;
+  }
 
   /** Choose type of DAO for the methods called */
   public enum Dao {
@@ -477,6 +489,7 @@ public class RequestSystem {
       }
     }
     serviceIDCounter = highestID + 1;
+    System.out.println("MAX serviceIDs is " + serviceIDCounter);
 
     // Patients
     highestID = patientIDCounter;
@@ -515,26 +528,24 @@ public class RequestSystem {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
       ArrayList<Equipment> equipmentList =
           new ArrayList<>(((EquipmentIcon) icon).getEquipmentList());
-      System.out.println(equipmentList.size());
-      removeEquipment(((EquipmentIcon) icon));
-      for (Equipment equipment : equipmentList) {
-        equipment.updateLocation(icon.getXCoord(), icon.getYCoord());
-        addEquipment(equipment);
+      for (Equipment e : equipmentList) {
+
+        equipmentDao.updateEquipment(
+            new Equipment(
+                e.getID(),
+                e.getName(),
+                icon.getFloor().getFloorName(),
+                ((EquipmentIcon) icon).getXCoord(),
+                ((EquipmentIcon) icon).getYCoord(),
+                e.getDescription(),
+                e.getIsDirty()),
+            e.getID());
       }
     } else {
-      Location newLocation =
-          new Location(
-              icon.getLocation().getNodeID(),
-              icon.getXCoord(),
-              icon.getYCoord(),
-              icon.getLocation().getFloor(),
-              icon.getLocation().getBuilding(),
-              icon.getLocation().getNodeType(),
-              icon.getLocation().getLongName(),
-              icon.getLocation().getShortName());
-      locationDao.deleteLocation(icon.getLocation().getNodeID());
+      Location newLocation = ((LocationIcon) icon).getLocation();
+      locationDao.deleteLocation(newLocation.getNodeID());
       locationDao.addLocation(newLocation);
-      icon.setLocation(newLocation);
+      ((LocationIcon) icon).setLocation(newLocation);
     }
     MapManager.getManager().setUpFloors();
   }

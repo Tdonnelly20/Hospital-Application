@@ -42,7 +42,9 @@ public class MealRequestDao extends DaoInterface {
                 data[3],
                 data[4],
                 data[5],
-                data[6]);
+                data[6],
+                Integer.parseInt(data[7]),
+                data[8]);
 
         newDelivery.setServiceID(Integer.parseInt(data[7]));
         mealDeliveries.add(newDelivery);
@@ -74,7 +76,8 @@ public class MealRequestDao extends DaoInterface {
           mealDelivery.getAllergy(),
           mealDelivery.getStatus(),
           mealDelivery.getRequestDetails(),
-          String.valueOf(mealDelivery.getServiceID())
+          String.valueOf(mealDelivery.getServiceID()),
+          mealDelivery.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
