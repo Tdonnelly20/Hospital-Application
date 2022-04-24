@@ -4,7 +4,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class SanitationRequest extends ServiceRequest {
-  private String roomLocation, hazardName, requestDetails;
+  private String roomLocation, hazardName;
   private int patientID, hospitalID, serviceID;
 
   /**
@@ -23,13 +23,14 @@ public class SanitationRequest extends ServiceRequest {
       String hazardName,
       String requestDetails) {
 
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
     this.patientID = patientID;
     this.hospitalID = hospitalID;
     this.hazardName = hazardName;
+    notes = hazardName;
     this.roomLocation = roomLocation;
     this.type = "Sanitation Request";
     status = "Not Started";
@@ -62,7 +63,7 @@ public class SanitationRequest extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
+    return details;
   }
 
   public String getRoomLocation() {

@@ -5,7 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class InternalPatientTransportation extends ServiceRequest {
-  private String nodeID, requestDetails;
+  private String nodeID;
 
   /**
    * @param patientID
@@ -20,7 +20,7 @@ public class InternalPatientTransportation extends ServiceRequest {
     System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.nodeID = nodeID;
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = "Not Started";
   }
@@ -52,7 +52,7 @@ public class InternalPatientTransportation extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
+    return details;
   }
 
   @Override

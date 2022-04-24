@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class LaundryRequest extends ServiceRequest {
-  String details;
 
   public LaundryRequest(
       int employeeID, int patientID, String nodeID, String details, String status) {

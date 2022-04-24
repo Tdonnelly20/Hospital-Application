@@ -5,7 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 
 public class MealRequest extends ServiceRequest {
-  private String mealName, nodeID, allergy, status, requestDetails;
+  private String mealName, nodeID, allergy, status;
   /**
    * @param patientID
    * @param employeeID
@@ -22,13 +22,14 @@ public class MealRequest extends ServiceRequest {
       String status,
       String requestDetails) {
     this.allergy = allergy;
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.nodeID = nodeID;
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.status = status;
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.mealName = mealName;
+    notes = "Meal: " + mealName + " Allergies: " + allergy;
     this.type = "Meal Delivery Request";
     this.dao = RequestSystem.Dao.MealRequest;
   }
@@ -58,7 +59,7 @@ public class MealRequest extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
+    return details;
   }
 
   public String getStatus() {

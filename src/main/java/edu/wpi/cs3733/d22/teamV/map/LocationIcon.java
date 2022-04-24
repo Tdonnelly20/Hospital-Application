@@ -51,22 +51,15 @@ public class LocationIcon extends Icon {
   @Override
   @FXML
   /** Populates a location icon's popup window with its service requests */
-  public ScrollPane compileList() {
+  public VBox compileList() {
     ObservableList<String> statusStrings =
         FXCollections.observableArrayList("Not Started", "Processing", "Done");
     if (requestsArr.size() > 0) {
       VBox vBox = new VBox();
-      ScrollPane scrollPane = new ScrollPane(vBox);
-      scrollPane.setFitToHeight(true);
-      scrollPane.setPannable(false);
-      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      vBox.setPrefWidth(450);
-      vBox.setPrefHeight(400);
       for (ServiceRequest request : requestsArr) {
-        System.out.println(request.toString());
-        Label idLabel = new Label("Employee: " + request.getEmployee().getEmployeeID());
-        Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
-
+        Label label = new Label(request.toString());
+        label.setWrapText(true);
+        label.setMinHeight((label.getText().lines().count() + 1) * 16);
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setValue(request.getStatus());
         updateStatus.setPromptText(request.getStatus());
@@ -89,11 +82,11 @@ public class LocationIcon extends Icon {
             new Accordion(
                 new TitledPane(
                     request.getRequestName() + ": " + request.getStatus(),
-                    new VBox(15, idLabel, locationLabel, requestUpdates)));
+                    new VBox(15, label, requestUpdates)));
         accordion.setPrefWidth(450);
         vBox.getChildren().add(accordion);
       }
-      return scrollPane;
+      return vBox;
     }
     return null;
   }

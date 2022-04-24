@@ -116,7 +116,16 @@ public class PopupController {
     header.setAlignment(Pos.CENTER);
     header.setStyle("-fx-background-color: #5C7B9F;-fx-padding: 15;");
     content.setStyle("-fx-end-margin: 15;-fx-padding: 10");
-    sceneVbox.getChildren().addAll(header, content);
+
+    contentScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    contentScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    contentScrollPane.setFitToWidth(true);
+    contentScrollPane.setFitToHeight(true);
+    contentScrollPane.setStyle("-fx-background-color:transparent;");
+    stage.setMaxHeight(400);
+    stage.setMinHeight(400);
+    contentScrollPane.setMinHeight(stage.getHeight() - header.getHeight());
+    sceneVbox.getChildren().addAll(header, contentScrollPane);
     sceneVbox.setAlignment(Pos.TOP_CENTER);
 
     for (int i = 0; i < fields.length; i++) {
@@ -127,10 +136,18 @@ public class PopupController {
     submitIcon.setMinWidth(100);
     clearResponse.setMinWidth(100);
 
-    stage.setMaxHeight(400);
-    stage.setMinHeight(400);
     stage.setOnCloseRequest(event -> clearPopupForm());
-    clearResponse.setOnAction(event1 -> clearPopupForm());
+    clearResponse.setOnAction(
+        event1 -> {
+          for (TextField field : fields) {
+            field.setText("");
+          }
+          floorCB.setPromptText("Floor");
+          floorCB.setValue("");
+          comboBox1.setValue("");
+          comboBox2.setValue("");
+          comboBox3.setValue("");
+        });
     closeButton.setOnAction(
         event1 -> {
           closePopUp();
@@ -208,9 +225,9 @@ public class PopupController {
       field.setPromptText("");
     }
     floorCB.setValue("Floor");
-    comboBox1.setValue("Status");
-    comboBox2.setValue("Status");
-    comboBox3.setValue("Status");
+    comboBox1.setValue("");
+    comboBox2.setValue("");
+    comboBox3.setValue("");
     comboBox1.setPromptText("Status");
     comboBox2.setPromptText("Status");
     comboBox3.setPromptText("Status");
@@ -295,11 +312,14 @@ public class PopupController {
       if (icon.getRequestsArr().size() > 0) {
         content.getChildren().add(icon.compileList());
       }
-      addButton.setText("Add a Service Request");
+      addButton.setText("Add Request");
       addButton.setOnAction(event1 -> requestAdditionForm(event, icon));
-      buttonBox
-          .getChildren()
-          .addAll(addButton, pathfindingButton, modifyButton, removeButton, closeButton);
+
+      HBox hBox1 = new HBox(15, addButton, pathfindingButton, modifyButton);
+      HBox hBox2 = new HBox(15, removeButton, closeButton);
+      hBox1.setAlignment(Pos.CENTER);
+      hBox2.setAlignment(Pos.CENTER);
+      buttonBox.getChildren().addAll(new VBox(15, hBox1, hBox2));
     }
     modifyButton.setOnAction(event1 -> locationModifyForm(event, icon));
     removeButton.setOnAction(event1 -> locationRemoveForm(icon));
@@ -310,11 +330,13 @@ public class PopupController {
 
   private void directionsForm(LocationIcon firstLocation) {
     clear("Directions", "Directions");
+    buttonBox.getChildren().addAll(submitIcon, closeButton);
     // fields[0].setPromptText(firstLocation.getLocation().getNodeID());
     fields[0].setPromptText("Destination Node ID");
     // inputGenerator(fields[0].getPromptText(), "Starting Location", fields[0]);
     inputGenerator(fields[0].getPromptText(), "Destination", fields[0]);
     submitIcon.setText("Get Directions");
+
     submitIcon.setOnAction(
         event -> {
           if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
@@ -333,7 +355,6 @@ public class PopupController {
             closePopUp();
           }
         });
-    content.getChildren().add(submitIcon);
   }
 
   /** Opens a form that allows users to create a new location */
@@ -591,8 +612,12 @@ public class PopupController {
     comboBox3 =
         new JFXComboBox<>(FXCollections.observableArrayList("Not Started", "Processing", "Done"));
     comboBox3.setPromptText("Not Started");
-    if (icon == null) {
+    String locationID;
+    if (icon == null) { // addRequest() handles locations for null icons
       content.getChildren().add(floorCB);
+      locationID = "";
+    } else {
+      locationID = icon.getLocation().getNodeID();
     }
     switch (serviceRequest) {
       case "Lab Request":
@@ -607,12 +632,11 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                assert icon != null;
                 LabRequest request =
                     new LabRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         comboBox2.getValue(),
                         comboBox3.getValue());
                 addRequest(event, icon, request);
@@ -638,7 +662,7 @@ public class PopupController {
                     new EquipmentDelivery(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         comboBox2.getValue(),
                         fields[3].getText(),
                         Integer.parseInt(fields[2].getText()),
@@ -665,7 +689,7 @@ public class PopupController {
               if (checkFields()) {
                 MedicineDelivery request =
                     new MedicineDelivery(
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
                         comboBox2.getValue(),
@@ -686,7 +710,7 @@ public class PopupController {
               if (checkFields()) {
                 InternalPatientTransportation request =
                     new InternalPatientTransportation(
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         Integer.parseInt(fields[1].getText()),
                         Integer.parseInt(fields[0].getText()),
                         fields[2].getText());
@@ -706,7 +730,7 @@ public class PopupController {
                     new LaundryRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         fields[2].getText(),
                         comboBox3.getValue());
                 addRequest(event, icon, request);
@@ -730,7 +754,7 @@ public class PopupController {
               if (checkFields()) {
                 MealRequest request =
                     new MealRequest(
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
                         comboBox2.getValue(),
@@ -763,7 +787,7 @@ public class PopupController {
                     new SanitationRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         comboBox2.getValue(),
                         fields[2].getText());
 
@@ -785,7 +809,7 @@ public class PopupController {
                     new ReligiousRequest(
                         Integer.parseInt(fields[1].getText()),
                         Integer.parseInt(fields[0].getText()),
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         fields[2].getText(),
                         fields[3].getText());
                 addRequest(event, icon, request);
@@ -804,7 +828,7 @@ public class PopupController {
                     new RobotRequest(
                         Integer.parseInt(fields[0].getText()),
                         Integer.parseInt(fields[1].getText()),
-                        icon.getLocation().getNodeID(),
+                        locationID,
                         fields[2].getText(),
                         comboBox3.getValue());
                 addRequest(event, icon, request);
@@ -818,16 +842,24 @@ public class PopupController {
 
   public void addRequest(MouseEvent event, LocationIcon icon, ServiceRequest request) {
     if (icon == null) {
+      String x = "" + Math.round(event.getX());
+      String y = "" + Math.round(event.getY());
       Location location =
           new Location(
-              request.getType() + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
+              "sr" + x + y,
               event.getX(),
               event.getY(),
               convertFloor(),
               "Tower",
-              request.getType(),
-              request.getType() + fields[1].getText() + fields[0].getText() + comboBox2.getValue(),
-              request.getType() + fields[1].getText());
+              "Request",
+              request.getType()
+                  + "-"
+                  + request.getServiceID()
+                  + "-"
+                  + request.getEmployee().getEmployeeID(),
+              request.getType() + "-" + request.getEmployee().getEmployeeID());
+      request.setLocation(location);
+      location.getRequests().add(request);
       RequestSystem.getSystem().addLocation(location);
       MapManager.getManager()
           .getFloor(convertFloor())

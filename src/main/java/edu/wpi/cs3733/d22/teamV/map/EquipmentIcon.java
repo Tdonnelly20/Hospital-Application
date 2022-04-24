@@ -52,16 +52,10 @@ public class EquipmentIcon extends Icon {
   }
 
   @Override
-  public ScrollPane compileList() {
+  public VBox compileList() {
     if (equipmentList.size() > 0) {
       ObservableList<String> statusStrings = FXCollections.observableArrayList("Clean", "Dirty");
       VBox vBox = new VBox();
-      ScrollPane scrollPane = new ScrollPane(vBox);
-      scrollPane.setFitToHeight(true);
-      scrollPane.setPannable(false);
-      scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-      // vBox.setPrefWidth(450);
-      vBox.setPrefHeight(400);
       for (Equipment equipment : equipmentList) {
         Label idLabel = new Label("ID: " + equipment.getID());
         Button deleteEquipment = new Button("Delete");
@@ -87,6 +81,7 @@ public class EquipmentIcon extends Icon {
                   .updateEquipment(equipment, equipment.getID());
             });
         HBox hbox = new HBox(15, updateStatus, deleteEquipment);
+        Label description = new Label("Description: " + equipment.getDescription());
         Accordion accordion =
             new Accordion(
                 new TitledPane(
@@ -94,13 +89,13 @@ public class EquipmentIcon extends Icon {
                         + " ("
                         + equipment.getIsDirtyString()
                         + "): "
-                        + equipment.getDescription(),
-                    new VBox(15, idLabel, locationLabel, hbox)));
-        accordion.setPrefWidth(1000);
+                        + equipment.getID(),
+                    new VBox(15, idLabel, description, hbox)));
+
         // accordion.width
         vBox.getChildren().add(accordion);
       }
-      return scrollPane;
+      return vBox;
     }
     return null;
   }
