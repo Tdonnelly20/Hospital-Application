@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d22.teamV.map;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.controllers.MapController;
-import edu.wpi.cs3733.d22.teamV.controllers.MapDashboardController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
@@ -23,6 +22,8 @@ public class EquipmentIcon extends Icon {
   ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
   private double xCoord;
   private double yCoord;
+
+  private int dirtyBeds=0;
 
   /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
@@ -125,14 +126,16 @@ public class EquipmentIcon extends Icon {
       equipmentList.add(0, equipment);
     }
     setImage();
-    alertSixBeds();
+    alertSixBeds(equipment);
+    pumpAlert();
   }
 
   /** Removes equipment and calls alerts */
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
-    alertSixBeds();
+    alertSixBeds(equipment);
+    pumpAlert();
     PopupController.getController().closePopUp();
   }
 
@@ -188,28 +191,14 @@ public class EquipmentIcon extends Icon {
   }
 
   // finds beds that are dirty in the same place. When counter > 5, it returns true.
-  public boolean alertSixBeds() {
-
-    int alertCounter = 0;
-    boolean alert = false;
-
-    ArrayList<Equipment> equip = new ArrayList<Equipment>();
-    equip = this.getEquipmentList();
-    ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
-
-    for (int i = 0; equip.size() > i; i++) {
-      if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
-        dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
-        alertCounter = +1;
-      }
+  public void alertSixBeds(Equipment e) {
+    if (e.getIsDirty() == true && e.getName() == "Bed") {
+      dirtyBeds += 1; }
+    if (dirtyBeds > 5) {
+      //TODO do service request
     }
-    if (alertCounter > 5) {
-      alert = true;
-    }
-
-    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
-    return alert;
   }
+
 
   public int[] pumpAlert() {
     int clean = 0;
