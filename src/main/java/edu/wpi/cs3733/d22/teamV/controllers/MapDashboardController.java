@@ -438,11 +438,7 @@ public class MapDashboardController extends Controller {
     int index = 0;
     for (EquipmentIcon e : i) {
       if (e.alertSixBeds()) {
-        alerts.add(
-            "There are 6+ dirty beds at location "
-                + e.getLocation().getXCoord()
-                + ", "
-                + e.getLocation().getYCoord());
+        alerts.add("There are 6+ dirty beds at location " + e.getXCoord() + ", " + e.getYCoord());
       }
 
       state = e.pumpAlert();

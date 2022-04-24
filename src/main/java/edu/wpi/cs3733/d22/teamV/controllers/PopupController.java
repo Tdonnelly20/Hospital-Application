@@ -427,7 +427,7 @@ public class PopupController {
                 deleteIcon(fields[0].getText());
                 addIcon(newLocation);
                 locationForm(event, newLocation.getIcon());
-                
+
               } else {
                 missingFields.setText("Invalid Location ID");
                 if (!content.getChildren().contains(missingFields)) {
@@ -945,7 +945,6 @@ public class PopupController {
             RequestSystem.getSystem().getEquipmentDao().updateEquipment(equipment, oldID);
             closePopUp();
           }
-          
         });
     stage.setTitle("Modify Equipment");
     showPopUp();
