@@ -15,6 +15,7 @@ public class Floor {
   private int activeRequestCount;
   private ArrayList<EquipmentIcon> equipmentIcons = new ArrayList<>();
   private ArrayList<LocationIcon> locationIcons = new ArrayList<>();
+  private ArrayList<EquipmentIcon> alertIcons = new ArrayList<>();
 
   public Floor(String floorName, Image map) {
     this.floorName = floorName;
@@ -24,10 +25,19 @@ public class Floor {
   }
 
   public void addIcon(Icon icon) {
-    if (icon.iconType.equals(Icon.IconType.Location)) {
+    if (icon.iconType.equals(Icon.IconType.Location) && !alertIcons.contains((EquipmentIcon) icon)) {
       locationIcons.add((LocationIcon) icon);
     } else {
       equipmentIcons.add((EquipmentIcon) icon);
+      if((((EquipmentIcon) icon).getCleanPumps() < 5) && !alertIcons.contains((EquipmentIcon) icon)) {
+        alertIcons.add((EquipmentIcon) icon);
+      }
+      else if((((EquipmentIcon) icon).getDirtyPumps() > 9) && !alertIcons.contains((EquipmentIcon) icon)) {
+        alertIcons.add((EquipmentIcon) icon);
+      }
+      else if((((EquipmentIcon)icon).getDirtyBeds() > 5) && !alertIcons.contains((EquipmentIcon) icon)) {
+        alertIcons.add((EquipmentIcon) icon);
+      }
     }
   }
 
