@@ -455,7 +455,9 @@ public class MapDashboardController extends Controller {
     ArrayList<EquipmentIcon> i = new ArrayList<>();
     ArrayList<LocationIcon> j = new ArrayList<>();
 
-    int[] state;
+    int cleanPumps;
+    int dirtyPumps;
+
     String alertText = "";
     for (Icon icon : iconList) {
       if (icon.iconType.equals(Icon.IconType.Equipment)) {
@@ -469,20 +471,21 @@ public class MapDashboardController extends Controller {
     }
     int index = 0;
     for (EquipmentIcon e : i) {
-      state = e.pumpAlert();
-      if ((state[0] < 5) && e.hasCleanEquipment()) {
+      cleanPumps = e.getCleanPumps();
+      dirtyPumps = e.getDirtyPumps();
+      if ((cleanPumps < 5) && e.hasCleanEquipment()) {
         alerts.add(
             "ALERT there are only "
-                + state[0]
+                + cleanPumps
                 + " clean pumps at location "
                 + e.getXCoord()
                 + ", "
                 + e.getYCoord());
       }
-      if (state[1] > 9) {
+      if (dirtyPumps > 9) {
         alerts.add(
             "ALERT! there are "
-                + state[1]
+                + dirtyPumps
                 + " dirty pumps at location "
                 + e.getXCoord()
                 + ", "
@@ -490,7 +493,7 @@ public class MapDashboardController extends Controller {
 
         EquipmentDelivery equipmentDelivery =
             new EquipmentDelivery(
-                11, 5, "vDEPT00301", "Infusion Pump", "none", state[1], "Not Completed");
+                11, 5, "vDEPT00301", "Infusion Pump", "none", dirtyPumps, "Not Completed");
         j.get(index).addToRequests(equipmentDelivery);
       }
       index++;
