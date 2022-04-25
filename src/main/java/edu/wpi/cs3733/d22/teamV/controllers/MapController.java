@@ -175,6 +175,8 @@ public class MapController extends Controller {
         event -> {
           System.out.println("Refresh");
           setFloor(floorName);
+          startLocationID = null;
+          endLocationID = null;
         });
     for (int i = 0; i < 10; i++) {
       fields[i] = new TextField();
@@ -391,19 +393,37 @@ public class MapController extends Controller {
         .getChildren()
         .add(
             new Line(
-                icon.getImage().getTranslateX(),
-                icon.getImage().getTranslateY(),
-                icon1.getImage().getTranslateX(),
-                icon1.getImage().getTranslateY()));
+                icon.getImage().getTranslateX() + 7.5,
+                icon.getImage().getTranslateY() + 7.5,
+                icon1.getImage().getTranslateX() + 7.5,
+                icon1.getImage().getTranslateY() + 7.5));
   }
 
   /** Draws a path between icons you click on */
   public void drawPath() {
+    Button addLink = new Button("Add path");
+    controlsVBox.getChildren().remove(addLink);
     if (startLocationID != null && endLocationID != null) {
+      System.out.println("Start: " + startLocationID);
+      System.out.println("Start: " + endLocationID);
       LinkedList<Location> locations =
           RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
-      for (int i = 1; i < locations.size(); i++) {
-        drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
+      if (locations.size() == 1) {
+        controlsVBox.getChildren().add(0, addLink);
+        addLink.setOnAction(
+            event -> {
+              System.out.println("Adding Link");
+              RequestSystem.getSystem()
+                  .getPathfinderDao()
+                  .addPathNode(startLocationID, endLocationID);
+              drawPath(
+                  RequestSystem.getSystem().getLocation(startLocationID).getIcon(),
+                  RequestSystem.getSystem().getLocation(endLocationID).getIcon());
+            });
+      } else {
+        for (int i = 1; i < locations.size(); i++) {
+          drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
+        }
       }
     }
     startLocationID = null;

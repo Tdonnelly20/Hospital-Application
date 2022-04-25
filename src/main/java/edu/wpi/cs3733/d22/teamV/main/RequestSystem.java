@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class RequestSystem {
   public static int serviceIDCounter = 0;
@@ -60,11 +61,20 @@ public class RequestSystem {
 
   public LinkedList<Location> getPaths(String startLocation, String endLocation) {
     LinkedList<Location> locations = new LinkedList<>();
-    for (Pathfinder.Node node :
-        pathfindingDao.getPathfinder().pathfind(startLocation, endLocation)) {
+    Queue<Pathfinder.Node> nodes =
+        pathfindingDao.getPathfinder().pathfind(startLocation, endLocation);
+    if (nodes.size() == 1) {
+      pathfindingDao.addPathNode(startLocation, endLocation);
+      getPaths(startLocation, endLocation);
+    }
+    for (Pathfinder.Node node : nodes) {
       locations.addLast(RequestSystem.getSystem().getLocation(node.getName()));
     }
     return locations;
+  }
+
+  public PathfindingDao getPathfinderDao() {
+    return pathfindingDao;
   }
 
   /** Choose type of DAO for the methods called */

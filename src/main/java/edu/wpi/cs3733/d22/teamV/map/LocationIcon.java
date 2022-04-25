@@ -40,8 +40,14 @@ public class LocationIcon extends Icon {
               if (MapController.getController().getStartLocationID() == null) {
                 MapController.getController().setStartLocationID(location.getNodeID());
               } else {
-                MapController.getController().setEndLocationID(location.getNodeID());
-                MapController.getController().drawPath();
+                if (MapController.getController().getEndLocationID() == null) {
+                  MapController.getController().setEndLocationID(location.getNodeID());
+                  MapController.getController().drawPath();
+                } else {
+                  MapController.getController()
+                      .setStartLocationID(MapController.getController().getEndLocationID());
+                  MapController.getController().setEndLocationID(null);
+                }
               }
             }
           } else {
