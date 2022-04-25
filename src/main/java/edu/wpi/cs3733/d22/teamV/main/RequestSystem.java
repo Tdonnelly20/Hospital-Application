@@ -63,12 +63,10 @@ public class RequestSystem {
     LinkedList<Location> locations = new LinkedList<>();
     Queue<Pathfinder.Node> nodes =
         pathfindingDao.getPathfinder().pathfind(startLocation, endLocation);
-    if (nodes.size() == 1) {
-      pathfindingDao.addPathNode(startLocation, endLocation);
-      getPaths(startLocation, endLocation);
-    }
-    for (Pathfinder.Node node : nodes) {
-      locations.addLast(RequestSystem.getSystem().getLocation(node.getName()));
+    if (nodes != null) {
+      for (Pathfinder.Node node : nodes) {
+        locations.addLast(RequestSystem.getSystem().getLocation(node.getName()));
+      }
     }
     return locations;
   }
