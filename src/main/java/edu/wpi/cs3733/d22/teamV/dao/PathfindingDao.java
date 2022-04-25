@@ -89,6 +89,14 @@ public class PathfindingDao {
    */
   public void addPathNode(String nodeOne, String nodeTwo) {
 
+    // Scan for duplicates
+    String edgeName = nodeOne + "_" + nodeTwo;
+    for (Edge edge : getEdges()) {
+      if (edge.getName().equals(edgeName)) {
+        System.out.println("Already contains this edge!");
+        return;
+      }
+    }
     // Create and store the edge
     Edge edge = new Edge(nodeOne, nodeTwo);
 
