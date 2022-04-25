@@ -145,38 +145,6 @@ public class MedicineDeliveryDao extends DaoInterface {
       statement.setInt(8, medicineDelivery.getServiceID());
       statement.setTimestamp(9, medicineDelivery.getTimeMade());
       statement.executeUpdate(); // uninit params
-
-      /*
-           String query = "";
-           Connection connection = Vdb.Connect();
-           assert connection != null;
-           Statement statement = connection.createStatement();
-           query =
-               "INSERT INTO MEDICINES("
-                   + "nodeID,patientID,employeeID,medicineName,dosage,requestDetails,status,serviceID,date_time) VALUES "
-                   + "('"
-                   + medicineDelivery.getLocation().getNodeID()
-                   + "', "
-                   + medicineDelivery.getPatientID()
-                   + ", "
-                   + medicineDelivery.getEmployeeID()
-                   + ", '"
-                   + medicineDelivery.getMedicineName()
-                   + "','"
-                   + medicineDelivery.getDosage()
-                   + "','"
-                   + medicineDelivery.getRequestDetails()
-                   + "','"
-                   + medicineDelivery.getStatus()
-                   + "',"
-                   + medicineDelivery.getServiceID()
-                   + "','"
-                   + medicineDelivery.getTimeMade()
-                   + ")";
-
-           statement.execute(query);
-
-      */
     } catch (SQLException e) {
       e.printStackTrace();
     }

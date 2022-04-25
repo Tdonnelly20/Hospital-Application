@@ -132,36 +132,6 @@ public class LabRequestDao extends DaoInterface {
       statement.setInt(6, labRequest.getServiceID());
       statement.setTimestamp(7, labRequest.getTimeMade());
       statement.executeUpdate(); // uninit params
-      /*
-           LabRequest labRequest = (LabRequest) request;
-
-           String query = "";
-           Connection connection = Vdb.Connect();
-           assert connection != null;
-           Statement statement = connection.createStatement();
-
-           query =
-               "INSERT INTO LABS("
-                   + "userID,patientID,nodeID,lab,status,serviceID,date_time) VALUES "
-                   + "("
-                   + labRequest.getUserID()
-                   + ", "
-                   + labRequest.getPatientID()
-                   + ", '"
-                   + labRequest.getLocation().getNodeID()
-                   + "', '"
-                   + labRequest.getLab()
-                   + "', '"
-                   + labRequest.getStatus()
-                   + "',"
-                   + labRequest.getServiceID()
-                   + "','"
-                   + labRequest.getTimeMade()
-                   + ")";
-
-           statement.execute(query);
-
-      */
     } catch (SQLException e) {
       e.printStackTrace();
     }

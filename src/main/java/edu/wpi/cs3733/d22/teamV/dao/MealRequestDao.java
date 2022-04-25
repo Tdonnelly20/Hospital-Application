@@ -144,39 +144,6 @@ public class MealRequestDao extends DaoInterface {
       statement.setTimestamp(9, mealDelivery.getTimeMade());
       statement.executeUpdate(); // uninit params
 
-      /*
-
-           String query = "";
-           Connection connection = Vdb.Connect();
-           assert connection != null;
-           Statement statement = connection.createStatement();
-           query =
-               "INSERT INTO MEALS("
-                   + "nodeID,patientID,employeeID,mealName,allergy,requestDetails,status,serviceID,date_time) VALUES "
-                   + "('"
-                   + mealDelivery.getLocation().getNodeID()
-                   + "', "
-                   + mealDelivery.getPatientID()
-                   + ", "
-                   + mealDelivery.getEmployeeID()
-                   + ", '"
-                   + mealDelivery.getMealName()
-                   + "','"
-                   + mealDelivery.getAllergy()
-                   + "','"
-                   + mealDelivery.getRequestDetails()
-                   + "','"
-                   + mealDelivery.getStatus()
-                   + "',"
-                   + mealDelivery.getServiceID()
-                   + "','"
-                   + mealDelivery.getTimeMade()
-                   + ")";
-
-           statement.execute(query);
-
-      */
-
     } catch (SQLException e) {
       e.printStackTrace();
     }
