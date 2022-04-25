@@ -10,8 +10,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.beans.value.ChangeListener;
@@ -306,6 +304,9 @@ public class MapDashboardController extends Controller {
   /** Updates values in the Service Request table based on the current floor */
   @FXML
   private void updateServiceRequestTable() {
+    try{
+
+
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
     locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
 
@@ -331,40 +332,47 @@ public class MapDashboardController extends Controller {
       serviceRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
+    }catch (NullPointerException e){
+
+    }
   }
 
   /** Updates the values in the patient table with values based on the current floor */
   @FXML
   private void updatePatientTable() {
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
-    ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    try {
+      patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+      lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
+      SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
+      ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
+      ArrayList<TreeItem> treeItems = new ArrayList<>();
 
-    if (!currPatients.isEmpty()) {
+      if (!currPatients.isEmpty()) {
 
-      for (Patient pos : currPatients) {
-        for (ServiceRequest s : RequestSystem.getSystem().getEveryServiceRequest()) {
-          for (int i : pos.getServiceIDs()) {
-            if (i == s.getServiceID()) {
-              if (s.getLocation() != null) {
-                if (s.getLocation().getFloor() != null) {
-                  if (s.getLocation().getFloor().equals(curFloor.getFloorName())) {
-                    TreeItem<Patient> item = new TreeItem(pos);
-                    treeItems.add(item);
+        for (Patient pos : currPatients) {
+          for (ServiceRequest s : RequestSystem.getSystem().getEveryServiceRequest()) {
+            for (int i : pos.getServiceIDs()) {
+              if (i == s.getServiceID()) {
+                if (s.getLocation() != null) {
+                  if (s.getLocation().getFloor() != null) {
+                    if (s.getLocation().getFloor().equals(curFloor.getFloorName())) {
+                      TreeItem<Patient> item = new TreeItem(pos);
+                      treeItems.add(item);
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
 
-      patientTable.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getPatients().get(0));
-      patientTable.setRoot(root);
-      root.getChildren().addAll(treeItems);
+        patientTable.setShowRoot(false);
+        TreeItem root = new TreeItem(RequestSystem.getSystem().getPatients().get(0));
+        patientTable.setRoot(root);
+        root.getChildren().addAll(treeItems);
+      }
+    } catch (NullPointerException e) {
+
     }
   }
 

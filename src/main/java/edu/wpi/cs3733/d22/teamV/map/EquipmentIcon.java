@@ -10,7 +10,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.sql.Timestamp;
 import java.time.Instant;
-import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

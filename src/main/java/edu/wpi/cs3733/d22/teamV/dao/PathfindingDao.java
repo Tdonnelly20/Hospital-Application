@@ -79,13 +79,13 @@ public class PathfindingDao {
       edges.add(this);
     }
 
-    //remove a selected edge from the list of edges (for removal)
-    public void removeEdge(){
+    // remove a selected edge from the list of edges (for removal)
+    public void removeEdge() {
       edges.remove(this);
     }
 
-    //check if an edge contains a node
-    public boolean containsNode(String nodeName){
+    // check if an edge contains a node
+    public boolean containsNode(String nodeName) {
       return nodeOne.equals(nodeName) || nodeTwo.equals(nodeName);
     }
   }
@@ -180,18 +180,15 @@ public class PathfindingDao {
     }
   }
 
-  public void removePathNode(Location location){
-    //Get the node in Pathfinder and remove it if it exists
+  public void removePathNode(Location location) {
+    // Get the node in Pathfinder and remove it if it exists
     Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(location.getNodeID());
-    if(nodeToRemove != null){
+    if (nodeToRemove != null) {
       Pathfinder.removeNode(nodeToRemove);
     }
-    //Remove all edges if it contains the name
+    // Remove all edges if it contains the name
     edges.removeIf(edge -> edge.containsNode(location.getNodeID()));
-    //Save the changes to the CSV
+    // Save the changes to the CSV
     saveToCSV();
-
   }
-
-
 }
