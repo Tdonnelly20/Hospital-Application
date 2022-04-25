@@ -11,6 +11,7 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -53,9 +54,9 @@ public class EquipmentIcon extends Icon {
           // Updates xy and checks if it is touching another icon when it is released from drag
           if (isDrag) {
             isDrag = false;
-
-            xCoord += event.getX() - 7;
-            yCoord += ((event.getY()) - 10);
+            Point2D offset = (Point2D) image.getUserData();
+            xCoord += event.getX() - offset.getX() - 15;
+            yCoord += event.getY() - offset.getY() - 20;
             RequestSystem.getSystem().updateLocations(this);
             checkBounds();
             MapManager.getManager().setUpFloors();

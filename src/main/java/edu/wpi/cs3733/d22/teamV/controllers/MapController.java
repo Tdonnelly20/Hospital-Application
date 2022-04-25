@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -54,8 +55,8 @@ public class MapController extends Controller {
   @FXML Button submitButton = new Button("Submit");
   private String floorName = "1";
 
-  private String startLocationID = null;
-  private String endLocationID = null;
+  private String startLocationID = "";
+  private String endLocationID = "";
 
   ObservableList<String> requestTypes =
       FXCollections.observableArrayList(
@@ -389,21 +390,23 @@ public class MapController extends Controller {
   /** Draws a path from one location to another */
   @FXML
   public void drawPath(LocationIcon icon, LocationIcon icon1) {
-    mapPane
-        .getChildren()
-        .add(
-            new Line(
-                icon.getImage().getTranslateX() + 7.5,
-                icon.getImage().getTranslateY() + 7.5,
-                icon1.getImage().getTranslateX() + 7.5,
-                icon1.getImage().getTranslateY() + 7.5));
+    double x1 = icon.getImage().getTranslateX() + 7.5;
+    double x2 = icon1.getImage().getTranslateX() + 7.5;
+    double y1 = icon.getImage().getTranslateY() + 7.5;
+    double y2 = icon1.getImage().getTranslateY() + 7.5;
+    Line path = new Line(x1, y1, x2, y2);
+    path.setStrokeWidth(3);
+    path.setStroke(Color.RED);
+    path.setStrokeDashOffset(20d);
+    path.setFill(Color.RED);
+    mapPane.getChildren().add(0, path);
   }
 
   /** Draws a path between icons you click on */
   public void drawPath() {
     Button addLink = new Button("Add path");
     controlsVBox.getChildren().remove(addLink);
-    if (startLocationID != null && endLocationID != null) {
+    if (!startLocationID.isEmpty() && !endLocationID.isEmpty()) {
       System.out.println("Start: " + startLocationID);
       System.out.println("Start: " + endLocationID);
       LinkedList<Location> locations =
@@ -426,7 +429,16 @@ public class MapController extends Controller {
         }
       }
     }
-    startLocationID = null;
-    endLocationID = null;
+    startLocationID = "";
+    endLocationID = "";
+  }
+
+  /** Makes a path between icons you click on. */
+  public void makePath() {
+    if (!startLocationID.equals("") && !endLocationID.equals("")) {
+      RequestSystem.getSystem().makePaths(startLocationID, endLocationID);
+      startLocationID = "";
+      endLocationID = "";
+    }
   }
 }

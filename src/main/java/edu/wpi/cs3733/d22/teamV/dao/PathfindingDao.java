@@ -26,6 +26,12 @@ public class PathfindingDao {
 
   private boolean loading = true; // To make sure we don't override the CSV when we load in
 
+  public boolean isWriting() {
+    return writing;
+  }
+
+  private boolean writing = false;
+
   public void pathfind() {
     Queue<Pathfinder.Node> path = pathfinder.pathfind("vHALL00401", "vSERV00101");
 
@@ -84,13 +90,7 @@ public class PathfindingDao {
   public void addPathNode(String nodeOne, String nodeTwo) {
 
     // Create and store the edge
-    String edgeName = nodeOne + "_" + nodeTwo;
-    for (Edge edge : getEdges()) {
-      if (edge.getName().equals(edgeName)) {
-        System.out.println("Already contains this edge!");
-        return;
-      }
-    }
+    Edge edge = new Edge(nodeOne, nodeTwo);
 
     if (!loading) {
       saveToCSV();
@@ -141,7 +141,7 @@ public class PathfindingDao {
   /** Save the contents of the arraylist edges into Pathfinding.CSV */
   public void saveToCSV() {
     try {
-
+      writing = true;
       FileWriter fw = new FileWriter(VApp.currentPath + "/Pathfinding.csv");
       BufferedWriter bw = new BufferedWriter(fw);
       bw.append("edgeID,startNode,endNode");
@@ -157,6 +157,7 @@ public class PathfindingDao {
 
       bw.close();
       fw.close();
+      writing = false;
     } catch (IOException e) {
       e.printStackTrace();
     }
