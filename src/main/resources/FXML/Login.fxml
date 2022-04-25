@@ -26,7 +26,10 @@
       </ImageView>
       <BorderPane layoutX="-1.0" layoutY="2.0" prefHeight="400.0" prefWidth="600.0">
          <top>
-            <Pane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+            <Pane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="jfxButton" layoutX="68.0" layoutY="85.0" text="AHHHHHHHHHHHHHHHHH" />
+               </children></Pane>
          </top>
       </BorderPane>
       <Group fx:id="group" layoutX="362.0" layoutY="227.0">
@@ -85,5 +88,6 @@
       <TextField fx:id="dbPath" layoutX="1033.0" layoutY="751.0" opacity="0.0" promptText="Enter path to database" />
       <TextField fx:id="dbIP" layoutX="848.0" layoutY="751.0" opacity="0.0" promptText="Enter server IP" />
       <Button fx:id="dbButton" layoutX="1100.0" layoutY="647.0" mnemonicParsing="false" onAction="#getDBInfo" opacity="0.0" text="Submit" />
+      <ImageView fx:id="faceImage" fitHeight="150.0" fitWidth="200.0" layoutX="510.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

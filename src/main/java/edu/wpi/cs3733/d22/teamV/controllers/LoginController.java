@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.face.Camera;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
@@ -20,6 +22,8 @@ import javafx.stage.Stage;
 public class LoginController extends Controller {
 
   public LoginController() {}
+
+  @FXML ImageView faceImage;
 
   @Override
   public void init() {
@@ -56,11 +60,16 @@ public class LoginController extends Controller {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    Camera.stopAcquisition();
     iv.fitWidthProperty().bind(pane.widthProperty());
     iv.fitHeightProperty().bind(pane.heightProperty());
+    Camera camera = new Camera(null, faceImage, jfxButton, true);
+    camera.setLoginPageController(this);
+    camera.toggleCamera();
   }
 
   @FXML private Button button;
+  @FXML private JFXButton jfxButton;
   @FXML private Label wrongLogin;
   @FXML private TextField username;
   @FXML private PasswordField password;
@@ -98,7 +107,7 @@ public class LoginController extends Controller {
   public void keyLogin(KeyEvent event) throws IOException {
     // System.out.println(KeyCode.ENTER);
     if (event.getCode().equals(KeyCode.ENTER)) {
-      checkLogin(event);
+      checkLogin(event, username.getText());
       // System.out.println("hello");
     } else {
       // System.out.println("else");
@@ -107,23 +116,21 @@ public class LoginController extends Controller {
 
   @FXML
   public void userLogin(ActionEvent event) throws IOException {
-    checkLogin(event);
+    checkLogin(event, username.getText());
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
-  private void checkLogin(Event event) throws IOException {
+  public void checkLogin(Event event, String string) throws IOException {
 
     Employee user = new Employee();
 
-    if (username.getText().toString().equals("admin")
-        && password.getText().toString().equals("admin")) {
+    if (string.equals("admin") && password.getText().toString().equals("admin")) {
       user.setAdmin(true);
       switchToHome(event);
-    } else if (username.getText().toString().equals("staff")
-        && password.getText().toString().equals("staff")) {;
+    } else if (string.equals("staff") && password.getText().toString().equals("staff")) {;
       switchToHome(event);
-    } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
+    } else if (string.isEmpty() && password.getText().isEmpty()) {
       wrongLogin.setText("Please enter your data.");
     } else {
       wrongLogin.setText("Wrong username or password!");
