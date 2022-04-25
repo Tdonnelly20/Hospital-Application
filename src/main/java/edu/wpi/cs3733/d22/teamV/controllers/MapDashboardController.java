@@ -34,19 +34,18 @@ import javafx.stage.Stage;
 
 public class MapDashboardController extends Controller {
 
-  private @FXML TreeTableView equipmentTable;
-  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
-  private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
-  private @FXML TreeTableView serviceRequestTable;
-  private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
-  private @FXML TreeTableView patientTable;
-  private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
-  private @FXML TreeTableColumn<Patient, String> lastCol;
-  private @FXML TreeTableColumn<Patient, String> SRCol;
+  private @FXML TreeTableView<Object> equipmentTable = new TreeTableView<>();
+  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<Equipment, String> isDirtyCol = new TreeTableColumn<>();
+  private @FXML TreeTableView<Object> serviceRequestTable = new TreeTableView<>();
+  private @FXML TreeTableColumn<ServiceRequest, String> typeCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<ServiceRequest, String> locationCol = new TreeTableColumn<>();
+  private @FXML TreeTableView<Object> patientTable = new TreeTableView<>();
+  private @FXML TreeTableColumn<Patient, Integer> patientIDCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<Patient, String> lastCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<Patient, String> SRCol = new TreeTableColumn<>();
   private @FXML TextArea countsArea = new TextArea();
-  private @FXML TextArea alertArea;
-  private @FXML TextArea alertsArea = new TextArea();
+  private @FXML TextArea alertArea = new TextArea();
   private @FXML VBox rightVBox;
   private @FXML ImageView mapButton;
   private @FXML ImageView imageView;

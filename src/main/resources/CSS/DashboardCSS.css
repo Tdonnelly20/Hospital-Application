@@ -92,7 +92,7 @@
     -fx-text-fill: white;
     -fx-background-color: #4a65a1;
     -fx-border-color: black;
-    -fx-border-style: sloid;
+    -fx-border-style: solid;
 
 }
 
@@ -154,7 +154,7 @@
 
 
 .chart-bar {
-    -fx-background-color: clear;
+    -fx-background-color: transparent;
 }
 
 .num-axis{
