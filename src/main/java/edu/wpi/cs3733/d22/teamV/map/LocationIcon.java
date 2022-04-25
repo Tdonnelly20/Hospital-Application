@@ -52,6 +52,9 @@ public class LocationIcon extends Icon {
                 }
                 MapController.getController().setStartLocationID("");
                 MapController.getController().setEndLocationID("");
+              }else{
+                MapController.getController().setStartLocationID(location.getNodeID());
+                MapController.getController().setEndLocationID("");
               }
             }
           } else {

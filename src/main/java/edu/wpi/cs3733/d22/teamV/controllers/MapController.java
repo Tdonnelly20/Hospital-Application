@@ -176,8 +176,8 @@ public class MapController extends Controller {
         event -> {
           System.out.println("Refresh");
           setFloor(floorName);
-          startLocationID = null;
-          endLocationID = null;
+          startLocationID = "";
+          endLocationID = "";
         });
     for (int i = 0; i < 10; i++) {
       fields[i] = new TextField();
