@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class MealRequest extends ServiceRequest {
-  private String mealName, nodeID, allergy, status;
+  private String mealName, allergy;
   /**
    * @param patientID
    * @param employeeID
@@ -33,7 +33,6 @@ public class MealRequest extends ServiceRequest {
     }
     this.allergy = allergy;
     this.details = requestDetails;
-    this.nodeID = nodeID;
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
@@ -43,22 +42,6 @@ public class MealRequest extends ServiceRequest {
     this.dao = RequestSystem.Dao.MealRequest;
     this.status = status;
     setServiceID(RequestSystem.getServiceID());
-  }
-
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
   }
 
   public String getMealName() {
@@ -71,14 +54,6 @@ public class MealRequest extends ServiceRequest {
 
   public String getRequestDetails() {
     return details;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getNodeID() {
-    return nodeID;
   }
 
   public void setServiceID(int serviceID) {

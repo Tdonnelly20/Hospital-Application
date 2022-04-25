@@ -108,7 +108,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE MEDICINES(nodeID char(50), patientID int, employeeID int, medicineName char(50), dosage char(50), status char(50), requestDetails char(254), serviceID int)";
+            "CREATE TABLE MEDICINES(nodeID char(50), patientID int, employeeID int, medicineName char(50), dosage char(50),  requestDetails char(254),status char(50), serviceID int,date_time timestamp )";
         statement.execute(query);
 
       } else {
@@ -130,35 +130,53 @@ public class MedicineDeliveryDao extends DaoInterface {
   @Override
   public void addToSQLTable(ServiceRequest request) {
     try {
-
-      MedicineDelivery medicineDelivery = (MedicineDelivery) request;
-
-      String query = "";
       Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
-      query =
-          "INSERT INTO MEDICINES("
-              + "nodeID,patientID,employeeID,medicineName,dosage,status,requestDetails,serviceID) VALUES "
-              + "('"
-              + medicineDelivery.getLocation().getNodeID()
-              + "', "
-              + medicineDelivery.getPatientID()
-              + ", "
-              + medicineDelivery.getEmployeeID()
-              + ", '"
-              + medicineDelivery.getMedicineName()
-              + "','"
-              + medicineDelivery.getDosage()
-              + "','"
-              + medicineDelivery.getStatus()
-              + "','"
-              + medicineDelivery.getRequestDetails()
-              + "',"
-              + medicineDelivery.getServiceID()
-              + ")";
+      MedicineDelivery medicineDelivery = (MedicineDelivery) request;
+      String query = "INSERT INTO MEDICINES VALUES(?,?,?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setString(1, medicineDelivery.getLocation().getNodeID());
+      statement.setInt(2, medicineDelivery.getPatientID());
+      statement.setInt(3, medicineDelivery.getEmployeeID());
+      statement.setString(4, medicineDelivery.getMedicineName());
+      statement.setString(5, medicineDelivery.getDosage());
+      statement.setString(6, medicineDelivery.getDetails());
 
-      statement.execute(query);
+      statement.setString(7, medicineDelivery.getStatus());
+      statement.setInt(8, medicineDelivery.getServiceID());
+      statement.setTimestamp(9, medicineDelivery.getTimeMade());
+      statement.executeUpdate(); // uninit params
+
+      /*
+           String query = "";
+           Connection connection = Vdb.Connect();
+           assert connection != null;
+           Statement statement = connection.createStatement();
+           query =
+               "INSERT INTO MEDICINES("
+                   + "nodeID,patientID,employeeID,medicineName,dosage,requestDetails,status,serviceID,date_time) VALUES "
+                   + "('"
+                   + medicineDelivery.getLocation().getNodeID()
+                   + "', "
+                   + medicineDelivery.getPatientID()
+                   + ", "
+                   + medicineDelivery.getEmployeeID()
+                   + ", '"
+                   + medicineDelivery.getMedicineName()
+                   + "','"
+                   + medicineDelivery.getDosage()
+                   + "','"
+                   + medicineDelivery.getRequestDetails()
+                   + "','"
+                   + medicineDelivery.getStatus()
+                   + "',"
+                   + medicineDelivery.getServiceID()
+                   + "','"
+                   + medicineDelivery.getTimeMade()
+                   + ")";
+
+           statement.execute(query);
+
+      */
     } catch (SQLException e) {
       e.printStackTrace();
     }

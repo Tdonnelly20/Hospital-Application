@@ -27,7 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class EquipmentRequestController extends RequestController {
-  // These are the buttons, text fields and labels that appear in the right column of the request
+  // These are the buttons, text fields and labels that appear in the left column of the request
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
   @FXML private Label status;
@@ -48,6 +48,7 @@ public class EquipmentRequestController extends RequestController {
   @FXML private TreeTableColumn<EquipmentDelivery, String> equipCol;
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
+  @FXML private TreeTableColumn<Equipment, Boolean> statusCol;
   @FXML private Pane tablePlane;
 
   // This is the table and columns for the equipment table
@@ -65,15 +66,22 @@ public class EquipmentRequestController extends RequestController {
   private boolean updating = false;
   private int updateServiceID;
   private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
-  // Helper for setting up
+
+  // Helper for setting up singleton
   private static class SingletonHelper {
     private static final EquipmentRequestController controller = new EquipmentRequestController();
   }
 
+  /**
+   * Getter for the singleton
+   *
+   * @return the singleton controller
+   */
   public static EquipmentRequestController getController() {
     return EquipmentRequestController.SingletonHelper.controller;
   }
 
+  /** This function is used to start up the controller and set up the scaling for the fx page */
   @Override
   public void init() {
     System.out.println("In init Equipment Request");
@@ -133,64 +141,69 @@ public class EquipmentRequestController extends RequestController {
             });
   }
 
+  /** This function is used to update the request tree table for this page */
   @FXML
   void updateTreeTable() {
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    posCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationName"));
-    equipCol.setCellValueFactory(new TreeItemPropertyValueFactory("equipment"));
-    quantCol.setCellValueFactory(new TreeItemPropertyValueFactory("quantity"));
-    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory("notes"));
+    // TODO add status, and date and time column
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    posCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    equipCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("equipment"));
+    quantCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("quantity"));
+    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("notes"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
         (ArrayList<EquipmentDelivery>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.EquipmentDelivery);
 
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<EquipmentDelivery>> treeItems = new ArrayList<>();
 
     if (currEquipmentDeliveries.isEmpty()) {
       equipmentRequestTable.setRoot(null);
     } else {
       for (EquipmentDelivery delivery : currEquipmentDeliveries) {
-        TreeItem<EquipmentDelivery> item = new TreeItem(delivery);
+        TreeItem<EquipmentDelivery> item = new TreeItem<>(delivery);
         treeItems.add(item);
       }
       equipmentRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(currEquipmentDeliveries.get(0));
+      TreeItem<EquipmentDelivery> root = new TreeItem<>(currEquipmentDeliveries.get(0));
       equipmentRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
   }
 
+  /** This function is used to update the equipment table */
   @FXML
   private void updateEquipmentTable() {
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("ID"));
-    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("x"));
-    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("y"));
-    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("floor"));
-    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
-    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("description"));
-    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("isDirtyString"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("ID"));
+    xCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("x"));
+    yCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("y"));
+    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("floor"));
+    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
+    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
+    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("isDirtyString"));
 
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<Equipment>> treeItems = new ArrayList<>();
 
     if (!currEquipment.isEmpty()) {
 
       for (Equipment pos : currEquipment) {
-        TreeItem<Equipment> item = new TreeItem(pos);
+        TreeItem<Equipment> item = new TreeItem<>(pos);
         treeItems.add(item);
       }
 
       table.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getEquipment().get(0));
+      TreeItem<Equipment> root = new TreeItem<>(RequestSystem.getSystem().getEquipment().get(0));
       table.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
   }
 
+  /** This function is used to reset all of the fields on the left side of the */
   @FXML
   void resetForm() {
     employeeID.setText("");
@@ -201,7 +214,9 @@ public class EquipmentRequestController extends RequestController {
     quant.setText("");
     dropDown.setValue(null);
     sendRequest.setDisable(true);
+    updating = false;
     sendRequest.setText("Send Request");
+    statusDropDown.setValue(null);
     validateButton();
   }
 
@@ -231,6 +246,10 @@ public class EquipmentRequestController extends RequestController {
     return result;
   }
 
+  /**
+   * This function is used to check if the fields are filled in order to send a service request, the
+   * button is disabled if they are not
+   */
   @FXML
   void validateButton() {
     sendRequest.setDisable(true);
@@ -268,6 +287,11 @@ public class EquipmentRequestController extends RequestController {
     }
   }
 
+  /**
+   * This sends a request to the database based on the fields currently filled out
+   *
+   * @throws SQLException not sure
+   */
   @FXML
   private void sendRequest() throws SQLException {
 
@@ -301,6 +325,11 @@ public class EquipmentRequestController extends RequestController {
     updateTreeTable();
   }
 
+  /**
+   * This function is used to update a row from within the tree table
+   *
+   * @throws NullPointerException When no row is selected
+   */
   @FXML
   private void updateSelectedRow() throws NullPointerException {
     updating = true;
@@ -309,7 +338,7 @@ public class EquipmentRequestController extends RequestController {
 
     employeeID.setText(String.valueOf(delivery.getEmployeeID()));
     patientID.setText(String.valueOf(delivery.getPatientID()));
-    pos.setText(delivery.getLocationName());
+    pos.setText(delivery.getNodeID());
     dropDown.setValue(delivery.getEquipment());
     quant.setText(Integer.toString(delivery.getQuantity()));
     notes.setText(delivery.getDetails());
@@ -319,6 +348,13 @@ public class EquipmentRequestController extends RequestController {
     updateTreeTable();
   }
 
+  /**
+   * This removes the selected row in the tree table
+   *
+   * @throws IOException
+   * @throws NullPointerException when no row is selected
+   * @throws SQLException
+   */
   @FXML
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
     try {
@@ -331,17 +367,30 @@ public class EquipmentRequestController extends RequestController {
     updateTreeTable();
   }
 
+  /**
+   * Used as a helper function to set the size of each column based on scaling, this is for the
+   * request table
+   *
+   * @param w width of the current screen
+   */
   void setColumnSizes(double w) {
     setColumnSize(patientIDCol, (w - 30) / 8);
-    setColumnSize(employeeIDCol, (w - 30) / 8);
-    setColumnSize(firstNameCol, (w - 30) / 8);
-    setColumnSize(lastNameCol, (w - 30) / 8);
-    setColumnSize(posCol, (w - 30) / 8);
-    setColumnSize(equipCol, (w - 30) / 8);
-    setColumnSize(quantCol, (w - 30) / 8);
-    setColumnSize(notesCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 9);
+    setColumnSize(firstNameCol, (w - 30) / 9);
+    setColumnSize(lastNameCol, (w - 30) / 9);
+    setColumnSize(posCol, (w - 30) / 9);
+    setColumnSize(equipCol, (w - 30) / 9);
+    setColumnSize(quantCol, (w - 30) / 9);
+    setColumnSize(notesCol, (w - 30) / 9);
+    setColumnSize(statusCol, (w - 30) / 9);
   }
 
+  /**
+   * Used as a helper function to set the size of each column based on scaling, this is for the
+   * equipment table
+   *
+   * @param w width of the current screen
+   */
   void setColumnSizes2(double w) {
     setColumnSize(nodeIDCol, (w - 30) / 7);
     setColumnSize(xCol, (w - 30) / 7);

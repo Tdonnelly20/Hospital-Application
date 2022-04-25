@@ -18,7 +18,7 @@ repositories {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing']
 }
 
 
@@ -31,7 +31,8 @@ dependencies {
             'org.apache.derby:derby:10.14.2.0',
             'org.apache.derby:derbytools:10.14.2.0',
             'org.apache.derby:derbyclient:10.14.2.0',
-
+            'ai.djl:api:0.16.0',
+            'org.openpnp:opencv:4.5.1-2',
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
     )

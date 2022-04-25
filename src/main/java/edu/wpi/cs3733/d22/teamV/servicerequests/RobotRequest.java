@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class RobotRequest extends ServiceRequest {
-  private Employee employee;
   private String nodeID;
   private int botID;
 
@@ -20,7 +19,7 @@ public class RobotRequest extends ServiceRequest {
       String status,
       int serviceID,
       String date) {
-    employee = new Employee(hospitalID);
+    employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
 
@@ -30,7 +29,12 @@ public class RobotRequest extends ServiceRequest {
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;
-    this.details = details;
+    if (details != "") {
+      this.details = details;
+    } else {
+      this.details = "";
+    }
+
     this.status = status;
     setServiceID(RequestSystem.getServiceID());
     if (serviceID < 0) { // calls system to set id

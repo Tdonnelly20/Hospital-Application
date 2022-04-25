@@ -1,10 +1,12 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +44,7 @@ public abstract class Icon {
           image.setX(event.getX() - offset.getX() - 15);
           image.setY(event.getY() - offset.getY() - 20);
           event.consume();
+          MapController.getController().getMapPane().getChildren().removeIf(Line.class::isInstance);
         });
   }
 

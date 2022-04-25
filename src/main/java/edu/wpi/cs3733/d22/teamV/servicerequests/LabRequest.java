@@ -37,7 +37,7 @@ public class LabRequest extends ServiceRequest {
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     // System.out.println(patient.getFirstName() + " " + patient.getLastName());
-    this.employee = RequestSystem.getSystem().getEmployeeDao().getEmployee(userID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(userID);
     notes = lab;
     this.lab = lab;
     this.patientID = patientID;
@@ -48,24 +48,12 @@ public class LabRequest extends ServiceRequest {
     setServiceID(RequestSystem.getServiceID());
   }
 
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public String getFirstName() {
+  public String getPatientFirstName() {
     return patient.getFirstName();
   }
 
-  public String getLastName() {
+  public String getPatientLastName() {
     return patient.getLastName();
-  }
-
-  public String getNodeID() {
-    return location.getNodeID();
   }
 
   public void setServiceID(int serviceID) {

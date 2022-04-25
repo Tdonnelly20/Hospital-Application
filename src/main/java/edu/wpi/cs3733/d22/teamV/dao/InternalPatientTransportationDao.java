@@ -110,7 +110,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, employeeID int, requestDetails char(250), serviceID int)";
+            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, employeeID int, requestDetails char(250), status char(50),serviceID int,date_time timestamp)";
         exampleStatement.execute(query);
       } else {
         query = "DROP TABLE PATIENTTRANSPORTATION";
@@ -141,7 +141,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       query =
           "INSERT INTO PATIENTTRANSPORTATION("
-              + "location,patientID,employeeID,requestDetails,serviceID) VALUES "
+              + "location,patientID,employeeID,requestDetails,status,serviceID,date_time) VALUES "
               + "('"
               + internalPatientTransportation.getNodeID()
               + "', "
@@ -150,8 +150,12 @@ public class InternalPatientTransportationDao extends DaoInterface {
               + internalPatientTransportation.getEmployeeID()
               + ", '"
               + internalPatientTransportation.getRequestDetails()
+              + "', '"
+              + internalPatientTransportation.getStatus()
               + "', "
               + internalPatientTransportation.getServiceID()
+              + "','"
+              + internalPatientTransportation.getTimeMade()
               + ")";
 
       statement.execute(query);

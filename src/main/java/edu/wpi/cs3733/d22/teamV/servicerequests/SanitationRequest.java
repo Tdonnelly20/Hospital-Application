@@ -7,8 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class SanitationRequest extends ServiceRequest {
-  private String roomLocation, hazardName, requestDetails;
-  private int patientID, employeeID, serviceID;
+  private String hazardName, requestDetails;
 
   /**
    * Creates a basic data structure for holding medicine delivery request
@@ -34,14 +33,11 @@ public class SanitationRequest extends ServiceRequest {
     } else {
       this.timeMade = Timestamp.from(Instant.now());
     }
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.patientID = patientID;
-    this.employeeID = employeeID;
     this.hazardName = hazardName;
-    this.roomLocation = roomLocation;
     this.type = "Sanitation Request";
     this.status = status;
     setServiceID(RequestSystem.getServiceID());
@@ -52,26 +48,10 @@ public class SanitationRequest extends ServiceRequest {
     }
   }
 
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patientID;
-  }
-
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
     updateAllObservers();
-  }
-
-  public int getEmployeeID() {
-    return employeeID;
   }
 
   public String getHazardName() {
@@ -80,9 +60,5 @@ public class SanitationRequest extends ServiceRequest {
 
   public String getRequestDetails() {
     return requestDetails;
-  }
-
-  public String getRoomLocation() {
-    return roomLocation;
   }
 }

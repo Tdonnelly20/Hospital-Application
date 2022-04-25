@@ -184,19 +184,19 @@ public class LaundryRequestController extends RequestController {
   }
 
   public void updateTreeTable() {
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("locationID"));
-    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 
     ArrayList<LaundryRequest> currLaundryRequest =
         (ArrayList<LaundryRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.LaundryRequest);
 
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<LaundryRequest>> treeItems = new ArrayList<>();
 
     if (currLaundryRequest.isEmpty()) {
       requestTable.setRoot(null);
@@ -206,7 +206,7 @@ public class LaundryRequestController extends RequestController {
         treeItems.add(item);
       }
       requestTable.setShowRoot(false);
-      TreeItem root = new TreeItem<>(currLaundryRequest.get(0));
+      TreeItem<LaundryRequest> root = new TreeItem<>(currLaundryRequest.get(0));
       requestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -219,7 +219,7 @@ public class LaundryRequestController extends RequestController {
 
     employeeID.setText(String.valueOf(l.getEmployeeID()));
     patientID.setText(String.valueOf(l.getPatientID()));
-    roomNumber.setText(l.getLocationID());
+    roomNumber.setText(l.getNodeID());
     details.setText(l.getDetails());
     statusDropDown.setValue(l.getStatus());
     updateServiceID = l.getServiceID();

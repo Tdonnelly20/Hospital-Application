@@ -92,7 +92,7 @@
     -fx-text-fill: white;
     -fx-background-color: #4a65a1;
     -fx-border-color: black;
-    -fx-border-style: sloid;
+    -fx-border-style: solid;
 
 }
 
@@ -150,13 +150,44 @@
     -fx-font-size: 15;
     -fx-text-alignment: center;
     -fx-wrap-text: true;
-
-
 }
 
-.bar-chart{
+
+.chart-bar {
+    -fx-background-color: transparent;
+}
+
+.num-axis{
     -fx-text-fill: black;
 }
+
+.cat-axis{
+    -fx-text-fill: black;
+}
+
+.data0.chart-bar{
+    -fx-background-color: green;
+}
+
+.data1.chart-bar{
+    -fx-background-color: red;
+}
+
+.data2.chart-bar{
+    -fx-background-color: green;
+}
+
+.data3.chart-bar{
+    -fx-background-color: red;
+}
+
+.chart-legend{
+    -fx-text-alignment: center;
+    -fx-visible:false;
+}
+
+
+
 
 
 

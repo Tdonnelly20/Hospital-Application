@@ -95,6 +95,12 @@
                                                 <TreeTableColumn fx:id="employeeServiceRequestIDCol" minWidth="3.20001220703125" prefWidth="240.0" text="Service Requests IDs" />
                                              </columns>
                                           </TreeTableView>
+                                          <Label layoutX="510.0" layoutY="22.0" text="Search">
+                                             <font>
+                                                <Font size="19.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="searchBar" layoutX="586.0" layoutY="15.0" maxWidth="435.0" prefHeight="40.0" prefWidth="435.0" promptText="Search by any column" />
                                           <Button fx:id="removeButton" layoutX="9.0" layoutY="21.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
                                           <Button fx:id="updateButton" layoutX="130.0" layoutY="21.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
                                        </children>

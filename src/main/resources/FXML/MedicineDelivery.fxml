@@ -81,7 +81,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                              </VBox.margin>
                                           </TextArea>
-                                          <JFXComboBox fx:id="statusDropDown"  blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
+                                          <JFXComboBox fx:id="statusDropDown" blendMode="SRC_ATOP" depthTest="ENABLE" focusColor="#949494" focusTraversable="false" onAction="#validateButton" prefHeight="26.0" prefWidth="246.0" promptText="Status" style="-fx-background-color: #FFFAFA;" unFocusColor="#ffffff00" viewOrder="4.0">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                    <String fx:id="notStarted" fx:value="Not Started" />
@@ -121,7 +121,7 @@
                      <children>
                         <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab text="Table View">
+                            <Tab text="Medicine Requests">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -129,14 +129,18 @@
                                              <columns>
                                                 <TreeTableColumn fx:id="hospitalIDCol" prefWidth="78.0" text="Employee ID" />
                                                 <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="71.0" text="Patient ID" />
-                                                <TreeTableColumn fx:id="serviceIDCol" prefWidth="77.0" text="Service ID" />
-                                                <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First Name" />
-                                                <TreeTableColumn fx:id="lastNameCol" text="Last Name" />
-                                                <TreeTableColumn fx:id="nodeIDCol" minWidth="0.0" prefWidth="75.0" text="Location" />
+                                                <TreeTableColumn prefWidth="75.0" text="Patient Name">
+                                                   <columns>
+                                                      <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First" />
+                                                      <TreeTableColumn fx:id="lastNameCol" text="Last" />
+                                                   </columns>
+                                                </TreeTableColumn>
+                                                <TreeTableColumn fx:id="nodeIDCol" minWidth="0.0" prefWidth="75.0" text="Location ID" />
                                                 <TreeTableColumn fx:id="medicineCol" minWidth="0.0" prefWidth="73.0" text="Medicine" />
                                                 <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="95.0" text="Dosage" />
-                                                <TreeTableColumn fx:id="statusCol" prefWidth="92.0" text="Status" />
                                                 <TreeTableColumn fx:id="otherInfoCol" prefWidth="98.4000244140625" text="Other Info" />
+                                                <TreeTableColumn fx:id="statusCol" prefWidth="92.0" text="Status" />
+                                                <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
                                              </columns>
                                           </TreeTableView>
                                           <Button fx:id="removeButton" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />

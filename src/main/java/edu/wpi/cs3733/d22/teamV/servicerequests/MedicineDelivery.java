@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class MedicineDelivery extends ServiceRequest {
-  private String medicineName, nodeID, dosage, status;
+  private String medicineName, dosage;
   /**
    * @param patientID
    * @param employeeID
@@ -32,7 +32,6 @@ public class MedicineDelivery extends ServiceRequest {
     }
     this.dosage = dosage;
     this.details = requestDetails;
-    this.nodeID = nodeID;
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.status = status;
     this.medicineName = medicineName;
@@ -42,22 +41,6 @@ public class MedicineDelivery extends ServiceRequest {
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.status = status;
     setServiceID(RequestSystem.getServiceID());
-  }
-
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
   }
 
   public String getMedicineName() {
@@ -70,14 +53,6 @@ public class MedicineDelivery extends ServiceRequest {
 
   public String getRequestDetails() {
     return details;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getNodeID() {
-    return nodeID;
   }
 
   public void setServiceID(int serviceID) {

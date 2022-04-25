@@ -114,18 +114,18 @@ public class RobotController extends RequestController {
   public void updateTreeTable() {
     // Set our cell values based on the RobotRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    botIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("botID"));
-    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    botIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("botID"));
+    detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 
     // Get the current list of lab requests from the DAO
     ArrayList<RobotRequest> currRobotRequests =
         (ArrayList<RobotRequest>) RobotDao.getAllServiceRequests();
 
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<RobotRequest>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currRobotRequests.isEmpty()) {
@@ -133,14 +133,14 @@ public class RobotController extends RequestController {
     } else {
       // for each loop cycling through each lab request currently entered into the system
       for (RobotRequest lab : currRobotRequests) {
-        TreeItem<RobotRequest> item = new TreeItem(lab);
+        TreeItem<RobotRequest> item = new TreeItem<>(lab);
         treeItems.add(item);
       }
       // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
       // we get the standard table functionality
       table.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem root = new TreeItem(RobotDao.getAllServiceRequests().get(0));
+      TreeItem<RobotRequest> root = new TreeItem<>(currRobotRequests.get(0));
       // Set the root in the table
       table.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root

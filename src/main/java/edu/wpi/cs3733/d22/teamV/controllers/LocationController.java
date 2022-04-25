@@ -293,17 +293,17 @@ public class LocationController extends Controller {
 
   @FXML
   public void updateTreeTable() {
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    xCol.setCellValueFactory(new TreeItemPropertyValueFactory("xCoord"));
-    yCol.setCellValueFactory(new TreeItemPropertyValueFactory("yCoord"));
-    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory("Floor"));
-    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory("Building"));
-    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeType"));
-    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("shortName"));
-    longNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("longName"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    xCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("xCoord"));
+    yCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("yCoord"));
+    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("Floor"));
+    buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("Building"));
+    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeType"));
+    shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("shortName"));
+    longNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("longName"));
 
     ArrayList<Location> currLocations = (ArrayList<Location>) locationDao.getAllLocations();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<Location>> treeItems = new ArrayList<>();
 
     if (!currLocations.isEmpty()) {
 
@@ -313,7 +313,7 @@ public class LocationController extends Controller {
       }
 
       table.setShowRoot(false);
-      TreeItem root = new TreeItem(locationDao.getAllLocations().get(0));
+      TreeItem<Location> root = new TreeItem<>(locationDao.getAllLocations().get(0));
       table.setRoot(root);
       root.getChildren().addAll(treeItems);
     }

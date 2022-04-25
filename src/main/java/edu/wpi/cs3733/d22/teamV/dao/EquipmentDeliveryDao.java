@@ -104,7 +104,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
+            "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int,date_time timestamp)";
         exampleStatement.execute(query);
       } else {
         query = "DROP TABLE EQUIPMENTDELIVERY";
@@ -133,13 +133,13 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
       query =
           "INSERT INTO EQUIPMENTDELIVERY("
-              + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID) VALUES "
+              + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID,date_time) VALUES "
               + "("
               + equipmentDelivery.getEmployeeID()
               + ", "
               + equipmentDelivery.getPatientID()
               + ", '"
-              + equipmentDelivery.getLocationName()
+              + equipmentDelivery.getNodeID()
               + "', '"
               + equipmentDelivery.getEquipment()
               + "','"
@@ -150,6 +150,8 @@ public class EquipmentDeliveryDao extends DaoInterface {
               + equipmentDelivery.getStatus()
               + "',"
               + equipmentDelivery.getServiceID()
+              + "','"
+              + equipmentDelivery.getTimeMade()
               + ")";
 
       statement.execute(query);

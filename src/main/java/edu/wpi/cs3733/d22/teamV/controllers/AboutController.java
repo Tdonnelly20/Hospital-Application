@@ -71,6 +71,56 @@ public class AboutController extends RequestController {
   @FXML private Pane paneA;
   private boolean visibleA = false;
 
+  @FXML private Label labelJO;
+  @FXML private Label labelJO1;
+  @FXML private Label labelJO2;
+  @FXML private Label labelJO3;
+  @FXML private Label labelJO4;
+  @FXML private Label labelJO5;
+  @FXML private Label labelJO6;
+  @FXML private Pane paneJO;
+  private boolean visibleJO = false;
+
+  @FXML private Label labelP;
+  @FXML private Label labelP1;
+  @FXML private Label labelP2;
+  @FXML private Label labelP3;
+  @FXML private Label labelP4;
+  @FXML private Label labelP5;
+  @FXML private Label labelP6;
+  @FXML private Pane paneP;
+  private boolean visibleP = false;
+
+  @FXML private Label labelD;
+  @FXML private Label labelD1;
+  @FXML private Label labelD2;
+  @FXML private Label labelD3;
+  @FXML private Label labelD4;
+  @FXML private Label labelD5;
+  @FXML private Label labelD6;
+  @FXML private Pane paneD;
+  private boolean visibleD = false;
+
+  @FXML private Label labelTU;
+  @FXML private Label labelTU1;
+  @FXML private Label labelTU2;
+  @FXML private Label labelTU3;
+  @FXML private Label labelTU4;
+  @FXML private Label labelTU5;
+  @FXML private Label labelTU6;
+  @FXML private Pane paneTU;
+  private boolean visibleTU = false;
+
+  @FXML private Label labelTR;
+  @FXML private Label labelTR1;
+  @FXML private Label labelTR2;
+  @FXML private Label labelTR3;
+  @FXML private Label labelTR4;
+  @FXML private Label labelTR5;
+  @FXML private Label labelTR6;
+  @FXML private Pane paneTR;
+  private boolean visibleTR = false;
+
   @Override
   public void init() {
     setTitleText("About");
@@ -130,6 +180,51 @@ public class AboutController extends RequestController {
     labelA6.setVisible(false);
     labelA7.setVisible(false);
     paneA.setVisible(false);
+
+    labelJO.setVisible(false);
+    labelJO1.setVisible(false);
+    labelJO2.setVisible(false);
+    labelJO3.setVisible(false);
+    labelJO4.setVisible(false);
+    labelJO5.setVisible(false);
+    labelJO6.setVisible(false);
+    paneJO.setVisible(false);
+
+    labelP.setVisible(false);
+    labelP1.setVisible(false);
+    labelP2.setVisible(false);
+    labelP3.setVisible(false);
+    labelP4.setVisible(false);
+    labelP5.setVisible(false);
+    labelP6.setVisible(false);
+    paneP.setVisible(false);
+
+    labelD.setVisible(false);
+    labelD1.setVisible(false);
+    labelD2.setVisible(false);
+    labelD3.setVisible(false);
+    labelD4.setVisible(false);
+    labelD5.setVisible(false);
+    labelD6.setVisible(false);
+    paneD.setVisible(false);
+
+    labelTU.setVisible(false);
+    labelTU1.setVisible(false);
+    labelTU2.setVisible(false);
+    labelTU3.setVisible(false);
+    labelTU4.setVisible(false);
+    labelTU5.setVisible(false);
+    labelTU6.setVisible(false);
+    paneTU.setVisible(false);
+
+    labelTR.setVisible(false);
+    labelTR1.setVisible(false);
+    labelTR2.setVisible(false);
+    labelTR3.setVisible(false);
+    labelTR4.setVisible(false);
+    labelTR5.setVisible(false);
+    labelTR6.setVisible(false);
+    paneTR.setVisible(false);
 
     fillTopPane();
   }
@@ -221,5 +316,70 @@ public class AboutController extends RequestController {
     labelA6.setVisible(visibleA);
     labelA7.setVisible(visibleA);
     paneA.setVisible(visibleA);
+  }
+
+  @FXML
+  private void showInfoJolene() {
+    visibleJO = !visibleJO;
+    labelJO.setVisible(visibleJO);
+    labelJO1.setVisible(visibleJO);
+    labelJO2.setVisible(visibleJO);
+    labelJO3.setVisible(visibleJO);
+    labelJO4.setVisible(visibleJO);
+    labelJO5.setVisible(visibleJO);
+    labelJO6.setVisible(visibleJO);
+    paneJO.setVisible(visibleJO);
+  }
+
+  @FXML
+  private void showInfoParker() {
+    visibleP = !visibleP;
+    labelP.setVisible(visibleP);
+    labelP1.setVisible(visibleP);
+    labelP2.setVisible(visibleP);
+    labelP3.setVisible(visibleP);
+    labelP4.setVisible(visibleP);
+    labelP5.setVisible(visibleP);
+    labelP6.setVisible(visibleP);
+    paneP.setVisible(visibleP);
+  }
+
+  @FXML
+  private void showInfoDylan() {
+    visibleD = !visibleD;
+    labelD.setVisible(visibleD);
+    labelD1.setVisible(visibleD);
+    labelD2.setVisible(visibleD);
+    labelD3.setVisible(visibleD);
+    labelD4.setVisible(visibleD);
+    labelD5.setVisible(visibleD);
+    labelD6.setVisible(visibleD);
+    paneD.setVisible(visibleD);
+  }
+
+  @FXML
+  private void showInfoTucker() {
+    visibleTU = !visibleTU;
+    labelTU.setVisible(visibleTU);
+    labelTU1.setVisible(visibleTU);
+    labelTU2.setVisible(visibleTU);
+    labelTU3.setVisible(visibleTU);
+    labelTU4.setVisible(visibleTU);
+    labelTU5.setVisible(visibleTU);
+    labelTU6.setVisible(visibleTU);
+    paneTU.setVisible(visibleTU);
+  }
+
+  @FXML
+  private void showInfoTrevor() {
+    visibleTR = !visibleTR;
+    labelTR.setVisible(visibleTR);
+    labelTR1.setVisible(visibleTR);
+    labelTR2.setVisible(visibleTR);
+    labelTR3.setVisible(visibleTR);
+    labelTR4.setVisible(visibleTR);
+    labelTR5.setVisible(visibleTR);
+    labelTR6.setVisible(visibleTR);
+    paneTR.setVisible(visibleTR);
   }
 }

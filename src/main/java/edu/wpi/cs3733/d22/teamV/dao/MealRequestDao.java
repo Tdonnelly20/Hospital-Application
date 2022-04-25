@@ -106,7 +106,7 @@ public class MealRequestDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE MEALS(nodeID char(50), patientID int, employeeID int, mealName char(50), allergy char(50), status char(50), requestDetails char(254), serviceID int)";
+            "CREATE TABLE MEALS(nodeID char(50), patientID int, employeeID int, mealName char(50), allergy char(50), requestDetails char(254),status char(50),  serviceID int,date_time timestamp )";
         statement.execute(query);
 
       } else {
@@ -128,35 +128,54 @@ public class MealRequestDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest request) {
 
     try {
-
-      MealRequest mealDelivery = (MealRequest) request;
-
-      String query = "";
       Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
-      query =
-          "INSERT INTO MEALS("
-              + "nodeID,patientID,employeeID,mealName,allergy,status,requestDetails,serviceID) VALUES "
-              + "('"
-              + mealDelivery.getLocation().getNodeID()
-              + "', "
-              + mealDelivery.getPatientID()
-              + ", "
-              + mealDelivery.getEmployeeID()
-              + ", '"
-              + mealDelivery.getMealName()
-              + "','"
-              + mealDelivery.getAllergy()
-              + "','"
-              + mealDelivery.getStatus()
-              + "','"
-              + mealDelivery.getRequestDetails()
-              + "',"
-              + mealDelivery.getServiceID()
-              + ")";
+      MealRequest mealDelivery = (MealRequest) request;
+      String query = "INSERT INTO MEALS VALUES(?,?,?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setString(1, mealDelivery.getLocation().getNodeID());
+      statement.setInt(2, mealDelivery.getPatientID());
+      statement.setInt(3, mealDelivery.getEmployeeID());
+      statement.setString(4, mealDelivery.getMealName());
+      statement.setString(5, mealDelivery.getAllergy());
+      statement.setString(6, mealDelivery.getDetails());
 
-      statement.execute(query);
+      statement.setString(7, mealDelivery.getStatus());
+      statement.setInt(8, mealDelivery.getServiceID());
+      statement.setTimestamp(9, mealDelivery.getTimeMade());
+      statement.executeUpdate(); // uninit params
+
+      /*
+
+           String query = "";
+           Connection connection = Vdb.Connect();
+           assert connection != null;
+           Statement statement = connection.createStatement();
+           query =
+               "INSERT INTO MEALS("
+                   + "nodeID,patientID,employeeID,mealName,allergy,requestDetails,status,serviceID,date_time) VALUES "
+                   + "('"
+                   + mealDelivery.getLocation().getNodeID()
+                   + "', "
+                   + mealDelivery.getPatientID()
+                   + ", "
+                   + mealDelivery.getEmployeeID()
+                   + ", '"
+                   + mealDelivery.getMealName()
+                   + "','"
+                   + mealDelivery.getAllergy()
+                   + "','"
+                   + mealDelivery.getRequestDetails()
+                   + "','"
+                   + mealDelivery.getStatus()
+                   + "',"
+                   + mealDelivery.getServiceID()
+                   + "','"
+                   + mealDelivery.getTimeMade()
+                   + ")";
+
+           statement.execute(query);
+
+      */
 
     } catch (SQLException e) {
       e.printStackTrace();

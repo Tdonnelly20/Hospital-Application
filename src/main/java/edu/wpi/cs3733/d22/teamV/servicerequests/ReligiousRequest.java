@@ -42,26 +42,6 @@ public class ReligiousRequest extends ServiceRequest {
     this.dao = RequestSystem.Dao.ReligiousRequest;
   }
 
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public String getRoomNumber() {
-    return location.getShortName();
-  }
-
-  public String getFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getLastName() {
-    return patient.getLastName();
-  }
-
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
