@@ -21,8 +21,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -492,8 +490,8 @@ public class MapDashboardController extends Controller {
     updateServiceRequestTable();
     updateCounts();
     updateAlerts();
-    updateBeds();
-    updatePumps();
+    bedBarChart.getData().clear();
+    updateBarChart();
   }
 
   @Override
@@ -501,7 +499,7 @@ public class MapDashboardController extends Controller {
     setUpButtonSubjects();
     setUpDashboardListeners();
     setUpBarChart();
-    // updateAll();
+    updateAll();
   }
 
   @FXML
@@ -601,27 +599,38 @@ public class MapDashboardController extends Controller {
     }
   }
 
+  /** series for clean and dirty pumps and beds */
+  @FXML XYChart.Series equipment = new XYChart.Series();
+
+  /** set up dashboard bar chart. Used in init() */
   @FXML
   public void setUpBarChart() {
-    // x axis
-    CategoryAxis x = new CategoryAxis();
-    x.setLabel("Item");
-    // y axis
-    NumberAxis y = new NumberAxis();
-    y.setLabel("Count");
-    // add values
-    XYChart.Series ds = new XYChart.Series();
-    ds.setName("Beds");
-    ds.getData().add(new XYChart.Data("Clean", curFloor.getDirtyEquipmentCount() + 1));
-    ds.getData()
-        .add(
-            new XYChart.Data(
-                "Dirty", curFloor.getEquipmentIcons().size() - curFloor.getDirtyEquipmentCount()));
-    bedBarChart.getData().add(ds);
+    equipment.getData().clear();
   }
 
+  /** updates bar chart on floor switch / equipment change */
+  @FXML
+  public void updateBarChart() {
+    updateBeds();
+    updatePumps();
+    bedBarChart.getData().add(equipment);
+  }
+
+  /** Updates bed counts for bar chart */
   @FXML
   public void updateBeds() {
+    System.out.println("Updating beds");
+    int cleanBeds = 0;
+    int dirtyBeds = 0;
+    for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
+      cleanBeds += icon.getCleanBeds();
+      dirtyBeds += icon.getDirtyBeds();
+    }
+    cleanBeds = 10;
+    dirtyBeds = 5;
+    equipment.getData().add(new XYChart.Data("Clean Beds", cleanBeds));
+    equipment.getData().add(new XYChart.Data("Dirty Beds", dirtyBeds));
+    /*
     bedBarChart.getData().clear();
     XYChart.Series c = new XYChart.Series();
     c.setName("Beds");
@@ -647,10 +656,29 @@ public class MapDashboardController extends Controller {
     c.getData().add(new XYChart.Data("Clean", clean));
     c.getData().add(new XYChart.Data("Dirty", dirt));
     bedBarChart.getData().add(c);
+
+     */
   }
 
+  /** Updates pump count for bar chart */
   @FXML
   public void updatePumps() {
+    int cleanPumps = 0;
+    int dirtyPumps = 0;
+    equipment.setName("Beds");
+    for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
+      cleanPumps += icon.getCleanPumps();
+      dirtyPumps += icon.getDirtyPumps();
+    }
+
+    // for testing
+    cleanPumps = 10;
+    dirtyPumps = 5;
+
+    equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
+    equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
+
+    /*
     XYChart.Series c = new XYChart.Series();
     c.setName("Pumps");
     int dirt = 0;
@@ -671,9 +699,22 @@ public class MapDashboardController extends Controller {
           }
         }
       }
-    }
-    c.getData().add(new XYChart.Data("Clean", clean));
-    c.getData().add(new XYChart.Data("Dirty", dirt));
-    bedBarChart.getData().add(c);
+
+     */
   }
 }
+
+/*
+  private void displayLabelForData(XYChart.Data<String, Number> data) {
+    final Node node = data.getNode();
+    final Label dataLabel = new Label(data.getYValue() + "");
+    node.parentProperty().addListener(new ChangeListener<Parent>() {
+      public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+        Group parentGroup = (Group) parent;
+        parentGroup.getChildren().add(dataLabel);
+      }
+    });
+  }
+}
+
+ */
