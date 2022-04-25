@@ -78,6 +78,16 @@ public class PathfindingDao {
       this.nodeTwo = nodeTwo;
       edges.add(this);
     }
+
+    //remove a selected edge from the list of edges (for removal)
+    public void removeEdge(){
+      edges.remove(this);
+    }
+
+    //check if an edge contains a node
+    public boolean containsNode(String nodeName){
+      return nodeOne.equals(nodeName) || nodeTwo.equals(nodeName);
+    }
   }
 
   /**
@@ -93,7 +103,7 @@ public class PathfindingDao {
     String edgeName = nodeOne + "_" + nodeTwo;
     for (Edge edge : getEdges()) {
       if (edge.getName().equals(edgeName)) {
-        System.out.println("Already contains this edge!");
+        System.out.println("Already contains this edge! " + edgeName);
         return;
       }
     }
@@ -109,7 +119,6 @@ public class PathfindingDao {
     Location endLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeTwo);
 
     if (!(startLocation == null || endLocation == null)) {
-
       // Create start and end nodes, where nodeOne is the start and nodeTwo is the end
       Pathfinder.Node startNode;
       Pathfinder.Node endNode;
@@ -140,7 +149,6 @@ public class PathfindingDao {
       // Add a link between the two of them so they can pathfind to each other
       startNode.addLink(new Pathfinder.Link(endNode, distance));
       endNode.addLink(new Pathfinder.Link(startNode, distance));
-
     } else {
       // Could not find node locations!
     }
@@ -166,8 +174,24 @@ public class PathfindingDao {
       bw.close();
       fw.close();
       writing = false;
+
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
+
+  public void removePathNode(Location location){
+    //Get the node in Pathfinder and remove it if it exists
+    Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(location.getNodeID());
+    if(nodeToRemove != null){
+      Pathfinder.removeNode(nodeToRemove);
+    }
+    //Remove all edges if it contains the name
+    edges.removeIf(edge -> edge.containsNode(nodeToRemove.getName()));
+    //Save the changes to the CSV
+    saveToCSV();
+
+  }
+
+
 }
