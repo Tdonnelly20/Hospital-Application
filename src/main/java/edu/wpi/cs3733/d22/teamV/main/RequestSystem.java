@@ -48,7 +48,7 @@ public class RequestSystem {
     religiousRequestDao = new ReligiousRequestDao();
     robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
-    // pathfindingDao = new PathfindingDao();
+    pathfindingDao = new PathfindingDao();
 
     triDirectionalityInit();
   }
@@ -61,6 +61,7 @@ public class RequestSystem {
 
   public LinkedList<Location> getPaths(String startLocation, String endLocation) {
     LinkedList<Location> locations = new LinkedList<>();
+    System.out.println(pathfindingDao);
     Queue<Pathfinder.Node> nodes =
         pathfindingDao.getPathfinder().pathfind(startLocation, endLocation);
     if (nodes != null) {
