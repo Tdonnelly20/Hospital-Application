@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javax.imageio.ImageIO;
 import lombok.Getter;
 import lombok.Setter;
+import nu.pattern.OpenCV;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -58,6 +59,7 @@ public class Camera {
     this.detectedPicture = detectedPicture;
     this.authenticating = authenticating;
 
+    OpenCV.loadLocally();
     capture = new VideoCapture();
     this.faceCascade = new CascadeClassifier();
     this.absoluteFaceSize = 0;
@@ -175,7 +177,7 @@ public class Camera {
     assert !grayFrame.empty();
 
     // detect faces
-    this.faceCascade.detectMultiScale(
+     this.faceCascade.detectMultiScale(
         grayFrame,
         faces,
         1.1,

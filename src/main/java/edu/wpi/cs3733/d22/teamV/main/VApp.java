@@ -46,8 +46,12 @@ public class VApp extends Application {
                   .getResourceAsStream(
                       "/edu/wpi/cs3733/d22/teamV/xml/haarcascade_frontalface_alt.xml")),
           Path.of(new File("").getAbsolutePath() + "/haarcascade_frontalface_alt.xml"));
-      // Files.copy(Objects.requireNonNull(getClass().getResourceAsStream("/edu/wpi/cs3733/d22/teamV/pytorch_models/facenet/facenet.pt")),
-      //     Path.of(new File("").getAbsolutePath() + "/facenet/facenet.pt"));
+      Files.copy(
+          Objects.requireNonNull(
+              getClass()
+                  .getResourceAsStream(
+                      "/edu/wpi/cs3733/d22/teamV/pytorch_models/facenet/facenet.pt")),
+          Path.of(new File("").getAbsolutePath() + "/facenet/facenet.pt"));
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();

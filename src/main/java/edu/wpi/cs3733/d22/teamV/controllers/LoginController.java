@@ -27,6 +27,7 @@ public class LoginController extends Controller {
 
   @Override
   public void init() {
+    Camera.stopAcquisition();
     System.out.println("Login init");
 
     ChangeListener<Number> listener =
@@ -56,16 +57,15 @@ public class LoginController extends Controller {
 
     pane.widthProperty().addListener(listener);
     pane.heightProperty().addListener(listener);
+    Camera camera = new Camera(faceImage, faceImage, jfxButton, false);
+    camera.setLoginPageController(this);
+    camera.toggleCamera();
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Camera.stopAcquisition();
     iv.fitWidthProperty().bind(pane.widthProperty());
     iv.fitHeightProperty().bind(pane.heightProperty());
-    Camera camera = new Camera(null, faceImage, jfxButton, true);
-    camera.setLoginPageController(this);
-    camera.toggleCamera();
   }
 
   @FXML private Button button;
