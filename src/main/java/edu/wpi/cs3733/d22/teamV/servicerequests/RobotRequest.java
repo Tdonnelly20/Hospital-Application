@@ -11,7 +11,7 @@ public class RobotRequest extends ServiceRequest {
   private int botID;
 
   public RobotRequest(int hospitalID, int botID, String nodeID, String details, String status) {
-    employee = new Employee(hospitalID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;

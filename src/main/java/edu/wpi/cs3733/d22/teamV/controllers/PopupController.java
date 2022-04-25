@@ -811,6 +811,7 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
+                System.out.println("HERE");
                 addRequest(
                     icon,
                     new RobotRequest(
@@ -831,6 +832,7 @@ public class PopupController {
     icon.addToRequests(request);
     RequestSystem.getSystem().addServiceRequest(request);
     update();
+    closePopUp();
   }
 
   /** Opens/sets up the general equipment form based on the given event and icon */

@@ -105,12 +105,16 @@ public abstract class ServiceRequest extends DirectionalAssoc {
           + getLocation().getXCoord()
           + "    Y: "
           + getLocation().getYCoord()
-          + "\nEmployee ID: "
+          + "\nEmployee: "
+          + employee.getLastName()
+          + ", "
+          + employee.getFirstName()
+          + " (ID: "
           + employee.getEmployeeID()
-          + "\nService ID: "
-          + serviceID
-          + " ("
+          + ")\nService Request: "
           + typeInfo
+          + " (ID: "
+          + serviceID
           + ")\nDetails: "
           + detailString;
     }
@@ -120,18 +124,22 @@ public abstract class ServiceRequest extends DirectionalAssoc {
         + getLocation().getXCoord()
         + "    Y: "
         + getLocation().getYCoord()
-        + "\nEmployee ID: "
+        + "\nEmployee: "
+        + employee.getLastName()
+        + ", "
+        + employee.getFirstName()
+        + " (ID: "
         + employee.getEmployeeID()
-        + "\nPatient ID: "
-        + patient.getPatientID()
-        + " ("
+        + ")\nPatient: "
         + patient.getLastName()
         + ", "
         + patient.getFirstName()
-        + ")\nService ID: "
-        + serviceID
-        + " ("
+        + " (ID: "
+        + patient.getPatientID()
+        + ")\nService Request: "
         + typeInfo
+        + " (ID: "
+        + serviceID
         + ")\nDetails: "
         + detailString;
   }

@@ -458,7 +458,8 @@ public class RequestSystem {
     allRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
     allRequests.addAll(religiousRequestDao.getAllServiceRequests());
     allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
-
+    allRequests.addAll(robotDao.getAllServiceRequests());
+    // TODO Add Dylan's service request
     return allRequests;
   }
 
