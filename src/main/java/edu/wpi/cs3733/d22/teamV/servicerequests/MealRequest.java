@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class MealRequest extends ServiceRequest {
-  private String mealName, nodeID, allergy, status;
+  private String mealName, allergy;
   /**
    * @param patientID
    * @param employeeID
@@ -33,7 +33,6 @@ public class MealRequest extends ServiceRequest {
     }
     this.allergy = allergy;
     this.details = requestDetails;
-    this.nodeID = nodeID;
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);

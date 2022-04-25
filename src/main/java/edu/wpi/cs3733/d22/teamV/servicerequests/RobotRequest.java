@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class RobotRequest extends ServiceRequest {
-  private Employee employee;
   private String nodeID;
   private int botID;
 

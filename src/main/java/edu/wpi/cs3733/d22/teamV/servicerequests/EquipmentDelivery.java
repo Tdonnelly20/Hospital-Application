@@ -29,7 +29,7 @@ public class EquipmentDelivery extends ServiceRequest {
       this.timeMade = Timestamp.from(Instant.now());
     }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
-    this.employee = new Employee(employeeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
     this.details = notes;
