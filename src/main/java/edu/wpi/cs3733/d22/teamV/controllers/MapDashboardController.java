@@ -437,7 +437,7 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateAlerts() {
-    ArrayList<String> alerts = new ArrayList<>();
+    /* ArrayList<String> alerts = new ArrayList<>();
     ArrayList<EquipmentIcon> pumpList = curFloor.getPumpAlertIcons();
     ArrayList<EquipmentIcon> bedList = curFloor.getBedAlertIcons();
 
@@ -480,7 +480,7 @@ public class MapDashboardController extends Controller {
       alertText = alertText + a + "\n";
     }
     System.out.println(alertText);
-    alertArea.setText(alertText);
+    alertArea.setText(alertText);*/
   }
 
   /** Updates all information on the map dashboard based on the current floor. */
@@ -614,7 +614,7 @@ public class MapDashboardController extends Controller {
   public void updateBarChart() {
     equipment = new XYChart.Series<>();
     updateBeds();
-    updatePumps();
+    // updatePumps();
     bedBarChart.getData().add(equipment);
   }
 
@@ -662,42 +662,41 @@ public class MapDashboardController extends Controller {
   }
 
   /** Updates pump count for bar chart */
-  @FXML
-  public void updatePumps() {
-    int cleanPumps = 0;
-    int dirtyPumps = 0;
-    equipment.setName("Beds");
-    for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
-      cleanPumps += icon.getCleanPumps();
-      dirtyPumps += icon.getDirtyPumps();
-    }
-    equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
-    equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
-
-    /*
-    XYChart.Series c = new XYChart.Series();
-    c.setName("Pumps");
-    int dirt = 0;
-    int clean = 0;
-    for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
-      for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
-        if (curFloor
-            .getEquipmentIcons()
-            .get(i)
-            .getEquipmentList()
-            .get(j)
-            .getName()
-            .equalsIgnoreCase("infusion pump")) {
-          if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
-            dirt++;
-          } else {
-            clean++;
-          }
+  /*@FXML
+    public void updatePumps() {
+      int cleanPumps = 0;
+      int dirtyPumps = 0;
+      equipment.setName("Beds");
+      for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
+        cleanPumps += icon.getCleanPumps();
+        dirtyPumps += icon.getDirtyPumps();
+      }
+      equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
+      equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
+  */
+  /*
+  XYChart.Series c = new XYChart.Series();
+  c.setName("Pumps");
+  int dirt = 0;
+  int clean = 0;
+  for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
+    for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
+      if (curFloor
+          .getEquipmentIcons()
+          .get(i)
+          .getEquipmentList()
+          .get(j)
+          .getName()
+          .equalsIgnoreCase("infusion pump")) {
+        if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
+          dirt++;
+        } else {
+          clean++;
         }
       }
+    }
 
-     */
-  }
+   */
 
   private void displayLabelForData(XYChart.Data<String, Number> data) {
     final Node node = data.getNode();

@@ -138,7 +138,7 @@ public class EquipmentIcon extends Icon {
     setImage();
     alertSixBeds(equipment, true);
     MapDashboardController.getController().updateCounts();
-    pumpAlert();
+    MapDashboardController.getController().updateCounts();
   }
 
   /** Removes equipment and calls alerts */
@@ -211,28 +211,6 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  public void alertSixBeds() {
-
-    int alertCounter = 0;
-    boolean alert = false;
-
-    ArrayList<Equipment> equip = new ArrayList<Equipment>();
-    equip = this.getEquipmentList();
-    ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
-
-    for (int i = 0; equip.size() > i; i++) {
-      if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
-        dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
-        alertCounter = +1;
-      }
-    }
-    if (alertCounter > 5) {
-      alert = true;
-    }
-
-    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
-  }
-
   // checks if isAdding is true, if so finds beds that are dirty in the same place.
   // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
   // else, dirtyBeds decreases by 1.
@@ -266,7 +244,7 @@ public class EquipmentIcon extends Icon {
                 RequestSystem.getServiceID(),
                 Timestamp.from(Instant.now()).toString());
 
-        RequestSystem.getSystem().addServiceRequest(request);
+        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
       }
     } else {
       dirtyBeds--;
