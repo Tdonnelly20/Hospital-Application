@@ -15,6 +15,8 @@ public class Floor {
   private int activeRequestCount;
   private ArrayList<EquipmentIcon> equipmentIcons = new ArrayList<>();
   private ArrayList<LocationIcon> locationIcons = new ArrayList<>();
+  private ArrayList<EquipmentIcon> pumpAlertIcons = new ArrayList<>();
+  private ArrayList<EquipmentIcon> bedAlertIcons = new ArrayList<>();
   private ArrayList<EquipmentIcon> dirtyLocations = new ArrayList<>();
   private ArrayList<EquipmentIcon> cleanLocations = new ArrayList<>();
   private int numIcons;
@@ -31,6 +33,16 @@ public class Floor {
       locationIcons.add((LocationIcon) icon);
     } else {
       equipmentIcons.add((EquipmentIcon) icon);
+      if ((((EquipmentIcon) icon).getCleanPumps() < 5)
+          && !pumpAlertIcons.contains((EquipmentIcon) icon)) {
+        pumpAlertIcons.add((EquipmentIcon) icon);
+      } else if ((((EquipmentIcon) icon).getDirtyPumps() > 9)
+          && !pumpAlertIcons.contains((EquipmentIcon) icon)) {
+        pumpAlertIcons.add((EquipmentIcon) icon);
+      } else if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
+          && !bedAlertIcons.contains((EquipmentIcon) icon)) {
+        bedAlertIcons.add((EquipmentIcon) icon);
+      } else System.out.println("uh oh");
     }
   }
 

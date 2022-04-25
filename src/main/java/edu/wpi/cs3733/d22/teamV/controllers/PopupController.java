@@ -308,8 +308,8 @@ public class PopupController {
       addButton.setText("Add a Location");
       buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     } else {
-      Button pathfindingButton = new Button("Directions");
-      pathfindingButton.setOnAction(event1 -> directionsForm(icon));
+      Button pathfindingButton = new Button("Pathfinder");
+      pathfindingButton.setOnAction(event1 -> pathfinderForm(icon));
 
       buttonBox.getChildren().add(pathfindingButton);
       clear(icon.getLocation().getLongName(), icon.getLocation().getShortName());
@@ -333,16 +333,23 @@ public class PopupController {
     }
   }
 
+  private void pathfinderForm(LocationIcon firstLocation) {
+    clear("Pathfinder", "Pathfinder");
+    Button directions = new Button("Get Directions");
+    Button connections = new Button("Make Connections");
+    directions.setOnAction(event -> directionsForm(firstLocation));
+    connections.setOnAction(event -> connectionsForm(firstLocation));
+    buttonBox.getChildren().addAll(directions, connections);
+  }
+
   /** Opens/sets up the pathfinder form */
   private void directionsForm(LocationIcon firstLocation) {
-    clear("Directions", "Directions");
-    buttonBox.getChildren().addAll(submitIcon, closeButton);
-    // fields[0].setPromptText(firstLocation.getLocation().getNodeID());
+    clear("Get Directions", "Get Directions");
+    buttonBox.getChildren().addAll(submitIcon, addButton, closeButton);
     fields[0].setPromptText("Destination Node ID");
-    // inputGenerator(fields[0].getPromptText(), "Starting Location", fields[0]);
     inputGenerator(fields[0].getPromptText(), "Destination", fields[0]);
     submitIcon.setText("Get Directions");
-
+    addButton.setText("Add Connection");
     submitIcon.setOnAction(
         event -> {
           if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
@@ -357,6 +364,23 @@ public class PopupController {
             }
             stage.close();
             clear();
+          }
+        });
+  }
+
+  /** Opens/sets up the pathfinder connection form */
+  private void connectionsForm(LocationIcon firstLocation) {
+    clear("Make Connections", "Make Connections");
+    buttonBox.getChildren().addAll(submitIcon, closeButton);
+    inputGenerator("Other Node ID", "Node ID", fields[0]);
+    submitIcon.setText("Make Connection");
+    submitIcon.setOnAction(
+        event -> {
+          if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
+            /*RequestSystem.getSystem().getPathfinder().
+            firstLocation.getLocation().getNodeID(),
+                    RequestSystem.getSystem().getLocation(fields[0].getText()).getNodeID());*/
+            closePopUp();
           }
         });
   }
@@ -593,6 +617,7 @@ public class PopupController {
     } else {
       locationID = icon.getLocation().getNodeID();
     }
+    assert icon != null;
     switch (serviceRequest) {
       case "Lab Request":
         fields[1].setPromptText("Patient ID");
@@ -968,6 +993,7 @@ public class PopupController {
               closePopUp();
             }
           } else {
+            assert equipment != null;
             String oldID = equipment.getID();
             equipment.setID(fields[1].getText());
             equipment.setName(fields[5].getText());

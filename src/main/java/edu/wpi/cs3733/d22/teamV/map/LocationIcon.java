@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -34,8 +36,25 @@ public class LocationIcon extends Icon {
     image.setOnMouseClicked(
         event -> {
           // Opens the location form in the popup
-          if (event.getClickCount() == 2) {
-            PopupController.getController().locationForm(event, this);
+          if (event.isShiftDown() || event.isAltDown()) {
+            if (event.getClickCount() == 2) {
+              if (MapController.getController().getStartLocationID().isEmpty()) {
+                MapController.getController().setStartLocationID(location.getNodeID());
+              } else if (MapController.getController().getEndLocationID().isEmpty()) {
+                MapController.getController().setEndLocationID(location.getNodeID());
+                if (event.isShiftDown()) {
+                  MapController.getController().drawPath();
+                } else {
+                  MapController.getController().makePath();
+                }
+                MapController.getController().setStartLocationID("");
+                MapController.getController().setEndLocationID("");
+              }
+            }
+          } else {
+            if (event.getClickCount() == 2) {
+              PopupController.getController().locationForm(event, this);
+            }
           }
         });
     image.setOnMouseReleased(
@@ -43,8 +62,9 @@ public class LocationIcon extends Icon {
           // If released from drag, update the xy coors
           if (isDrag) {
             isDrag = false;
-            location.setXCoord(location.getXCoord() + event.getX() - 7.5);
-            location.setYCoord(location.getYCoord() + event.getY() - 7.5);
+            Point2D offset = (Point2D) image.getUserData();
+            location.setXCoord(location.getXCoord() + event.getX() - offset.getX() - 15);
+            location.setYCoord(location.getYCoord() + event.getY() - offset.getY() - 20);
             RequestSystem.getSystem().updateLocations(this);
           }
         });
