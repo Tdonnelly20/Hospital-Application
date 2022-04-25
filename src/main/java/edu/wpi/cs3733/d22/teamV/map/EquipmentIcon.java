@@ -128,7 +128,6 @@ public class EquipmentIcon extends Icon {
     if (equipment.getIsDirty()) {
       if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
       else if (equipment.getName().equals("Bed")) dirtyBeds++;
-      if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
       equipmentList.add(equipment);
     } else {
       equipmentList.add(0, equipment);
