@@ -71,12 +71,12 @@
                         </Label>
                         <Pane fx:id="sideViewPane" prefHeight="523.0" prefWidth="400.0">
                            <children>
-                              <BarChart fx:id="bedBarChart" layoutX="171.0" layoutY="94.0" prefHeight="335.0" prefWidth="215.0" styleClass="bar-chart">
+                              <BarChart fx:id="bedBarChart" alternativeRowFillVisible="false" animated="false" layoutX="185.0" layoutY="50.0" legendVisible="false" prefHeight="335.0" prefWidth="215.0" styleClass="bar-chart">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <CategoryAxis animated="false" side="BOTTOM" tickLabelFill="WHITE" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis side="LEFT" />
+                                  <NumberAxis animated="false" minorTickCount="2" side="LEFT" tickLabelFill="WHITE" />
                                 </yAxis>
                               </BarChart>
                               <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="50.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true" visible="false">
@@ -95,7 +95,7 @@
                                     <Button layoutY="300.0" minHeight="36.0" mnemonicParsing="false" onAction="#switchToLL2" onMouseEntered="#switchToLL2" prefWidth="141.0" styleClass="sideViewButtonll2" text="LL2" />
                                  </children>
                               </Group>
-                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="34.0" prefHeight="47.0" prefWidth="141.0" styleClass="floorLabel" />
+                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="428.0" prefHeight="47.0" prefWidth="215.0" styleClass="floorLabel" />
                            </children>
                            <padding>
                               <Insets top="10.0" />

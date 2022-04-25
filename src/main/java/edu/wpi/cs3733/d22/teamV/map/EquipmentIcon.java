@@ -20,11 +20,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EquipmentIcon extends Icon {
+
   ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
   private double xCoord;
   private double yCoord;
   private int cleanPumps = 0;
   private int dirtyPumps = 0;
+  private int cleanBeds = 0;
   private int dirtyBeds = 0;
 
   /** Icon for equipment with the same x and y coordinates */
@@ -125,6 +127,7 @@ public class EquipmentIcon extends Icon {
     if (equipment.getIsDirty()) {
       if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
       else if (equipment.getName().equals("Bed")) dirtyBeds++;
+      if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
       equipmentList.add(equipment);
     } else {
       equipmentList.add(0, equipment);
@@ -144,9 +147,13 @@ public class EquipmentIcon extends Icon {
       else cleanPumps--;
     } else if (equipment.getName().equals("Bed")) {
       dirtyBeds--;
+      if (equipment.getName().equals("Infusion Pump")) {
+        if (equipment.getIsDirty()) dirtyPumps--;
+        else cleanPumps--;
+      }
+      alertSixBeds(equipment, false);
+      PopupController.getController().closePopUp();
     }
-    alertSixBeds(equipment, false);
-    PopupController.getController().closePopUp();
   }
 
   /** Sets the icon image depending on if it has clean equipment */
