@@ -4,12 +4,9 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.Floor;
-import edu.wpi.cs3733.d22.teamV.map.Icon;
-import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
-import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
@@ -432,29 +429,18 @@ public class MapDashboardController extends Controller {
   @FXML
   private void updateAlerts() {
     ArrayList<String> alerts = new ArrayList<>();
-    ArrayList<Icon> iconList = curFloor.getIconList();
-    ArrayList<EquipmentIcon> i = new ArrayList<>();
-    ArrayList<LocationIcon> j = new ArrayList<>();
+    ArrayList<EquipmentIcon> pumpList = curFloor.getPumpAlertIcons();
+    ArrayList<EquipmentIcon> bedList = curFloor.getBedAlertIcons();
 
     int cleanPumps;
     int dirtyPumps;
 
     String alertText = "";
-    for (Icon icon : iconList) {
-      if (icon.iconType.equals(Icon.IconType.Equipment)) {
-        i.add((EquipmentIcon) icon);
-      }
-    }
-    for (Icon icon : iconList) {
-      if (icon.iconType.equals(Icon.IconType.Location)) {
-        j.add((LocationIcon) icon);
-      }
-    }
-    int index = 0;
-    for (EquipmentIcon e : i) {
+
+    for (EquipmentIcon e : pumpList) {
       cleanPumps = e.getCleanPumps();
       dirtyPumps = e.getDirtyPumps();
-      if ((cleanPumps < 5) && e.hasCleanEquipment()) {
+      if ((cleanPumps < 5)) {
         alerts.add(
             "ALERT there are only "
                 + cleanPumps
@@ -472,18 +458,19 @@ public class MapDashboardController extends Controller {
                 + ", "
                 + e.getYCoord());
 
-        EquipmentDelivery equipmentDelivery =
-            new EquipmentDelivery(
-                11, 5, "vDEPT00301", "Infusion Pump", "none", dirtyPumps, "Not Completed");
-        j.get(index).addToRequests(equipmentDelivery);
+        //        EquipmentDelivery request =
+        //            new EquipmentDelivery(-1, -1, "OR", "Infusion Pump", "none", 1, "Not
+        // Started");
+        //        RequestSystem.getSystem().addServiceRequest(request,
+        // RequestSystem.Dao.EquipmentDelivery);
       }
-      index++;
+      // index++;
     }
 
     for (String a : alerts) {
       alertText = alertText + a + "\n";
     }
-    // System.out.println(alertText);
+    System.out.println(alertText);
     alertArea.setText(alertText);
   }
 
