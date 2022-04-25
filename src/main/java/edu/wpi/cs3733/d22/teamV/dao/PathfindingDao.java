@@ -84,7 +84,13 @@ public class PathfindingDao {
   public void addPathNode(String nodeOne, String nodeTwo) {
 
     // Create and store the edge
-    Edge edge = new Edge(nodeOne, nodeTwo);
+    String edgeName = nodeOne + "_" + nodeTwo;
+    for (Edge edge : getEdges()) {
+      if (edge.getName().equals(edgeName)) {
+        System.out.println("Already contains this edge!");
+        return;
+      }
+    }
 
     if (!loading) {
       saveToCSV();
