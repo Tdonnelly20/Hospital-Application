@@ -17,6 +17,9 @@ public class Floor {
   private ArrayList<LocationIcon> locationIcons = new ArrayList<>();
   private ArrayList<EquipmentIcon> pumpAlertIcons = new ArrayList<>();
   private ArrayList<EquipmentIcon> bedAlertIcons = new ArrayList<>();
+  private ArrayList<EquipmentIcon> dirtyLocations = new ArrayList<>();
+  private ArrayList<EquipmentIcon> cleanLocations = new ArrayList<>();
+  private int numIcons;
 
   public Floor(String floorName, Image map) {
     this.floorName = floorName;

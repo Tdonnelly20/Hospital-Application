@@ -6,9 +6,13 @@ import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.*;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -47,10 +51,6 @@ public class LabRequestController extends RequestController {
   }
 
   private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
-
-  public static LabRequestController getManager() {
-    return LabRequestController.SingletonHelper.manager;
-  }
 
   @Override
   public void init() {
@@ -95,6 +95,33 @@ public class LabRequestController extends RequestController {
     requestedLab.setValue("Select Lab");
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
+    validateButton();
+  }
+
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
   }
 
   // Checks to see if the user can submit info
@@ -112,15 +139,15 @@ public class LabRequestController extends RequestController {
         status.setText("Status: Processing");
       } else if (LocationDao.getLocation(nodeID.getText()) == null) {
         status.setText("Status: Needs valid room");
-      } else if (!isInteger(employeeID.getText())) {
+      } else if (!findEmployee()) {
         status.setText("Status: Needs valid employee");
-      } else if (!isInteger(patientID.getText())) {
+      } else if (!findPatient()) {
         status.setText("Status: Needs valid patient");
       } else {
         sendRequest.setDisable(false);
       }
     } catch (NullPointerException e) {
-
+      e.printStackTrace();
     }
   }
 
@@ -129,20 +156,20 @@ public class LabRequestController extends RequestController {
   public void updateTreeTable() {
     // Set our cell values based on the LabRequest Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    requestedLabCol.setCellValueFactory(new TreeItemPropertyValueFactory("lab"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    requestedLabCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lab"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
 
     // Get the current list of lab requests from the DAO
     ArrayList<LabRequest> currLabRequests =
         (ArrayList<LabRequest>) labRequestDao.getAllServiceRequests();
 
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<LabRequest>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currLabRequests.isEmpty()) {
@@ -150,14 +177,14 @@ public class LabRequestController extends RequestController {
     } else {
       // for each loop cycling through each lab request currently entered into the system
       for (LabRequest lab : currLabRequests) {
-        TreeItem<LabRequest> item = new TreeItem(lab);
+        TreeItem<LabRequest> item = new TreeItem<>(lab);
         treeItems.add(item);
       }
       // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
       // we get the standard table functionality
       table.setShowRoot(false);
       // Root is just the first entry in our list
-      TreeItem root = new TreeItem(labRequestDao.getAllServiceRequests().get(0));
+      TreeItem<LabRequest> root = new TreeItem<>(currLabRequests.get(0));
       // Set the root in the table
       table.setRoot(root);
       // Set the rest of the tree items to the root, including the one we set as the root
@@ -178,7 +205,9 @@ public class LabRequestController extends RequestController {
               Integer.parseInt(patientID.getText()),
               nodeID.getText(),
               requestedLab.getValue().toString(),
-              statusDropDown.getValue().toString());
+              statusDropDown.getValue().toString(),
+              -1,
+              Timestamp.from(Instant.now()).toString());
       try {
         if (updating) {
           Vdb.requestSystem.getDao(Dao.LabRequest).updateServiceRequest(l, updateServiceID);

@@ -90,8 +90,15 @@ public abstract class Controller extends Application {
 
   // Switches scene to the service request page
   @FXML
-  protected void switchToServiceRequest(ActionEvent event) throws IOException {
+  protected void switchToServiceRequest(Event event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/serviceRequest.fxml"));
+    switchScene(event);
+  }
+
+  // Switches scene to API landing page
+  @FXML
+  protected void switchToAPI(ActionEvent event) throws IOException {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/APILandingPage.fxml"));
     switchScene(event);
   }
 
@@ -189,7 +196,7 @@ public abstract class Controller extends Application {
 
   // Switches scene to the root
   @FXML
-  protected void switchScene(ActionEvent event) {
+  protected void switchScene(Event event) {
     try {
       root = loader.load();
     } catch (IOException e) {
@@ -203,5 +210,23 @@ public abstract class Controller extends Application {
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+  }
+
+  @FXML
+  protected void runOurAPI() throws IOException {
+    Runtime runtime = Runtime.getRuntime();
+    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\SoftEngRobotAPI.jar");
+  }
+
+  @FXML
+  protected void runEAPI() throws IOException {
+    Runtime runtime = Runtime.getRuntime();
+    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\TeamE-API.jar");
+  }
+
+  @FXML
+  protected void runZAPI() throws IOException {
+    Runtime runtime = Runtime.getRuntime();
+    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\ExternalTransportAPI.jar");
   }
 }

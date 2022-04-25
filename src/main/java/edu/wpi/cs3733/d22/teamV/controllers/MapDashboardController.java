@@ -107,6 +107,8 @@ public class MapDashboardController extends Controller {
     stage.show();
   }
 
+  public void addBedAlertToArray(boolean alert, ArrayList<String> dirtyBedsFloor) {}
+
   private static class SingletonHelper {
     private static final MapDashboardController controller = new MapDashboardController();
   }
@@ -301,6 +303,9 @@ public class MapDashboardController extends Controller {
   /** Updates values in the Service Request table based on the current floor */
   @FXML
   private void updateServiceRequestTable() {
+    try{
+
+
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
     locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
 
@@ -326,40 +331,47 @@ public class MapDashboardController extends Controller {
       serviceRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
+    }catch (NullPointerException e){
+
+    }
   }
 
   /** Updates the values in the patient table with values based on the current floor */
   @FXML
   private void updatePatientTable() {
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
-    ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    try {
+      patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
+      lastCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
+      SRCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
+      ArrayList<Patient> currPatients = Vdb.requestSystem.getPatients();
+      ArrayList<TreeItem> treeItems = new ArrayList<>();
 
-    if (!currPatients.isEmpty()) {
+      if (!currPatients.isEmpty()) {
 
-      for (Patient pos : currPatients) {
-        for (ServiceRequest s : RequestSystem.getSystem().getEveryServiceRequest()) {
-          for (int i : pos.getServiceIDs()) {
-            if (i == s.getServiceID()) {
-              if (s.getLocation() != null) {
-                if (s.getLocation().getFloor() != null) {
-                  if (s.getLocation().getFloor().equals(curFloor.getFloorName())) {
-                    TreeItem<Patient> item = new TreeItem(pos);
-                    treeItems.add(item);
+        for (Patient pos : currPatients) {
+          for (ServiceRequest s : RequestSystem.getSystem().getEveryServiceRequest()) {
+            for (int i : pos.getServiceIDs()) {
+              if (i == s.getServiceID()) {
+                if (s.getLocation() != null) {
+                  if (s.getLocation().getFloor() != null) {
+                    if (s.getLocation().getFloor().equals(curFloor.getFloorName())) {
+                      TreeItem<Patient> item = new TreeItem(pos);
+                      treeItems.add(item);
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
 
-      patientTable.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getPatients().get(0));
-      patientTable.setRoot(root);
-      root.getChildren().addAll(treeItems);
+        patientTable.setShowRoot(false);
+        TreeItem root = new TreeItem(RequestSystem.getSystem().getPatients().get(0));
+        patientTable.setRoot(root);
+        root.getChildren().addAll(treeItems);
+      }
+    } catch (NullPointerException e) {
+
     }
   }
 
@@ -401,29 +413,27 @@ public class MapDashboardController extends Controller {
             + dirty);
   }
 
-  public int checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
-    /*if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
+  /* was used to check for beds that are dirty, could be used again if main function has to be changed in the future.
+  public void checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
+    if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
       return 1;
     } else {
       return 0;
-    }*/
-    return 0;
-  }
-
-  @FXML
-  public void addBedAlertToArray(boolean b, ArrayList<String> dirtyBedsFloor) {
-    /*
-    if (b == true) {
-      for (String s : dirtyBedsFloor) {
-        alertTable.add(s);
-      }
     }
+    return 0;
+  } */
+
+  /* was used to add dirty beds to alertsArea, could be used again if main function has to be changed in the future.
+  @FXML
+  public void addBedAlertToArray(int b) {
 
     // adds strings from alerTable to alertsArea
-    for (String s : alertTable) {
-      alertsArea.setText("There are 6+ dirty beds in floor " + s);
-    }*/
+    if (b > 5) {
+      alertsArea.setText("There are 6+ dirty beds");
+    }
   }
+  /
+   */
 
   @FXML
   private void updateAlerts() {
