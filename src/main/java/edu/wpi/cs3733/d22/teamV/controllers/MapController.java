@@ -407,7 +407,7 @@ public class MapController extends Controller {
     Button addLink = new Button("Add path");
     System.out.println(startLocationID);
     System.out.println(endLocationID);
-    controlsVBox.getChildren().remove(addLink);
+    controlsVBox.getChildren().retainAll(filterCheckBox, refreshButton);
     if (!startLocationID.isEmpty() && !endLocationID.isEmpty()) {
       System.out.println("Start: " + startLocationID);
       System.out.println("End: " + endLocationID);
