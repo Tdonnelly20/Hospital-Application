@@ -5,6 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
+import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
@@ -99,7 +100,7 @@ public class LabRequestDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int)";
+            "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int,date_time timestamp)";
         statement.execute(query);
 
       } else {
@@ -120,6 +121,19 @@ public class LabRequestDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest request) {
     try {
 
+      Connection connection = Vdb.Connect();
+      LabRequest labRequest = (LabRequest) request;
+      String query = "INSERT INTO LABS VALUES(?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, labRequest.getEmployeeID());
+      statement.setInt(2, labRequest.getPatientID());
+      statement.setString(3, labRequest.getLocation().getNodeID());
+      statement.setString(4, labRequest.getLab());
+      statement.setString(5, labRequest.getStatus());
+      statement.setInt(6, labRequest.getServiceID());
+      statement.setTimestamp(7, labRequest.getTimeMade());
+      statement.executeUpdate(); // uninit params
+/*
       LabRequest labRequest = (LabRequest) request;
 
       String query = "";
@@ -129,7 +143,7 @@ public class LabRequestDao extends DaoInterface {
 
       query =
           "INSERT INTO LABS("
-              + "userID,patientID,nodeID,lab,status,serviceID) VALUES "
+              + "userID,patientID,nodeID,lab,status,serviceID,date_time) VALUES "
               + "("
               + labRequest.getUserID()
               + ", "
@@ -142,9 +156,13 @@ public class LabRequestDao extends DaoInterface {
               + labRequest.getStatus()
               + "',"
               + labRequest.getServiceID()
+              + "','"
+              + labRequest.getTimeMade()
               + ")";
 
       statement.execute(query);
+
+ */
     } catch (SQLException e) {
       e.printStackTrace();
     }

@@ -30,7 +30,12 @@ public class RobotRequest extends ServiceRequest {
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;
-    this.details = details;
+    if (details != "") {
+      this.details = details;
+    } else {
+      this.details = "";
+    }
+
     this.status = status;
     setServiceID(RequestSystem.getServiceID());
     if (serviceID < 0) { // calls system to set id

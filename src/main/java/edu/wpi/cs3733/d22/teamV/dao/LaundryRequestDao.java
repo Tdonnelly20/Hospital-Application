@@ -105,7 +105,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE LAUNDRY(employeeID int, patientID int, roomNumber char(50), details char(100), status char(100), serviceID int)";
+            "CREATE TABLE LAUNDRY(employeeID int, patientID int, roomNumber char(50), details char(100), status char(100), serviceID int,date_time timestamp)";
         statement.execute(query);
 
       } else {
@@ -136,7 +136,7 @@ public class LaundryRequestDao extends DaoInterface {
 
       query =
           "INSERT INTO LAUNDRY("
-              + "employeeID,patientID,roomNumber,details,status,serviceID) VALUES "
+              + "employeeID,patientID,roomNumber,details,status,serviceID,date_time) VALUES "
               + "("
               + laundryRequest.getEmployee().getEmployeeID()
               + ","
@@ -149,6 +149,8 @@ public class LaundryRequestDao extends DaoInterface {
               + laundryRequest.getStatus()
               + "',"
               + laundryRequest.getServiceID()
+              + "','"
+              + laundryRequest.getTimeMade()
               + ")";
 
       statement.execute(query);
