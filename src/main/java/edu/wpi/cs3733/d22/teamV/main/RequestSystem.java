@@ -73,6 +73,10 @@ public class RequestSystem {
     return locations;
   }
 
+  public void makePaths(String start, String end) {
+    pathfindingDao.addPathNode(start, end);
+  }
+
   public PathfindingDao getPathfinderDao() {
     return pathfindingDao;
   }
