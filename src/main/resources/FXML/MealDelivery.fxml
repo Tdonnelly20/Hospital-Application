@@ -119,7 +119,7 @@
                      <children>
                         <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab text="Table View">
+                            <Tab text="Meal Requests">
                               <content>
                                 <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -145,14 +145,18 @@
                                                          <columns>
                                                             <TreeTableColumn fx:id="hospitalIDCol" prefWidth="78.0" text="Employee ID" />
                                                             <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="71.0" text="Patient ID" />
-                                                            <TreeTableColumn fx:id="serviceIDCol" prefWidth="77.0" text="Service ID" />
-                                                            <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First Name" />
-                                                            <TreeTableColumn fx:id="lastNameCol" text="Last Name" />
-                                                            <TreeTableColumn fx:id="nodeIDCol" minWidth="0.0" prefWidth="75.0" text="Location" />
+                                                            <TreeTableColumn prefWidth="75.0" text="Patient Name">
+                                                               <columns>
+                                                                  <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First Name" />
+                                                                  <TreeTableColumn fx:id="lastNameCol" text="Last Name" />
+                                                               </columns>
+                                                            </TreeTableColumn>
+                                                            <TreeTableColumn fx:id="nodeIDCol" minWidth="0.0" prefWidth="75.0" text="Location ID" />
                                                             <TreeTableColumn fx:id="mealCol" minWidth="0.0" prefWidth="73.0" text="Meal" />
                                                             <TreeTableColumn fx:id="allergyCol" minWidth="3.20001220703125" prefWidth="95.0" text="Allergy" />
-                                                            <TreeTableColumn fx:id="statusCol" prefWidth="82.0" text="Status" />
                                                             <TreeTableColumn fx:id="otherInfoCol" prefWidth="189.0" text="Other Info" />
+                                                            <TreeTableColumn fx:id="statusCol" prefWidth="82.0" text="Status" />
+                                                            <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
                                                          </columns>
                                                       </TreeTableView>
                                                    </children>

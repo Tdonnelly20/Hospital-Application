@@ -45,22 +45,6 @@ public class MealRequest extends ServiceRequest {
     setServiceID(RequestSystem.getServiceID());
   }
 
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
   public String getMealName() {
     return mealName;
   }
@@ -71,14 +55,6 @@ public class MealRequest extends ServiceRequest {
 
   public String getRequestDetails() {
     return details;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getNodeID() {
-    return nodeID;
   }
 
   public void setServiceID(int serviceID) {

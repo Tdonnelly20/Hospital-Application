@@ -89,26 +89,6 @@ public class EquipmentDelivery extends ServiceRequest {
     updateAllObservers();
   }
 
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public String getLocationName() {
-    return location.getNodeID();
-  }
-
-  public int getEmployeeID() {
-    return super.getEmployee().getEmployeeID();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
   @Override
   public void update(DirectionalAssoc directionalAssoc) {
     super.update(directionalAssoc);

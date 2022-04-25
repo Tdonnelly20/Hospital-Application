@@ -8,9 +8,12 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -61,25 +64,30 @@ public class EmployeeController extends RequestController {
   @FXML private TextField employeePosition;
   @FXML private Button sendRequest;
   @FXML private Label statusLabel;
+
+  @FXML private TextField searchBar;
+
   private Employee selectedEmployee;
+
+  ObservableList<Employee> employeeObservableList = FXCollections.observableArrayList();
 
   @FXML
   public void updateEmployeeTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientIDs"));
-    employeePositionCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeePosition"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    specialtiesCol.setCellValueFactory(new TreeItemPropertyValueFactory("specialties"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientIDs"));
+    employeePositionCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeePosition"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
+    specialtiesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("specialties"));
     employeeServiceRequestIDCol.setCellValueFactory(
-        new TreeItemPropertyValueFactory("serviceRequestIDs"));
+        new TreeItemPropertyValueFactory<>("serviceRequestIDs"));
 
     // Get the current list of medicine deliveries from the DAO
     ArrayList<Employee> currEmployees = employeeDao.getAllEmployees();
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<Employee>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currEmployees.isEmpty()) {
@@ -89,14 +97,14 @@ public class EmployeeController extends RequestController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (Employee delivery : currEmployees) {
-      TreeItem<Employee> item = new TreeItem(delivery);
+      TreeItem<Employee> item = new TreeItem<Employee>(delivery);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     employeeTable.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currEmployees.get(0));
+    TreeItem<Employee> root = new TreeItem<Employee>(currEmployees.get(0));
     // Set the root in the table
     employeeTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root
@@ -107,15 +115,16 @@ public class EmployeeController extends RequestController {
   public void updatePatientTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    patientFirstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("firstName"));
-    patientLastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("lastName"));
-    patientServiceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceIDs"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    patientFirstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
+    patientLastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
+    patientServiceRequestIDCol.setCellValueFactory(
+        new TreeItemPropertyValueFactory<>("serviceIDs"));
 
     // Get the current list of medicine deliveries from the DAO
     ArrayList<Patient> currPatients = selectedEmployee.getPatientList();
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<Patient>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currPatients.isEmpty()) {
@@ -125,14 +134,14 @@ public class EmployeeController extends RequestController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (Patient patient : currPatients) {
-      TreeItem<Patient> item = new TreeItem(patient);
+      TreeItem<Patient> item = new TreeItem<>(patient);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     patientsTable.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currPatients.get(0));
+    TreeItem<Patient> root = new TreeItem<>(currPatients.get(0));
     // Set the root in the table
     patientsTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root
@@ -143,16 +152,17 @@ public class EmployeeController extends RequestController {
   public void updateServiceRequestTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    serviceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceID"));
-    serviceRequestPatientIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    serviceTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("location"));
+    serviceRequestIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceID"));
+    serviceRequestPatientIDSCol.setCellValueFactory(
+        new TreeItemPropertyValueFactory<>("patientID"));
+    serviceTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("type"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("location"));
 
     // Get the current list of medicine deliveries from the DAO
     ArrayList<ServiceRequest> currRequests = selectedEmployee.getServiceRequestList();
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<ServiceRequest>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currRequests.isEmpty()) {
@@ -162,14 +172,14 @@ public class EmployeeController extends RequestController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (ServiceRequest request : currRequests) {
-      TreeItem<ServiceRequest> item = new TreeItem(request);
+      TreeItem<ServiceRequest> item = new TreeItem<>(request);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     serviceRequestTable.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currRequests.get(0));
+    TreeItem<ServiceRequest> root = new TreeItem(currRequests.get(0));
     // Set the root in the table
     serviceRequestTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root

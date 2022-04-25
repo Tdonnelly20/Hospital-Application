@@ -40,6 +40,9 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TreeTableColumn<ReligiousRequest, String> religionCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> requestDetailsCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
+
   private boolean updating;
   private int updateServiceID;
   // religious request can't seem to remove things if there are more than 1 now???
@@ -106,26 +109,29 @@ public class ReligiousRequestController extends RequestController {
   @FXML
   void updateTreeTable() {
     employeeIDCol.setCellValueFactory(
-        new TreeItemPropertyValueFactory("employeeID")); // issue, but it matches textfield
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    roomCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomNumber"));
-    religionCol.setCellValueFactory(new TreeItemPropertyValueFactory("religion"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
-    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("details"));
+        new TreeItemPropertyValueFactory<>("employeeID")); // issue, but it matches textfield
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    roomCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    religionCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("religion"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+
     ArrayList<ReligiousRequest> requests =
         (ArrayList<ReligiousRequest>)
             RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.ReligiousRequest);
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<ReligiousRequest>> treeItems = new ArrayList<>();
     // TreeItemPropertyVvalueFactory claims unable to retrieve property
     if (requests.isEmpty()) {
       ReligiousRequestTable.setRoot(null);
     } else {
       for (ReligiousRequest r : requests) {
-        TreeItem<ReligiousRequest> item = new TreeItem(r);
+        TreeItem<ReligiousRequest> item = new TreeItem<>(r);
         treeItems.add(item);
       }
       ReligiousRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(requests.get(0));
+      TreeItem<ReligiousRequest> root = new TreeItem<>(requests.get(0));
       ReligiousRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -244,6 +250,7 @@ public class ReligiousRequestController extends RequestController {
       details.setText(request.getDetails());
       updateServiceID = request.getServiceID();
       statusDropDown.setValue(request.getStatus());
+      updateServiceID = request.getServiceID();
       updateTreeTable();
     }
   }

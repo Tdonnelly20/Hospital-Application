@@ -32,6 +32,22 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   public Image image;
   private String nodeID;
 
+  public String getPatientFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getPatientLastName() {
+    return patient.getLastName();
+  }
+
+  public int getEmployeeID() {
+    return employee.getEmployeeID();
+  }
+
+  public int getPatientID() {
+    return patient.getPatientID();
+  }
+
   public String getRequestName() {
     if (patient != null) {
       System.out.println(patient.getLastName() + ", " + patient.getFirstName());

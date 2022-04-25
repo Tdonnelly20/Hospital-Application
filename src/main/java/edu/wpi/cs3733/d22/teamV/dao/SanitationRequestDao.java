@@ -73,7 +73,7 @@ public class SanitationRequestDao extends DaoInterface {
         String[] outputData = {
           Integer.toString(sanitationRequest.getPatientID()),
           Integer.toString(sanitationRequest.getEmployeeID()),
-          sanitationRequest.getRoomLocation(),
+          sanitationRequest.getNodeID(),
           sanitationRequest.getHazardName(),
           sanitationRequest.getRequestDetails(),
           sanitationRequest.getStatus(),
@@ -130,7 +130,7 @@ public class SanitationRequestDao extends DaoInterface {
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setInt(1, newSanitationRequest.getPatientID());
       statement.setInt(2, newSanitationRequest.getEmployeeID());
-      statement.setString(3, newSanitationRequest.getRoomLocation());
+      statement.setString(3, newSanitationRequest.getNodeID());
       statement.setString(4, newSanitationRequest.getHazardName());
       statement.setString(5, newSanitationRequest.getRequestDetails());
       statement.setString(6, newSanitationRequest.getStatus());
@@ -176,7 +176,7 @@ public class SanitationRequestDao extends DaoInterface {
       PreparedStatement statement = connection.prepareStatement(query); // error here?
       statement.setInt(1, newRequest.getPatientID());
       statement.setInt(2, newRequest.getEmployeeID());
-      statement.setString(3, newRequest.getRoomLocation());
+      statement.setString(3, newRequest.getNodeID());
       statement.setString(4, newRequest.getHazardName());
       statement.setString(5, newRequest.getRequestDetails());
       statement.setString(6, newRequest.getStatus());

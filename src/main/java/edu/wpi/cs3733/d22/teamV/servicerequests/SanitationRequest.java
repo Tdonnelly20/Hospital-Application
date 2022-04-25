@@ -52,18 +52,6 @@ public class SanitationRequest extends ServiceRequest {
     }
   }
 
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patientID;
-  }
-
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
@@ -80,9 +68,5 @@ public class SanitationRequest extends ServiceRequest {
 
   public String getRequestDetails() {
     return requestDetails;
-  }
-
-  public String getRoomLocation() {
-    return roomLocation;
   }
 }

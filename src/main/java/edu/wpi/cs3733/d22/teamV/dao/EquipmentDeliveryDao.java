@@ -139,7 +139,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
               + ", "
               + equipmentDelivery.getPatientID()
               + ", '"
-              + equipmentDelivery.getLocationName()
+              + equipmentDelivery.getNodeID()
               + "', '"
               + equipmentDelivery.getEquipment()
               + "','"

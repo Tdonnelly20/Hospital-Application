@@ -34,26 +34,6 @@ public class LaundryRequest extends ServiceRequest {
     return details;
   }
 
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public String getFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getLastName() {
-    return patient.getFirstName();
-  }
-
-  public String getLocationID() {
-    return location.getNodeID();
-  }
-
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
