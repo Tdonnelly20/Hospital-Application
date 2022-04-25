@@ -187,7 +187,7 @@ public class PathfindingDao {
       Pathfinder.removeNode(nodeToRemove);
     }
     //Remove all edges if it contains the name
-    edges.removeIf(edge -> edge.containsNode(nodeToRemove.getName()));
+    edges.removeIf(edge -> edge.containsNode(location.getNodeID()));
     //Save the changes to the CSV
     saveToCSV();
 
