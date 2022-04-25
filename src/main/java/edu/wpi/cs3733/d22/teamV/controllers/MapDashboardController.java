@@ -15,8 +15,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,6 +32,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MapDashboardController extends Controller {
@@ -611,6 +616,7 @@ public class MapDashboardController extends Controller {
   /** updates bar chart on floor switch / equipment change */
   @FXML
   public void updateBarChart() {
+    equipment = new XYChart.Series<>();
     updateBeds();
     updatePumps();
     bedBarChart.getData().add(equipment);
@@ -626,10 +632,9 @@ public class MapDashboardController extends Controller {
       cleanBeds += icon.getCleanBeds();
       dirtyBeds += icon.getDirtyBeds();
     }
-    cleanBeds = 10;
-    dirtyBeds = 5;
     equipment.getData().add(new XYChart.Data("Clean Beds", cleanBeds));
     equipment.getData().add(new XYChart.Data("Dirty Beds", dirtyBeds));
+
     /*
     bedBarChart.getData().clear();
     XYChart.Series c = new XYChart.Series();
@@ -670,11 +675,6 @@ public class MapDashboardController extends Controller {
       cleanPumps += icon.getCleanPumps();
       dirtyPumps += icon.getDirtyPumps();
     }
-
-    // for testing
-    cleanPumps = 10;
-    dirtyPumps = 5;
-
     equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
     equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
 
@@ -702,19 +702,32 @@ public class MapDashboardController extends Controller {
 
      */
   }
-}
 
-/*
   private void displayLabelForData(XYChart.Data<String, Number> data) {
     final Node node = data.getNode();
-    final Label dataLabel = new Label(data.getYValue() + "");
-    node.parentProperty().addListener(new ChangeListener<Parent>() {
-      public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
-        Group parentGroup = (Group) parent;
-        parentGroup.getChildren().add(dataLabel);
-      }
-    });
+    final Text dataText = new Text(data.getYValue() + "");
+    node.parentProperty()
+        .addListener(
+            new ChangeListener<Parent>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+                Group parentGroup = (Group) parent;
+                parentGroup.getChildren().add(dataText);
+              }
+            });
+
+    node.boundsInParentProperty()
+        .addListener(
+            new ChangeListener<Bounds>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+                dataText.setLayoutX(
+                    Math.round(
+                        bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2));
+                dataText.setLayoutY(Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5));
+              }
+            });
   }
 }
-
- */
