@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.face.Camera;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
@@ -20,6 +22,8 @@ import javafx.stage.Stage;
 public class LoginController extends Controller {
 
   public LoginController() {}
+
+  @FXML ImageView faceImage;
 
   @Override
   public void init() {
@@ -56,11 +60,16 @@ public class LoginController extends Controller {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    Camera.stopAcquisition();
     iv.fitWidthProperty().bind(pane.widthProperty());
     iv.fitHeightProperty().bind(pane.heightProperty());
+    Camera camera = new Camera(null, faceImage, jfxButton, true);
+    camera.setLoginPageController(this);
+    camera.toggleCamera();
   }
 
   @FXML private Button button;
+  @FXML private JFXButton jfxButton;
   @FXML private Label wrongLogin;
   @FXML private TextField username;
   @FXML private PasswordField password;

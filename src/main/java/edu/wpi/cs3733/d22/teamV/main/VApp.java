@@ -1,7 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.controllers.Controller;
+import edu.wpi.cs3733.d22.teamV.face.Camera;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,6 +40,10 @@ public class VApp extends Application {
       currentPath = returnPath();
       Vdb vdb = new Vdb();
       vdb.createAllDB();
+      Files.copy(Objects.requireNonNull(getClass().getResourceAsStream("/edu/wpi/cs3733/d22/teamB/xml/haarcascade_frontalface_alt.xml")),
+          Path.of(new File("").getAbsolutePath() + "/haarcascade_frontalface_alt.xml"));
+      //Files.copy(Objects.requireNonNull(getClass().getResourceAsStream("/edu/wpi/cs3733/d22/teamV/faces/pytorch_models/facenet/facenet.pt")),
+       //     Path.of(new File("").getAbsolutePath() + "/facenet/facenet.pt"));
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
@@ -46,6 +54,7 @@ public class VApp extends Application {
 
   public static String returnPath() {
     // TeamVeganVampires\src\main\resources\edu\wpi\cs3733\d22\teamV
+
     String currentPath = System.getProperty("user.dir");
     if (currentPath.contains("teamV") || currentPath.contains("TeamVeganVampires")) {
       int position = currentPath.indexOf("teamV") + 65;
@@ -60,6 +69,7 @@ public class VApp extends Application {
 
   @Override
   public void stop() throws Exception {
+    Camera.stopAcquisition();
     log.info("Shutting Down");
   }
 }
