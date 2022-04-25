@@ -47,7 +47,7 @@ public class InternalPatientTransportation extends ServiceRequest {
     System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.nodeID = nodeID;
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = status;
   }

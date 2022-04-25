@@ -14,17 +14,11 @@ public class HomeController extends RequestController {
   }
 
   @Override
-  void updateTreeTable() {
-
-  }
+  void updateTreeTable() {}
 
   @Override
-  void resetForm() {
-
-  }
+  void resetForm() {}
 
   @Override
-  void validateButton() {
-
-  }
+  void validateButton() {}
 }

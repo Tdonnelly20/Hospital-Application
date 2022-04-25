@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LabRequest;
-import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
@@ -133,36 +132,36 @@ public class LabRequestDao extends DaoInterface {
       statement.setInt(6, labRequest.getServiceID());
       statement.setTimestamp(7, labRequest.getTimeMade());
       statement.executeUpdate(); // uninit params
-/*
-      LabRequest labRequest = (LabRequest) request;
+      /*
+           LabRequest labRequest = (LabRequest) request;
 
-      String query = "";
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
+           String query = "";
+           Connection connection = Vdb.Connect();
+           assert connection != null;
+           Statement statement = connection.createStatement();
 
-      query =
-          "INSERT INTO LABS("
-              + "userID,patientID,nodeID,lab,status,serviceID,date_time) VALUES "
-              + "("
-              + labRequest.getUserID()
-              + ", "
-              + labRequest.getPatientID()
-              + ", '"
-              + labRequest.getLocation().getNodeID()
-              + "', '"
-              + labRequest.getLab()
-              + "', '"
-              + labRequest.getStatus()
-              + "',"
-              + labRequest.getServiceID()
-              + "','"
-              + labRequest.getTimeMade()
-              + ")";
+           query =
+               "INSERT INTO LABS("
+                   + "userID,patientID,nodeID,lab,status,serviceID,date_time) VALUES "
+                   + "("
+                   + labRequest.getUserID()
+                   + ", "
+                   + labRequest.getPatientID()
+                   + ", '"
+                   + labRequest.getLocation().getNodeID()
+                   + "', '"
+                   + labRequest.getLab()
+                   + "', '"
+                   + labRequest.getStatus()
+                   + "',"
+                   + labRequest.getServiceID()
+                   + "','"
+                   + labRequest.getTimeMade()
+                   + ")";
 
-      statement.execute(query);
+           statement.execute(query);
 
- */
+      */
     } catch (SQLException e) {
       e.printStackTrace();
     }

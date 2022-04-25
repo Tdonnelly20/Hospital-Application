@@ -184,7 +184,7 @@ public class SanitationRequestController extends RequestController {
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
     roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
-    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
+    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)

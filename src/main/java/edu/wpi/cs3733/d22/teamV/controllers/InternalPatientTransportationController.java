@@ -253,7 +253,7 @@ public class InternalPatientTransportationController extends RequestController {
   private void updateSelectedRow() throws NullPointerException {
     updating = true;
     InternalPatientTransportation transport =
-            internalPatientTransportationTable.getSelectionModel().getSelectedItem().getValue();
+        internalPatientTransportationTable.getSelectionModel().getSelectedItem().getValue();
 
     employeeID.setText(String.valueOf(transport.getEmployeeID()));
     patientID.setText(String.valueOf(transport.getPatientID()));
@@ -269,10 +269,10 @@ public class InternalPatientTransportationController extends RequestController {
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
     try {
       InternalPatientTransportation transport =
-              internalPatientTransportationTable.getSelectionModel().getSelectedItem().getValue();
+          internalPatientTransportationTable.getSelectionModel().getSelectedItem().getValue();
       RequestSystem.getSystem()
-              .getDao(RequestSystem.Dao.InternalPatientTransportation)
-              .removeServiceRequest(transport);
+          .getDao(RequestSystem.Dao.InternalPatientTransportation)
+          .removeServiceRequest(transport);
     } catch (NullPointerException e) {
       e.printStackTrace();
     }
