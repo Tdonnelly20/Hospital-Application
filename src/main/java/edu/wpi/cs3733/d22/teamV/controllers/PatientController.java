@@ -357,7 +357,8 @@ public class PatientController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow(MouseEvent event) {
+  private void removeSelectedRow() {
+    DBPopupController.getController().iconWindow();
     try {
 
       Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
