@@ -86,7 +86,7 @@ public class PathfindingDao {
 
     // check if an edge contains a node
     public boolean containsNode(String nodeName) {
-      return nodeOne.equals(nodeName) || nodeTwo.equals(nodeName);
+      return nodeOne.equalsIgnoreCase(nodeName) || nodeTwo.equalsIgnoreCase(nodeName);
     }
   }
 
@@ -102,7 +102,7 @@ public class PathfindingDao {
     // Scan for duplicates
     String edgeName = nodeOne + "_" + nodeTwo;
     for (Edge edge : getEdges()) {
-      if (edge.getName().equals(edgeName)) {
+      if (edge.getName().equalsIgnoreCase(edgeName)) {
         System.out.println("Already contains this edge! " + edgeName);
         return;
       }

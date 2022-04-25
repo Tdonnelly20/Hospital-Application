@@ -405,10 +405,12 @@ public class MapController extends Controller {
   /** Draws a path between icons you click on */
   public void drawPath() {
     Button addLink = new Button("Add path");
+    System.out.println(startLocationID);
+    System.out.println(endLocationID);
     controlsVBox.getChildren().remove(addLink);
     if (!startLocationID.isEmpty() && !endLocationID.isEmpty()) {
       System.out.println("Start: " + startLocationID);
-      System.out.println("Start: " + endLocationID);
+      System.out.println("End: " + endLocationID);
       LinkedList<Location> locations =
           RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
       if (locations.size() == 1) {
