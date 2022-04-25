@@ -12,6 +12,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -159,7 +161,10 @@ public class SanitationRequestController extends RequestController {
             Integer.parseInt(patientID.getText()),
             roomLocation.getText(),
             sanitationDropDown.getValue().toString(),
-            requestDetails.getText());
+            requestDetails.getText(),
+            statusDropDown.getValue().toString(),
+            -1,
+            Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
       SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
@@ -167,35 +172,34 @@ public class SanitationRequestController extends RequestController {
       SanitationRequestDao.addServiceRequest(request);
     }
     updating = false;
-    // System.out.println(employeeID + patientID + roomLocation,sanitationDropDown,requestDetails);
     updateTreeTable();
     resetForm(); // Set all fields to blank for another entry
   }
 
   @FXML
   void updateTreeTable() {
-    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory("roomLocation"));
-    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory("hazardName"));
-    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
+    requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<SanitationRequest>> treeItems = new ArrayList<>();
 
     if (currSanitationRequests.isEmpty()) {
       sanitationRequestTable.setRoot(null);
     } else {
       for (SanitationRequest delivery : currSanitationRequests) {
-        TreeItem<SanitationRequest> item = new TreeItem(delivery); // claims null pointer
+        TreeItem<SanitationRequest> item = new TreeItem<>(delivery); // claims null pointer
         treeItems.add(item);
       }
       sanitationRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(currSanitationRequests.get(0));
+      TreeItem<SanitationRequest> root = new TreeItem<>(currSanitationRequests.get(0));
       sanitationRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
@@ -224,7 +228,7 @@ public class SanitationRequestController extends RequestController {
 
       employeeID.setText(String.valueOf(request.getEmployeeID()));
       patientID.setText(String.valueOf(request.getPatientID()));
-      roomLocation.setText(request.getRoomLocation());
+      roomLocation.setText(request.getNodeID());
       sanitationDropDown.setValue(request.getHazardName());
       requestDetails.setText(request.getRequestDetails());
       updateServiceID = request.getServiceID();

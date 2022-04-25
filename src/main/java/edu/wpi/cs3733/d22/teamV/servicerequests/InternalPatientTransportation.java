@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class InternalPatientTransportation extends ServiceRequest {
-  private String nodeID, requestDetails;
+  private String nodeID;
 
   /**
    * @param patientID
@@ -16,36 +16,40 @@ public class InternalPatientTransportation extends ServiceRequest {
    * @param requestDetails
    */
   public InternalPatientTransportation(
-      String nodeID, int patientID, int employeeID, String requestDetails) {
-    this.timeMade = Timestamp.from(Instant.now());
+      String nodeID,
+      int patientID,
+      int employeeID,
+      String requestDetails,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.nodeID = nodeID;
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
-    this.status = "Not Started";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
   }
 
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public String getNodeID() {
-    return nodeID;
+  public InternalPatientTransportation(
+      String nodeID, int patientID, int employeeID, String requestDetails, String status) {
+    this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    System.out.println(employee.getEmployeeID());
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    this.nodeID = nodeID;
+    this.details = requestDetails;
+    this.type = "Internal Patient Transportation Request";
+    this.status = status;
   }
 
   public void setServiceID(int serviceID) {
@@ -55,7 +59,7 @@ public class InternalPatientTransportation extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
+    return details;
   }
 
   @Override

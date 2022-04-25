@@ -114,7 +114,7 @@
                      <children>
                         <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab fx:id="tableTab" onSelectionChanged="#updateTreeTable" text="Table View">
+                            <Tab fx:id="tableTab" onSelectionChanged="#updateTreeTable" text="Lab Requests">
                               <content>
                                 <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -138,8 +138,7 @@
                                                    <children>
                                                       <TreeTableView id="table" fx:id="table" layoutX="15.0" layoutY="10.0" prefHeight="476.0" prefWidth="594.0">
                                                          <columns>
-                                                            <TreeTableColumn id="nodeID" fx:id="nodeIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Location ID" />
-                                                            <TreeTableColumn id="userID" fx:id="employeeIDCol" editable="false" maxWidth="250.0" prefWidth="57.555511474609375" text="User ID" />
+                                                            <TreeTableColumn id="userID" fx:id="employeeIDCol" editable="false" maxWidth="250.0" prefWidth="57.555511474609375" text="Employee ID" />
                                                             <TreeTableColumn id="patientID" fx:id="patientIDCol" editable="false" maxWidth="250.0" prefWidth="79.11102294921875" text="Patient ID" />
                                                             <TreeTableColumn editable="false" prefWidth="210.88897705078125" text="Patient Name">
                                                                <columns>
@@ -147,8 +146,10 @@
                                                                   <TreeTableColumn id="lastName" fx:id="lastNameCol" editable="false" prefWidth="91.3333740234375" text="Last" />
                                                                </columns>
                                                             </TreeTableColumn>
+                                                            <TreeTableColumn id="nodeID" fx:id="nodeIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Location ID" />
                                                             <TreeTableColumn id="eequestedLab" fx:id="requestedLabCol" editable="false" maxWidth="250.0" prefWidth="100.0" text="Requested Lab" />
                                                             <TreeTableColumn id="status" fx:id="statusCol" prefWidth="86.0" text="Status" />
+                                                            <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
                                                          </columns>
                                                       </TreeTableView>
                                                    </children>

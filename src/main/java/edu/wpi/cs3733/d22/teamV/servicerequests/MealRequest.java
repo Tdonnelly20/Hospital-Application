@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class MealRequest extends ServiceRequest {
-  private String mealName, nodeID, allergy, status, requestDetails;
+  private String mealName, nodeID, allergy, status;
   /**
    * @param patientID
    * @param employeeID
@@ -21,35 +21,28 @@ public class MealRequest extends ServiceRequest {
       int employeeID,
       String mealName,
       String allergy,
+      String requestDetails,
       String status,
-      String requestDetails) {
-    this.timeMade = Timestamp.from(Instant.now());
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.allergy = allergy;
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.nodeID = nodeID;
     this.location = RequestSystem.getSystem().getLocation(nodeID);
-    this.status = status;
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.mealName = mealName;
+    notes = "Meal: " + mealName + " Allergies: " + allergy;
     this.type = "Meal Delivery Request";
     this.dao = RequestSystem.Dao.MealRequest;
-  }
-
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
   }
 
   public String getMealName() {
@@ -61,15 +54,7 @@ public class MealRequest extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getNodeID() {
-    return nodeID;
+    return details;
   }
 
   public void setServiceID(int serviceID) {

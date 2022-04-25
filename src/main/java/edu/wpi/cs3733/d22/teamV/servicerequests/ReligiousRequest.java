@@ -8,7 +8,6 @@ import java.time.Instant;
 
 public class ReligiousRequest extends ServiceRequest {
   private String religion;
-  private String details;
   /**
    * @param employeeID
    * @param patientID
@@ -16,7 +15,20 @@ public class ReligiousRequest extends ServiceRequest {
    * @param specialRequests
    */
   public ReligiousRequest(
-      int patientID, int employeeID, String roomLocation, String religion, String specialRequests) {
+      int patientID,
+      int employeeID,
+      String roomLocation,
+      String religion,
+      String specialRequests,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.timeMade = Timestamp.from(Instant.now());
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
@@ -24,28 +36,10 @@ public class ReligiousRequest extends ServiceRequest {
     this.religion = religion;
     this.details = specialRequests;
     this.type = "Religious Request";
-    status = "Not Started";
+    notes = religion;
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
     this.dao = RequestSystem.Dao.ReligiousRequest;
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public String getRoomNumber() {
-    return location.getShortName();
-  }
-
-  public String getFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getLastName() {
-    return patient.getLastName();
   }
 
   public void setServiceID(int serviceID) {

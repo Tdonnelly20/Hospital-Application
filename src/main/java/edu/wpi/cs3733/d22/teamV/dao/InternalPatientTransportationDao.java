@@ -46,7 +46,13 @@ public class InternalPatientTransportationDao extends DaoInterface {
         data = line.split(splitToken);
         InternalPatientTransportation transportation =
             new InternalPatientTransportation(
-                data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3]);
+                data[0],
+                Integer.parseInt(data[1]),
+                Integer.parseInt(data[2]),
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
         transportation.setServiceID(Integer.parseInt(data[4]));
         addServiceRequest(transportation);
       }
@@ -74,7 +80,9 @@ public class InternalPatientTransportationDao extends DaoInterface {
           String.valueOf(internalPatientTransportation.getPatientID()),
           String.valueOf(internalPatientTransportation.getEmployeeID()),
           internalPatientTransportation.getRequestDetails(),
-          String.valueOf(internalPatientTransportation.getServiceID())
+          internalPatientTransportation.getStatus(),
+          String.valueOf(internalPatientTransportation.getServiceID()),
+          internalPatientTransportation.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -102,7 +110,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, employeeID int, requestDetails char(250), serviceID int)";
+            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, employeeID int, requestDetails char(250), status char(50),serviceID int,date_time timestamp)";
         exampleStatement.execute(query);
       } else {
         query = "DROP TABLE PATIENTTRANSPORTATION";
@@ -133,7 +141,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       query =
           "INSERT INTO PATIENTTRANSPORTATION("
-              + "location,patientID,employeeID,requestDetails,serviceID) VALUES "
+              + "location,patientID,employeeID,requestDetails,status,serviceID,date_time) VALUES "
               + "('"
               + internalPatientTransportation.getNodeID()
               + "', "
@@ -142,8 +150,12 @@ public class InternalPatientTransportationDao extends DaoInterface {
               + internalPatientTransportation.getEmployeeID()
               + ", '"
               + internalPatientTransportation.getRequestDetails()
+              + "', '"
+              + internalPatientTransportation.getStatus()
               + "', "
               + internalPatientTransportation.getServiceID()
+              + "','"
+              + internalPatientTransportation.getTimeMade()
               + ")";
 
       statement.execute(query);
