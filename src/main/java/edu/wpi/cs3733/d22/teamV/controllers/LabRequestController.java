@@ -96,6 +96,7 @@ public class LabRequestController extends RequestController {
     requestedLab.setValue("Select Lab");
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
+
     validateButton();
   }
 

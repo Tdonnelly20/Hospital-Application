@@ -215,6 +215,7 @@ public class SanitationRequestController extends RequestController {
     requestDetails.setText("");
     statusLabel.setText("");
     sendRequest.setDisable(true);
+    updating = false;
     validateButton();
   }
 
@@ -230,7 +231,7 @@ public class SanitationRequestController extends RequestController {
       patientID.setText(String.valueOf(request.getPatientID()));
       roomLocation.setText(request.getNodeID());
       sanitationDropDown.setValue(request.getHazardName());
-      requestDetails.setText(request.getRequestDetails());
+      requestDetails.setText(request.getDetails());
       updateServiceID = request.getServiceID();
       statusDropDown.setValue(request.getStatus());
       updateTreeTable();

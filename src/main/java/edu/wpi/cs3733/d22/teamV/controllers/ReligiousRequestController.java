@@ -145,6 +145,8 @@ public class ReligiousRequestController extends RequestController {
     religion.setText("");
     sendRequest.setDisable(true);
     statusDropDown.setValue(null);
+    details.setText("");
+    updating = false;
     validateButton();
   }
 
