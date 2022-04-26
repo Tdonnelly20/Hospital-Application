@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class ServiceRequestController extends Controller {
+public class ServiceRequestController extends RequestController {
 
   @FXML private Label labelM;
   @FXML private Label labelD;
@@ -13,6 +13,7 @@ public class ServiceRequestController extends Controller {
   @FXML private Label labelA;
   @FXML private Label labelJo;
   @FXML private Label labelJa;
+  @FXML private Label labelD2;
   private boolean visible = true;
 
   @Override
@@ -28,5 +29,27 @@ public class ServiceRequestController extends Controller {
     labelA.setVisible(visible);
     labelJo.setVisible(visible);
     labelJa.setVisible(visible);
+    labelD2.setVisible(visible);
+  }
+
+  @Override
+  public void init() {
+    setTitleText("Services");
+    fillTopPane();
+  }
+
+  @Override
+  void updateTreeTable() {
+
+  }
+
+  @Override
+  void resetForm() {
+
+  }
+
+  @Override
+  void validateButton() {
+
   }
 }
