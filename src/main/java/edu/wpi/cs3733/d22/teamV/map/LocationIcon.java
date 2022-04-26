@@ -56,6 +56,9 @@ public class LocationIcon extends Icon {
             RequestSystem.getSystem().updateLocations(this);
           }
         });
+    if (location.getNodeType().equalsIgnoreCase("node")) {
+      image.setOpacity(50);
+    }
   }
 
   /**
@@ -149,21 +152,25 @@ public class LocationIcon extends Icon {
   /** Sets the icon image depending on the amount of requests */
   @Override
   public void setImage() {
-    if (requestsArr.size() == 0) {
-      image.setImage(MapManager.getManager().getLocationMarker());
-    } else {
-      image.setImage(MapManager.getManager().getRequestMarker());
+    if (!location.getNodeType().equalsIgnoreCase("node")) {
+      if (requestsArr.size() == 0) {
+        image.setImage(MapManager.getManager().getLocationMarker());
+      } else {
+        image.setImage(MapManager.getManager().getRequestMarker());
+      }
     }
   }
 
   /** Adds a request to requestArr and updates the image */
   public void addToRequests(ServiceRequest request) {
-    requestsArr.add(request);
-    if (location.getRequests().contains(request)) {
-      location.getRequests().add(request);
+    if (!location.getNodeType().equalsIgnoreCase("node")) {
+      requestsArr.add(request);
+      if (location.getRequests().contains(request)) {
+        location.getRequests().add(request);
+      }
+      RequestSystem.getSystem().addServiceRequest(request);
+      setImage();
     }
-    RequestSystem.getSystem().addServiceRequest(request);
-    setImage();
   }
 
   /** Removes a request to requestArr and updates the image */

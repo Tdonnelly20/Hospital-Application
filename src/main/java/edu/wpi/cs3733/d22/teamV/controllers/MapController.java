@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.PathfindingDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -54,6 +55,7 @@ public class MapController extends Controller {
   private String floorName = "1";
   private String startLocationID = "";
   private String endLocationID = "";
+  private Button showConnections = new Button("Show all connections");
 
   @FXML
   private Label pathfinderInstructions =
@@ -113,6 +115,7 @@ public class MapController extends Controller {
           "Robot Requests",
           "Computer Requests");
 
+  int nodeCounter = 0;
   private static MapController controller;
 
   public static MapController getController() {
@@ -141,7 +144,17 @@ public class MapController extends Controller {
     pathfinderInstructions.setWrapText(true);
     filterCheckBox.setMaxWidth(controlsVBox.getWidth() / 3);
     scrollPane.setPrefSize(550, 550);
-    controlsVBox.getChildren().addAll(pathfinderInfo, filterCheckBox, refreshButton);
+    controlsVBox
+        .getChildren()
+        .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
+    showConnections.setOnAction(
+        event -> {
+          for (PathfindingDao.Edge edge : PathfindingDao.getEdges()) {
+            drawPath(
+                RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
+                RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
+          }
+        });
     mapVBox.getChildren().addAll(scrollPane);
     mapVBox.setAlignment(Pos.CENTER);
     mapVBox.setSpacing(15);
@@ -217,13 +230,30 @@ public class MapController extends Controller {
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            if (!event
-                .getTarget()
-                .getClass()
-                .getTypeName()
-                .equals("javafx.scene.image.ImageView")) {
-              PopupController.getController().iconWindow(event);
-              // IconForm(event);
+            if (event.isAltDown()) {
+              RequestSystem.getSystem()
+                  .addLocation(
+                      new Location(
+                          "node" + nodeCounter,
+                          event.getX(),
+                          event.getY(),
+                          floorName,
+                          "Tower",
+                          "node",
+                          "node",
+                          "node"));
+              MapManager.getManager().setUpFloors();
+              mapPane.getChildren().clear();
+              setFloor(floorName);
+            } else {
+              if (!event
+                  .getTarget()
+                  .getClass()
+                  .getTypeName()
+                  .equals("javafx.scene.image.ImageView")) {
+                PopupController.getController().iconWindow(event);
+                // IconForm(event);
+              }
             }
           }
         });

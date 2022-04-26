@@ -554,7 +554,9 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
-            RequestSystem.getSystem().getPathfinderDao().removePathNode(icon.getLocation().getNodeID());
+            RequestSystem.getSystem()
+                .getPathfinderDao()
+                .removePathNode(icon.getLocation().getNodeID());
             deleteIcon(icon.getLocation());
             closePopUp();
           } else {

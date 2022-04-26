@@ -69,7 +69,7 @@ public class PathfindingDao {
 
   @Getter
   @Setter
-  private class Edge {
+  public class Edge {
     private String name, nodeOne, nodeTwo;
 
     public Edge(String nodeOne, String nodeTwo) {
@@ -77,6 +77,10 @@ public class PathfindingDao {
       this.nodeOne = nodeOne;
       this.nodeTwo = nodeTwo;
       edges.add(this);
+    }
+
+    public ArrayList<Edge> getEdges() {
+      return edges;
     }
 
     // remove a selected edge from the list of edges (for removal)
