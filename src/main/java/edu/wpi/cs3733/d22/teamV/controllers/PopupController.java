@@ -5,6 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.Pathfinder;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
@@ -410,6 +411,7 @@ public class PopupController {
                     fields[1].getText(),
                     fields[3].getText(),
                     fields[2].getText()));
+            new Pathfinder.Node(fields[0].getText());
             closePopUp();
           }
         });
@@ -552,6 +554,9 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
+            RequestSystem.getSystem()
+                .getPathfinderDao()
+                .removePathNode(icon.getLocation().getNodeID());
             deleteIcon(icon.getLocation());
             closePopUp();
           } else {
@@ -559,6 +564,7 @@ public class PopupController {
               String nodeID = fields[0].getText();
               // Checks to make sure the location is valid
               if (RequestSystem.getSystem().getLocation(nodeID) != null) {
+                RequestSystem.getSystem().getPathfinderDao().removePathNode(nodeID);
                 deleteIcon(nodeID);
                 closePopUp();
               } else {
@@ -594,7 +600,8 @@ public class PopupController {
                 "Meal Delivery Request",
                 "Sanitation Request",
                 "Religious Request",
-                "Robot Request"));
+                "Robot Request",
+                "Computer Request"));
     comboBox1.setOnAction(event1 -> fitServiceRequest(comboBox1.getValue(), icon));
     content.getChildren().add(comboBox1);
   }
@@ -840,7 +847,6 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
-                System.out.println("HERE");
                 addRequest(
                     icon,
                     new RobotRequest(
@@ -848,6 +854,29 @@ public class PopupController {
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         fields[2].getText(),
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
+              }
+            });
+        break;
+      case "Computer Request":
+        fields[1].setPromptText("Patient ID");
+        fields[2].setPromptText("Type");
+        fields[3].setPromptText("Request Details");
+        insertFields();
+        submitIcon.setOnAction(
+            event1 -> {
+              if (checkFields()) {
+                addRequest(
+                    icon,
+                    new ComputerRequest(
+                        Integer.parseInt(fields[1].getText()),
+                        Integer.parseInt(fields[0].getText()),
+                        locationID,
+                        fields[2].getText(),
+                        fields[3].getText(),
                         comboBox3.getValue(),
                         -1,
                         Timestamp.from(Instant.now()).toString()));
@@ -952,7 +981,7 @@ public class PopupController {
     content.getChildren().clear();
     content.getChildren().addAll(icon.compileList());
   }
-  // TODO Rework modification and deletion forms
+
   /** Displays the equipment modification form */
   @FXML
   public void equipmentModifyForm(Equipment equipment) {

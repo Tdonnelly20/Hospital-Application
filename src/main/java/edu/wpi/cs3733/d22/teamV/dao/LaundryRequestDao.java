@@ -126,34 +126,19 @@ public class LaundryRequestDao extends DaoInterface {
 
   public void addToSQLTable(ServiceRequest request) {
     try {
-
-      LaundryRequest laundryRequest = (LaundryRequest) request;
-
-      String query = "";
       Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
-
-      query =
-          "INSERT INTO LAUNDRY("
-              + "employeeID,patientID,roomNumber,details,status,serviceID,date_time) VALUES "
-              + "("
-              + laundryRequest.getEmployee().getEmployeeID()
-              + ","
-              + laundryRequest.getPatient().getPatientID()
-              + ", '"
-              + laundryRequest.getLocation().getNodeID()
-              + "','"
-              + laundryRequest.getDetails()
-              + "','"
-              + laundryRequest.getStatus()
-              + "',"
-              + laundryRequest.getServiceID()
-              + "','"
-              + laundryRequest.getTimeMade()
-              + ")";
-
-      statement.execute(query);
+      LaundryRequest laundryRequest = (LaundryRequest) request;
+      String query = "INSERT INTO LAUNDRY VALUES (?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, laundryRequest.getEmployeeID());
+      statement.setInt(2, laundryRequest.getPatientID());
+      statement.setString(3, laundryRequest.getNodeID());
+      statement.setString(4, laundryRequest.getDetails());
+      statement.setString(5, laundryRequest.getStatus());
+      statement.setInt(6, laundryRequest.getServiceID());
+      statement.setTimestamp(7, laundryRequest.getTimeMade());
+      statement.executeUpdate();
+      statement.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }

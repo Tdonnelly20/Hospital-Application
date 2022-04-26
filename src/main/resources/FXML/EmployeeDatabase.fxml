@@ -101,7 +101,7 @@
                                              </font>
                                           </Label>
                                           <TextField fx:id="searchBar" layoutX="586.0" layoutY="15.0" maxWidth="435.0" prefHeight="40.0" prefWidth="435.0" promptText="Search by any column" />
-                                          <Button fx:id="removeButton" layoutX="9.0" layoutY="21.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
+                                          <Button fx:id="removeButton" layoutX="9.0" layoutY="21.0" mnemonicParsing="false" onAction="#openPopup" text="Remove" />
                                           <Button fx:id="updateButton" layoutX="130.0" layoutY="21.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
                                        </children>
                                     </AnchorPane>

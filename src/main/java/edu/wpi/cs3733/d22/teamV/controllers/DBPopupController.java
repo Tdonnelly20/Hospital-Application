@@ -14,9 +14,9 @@ public class DBPopupController extends Controller {
 
   @FXML Button yesButton = new Button("Yes");
   @FXML Button noButton = new Button("No");
-  @FXML VBox content = new VBox(25);
+  @FXML HBox content = new HBox(25);
   @FXML VBox sceneVbox = new VBox(25);
-  @FXML Scene scene = new Scene(sceneVbox, 400, 200);
+  @FXML Scene scene = new Scene(sceneVbox, 300, 150);
   @FXML Stage stage = new Stage();
   @FXML Label title = new Label();
   @FXML HBox titleBox = new HBox(25, title);
@@ -39,7 +39,7 @@ public class DBPopupController extends Controller {
   public void closePopUp() {
     if (stage.isShowing()) {
       stage.close();
-      content.getChildren().clear();
+      sceneVbox.getChildren().clear();
       // MapController.getController().checkDropDown();
     }
   }
@@ -59,61 +59,47 @@ public class DBPopupController extends Controller {
     stage.setAlwaysOnTop(true);
     title.setTextFill(Color.WHITE);
     title.setFont(new Font("System Bold", 28));
-    titleBox.setAlignment(Pos.CENTER);
+    titleBox.setAlignment(Pos.TOP_CENTER);
     titleBox.setStyle("-fx-background-color: #012D5Aff;");
 
     content.setAlignment(Pos.TOP_CENTER);
+    content.setStyle("-fx-background-color: #5f6c83;");
 
     sceneVbox.getChildren().addAll(titleBox, content);
     sceneVbox.setAlignment(Pos.TOP_CENTER);
+    sceneVbox.setStyle("-fx-background-color: #5f6c83;");
 
-    stage.setMaxHeight(200);
-    stage.setMaxWidth(400);
-    stage.setMinHeight(200);
-    stage.setMinWidth(400);
+    stage.setMaxHeight(150);
+    stage.setMaxWidth(300);
+    stage.setMinHeight(150);
+    stage.setMinWidth(300);
 
     yesButton.setMinWidth(100);
     noButton.setMinWidth(100);
+    content.getChildren().addAll(yesButton, noButton);
 
-    yesButton.setOnAction(event1 -> {});
-
-    noButton.setOnAction(
-        event1 -> {
-          closePopUp();
-          clear();
-        });
+    title.setText("Are you sure?");
+    stage.setTitle("Please choose an option");
   }
 
   /** Opens the general icon window and sets up actions */
   @FXML
   public void iconWindow() {
-    clear("Are you sure you want to delete?", "Please choose an option");
-    content.getChildren().addAll(yesButton, noButton);
     yesButton.setOnAction(
         event2 -> {
+          sceneVbox.getChildren().clear();
           content.getChildren().clear();
           closePopUp();
-          clear();
+          EmployeeController.getController().removeSelectedRow();
         });
     noButton.setOnAction(
         event2 -> {
+          sceneVbox.getChildren().clear();
           content.getChildren().clear();
+          // EmployeeController.getController().setIsSure();
           closePopUp();
-          clear();
         });
     showPopUp();
-  }
-
-  /** Clears the popup's contents */
-  private void clear() {
-    content.getChildren().clear();
-    titleBox.getChildren().clear();
-  }
-  /** Clears the popup's contents and sets up the stage name + header */
-  private void clear(String stageTitle, String headerTitle) {
-    clear();
-    title.setText(headerTitle);
-    stage.setTitle(stageTitle);
   }
 
   public void start(Stage stage) {}

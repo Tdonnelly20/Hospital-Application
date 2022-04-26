@@ -70,11 +70,22 @@ public class MapDashboardController extends Controller {
 
   private Parent root;
   FXMLLoader loader = new FXMLLoader();
+  FXMLLoader loader2 = new FXMLLoader();
 
   public void goHome(javafx.scene.input.MouseEvent event) throws IOException {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
+    loader2.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
+    try {
+      root = loader2.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    HomeController controller = loader2.getController();
+    controller.init();
+
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
@@ -461,13 +472,18 @@ public class MapDashboardController extends Controller {
       cleanPumps = e.getCleanPumps();
       dirtyPumps = e.getDirtyPumps();
       if ((cleanPumps < 5)) {
-        alerts.add(
-            "ALERT there are only "
-                + cleanPumps
-                + " clean pumps at location "
-                + e.getXCoord()
-                + ", "
-                + e.getYCoord());
+        if (cleanPumps == 0) {
+          alerts.add(
+              "ALERT there are no clean pumps at location " + e.getXCoord() + ", " + e.getYCoord());
+        } else {
+          alerts.add(
+              "ALERT there are only "
+                  + cleanPumps
+                  + " clean pumps at location "
+                  + e.getXCoord()
+                  + ", "
+                  + e.getYCoord());
+        }
       }
       if (dirtyPumps > 9) {
         alerts.add(

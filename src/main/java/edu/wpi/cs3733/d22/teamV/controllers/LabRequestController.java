@@ -31,6 +31,7 @@ public class LabRequestController extends RequestController {
   @FXML private TreeTableColumn<LabRequest, String> lastNameCol;
   @FXML private TreeTableColumn<LabRequest, String> requestedLabCol;
   @FXML private TreeTableColumn<LabRequest, String> statusCol;
+  @FXML private TreeTableColumn<LabRequest, String> timeStampCol;
   @FXML private Pane tablePlane;
 
   private static final LabRequestDao labRequestDao =
@@ -163,7 +164,7 @@ public class LabRequestController extends RequestController {
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
     requestedLabCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lab"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     // Get the current list of lab requests from the DAO
     ArrayList<LabRequest> currLabRequests =
         (ArrayList<LabRequest>) labRequestDao.getAllServiceRequests();

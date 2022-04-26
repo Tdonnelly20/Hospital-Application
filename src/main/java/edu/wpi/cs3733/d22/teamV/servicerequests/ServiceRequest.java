@@ -32,6 +32,14 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   public Image image;
   private String nodeID;
 
+  public String getTimeString() {
+    return timeMade.toString().substring(0, timeMade.toString().indexOf(".") - 3);
+  }
+
+  public String getFloorName() {
+    return floor.getFloorName();
+  }
+
   public String getPatientFirstName() {
     return patient.getFirstName();
   }
@@ -92,6 +100,8 @@ public abstract class ServiceRequest extends DirectionalAssoc {
           + getLocation().getXCoord()
           + "    Y: "
           + getLocation().getYCoord()
+          + "\nDate Submitted: "
+          + timeMade
           + "\nEmployee: "
           + employee.getLastName()
           + ", "
@@ -111,6 +121,8 @@ public abstract class ServiceRequest extends DirectionalAssoc {
         + getLocation().getXCoord()
         + "    Y: "
         + getLocation().getYCoord()
+        + "\nDate Submitted: "
+        + timeMade
         + "\nEmployee: "
         + employee.getLastName()
         + ", "

@@ -13,13 +13,18 @@ import java.util.stream.IntStream;
 
 public class EmployeeDao {
   private static ArrayList<Employee> allEmployees;
-
+  private static final Employee nullEmployee = new Employee();
+  /** Create Employee Dao constructor */
   public EmployeeDao() {
+    nullEmployee.setEmployeeID(-1);
+    nullEmployee.setFirstName("Not");
+    nullEmployee.setLastName("Found");
     allEmployees = new ArrayList<>();
     createSQLTable();
     loadFromCSV();
   }
 
+  /** Load the employees from the CSV file, call them to add to SQL */
   public void loadFromCSV() {
     try {
 
@@ -81,6 +86,7 @@ public class EmployeeDao {
     }
   }
 
+  /** Save all instances in the arraylist to the CSV */
   public void saveToCSV() {
     try {
 
@@ -128,6 +134,12 @@ public class EmployeeDao {
     }
   }
 
+  /**
+   * Get an employee object from an ID number
+   *
+   * @param employeeID
+   * @return
+   */
   public Employee getEmployee(int employeeID) {
     for (Employee e : allEmployees) {
       if (e.getEmployeeID() == employeeID) {
@@ -135,15 +147,25 @@ public class EmployeeDao {
       }
     }
     System.out.print("Unable to find employee with ID:" + employeeID);
-    return new Employee(-1);
+    return nullEmployee; // Return the null employee
   }
 
+  /**
+   * Add a new employee to the database
+   *
+   * @param employee
+   */
   public void addEmployee(Employee employee) {
     allEmployees.add(employee);
     addToSQLTable(employee);
     saveToCSV();
   }
 
+  /**
+   * Remove a selected employee based on ID
+   *
+   * @param employee
+   */
   public void removeEmployee(Employee employee) {
     replaceEmployee(employee);
     for (ServiceRequest request : employee.getServiceRequestList()) {
@@ -151,16 +173,27 @@ public class EmployeeDao {
     }
   }
 
+  /**
+   * A helper method for updating employees in the Employee database
+   *
+   * @param employee
+   */
   public void replaceEmployee(Employee employee) {
     allEmployees.removeIf(currEmployee -> employee.getEmployeeID() == currEmployee.getEmployeeID());
     removeFromSQLTable(employee);
     saveToCSV();
   }
 
+  /**
+   * Get the list of all employees
+   *
+   * @return all employees
+   */
   public ArrayList<Employee> getAllEmployees() {
     return allEmployees;
   }
 
+  /** Create the SQL table for the employees */
   public void createSQLTable() {
     try {
 
@@ -187,6 +220,11 @@ public class EmployeeDao {
     }
   }
 
+  /**
+   * Add an employee to the SQL table
+   *
+   * @param employee
+   */
   public void addToSQLTable(Employee employee) {
     try {
 
@@ -229,6 +267,11 @@ public class EmployeeDao {
     }
   }
 
+  /**
+   * Remove an employee from the SQL table
+   *
+   * @param employee
+   */
   public void removeFromSQLTable(Employee employee) {
     try {
 
@@ -243,6 +286,12 @@ public class EmployeeDao {
     }
   }
 
+  /**
+   * Update an employee with a specific ID and replace it with another
+   *
+   * @param employee the replacement
+   * @param employeeID the ID to replace
+   */
   public void updateEmployee(Employee employee, int employeeID) {
     Employee oldEmployee = getEmployee(employeeID);
     replaceEmployee(oldEmployee);

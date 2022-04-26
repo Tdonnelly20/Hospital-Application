@@ -29,6 +29,7 @@ public class RequestSystem {
   private ReligiousRequestDao religiousRequestDao;
   private RobotDao robotDao;
   private SanitationRequestDao sanitationRequestDao;
+  private ComputerRequestDao computerRequestDao;
   private PathfindingDao pathfindingDao;
 
   public RequestSystem() {}
@@ -49,6 +50,8 @@ public class RequestSystem {
     robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
     pathfindingDao = new PathfindingDao();
+    computerRequestDao = new ComputerRequestDao();
+    pathfindingDao = new PathfindingDao();
 
     triDirectionalityInit();
   }
@@ -59,6 +62,7 @@ public class RequestSystem {
     return equipmentDao;
   }
 
+  /** If two locations are linked, return a list of locations between and including them. */
   public LinkedList<Location> getPaths(String startLocation, String endLocation) {
     LinkedList<Location> locations = new LinkedList<>();
     Queue<Pathfinder.Node> nodes =
@@ -71,10 +75,12 @@ public class RequestSystem {
     return locations;
   }
 
+  /** Makes a link between the start and end locations */
   public void makePaths(String start, String end) {
     pathfindingDao.addPathNode(start, end);
   }
 
+  /** Returns the PathfinderDao */
   public PathfindingDao getPathfinderDao() {
     return pathfindingDao;
   }
@@ -93,7 +99,8 @@ public class RequestSystem {
     MedicineDelivery,
     ReligiousRequest,
     RobotRequest,
-    SanitationRequest
+    SanitationRequest,
+    ComputerRequest
   }
 
   private static class SingletonMaker {
@@ -124,6 +131,8 @@ public class RequestSystem {
         return robotDao;
       case SanitationRequest:
         return sanitationRequestDao;
+      case ComputerRequest:
+        return computerRequestDao;
       default:
         return null;
     }
@@ -164,6 +173,9 @@ public class RequestSystem {
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
         break;
+      case ComputerRequest:
+        computerRequestDao.addServiceRequest(request);
+        break;
 
       default:
         System.out.println("addServiceRequest error");
@@ -202,6 +214,9 @@ public class RequestSystem {
           break;
         case "Sanitation Request":
           sanitationRequestDao.addServiceRequest(request);
+          break;
+        case "Computer Request":
+          computerRequestDao.addServiceRequest(request);
           break;
         case "Robot Request":
           robotDao.addServiceRequest(request);
@@ -252,6 +267,9 @@ public class RequestSystem {
       case SanitationRequest:
         sanitationRequestDao.removeServiceRequest(request);
         break;
+      case ComputerRequest:
+        computerRequestDao.removeServiceRequest(request);
+        break;
       default:
         System.out.println("RemoveServiceRequest error");
     }
@@ -290,6 +308,9 @@ public class RequestSystem {
       case "Sanitation Request":
         sanitationRequestDao.removeServiceRequest(request);
         break;
+      case "Computer Request":
+        computerRequestDao.removeServiceRequest(request);
+        break;
       case "Robot Request":
         robotDao.removeServiceRequest(request);
         break;
@@ -324,6 +345,8 @@ public class RequestSystem {
         return robotDao.getAllServiceRequests();
       case SanitationRequest:
         return sanitationRequestDao.getAllServiceRequests();
+      case ComputerRequest:
+        return computerRequestDao.getAllServiceRequests();
       default:
         return new ArrayList<>();
     }
@@ -460,7 +483,8 @@ public class RequestSystem {
     allRequests.addAll(religiousRequestDao.getAllServiceRequests());
     allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
     allRequests.addAll(robotDao.getAllServiceRequests());
-    // TODO Add Dylan's service request
+    allRequests.addAll(computerRequestDao.getAllServiceRequests());
+
     return allRequests;
   }
 
@@ -490,6 +514,8 @@ public class RequestSystem {
         robotDao.setAllServiceRequests(serviceRequests);
       case SanitationRequest:
         sanitationRequestDao.setAllServiceRequests(serviceRequests);
+      case ComputerRequest:
+        computerRequestDao.setAllServiceRequests(serviceRequests);
       default:
         System.out.println("SetAllServiceRequests error");
     }

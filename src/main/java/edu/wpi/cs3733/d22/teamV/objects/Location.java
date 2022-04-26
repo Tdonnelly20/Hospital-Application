@@ -27,7 +27,7 @@ public class Location {
     yCoord = 0;
     floor = null;
     building = null;
-    nodeType = null;
+    nodeType = "";
     longName = null;
     shortName = null;
     icon = new LocationIcon(this);
@@ -40,7 +40,7 @@ public class Location {
     this.yCoord = Math.round(yCoord * 100.0) / 100.0;
     this.floor = floor;
     building = null;
-    nodeType = null;
+    nodeType = "";
     longName = null;
     shortName = null;
     icon = new LocationIcon(this);
@@ -74,7 +74,7 @@ public class Location {
     yCoord = 0;
     floor = null;
     building = null;
-    nodeType = null;
+    nodeType = "";
     longName = null;
     shortName = null;
     icon = new LocationIcon(this);
@@ -83,17 +83,6 @@ public class Location {
 
   public String getNodeID() {
     return nodeID;
-  }
-
-  public boolean compareTo(Location location) {
-    return ((this.getNodeID().equals(location.getNodeID()))
-        && (this.getXCoord() == (location.getXCoord()))
-        && (this.getYCoord() == (location.getYCoord()))
-        && (this.getFloor().equals(location.getFloor()))
-        && (this.getBuilding().equals(location.getBuilding()))
-        && (this.getNodeType().equals(location.getNodeType()))
-        && (this.getLongName().equals(location.getLongName()))
-        && (this.getShortName().equals(location.getShortName())));
   }
 
   public String toString() {

@@ -49,6 +49,7 @@ public class EquipmentRequestController extends RequestController {
   @FXML private TreeTableColumn<EquipmentDelivery, Integer> quantCol;
   @FXML private TreeTableColumn<EquipmentDelivery, String> notesCol;
   @FXML private TreeTableColumn<Equipment, Boolean> statusCol;
+  @FXML private TreeTableColumn<EquipmentDelivery, String> timeStampCol;
   @FXML private Pane tablePlane;
 
   // This is the table and columns for the equipment table
@@ -99,6 +100,7 @@ public class EquipmentRequestController extends RequestController {
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = tablePlane.getWidth();
                 equipmentRequestTable.setPrefWidth(w - 30);
+
                 setColumnSizes(w);
               }
             });
@@ -111,7 +113,7 @@ public class EquipmentRequestController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double h = tablePlane.getHeight();
-                equipmentRequestTable.setPrefHeight(h - 75);
+                equipmentRequestTable.setPrefHeight(h - 85);
               }
             });
 
@@ -154,7 +156,7 @@ public class EquipmentRequestController extends RequestController {
     quantCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("quantity"));
     notesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("notes"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
         (ArrayList<EquipmentDelivery>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.EquipmentDelivery);
@@ -185,7 +187,7 @@ public class EquipmentRequestController extends RequestController {
     buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
     nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
     shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("isDirtyString"));
-
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();
     ArrayList<TreeItem<Equipment>> treeItems = new ArrayList<>();
 

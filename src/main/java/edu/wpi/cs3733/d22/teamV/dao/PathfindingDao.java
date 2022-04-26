@@ -69,7 +69,7 @@ public class PathfindingDao {
 
   @Getter
   @Setter
-  private class Edge {
+  public class Edge {
     private String name, nodeOne, nodeTwo;
 
     public Edge(String nodeOne, String nodeTwo) {
@@ -77,6 +77,10 @@ public class PathfindingDao {
       this.nodeOne = nodeOne;
       this.nodeTwo = nodeTwo;
       edges.add(this);
+    }
+
+    public ArrayList<Edge> getEdges() {
+      return edges;
     }
 
     // remove a selected edge from the list of edges (for removal)
@@ -87,6 +91,12 @@ public class PathfindingDao {
     // check if an edge contains a node
     public boolean containsNode(String nodeName) {
       return nodeOne.equalsIgnoreCase(nodeName) || nodeTwo.equalsIgnoreCase(nodeName);
+    }
+
+    public boolean equals(String name1, String name2) {
+      String fullName = name1 + "_" + name2;
+      String reverseName = name2 + "_" + name1;
+      return name.equalsIgnoreCase(fullName) || name.equalsIgnoreCase(reverseName);
     }
   }
 
@@ -150,7 +160,7 @@ public class PathfindingDao {
         startNode.addLink(new Pathfinder.Link(endNode, distance));
         endNode.addLink(new Pathfinder.Link(startNode, distance));
       } else {
-        // Could not find node locations!
+        System.out.println("Couldn't find node locations");
       }
     }
   }
@@ -181,15 +191,27 @@ public class PathfindingDao {
     }
   }
 
-  public void removePathNode(Location location) {
+  public void removePathNode(String nodeID) {
     // Get the node in Pathfinder and remove it if it exists
-    Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(location.getNodeID());
+    Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(nodeID);
     if (nodeToRemove != null) {
       Pathfinder.removeNode(nodeToRemove);
     }
     // Remove all edges if it contains the name
-    edges.removeIf(edge -> edge.containsNode(location.getNodeID()));
+    edges.removeIf(edge -> edge.containsNode(nodeID));
     // Save the changes to the CSV
     saveToCSV();
+  }
+
+  public void removeLink(String nodeID1, String nodeID2) {
+    Pathfinder.Node node1 = Pathfinder.getNodeFromName(nodeID1);
+    Pathfinder.Node node2 = Pathfinder.getNodeFromName(nodeID2);
+
+    if (node1 != null && node2 != null) {
+      node1.getLinks().removeIf(link -> link.containsNode(node2));
+      node2.getLinks().removeIf(link -> link.containsNode(node1));
+      edges.removeIf(edge -> edge.equals(node1.getName(), node2.getName()));
+      saveToCSV();
+    }
   }
 }
