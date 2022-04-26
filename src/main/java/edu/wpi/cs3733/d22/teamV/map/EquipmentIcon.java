@@ -29,8 +29,8 @@ public class EquipmentIcon extends Icon {
   private double yCoord;
   private int cleanPumps = 0;
   private int dirtyPumps = 0;
-  private int cleanBeds = 0;
   private int dirtyBeds = 0;
+  private int cleanBeds = 0;
 
   /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
@@ -210,42 +210,39 @@ public class EquipmentIcon extends Icon {
       }
     }
   }
+  /*
+    public void alertSixBeds() {
 
-  public void alertSixBeds() {
+      int alertCounter = 0;
+      boolean alert = false;
 
-    int alertCounter = 0;
-    boolean alert = false;
+      ArrayList<Equipment> equip = new ArrayList<Equipment>();
+      equip = this.getEquipmentList();
+      ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
 
-    ArrayList<Equipment> equip = new ArrayList<Equipment>();
-    equip = this.getEquipmentList();
-    ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
-
-    for (int i = 0; equip.size() > i; i++) {
-      if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
-        dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
-        alertCounter = +1;
+      for (int i = 0; equip.size() > i; i++) {
+        if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
+          dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
+          alertCounter = +1;
+        }
       }
-    }
-    if (alertCounter > 5) {
-      alert = true;
-    }
+      if (alertCounter > 5) {
+        alert = true;
+      }
 
-    MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+      MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
+    }
+  */
+  public void pumpAlert() {
+    int dirty = 0;
+    for (Equipment equipment : equipmentList) {
+      equipment.updateLocation(getXCoord(), getYCoord());
+    }
   }
 
   // checks if isAdding is true, if so finds beds that are dirty in the same place.
   // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
   // else, dirtyBeds decreases by 1.
-  //      int employeeID,
-  //      int patientID,
-  //      String patientFirstName,
-  //      String patientLastName,
-  //      String nodeID,
-  //      String equipment,
-  //      String notes,
-  //      int quantity,
-  //      String status,
-  //      int serviceID,      String date) {
   public void alertSixBeds(Equipment e, boolean isAdding) {
     if (isAdding) {
       if (e.getIsDirty() && e.getName() == "Bed") {
@@ -257,32 +254,16 @@ public class EquipmentIcon extends Icon {
                 -1,
                 -1,
                 "OR",
-                "LN",
                 e.getID(),
-                e.getID().toString(),
-                "Notes",
+                e.getID(),
                 1,
                 "Not Started",
                 RequestSystem.getServiceID(),
                 Timestamp.from(Instant.now()).toString());
-
-        RequestSystem.getSystem().addServiceRequest(request);
+        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
       }
     } else {
       dirtyBeds--;
     }
-  }
-
-  public int[] pumpAlert() {
-    int clean = 0;
-    int dirty = 0;
-    for (Equipment equipment : equipmentList) {
-      // System.out.println(equipment.getName());
-      if (equipment.getName().equals("Infusion Pump")) {
-        if (equipment.getIsDirty()) dirty++;
-        else clean++;
-      }
-    }
-    return new int[] {clean, dirty};
   }
 }

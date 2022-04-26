@@ -14,9 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
@@ -54,9 +52,27 @@ public class MapController extends Controller {
   @FXML JFXComboBox[] comboBoxes = new JFXComboBox[5];
   @FXML Button submitButton = new Button("Submit");
   private String floorName = "1";
-
   private String startLocationID = "";
   private String endLocationID = "";
+
+  @FXML
+  private Label pathfinderInstructions =
+      new Label(
+          "Hold down shift and double-click 2 icons to show a path between them.\n\nTo create a path, hold down alt and double-click the 2 icons you want to connect.");
+
+  @FXML private Label startLocationLabel = new Label("Starting Location: " + startLocationID);
+  @FXML private Label endLocationLabel = new Label("End Location: " + endLocationID);
+
+  @FXML
+  private VBox pathfinderVBox =
+      new VBox(15, pathfinderInstructions, startLocationLabel, endLocationLabel);
+
+  @FXML
+  private Label missingPath =
+      new Label(
+          "Sorry, a path between those locations does not exist. Would you like to create one?");
+
+  @FXML TitledPane pathfinderInfo = new TitledPane("Pathfinder", pathfinderVBox);
 
   ObservableList<String> requestTypes =
       FXCollections.observableArrayList(
@@ -68,7 +84,8 @@ public class MapController extends Controller {
           "Religious Request",
           "Sanitation Request",
           "Internal Patient Transport Request",
-          "Robot Request");
+          "Robot Request",
+          "Computer Request");
 
   @FXML
   ObservableList<String> filterItems =
@@ -93,7 +110,8 @@ public class MapController extends Controller {
           "Religious Requests",
           "Sanitation Requests",
           "Internal Patient Transport Requests",
-          "Robot Request");
+          "Robot Requests",
+          "Computer Requests");
 
   private static MapController controller;
 
@@ -118,9 +136,12 @@ public class MapController extends Controller {
   protected void mapSetUp() {
     setUpControls();
     zoom();
+    pathfinderInfo.setExpanded(false);
+    missingPath.setWrapText(true);
+    pathfinderInstructions.setWrapText(true);
     filterCheckBox.setMaxWidth(controlsVBox.getWidth() / 3);
     scrollPane.setPrefSize(550, 550);
-    controlsVBox.getChildren().addAll(filterCheckBox, refreshButton);
+    controlsVBox.getChildren().addAll(pathfinderInfo, filterCheckBox, refreshButton);
     mapVBox.getChildren().addAll(scrollPane);
     mapVBox.setAlignment(Pos.CENTER);
     mapVBox.setSpacing(15);
@@ -174,10 +195,7 @@ public class MapController extends Controller {
     floor5.setOnAction(event -> setFloor("5"));
     refreshButton.setOnAction(
         event -> {
-          System.out.println("Refresh");
-          setFloor(floorName);
-          startLocationID = null;
-          endLocationID = null;
+          refreshMap();
         });
     for (int i = 0; i < 10; i++) {
       fields[i] = new TextField();
@@ -209,6 +227,26 @@ public class MapController extends Controller {
             }
           }
         });
+  }
+
+  /** Reloads Map */
+  @FXML
+  private void refreshMap() {
+    setFloor(floorName);
+    resetPathFinder();
+    controlsVBox.getChildren().retainAll(pathfinderInfo, filterCheckBox, refreshButton);
+  }
+
+  /** Reset Pathfinder */
+  @FXML
+  private void resetPathFinder() {
+    startLocationID = "";
+    endLocationID = "";
+    pathfinderVBox
+        .getChildren()
+        .retainAll(pathfinderInstructions, startLocationLabel, endLocationLabel);
+    startLocationLabel.setText("Start Location: ");
+    endLocationLabel.setText("End Location: ");
   }
 
   /** Filters out icons based on filterCheckBox */
@@ -302,7 +340,9 @@ public class MapController extends Controller {
         || filter.contains("Medicine Delivery Requests")
         || filter.contains("Religious Requests")
         || filter.contains("Sanitation Requests")
-        || filter.contains("Internal Patient Transport Requests")) {
+        || filter.contains("Internal Patient Transport Requests")
+        || filter.contains("Robot Requests")
+        || filter.contains("Computer Requests")) {
       if (!filter.contains("Service Requests")) {
         filterCheckBox.getCheckModel().check("Service Requests");
       }
@@ -404,28 +444,24 @@ public class MapController extends Controller {
 
   /** Draws a path between icons you click on */
   public void drawPath() {
-    Button addLink = new Button("Add path");
-    controlsVBox.getChildren().remove(addLink);
+    System.out.println(startLocationID);
+    System.out.println(endLocationID);
     if (!startLocationID.isEmpty() && !endLocationID.isEmpty()) {
       System.out.println("Start: " + startLocationID);
-      System.out.println("Start: " + endLocationID);
+      System.out.println("End: " + endLocationID);
       LinkedList<Location> locations =
           RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
-      if (locations.size() == 1) {
-        controlsVBox.getChildren().add(0, addLink);
-        addLink.setOnAction(
-            event -> {
-              System.out.println("Adding Link");
-              RequestSystem.getSystem()
-                  .getPathfinderDao()
-                  .addPathNode(startLocationID, endLocationID);
-              drawPath(
-                  RequestSystem.getSystem().getLocation(startLocationID).getIcon(),
-                  RequestSystem.getSystem().getLocation(endLocationID).getIcon());
-            });
-      } else {
-        for (int i = 1; i < locations.size(); i++) {
-          drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
+      if (locations.size() > 1) {
+        Location currLocation = null;
+        Location prevLoc = null;
+        for (Location location : locations) {
+          Location temp = currLocation;
+          currLocation = location;
+          prevLoc = temp;
+          System.out.println(location.getNodeID());
+          if (currLocation != null && prevLoc != null) {
+            drawPath(currLocation.getIcon(), prevLoc.getIcon());
+          }
         }
       }
     }
@@ -437,8 +473,28 @@ public class MapController extends Controller {
   public void makePath() {
     if (!startLocationID.equals("") && !endLocationID.equals("")) {
       RequestSystem.getSystem().makePaths(startLocationID, endLocationID);
+      drawPath();
       startLocationID = "";
       endLocationID = "";
     }
+  }
+
+  /** Adds items to pathfinderVBox if no path is found */
+  @FXML
+  public void noPathFound() {
+    Button yesPath = new Button("Yes");
+    Button noPath = new Button("No");
+    yesPath.setOnAction(
+        event -> {
+          makePath();
+          resetPathFinder();
+        });
+    noPath.setOnAction(
+        event -> {
+          resetPathFinder();
+        });
+    HBox hbox = new HBox(yesPath, noPath);
+    hbox.setAlignment(Pos.CENTER);
+    pathfinderVBox.getChildren().addAll(missingPath, hbox);
   }
 }

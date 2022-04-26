@@ -86,7 +86,7 @@ public class PathfindingDao {
 
     // check if an edge contains a node
     public boolean containsNode(String nodeName) {
-      return nodeOne.equals(nodeName) || nodeTwo.equals(nodeName);
+      return nodeOne.equalsIgnoreCase(nodeName) || nodeTwo.equalsIgnoreCase(nodeName);
     }
   }
 
@@ -98,59 +98,60 @@ public class PathfindingDao {
    * @param nodeTwo a location ID
    */
   public void addPathNode(String nodeOne, String nodeTwo) {
-
-    // Scan for duplicates
-    String edgeName = nodeOne + "_" + nodeTwo;
-    for (Edge edge : getEdges()) {
-      if (edge.getName().equals(edgeName)) {
-        System.out.println("Already contains this edge! " + edgeName);
-        return;
+    if ((!nodeOne.isEmpty()) && (!nodeTwo.isEmpty())) {
+      // Scan for duplicates
+      String edgeName = nodeOne + "_" + nodeTwo;
+      for (Edge edge : getEdges()) {
+        if (edge.getName().equalsIgnoreCase(edgeName)) {
+          System.out.println("Already contains this edge! " + edgeName);
+          return;
+        }
       }
-    }
-    // Create and store the edge
-    Edge edge = new Edge(nodeOne, nodeTwo);
+      // Create and store the edge
+      Edge edge = new Edge(nodeOne, nodeTwo);
 
-    if (!loading) {
-      saveToCSV();
-    }
-
-    // Find the locations
-    Location startLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeOne);
-    Location endLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeTwo);
-
-    if (!(startLocation == null || endLocation == null)) {
-      // Create start and end nodes, where nodeOne is the start and nodeTwo is the end
-      Pathfinder.Node startNode;
-      Pathfinder.Node endNode;
-
-      // Check and see if we already made these nodes before
-      startNode = Pathfinder.getNodeFromName(nodeOne);
-      endNode = Pathfinder.getNodeFromName(nodeTwo);
-
-      // System.out.println(nodeOne + " " + nodeTwo);
-
-      if (startNode == null) {
-        startNode = new Pathfinder.Node(nodeOne);
-        Pathfinder.addNode(startNode);
+      if (!loading) {
+        saveToCSV();
       }
-      if (endNode == null) {
-        endNode = new Pathfinder.Node(nodeTwo);
-        Pathfinder.addNode(endNode);
+
+      // Find the locations
+      Location startLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeOne);
+      Location endLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeTwo);
+
+      if (!(startLocation == null || endLocation == null)) {
+        // Create start and end nodes, where nodeOne is the start and nodeTwo is the end
+        Pathfinder.Node startNode;
+        Pathfinder.Node endNode;
+
+        // Check and see if we already made these nodes before
+        startNode = Pathfinder.getNodeFromName(nodeOne);
+        endNode = Pathfinder.getNodeFromName(nodeTwo);
+
+        // System.out.println(nodeOne + " " + nodeTwo);
+
+        if (startNode == null) {
+          startNode = new Pathfinder.Node(nodeOne);
+          Pathfinder.addNode(startNode);
+        }
+        if (endNode == null) {
+          endNode = new Pathfinder.Node(nodeTwo);
+          Pathfinder.addNode(endNode);
+        }
+        // Get the X and Y coordinates
+        double x1 = startLocation.getXCoord();
+        double x2 = endLocation.getXCoord();
+        double y1 = startLocation.getYCoord();
+        double y2 = startLocation.getYCoord();
+
+        // Distance formula
+        double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+
+        // Add a link between the two of them so they can pathfind to each other
+        startNode.addLink(new Pathfinder.Link(endNode, distance));
+        endNode.addLink(new Pathfinder.Link(startNode, distance));
+      } else {
+        System.out.println("Couldn't find node locations");
       }
-      // Get the X and Y coordinates
-      double x1 = startLocation.getXCoord();
-      double x2 = endLocation.getXCoord();
-      double y1 = startLocation.getYCoord();
-      double y2 = startLocation.getYCoord();
-
-      // Distance formula
-      double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-
-      // Add a link between the two of them so they can pathfind to each other
-      startNode.addLink(new Pathfinder.Link(endNode, distance));
-      endNode.addLink(new Pathfinder.Link(startNode, distance));
-    } else {
-      // Could not find node locations!
     }
   }
 

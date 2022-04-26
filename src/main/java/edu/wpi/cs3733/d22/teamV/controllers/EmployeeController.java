@@ -10,6 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -22,6 +23,7 @@ public class EmployeeController extends RequestController {
   private static final EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
   private int updateID;
+  private boolean isSure = true;
 
   public EmployeeController() {}
 
@@ -379,7 +381,15 @@ public class EmployeeController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow() throws NullPointerException {
+  private void openPopup(ActionEvent event) {
+    DBPopupController.getController().init();
+    DBPopupController.getController().iconWindow();
+    // removeSelectedRow();
+  }
+
+  @FXML
+  public void removeSelectedRow() throws NullPointerException {
+
     try {
       Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
       employeeDao.removeEmployee(employee);
