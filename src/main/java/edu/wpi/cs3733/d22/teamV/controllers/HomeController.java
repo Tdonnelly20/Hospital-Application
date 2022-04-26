@@ -63,7 +63,6 @@ public class HomeController extends RequestController {
                 }
 
                 homeGroup.setLayoutX(w / 2 - 603);
-                homeGroup.setLayoutY(h / 2 - 293);
               }
             });
 
@@ -87,7 +86,6 @@ public class HomeController extends RequestController {
                   homeImage.setFitHeight(h);
                 }
 
-                homeGroup.setLayoutX(w / 2 - 603);
                 homeGroup.setLayoutY(h / 2 - 293);
               }
             });
