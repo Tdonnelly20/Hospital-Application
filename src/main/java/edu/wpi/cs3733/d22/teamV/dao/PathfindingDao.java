@@ -150,7 +150,7 @@ public class PathfindingDao {
         startNode.addLink(new Pathfinder.Link(endNode, distance));
         endNode.addLink(new Pathfinder.Link(startNode, distance));
       } else {
-        // Could not find node locations!
+        System.out.println("Couldn't find node locations");
       }
     }
   }

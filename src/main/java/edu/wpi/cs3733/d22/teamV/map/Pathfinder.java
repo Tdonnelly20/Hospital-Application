@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -159,15 +160,15 @@ public class Pathfinder {
         while (!unsettledNodes.isEmpty()) {
           Node currentNode = getLowestNode(unsettledNodes);
           unsettledNodes.remove(currentNode);
-    
+
           double currentNodeWeight = currentNode.getWeight();
           for (Link link : currentNode.getLinks()) {
             Node destinationNode = link.getNode();
             double distance = link.getDistance();
             double destinationNodeWeight = destinationNode.getWeight();
-      
+
             double distanceFromCurrentNode = currentNodeWeight + distance;
-      
+
             if (distanceFromCurrentNode < destinationNodeWeight) {
               destinationNode.setWeight(distanceFromCurrentNode);
               destinationNode.setPrevious(currentNode);
@@ -175,14 +176,15 @@ public class Pathfinder {
             }
           }
         }
-  
+
         // Create the queue that will return the shortest path
         Queue<Node> path = new LinkedList<>();
-  
+
         // return the shortest path from the end node
         return getPath(path, endNode);
-      }catch (NullPointerException exception){
+      } catch (NullPointerException exception) {
         System.out.println("Big oof, that link doesn't exist");
+        MapController.getController().noPathFound();
       }
     }
     return null;

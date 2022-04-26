@@ -62,7 +62,7 @@ public class RequestSystem {
     return equipmentDao;
   }
 
-  /**If two locations are linked, return a list of locations between and including them.*/
+  /** If two locations are linked, return a list of locations between and including them. */
   public LinkedList<Location> getPaths(String startLocation, String endLocation) {
     LinkedList<Location> locations = new LinkedList<>();
     Queue<Pathfinder.Node> nodes =
@@ -75,12 +75,12 @@ public class RequestSystem {
     return locations;
   }
 
-  /**Makes a link between the start and end locations*/
+  /** Makes a link between the start and end locations */
   public void makePaths(String start, String end) {
     pathfindingDao.addPathNode(start, end);
   }
 
-  /**Returns the PathfinderDao*/
+  /** Returns the PathfinderDao */
   public PathfindingDao getPathfinderDao() {
     return pathfindingDao;
   }
