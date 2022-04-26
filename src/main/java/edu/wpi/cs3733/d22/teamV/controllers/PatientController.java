@@ -8,6 +8,7 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -356,8 +357,15 @@ public class PatientController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow() {
+  private void openPopup(ActionEvent event) {
+    DBPopupController.getController().init();
     DBPopupController.getController().iconWindow();
+    // removeSelectedRow();
+  }
+
+  @FXML
+  public void removeSelectedRow() {
+
     try {
 
       Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
