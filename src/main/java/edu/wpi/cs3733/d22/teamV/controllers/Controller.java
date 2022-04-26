@@ -59,19 +59,7 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToHome(Event event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
-    try {
-      root = loader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    HomeController controller = loader.getController();
-    controller.init();
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   // Switches scene to the map
