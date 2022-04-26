@@ -15,6 +15,10 @@ public class ServiceRequestController extends RequestController {
   @FXML private Label labelJa;
   @FXML private Label labelD2;
   private boolean visible = true;
+  private boolean visible2 = false;
+
+  @FXML private Label l1;
+  @FXML private Label l2;
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
@@ -32,6 +36,13 @@ public class ServiceRequestController extends RequestController {
     labelD2.setVisible(visible);
   }
 
+  @FXML
+  private void clickMe() {
+    visible2 = !visible2;
+    l1.setVisible(visible2);
+    l2.setVisible(visible2);
+  }
+
   @Override
   public void init() {
     setTitleText("Services");
@@ -39,17 +50,11 @@ public class ServiceRequestController extends RequestController {
   }
 
   @Override
-  void updateTreeTable() {
-
-  }
+  void updateTreeTable() {}
 
   @Override
-  void resetForm() {
-
-  }
+  void resetForm() {}
 
   @Override
-  void validateButton() {
-
-  }
+  void validateButton() {}
 }
