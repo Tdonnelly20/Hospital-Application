@@ -38,16 +38,28 @@ public class LocationIcon extends Icon {
           // Opens the location form in the popup
           if (event.isShiftDown() || event.isAltDown()) {
             if (event.getClickCount() == 2) {
+
               if (MapController.getController().getStartLocationID().isEmpty()) {
                 MapController.getController().setStartLocationID(location.getNodeID());
+                MapController.getController()
+                    .getControlsVBox()
+                    .getChildren()
+                    .add(new Label("Starting Location: " + location.getNodeID()));
               } else if (MapController.getController().getEndLocationID().isEmpty()) {
                 MapController.getController().setEndLocationID(location.getNodeID());
+                MapController.getController()
+                    .getControlsVBox()
+                    .getChildren()
+                    .add(new Label("End Location: " + location.getNodeID()));
                 if (event.isShiftDown()) {
                   MapController.getController().drawPath();
                 } else {
                   MapController.getController().makePath();
                 }
                 MapController.getController().setStartLocationID("");
+                MapController.getController().setEndLocationID("");
+              } else {
+                MapController.getController().setStartLocationID(location.getNodeID());
                 MapController.getController().setEndLocationID("");
               }
             }

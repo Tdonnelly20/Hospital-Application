@@ -303,35 +303,34 @@ public class MapDashboardController extends Controller {
   /** Updates values in the Service Request table based on the current floor */
   @FXML
   private void updateServiceRequestTable() {
-    try{
+    try {
 
+      typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
+      locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
 
-    typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
-    locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
+      ArrayList<ServiceRequest> currRequests =
+          (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
+      ArrayList<TreeItem> treeItems = new ArrayList<>();
 
-    ArrayList<ServiceRequest> currRequests =
-        (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+      if (!currRequests.isEmpty()) {
 
-    if (!currRequests.isEmpty()) {
-
-      for (ServiceRequest pos : currRequests) {
-        if (pos.getLocation() != null) {
-          if (pos.getLocation().getFloor() != null) {
-            if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
-              TreeItem<ServiceRequest> item = new TreeItem(pos);
-              treeItems.add(item);
+        for (ServiceRequest pos : currRequests) {
+          if (pos.getLocation() != null) {
+            if (pos.getLocation().getFloor() != null) {
+              if (pos.getLocation().getFloor().equals(curFloor.getFloorName())) {
+                TreeItem<ServiceRequest> item = new TreeItem(pos);
+                treeItems.add(item);
+              }
             }
           }
         }
-      }
 
-      serviceRequestTable.setShowRoot(false);
-      TreeItem root = new TreeItem(RequestSystem.getSystem().getEveryServiceRequest().get(0));
-      serviceRequestTable.setRoot(root);
-      root.getChildren().addAll(treeItems);
-    }
-    }catch (NullPointerException e){
+        serviceRequestTable.setShowRoot(false);
+        TreeItem root = new TreeItem(RequestSystem.getSystem().getEveryServiceRequest().get(0));
+        serviceRequestTable.setRoot(root);
+        root.getChildren().addAll(treeItems);
+      }
+    } catch (NullPointerException e) {
 
     }
   }
@@ -380,15 +379,21 @@ public class MapDashboardController extends Controller {
   public void updateCounts() {
     curFloor = MapManager.getManager().getFloor(curFloor.getFloorName());
     int srCount = 0;
-    int dirty = 0;
-    int clean = 0;
+    int cleanBeds = 0;
+    int dirtyBeds = 0;
+    int cleanPumps = 0;
+    int dirtyPumps = 0;
 
     for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
       if (equipment.getFloor().equals(curFloor.getFloorName())) {
-        if (equipment.getIsDirty()) {
-          dirty++;
+        if (equipment.getIsDirty() && equipment.getName().equals("Infusion Pump")) {
+          dirtyPumps++;
+        } else if (equipment.getIsDirty() && equipment.getName().equals("Bed")) {
+          dirtyBeds++;
+        } else if (!equipment.getIsDirty() && equipment.getName().equals("Infusion Pump")) {
+          cleanPumps++;
         } else {
-          clean++;
+          cleanBeds++;
         }
       }
     }
@@ -406,11 +411,17 @@ public class MapDashboardController extends Controller {
         "Active Service Requests: "
             + srCount
             + "\n"
-            + "Clean Equipment: "
-            + clean
+            + "Clean Beds: "
+            + cleanBeds
             + "\n"
-            + "Dirty Equipment: "
-            + dirty);
+            + "Dirty Beds: "
+            + dirtyBeds
+            + "\n"
+            + "Clean Pumps: "
+            + cleanPumps
+            + "\n"
+            + "Dirty Pumps: "
+            + dirtyPumps);
   }
 
   /* was used to check for beds that are dirty, could be used again if main function has to be changed in the future.

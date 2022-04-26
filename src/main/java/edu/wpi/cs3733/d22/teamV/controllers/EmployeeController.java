@@ -380,13 +380,17 @@ public class EmployeeController extends RequestController {
 
   @FXML
   private void removeSelectedRow() throws NullPointerException {
-    try {
-      Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
-      employeeDao.removeEmployee(employee);
-    } catch (NullPointerException e) {
-      e.printStackTrace();
+    DBPopupController.getController().iconWindow();
+    boolean isSure = true;
+    if (isSure) {
+      try {
+        Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
+        employeeDao.removeEmployee(employee);
+      } catch (NullPointerException e) {
+        e.printStackTrace();
+      }
+      updateEmployeeTreeTable();
     }
-    updateEmployeeTreeTable();
   }
 
   @FXML

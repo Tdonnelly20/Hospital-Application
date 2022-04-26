@@ -48,7 +48,7 @@ public class RequestSystem {
     religiousRequestDao = new ReligiousRequestDao();
     robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
-    // pathfindingDao = new PathfindingDao();
+    pathfindingDao = new PathfindingDao();
 
     triDirectionalityInit();
   }

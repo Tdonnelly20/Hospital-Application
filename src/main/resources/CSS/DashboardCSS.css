@@ -142,7 +142,7 @@
 .count-text-area {
     -fx-font-family: "Ebrima";
     -fx-text-alignment: center;
-    -fx-font-size: 20;
+    -fx-font-size: 15;
 }
 
 .alert-text-area {
