@@ -232,7 +232,7 @@ public abstract class Controller extends Application {
       if (currentPath.length() > position) {
         currentPath = currentPath.substring(0, position);
       }
-      currentPath += "/api";
+      currentPath += "\\api";
       System.out.println(currentPath);
     }
     return currentPath;
