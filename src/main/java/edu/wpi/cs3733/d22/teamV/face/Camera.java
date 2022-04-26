@@ -41,7 +41,6 @@ public class Camera {
   // face cascade classifier
   private final CascadeClassifier faceCascade;
   private int absoluteFaceSize;
-
   private Mat picture;
   @Getter private Mat pictureTaken;
   private final boolean authenticating;
@@ -177,7 +176,7 @@ public class Camera {
     assert !grayFrame.empty();
 
     // detect faces
-     this.faceCascade.detectMultiScale(
+    this.faceCascade.detectMultiScale(
         grayFrame,
         faces,
         1.1,

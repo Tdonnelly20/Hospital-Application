@@ -24,6 +24,7 @@ public class LoginController extends Controller {
   public LoginController() {}
 
   @FXML ImageView faceImage;
+  private Camera camera;
 
   @Override
   public void init() {
@@ -57,7 +58,7 @@ public class LoginController extends Controller {
 
     pane.widthProperty().addListener(listener);
     pane.heightProperty().addListener(listener);
-    Camera camera = new Camera(faceImage, faceImage, jfxButton, false);
+    camera = new Camera(null, faceImage, jfxButton, true);
     camera.setLoginPageController(this);
     camera.toggleCamera();
   }
