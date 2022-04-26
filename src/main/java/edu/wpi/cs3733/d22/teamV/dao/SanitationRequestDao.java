@@ -148,6 +148,7 @@ public class SanitationRequestDao extends DaoInterface {
   public void updateServiceRequest(ServiceRequest request, int serviceID) {
     SanitationRequest newRequest = (SanitationRequest) request;
     request.setServiceID(serviceID);
+    System.out.println(serviceID);
     int index = -1;
     for (int i = 0; i < allSanitationRequests.size(); i++) {
       if (allSanitationRequests.get(i).getServiceID() == request.getServiceID()) {

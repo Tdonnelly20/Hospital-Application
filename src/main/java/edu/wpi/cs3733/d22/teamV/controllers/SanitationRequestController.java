@@ -167,7 +167,7 @@ public class SanitationRequestController extends RequestController {
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
-      SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
+      SanitationRequestDao.updateServiceRequest(request, updateServiceID);
     } else {
       SanitationRequestDao.addServiceRequest(request);
     }
