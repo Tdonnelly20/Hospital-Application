@@ -39,17 +39,17 @@
                   <Button id="names" fx:id="namesButton" layoutX="1045.0" layoutY="601.0" mnemonicParsing="false" onAction="#hideLabels" prefHeight="29.0" prefWidth="139.0" text="Show/Hide Names" />
                   <Group fx:id="buttonGroup" layoutX="18.0" layoutY="78.0">
                      <children>
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="11.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="11.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="11.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="144.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="144.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="144.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="277.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="277.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="277.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="405.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                        <JFXButton id="medEquipText" layoutX="13.0" layoutY="11.0" onAction="#switchToMedEquipDelivery" prefHeight="96.0" prefWidth="359.0" text="Medical Equipment Delivery" textAlignment="RIGHT" textFill="WHITE">
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="11.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="11.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="11.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="144.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="144.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="144.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="277.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="277.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="277.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="405.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <JFXButton id="medEquipText" layoutX="13.0" layoutY="11.0" onAction="#switchToMedEquipDelivery" prefHeight="96.0" prefWidth="359.0" text="             Medical Equipment Delivery" textAlignment="RIGHT" textFill="WHITE">
                            <font>
                               <Font name="Ebrima" size="18.0" />
                            </font>
@@ -64,7 +64,7 @@
                               <Font name="Ebrima" size="26.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" layoutX="15.0" layoutY="143.0" onAction="#switchToInternalPatientTransport" prefHeight="97.0" prefWidth="358.0" text="Internal Patient Transport" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                        <JFXButton buttonType="RAISED" layoutX="15.0" layoutY="143.0" onAction="#switchToInternalPatientTransport" prefHeight="97.0" prefWidth="358.0" text="          Internal Patient Transport" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                            <font>
                               <Font name="Ebrima" size="20.0" />
                            </font>

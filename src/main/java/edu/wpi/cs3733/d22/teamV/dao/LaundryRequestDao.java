@@ -141,7 +141,7 @@ public class LaundryRequestDao extends DaoInterface {
               + laundryRequest.getEmployee().getEmployeeID()
               + ","
               + laundryRequest.getPatient().getPatientID()
-              + ", '"
+              + ",'"
               + laundryRequest.getLocation().getNodeID()
               + "','"
               + laundryRequest.getDetails()
