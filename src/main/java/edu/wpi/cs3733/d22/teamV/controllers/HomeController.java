@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -26,6 +28,10 @@ public class HomeController extends RequestController {
   @FXML private TreeTableColumn<ServiceRequest, Integer> timeCol;
   @FXML private Pane tablePane;
 
+  @FXML private Pane homePane;
+  @FXML private ImageView homeImage;
+  @FXML private Group homeGroup;
+
   @FXML private TextField searchBar;
 
   @Override
@@ -35,6 +41,56 @@ public class HomeController extends RequestController {
   public void init() {
     setTitleText("Home");
     fillTopPane();
+
+    homePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = homePane.getWidth();
+                double h = homePane.getHeight();
+
+                if (w / 16 * 9 > h) {
+                  homeImage.setFitWidth(w);
+                  homeImage.setFitHeight(w / 16 * 9);
+                }
+
+                if (h / 9 * 16 > w) {
+                  homeImage.setFitWidth(h / 9 * 16);
+                  homeImage.setFitHeight(h);
+                }
+
+                homeGroup.setLayoutX(w / 2 - 603);
+                homeGroup.setLayoutY(h / 2 - 293);
+              }
+            });
+
+    homePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = homePane.getWidth();
+                double h = homePane.getHeight();
+
+                if (w / 16 * 9 > h) {
+                  homeImage.setFitWidth(w);
+                  homeImage.setFitHeight(w / 16 * 9);
+                }
+
+                if (h / 9 * 16 > w) {
+                  homeImage.setFitWidth(h / 9 * 16);
+                  homeImage.setFitHeight(h);
+                }
+
+                homeGroup.setLayoutX(w / 2 - 603);
+                homeGroup.setLayoutY(h / 2 - 293);
+              }
+            });
 
     tablePane
         .widthProperty()
