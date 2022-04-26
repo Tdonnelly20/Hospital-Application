@@ -146,21 +146,12 @@ public class ComputerRequestDao extends DaoInterface {
 
   @Override
   public void updateServiceRequest(ServiceRequest request, int serviceID) {
-    ComputerRequest newRequest = (ComputerRequest) request;
-    request.setServiceID(serviceID);
-    int index = -1;
-    for (int i = 0; i < allComputerRequests.size(); i++) {
-      if (allComputerRequests.get(i).getServiceID() == request.getServiceID()) {
-        index = i;
-        break;
-      }
-    }
-    if (index > -1) {
-      System.out.println("UPDATING");
-      allComputerRequests.set(index, newRequest);
-      saveToCSV();
-      updateSQLTable(request);
-    }
+    ComputerRequest computerRequest = (ComputerRequest) request;
+    computerRequest.setServiceID(serviceID);
+    removeServiceRequest(computerRequest);
+    allComputerRequests.add(computerRequest);
+    addToSQLTable(computerRequest);
+    saveToCSV();
   }
   // fname char(15),lname char(15), pID int, empID int, roomLocation char(40), type char(30),
   // details char(150),serviceID int)");
