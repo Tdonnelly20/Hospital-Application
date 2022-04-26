@@ -53,7 +53,6 @@ public class InternalPatientTransportationDao extends DaoInterface {
                 data[4],
                 Integer.parseInt(data[5]),
                 data[6]);
-        transportation.setServiceID(Integer.parseInt(data[4]));
         addServiceRequest(transportation);
       }
 
@@ -130,35 +129,22 @@ public class InternalPatientTransportationDao extends DaoInterface {
   @Override
   public void addToSQLTable(ServiceRequest request) {
     try {
-
+      //              + "location,patientID,employeeID,requestDetails,status,serviceID,date_time)
+      // VALUES "
+      Connection connection = Vdb.Connect();
       InternalPatientTransportation internalPatientTransportation =
           (InternalPatientTransportation) request;
-
-      String query = "";
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
-
-      query =
-          "INSERT INTO PATIENTTRANSPORTATION("
-              + "location,patientID,employeeID,requestDetails,status,serviceID,date_time) VALUES "
-              + "('"
-              + internalPatientTransportation.getNodeID()
-              + "', "
-              + internalPatientTransportation.getPatientID()
-              + ", "
-              + internalPatientTransportation.getEmployeeID()
-              + ", '"
-              + internalPatientTransportation.getRequestDetails()
-              + "', '"
-              + internalPatientTransportation.getStatus()
-              + "', "
-              + internalPatientTransportation.getServiceID()
-              + "','"
-              + internalPatientTransportation.getTimeMade()
-              + ")";
-
-      statement.execute(query);
+      String query = "INSERT INTO PATIENTTRANSPORTATION VALUES(?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setString(1, internalPatientTransportation.getNodeID());
+      statement.setInt(2, internalPatientTransportation.getPatientID());
+      statement.setInt(3, internalPatientTransportation.getEmployeeID());
+      statement.setString(4, internalPatientTransportation.getRequestDetails());
+      statement.setString(5, internalPatientTransportation.getStatus());
+      statement.setInt(6, internalPatientTransportation.getServiceID());
+      statement.setTimestamp(7, internalPatientTransportation.getTimeMade());
+      statement.executeUpdate();
+      statement.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
