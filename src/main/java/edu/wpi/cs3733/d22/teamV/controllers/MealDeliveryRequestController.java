@@ -114,7 +114,7 @@ public class MealDeliveryRequestController extends RequestController {
     allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("allergy"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
-    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MealRequest> currMealDeliveries =
         (ArrayList<MealRequest>) mealRequestDao.getAllServiceRequests();
@@ -296,10 +296,15 @@ public class MealDeliveryRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(hospitalIDCol, (w - 30) / 8);
-    setColumnSize(patientIDCol, (w - 30) / 8);
-    setColumnSize(firstNameCol, (w - 30) / 8);
-    setColumnSize(lastNameCol, (w - 30) / 8);
-    setColumnSize(nodeIDCol, (w - 30) / 8);
+    setColumnSize(hospitalIDCol, (w - 30) / 10);
+    setColumnSize(patientIDCol, (w - 30) / 10);
+    setColumnSize(firstNameCol, (w - 30) / 10);
+    setColumnSize(lastNameCol, (w - 30) / 10);
+    setColumnSize(nodeIDCol, (w - 30) / 10);
+    setColumnSize(mealCol, (w - 30) / 10);
+    setColumnSize(allergyCol, (w - 30) / 10);
+    setColumnSize(statusCol, (w - 30) / 10);
+    setColumnSize(otherInfoCol, (w - 30) / 10);
+    setColumnSize(timeStampCol, (w - 30) / 10);
   }
 }

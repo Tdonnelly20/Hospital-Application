@@ -32,9 +32,18 @@ public abstract class RequestController extends Controller {
   @FXML private ImageView backButton = new ImageView(new Image("BackButton.png"));
   @FXML private ImageView homeButton = new ImageView(new Image("HomeButton.png"));
   @FXML private ImageView closeButton = new ImageView(new Image("ExitButton.png"));
+  @FXML private ImageView APIButton = new ImageView(new Image("APIButton.png"));
 
   /** This function is used to fill the header on a request page */
   void fillTopPane() {
+    fillTopPaneHelper(1);
+  }
+
+  void fillTopPaneAPI() {
+    fillTopPaneHelper(2);
+  }
+
+  void fillTopPaneHelper(int type) {
     // Set the basic attributes of the headerPane
     headerPane.setMinSize(Region.USE_COMPUTED_SIZE, 150);
     headerPane.setPrefSize(1920, 150);
@@ -73,6 +82,21 @@ public abstract class RequestController extends Controller {
           }
         });
 
+    // Make the API button
+    APIButton.setFitHeight(55);
+    APIButton.setFitWidth(55);
+    APIButton.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            try {
+              switchToAPI(event);
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        });
+
     // Make the home button
     homeButton.setFitHeight(55);
     homeButton.setFitWidth(55);
@@ -96,7 +120,11 @@ public abstract class RequestController extends Controller {
         });
 
     // Add the buttons to the button box
-    buttonBox.add(backButton, 0, 0);
+    if (type == 1) {
+      buttonBox.add(backButton, 0, 0);
+    } else {
+      buttonBox.add(APIButton, 0, 0);
+    }
     buttonBox.add(homeButton, 1, 0);
     buttonBox.add(closeButton, 2, 0);
 

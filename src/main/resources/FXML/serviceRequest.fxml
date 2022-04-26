@@ -94,7 +94,7 @@
                               <Font name="Ebrima" size="26.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" layoutX="401.0" layoutY="406.0" prefHeight="96.0" prefWidth="361.0" text="         Computer Request" textFill="WHITE">
+                        <JFXButton buttonType="RAISED" layoutX="401.0" layoutY="406.0" onAction="#switchToComputerRequest" prefHeight="96.0" prefWidth="361.0" text="         Computer Request" textFill="WHITE">
                            <font>
                               <Font name="Ebrima" size="26.0" />
                            </font>
