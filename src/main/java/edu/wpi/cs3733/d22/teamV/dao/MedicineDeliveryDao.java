@@ -14,18 +14,14 @@ public class MedicineDeliveryDao extends DaoInterface {
   // A local list of all medicine deliveries
   private static ArrayList<MedicineDelivery> allMedicineDeliveries;
 
-  /**
-   *Create the SQL table, then load all the files into from the CSV
-   */
+  /** Create the SQL table, then load all the files into from the CSV */
   public MedicineDeliveryDao() {
     allMedicineDeliveries = new ArrayList<>();
     createSQLTable();
     loadFromCSV();
   }
 
-  /**
-   * Load all the service requests from the CSV
-   */
+  /** Load all the service requests from the CSV */
   public void loadFromCSV() {
     try {
 
@@ -62,9 +58,7 @@ public class MedicineDeliveryDao extends DaoInterface {
     }
   }
 
-  /**
-   * Save all service requests in the arraylist to the CSV
-   */
+  /** Save all service requests in the arraylist to the CSV */
   @Override
   public void saveToCSV() {
     try {
@@ -103,9 +97,7 @@ public class MedicineDeliveryDao extends DaoInterface {
     }
   }
 
-  /**
-   * Create the SQL table
-   */
+  /** Create the SQL table */
   @Override
   public void createSQLTable() {
     try {
@@ -140,6 +132,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   /**
    * Add a specific request to the SQL table
+   *
    * @param request
    */
   @Override
@@ -167,7 +160,9 @@ public class MedicineDeliveryDao extends DaoInterface {
   }
 
   /**
-   * Replace or update a service request with new info. Will replace the selected serviceID with the request
+   * Replace or update a service request with new info. Will replace the selected serviceID with the
+   * request
+   *
    * @param request
    * @param serviceID
    */
@@ -183,6 +178,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   /**
    * Remove a specific request from the SQL table
+   *
    * @param request
    */
   @Override
@@ -202,6 +198,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   /**
    * Add a request to the arraylist, then the SQL table, then save to the CSV
+   *
    * @param request
    */
   @Override
@@ -217,6 +214,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   /**
    * Remove a service request from the arraylist, then the SQL table, then save to the CSV
+   *
    * @param request
    */
   @Override
@@ -231,6 +229,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   /**
    * Get a list of all medicine deliveries
+   *
    * @return
    */
   @Override
@@ -241,6 +240,7 @@ public class MedicineDeliveryDao extends DaoInterface {
 
   /**
    * Set the list of all service requests
+   *
    * @param serviceRequests
    */
   @Override

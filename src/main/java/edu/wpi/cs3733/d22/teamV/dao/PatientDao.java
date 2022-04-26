@@ -14,12 +14,10 @@ import java.util.stream.IntStream;
 
 public class PatientDao {
   private static final Patient nullPatient = new Patient("Not", "Found");
-  //List of all patients
+  // List of all patients
   private static ArrayList<Patient> allPatients;
 
-  /**
-   * Default constructor, loads SQL table then from CSV
-   */
+  /** Default constructor, loads SQL table then from CSV */
   public PatientDao() {
     nullPatient.setPatientID(-1);
     allPatients = new ArrayList<>();
@@ -27,9 +25,7 @@ public class PatientDao {
     loadFromCSV();
   }
 
-  /**
-   * Load all the Patients from the CSV to the arraylist, add them to SQL
-   */
+  /** Load all the Patients from the CSV to the arraylist, add them to SQL */
   public void loadFromCSV() {
 
     try {
@@ -77,9 +73,7 @@ public class PatientDao {
     }
   }
 
-  /**
-   * Save all patients from the arraylist to the CSV
-   */
+  /** Save all patients from the arraylist to the CSV */
   public void saveToCSV() {
     try {
       FileWriter fw = new FileWriter(VApp.currentPath + "/Patients.csv");
@@ -122,6 +116,7 @@ public class PatientDao {
 
   /**
    * Add a new patient to the arraylist, then to the SQL table, then save to CSV
+   *
    * @param patient
    */
   public void addPatient(Patient patient) {
@@ -133,6 +128,7 @@ public class PatientDao {
 
   /**
    * Remove a patient from the arraylist then all the associated service requests
+   *
    * @param patient
    */
   public void removePatient(Patient patient) {
@@ -144,6 +140,7 @@ public class PatientDao {
 
   /**
    * A helper method for updating a patient with new info instead of removing
+   *
    * @param patient
    */
   public void replacePatient(Patient patient) {
@@ -154,15 +151,14 @@ public class PatientDao {
 
   /**
    * Getter for all patients
+   *
    * @return all patients
    */
   public static ArrayList<Patient> getAllPatients() {
     return allPatients;
   }
 
-  /**
-   * Create the SQL table for all patients
-   */
+  /** Create the SQL table for all patients */
   public void createSQLTable() {
     try {
       Connection connection = Vdb.Connect();
@@ -190,6 +186,7 @@ public class PatientDao {
 
   /**
    * Add a patient to the SQL table
+   *
    * @param patient
    */
   public void addToSQLTable(Patient patient) {
@@ -228,6 +225,7 @@ public class PatientDao {
 
   /**
    * Remove a patient from the SQL table
+   *
    * @param patient
    */
   public void removeFromSQLTable(Patient patient) {
@@ -245,6 +243,7 @@ public class PatientDao {
 
   /**
    * Get a patient with a specific ID
+   *
    * @param patientID
    * @return a patient if it exists, if not return nullPatient
    */
@@ -260,6 +259,7 @@ public class PatientDao {
 
   /**
    * Update a specific patient with the ID and replace it
+   *
    * @param patient to replace
    * @param patientID to replace patientID
    */

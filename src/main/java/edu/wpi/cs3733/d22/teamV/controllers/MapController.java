@@ -422,13 +422,11 @@ public class MapController extends Controller {
           RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
       if (locations.size() == 1) {
         System.out.println("Adding Link");
-        RequestSystem.getSystem()
-            .getPathfinderDao()
-            .addPathNode(startLocationID, endLocationID);
+        RequestSystem.getSystem().getPathfinderDao().addPathNode(startLocationID, endLocationID);
         drawPath(
             RequestSystem.getSystem().getLocation(startLocationID).getIcon(),
             RequestSystem.getSystem().getLocation(endLocationID).getIcon());
-            
+
       } else {
         for (int i = 1; i < locations.size(); i++) {
           drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
