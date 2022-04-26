@@ -32,7 +32,6 @@ public class EquipmentIcon extends Icon {
   private int dirtyPumps = 0;
   private int dirtyBeds = 0;
   private int cleanBeds = 0;
-  private int dirtyBeds = 0;
 
   /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
@@ -235,48 +234,7 @@ public class EquipmentIcon extends Icon {
     MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
-  // checks if isAdding is true, if so finds beds that are dirty in the same place.
-  // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
-  // else, dirtyBeds decreases by 1.
-  //      int employeeID,
-  //      int patientID,
-  //      String patientFirstName,
-  //      String patientLastName,
-  //      String nodeID,
-  //      String equipment,
-  //      String notes,
-  //      int quantity,
-  //      String status,
-  //      int serviceID,      String date) {
-  public void alertSixBeds(Equipment e, boolean isAdding) {
-    if (isAdding) {
-      if (e.getIsDirty() && e.getName() == "Bed") {
-        dirtyBeds += 1;
-      }
-      if (dirtyBeds > 5) {
-        EquipmentDelivery request =
-            new EquipmentDelivery(
-                -1,
-                -1,
-                "OR",
-                "LN",
-                e.getID(),
-                e.getID().toString(),
-                "Notes",
-                1,
-                "Not Started",
-                RequestSystem.getServiceID(),
-                Timestamp.from(Instant.now()).toString());
-
-        RequestSystem.getSystem().addServiceRequest(request);
-      }
-    } else {
-      dirtyBeds--;
-    }
-  }
-
-  public int[] pumpAlert() {
-    int clean = 0;
+  public void pumpAlert() {
     int dirty = 0;
     for (Equipment equipment : equipmentList) {
       equipment.updateLocation(getXCoord(), getYCoord());
@@ -293,7 +251,8 @@ public class EquipmentIcon extends Icon {
       }
       if (dirtyBeds > 5) {
         EquipmentDelivery request =
-            new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started");
+            new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started", RequestSystem.getServiceID(),
+                    Timestamp.from(Instant.now()).toString());
         RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
       }
     } else {
