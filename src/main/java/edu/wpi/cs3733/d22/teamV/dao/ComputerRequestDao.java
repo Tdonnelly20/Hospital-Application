@@ -162,7 +162,7 @@ public class ComputerRequestDao extends DaoInterface {
       updateSQLTable(request);
     }
   }
-  // fname char(15),lname char(15), pID int, empID int, roomLocation char(40), hazard char(30),
+  // fname char(15),lname char(15), pID int, empID int, roomLocation char(40), type char(30),
   // details char(150),serviceID int)");
   public void updateSQLTable(ServiceRequest request) {
     // also needs to add to csv
