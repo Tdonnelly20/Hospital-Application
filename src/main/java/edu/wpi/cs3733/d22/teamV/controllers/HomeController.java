@@ -40,7 +40,7 @@ public class HomeController extends RequestController {
   @Override
   public void init() {
     setTitleText("Home");
-    fillTopPane();
+    fillTopPaneAPI();
 
     homePane
         .widthProperty()

@@ -56,59 +56,6 @@
             </Pane>
             <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1200.0" style="-fx-background-color: #5f6c83;">
                <children>
-                  <VBox fx:id="leftVBox" alignment="TOP_CENTER" prefHeight="327.0" prefWidth="400.0">
-                     <children>
-                        <Label id="vbox-label" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="21.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Sideview Map" textAlignment="CENTER" VBox.vgrow="NEVER">
-                           <font>
-                              <Font name="Ebrima" size="15.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Label>
-                        <Pane fx:id="sideViewPane" prefHeight="523.0" prefWidth="400.0">
-                           <children>
-                              <BarChart fx:id="bedBarChart" alternativeRowFillVisible="false" animated="false" layoutX="185.0" layoutY="50.0" legendVisible="false" prefHeight="335.0" prefWidth="215.0" styleClass="bar-chart">
-                                <xAxis>
-                                  <CategoryAxis animated="false" side="BOTTOM" tickLabelFill="WHITE" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis animated="false" minorTickCount="2" side="LEFT" tickLabelFill="WHITE" />
-                                </yAxis>
-                              </BarChart>
-                              <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="50.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                                 <image>
-                                    <Image url="@../SideView.PNG" />
-                                 </image>
-                              </ImageView>
-                              <Group layoutX="25.0" layoutY="34.0">
-                                 <children>
-                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" text="5" />
-                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" text="4" />
-                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" text="3" />
-                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" text="2" />
-                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" onMouseEntered="#switchToF1" styleClass="sideViewButtonf1" text="1" />
-                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" onMouseEntered="#switchToLL1" styleClass="sideViewButtonll1" text="LL1" />
-                                    <Button layoutY="300.0" minHeight="36.0" mnemonicParsing="false" onAction="#switchToLL2" onMouseEntered="#switchToLL2" prefWidth="141.0" styleClass="sideViewButtonll2" text="LL2" />
-                                 </children>
-                              </Group>
-                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="428.0" prefHeight="47.0" prefWidth="215.0" styleClass="floorLabel" />
-                           </children>
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Pane>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </HBox.margin>
-                  </VBox>
                   <VBox fx:id="centerVBox" prefHeight="536.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
                      <children>
                         <VBox prefHeight="335.0" prefWidth="323.0">
@@ -175,6 +122,59 @@
                      </children>
                      <HBox.margin>
                         <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox fx:id="leftVBox" alignment="TOP_CENTER" prefHeight="327.0" prefWidth="400.0">
+                     <children>
+                        <Label id="vbox-label" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="21.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Sideview Map" textAlignment="CENTER" VBox.vgrow="NEVER">
+                           <font>
+                              <Font name="Ebrima" size="15.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Pane fx:id="sideViewPane" prefHeight="523.0" prefWidth="400.0">
+                           <children>
+                              <BarChart fx:id="bedBarChart" alternativeRowFillVisible="false" animated="false" layoutX="185.0" layoutY="50.0" legendVisible="false" prefHeight="335.0" prefWidth="215.0" styleClass="bar-chart">
+                                <xAxis>
+                                  <CategoryAxis animated="false" side="BOTTOM" tickLabelFill="WHITE" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis animated="false" minorTickCount="2" side="LEFT" tickLabelFill="WHITE" />
+                                </yAxis>
+                              </BarChart>
+                              <ImageView fitHeight="405.0" fitWidth="301.0" layoutX="50.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../SideView.PNG" />
+                                 </image>
+                              </ImageView>
+                              <Group layoutX="25.0" layoutY="34.0">
+                                 <children>
+                                    <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" text="5" />
+                                    <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" text="4" />
+                                    <Button layoutY="100.0" mnemonicParsing="false" onAction="#switchToF3" onMouseEntered="#switchToF3" styleClass="sideViewButtonf3" text="3" />
+                                    <Button layoutY="150.0" mnemonicParsing="false" onAction="#switchToF2" onMouseEntered="#switchToF2" styleClass="sideViewButtonf2" text="2" />
+                                    <Button layoutY="200.0" mnemonicParsing="false" onAction="#switchToF1" onMouseEntered="#switchToF1" styleClass="sideViewButtonf1" text="1" />
+                                    <Button layoutY="250.0" mnemonicParsing="false" onAction="#switchToLL1" onMouseEntered="#switchToLL1" styleClass="sideViewButtonll1" text="LL1" />
+                                    <Button layoutY="300.0" minHeight="36.0" mnemonicParsing="false" onAction="#switchToLL2" onMouseEntered="#switchToLL2" prefWidth="141.0" styleClass="sideViewButtonll2" text="LL2" />
+                                 </children>
+                              </Group>
+                              <Label fx:id="floorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="428.0" prefHeight="47.0" prefWidth="215.0" styleClass="floorLabel" />
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Pane>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </HBox.margin>
                   </VBox>
                   <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">

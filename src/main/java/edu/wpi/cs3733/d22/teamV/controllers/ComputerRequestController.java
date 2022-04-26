@@ -167,7 +167,7 @@ public class ComputerRequestController extends RequestController {
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
-      ComputerRequestDao.updateServiceRequest(request, request.getServiceID());
+      ComputerRequestDao.updateServiceRequest(request, updateServiceID);
     } else {
       ComputerRequestDao.addServiceRequest(request);
     }

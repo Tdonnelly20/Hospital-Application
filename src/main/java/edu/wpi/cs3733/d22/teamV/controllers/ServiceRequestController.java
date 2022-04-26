@@ -57,7 +57,7 @@ public class ServiceRequestController extends RequestController {
   @Override
   public void init() {
     setTitleText("Services");
-    fillTopPane();
+    fillTopPaneAPI();
 
     servicePane
         .widthProperty()

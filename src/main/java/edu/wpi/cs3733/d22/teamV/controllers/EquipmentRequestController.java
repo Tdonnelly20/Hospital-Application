@@ -156,7 +156,7 @@ public class EquipmentRequestController extends RequestController {
     quantCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("quantity"));
     notesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("notes"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
         (ArrayList<EquipmentDelivery>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.EquipmentDelivery);
@@ -376,15 +376,16 @@ public class EquipmentRequestController extends RequestController {
    * @param w width of the current screen
    */
   void setColumnSizes(double w) {
-    setColumnSize(patientIDCol, (w - 30) / 8);
-    setColumnSize(employeeIDCol, (w - 30) / 9);
-    setColumnSize(firstNameCol, (w - 30) / 9);
-    setColumnSize(lastNameCol, (w - 30) / 9);
-    setColumnSize(posCol, (w - 30) / 9);
-    setColumnSize(equipCol, (w - 30) / 9);
-    setColumnSize(quantCol, (w - 30) / 9);
-    setColumnSize(notesCol, (w - 30) / 9);
-    setColumnSize(statusCol, (w - 30) / 9);
+    setColumnSize(patientIDCol, (w - 30) / 10);
+    setColumnSize(employeeIDCol, (w - 30) / 10);
+    setColumnSize(firstNameCol, (w - 30) / 10);
+    setColumnSize(lastNameCol, (w - 30) / 10);
+    setColumnSize(posCol, (w - 30) / 10);
+    setColumnSize(equipCol, (w - 30) / 10);
+    setColumnSize(quantCol, (w - 30) / 10);
+    setColumnSize(notesCol, (w - 30) / 10);
+    setColumnSize(statusCol, (w - 30) / 10);
+    setColumnSize(timeStampCol, (w - 30) / 10);
   }
 
   /**

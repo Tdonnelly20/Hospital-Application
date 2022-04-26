@@ -90,11 +90,12 @@ public class ReligiousRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(patientIDCol, (w - 30) / 5);
-    setColumnSize(religionCol, (w - 30) / 5);
-    setColumnSize(requestDetailsCol, (w - 30) / 5);
-    setColumnSize(employeeIDCol, (w - 30) / 5);
-    setColumnSize(roomCol, (w - 30) / 5);
+    setColumnSize(patientIDCol, (w - 30) / 6);
+    setColumnSize(religionCol, (w - 30) / 6);
+    setColumnSize(requestDetailsCol, (w - 30) / 6);
+    setColumnSize(employeeIDCol, (w - 30) / 6);
+    setColumnSize(roomCol, (w - 30) / 6);
+    setColumnSize(timeStampCol, (w - 30) / 6);
   }
 
   // empIDCol;
@@ -116,7 +117,7 @@ public class ReligiousRequestController extends RequestController {
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
-    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     ArrayList<ReligiousRequest> requests =
         (ArrayList<ReligiousRequest>)
             RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.ReligiousRequest);
@@ -144,6 +145,8 @@ public class ReligiousRequestController extends RequestController {
     religion.setText("");
     sendRequest.setDisable(true);
     statusDropDown.setValue(null);
+    details.setText("");
+    updating = false;
     validateButton();
   }
 
@@ -225,7 +228,7 @@ public class ReligiousRequestController extends RequestController {
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
-      ReligiousRequestDao.updateServiceRequest(request, request.getServiceID());
+      ReligiousRequestDao.updateServiceRequest(request, updateServiceID);
     } else {
       ReligiousRequestDao.addServiceRequest(request);
     }
