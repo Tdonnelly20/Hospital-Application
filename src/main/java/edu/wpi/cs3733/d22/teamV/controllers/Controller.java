@@ -216,12 +216,25 @@ public abstract class Controller extends Application {
   @FXML
   protected void runEAPI() throws IOException {
     Runtime runtime = Runtime.getRuntime();
-    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\TeamE-API.jar");
+    runtime.exec(" java -jar " + returnPath() + "\\TeamE-API.jar");
   }
 
   @FXML
   protected void runZAPI() throws IOException {
     Runtime runtime = Runtime.getRuntime();
-    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\ExternalTransportAPI.jar");
+    runtime.exec(" java -jar " + returnPath() + "\\ExternalTransportAPI.jar");
+  }
+
+  public static String returnPath() {
+    String currentPath = System.getProperty("user.dir");
+    if (currentPath.contains("TeamVeganVampires")) {
+      int position = currentPath.indexOf("TeamVeganVampires") + 65;
+      if (currentPath.length() > position) {
+        currentPath = currentPath.substring(0, position);
+      }
+      currentPath += "/api";
+      System.out.println(currentPath);
+    }
+    return currentPath;
   }
 }
