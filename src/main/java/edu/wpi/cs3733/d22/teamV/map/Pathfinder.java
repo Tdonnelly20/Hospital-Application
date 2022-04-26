@@ -124,52 +124,56 @@ public class Pathfinder {
   // Pathfind from the start node to the end node, and return a queue of the shortest path
 
   public Queue<Node> pathfind(String startNodeName, String endNodeName) {
-    // Get the start and end node from their names
-    Node startNode = getNodeFromName(startNodeName);
-    Node endNode = getNodeFromName(endNodeName);
-    // We can't have either be null and the destination cannot be equal to the starting position
-    assert (startNode != null && endNode != null && startNode != endNode);
-    // Create a list of nodes that are still unsettled
-    ArrayList<Node> unsettledNodes = new ArrayList<>();
-    // Add the starting node to the list of unsettled nodes
-    unsettledNodes.add(startNode);
-    // Set the starting weight of the current node to 0 (since we're already there)
-    startNode.weight = 0;
-    // Make sure that all nodes are marked as unvisited and that their weight is the max value
-    for (Node node : allNodes) {
-      if (!node.equals(startNode)) {
-        node.visited = false;
-        node.previous = null;
-        node.weight = Double.MAX_VALUE;
-      }
-    }
-
-    // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
-    while (!unsettledNodes.isEmpty()) {
-      Node currentNode = getLowestNode(unsettledNodes);
-      unsettledNodes.remove(currentNode);
-
-      double currentNodeWeight = currentNode.getWeight();
-      for (Link link : currentNode.getLinks()) {
-        Node destinationNode = link.getNode();
-        double distance = link.getDistance();
-        double destinationNodeWeight = destinationNode.getWeight();
-
-        double distanceFromCurrentNode = currentNodeWeight + distance;
-
-        if (distanceFromCurrentNode < destinationNodeWeight) {
-          destinationNode.setWeight(distanceFromCurrentNode);
-          destinationNode.setPrevious(currentNode);
-          unsettledNodes.add(destinationNode);
+    System.out.println("Path Find Start: " + startNodeName + "\nPath Find End" + endNodeName);
+    if (startNodeName != null && endNodeName != null) {
+      // Get the start and end node from their names
+      Node startNode = getNodeFromName(startNodeName);
+      Node endNode = getNodeFromName(endNodeName);
+      // We can't have either be null and the destination cannot be equal to the starting position
+      assert (startNode != null && endNode != null && startNode != endNode);
+      // Create a list of nodes that are still unsettled
+      ArrayList<Node> unsettledNodes = new ArrayList<>();
+      // Add the starting node to the list of unsettled nodes
+      unsettledNodes.add(startNode);
+      // Set the starting weight of the current node to 0 (since we're already there)
+      startNode.weight = 0;
+      // Make sure that all nodes are marked as unvisited and that their weight is the max value
+      for (Node node : allNodes) {
+        if (!node.equals(startNode)) {
+          node.visited = false;
+          node.previous = null;
+          node.weight = Double.MAX_VALUE;
         }
       }
+
+      // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
+      while (!unsettledNodes.isEmpty()) {
+        Node currentNode = getLowestNode(unsettledNodes);
+        unsettledNodes.remove(currentNode);
+
+        double currentNodeWeight = currentNode.getWeight();
+        for (Link link : currentNode.getLinks()) {
+          Node destinationNode = link.getNode();
+          double distance = link.getDistance();
+          double destinationNodeWeight = destinationNode.getWeight();
+
+          double distanceFromCurrentNode = currentNodeWeight + distance;
+
+          if (distanceFromCurrentNode < destinationNodeWeight) {
+            destinationNode.setWeight(distanceFromCurrentNode);
+            destinationNode.setPrevious(currentNode);
+            unsettledNodes.add(destinationNode);
+          }
+        }
+      }
+
+      // Create the queue that will return the shortest path
+      Queue<Node> path = new LinkedList<>();
+
+      // return the shortest path from the end node
+      return getPath(path, endNode);
     }
-
-    // Create the queue that will return the shortest path
-    Queue<Node> path = new LinkedList<>();
-
-    // return the shortest path from the end node
-    return getPath(path, endNode);
+    return null;
   }
 
   public Node getLowestNode(ArrayList<Node> nodes) {
@@ -181,6 +185,7 @@ public class Pathfinder {
         closestNode = node;
       }
     }
+
     return closestNode;
   }
 

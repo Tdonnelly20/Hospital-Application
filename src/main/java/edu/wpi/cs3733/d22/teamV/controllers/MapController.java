@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -54,6 +55,11 @@ public class MapController extends Controller {
   @FXML JFXComboBox[] comboBoxes = new JFXComboBox[5];
   @FXML Button submitButton = new Button("Submit");
   private String floorName = "1";
+
+  @FXML
+  Label instructions =
+      new Label(
+          "Hold down shift and double-click 2 icons to show a path between them.\n\nTo create a path, hold down alt and double-click the 2 icons you want to connect.");
 
   private String startLocationID = "";
   private String endLocationID = "";
@@ -120,7 +126,7 @@ public class MapController extends Controller {
     zoom();
     filterCheckBox.setMaxWidth(controlsVBox.getWidth() / 3);
     scrollPane.setPrefSize(550, 550);
-    controlsVBox.getChildren().addAll(filterCheckBox, refreshButton);
+    controlsVBox.getChildren().addAll(instructions, filterCheckBox, refreshButton);
     mapVBox.getChildren().addAll(scrollPane);
     mapVBox.setAlignment(Pos.CENTER);
     mapVBox.setSpacing(15);
@@ -165,6 +171,8 @@ public class MapController extends Controller {
   /** Sets up the buttons, filter, and the mapPane */
   void setUpControls() {
     System.out.println("setting up controls");
+    instructions.setWrapText(true);
+    instructions.setAlignment(Pos.CENTER);
     LL2.setOnAction(event -> setFloor("L2"));
     LL1.setOnAction(event -> setFloor("L1"));
     floor1.setOnAction(event -> setFloor("1"));
@@ -178,6 +186,7 @@ public class MapController extends Controller {
           setFloor(floorName);
           startLocationID = "";
           endLocationID = "";
+          controlsVBox.getChildren().retainAll(instructions, filterCheckBox, refreshButton);
         });
     for (int i = 0; i < 10; i++) {
       fields[i] = new TextField();
@@ -404,27 +413,22 @@ public class MapController extends Controller {
 
   /** Draws a path between icons you click on */
   public void drawPath() {
-    Button addLink = new Button("Add path");
     System.out.println(startLocationID);
     System.out.println(endLocationID);
-    controlsVBox.getChildren().retainAll(filterCheckBox, refreshButton);
     if (!startLocationID.isEmpty() && !endLocationID.isEmpty()) {
       System.out.println("Start: " + startLocationID);
       System.out.println("End: " + endLocationID);
       LinkedList<Location> locations =
           RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
       if (locations.size() == 1) {
-        controlsVBox.getChildren().add(0, addLink);
-        addLink.setOnAction(
-            event -> {
-              System.out.println("Adding Link");
-              RequestSystem.getSystem()
-                  .getPathfinderDao()
-                  .addPathNode(startLocationID, endLocationID);
-              drawPath(
-                  RequestSystem.getSystem().getLocation(startLocationID).getIcon(),
-                  RequestSystem.getSystem().getLocation(endLocationID).getIcon());
-            });
+        System.out.println("Adding Link");
+        RequestSystem.getSystem()
+            .getPathfinderDao()
+            .addPathNode(startLocationID, endLocationID);
+        drawPath(
+            RequestSystem.getSystem().getLocation(startLocationID).getIcon(),
+            RequestSystem.getSystem().getLocation(endLocationID).getIcon());
+            
       } else {
         for (int i = 1; i < locations.size(); i++) {
           drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
