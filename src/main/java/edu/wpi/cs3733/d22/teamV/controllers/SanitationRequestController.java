@@ -8,7 +8,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
-import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,7 +41,8 @@ public class SanitationRequestController extends RequestController {
   @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
   @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
   @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
+  @FXML private TreeTableColumn<SanitationRequest, String> statusCol;
+  @FXML private TreeTableColumn<SanitationRequest, String> timeStampCol;
   @FXML private Pane tablePane;
   private boolean updating = false;
   private int updateServiceID;
@@ -186,11 +186,11 @@ public class SanitationRequestController extends RequestController {
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
     ArrayList<TreeItem<SanitationRequest>> treeItems = new ArrayList<>();
-
     if (currSanitationRequests.isEmpty()) {
       sanitationRequestTable.setRoot(null);
     } else {

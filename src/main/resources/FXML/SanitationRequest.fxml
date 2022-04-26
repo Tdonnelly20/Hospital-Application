@@ -20,6 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ScrollPane?>
 <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.SanitationRequestController">
     <items>
         <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
@@ -99,8 +100,8 @@
                                     </children>
                                 </VBox>
                             </children></AnchorPane>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                            <children>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="640.0" prefWidth="300.0" style="-fx-background-color: rgba(153,153,153,255);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <content>
                                 <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <tabs>
                                         <Tab fx:id="updateTreeTable" onSelectionChanged="#updateTreeTable" text="Sanitation Requests">
@@ -109,19 +110,19 @@
                                                     <children>
                                                         <TreeTableView fx:id="sanitationRequestTable" layoutX="11.0" layoutY="56.0" prefHeight="650.0" prefWidth="538.0">
                                                             <columns>
-                                                                <TreeTableColumn fx:id="employeeIDCol" prefWidth="79.99993705749512" text="Employee ID" />
-                                                                <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
-                                                <TreeTableColumn prefWidth="75.0" text="Patient Name">
-                                                   <columns>
-                                                                      <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First" />
-                                                                      <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last" />
-                                                   </columns>
-                                                </TreeTableColumn>
-                                                                <TreeTableColumn fx:id="roomLocationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location ID" />
-                                                                <TreeTableColumn fx:id="hazardCol" minWidth="0.0" prefWidth="56.7999267578125" text="Hazard" />
-                                                                <TreeTableColumn fx:id="requestDetailsCol" prefWidth="102.4000244140625" text="Other Info" />
-                                                                <TreeTableColumn fx:id="statusCol" prefWidth="45.59991455078125" text="Status" />
-                                                <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
+                                                                <TreeTableColumn fx:id="employeeIDCol" prefWidth="55" text="Employee ID" />
+                                                                <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="55" text="Patient ID" />
+                                                                <TreeTableColumn prefWidth="75.0" text="Patient Name">
+                                                                   <columns>
+                                                                          <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="65" text="First" />
+                                                                          <TreeTableColumn fx:id="lastNameCol" prefWidth="65" text="Last" />
+                                                                   </columns>
+                                                                </TreeTableColumn>
+                                                                <TreeTableColumn fx:id="roomLocationCol" minWidth="0.0" prefWidth="55" text="Location ID" />
+                                                                <TreeTableColumn fx:id="hazardCol" minWidth="0.0" prefWidth="55" text="Hazard" />
+                                                                <TreeTableColumn fx:id="requestDetailsCol" prefWidth="100" text="Other Info" />
+                                                                <TreeTableColumn fx:id="statusCol" prefWidth="45" text="Status" />
+                                                                <TreeTableColumn fx:id="timeStampCol" prefWidth="150.0" text="Time" />
                                                             </columns>
                                                         </TreeTableView>
                                                         <Button fx:id="removeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
@@ -150,7 +151,7 @@
                               </Tab>
                                     </tabs>
                                 </TabPane>
-                            </children></AnchorPane>
+                            </content></ScrollPane>
                     </items>
                 </SplitPane>
             </children></AnchorPane>

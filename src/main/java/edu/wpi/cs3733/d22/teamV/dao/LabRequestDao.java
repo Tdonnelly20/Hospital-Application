@@ -35,17 +35,19 @@ public class LabRequestDao extends DaoInterface {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        LabRequest newDelivery =
-            new LabRequest(
-                Integer.parseInt(data[0]),
-                Integer.parseInt(data[1]),
-                data[2],
-                data[3],
-                data[4],
-                Integer.parseInt(data[5]),
-                data[6]);
-        newDelivery.setServiceID(Integer.parseInt(data[5]));
-        allLabRequests.add(newDelivery);
+        if (data.length > 0) {
+          LabRequest newDelivery =
+              new LabRequest(
+                  Integer.parseInt(data[0]),
+                  Integer.parseInt(data[1]),
+                  data[2],
+                  data[3],
+                  data[4],
+                  Integer.parseInt(data[5]),
+                  data[6]);
+          newDelivery.setServiceID(Integer.parseInt(data[5]));
+          allLabRequests.add(newDelivery);
+        }
       }
       setAllServiceRequests(allLabRequests);
     } catch (IOException e) {

@@ -34,20 +34,22 @@ public class MealRequestDao extends DaoInterface {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        MealRequest newDelivery =
-            new MealRequest(
-                data[0],
-                Integer.parseInt(data[1]),
-                Integer.parseInt(data[2]),
-                data[3],
-                data[4],
-                data[5],
-                data[6],
-                Integer.parseInt(data[7]),
-                data[8]);
+        if (data.length > 0) {
+          MealRequest newDelivery =
+              new MealRequest(
+                  data[0],
+                  Integer.parseInt(data[1]),
+                  Integer.parseInt(data[2]),
+                  data[3],
+                  data[4],
+                  data[5],
+                  data[6],
+                  Integer.parseInt(data[7]),
+                  data[8]);
 
-        newDelivery.setServiceID(Integer.parseInt(data[7]));
-        mealDeliveries.add(newDelivery);
+          newDelivery.setServiceID(Integer.parseInt(data[7]));
+          mealDeliveries.add(newDelivery);
+        }
       }
 
       setAllServiceRequests(mealDeliveries);

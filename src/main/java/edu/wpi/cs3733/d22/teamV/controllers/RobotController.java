@@ -25,6 +25,7 @@ public class RobotController extends RequestController {
   @FXML private TreeTableColumn<RobotRequest, Integer> nodeIDCol;
   @FXML private TreeTableColumn<RobotRequest, String> detailsCol;
   @FXML private TreeTableColumn<RobotRequest, String> statusCol;
+  @FXML private TreeTableColumn<RobotRequest, String> timeStampCol;
 
   private static final RobotDao RobotDao = (RobotDao) Vdb.requestSystem.getDao(Dao.RobotRequest);
   @FXML private TextField employeeID;
@@ -119,7 +120,7 @@ public class RobotController extends RequestController {
     botIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("botID"));
     detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     // Get the current list of lab requests from the DAO
     ArrayList<RobotRequest> currRobotRequests =
         (ArrayList<RobotRequest>) RobotDao.getAllServiceRequests();

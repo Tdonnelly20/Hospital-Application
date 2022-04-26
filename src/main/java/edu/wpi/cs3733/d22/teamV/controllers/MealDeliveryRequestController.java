@@ -37,6 +37,7 @@ public class MealDeliveryRequestController extends RequestController {
   @FXML private TreeTableColumn<MealRequest, String> allergyCol;
   @FXML private TreeTableColumn<MealRequest, String> statusCol;
   @FXML private TreeTableColumn<MealRequest, String> otherInfoCol;
+  @FXML private TreeTableColumn<MealRequest, String> timeStampCol;
 
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
@@ -86,6 +87,7 @@ public class MealDeliveryRequestController extends RequestController {
     allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("allergy"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MealRequest> currMealDeliveries =
         (ArrayList<MealRequest>) mealRequestDao.getAllServiceRequests();

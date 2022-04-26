@@ -45,6 +45,7 @@ public class LaundryRequestController extends RequestController {
   @FXML private TreeTableColumn<LaundryRequest, String> locationCol;
   @FXML private TreeTableColumn<LaundryRequest, String> detailsCol;
   @FXML private TreeTableColumn<LaundryRequest, String> statusCol;
+  @FXML private TreeTableColumn<LaundryRequest, String> timeStampCol;
   @FXML private Pane tablePane;
 
   private boolean updating = false;
@@ -191,7 +192,7 @@ public class LaundryRequestController extends RequestController {
     locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     ArrayList<LaundryRequest> currLaundryRequest =
         (ArrayList<LaundryRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.LaundryRequest);

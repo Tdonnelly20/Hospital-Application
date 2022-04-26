@@ -7,7 +7,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
-import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ReligiousRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -39,10 +38,10 @@ public class ReligiousRequestController extends RequestController {
   @FXML private TreeTableColumn<ReligiousRequest, String> roomCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> religionCol;
   @FXML private TreeTableColumn<ReligiousRequest, String> requestDetailsCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
-
+  @FXML private TreeTableColumn<ReligiousRequest, String> statusCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> firstNameCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> lastNameCol;
+  @FXML private TreeTableColumn<ReligiousRequest, String> timeStampCol;
   private boolean updating;
   private int updateServiceID;
   // religious request can't seem to remove things if there are more than 1 now???
@@ -117,7 +116,7 @@ public class ReligiousRequestController extends RequestController {
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
-
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     ArrayList<ReligiousRequest> requests =
         (ArrayList<ReligiousRequest>)
             RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.ReligiousRequest);
