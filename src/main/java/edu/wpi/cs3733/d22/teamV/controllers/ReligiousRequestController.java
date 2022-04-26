@@ -226,7 +226,7 @@ public class ReligiousRequestController extends RequestController {
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
-      ReligiousRequestDao.updateServiceRequest(request, request.getServiceID());
+      ReligiousRequestDao.updateServiceRequest(request, updateServiceID);
     } else {
       ReligiousRequestDao.addServiceRequest(request);
     }
