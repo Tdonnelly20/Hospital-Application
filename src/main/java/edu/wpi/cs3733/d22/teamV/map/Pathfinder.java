@@ -203,7 +203,7 @@ public class Pathfinder {
     if (node.previous != null) {
       return getPath(path, node.previous);
     } else {
-      printLink(path);
+      // printLink(path);
       System.out.println(path.size());
       return path;
     }
