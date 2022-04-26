@@ -1,15 +1,15 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.ComputerRequestDao;
 import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
-import edu.wpi.cs3733.d22.teamV.dao.SanitationRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ComputerRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
-import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -24,45 +24,45 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SanitationRequestController extends RequestController {
+public class ComputerRequestController extends RequestController {
   @FXML private TextField employeeID;
   @FXML private TextField patientID;
   @FXML private TextField roomLocation;
-  @FXML private JFXComboBox<Object> sanitationDropDown;
+  @FXML private JFXComboBox<Object> computerDropDown;
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private JFXComboBox<Object> statusDropDown;
   @FXML private Label statusLabel;
 
-  @FXML private TreeTableView<SanitationRequest> sanitationRequestTable;
-  @FXML private TreeTableColumn<SanitationRequest, Integer> patientIDCol;
-  @FXML private TreeTableColumn<SanitationRequest, Integer> employeeIDCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> firstNameCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> lastNameCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
-  @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
+  @FXML private TreeTableView<ComputerRequest> computerRequestTable;
+  @FXML private TreeTableColumn<ComputerRequest, Integer> patientIDCol;
+  @FXML private TreeTableColumn<ComputerRequest, Integer> employeeIDCol;
+  @FXML private TreeTableColumn<ComputerRequest, String> firstNameCol;
+  @FXML private TreeTableColumn<ComputerRequest, String> lastNameCol;
+  @FXML private TreeTableColumn<ComputerRequest, String> roomLocationCol;
+  @FXML private TreeTableColumn<ComputerRequest, String> typeCol;
+  @FXML private TreeTableColumn<ComputerRequest, String> requestDetailsCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
   @FXML private Pane tablePane;
   private boolean updating = false;
   private int updateServiceID;
 
-  private static final SanitationRequestDao SanitationRequestDao =
-      (SanitationRequestDao) Vdb.requestSystem.getDao(Dao.SanitationRequest);
+  private static final ComputerRequestDao ComputerRequestDao =
+      (ComputerRequestDao) Vdb.requestSystem.getDao(Dao.ComputerRequest);
   private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   private static class SingletonHelper {
-    private static final SanitationRequestController controller = new SanitationRequestController();
+    private static final ComputerRequestController controller = new ComputerRequestController();
   }
 
-  public static SanitationRequestController getController() {
-    return SanitationRequestController.SingletonHelper.controller;
+  public static ComputerRequestController getController() {
+    return ComputerRequestController.SingletonHelper.controller;
   }
 
   @Override
   public void init() {
     updateTreeTable();
-    setTitleText("Sanitation Request Service");
+    setTitleText("Computer Request Service");
     fillTopPane();
     updating = false;
     validateButton();
@@ -77,7 +77,7 @@ public class SanitationRequestController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = tablePane.getWidth();
-                sanitationRequestTable.setPrefWidth(w - 30);
+                computerRequestTable.setPrefWidth(w - 30);
                 setColumnSizes(w);
               }
             });
@@ -90,7 +90,7 @@ public class SanitationRequestController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double h = tablePane.getHeight();
-                sanitationRequestTable.setPrefHeight(h - 75);
+                computerRequestTable.setPrefHeight(h - 75);
               }
             });
   }
@@ -121,7 +121,7 @@ public class SanitationRequestController extends RequestController {
     return result;
   }
 
-  /** Determines if a sanitation request is valid, and sends it to the Dao */
+  /** Determines if a computer request is valid, and sends it to the Dao */
   @FXML
   void validateButton() {
     sendRequest.setDisable(true);
@@ -130,7 +130,7 @@ public class SanitationRequestController extends RequestController {
     if (patientID.getText().equals("")
         || employeeID.getText().equals("")
         || roomLocation.getText().equals("")
-        || sanitationDropDown.getValue() == null) {
+        || computerDropDown.getValue() == null) {
       statusLabel.setText("Please fill in the required fields.");
       // Make sure the patient ID is an integer
     } else if (!findPatient()) {
@@ -139,8 +139,8 @@ public class SanitationRequestController extends RequestController {
       statusLabel.setText("Invalid Employee.");
     } else if (LocationDao.getLocation(roomLocation.getText()) == null) {
       statusLabel.setText("Invalid Room.");
-    } else if (sanitationDropDown.getValue() == null) {
-      statusLabel.setText("Needs Hazard");
+    } else if (computerDropDown.getValue() == null) {
+      statusLabel.setText("Needs Type");
     } else if (statusDropDown.getValue() == null) {
       statusLabel.setText("Needs Status");
     } else {
@@ -155,21 +155,21 @@ public class SanitationRequestController extends RequestController {
   @FXML
   void sendRequest()
       throws SQLException, IOException { // must check to see if its updating or new req
-    SanitationRequest request =
-        new SanitationRequest(
+    ComputerRequest request =
+        new ComputerRequest(
             Integer.parseInt(employeeID.getText()),
             Integer.parseInt(patientID.getText()),
             roomLocation.getText(),
-            sanitationDropDown.getValue().toString(),
+            computerDropDown.getValue().toString(),
             requestDetails.getText(),
             statusDropDown.getValue().toString(),
             -1,
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
-      SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
+      ComputerRequestDao.updateServiceRequest(request, request.getServiceID());
     } else {
-      SanitationRequestDao.addServiceRequest(request);
+      ComputerRequestDao.addServiceRequest(request);
     }
     updating = false;
     updateTreeTable();
@@ -183,24 +183,24 @@ public class SanitationRequestController extends RequestController {
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
     roomLocationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
-    hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
+    typeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("typeName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-    ArrayList<SanitationRequest> currSanitationRequests =
-        (ArrayList<SanitationRequest>)
-            RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
-    ArrayList<TreeItem<SanitationRequest>> treeItems = new ArrayList<>();
+    ArrayList<ComputerRequest> currComputerRequests =
+        (ArrayList<ComputerRequest>)
+            RequestSystem.getSystem().getAllServiceRequests(Dao.ComputerRequest);
+    ArrayList<TreeItem<ComputerRequest>> treeItems = new ArrayList<>();
 
-    if (currSanitationRequests.isEmpty()) {
-      sanitationRequestTable.setRoot(null);
+    if (currComputerRequests.isEmpty()) {
+      computerRequestTable.setRoot(null);
     } else {
-      for (SanitationRequest delivery : currSanitationRequests) {
-        TreeItem<SanitationRequest> item = new TreeItem<>(delivery); // claims null pointer
+      for (ComputerRequest delivery : currComputerRequests) {
+        TreeItem<ComputerRequest> item = new TreeItem<>(delivery); // claims null pointer
         treeItems.add(item);
       }
-      sanitationRequestTable.setShowRoot(false);
-      TreeItem<SanitationRequest> root = new TreeItem<>(currSanitationRequests.get(0));
-      sanitationRequestTable.setRoot(root);
+      computerRequestTable.setShowRoot(false);
+      TreeItem<ComputerRequest> root = new TreeItem<>(currComputerRequests.get(0));
+      computerRequestTable.setRoot(root);
       root.getChildren().addAll(treeItems);
     }
   }
@@ -211,7 +211,7 @@ public class SanitationRequestController extends RequestController {
     patientID.setText("");
     employeeID.setText("");
     roomLocation.setText("");
-    sanitationDropDown.setValue(null);
+    computerDropDown.setValue(null);
     requestDetails.setText("");
     statusLabel.setText("");
     sendRequest.setDisable(true);
@@ -222,14 +222,14 @@ public class SanitationRequestController extends RequestController {
   @FXML
   private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
     updating = true;
-    if (sanitationRequestTable.getSelectionModel().getSelectedItem() != null) {
-      SanitationRequest request =
-          sanitationRequestTable.getSelectionModel().getSelectedItem().getValue();
+    if (computerRequestTable.getSelectionModel().getSelectedItem() != null) {
+      ComputerRequest request =
+          computerRequestTable.getSelectionModel().getSelectedItem().getValue();
 
       employeeID.setText(String.valueOf(request.getEmployeeID()));
       patientID.setText(String.valueOf(request.getPatientID()));
       roomLocation.setText(request.getNodeID());
-      sanitationDropDown.setValue(request.getHazardName());
+      computerDropDown.setValue(request.getTypeName());
       requestDetails.setText(request.getRequestDetails());
       updateServiceID = request.getServiceID();
       statusDropDown.setValue(request.getStatus());
@@ -240,9 +240,9 @@ public class SanitationRequestController extends RequestController {
   @FXML
   private void removeSelectedRow() throws IOException, NullPointerException, SQLException {
     try {
-      SanitationRequest delivery =
-          sanitationRequestTable.getSelectionModel().getSelectedItem().getValue();
-      SanitationRequestDao.removeServiceRequest(delivery);
+      ComputerRequest delivery =
+          computerRequestTable.getSelectionModel().getSelectedItem().getValue();
+      ComputerRequestDao.removeServiceRequest(delivery);
     } catch (NullPointerException e) {
       e.printStackTrace();
     }
@@ -255,7 +255,7 @@ public class SanitationRequestController extends RequestController {
     setColumnSize(firstNameCol, (w - 30) / 8);
     setColumnSize(lastNameCol, (w - 30) / 8);
     setColumnSize(roomLocationCol, (w - 30) / 8);
-    setColumnSize(hazardCol, (w - 30) / 8);
+    setColumnSize(typeCol, (w - 30) / 8);
     setColumnSize(requestDetailsCol, (w - 30) / 8);
     setColumnSize(statusCol, (w - 30) / 8);
   }
