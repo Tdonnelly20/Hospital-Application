@@ -88,6 +88,11 @@ public class PathfindingDao {
     public boolean containsNode(String nodeName) {
       return nodeOne.equalsIgnoreCase(nodeName) || nodeTwo.equalsIgnoreCase(nodeName);
     }
+    public boolean equals(String name1, String name2){
+      String fullName = name1 + "_" + name2;
+      String reverseName = name2 + "_" + name1;
+      return name.equalsIgnoreCase(fullName) || name.equalsIgnoreCase(reverseName);
+    }
   }
 
   /**
@@ -192,4 +197,17 @@ public class PathfindingDao {
     // Save the changes to the CSV
     saveToCSV();
   }
+
+  public void removeLink(Location location1, Location location2){
+    Pathfinder.Node node1 = Pathfinder.getNodeFromName(location1.getNodeID());
+    Pathfinder.Node node2 = Pathfinder.getNodeFromName(location2.getNodeID());
+
+    if (node1 != null && node2 != null) {
+        node1.getLinks().removeIf(link -> link.containsNode(node2));
+        node2.getLinks().removeIf(link -> link.containsNode(node1));
+    }
+    edges.removeIf(edge -> edge.equals(node1.getName(), node2.getName()));
+
+  }
+
 }

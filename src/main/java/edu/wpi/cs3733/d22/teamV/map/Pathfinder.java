@@ -74,7 +74,7 @@ public class Pathfinder {
     }
 
     // Polling the first element in the queue gives us the distance of the entire journey
-    System.out.println("Distance = " + path.poll().getWeight());
+    System.out.println("Distance = " + path.peek().getWeight());
   }
   // We need to have every node have a list of connects to other nodes, and the weight between them
   @Getter
@@ -86,6 +86,10 @@ public class Pathfinder {
     public Link(Node node, double distance) {
       this.node = node;
       this.distance = distance;
+    }
+
+    public boolean containsNode(Node nodeContains) {
+      return nodeContains.getName().equalsIgnoreCase(node.getName());
     }
   }
 
