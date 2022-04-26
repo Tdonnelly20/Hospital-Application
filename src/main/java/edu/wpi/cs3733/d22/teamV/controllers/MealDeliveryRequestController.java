@@ -5,10 +5,14 @@ import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.MealRequestDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MealRequest;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -26,7 +30,6 @@ public class MealDeliveryRequestController extends RequestController {
 
   @FXML private TreeTableColumn<MealRequest, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<MealRequest, Integer> patientIDCol;
-  @FXML private TreeTableColumn<MealRequest, Integer> serviceIDCol;
   @FXML private TreeTableColumn<MealRequest, String> firstNameCol;
   @FXML private TreeTableColumn<MealRequest, String> lastNameCol;
   @FXML private TreeTableColumn<MealRequest, String> nodeIDCol;
@@ -66,6 +69,7 @@ public class MealDeliveryRequestController extends RequestController {
   public void init() {
     setTitleText("Meal Delivery");
     fillTopPane();
+    updateTreeTable();
   }
 
   /** Update the table with values from fields and the DB */
@@ -73,21 +77,20 @@ public class MealDeliveryRequestController extends RequestController {
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    mealCol.setCellValueFactory(new TreeItemPropertyValueFactory("mealName"));
-    allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory("allergy"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
-    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    mealCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("mealName"));
+    allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("allergy"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MealRequest> currMealDeliveries =
         (ArrayList<MealRequest>) mealRequestDao.getAllServiceRequests();
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<MealRequest>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currMealDeliveries.isEmpty()) {
@@ -97,18 +100,44 @@ public class MealDeliveryRequestController extends RequestController {
 
     // for each loop cycling through each meal delivery currently entered into the system
     for (MealRequest delivery : currMealDeliveries) {
-      TreeItem<MealRequest> item = new TreeItem(delivery);
+      TreeItem<MealRequest> item = new TreeItem<>(delivery);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     mealDeliveryTable.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currMealDeliveries.get(0));
+    TreeItem<MealRequest> root = new TreeItem<>(currMealDeliveries.get(0));
     // Set the root in the table
     mealDeliveryTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root
     root.getChildren().addAll(treeItems);
+  }
+
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
   }
 
   /** Determine whether or not all fields have been filled out, so we can submit the info */
@@ -120,6 +149,7 @@ public class MealDeliveryRequestController extends RequestController {
       sendRequest.setText("Send Request");
     }
     statusLabel.setTextFill(Color.web("Black"));
+    sendRequest.setDisable(true);
     try {
       if ((employeeID.getText().equals("")
           && patientID.getText().equals("")
@@ -127,7 +157,6 @@ public class MealDeliveryRequestController extends RequestController {
           && allergy.getText().equals("")
           && statusDropDown.getValue().equals("Status")
           && mealDropDown.getValue().equals("Select Meal"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
       } else if ((employeeID.getText().equals("")
           || patientID.getText().equals("")
@@ -135,16 +164,12 @@ public class MealDeliveryRequestController extends RequestController {
           || allergy.getText().equals("")
           || statusDropDown.getValue().equals("Status")
           || mealDropDown.getValue().equals("Select Meal"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
       } else if (LocationDao.getLocation(nodeID.getText()) == null) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Needs valid room");
-      } else if (!isInteger(employeeID.getText())) {
-        sendRequest.setDisable(true);
+      } else if (!findEmployee()) {
         statusLabel.setText("Status: Needs valid employee");
-      } else if (!isInteger(patientID.getText())) {
-        sendRequest.setDisable(true);
+      } else if (!findPatient()) {
         statusLabel.setText("Status: Needs valid patient");
       } else {
         statusLabel.setText("Status: Valid Request");
@@ -173,8 +198,10 @@ public class MealDeliveryRequestController extends RequestController {
               Integer.parseInt(employeeID.getText()),
               mealDropDown.getValue().toString(),
               allergy.getText(),
+              requestDetails.getText(),
               statusDropDown.getValue().toString(),
-              requestDetails.getText());
+              -1,
+              Timestamp.from(Instant.now()).toString());
       // Send the request to the Dao pattern
       try {
         if (updating) {
@@ -206,23 +233,11 @@ public class MealDeliveryRequestController extends RequestController {
     requestDetails.setText("");
     statusDropDown.setValue("Status");
     sendRequest.setDisable(true);
+    validateButton();
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
-
-  // used to get coordinates after clicking map
-  @FXML private TextArea coordinates;
-  private Point point = new Point();
-  private int xCoord, yCoord;
-
-  @FXML
-  private void mapCoordTracker() {
-    point = MouseInfo.getPointerInfo().getLocation();
-    xCoord = point.x - 712;
-    yCoord = point.y - 230;
-    coordinates.setText("X: " + xCoord + " Y: " + yCoord);
-  }
 
   @FXML
   private void updateSelectedRow() throws IOException, NullPointerException, SQLException {

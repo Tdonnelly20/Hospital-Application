@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class RequestSystem {
   public static int serviceIDCounter = 0;
@@ -60,11 +61,22 @@ public class RequestSystem {
 
   public LinkedList<Location> getPaths(String startLocation, String endLocation) {
     LinkedList<Location> locations = new LinkedList<>();
-    for (Pathfinder.Node node :
-        pathfindingDao.getPathfinder().pathfind(startLocation, endLocation)) {
-      locations.addLast(RequestSystem.getSystem().getLocation(node.getName()));
+    Queue<Pathfinder.Node> nodes =
+        pathfindingDao.getPathfinder().pathfind(startLocation, endLocation);
+    if (nodes != null) {
+      for (Pathfinder.Node node : nodes) {
+        locations.addLast(RequestSystem.getSystem().getLocation(node.getName()));
+      }
     }
     return locations;
+  }
+
+  public void makePaths(String start, String end) {
+    pathfindingDao.addPathNode(start, end);
+  }
+
+  public PathfindingDao getPathfinderDao() {
+    return pathfindingDao;
   }
 
   /** Choose type of DAO for the methods called */
@@ -196,11 +208,11 @@ public class RequestSystem {
           break;
         default:
           System.out.println("AddServiceRequest error");
-          // System.out.println(request.getRequestName());
+          System.out.println(request.getRequestName());
       }
     } else {
-      // System.out.println("Service request " + request.getServiceID() + " already exists");
-      // System.out.println(request.getRequestName());
+      System.out.println("Service request " + request.getServiceID() + " already exists");
+      System.out.println(request.getRequestName());
     }
   }
 
@@ -283,6 +295,7 @@ public class RequestSystem {
         break;
       default:
         System.out.println("RemoveServiceRequest error");
+        break;
     }
   }
 
@@ -336,6 +349,11 @@ public class RequestSystem {
     }
 
     return serviceRequests;
+  }
+
+  /** Returns Pathfinder */
+  public Pathfinder getPathfinder() {
+    return pathfindingDao.getPathfinder();
   }
 
   public EmployeeDao getEmployeeDao() {
@@ -441,7 +459,8 @@ public class RequestSystem {
     allRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
     allRequests.addAll(religiousRequestDao.getAllServiceRequests());
     allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
-
+    allRequests.addAll(robotDao.getAllServiceRequests());
+    // TODO Add Dylan's service request
     return allRequests;
   }
 
@@ -488,6 +507,7 @@ public class RequestSystem {
       }
     }
     serviceIDCounter = highestID + 1;
+    System.out.println("MAX serviceIDs is " + serviceIDCounter);
 
     // Patients
     highestID = patientIDCounter;

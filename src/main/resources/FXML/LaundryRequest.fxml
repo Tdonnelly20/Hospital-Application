@@ -46,7 +46,7 @@
                               <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="0.0" prefWidth="360.0" spacing="15.0" style="-fx-background-color: #5c677d;">
                                  <children>
                                     <Label text="Employee ID" textFill="WHITE" />
-                                    <TextField fx:id="userID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee ID" />
+                                    <TextField fx:id="employeeID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Employee ID" />
                                     <Label layoutX="171.0" layoutY="50.0" text="Patient ID" textFill="WHITE" />
                                     <TextField fx:id="patientID" maxWidth="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefWidth="300.0" promptText="Patient ID">
                                        <VBox.margin>
@@ -103,7 +103,7 @@
                      <children>
                         <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab onSelectionChanged="#updateTreeTable" text="Table View">
+                            <Tab onSelectionChanged="#updateTreeTable" text="Laundry Requests">
                               <content>
                                 <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -127,13 +127,18 @@
                                                    <children>
                                                       <TreeTableView fx:id="requestTable" layoutX="15.0" layoutY="10.0" prefHeight="553.0" prefWidth="538.0">
                                                          <columns>
-                                                            <TreeTableColumn fx:id="userIDCol" prefWidth="79.99993705749512" text="Hospital ID" />
+                                                            <TreeTableColumn fx:id="employeeIDCol" prefWidth="79.99993705749512" text="Employee ID" />
                                                             <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="68.79999542236328" text="Patient ID" />
-                                                            <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First Name" />
-                                                            <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last Name" />
-                                                            <TreeTableColumn fx:id="locationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location" />
+                                                            <TreeTableColumn prefWidth="75.0" text="Patient Name">
+                                                               <columns>
+                                                                  <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" prefWidth="67.20001220703125" text="First" />
+                                                                  <TreeTableColumn fx:id="lastNameCol" prefWidth="68.79998779296875" text="Last" />
+                                                               </columns>
+                                                            </TreeTableColumn>
+                                                            <TreeTableColumn fx:id="locationCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location ID" />
                                                             <TreeTableColumn fx:id="detailsCol" minWidth="0.0" prefWidth="56.7999267578125" text="Details" />
                                                             <TreeTableColumn fx:id="statusCol" minWidth="3.20001220703125" prefWidth="72.800048828125" text="Status" />
+                                                            <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
                                                          </columns>
                                                       </TreeTableView>
                                                    </children>

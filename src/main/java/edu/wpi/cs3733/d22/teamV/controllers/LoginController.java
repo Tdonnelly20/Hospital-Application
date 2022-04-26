@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -71,6 +73,7 @@ public class LoginController extends Controller {
     iv.fitHeightProperty().bind(pane.heightProperty());
   }
 
+
   @FXML
   public void setDB() {
     System.out.println(dBMenu.getValue().toString());
@@ -113,7 +116,7 @@ public class LoginController extends Controller {
   public void keyLogin(KeyEvent event) throws Exception {
     // System.out.println(KeyCode.ENTER);
     if (event.getCode().equals(KeyCode.ENTER)) {
-      checkLogin(event);
+      checkLogin(event, username.getText());
       // System.out.println("hello");
     } else {
       // System.out.println("else");
@@ -121,28 +124,26 @@ public class LoginController extends Controller {
   }
 
   @FXML
-  public void userLogin(ActionEvent event) throws Exception {
-    checkLogin(event);
+  public void userLogin(ActionEvent event) throws IOException {
+    checkLogin(event, username.getText());
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
-  private void checkLogin(Event event) throws Exception {
+  public void checkLogin(Event event, String string) throws IOException {
 
     Employee user = new Employee();
 
-    if (username.getText().toString().equals("admin")
-        && password.getText().toString().equals("admin")) {
+    if (string.equals("admin") && password.getText().toString().equals("admin")) {
       user.setAdmin(true);
       Vdb vdb = new Vdb();
       vdb.createAllDB();
       switchToHome(event);
-    } else if (username.getText().toString().equals("staff")
-        && password.getText().toString().equals("staff")) {;
+    } else if (string.equals("staff") && password.getText().toString().equals("staff")) {;
       Vdb vdb = new Vdb();
       vdb.createAllDB();
       switchToHome(event);
-    } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
+    } else if (string.isEmpty() && password.getText().isEmpty()) {
       wrongLogin.setText("Please enter your data.");
     } else {
       wrongLogin.setText("Wrong username or password!");

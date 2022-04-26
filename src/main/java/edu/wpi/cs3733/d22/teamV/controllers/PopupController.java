@@ -8,6 +8,8 @@ import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.LinkedList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -306,8 +308,8 @@ public class PopupController {
       addButton.setText("Add a Location");
       buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     } else {
-      Button pathfindingButton = new Button("Directions");
-      pathfindingButton.setOnAction(event1 -> directionsForm(icon));
+      Button pathfindingButton = new Button("Pathfinder");
+      pathfindingButton.setOnAction(event1 -> pathfinderForm(icon));
 
       buttonBox.getChildren().add(pathfindingButton);
       clear(icon.getLocation().getLongName(), icon.getLocation().getShortName());
@@ -331,16 +333,23 @@ public class PopupController {
     }
   }
 
+  private void pathfinderForm(LocationIcon firstLocation) {
+    clear("Pathfinder", "Pathfinder");
+    Button directions = new Button("Get Directions");
+    Button connections = new Button("Make Connections");
+    directions.setOnAction(event -> directionsForm(firstLocation));
+    connections.setOnAction(event -> connectionsForm(firstLocation));
+    buttonBox.getChildren().addAll(directions, connections);
+  }
+
   /** Opens/sets up the pathfinder form */
   private void directionsForm(LocationIcon firstLocation) {
-    clear("Directions", "Directions");
-    buttonBox.getChildren().addAll(submitIcon, closeButton);
-    // fields[0].setPromptText(firstLocation.getLocation().getNodeID());
+    clear("Get Directions", "Get Directions");
+    buttonBox.getChildren().addAll(submitIcon, addButton, closeButton);
     fields[0].setPromptText("Destination Node ID");
-    // inputGenerator(fields[0].getPromptText(), "Starting Location", fields[0]);
     inputGenerator(fields[0].getPromptText(), "Destination", fields[0]);
     submitIcon.setText("Get Directions");
-
+    addButton.setText("Add Connection");
     submitIcon.setOnAction(
         event -> {
           if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
@@ -355,6 +364,23 @@ public class PopupController {
             }
             stage.close();
             clear();
+          }
+        });
+  }
+
+  /** Opens/sets up the pathfinder connection form */
+  private void connectionsForm(LocationIcon firstLocation) {
+    clear("Make Connections", "Make Connections");
+    buttonBox.getChildren().addAll(submitIcon, closeButton);
+    inputGenerator("Other Node ID", "Node ID", fields[0]);
+    submitIcon.setText("Make Connection");
+    submitIcon.setOnAction(
+        event -> {
+          if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
+            /*RequestSystem.getSystem().getPathfinder().
+            firstLocation.getLocation().getNodeID(),
+                    RequestSystem.getSystem().getLocation(fields[0].getText()).getNodeID());*/
+            closePopUp();
           }
         });
   }
@@ -427,7 +453,7 @@ public class PopupController {
                 deleteIcon(fields[0].getText());
                 addIcon(newLocation);
                 locationForm(event, newLocation.getIcon());
-                
+
               } else {
                 missingFields.setText("Invalid Location ID");
                 if (!content.getChildren().contains(missingFields)) {
@@ -591,6 +617,7 @@ public class PopupController {
     } else {
       locationID = icon.getLocation().getNodeID();
     }
+    assert icon != null;
     switch (serviceRequest) {
       case "Lab Request":
         fields[1].setPromptText("Patient ID");
@@ -611,7 +638,10 @@ public class PopupController {
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         comboBox2.getValue(),
-                        comboBox3.getValue()));
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -638,7 +668,10 @@ public class PopupController {
                         comboBox2.getValue(),
                         fields[3].getText(),
                         Integer.parseInt(fields[2].getText()),
-                        comboBox3.getValue()));
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -664,8 +697,11 @@ public class PopupController {
                         Integer.parseInt(fields[1].getText()),
                         comboBox2.getValue(),
                         fields[2].getText(),
+                        fields[3].getText(),
                         comboBox3.getValue(),
-                        fields[3].getText()));
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -682,7 +718,11 @@ public class PopupController {
                         locationID,
                         Integer.parseInt(fields[1].getText()),
                         Integer.parseInt(fields[0].getText()),
-                        fields[2].getText()));
+                        fields[2].getText(),
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -700,7 +740,10 @@ public class PopupController {
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         fields[2].getText(),
-                        comboBox3.getValue()));
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -726,8 +769,11 @@ public class PopupController {
                         Integer.parseInt(fields[1].getText()),
                         comboBox2.getValue(),
                         fields[2].getText(),
+                        fields[3].getText(),
                         comboBox3.getValue(),
-                        fields[3].getText()));
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -755,7 +801,11 @@ public class PopupController {
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         comboBox2.getValue(),
-                        fields[2].getText()));
+                        fields[2].getText(),
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -775,7 +825,11 @@ public class PopupController {
                         Integer.parseInt(fields[0].getText()),
                         locationID,
                         fields[2].getText(),
-                        fields[3].getText()));
+                        fields[3].getText(),
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -786,6 +840,7 @@ public class PopupController {
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()) {
+                System.out.println("HERE");
                 addRequest(
                     icon,
                     new RobotRequest(
@@ -793,7 +848,10 @@ public class PopupController {
                         Integer.parseInt(fields[1].getText()),
                         locationID,
                         fields[2].getText(),
-                        comboBox3.getValue()));
+                        comboBox3.getValue(),
+                        -1,
+                        Timestamp.from(Instant.now()).toString()));
+                closePopUp();
               }
             });
         break;
@@ -806,6 +864,7 @@ public class PopupController {
     icon.addToRequests(request);
     RequestSystem.getSystem().addServiceRequest(request);
     update();
+    closePopUp();
   }
 
   /** Opens/sets up the general equipment form based on the given event and icon */
@@ -936,6 +995,7 @@ public class PopupController {
               closePopUp();
             }
           } else {
+            assert equipment != null;
             String oldID = equipment.getID();
             equipment.setID(fields[1].getText());
             equipment.setName(fields[5].getText());
@@ -945,7 +1005,6 @@ public class PopupController {
             RequestSystem.getSystem().getEquipmentDao().updateEquipment(equipment, oldID);
             closePopUp();
           }
-          
         });
     stage.setTitle("Modify Equipment");
     showPopUp();

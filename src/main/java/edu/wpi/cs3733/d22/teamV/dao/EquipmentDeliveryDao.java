@@ -12,15 +12,17 @@ import java.util.ArrayList;
 
 public class EquipmentDeliveryDao extends DaoInterface {
 
+  // All equipment deliveries
   private static ArrayList<EquipmentDelivery> allEquipmentDeliveries;
 
-  /** Initialize the array list */
+  /** Create SQL table, load from CSV */
   public EquipmentDeliveryDao() {
-    allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
+    allEquipmentDeliveries = new ArrayList<>();
     createSQLTable();
     loadFromCSV();
   }
 
+  /** Load all the deliveries on the CSV into the arraylist */
   public void loadFromCSV() {
     try {
 
@@ -42,7 +44,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
                 data[3],
                 data[4],
                 Integer.parseInt(data[5]),
-                data[6]);
+                data[6],
+                Integer.parseInt(data[7]),
+                data[8]);
         equipmentDelivery.setServiceID(Integer.parseInt(data[7]));
         deliveries.add(equipmentDelivery);
       }
@@ -52,6 +56,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /** Save all the equipment requests in the arraylist to the CSV */
   @Override
   public void saveToCSV() {
     try {
@@ -72,7 +77,8 @@ public class EquipmentDeliveryDao extends DaoInterface {
           equipmentDelivery.getDetails(),
           String.valueOf(equipmentDelivery.getQuantity()),
           equipmentDelivery.getStatus(),
-          String.valueOf(equipmentDelivery.getServiceID())
+          String.valueOf(equipmentDelivery.getServiceID()),
+          equipmentDelivery.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -88,6 +94,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /** Create a SQL table for all the service requests */
   @Override
   public void createSQLTable() {
     try {
@@ -101,7 +108,7 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int)";
+            "CREATE TABLE EQUIPMENTDELIVERY(employeeID int, patientID int, location char(50), equipment char(50), notes char(254), quantity int, status char(20), serviceID int,date_time timestamp)";
         exampleStatement.execute(query);
       } else {
         query = "DROP TABLE EQUIPMENTDELIVERY";
@@ -117,6 +124,11 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Add a specific request into SQL
+   *
+   * @param request
+   */
   @Override
   public void addToSQLTable(ServiceRequest request) {
     try {
@@ -130,13 +142,13 @@ public class EquipmentDeliveryDao extends DaoInterface {
 
       query =
           "INSERT INTO EQUIPMENTDELIVERY("
-              + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID) VALUES "
+              + "employeeID,patientID,location,equipment,notes,quantity,status,serviceID,date_time) VALUES "
               + "("
               + equipmentDelivery.getEmployeeID()
               + ", "
               + equipmentDelivery.getPatientID()
               + ", '"
-              + equipmentDelivery.getLocationName()
+              + equipmentDelivery.getNodeID()
               + "', '"
               + equipmentDelivery.getEquipment()
               + "','"
@@ -147,6 +159,8 @@ public class EquipmentDeliveryDao extends DaoInterface {
               + equipmentDelivery.getStatus()
               + "',"
               + equipmentDelivery.getServiceID()
+              + "','"
+              + equipmentDelivery.getTimeMade()
               + ")";
 
       statement.execute(query);
@@ -156,6 +170,12 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Replace a service request with another, or update a specific request with new values
+   *
+   * @param request
+   * @param serviceID
+   */
   @Override
   public void updateServiceRequest(ServiceRequest request, int serviceID) {
     EquipmentDelivery delivery = (EquipmentDelivery) request;
@@ -166,6 +186,11 @@ public class EquipmentDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Remove a request from the SQL table
+   *
+   * @param request
+   */
   @Override
   public void removeFromSQLTable(ServiceRequest request) {
     try {
@@ -183,6 +208,11 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Add a service request into the arraylist, then the SQL table, then save to a CSV
+   *
+   * @param request
+   */
   @Override
   public void addServiceRequest(ServiceRequest request) {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
@@ -193,6 +223,11 @@ public class EquipmentDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Remove a service request from the arraylist, then the SQL, then the CSV
+   *
+   * @param request
+   */
   @Override
   public void removeServiceRequest(ServiceRequest request) {
     allEquipmentDeliveries.removeIf(value -> value.getServiceID() == request.getServiceID());
@@ -201,11 +236,21 @@ public class EquipmentDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Get all service requests in the arraylist
+   *
+   * @return
+   */
   @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     return allEquipmentDeliveries;
   }
 
+  /**
+   * Set all service requests in the arraylist
+   *
+   * @param serviceRequests
+   */
   @Override
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     allEquipmentDeliveries = new ArrayList<>();

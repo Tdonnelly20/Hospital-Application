@@ -7,9 +7,14 @@ import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import java.sql.Timestamp;
+import java.time.Instant;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,6 +28,10 @@ public class EquipmentIcon extends Icon {
   ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
   private double xCoord;
   private double yCoord;
+  private int cleanPumps = 0;
+  private int dirtyPumps = 0;
+  private int dirtyBeds = 0;
+  private int cleanBeds = 0;
 
   /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
@@ -48,9 +57,9 @@ public class EquipmentIcon extends Icon {
           // Updates xy and checks if it is touching another icon when it is released from drag
           if (isDrag) {
             isDrag = false;
-
-            xCoord += event.getX() - 7;
-            yCoord += ((event.getY()) - 10);
+            Point2D offset = (Point2D) image.getUserData();
+            xCoord += event.getX() - offset.getX() - 15;
+            yCoord += event.getY() - offset.getY() - 20;
             RequestSystem.getSystem().updateLocations(this);
             checkBounds();
             MapManager.getManager().setUpFloors();
@@ -120,20 +129,36 @@ public class EquipmentIcon extends Icon {
   /** Adds equipment to the list and updates icon image */
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
+      if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
+      else if (equipment.getName().equals("Bed")) dirtyBeds++;
       equipmentList.add(equipment);
     } else {
       equipmentList.add(0, equipment);
+      if (equipment.getName().equals("Infusion Pump")) cleanPumps++;
     }
     setImage();
-    alertSixBeds();
+    alertSixBeds(equipment, true);
+    MapDashboardController.getController().updateCounts();
+    pumpAlert();
   }
 
   /** Removes equipment and calls alerts */
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
-    alertSixBeds();
-    PopupController.getController().closePopUp();
+    pumpAlert();
+    if (equipment.getName().equals("Infusion Pump")) {
+      if (equipment.getIsDirty()) dirtyPumps--;
+      else cleanPumps--;
+    } else if (equipment.getName().equals("Bed")) {
+      dirtyBeds--;
+      if (equipment.getName().equals("Infusion Pump")) {
+        if (equipment.getIsDirty()) dirtyPumps--;
+        else cleanPumps--;
+      }
+      alertSixBeds(equipment, false);
+      PopupController.getController().closePopUp();
+    }
   }
 
   /** Sets the icon image depending on if it has clean equipment */
@@ -186,7 +211,7 @@ public class EquipmentIcon extends Icon {
       }
     }
   }
-
+/*
   public void alertSixBeds() {
 
     int alertCounter = 0;
@@ -208,17 +233,30 @@ public class EquipmentIcon extends Icon {
 
     MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
-
-  public int[] pumpAlert() {
-    int clean = 0;
+*/
+  public void pumpAlert() {
     int dirty = 0;
     for (Equipment equipment : equipmentList) {
-      // System.out.println(equipment.getName());
-      if (equipment.getName().equals("Infusion Pump")) {
-        if (equipment.getIsDirty()) dirty++;
-        else clean++;
-      }
+      equipment.updateLocation(getXCoord(), getYCoord());
     }
-    return new int[] {clean, dirty};
+  }
+
+  // checks if isAdding is true, if so finds beds that are dirty in the same place.
+  // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
+  // else, dirtyBeds decreases by 1.
+  public void alertSixBeds(Equipment e, boolean isAdding) {
+    if (isAdding) {
+      if (e.getIsDirty() && e.getName() == "Bed") {
+        dirtyBeds += 1;
+      }
+      if (dirtyBeds > 5) {
+        EquipmentDelivery request =
+            new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started", RequestSystem.getServiceID(),
+                    Timestamp.from(Instant.now()).toString());
+        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+      }
+    } else {
+      dirtyBeds--;
+    }
   }
 }

@@ -2,8 +2,9 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 public class EquipmentDelivery extends ServiceRequest {
   private final String equipment;
@@ -19,9 +20,16 @@ public class EquipmentDelivery extends ServiceRequest {
       String notes,
       int quantity,
       String status,
-      int serviceID) {
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
-    this.employee = new Employee(employeeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
     this.details = notes;
@@ -40,8 +48,16 @@ public class EquipmentDelivery extends ServiceRequest {
       String equipment,
       String notes,
       int quantity,
-      String status) {
-    System.out.println(Vdb.requestSystem);
+      String status,
+      int serviceID,
+      String date) {
+    System.out.println("DATE IS :" + date);
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
@@ -51,6 +67,7 @@ public class EquipmentDelivery extends ServiceRequest {
     this.type = "Equipment Delivery Request";
     this.quantity = quantity;
     this.status = status;
+    setServiceID(RequestSystem.getServiceID());
   }
 
   public String getEquipment() {
@@ -69,26 +86,6 @@ public class EquipmentDelivery extends ServiceRequest {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);
     updateAllObservers();
-  }
-
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public String getLocationName() {
-    return location.getNodeID();
-  }
-
-  public int getEmployeeID() {
-    return super.getEmployee().getEmployeeID();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
   }
 
   @Override

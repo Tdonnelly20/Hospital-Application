@@ -22,7 +22,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   public Patient patient;
   protected Employee employee;
   public boolean toBeDeleted = false;
-  protected Timestamp timestamp;
+  protected Timestamp timeMade; // when this was made
   protected String type;
   protected RequestSystem.Dao dao;
   protected String details;
@@ -31,6 +31,22 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   protected Icon icon;
   public Image image;
   private String nodeID;
+
+  public String getPatientFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getPatientLastName() {
+    return patient.getLastName();
+  }
+
+  public int getEmployeeID() {
+    return employee.getEmployeeID();
+  }
+
+  public int getPatientID() {
+    return patient.getPatientID();
+  }
 
   public String getRequestName() {
     if (patient != null) {
@@ -44,6 +60,10 @@ public abstract class ServiceRequest extends DirectionalAssoc {
     return location.getNodeID();
   }
 
+  public Timestamp getTimeMade() {
+    return timeMade;
+  }
+
   public void detachAll() {
     toBeDeleted = true;
     updateAllObservers();
@@ -52,6 +72,67 @@ public abstract class ServiceRequest extends DirectionalAssoc {
 
   public void setPatient(Patient patient) {
     this.patient = patient;
+  }
+
+  public String toString() {
+    String detailString;
+    String typeInfo = type;
+    if (details == null || details.equals("null")) {
+      detailString = "N/A";
+    } else {
+      detailString = details;
+    }
+    if (notes != null) {
+      typeInfo.concat(" - " + notes);
+    }
+    if (patient == null) {
+      return "Location: "
+          + location.getNodeID()
+          + "\nX: "
+          + getLocation().getXCoord()
+          + "    Y: "
+          + getLocation().getYCoord()
+          + "\nEmployee: "
+          + employee.getLastName()
+          + ", "
+          + employee.getFirstName()
+          + " (ID: "
+          + employee.getEmployeeID()
+          + ")\nService Request: "
+          + typeInfo
+          + " (ID: "
+          + serviceID
+          + ")\nDetails: "
+          + detailString;
+    }
+    return "Location: "
+        + location.getNodeID()
+        + "\nX: "
+        + getLocation().getXCoord()
+        + "    Y: "
+        + getLocation().getYCoord()
+        + "\nEmployee: "
+        + employee.getLastName()
+        + ", "
+        + employee.getFirstName()
+        + " (ID: "
+        + employee.getEmployeeID()
+        + ")\nPatient: "
+        + patient.getLastName()
+        + ", "
+        + patient.getFirstName()
+        + " (ID: "
+        + patient.getPatientID()
+        + ")\nService Request: "
+        + typeInfo
+        + " (ID: "
+        + serviceID
+        + ")\nDetails: "
+        + detailString;
+  }
+
+  public int getServiceID() {
+    return serviceID;
   }
 
   @Override
@@ -85,54 +166,5 @@ public abstract class ServiceRequest extends DirectionalAssoc {
     }
 
     // Updated in individual classes
-  }
-
-  public String toString() {
-    String detailString;
-    String typeInfo = type;
-    if (details == null || details.equals("null")) {
-      detailString = "N/A";
-    } else {
-      detailString = details;
-    }
-    if (notes != null) {
-      typeInfo.concat(" - " + notes);
-    }
-    if (patient == null) {
-      return "Location: "
-          + location.getNodeID()
-          + "\nX: "
-          + getLocation().getXCoord()
-          + "    Y: "
-          + getLocation().getYCoord()
-          + "\nEmployee ID: "
-          + employee.getEmployeeID()
-          + "\nService ID: "
-          + serviceID
-          + " ("
-          + typeInfo
-          + ")\nDetails: "
-          + detailString;
-    }
-    return "Location: "
-        + location.getNodeID()
-        + "\nX: "
-        + getLocation().getXCoord()
-        + "    Y: "
-        + getLocation().getYCoord()
-        + "\nEmployee ID: "
-        + employee.getEmployeeID()
-        + "\nPatient ID: "
-        + patient.getPatientID()
-        + " ("
-        + patient.getLastName()
-        + ", "
-        + patient.getFirstName()
-        + ")\nService ID: "
-        + serviceID
-        + " ("
-        + typeInfo
-        + ")\nDetails: "
-        + detailString;
   }
 }
