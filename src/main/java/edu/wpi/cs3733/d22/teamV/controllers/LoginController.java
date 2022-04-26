@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
-import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -73,7 +71,6 @@ public class LoginController extends Controller {
     iv.fitHeightProperty().bind(pane.heightProperty());
   }
 
-
   @FXML
   public void setDB() {
     System.out.println(dBMenu.getValue().toString());
@@ -87,9 +84,11 @@ public class LoginController extends Controller {
       dbButton.setOpacity(0);
       dbPath.setOpacity(0);
       dbIP.setOpacity(0);
+      Vdb.setUpConnection();
     } else {
       System.out.println("No database was selected");
       Vdb.setIsClient(false);
+      Vdb.setUpConnection();
     }
   }
 
@@ -124,13 +123,13 @@ public class LoginController extends Controller {
   }
 
   @FXML
-  public void userLogin(ActionEvent event) throws IOException {
+  public void userLogin(ActionEvent event) throws Exception {
     checkLogin(event, username.getText());
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
-  public void checkLogin(Event event, String string) throws IOException {
+  public void checkLogin(Event event, String string) throws Exception {
 
     Employee user = new Employee();
 
