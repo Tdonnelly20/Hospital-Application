@@ -6,23 +6,23 @@ import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-public class SanitationRequest extends ServiceRequest {
-  private String hazardName, requestDetails;
+public class ComputerRequest extends ServiceRequest {
+  private String typeName, requestDetails;
 
   /**
-   * Creates a basic data structure for holding Sanitation request
+   * Creates a basic data structure for holding computer request
    *
    * @param patientID
    * @param employeeID
    * @param roomLocation
-   * @param hazardName
+   * @param typeName
    * @param requestDetails
    */
-  public SanitationRequest(
+  public ComputerRequest(
       int patientID,
       int employeeID,
       String roomLocation,
-      String hazardName,
+      String typeName,
       String requestDetails,
       String status,
       int serviceID,
@@ -37,8 +37,8 @@ public class SanitationRequest extends ServiceRequest {
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.hazardName = hazardName;
-    this.type = "Sanitation Request";
+    this.typeName = typeName;
+    this.type = "Computer Request";
     this.status = status;
     setServiceID(RequestSystem.getServiceID());
     if (serviceID < 0) { // calls system to set id
@@ -54,8 +54,8 @@ public class SanitationRequest extends ServiceRequest {
     updateAllObservers();
   }
 
-  public String getHazardName() {
-    return hazardName;
+  public String getTypeName() {
+    return typeName;
   }
 
   public String getRequestDetails() {
