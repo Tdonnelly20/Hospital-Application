@@ -76,6 +76,7 @@ public class DBPopupController extends Controller {
 
     yesButton.setMinWidth(100);
     noButton.setMinWidth(100);
+    content.getChildren().addAll(yesButton, noButton);
 
     title.setText("Are you sure?");
     stage.setTitle("Please choose an option");
@@ -84,17 +85,18 @@ public class DBPopupController extends Controller {
   /** Opens the general icon window and sets up actions */
   @FXML
   public void iconWindow() {
-    content.getChildren().addAll(yesButton, noButton);
     yesButton.setOnAction(
         event2 -> {
           sceneVbox.getChildren().clear();
-          EmployeeController.getController().setIsSure(true);
+          content.getChildren().clear();
           closePopUp();
+          EmployeeController.getController().removeSelectedRow();
         });
     noButton.setOnAction(
         event2 -> {
           sceneVbox.getChildren().clear();
-          EmployeeController.getController().setIsSure(false);
+          content.getChildren().clear();
+          // EmployeeController.getController().setIsSure();
           closePopUp();
         });
     showPopUp();

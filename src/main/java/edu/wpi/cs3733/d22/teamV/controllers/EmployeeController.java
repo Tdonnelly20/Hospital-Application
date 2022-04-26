@@ -10,6 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -379,23 +380,23 @@ public class EmployeeController extends RequestController {
     sendRequest.setDisable(true);
   }
 
-  public void setIsSure(boolean b) {
-    isSure = b;
+  @FXML
+  private void openPopup(ActionEvent event) {
+    DBPopupController.getController().init();
+    DBPopupController.getController().iconWindow();
+    // removeSelectedRow();
   }
 
   @FXML
-  private void removeSelectedRow() throws NullPointerException {
-    DBPopupController.getController().init();
-    DBPopupController.getController().iconWindow();
-    if (isSure) {
-      try {
-        Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
-        employeeDao.removeEmployee(employee);
-      } catch (NullPointerException e) {
-        e.printStackTrace();
-      }
-      updateEmployeeTreeTable();
+  public void removeSelectedRow() throws NullPointerException {
+
+    try {
+      Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
+      employeeDao.removeEmployee(employee);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
     }
+    updateEmployeeTreeTable();
   }
 
   @FXML
