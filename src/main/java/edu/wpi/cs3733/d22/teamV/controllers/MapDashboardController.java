@@ -12,12 +12,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,7 +25,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MapDashboardController extends Controller {
@@ -163,15 +158,7 @@ public class MapDashboardController extends Controller {
 
   @FXML private ArrayList<ButtonSubject> buttonSubjects = new ArrayList<ButtonSubject>();
 
-  public ArrayList<ButtonSubject> getButtonSubjects() {
-    return buttonSubjects;
-  }
-
   @FXML private ArrayList<DashboardListener> listeners = new ArrayList<DashboardListener>();
-
-  public ArrayList getListeners() {
-    return listeners;
-  }
 
   public void setUpButtonSubjects() {
     ButtonSubject ll2sub = new ButtonSubject(ll2, MapManager.getManager().getFloor("L2"));
@@ -526,7 +513,6 @@ public class MapDashboardController extends Controller {
   public void init() {
     setUpButtonSubjects();
     setUpDashboardListeners();
-    setUpBarChart();
     updateAll();
   }
 
@@ -631,14 +617,11 @@ public class MapDashboardController extends Controller {
   @FXML XYChart.Series equipment = new XYChart.Series();
 
   /** set up dashboard bar chart. Used in init() */
-  @FXML
-  public void setUpBarChart() {
-    equipment.getData().clear();
-  }
 
   /** updates bar chart on floor switch / equipment change */
   @FXML
   public void updateBarChart() {
+    equipment.getData().clear();
     equipment = new XYChart.Series<>();
     updateBeds();
     updatePumps();
@@ -724,33 +707,5 @@ public class MapDashboardController extends Controller {
       }
 
      */
-  }
-
-  private void displayLabelForData(XYChart.Data<String, Number> data) {
-    final Node node = data.getNode();
-    final Text dataText = new Text(data.getYValue() + "");
-    node.parentProperty()
-        .addListener(
-            new ChangeListener<Parent>() {
-              @Override
-              public void changed(
-                  ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
-                Group parentGroup = (Group) parent;
-                parentGroup.getChildren().add(dataText);
-              }
-            });
-
-    node.boundsInParentProperty()
-        .addListener(
-            new ChangeListener<Bounds>() {
-              @Override
-              public void changed(
-                  ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
-                dataText.setLayoutX(
-                    Math.round(
-                        bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2));
-                dataText.setLayoutY(Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5));
-              }
-            });
   }
 }
