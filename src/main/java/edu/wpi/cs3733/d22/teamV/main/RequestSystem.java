@@ -565,6 +565,10 @@ public class RequestSystem {
     nodeIDCounter = highestID++;
   }
 
+  public static String getNewNode(){
+    return "vNODE" + nodeIDCounter;
+  }
+
   public static int getServiceID() {
     return serviceIDCounter++;
   }
