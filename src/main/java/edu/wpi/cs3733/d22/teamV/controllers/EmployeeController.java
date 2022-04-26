@@ -22,6 +22,7 @@ public class EmployeeController extends RequestController {
   private static final EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
   private int updateID;
+  private boolean isSure = true;
 
   public EmployeeController() {}
 
@@ -378,10 +379,14 @@ public class EmployeeController extends RequestController {
     sendRequest.setDisable(true);
   }
 
+  public void setIsSure(boolean b) {
+    isSure = b;
+  }
+
   @FXML
   private void removeSelectedRow() throws NullPointerException {
+    DBPopupController.getController().init();
     DBPopupController.getController().iconWindow();
-    boolean isSure = true;
     if (isSure) {
       try {
         Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
