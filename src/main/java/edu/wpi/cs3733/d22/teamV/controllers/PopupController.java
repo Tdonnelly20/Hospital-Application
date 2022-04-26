@@ -5,6 +5,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.EquipmentIcon;
 import edu.wpi.cs3733.d22.teamV.map.LocationIcon;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
+import edu.wpi.cs3733.d22.teamV.map.Pathfinder;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
@@ -410,6 +411,7 @@ public class PopupController {
                     fields[1].getText(),
                     fields[3].getText(),
                     fields[2].getText()));
+            new Pathfinder.Node(fields[0].getText());
             closePopUp();
           }
         });

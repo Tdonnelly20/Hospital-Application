@@ -231,7 +231,7 @@ public class MapController extends Controller {
 
   /** Reloads Map */
   @FXML
-  private void refreshMap() {
+  public void refreshMap() {
     setFloor(floorName);
     resetPathFinder();
     controlsVBox.getChildren().retainAll(pathfinderInfo, filterCheckBox, refreshButton);
@@ -487,7 +487,6 @@ public class MapController extends Controller {
     yesPath.setOnAction(
         event -> {
           makePath();
-          resetPathFinder();
         });
     noPath.setOnAction(
         event -> {

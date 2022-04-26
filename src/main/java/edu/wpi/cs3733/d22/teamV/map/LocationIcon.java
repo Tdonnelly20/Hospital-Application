@@ -38,9 +38,7 @@ public class LocationIcon extends Icon {
         event -> {
           // Opens the location form in the popup
           if (event.getClickCount() == 2) {
-            if (event.isControlDown() && !(event.isShiftDown() || event.isAltDown())) {
-
-            } else if (event.isShiftDown() || event.isAltDown()) {
+            if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
               setPathfinder(event);
             } else {
               PopupController.getController().locationForm(event, this);
@@ -58,11 +56,6 @@ public class LocationIcon extends Icon {
             RequestSystem.getSystem().updateLocations(this);
           }
         });
-  }
-
-  @FXML
-  private void removePath(MouseEvent event) {
-    // TODO Remove path between 2 nodes when matt gets his shit together
   }
 
   /**
@@ -85,12 +78,29 @@ public class LocationIcon extends Icon {
           .getEndLocationLabel()
           .setText("End Location: " + location.getNodeID());
       // Call relevant functions
-      if (event.isShiftDown() && !event.isAltDown()) {
+      if (event.isShiftDown() && !event.isAltDown() && !event.isControlDown()) {
         MapController.getController().drawPath();
-      } else if (event.isAltDown() && !event.isShiftDown()) {
+      } else if (event.isAltDown() && !event.isShiftDown() && !event.isControlDown()) {
         MapController.getController().makePath();
+      } else if (event.isControlDown() && !event.isShiftDown() && !event.isAltDown()) {
+        removeLink();
       }
     }
+  }
+
+  /** Removes link between 2 nodes */
+  @FXML
+  private void removeLink() {
+    if (!MapController.getController().getStartLocationID().equals(location.getNodeID())) {
+      RequestSystem.getSystem()
+          .getPathfinderDao()
+          .removeLink(location.getNodeID(), MapController.getController().getStartLocationID());
+    } else {
+      RequestSystem.getSystem()
+          .getPathfinderDao()
+          .removeLink(location.getNodeID(), MapController.getController().getEndLocationID());
+    }
+    MapController.getController().refreshMap();
   }
 
   @Override
