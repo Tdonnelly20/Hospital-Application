@@ -34,8 +34,6 @@ public class VApp extends Application {
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
       currentPath = returnPath();
-      Vdb vdb = new Vdb();
-      vdb.createAllDB();
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
