@@ -146,7 +146,6 @@ public class Pathfinder {
       ArrayList<Node> unsettledNodes = new ArrayList<>();
       // Add the starting node to the list of unsettled nodes
       unsettledNodes.add(startNode);
-      System.out.println(allNodes.size());
       // Make sure that all nodes are marked as unvisited and that their weight is the max value
       for (Node node : allNodes) {
         node.visited = false;
@@ -156,15 +155,6 @@ public class Pathfinder {
 
       // Set the starting weight of the current node to 0 (since we're already there)
       startNode.weight = 0;
-      /*System.out.println(
-                startNode.name
-                    + " "
-                    + startNode.visited
-                    + " "
-                    + startNode.previous
-                    + " "
-                    + startNode.weight);
-      */
       // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
       while (!unsettledNodes.isEmpty()) {
         Node currentNode = getLowestNode(unsettledNodes);
@@ -204,7 +194,6 @@ public class Pathfinder {
         closestNode = node;
       }
     }
-    System.out.println(closestNode.name + " " + closestNode.weight);
     return closestNode;
   }
 
@@ -215,6 +204,7 @@ public class Pathfinder {
       return getPath(path, node.previous);
     } else {
       printLink(path);
+      System.out.println(path.size());
       return path;
     }
   }

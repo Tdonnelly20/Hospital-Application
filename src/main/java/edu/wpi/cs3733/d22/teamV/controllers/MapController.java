@@ -428,8 +428,16 @@ public class MapController extends Controller {
             RequestSystem.getSystem().getLocation(endLocationID).getIcon());
 
       } else {
-        for (int i = 1; i < locations.size(); i++) {
-          drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
+        Location currLocation = null;
+        Location prevLoc = null;
+        for (Location location : locations) {
+          Location temp = currLocation;
+          currLocation = location;
+          prevLoc = temp;
+          System.out.println(location.getNodeID());
+          if (currLocation != null && prevLoc != null) {
+            drawPath(currLocation.getIcon(), prevLoc.getIcon());
+          }
         }
       }
     }
