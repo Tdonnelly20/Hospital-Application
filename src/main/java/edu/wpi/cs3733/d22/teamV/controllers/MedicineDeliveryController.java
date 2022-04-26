@@ -103,15 +103,16 @@ public class MedicineDeliveryController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(patientIDCol, (w - 30) / 9);
-    setColumnSize(hospitalIDCol, (w - 30) / 9);
-    setColumnSize(firstNameCol, (w - 30) / 9);
-    setColumnSize(lastNameCol, (w - 30) / 9);
-    setColumnSize(nodeIDCol, (w - 30) / 9);
-    setColumnSize(medicineCol, (w - 30) / 9);
-    setColumnSize(dosageCol, (w - 30) / 9);
-    setColumnSize(otherInfoCol, (w - 30) / 9);
-    setColumnSize(statusCol, (w - 30) / 9);
+    setColumnSize(patientIDCol, (w - 30) / 10);
+    setColumnSize(hospitalIDCol, (w - 30) / 10);
+    setColumnSize(firstNameCol, (w - 30) / 10);
+    setColumnSize(lastNameCol, (w - 30) / 10);
+    setColumnSize(nodeIDCol, (w - 30) / 10);
+    setColumnSize(medicineCol, (w - 30) / 10);
+    setColumnSize(dosageCol, (w - 30) / 10);
+    setColumnSize(otherInfoCol, (w - 30) / 10);
+    setColumnSize(statusCol, (w - 30) / 10);
+    setColumnSize(timeStampCol, (w - 30) / 10);
   }
 
   /** Update the table with values from fields and the DB */
@@ -128,7 +129,7 @@ public class MedicineDeliveryController extends RequestController {
     dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("dosage"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
-    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MedicineDelivery> currMedicineDeliveries =
         (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllServiceRequests();

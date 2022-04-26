@@ -281,13 +281,14 @@ public class InternalPatientTransportationController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(patientIDCol, (w - 30) / 7);
-    setColumnSize(employeeIDCol, (w - 30) / 7);
-    setColumnSize(firstNameCol, (w - 30) / 7);
-    setColumnSize(lastNameCol, (w - 30) / 7);
-    setColumnSize(roomNumberCol, (w - 30) / 7);
-    setColumnSize(otherInfoCol, (w - 30) / 7);
-    setColumnSize(statusCol, (w - 30) / 7);
+    setColumnSize(patientIDCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 8);
+    setColumnSize(firstNameCol, (w - 30) / 8);
+    setColumnSize(lastNameCol, (w - 30) / 8);
+    setColumnSize(roomNumberCol, (w - 30) / 8);
+    setColumnSize(otherInfoCol, (w - 30) / 8);
+    setColumnSize(statusCol, (w - 30) / 8);
+    setColumnSize(timeStampCol, (w - 30) / 8);
   }
 
   @Override

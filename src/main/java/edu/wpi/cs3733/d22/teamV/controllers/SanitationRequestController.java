@@ -186,7 +186,7 @@ public class SanitationRequestController extends RequestController {
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
@@ -250,13 +250,14 @@ public class SanitationRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(employeeIDCol, (w - 30) / 8);
-    setColumnSize(patientIDCol, (w - 30) / 8);
-    setColumnSize(firstNameCol, (w - 30) / 8);
-    setColumnSize(lastNameCol, (w - 30) / 8);
-    setColumnSize(roomLocationCol, (w - 30) / 8);
-    setColumnSize(hazardCol, (w - 30) / 8);
-    setColumnSize(requestDetailsCol, (w - 30) / 8);
-    setColumnSize(statusCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 9);
+    setColumnSize(patientIDCol, (w - 30) / 9);
+    setColumnSize(firstNameCol, (w - 30) / 9);
+    setColumnSize(lastNameCol, (w - 30) / 9);
+    setColumnSize(roomLocationCol, (w - 30) / 9);
+    setColumnSize(hazardCol, (w - 30) / 9);
+    setColumnSize(requestDetailsCol, (w - 30) / 9);
+    setColumnSize(statusCol, (w - 30) / 9);
+    setColumnSize(timeStampCol, (w - 30) / 9);
   }
 }
