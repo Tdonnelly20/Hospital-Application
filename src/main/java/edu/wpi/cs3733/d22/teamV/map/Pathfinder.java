@@ -152,35 +152,38 @@ public class Pathfinder {
         node.previous = null;
         node.weight = Double.MAX_VALUE;
       }
-
-      // Set the starting weight of the current node to 0 (since we're already there)
-      startNode.weight = 0;
-      // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
-      while (!unsettledNodes.isEmpty()) {
-        Node currentNode = getLowestNode(unsettledNodes);
-        unsettledNodes.remove(currentNode);
-
-        double currentNodeWeight = currentNode.getWeight();
-        for (Link link : currentNode.getLinks()) {
-          Node destinationNode = link.getNode();
-          double distance = link.getDistance();
-          double destinationNodeWeight = destinationNode.getWeight();
-
-          double distanceFromCurrentNode = currentNodeWeight + distance;
-
-          if (distanceFromCurrentNode < destinationNodeWeight) {
-            destinationNode.setWeight(distanceFromCurrentNode);
-            destinationNode.setPrevious(currentNode);
-            unsettledNodes.add(destinationNode);
+      try {
+        // Set the starting weight of the current node to 0 (since we're already there)
+        startNode.weight = 0;
+        // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
+        while (!unsettledNodes.isEmpty()) {
+          Node currentNode = getLowestNode(unsettledNodes);
+          unsettledNodes.remove(currentNode);
+    
+          double currentNodeWeight = currentNode.getWeight();
+          for (Link link : currentNode.getLinks()) {
+            Node destinationNode = link.getNode();
+            double distance = link.getDistance();
+            double destinationNodeWeight = destinationNode.getWeight();
+      
+            double distanceFromCurrentNode = currentNodeWeight + distance;
+      
+            if (distanceFromCurrentNode < destinationNodeWeight) {
+              destinationNode.setWeight(distanceFromCurrentNode);
+              destinationNode.setPrevious(currentNode);
+              unsettledNodes.add(destinationNode);
+            }
           }
         }
+  
+        // Create the queue that will return the shortest path
+        Queue<Node> path = new LinkedList<>();
+  
+        // return the shortest path from the end node
+        return getPath(path, endNode);
+      }catch (NullPointerException exception){
+        System.out.println("Big oof, that link doesn't exist");
       }
-
-      // Create the queue that will return the shortest path
-      Queue<Node> path = new LinkedList<>();
-
-      // return the shortest path from the end node
-      return getPath(path, endNode);
     }
     return null;
   }

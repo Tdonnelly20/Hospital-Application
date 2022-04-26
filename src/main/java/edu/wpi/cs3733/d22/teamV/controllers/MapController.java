@@ -449,6 +449,7 @@ public class MapController extends Controller {
   public void makePath() {
     if (!startLocationID.equals("") && !endLocationID.equals("")) {
       RequestSystem.getSystem().makePaths(startLocationID, endLocationID);
+      drawPath();
       startLocationID = "";
       endLocationID = "";
     }

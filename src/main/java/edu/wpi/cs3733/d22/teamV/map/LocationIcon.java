@@ -38,7 +38,6 @@ public class LocationIcon extends Icon {
           // Opens the location form in the popup
           if (event.isShiftDown() || event.isAltDown()) {
             if (event.getClickCount() == 2) {
-
               if (MapController.getController().getStartLocationID().isEmpty()) {
                 MapController.getController().setStartLocationID(location.getNodeID());
                 MapController.getController()
@@ -51,15 +50,19 @@ public class LocationIcon extends Icon {
                     .getControlsVBox()
                     .getChildren()
                     .add(new Label("End Location: " + location.getNodeID()));
-                if (event.isShiftDown()) {
+                if (event.isShiftDown() && !event.isAltDown()) {
                   MapController.getController().drawPath();
-                } else {
+                } else if (event.isAltDown() && !event.isShiftDown()) {
                   MapController.getController().makePath();
                 }
                 MapController.getController().setStartLocationID("");
                 MapController.getController().setEndLocationID("");
               } else {
                 MapController.getController().setStartLocationID(location.getNodeID());
+                MapController.getController()
+                    .getControlsVBox()
+                    .getChildren()
+                    .add(new Label("Starting Location: " + location.getNodeID()));
                 MapController.getController().setEndLocationID("");
               }
             }
