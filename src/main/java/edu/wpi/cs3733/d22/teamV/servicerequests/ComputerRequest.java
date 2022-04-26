@@ -10,7 +10,7 @@ public class ComputerRequest extends ServiceRequest {
   private String typeName, requestDetails;
 
   /**
-   * Creates a basic data structure for holding medicine delivery request
+   * Creates a basic data structure for holding computer request
    *
    * @param patientID
    * @param employeeID

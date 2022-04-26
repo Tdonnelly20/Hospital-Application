@@ -121,7 +121,7 @@ public class SanitationRequestController extends RequestController {
     return result;
   }
 
-  /** Determines if a medical delivery request is valid, and sends it to the Dao */
+  /** Determines if a sanitation request is valid, and sends it to the Dao */
   @FXML
   void validateButton() {
     sendRequest.setDisable(true);

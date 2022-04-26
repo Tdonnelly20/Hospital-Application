@@ -10,7 +10,7 @@ public class SanitationRequest extends ServiceRequest {
   private String hazardName, requestDetails;
 
   /**
-   * Creates a basic data structure for holding medicine delivery request
+   * Creates a basic data structure for holding Sanitation request
    *
    * @param patientID
    * @param employeeID
