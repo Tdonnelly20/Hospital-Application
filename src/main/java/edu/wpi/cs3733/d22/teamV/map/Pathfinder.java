@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -11,7 +12,7 @@ import lombok.Setter;
 // Test example and some inspiration/code taken from https://www.baeldung.com/java-dijkstra
 public class Pathfinder {
 
-  private ArrayList<Node> allNodes = new ArrayList<>();
+  private static ArrayList<Node> allNodes = new ArrayList<>();
 
   public Pathfinder() {}
 
@@ -29,16 +30,24 @@ public class Pathfinder {
     // need it)
     nodeA.addLink(new Link(nodeB, 10));
     nodeA.addLink(new Link(nodeC, 15));
+    nodeB.addLink(new Link(nodeA, 10));
+    nodeC.addLink(new Link(nodeA, 15));
 
     nodeB.addLink(new Link(nodeD, 12));
     nodeB.addLink(new Link(nodeF, 15));
+    nodeD.addLink(new Link(nodeB, 12));
+    nodeF.addLink(new Link(nodeB, 15));
 
     nodeC.addLink(new Link(nodeE, 10));
+    nodeE.addLink(new Link(nodeC, 10));
 
+    nodeF.addLink(new Link(nodeD, 1));
+    nodeE.addLink(new Link(nodeD, 2));
     nodeD.addLink(new Link(nodeF, 1));
     nodeD.addLink(new Link(nodeE, 2));
 
-    nodeF.addLink(new Link(nodeF, 5));
+    nodeE.addLink(new Link(nodeF, 5));
+    nodeF.addLink(new Link(nodeE, 5));
 
     // Add all the nodes to the list
     ArrayList<Node> nodes = new ArrayList<>();
@@ -54,17 +63,19 @@ public class Pathfinder {
     Pathfinder pathfinder = new Pathfinder(nodes);
     // Feel free to mess around with the destinations, just keep in mind that nodes are
     // one-directional, not bi-directional. (A has a link to C, C does not have a link to A)
-    Queue<Node> path = pathfinder.pathfind("A", "E");
+    Queue<Node> path = pathfinder.pathfind("A", "F");
+    Queue<Node> pathBackwards = pathfinder.pathfind("F", "A");
+  }
 
+  public static void printLink(Queue<Node> path) {
     // Prints out from the destination to the starting position
     for (Node node : path) {
       System.out.println(" " + node.getName());
     }
 
     // Polling the first element in the queue gives us the distance of the entire journey
-    System.out.println("Distance = " + path.poll().getWeight());
+    System.out.println("Distance = " + path.peek().getWeight());
   }
-
   // We need to have every node have a list of connects to other nodes, and the weight between them
   @Getter
   @Setter
@@ -75,6 +86,10 @@ public class Pathfinder {
     public Link(Node node, double distance) {
       this.node = node;
       this.distance = distance;
+    }
+
+    public boolean containsNode(Node nodeContains) {
+      return nodeContains.getName().equalsIgnoreCase(node.getName());
     }
   }
 
@@ -91,6 +106,7 @@ public class Pathfinder {
 
     public Node(String name) {
       this.name = name;
+      allNodes.add(this);
     }
 
     public void addLink(Link link) {
@@ -124,52 +140,58 @@ public class Pathfinder {
   // Pathfind from the start node to the end node, and return a queue of the shortest path
 
   public Queue<Node> pathfind(String startNodeName, String endNodeName) {
-    // Get the start and end node from their names
-    Node startNode = getNodeFromName(startNodeName);
-    Node endNode = getNodeFromName(endNodeName);
-    // We can't have either be null and the destination cannot be equal to the starting position
-    assert (startNode != null && endNode != null && startNode != endNode);
-    // Create a list of nodes that are still unsettled
-    ArrayList<Node> unsettledNodes = new ArrayList<>();
-    // Add the starting node to the list of unsettled nodes
-    unsettledNodes.add(startNode);
-    // Set the starting weight of the current node to 0 (since we're already there)
-    startNode.weight = 0;
-    // Make sure that all nodes are marked as unvisited and that their weight is the max value
-    for (Node node : allNodes) {
-      if (!node.equals(startNode)) {
+    // System.out.println("Path Find Start: " + startNodeName + "\nPath Find End: " + endNodeName);
+    if (startNodeName != null && endNodeName != null) {
+      // Get the start and end node from their names
+      Node startNode = getNodeFromName(startNodeName);
+      Node endNode = getNodeFromName(endNodeName);
+      // We can't have either be null and the destination cannot be equal to the starting position
+      assert (startNode != null && endNode != null && startNode != endNode);
+      // Create a list of nodes that are still unsettled
+      ArrayList<Node> unsettledNodes = new ArrayList<>();
+      // Add the starting node to the list of unsettled nodes
+      unsettledNodes.add(startNode);
+      // Make sure that all nodes are marked as unvisited and that their weight is the max value
+      for (Node node : allNodes) {
         node.visited = false;
         node.previous = null;
         node.weight = Double.MAX_VALUE;
       }
-    }
+      try {
+        // Set the starting weight of the current node to 0 (since we're already there)
+        startNode.weight = 0;
+        // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
+        while (!unsettledNodes.isEmpty()) {
+          Node currentNode = getLowestNode(unsettledNodes);
+          unsettledNodes.remove(currentNode);
 
-    // The actual algorithm, iterate through all unsettled nodes, from closest to farthest
-    while (!unsettledNodes.isEmpty()) {
-      Node currentNode = getLowestNode(unsettledNodes);
-      unsettledNodes.remove(currentNode);
+          double currentNodeWeight = currentNode.getWeight();
+          for (Link link : currentNode.getLinks()) {
+            Node destinationNode = link.getNode();
+            double distance = link.getDistance();
+            double destinationNodeWeight = destinationNode.getWeight();
 
-      double currentNodeWeight = currentNode.getWeight();
-      for (Link link : currentNode.getLinks()) {
-        Node destinationNode = link.getNode();
-        double distance = link.getDistance();
-        double destinationNodeWeight = destinationNode.getWeight();
+            double distanceFromCurrentNode = currentNodeWeight + distance;
 
-        double distanceFromCurrentNode = currentNodeWeight + distance;
-
-        if (distanceFromCurrentNode < destinationNodeWeight) {
-          destinationNode.setWeight(distanceFromCurrentNode);
-          destinationNode.setPrevious(currentNode);
-          unsettledNodes.add(destinationNode);
+            if (distanceFromCurrentNode < destinationNodeWeight) {
+              destinationNode.setWeight(distanceFromCurrentNode);
+              destinationNode.setPrevious(currentNode);
+              unsettledNodes.add(destinationNode);
+            }
+          }
         }
+
+        // Create the queue that will return the shortest path
+        Queue<Node> path = new LinkedList<>();
+
+        // return the shortest path from the end node
+        return getPath(path, endNode);
+      } catch (NullPointerException exception) {
+        System.out.println("Big oof, that link doesn't exist");
+        MapController.getController().noPathFound();
       }
     }
-
-    // Create the queue that will return the shortest path
-    Queue<Node> path = new LinkedList<>();
-
-    // return the shortest path from the end node
-    return getPath(path, endNode);
+    return null;
   }
 
   public Node getLowestNode(ArrayList<Node> nodes) {
@@ -184,9 +206,7 @@ public class Pathfinder {
     return closestNode;
   }
 
-  // Recursive algorithm that Tate is unable to comprehend (all it does is create a list from the
-  // previous nodes)
-  // Fuck off, Matt
+  // Recursive algorithm that gets the path from one node to another
   public Queue<Node> getPath(Queue<Node> path, Node node) {
     path.add(node);
     if (node.previous != null) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ServiceRequestController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/ServiceRequestPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.ServiceRequestController">
    <items>
       <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -25,87 +26,141 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+      <AnchorPane fx:id="servicePane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Pane prefHeight="643.0" prefWidth="1198.0" stylesheets="@../CSS/ServiceRequestPage.css">
+            <Pane prefHeight="642.0" prefWidth="1198.0" stylesheets="@../CSS/ServiceRequestPage.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="676.0" fitWidth="1300.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="serviceImage" fitHeight="676.0" fitWidth="1300.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../homeHospitalPhoto.jpg" />
                      </image>
                   </ImageView>
-                  <Button id="names" layoutX="1045.0" layoutY="601.0" mnemonicParsing="false" onAction="#hideLabels" prefHeight="29.0" prefWidth="139.0" text="Show/Hide Names" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="420.0" layoutY="222.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="808.0" layoutY="222.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="32.0" layoutY="222.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="420.0" layoutY="355.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="808.0" layoutY="355.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="32.0" layoutY="355.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="420.0" layoutY="89.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="808.0" layoutY="89.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="32.0" layoutY="89.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <JFXButton buttonType="RAISED" layoutX="808.0" layoutY="354.0" onAction="#switchToRobot" prefHeight="97.0" prefWidth="359.0" text="Robot Request" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="33.0" layoutY="221.0" onAction="#switchToInternalPatientTransport" prefHeight="97.0" prefWidth="358.0" text="Internal Patient Transport" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="22.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton layoutX="418.0" layoutY="89.0" onAction="#switchToLabRequest" prefHeight="96.0" prefWidth="361.0" ripplerFill="#e8e8e8" text="Lab Request" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="420.0" layoutY="355.0" onAction="#switchToReligiousRequest" prefHeight="96.0" prefWidth="361.0" text="Religious Request" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="420.0" layoutY="221.0" onAction="#switchToSanitationRequest" prefHeight="97.0" prefWidth="360.0" text="Sanitation Request" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton layoutX="31.0" layoutY="89.0" onAction="#switchToMedEquipDelivery" prefHeight="96.0" prefWidth="359.0" text="Medical Equipment Delivery" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="807.0" layoutY="222.0" onAction="#switchToMealDelivery" prefHeight="96.0" prefWidth="360.0" text="Meal Delivery" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="807.0" layoutY="89.0" onAction="#switchToMedicineDelivery" prefHeight="96.0" prefWidth="360.0" text="Medicine Delivery" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="33.0" layoutY="355.0" onAction="#switchToLaundryRequest" prefHeight="96.0" prefWidth="358.0" text="Laundry Request" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <Label fx:id="labelM" layoutX="966.0" layoutY="156.0" text="Matthew" />
-                  <Label fx:id="labelD" layoutX="583.0" layoutY="294.0" text="Dylan" />
-                  <Label fx:id="labelJ" layoutX="196.0" layoutY="425.0" text="Jakob" />
-                  <Label fx:id="labelJo" layoutX="194.0" layoutY="294.0" text="Jolene" />
-                  <Label fx:id="labelJa" layoutX="974.0" layoutY="425.0" text="Jason" />
-                  <Label fx:id="labelP" layoutX="972.0" layoutY="294.0" text="Parker" />
-                  <Label fx:id="labelA" layoutX="581.0" layoutY="425.0" text="Andres" />
-                  <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="420.0" layoutY="483.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
-                  <JFXButton buttonType="RAISED" layoutX="419.0" layoutY="484.0" prefHeight="96.0" prefWidth="361.0" text="Computer Request" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <Label fx:id="labelD2" layoutX="587.0" layoutY="552.0" text="Dylan" />
-                  <Rectangle fx:id="smile" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="30.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickMe" stroke="TRANSPARENT" strokeType="INSIDE" width="30.0" />
-                  <Label fx:id="l1" layoutX="178.0" layoutY="156.0" text="Also Jakob :)" visible="false" />
-                  <Label fx:id="l2" layoutX="565.0" layoutY="156.0" text="Also Jakob :)" visible="false" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="25.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickMe" stroke="TRANSPARENT" strokeType="INSIDE" width="25.0" />
+                  <Button id="names" fx:id="namesButton" layoutX="1045.0" layoutY="601.0" mnemonicParsing="false" onAction="#hideLabels" prefHeight="29.0" prefWidth="139.0" text="Show/Hide Names" />
+                  <Group fx:id="buttonGroup" layoutX="18.0" layoutY="78.0">
+                     <children>
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="11.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="11.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="11.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="144.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="144.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="144.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="14.0" layoutY="277.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="277.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="790.0" layoutY="277.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="96.0" layoutX="402.0" layoutY="405.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="359.0" />
+                        <JFXButton id="medEquipText" layoutX="13.0" layoutY="11.0" onAction="#switchToMedEquipDelivery" prefHeight="96.0" prefWidth="359.0" text="             Medical Equipment Delivery" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="18.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton layoutX="400.0" layoutY="11.0" onAction="#switchToLabRequest" prefHeight="96.0" prefWidth="361.0" ripplerFill="#e8e8e8" text="      Lab Request" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="28.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="789.0" layoutY="11.0" onAction="#switchToMedicineDelivery" prefHeight="96.0" prefWidth="360.0" text="           Medicine Delivery" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="26.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="15.0" layoutY="143.0" onAction="#switchToInternalPatientTransport" prefHeight="97.0" prefWidth="358.0" text="          Internal Patient Transport" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="402.0" layoutY="143.0" onAction="#switchToSanitationRequest" prefHeight="97.0" prefWidth="360.0" text="          Sanitation Request" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="26.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="789.0" layoutY="144.0" onAction="#switchToMealDelivery" prefHeight="96.0" prefWidth="360.0" text="          Meal Delivery" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="26.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="15.0" layoutY="277.0" onAction="#switchToLaundryRequest" prefHeight="96.0" prefWidth="358.0" text="         Laundry Request" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Ebrima" size="26.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="402.0" layoutY="277.0" onAction="#switchToReligiousRequest" prefHeight="96.0" prefWidth="361.0" text="         Religious Request" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="26.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="790.0" layoutY="276.0" onAction="#switchToRobot" prefHeight="97.0" prefWidth="359.0" stylesheets="@../CSS/ServiceRequestPage.css" text="          Robot Request" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="26.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="401.0" layoutY="406.0" prefHeight="96.0" prefWidth="361.0" text="         Computer Request" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="26.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="l1" layoutX="161.0" layoutY="78.0" text="Also Jakob :)" visible="false" />
+                        <Label fx:id="l2" layoutX="543.0" layoutY="78.0" text="Jakob Again :)" visible="false" />
+                        <Label fx:id="labelM" layoutX="948.0" layoutY="78.0" text="Matthew" />
+                        <Label fx:id="labelJo" layoutX="176.0" layoutY="216.0" text="Jolene" />
+                        <Label fx:id="labelD" layoutX="565.0" layoutY="216.0" text="Dylan" />
+                        <Label fx:id="labelP" layoutX="954.0" layoutY="216.0" text="Parker" />
+                        <Label fx:id="labelJ" layoutX="178.0" layoutY="347.0" text="Jakob" />
+                        <Label fx:id="labelA" layoutX="563.0" layoutY="347.0" text="Andres" />
+                        <Label fx:id="labelJa" layoutX="956.0" layoutY="347.0" text="Jason" />
+                        <Label fx:id="labelD2" layoutX="569.0" layoutY="474.0" text="Dylan" />
+                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="31.0" layoutY="16.0">
+                           <image>
+                              <Image url="@../Icons/medEquipment.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="419.0" layoutY="20.0">
+                           <image>
+                              <Image url="@../Icons/lab.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="808.0" layoutY="16.0">
+                           <image>
+                              <Image url="@../Icons/medicine.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="32.0" layoutY="151.0">
+                           <image>
+                              <Image url="@../Icons/internalPatient.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="424.0" layoutY="152.0">
+                           <image>
+                              <Image url="@../Icons/sanitation.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="812.0" layoutY="148.0">
+                           <image>
+                              <Image url="@../Icons/meal.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="34.0" layoutY="283.0">
+                           <image>
+                              <Image url="@../Icons/laundry.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="80.0" fitWidth="90.0" layoutX="416.0" layoutY="285.0">
+                           <image>
+                              <Image url="@../Icons/religious.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="813.0" layoutY="276.0">
+                           <image>
+                              <Image url="@../Icons/robot.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="417.0" layoutY="409.0">
+                           <image>
+                              <Image url="@../Icons/computer.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
                </children>
             </Pane>
          </children>

@@ -222,19 +222,20 @@ public class ComputerRequestController extends RequestController {
   @FXML
   private void updateSelectedRow() throws IOException, NullPointerException, SQLException {
     updating = true;
-    if (computerRequestTable.getSelectionModel().getSelectedItem() != null) {
-      ComputerRequest request =
-          computerRequestTable.getSelectionModel().getSelectedItem().getValue();
 
-      employeeID.setText(String.valueOf(request.getEmployeeID()));
-      patientID.setText(String.valueOf(request.getPatientID()));
-      roomLocation.setText(request.getNodeID());
-      computerDropDown.setValue(request.getTypeName());
-      requestDetails.setText(request.getRequestDetails());
-      updateServiceID = request.getServiceID();
-      statusDropDown.setValue(request.getStatus());
-      updateTreeTable();
-    }
+    ComputerRequest request = computerRequestTable.getSelectionModel().getSelectedItem().getValue();
+
+    employeeID.setText(String.valueOf(request.getEmployeeID()));
+    patientID.setText(String.valueOf(request.getPatientID()));
+    roomLocation.setText(request.getNodeID());
+    computerDropDown.setValue(request.getTypeName());
+    requestDetails.setText(request.getRequestDetails());
+    updateServiceID = request.getServiceID();
+    statusDropDown.setValue(request.getStatus());
+
+    sendRequest.setText("Update");
+
+    updateTreeTable();
   }
   // has error
   @FXML

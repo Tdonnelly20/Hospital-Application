@@ -34,14 +34,14 @@
                <tabs>
                   <Tab text="Home">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane fx:id="homePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="674.0" fitWidth="1277.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="homeImage" fitHeight="674.0" fitWidth="1277.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../homeHospitalPhoto.jpg" />
                                  </image>
                               </ImageView>
-                              <Group>
+                              <Group fx:id="homeGroup">
                                  <children>
                                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="169.0" layoutY="95.0" opacity="0.8" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
                                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="659.0" layoutY="95.0" opacity="0.8" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />

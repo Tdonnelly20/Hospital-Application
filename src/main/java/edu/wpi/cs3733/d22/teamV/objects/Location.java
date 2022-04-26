@@ -36,8 +36,8 @@ public class Location {
 
   public Location(double xCoord, double yCoord, String floor) {
     nodeID = null;
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+    this.xCoord = Math.round(xCoord * 100.0) / 100.0;
+    this.yCoord = Math.round(yCoord * 100.0) / 100.0;
     this.floor = floor;
     building = null;
     nodeType = null;
@@ -57,8 +57,8 @@ public class Location {
       String longName,
       String shortName) {
     this.nodeID = nodeID;
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+    this.xCoord = Math.round(xCoord * 100.0) / 100.0;
+    this.yCoord = Math.round(yCoord * 100.0) / 100.0;
     this.floor = floor;
     this.building = building;
     this.nodeType = nodeType;

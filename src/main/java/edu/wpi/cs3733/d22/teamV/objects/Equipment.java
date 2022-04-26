@@ -87,4 +87,17 @@ public class Equipment {
     this.x = x;
     this.y = y;
   }
+
+  public String toString() {
+    return "ID: "
+        + ID
+        + "\nX: "
+        + x
+        + "\tY: "
+        + y
+        + "\nFloor: "
+        + floor
+        + "\nDescription: "
+        + description;
+  }
 }
