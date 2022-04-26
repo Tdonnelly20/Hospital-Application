@@ -15,6 +15,7 @@ public class RequestSystem {
   public static int serviceIDCounter = 0;
   public static int patientIDCounter = 0;
   public static int employeeIDCounter = 0;
+  public static int nodeIDCounter = 0;
 
   private LocationDao locationDao;
   private PatientDao patientDao;
@@ -533,7 +534,6 @@ public class RequestSystem {
       }
     }
     serviceIDCounter = highestID + 1;
-    System.out.println("MAX serviceIDs is " + serviceIDCounter);
 
     // Patients
     highestID = patientIDCounter;
@@ -554,6 +554,15 @@ public class RequestSystem {
       }
     }
     employeeIDCounter = highestID + 1;
+
+    highestID = nodeIDCounter;
+
+    for(Location location : locationDao.getAllLocations()){
+      if(location.getNodeType().equals("Node")){
+        highestID++;
+      }
+    }
+    nodeIDCounter = highestID++;
   }
 
   public static int getServiceID() {
