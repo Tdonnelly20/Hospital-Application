@@ -554,6 +554,7 @@ public class PopupController {
     submitIcon.setOnAction(
         event1 -> {
           if (icon != null) {
+            RequestSystem.getSystem().getPathfinderDao().removePathNode(icon.getLocation().getNodeID());
             deleteIcon(icon.getLocation());
             closePopUp();
           } else {
@@ -561,6 +562,7 @@ public class PopupController {
               String nodeID = fields[0].getText();
               // Checks to make sure the location is valid
               if (RequestSystem.getSystem().getLocation(nodeID) != null) {
+                RequestSystem.getSystem().getPathfinderDao().removePathNode(nodeID);
                 deleteIcon(nodeID);
                 closePopUp();
               } else {

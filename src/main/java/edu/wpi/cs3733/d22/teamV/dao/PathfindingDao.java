@@ -187,14 +187,14 @@ public class PathfindingDao {
     }
   }
 
-  public void removePathNode(Location location) {
+  public void removePathNode(String nodeID) {
     // Get the node in Pathfinder and remove it if it exists
-    Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(location.getNodeID());
+    Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(nodeID);
     if (nodeToRemove != null) {
       Pathfinder.removeNode(nodeToRemove);
     }
     // Remove all edges if it contains the name
-    edges.removeIf(edge -> edge.containsNode(location.getNodeID()));
+    edges.removeIf(edge -> edge.containsNode(nodeID));
     // Save the changes to the CSV
     saveToCSV();
   }

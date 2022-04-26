@@ -4,7 +4,6 @@ import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.servicerequests.InternalPatientTransportation;
 import edu.wpi.cs3733.d22.teamV.servicerequests.LaundryRequest;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
@@ -131,13 +130,13 @@ public class LaundryRequestDao extends DaoInterface {
       LaundryRequest laundryRequest = (LaundryRequest) request;
       String query = "INSERT INTO LAUNDRY VALUES (?,?,?,?,?,?,?)";
       PreparedStatement statement = connection.prepareStatement(query);
-      statement.setInt(1,laundryRequest.getEmployeeID());
+      statement.setInt(1, laundryRequest.getEmployeeID());
       statement.setInt(2, laundryRequest.getPatientID());
-      statement.setString(3,laundryRequest.getNodeID());
+      statement.setString(3, laundryRequest.getNodeID());
       statement.setString(4, laundryRequest.getDetails());
       statement.setString(5, laundryRequest.getStatus());
-      statement.setInt(6,laundryRequest.getServiceID());
-      statement.setTimestamp(7,laundryRequest.getTimeMade());
+      statement.setInt(6, laundryRequest.getServiceID());
+      statement.setTimestamp(7, laundryRequest.getTimeMade());
       statement.executeUpdate();
       statement.close();
     } catch (SQLException e) {
