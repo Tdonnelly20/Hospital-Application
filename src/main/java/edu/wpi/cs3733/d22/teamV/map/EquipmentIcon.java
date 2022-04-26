@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.sql.Timestamp;
 import java.time.Instant;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,8 +30,8 @@ public class EquipmentIcon extends Icon {
   private double yCoord;
   private int cleanPumps = 0;
   private int dirtyPumps = 0;
-  private int cleanBeds = 0;
   private int dirtyBeds = 0;
+  private int cleanBeds = 0;
 
   /** Icon for equipment with the same x and y coordinates */
   public EquipmentIcon(Location location) {
@@ -233,19 +234,16 @@ public class EquipmentIcon extends Icon {
     MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
   }
 
+  public void pumpAlert() {
+    int dirty = 0;
+    for (Equipment equipment : equipmentList) {
+      equipment.updateLocation(getXCoord(), getYCoord());
+    }
+  }
+
   // checks if isAdding is true, if so finds beds that are dirty in the same place.
   // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
   // else, dirtyBeds decreases by 1.
-  //      int employeeID,
-  //      int patientID,
-  //      String patientFirstName,
-  //      String patientLastName,
-  //      String nodeID,
-  //      String equipment,
-  //      String notes,
-  //      int quantity,
-  //      String status,
-  //      int serviceID,      String date) {
   public void alertSixBeds(Equipment e, boolean isAdding) {
     if (isAdding) {
       if (e.getIsDirty() && e.getName() == "Bed") {
@@ -253,36 +251,12 @@ public class EquipmentIcon extends Icon {
       }
       if (dirtyBeds > 5) {
         EquipmentDelivery request =
-            new EquipmentDelivery(
-                -1,
-                -1,
-                "OR",
-                "LN",
-                e.getID(),
-                e.getID().toString(),
-                "Notes",
-                1,
-                "Not Started",
-                RequestSystem.getServiceID(),
-                Timestamp.from(Instant.now()).toString());
-
-        RequestSystem.getSystem().addServiceRequest(request);
+            new EquipmentDelivery(-1, -1, "OR", e.getID(), e.getID(), 1, "Not Started", RequestSystem.getServiceID(),
+                    Timestamp.from(Instant.now()).toString());
+        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
       }
     } else {
       dirtyBeds--;
     }
-  }
-
-  public int[] pumpAlert() {
-    int clean = 0;
-    int dirty = 0;
-    for (Equipment equipment : equipmentList) {
-      // System.out.println(equipment.getName());
-      if (equipment.getName().equals("Infusion Pump")) {
-        if (equipment.getIsDirty()) dirty++;
-        else clean++;
-      }
-    }
-    return new int[] {clean, dirty};
   }
 }
