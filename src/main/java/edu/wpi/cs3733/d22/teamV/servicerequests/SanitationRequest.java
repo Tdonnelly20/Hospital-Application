@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class SanitationRequest extends ServiceRequest {
-  private String hazardName, requestDetails;
+  private String hazardName;
 
   /**
    * Creates a basic data structure for holding Sanitation request
@@ -56,9 +56,5 @@ public class SanitationRequest extends ServiceRequest {
 
   public String getHazardName() {
     return hazardName;
-  }
-
-  public String getRequestDetails() {
-    return requestDetails;
   }
 }

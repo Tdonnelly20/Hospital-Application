@@ -557,8 +557,8 @@ public class RequestSystem {
 
     highestID = nodeIDCounter;
 
-    for(Location location : locationDao.getAllLocations()){
-      if(location.getNodeType().equals("Node")){
+    for (Location location : locationDao.getAllLocations()) {
+      if (location.getNodeType().equals("Node")) {
         highestID++;
       }
     }

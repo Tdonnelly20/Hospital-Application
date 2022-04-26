@@ -75,7 +75,7 @@ public class SanitationRequestDao extends DaoInterface {
           Integer.toString(sanitationRequest.getEmployeeID()),
           sanitationRequest.getNodeID(),
           sanitationRequest.getHazardName(),
-          sanitationRequest.getRequestDetails(),
+          sanitationRequest.getDetails(),
           sanitationRequest.getStatus(),
           Integer.toString(sanitationRequest.getServiceID()),
           sanitationRequest.getTimeMade().toString()
@@ -132,7 +132,7 @@ public class SanitationRequestDao extends DaoInterface {
       statement.setInt(2, newSanitationRequest.getEmployeeID());
       statement.setString(3, newSanitationRequest.getNodeID());
       statement.setString(4, newSanitationRequest.getHazardName());
-      statement.setString(5, newSanitationRequest.getRequestDetails());
+      statement.setString(5, newSanitationRequest.getDetails());
       statement.setString(6, newSanitationRequest.getStatus());
       statement.setInt(7, newSanitationRequest.getServiceID());
       statement.setTimestamp(8, newSanitationRequest.getTimeMade());
@@ -179,7 +179,7 @@ public class SanitationRequestDao extends DaoInterface {
       statement.setInt(2, newRequest.getEmployeeID());
       statement.setString(3, newRequest.getNodeID());
       statement.setString(4, newRequest.getHazardName());
-      statement.setString(5, newRequest.getRequestDetails());
+      statement.setString(5, newRequest.getDetails());
       statement.setString(6, newRequest.getStatus());
       statement.setTimestamp(7, newRequest.getTimeMade());
       statement.setInt(8, newRequest.getServiceID());
@@ -211,7 +211,9 @@ public class SanitationRequestDao extends DaoInterface {
 
   @Override
   public void addServiceRequest(ServiceRequest request) {
+    System.out.println(request.getDetails());
     SanitationRequest newRequest = (SanitationRequest) request;
+    // details is null here, but why?
     request.setServiceID(newRequest.getServiceID());
     allSanitationRequests.add(newRequest);
     addToSQLTable(request);
