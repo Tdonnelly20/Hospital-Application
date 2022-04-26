@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class ComputerRequest extends ServiceRequest {
-  private String typeName, requestDetails;
+  private String typeName;
 
   /**
    * Creates a basic data structure for holding computer request
@@ -59,6 +59,6 @@ public class ComputerRequest extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
+    return details;
   }
 }
