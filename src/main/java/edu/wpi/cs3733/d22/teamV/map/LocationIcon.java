@@ -38,7 +38,9 @@ public class LocationIcon extends Icon {
         event -> {
           // Opens the location form in the popup
           if (event.getClickCount() == 2) {
-            if (event.isShiftDown() || event.isAltDown()) {
+            if(event.isControlDown() && !(event.isShiftDown() || event.isAltDown())){
+            
+            }else if (event.isShiftDown() || event.isAltDown()) {
               setPathfinder(event);
             } else {
               PopupController.getController().locationForm(event, this);
@@ -56,6 +58,11 @@ public class LocationIcon extends Icon {
             RequestSystem.getSystem().updateLocations(this);
           }
         });
+  }
+  
+  @FXML
+  private void removePath(MouseEvent event){
+    //TODO Remove path between 2 nodes when matt gets his shit together
   }
 
   /**

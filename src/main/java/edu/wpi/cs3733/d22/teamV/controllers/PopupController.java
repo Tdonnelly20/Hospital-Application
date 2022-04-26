@@ -952,7 +952,7 @@ public class PopupController {
     content.getChildren().clear();
     content.getChildren().addAll(icon.compileList());
   }
-  // TODO Rework modification and deletion forms
+  
   /** Displays the equipment modification form */
   @FXML
   public void equipmentModifyForm(Equipment equipment) {
