@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,8 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.HomeController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/Home.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.HomeController">
    <items>
       <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -82,9 +85,24 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="All Service Requests">
+                  <Tab onSelectionChanged="#updateTreeTable" text="All Service Requests">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TreeTableView fx:id="requestTable" layoutX="15.0" layoutY="70.0" prefHeight="528.0" prefWidth="1168.0">
+                                <columns>
+                                  <TreeTableColumn fx:id="serviceIDCol" prefWidth="75.0" text="Service ID" />
+                                    <TreeTableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+                                  <TreeTableColumn fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
+                                    <TreeTableColumn fx:id="floorCol" prefWidth="75.0" text="Floor" />
+                                    <TreeTableColumn fx:id="employeeIDCol" prefWidth="75.0" text="Employee ID" />
+                                    <TreeTableColumn fx:id="patientIDCol" prefWidth="75.0" text="Patient ID" />
+                                    <TreeTableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
+                                    <TreeTableColumn fx:id="timeCol" prefWidth="75.0" text="Date and Time" />
+                                </columns>
+                              </TreeTableView>
+                              <TextField fx:id="searchBar" layoutX="15.0" layoutY="15.0" prefHeight="40.0" prefWidth="1168.0" promptText="Search" />
+                           </children></AnchorPane>
                      </content>
                   </Tab>
                </tabs>

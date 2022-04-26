@@ -99,6 +99,7 @@ public class EquipmentRequestController extends RequestController {
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = tablePlane.getWidth();
                 equipmentRequestTable.setPrefWidth(w - 30);
+
                 setColumnSizes(w);
               }
             });
@@ -111,7 +112,7 @@ public class EquipmentRequestController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double h = tablePlane.getHeight();
-                equipmentRequestTable.setPrefHeight(h - 75);
+                equipmentRequestTable.setPrefHeight(h - 85);
               }
             });
 

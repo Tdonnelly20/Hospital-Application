@@ -14,9 +14,7 @@ import java.util.stream.IntStream;
 public class EmployeeDao {
   private static ArrayList<Employee> allEmployees;
   private static final Employee nullEmployee = new Employee();
-  /**
-   * Create Employee Dao constructor
-   */
+  /** Create Employee Dao constructor */
   public EmployeeDao() {
     nullEmployee.setEmployeeID(-1);
     nullEmployee.setFirstName("Not");
@@ -26,9 +24,7 @@ public class EmployeeDao {
     loadFromCSV();
   }
 
-  /**
-   * Load the employees from the CSV file, call them to add to SQL
-   */
+  /** Load the employees from the CSV file, call them to add to SQL */
   public void loadFromCSV() {
     try {
 
@@ -90,9 +86,7 @@ public class EmployeeDao {
     }
   }
 
-  /**
-   * Save all instances in the arraylist to the CSV
-   */
+  /** Save all instances in the arraylist to the CSV */
   public void saveToCSV() {
     try {
 
@@ -142,6 +136,7 @@ public class EmployeeDao {
 
   /**
    * Get an employee object from an ID number
+   *
    * @param employeeID
    * @return
    */
@@ -152,11 +147,12 @@ public class EmployeeDao {
       }
     }
     System.out.print("Unable to find employee with ID:" + employeeID);
-    return nullEmployee; //Return the null employee
+    return nullEmployee; // Return the null employee
   }
 
   /**
    * Add a new employee to the database
+   *
    * @param employee
    */
   public void addEmployee(Employee employee) {
@@ -167,6 +163,7 @@ public class EmployeeDao {
 
   /**
    * Remove a selected employee based on ID
+   *
    * @param employee
    */
   public void removeEmployee(Employee employee) {
@@ -178,6 +175,7 @@ public class EmployeeDao {
 
   /**
    * A helper method for updating employees in the Employee database
+   *
    * @param employee
    */
   public void replaceEmployee(Employee employee) {
@@ -188,15 +186,14 @@ public class EmployeeDao {
 
   /**
    * Get the list of all employees
+   *
    * @return all employees
    */
   public ArrayList<Employee> getAllEmployees() {
     return allEmployees;
   }
 
-  /**
-   * Create the SQL table for the employees
-   */
+  /** Create the SQL table for the employees */
   public void createSQLTable() {
     try {
 
@@ -225,6 +222,7 @@ public class EmployeeDao {
 
   /**
    * Add an employee to the SQL table
+   *
    * @param employee
    */
   public void addToSQLTable(Employee employee) {
@@ -271,6 +269,7 @@ public class EmployeeDao {
 
   /**
    * Remove an employee from the SQL table
+   *
    * @param employee
    */
   public void removeFromSQLTable(Employee employee) {
@@ -289,6 +288,7 @@ public class EmployeeDao {
 
   /**
    * Update an employee with a specific ID and replace it with another
+   *
    * @param employee the replacement
    * @param employeeID the ID to replace
    */
