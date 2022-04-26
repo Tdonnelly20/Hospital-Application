@@ -192,7 +192,7 @@ public class LaundryRequestController extends RequestController {
     locationCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     detailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     ArrayList<LaundryRequest> currLaundryRequest =
         (ArrayList<LaundryRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.LaundryRequest);
@@ -240,13 +240,14 @@ public class LaundryRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(employeeIDCol, (w - 30) / 7);
-    setColumnSize(patientIDCol, (w - 30) / 7);
-    setColumnSize(firstNameCol, (w - 30) / 7);
-    setColumnSize(lastNameCol, (w - 30) / 7);
-    setColumnSize(locationCol, (w - 30) / 7);
-    setColumnSize(detailsCol, (w - 30) / 7);
-    setColumnSize(statusCol, (w - 30) / 7);
+    setColumnSize(employeeIDCol, (w - 30) / 8);
+    setColumnSize(patientIDCol, (w - 30) / 8);
+    setColumnSize(firstNameCol, (w - 30) / 8);
+    setColumnSize(lastNameCol, (w - 30) / 8);
+    setColumnSize(locationCol, (w - 30) / 8);
+    setColumnSize(detailsCol, (w - 30) / 8);
+    setColumnSize(statusCol, (w - 30) / 8);
+    setColumnSize(timeStampCol, (w - 30) / 8);
   }
 
   @Override
