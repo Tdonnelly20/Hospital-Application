@@ -130,6 +130,13 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
+  // Switches scene to the computer page
+  @FXML
+  protected void switchToComputerRequest(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/ComputerRequest.fxml"));
+    switchScene(event);
+  }
+
   // Switches scene to the meal delivery page
   @FXML
   protected void switchToMealDelivery(ActionEvent event) {
