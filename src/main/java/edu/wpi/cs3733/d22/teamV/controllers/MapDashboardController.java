@@ -472,13 +472,21 @@ public class MapDashboardController extends Controller {
       cleanPumps = e.getCleanPumps();
       dirtyPumps = e.getDirtyPumps();
       if ((cleanPumps < 5)) {
-        alerts.add(
-            "ALERT there are only "
-                + cleanPumps
-                + " clean pumps at location "
-                + e.getXCoord()
-                + ", "
-                + e.getYCoord());
+        if(cleanPumps==0){
+          alerts.add(
+                  "ALERT there are no clean pumps at location "
+                          + e.getXCoord()
+                          + ", "
+                          + e.getYCoord());
+        }else {
+          alerts.add(
+                  "ALERT there are only "
+                          + cleanPumps
+                          + " clean pumps at location "
+                          + e.getXCoord()
+                          + ", "
+                          + e.getYCoord());
+        }
       }
       if (dirtyPumps > 9) {
         alerts.add(
