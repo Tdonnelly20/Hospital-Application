@@ -49,24 +49,13 @@ public class RobotRequest extends ServiceRequest {
     return employee;
   }
 
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
   public int getBotID() {
     return botID;
   }
 
-  public String getNodeID() {
-    return nodeID;
-  }
-
-  public String getDetails() {
-    return details;
-  }
-
-  public String getStatus() {
-    return status;
+  @Override
+  public int getPatientID() {
+    return botID;
   }
 
   @Override

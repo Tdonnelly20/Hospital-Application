@@ -210,7 +210,7 @@ public class Camera {
                 if (picture != null) {
                   try {
                     detect();
-                  } catch (IOException e) {
+                  } catch (Exception e) {
                     e.printStackTrace();
                   }
                 }
@@ -223,7 +223,7 @@ public class Camera {
   }
 
   /** Compare 2 faces to look for a match */
-  private void detect() throws IOException {
+  private void detect() throws IOException, Exception {
     EmbeddingModel facenet = EmbeddingModel.getModel();
 
     double[] newImageEmbedding = null;
