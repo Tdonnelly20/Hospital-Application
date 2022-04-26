@@ -39,17 +39,19 @@ public class SanitationRequestDao extends DaoInterface {
       {
         String[] data;
         data = line.split(splitToken);
-        SanitationRequest request =
-            new SanitationRequest(
-                Integer.parseInt(data[0]),
-                Integer.parseInt(data[1]),
-                data[2],
-                data[3],
-                data[4],
-                data[5],
-                Integer.parseInt(data[6]),
-                data[7]);
-        requests.add(request);
+        if (data.length > 0) {
+          SanitationRequest request =
+              new SanitationRequest(
+                  Integer.parseInt(data[0]),
+                  Integer.parseInt(data[1]),
+                  data[2],
+                  data[3],
+                  data[4],
+                  data[5],
+                  Integer.parseInt(data[6]),
+                  data[7]);
+          requests.add(request);
+        }
       }
       allSanitationRequests = requests;
 

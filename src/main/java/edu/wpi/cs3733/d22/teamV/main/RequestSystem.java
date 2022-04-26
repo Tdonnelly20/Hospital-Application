@@ -565,7 +565,7 @@ public class RequestSystem {
     nodeIDCounter = highestID++;
   }
 
-  public static String getNewNode(){
+  public static String getNewNode() {
     return "vNODE" + nodeIDCounter;
   }
 
