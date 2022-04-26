@@ -12,15 +12,21 @@ import java.util.ArrayList;
 
 public class EquipmentDeliveryDao extends DaoInterface {
 
+  //All equipment deliveries
   private static ArrayList<EquipmentDelivery> allEquipmentDeliveries;
 
-  /** Initialize the array list */
+  /**
+   * Create SQL table, load from CSV
+   */
   public EquipmentDeliveryDao() {
-    allEquipmentDeliveries = new ArrayList<EquipmentDelivery>();
+    allEquipmentDeliveries = new ArrayList<>();
     createSQLTable();
     loadFromCSV();
   }
 
+  /**
+   * Load all the deliveries on the CSV into the arraylist
+   */
   public void loadFromCSV() {
     try {
 
@@ -54,6 +60,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Save all the equipment requests in the arraylist to the CSV
+   */
   @Override
   public void saveToCSV() {
     try {
@@ -91,6 +100,9 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Create a SQL table for all the service requests
+   */
   @Override
   public void createSQLTable() {
     try {
@@ -120,6 +132,10 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Add a specific request into SQL
+   * @param request
+   */
   @Override
   public void addToSQLTable(ServiceRequest request) {
     try {
@@ -161,6 +177,11 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Replace a service request with another, or update a specific request with new values
+   * @param request
+   * @param serviceID
+   */
   @Override
   public void updateServiceRequest(ServiceRequest request, int serviceID) {
     EquipmentDelivery delivery = (EquipmentDelivery) request;
@@ -171,6 +192,10 @@ public class EquipmentDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Remove a request from the SQL table
+   * @param request
+   */
   @Override
   public void removeFromSQLTable(ServiceRequest request) {
     try {
@@ -188,6 +213,10 @@ public class EquipmentDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Add a service request into the arraylist, then the SQL table, then save to a CSV
+   * @param request
+   */
   @Override
   public void addServiceRequest(ServiceRequest request) {
     EquipmentDelivery equipmentDelivery = (EquipmentDelivery) request;
@@ -198,6 +227,10 @@ public class EquipmentDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Remove a service request from the arraylist, then the SQL, then the CSV
+   * @param request
+   */
   @Override
   public void removeServiceRequest(ServiceRequest request) {
     allEquipmentDeliveries.removeIf(value -> value.getServiceID() == request.getServiceID());
@@ -206,11 +239,19 @@ public class EquipmentDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Get all service requests in the arraylist
+   * @return
+   */
   @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
     return allEquipmentDeliveries;
   }
 
+  /**
+   * Set all service requests in the arraylist
+   * @param serviceRequests
+   */
   @Override
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     allEquipmentDeliveries = new ArrayList<>();

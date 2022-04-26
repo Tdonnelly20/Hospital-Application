@@ -164,7 +164,6 @@ public class MapController extends Controller {
 
   /** Sets up the buttons, filter, and the mapPane */
   void setUpControls() {
-    System.out.println("setting up controls");
     LL2.setOnAction(event -> setFloor("L2"));
     LL1.setOnAction(event -> setFloor("L1"));
     floor1.setOnAction(event -> setFloor("1"));
@@ -174,7 +173,6 @@ public class MapController extends Controller {
     floor5.setOnAction(event -> setFloor("5"));
     refreshButton.setOnAction(
         event -> {
-          System.out.println("Refresh");
           setFloor(floorName);
           startLocationID = "";
           endLocationID = "";
@@ -238,7 +236,6 @@ public class MapController extends Controller {
   /** Loads the floor's icons in accordance with filter */
   @FXML
   public void populateFloorIconArr() {
-    System.out.println("populating icons");
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.size() > 0) {
