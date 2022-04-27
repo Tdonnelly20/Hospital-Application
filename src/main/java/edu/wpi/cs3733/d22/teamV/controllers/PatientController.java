@@ -220,6 +220,11 @@ public class PatientController extends RequestController {
   }
 
   @FXML
+  public void resetSearch() {
+    searchBar.setText("");
+  }
+
+  @FXML
   public void checkIfSelected() {
     try {
       selectedPatient = patientTable.getSelectionModel().getSelectedItem().getValue();

@@ -371,6 +371,11 @@ public class EmployeeController extends RequestController {
             });
   }
 
+  @FXML
+  public void resetSearch() {
+    searchBar.setText("");
+  }
+
   void setColumnSizes(double w) {
     setColumnSize(employeeIDCol, (w - 30) / 7);
     setColumnSize(firstNameCol, (w - 30) / 7);

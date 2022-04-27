@@ -91,14 +91,15 @@ public class PatientDBPopupController extends Controller {
         event1 -> {
           sceneVbox.getChildren().clear();
           content.getChildren().clear();
-          System.out.println("########  Before calling removeSelectedRow()" + last);
           PatientController.getController().removeSelectedRow(last);
+          PatientController.getController().resetSearch();
           closePopUp();
         });
     noButton.setOnAction(
         event2 -> {
           sceneVbox.getChildren().clear();
           content.getChildren().clear();
+          EmployeeController.getController().resetSearch();
           closePopUp();
         });
     showPopUp();
