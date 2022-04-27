@@ -1,0 +1,21 @@
+#background{
+    -fx-background-color:  #5f6c83;
+}
+
+#teamE{
+    -fx-font-size:100px;
+    -fx-font-family:"Freestyle Script";
+    -fx-text-fill: #ffffff;
+}
+
+#teamZ{
+    -fx-font-size:100px;
+    -fx-font-family:"Freestyle Script";
+    -fx-text-fill: #ffffff;
+}
+
+.label{
+    -fx-font-size:30px;
+    -fx-font-family:"Ebrima";
+    -fx-text-fill: #ffffff;
+}

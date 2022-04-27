@@ -189,6 +189,13 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
+  /** Switches to the credits page */
+  @FXML
+  protected void switchToCredits(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Credits.fxml"));
+    switchScene(event);
+  }
+
   // Switches scene to the root
   @FXML
   protected void switchScene(Event event) {
