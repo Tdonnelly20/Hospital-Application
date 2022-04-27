@@ -210,12 +210,17 @@ public abstract class Controller extends Application {
   @FXML
   protected void runOurAPI() throws IOException {
     Runtime runtime = Runtime.getRuntime();
-    runtime.exec(" java -jar " + returnPath() + "\\SoftEngRobotAPI.jar");
+    // Process pr = runtime.exec(" java -jar " + returnPath() + "\\SoftEngRobotAPI.jar");
+    String[] cmd = {"java", "-jar", returnPath() + "\\SoftEngRobotAPI.jar"};
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    System.out.println("OUR CMD IS " + cmd);
+    pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+    pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+    Process p = pb.start();
   }
 
   @FXML
   protected void runEAPI() throws IOException {
-    System.out.println(" java -jar " + returnPath() + "\\TeamE-API.jar");
     Runtime runtime = Runtime.getRuntime();
     runtime.exec(" java -jar " + returnPath() + "\\TeamE-API.jar");
   }
@@ -224,6 +229,7 @@ public abstract class Controller extends Application {
   protected void runZAPI() throws IOException {
     Runtime runtime = Runtime.getRuntime();
     runtime.exec(" java -jar " + returnPath() + "\\ExternalTransportAPI.jar");
+    System.out.println("java -jar " + returnPath());
   }
 
   public static String returnPath() {

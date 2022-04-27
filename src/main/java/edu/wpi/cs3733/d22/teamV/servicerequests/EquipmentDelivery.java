@@ -51,7 +51,6 @@ public class EquipmentDelivery extends ServiceRequest {
       String status,
       int serviceID,
       String date) {
-    System.out.println("DATE IS :" + date);
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
 

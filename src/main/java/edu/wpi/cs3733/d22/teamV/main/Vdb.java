@@ -74,7 +74,7 @@ public class Vdb {
       } else {
         URL = "jdbc:derby://" + ip + "/" + serverPath;
       }
-      System.out.println(URL);
+      System.out.println("URL IS " + URL);
       connection = DriverManager.getConnection(URL, "admin", "admin");
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
