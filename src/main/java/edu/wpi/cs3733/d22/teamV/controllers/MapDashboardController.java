@@ -295,6 +295,7 @@ public class MapDashboardController extends Controller {
     updateMap("F5");
   }
 
+  /** Updates all listeners to the given floor */
   @FXML
   public void updateListeners(Floor floor) {
     for (DashboardListener l : listeners) {
@@ -419,7 +420,7 @@ public class MapDashboardController extends Controller {
           dirtyBeds++;
         } else if (!equipment.getIsDirty() && equipment.getName().equals("Infusion Pump")) {
           cleanPumps++;
-        } else {
+        } else if (!equipment.getIsDirty() && equipment.getName().equals("Bed")) {
           cleanBeds++;
         }
       }
@@ -451,42 +452,30 @@ public class MapDashboardController extends Controller {
             + dirtyPumps);
   }
 
-  /* was used to check for beds that are dirty, could be used again if main function has to be changed in the future.
-  public void checkAlertSixBeds(String m1, boolean d1, String m2, boolean d2) {
-    if (m1.equals("bed") && d1 == true && m2.equals("Bed") && d2 == true) {
-      return 1;
-    } else {
-      return 0;
-    }
-    return 0;
-  } */
-
-  /* was used to add dirty beds to alertsArea, could be used again if main function has to be changed in the future.
-  @FXML
-  public void addBedAlertToArray(int b) {
-
-    // adds strings from alerTable to alertsArea
-    if (b > 5) {
-      alertsArea.setText("There are 6+ dirty beds");
-    }
-  }
-  /
-   */
-
   @FXML
   private void updateAlerts() {
     ArrayList<String> alerts = new ArrayList<>();
     ArrayList<EquipmentIcon> pumpList = curFloor.getPumpAlertIcons();
-    ArrayList<EquipmentIcon> bedList = curFloor.getBedAlertIcons();
 
     int cleanPumps;
     int dirtyPumps;
+    int dirtyBeds;
 
     String alertText = "";
 
     for (EquipmentIcon e : pumpList) {
       cleanPumps = e.getCleanPumps();
       dirtyPumps = e.getDirtyPumps();
+      dirtyBeds = e.getDirtyBeds();
+      if (dirtyBeds > 5) {
+        alerts.add(
+            "ALERT there are "
+                + dirtyBeds
+                + " dirty beds at location "
+                + e.getXCoord()
+                + ", "
+                + e.getYCoord());
+      }
       if ((cleanPumps < 5)) {
         if (cleanPumps == 0) {
           alerts.add(
@@ -509,12 +498,6 @@ public class MapDashboardController extends Controller {
                 + e.getXCoord()
                 + ", "
                 + e.getYCoord());
-
-        //        EquipmentDelivery request =
-        //            new EquipmentDelivery(-1, -1, "OR", "Infusion Pump", "none", 1, "Not
-        // Started");
-        //        RequestSystem.getSystem().addServiceRequest(request,
-        // RequestSystem.Dao.EquipmentDelivery);
       }
       // index++;
     }

@@ -8,10 +8,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -26,6 +23,13 @@ import lombok.Setter;
 public class EquipmentIcon extends Icon {
 
   ArrayList<Equipment> equipmentList; // All the equipment at the xy coordinates
+
+  ArrayList<Equipment> dirtyPumpList =
+      new ArrayList<>(); // All the dirty infusion pumps at the xy coordinates
+
+  ArrayList<Equipment> cleanPumpList =
+      new ArrayList<>(); // All the dirty infusion pumps at the xy coordinates
+  ArrayList<Equipment> dirtyBedList = new ArrayList<>(); // All the dirty beds at the xy coordinates
   private double xCoord;
   private double yCoord;
   private int cleanPumps = 0;
@@ -91,7 +95,7 @@ public class EquipmentIcon extends Icon {
                     .setFloor(MapController.getController().getFloorName());
               }
             });
-        //Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
+        // Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
 
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setPromptText(equipment.getIsDirtyString());
@@ -129,14 +133,23 @@ public class EquipmentIcon extends Icon {
   /** Adds equipment to the list and updates icon image */
   public void addToEquipmentList(Equipment equipment) {
     if (equipment.getIsDirty()) {
-      if (equipment.getName().equals("Infusion Pump")) dirtyPumps++;
-      else if (equipment.getName().equals("Bed")) dirtyBeds++;
+      if (equipment.getName().equals("Infusion Pump")) {
+        dirtyPumps++;
+        dirtyPumpList.add(equipment);
+      } else if (equipment.getName().equals("Bed")) {
+        dirtyBeds++;
+        dirtyBedList.add(equipment);
+      }
       equipmentList.add(equipment);
     } else {
       equipmentList.add(0, equipment);
-      if (equipment.getName().equals("Infusion Pump")) cleanPumps++;
+      if (equipment.getName().equals("Infusion Pump")) {
+        cleanPumps++;
+        cleanPumpList.add(equipment);
+      }
     }
     setImage();
+    pumpAlert(equipment);
     alertSixBeds(equipment, true);
     MapDashboardController.getController().updateCounts();
   }
@@ -218,22 +231,25 @@ public class EquipmentIcon extends Icon {
       if (e.getIsDirty() && e.getName().equals("Bed")) {
         dirtyBeds += 1;
       }
-      if (dirtyBeds > 5) {
-        EquipmentDelivery request =
-            new EquipmentDelivery(
-                -1,
-                -1,
-                "OR",
-                e.getID(),
-                e.getID(),
-                1,
-                "Not Started",
-                RequestSystem.getServiceID(),
-                Timestamp.from(Instant.now()).toString());
-        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+      if (dirtyBeds == 6) {
+        for (Equipment bed : dirtyBedList) {
+          RequestSystem.getSystem().addServiceRequest(new EquipmentDelivery("OR", bed.getID()));
+        }
       }
     } else {
       dirtyBeds--;
+    }
+  }
+
+  private void pumpAlert(Equipment equipment) {
+    if (dirtyPumpList.size() == 10) {
+      for (Equipment pump : dirtyPumpList) {
+        RequestSystem.getSystem()
+            .addServiceRequest(new EquipmentDelivery("West Plaza", pump.getID()));
+      }
+    } else if (dirtyPumpList.size() > 10) {
+      RequestSystem.getSystem()
+          .addServiceRequest(new EquipmentDelivery("West Plaza", equipment.getID()));
     }
   }
 }

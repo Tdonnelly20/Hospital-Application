@@ -13,37 +13,6 @@ public class EquipmentDelivery extends ServiceRequest {
   public EquipmentDelivery(
       int employeeID,
       int patientID,
-      String patientFirstName,
-      String patientLastName,
-      String nodeID,
-      String equipment,
-      String notes,
-      int quantity,
-      String status,
-      int serviceID,
-      String date) {
-    if (date != "") {
-      this.timeMade = Timestamp.valueOf(date);
-
-    } else {
-      this.timeMade = Timestamp.from(Instant.now());
-    }
-    this.location = RequestSystem.getSystem().getLocation(nodeID);
-    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
-    this.equipment = equipment;
-    this.details = notes;
-    this.type = "Equipment Delivery";
-    this.status = status;
-    setServiceID(serviceID);
-    this.quantity = quantity;
-    this.status = status;
-    this.dao = RequestSystem.Dao.EquipmentDelivery;
-  }
-
-  public EquipmentDelivery(
-      int employeeID,
-      int patientID,
       String nodeID,
       String equipment,
       String notes,
@@ -66,6 +35,20 @@ public class EquipmentDelivery extends ServiceRequest {
     this.type = "Equipment Delivery Request";
     this.quantity = quantity;
     this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+  }
+
+  /** Used in alert system */
+  public EquipmentDelivery(String nodeID, String equipment) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(-1);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(-1);
+    this.equipment = equipment;
+    this.details = notes;
+    this.type = "Equipment Delivery Request";
+    this.quantity = 1;
+    this.status = "Not Started";
     setServiceID(RequestSystem.getServiceID());
   }
 
