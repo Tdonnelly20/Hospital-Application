@@ -268,7 +268,7 @@ public class HomeController extends RequestController {
                 e ->
                     homeClock.setText(
                         LocalDateTime.now()
-                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))),
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd   HH:mm")))),
             new KeyFrame(Duration.seconds(1)));
     clock.setCycleCount(Animation.INDEFINITE);
     clock.play();

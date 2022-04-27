@@ -140,7 +140,7 @@ public class ServiceRequestController extends RequestController {
                 e ->
                     serviceClock.setText(
                         LocalDateTime.now()
-                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))),
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd   HH:mm")))),
             new KeyFrame(Duration.seconds(1)));
     clock.setCycleCount(Animation.INDEFINITE);
     clock.play();
