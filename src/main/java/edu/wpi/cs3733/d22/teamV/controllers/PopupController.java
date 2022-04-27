@@ -300,7 +300,7 @@ public class PopupController {
   @FXML
   public void iconWindow(MouseEvent event) {
     clear("Options", "Please choose an option");
-    buttonBox.getChildren().addAll(locationButton, equipmentButton, requestButton, closeButton);
+    buttonBox.getChildren().addAll(locationButton, equipmentButton, closeButton);
     locationButton.setOnAction(
         event2 -> {
           buttonBox.getChildren().clear();
@@ -311,7 +311,6 @@ public class PopupController {
           buttonBox.getChildren().clear();
           equipmentForm(event, null);
         });
-    requestButton.setOnAction(event1 -> buttonBox.getChildren().clear());
     showPopUp();
   }
 
