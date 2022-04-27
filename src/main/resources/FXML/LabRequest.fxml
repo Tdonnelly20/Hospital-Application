@@ -63,7 +63,7 @@
                                                 <Insets left="15.0" right="15.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <JFXComboBox id="dropDown" fx:id="requestedLab" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Select Lab" style="-fx-background-color: #FFFFFF;">
+                                          <JFXComboBox id="dropDown" fx:id="requestedLab" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Select Lab" style="-fx-background-color: #FFFFFF;">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                    <String fx:id="bloodSampleRequest" fx:value="Blood Sample" />
@@ -73,17 +73,21 @@
                                                    <String fx:id="mriRequest" fx:value="MRI" />
                                                 </FXCollections>
                                              </items>
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                             </VBox.margin>
                                           </JFXComboBox>
-                                          <JFXComboBox id="dropDown" fx:id="statusDropDown" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
+                                          <JFXComboBox id="dropDown" fx:id="statusDropDown" onAction="#validateButton" prefHeight="25.0" prefWidth="209.0" promptText="Status:" style="-fx-background-color: #FFFFFF;">
                                              <items>
                                                 <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:id="bloodSampleRequest1" fx:value="Blood Sample" />
-                                                   <String fx:id="urineSampleRequest1" fx:value="Urine Sample" />
-                                                   <String fx:value="X-Ray" fx:id="xrayRequest1" />
-                                                   <String fx:id="catRequest1" fx:value="CAT" />
-                                                   <String fx:id="mriRequest1" fx:value="MRI" />
+                                                   <String fx:id="statusNotStarted" fx:value="Not Started" />
+                                                   <String fx:id="statusProcessing" fx:value="Processing" />
+                                                   <String fx:id="statusCompleted" fx:value="Completed" />
                                                 </FXCollections>
                                              </items>
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                             </VBox.margin>
                                           </JFXComboBox>
                                           <Label fx:id="status" text="Status: Processing" />
                                           <Button id="sendRequest" fx:id="sendRequest" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="Send Request">
@@ -110,7 +114,7 @@
                      <children>
                         <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab fx:id="tableTab" onSelectionChanged="#updateTreeTable" text="Table View">
+                            <Tab fx:id="tableTab" onSelectionChanged="#updateTreeTable" text="Lab Requests">
                               <content>
                                 <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -134,8 +138,7 @@
                                                    <children>
                                                       <TreeTableView id="table" fx:id="table" layoutX="15.0" layoutY="10.0" prefHeight="476.0" prefWidth="594.0">
                                                          <columns>
-                                                            <TreeTableColumn id="nodeID" fx:id="nodeIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Location ID" />
-                                                            <TreeTableColumn id="userID" fx:id="employeeIDCol" editable="false" maxWidth="250.0" prefWidth="57.555511474609375" text="User ID" />
+                                                            <TreeTableColumn id="userID" fx:id="employeeIDCol" editable="false" maxWidth="250.0" prefWidth="57.555511474609375" text="Employee ID" />
                                                             <TreeTableColumn id="patientID" fx:id="patientIDCol" editable="false" maxWidth="250.0" prefWidth="79.11102294921875" text="Patient ID" />
                                                             <TreeTableColumn editable="false" prefWidth="210.88897705078125" text="Patient Name">
                                                                <columns>
@@ -143,8 +146,10 @@
                                                                   <TreeTableColumn id="lastName" fx:id="lastNameCol" editable="false" prefWidth="91.3333740234375" text="Last" />
                                                                </columns>
                                                             </TreeTableColumn>
+                                                            <TreeTableColumn id="nodeID" fx:id="nodeIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Location ID" />
                                                             <TreeTableColumn id="eequestedLab" fx:id="requestedLabCol" editable="false" maxWidth="250.0" prefWidth="100.0" text="Requested Lab" />
                                                             <TreeTableColumn id="status" fx:id="statusCol" prefWidth="86.0" text="Status" />
+                                                            <TreeTableColumn fx:id="timeStampCol"  minWidth="0.0" prefWidth="150.0" text="Time" />
                                                          </columns>
                                                       </TreeTableView>
                                                    </children>
@@ -166,7 +171,7 @@
                                           <Text layoutX="78.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
                                           <Text layoutX="78.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
                                           <Text layoutX="101.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters, to Hospital ID and Patient ID" />
-                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select an option in any drop-down menues " />
+                                          <Text layoutX="101.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select an option in any drop-down menus " />
                                           <Text layoutX="101.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name" />
                                           <Text layoutX="78.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests" />
                                        </children>

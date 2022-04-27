@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -59,19 +60,7 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToHome(Event event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
-    try {
-      root = loader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    HomeController controller = loader.getController();
-    controller.init();
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   // Switches scene to the map
@@ -81,24 +70,24 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
-  // Switches scene to the location database
+  // Switches scene to the service request page
   @FXML
-  protected void switchToLocationDB(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
+  protected void switchToServiceRequest(Event event) throws IOException {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/serviceRequest.fxml"));
     switchScene(event);
   }
 
-  // Switches scene to the service request page
+  // Switches scene to API landing page
   @FXML
-  protected void switchToServiceRequest(ActionEvent event) throws IOException {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/serviceRequest.fxml"));
+  protected void switchToAPI(Event event) throws IOException {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/APILandingPage.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the lab request page
   @FXML
   protected void switchToLabRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLabRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/LabRequest.fxml"));
     switchScene(event);
   }
 
@@ -112,14 +101,21 @@ public abstract class Controller extends Application {
   // Switches scene to the medical equipment page
   @FXML
   protected void switchToMedEquipDelivery(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewEquipmentDelivery.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/EquipmentDelivery.fxml"));
     switchScene(event);
   }
 
   // Switches scene to the sanitation page
   @FXML
   protected void switchToSanitationRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewSanitationRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml"));
+    switchScene(event);
+  }
+
+  // Switches scene to the computer page
+  @FXML
+  protected void switchToComputerRequest(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/ComputerRequest.fxml"));
     switchScene(event);
   }
 
@@ -133,7 +129,7 @@ public abstract class Controller extends Application {
   // Switches scene to the laundry request page
   @FXML
   protected void switchToLaundryRequest(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/NewLaundryRequest.fxml"));
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/LaundryRequest.fxml"));
     switchScene(event);
   }
 
@@ -148,37 +144,55 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToInternalPatientTransport(ActionEvent event) {
     loader.setLocation(
-        getClass().getClassLoader().getResource("FXML/NewInternalPatientTransportation.fxml"));
+        getClass().getClassLoader().getResource("FXML/InternalPatientTransportation.fxml"));
     switchScene(event);
   }
 
+  /** Switches to the robot request page */
   @FXML
   protected void switchToRobot(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/Robot.fxml"));
     switchScene(event);
   }
 
+  /** Switches to the employee database page */
   @FXML
   protected void switchToEmployeeDB(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/EmployeeDatabase.fxml"));
     switchScene(event);
   }
 
+  /** Switches to the patient database page */
   @FXML
   protected void switchToPatientDB(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/PatientDatabase.fxml"));
     switchScene(event);
   }
 
+  /** Switches to the map dashboard page */
   @FXML
   protected void switchToDashboard(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/MapDashboard.fxml"));
     switchScene(event);
   }
 
-  // Switches scene to the rootW
+  /** Switches to the about page */
   @FXML
-  protected void switchScene(ActionEvent event) {
+  protected void switchToAbout(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/About.fxml"));
+    switchScene(event);
+  }
+
+  /** Switches to the credits page */
+  @FXML
+  protected void switchToCredits(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Credits.fxml"));
+    switchScene(event);
+  }
+
+  // Switches scene to the root
+  @FXML
+  protected void switchScene(Event event) {
     try {
       root = loader.load();
     } catch (IOException e) {
@@ -192,5 +206,44 @@ public abstract class Controller extends Application {
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+  }
+
+  @FXML
+  protected void runOurAPI() throws IOException, SQLException {
+    Runtime runtime = Runtime.getRuntime();
+    // Process pr = runtime.exec(" java -jar " + returnPath() + "\\SoftEngRobotAPI.jar");
+    String[] cmd = {"java", "-jar", returnPath() + "\\SoftEngRobotAPI.jar"};
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+    pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+    Process p = pb.start();
+
+    System.out.println("\n\n\n Let's start"); // so reaches here now
+  }
+
+  @FXML
+  protected void runEAPI() throws IOException {
+    Runtime runtime = Runtime.getRuntime();
+    runtime.exec(" java -jar " + returnPath() + "\\TeamE-API.jar");
+  }
+
+  @FXML
+  protected void runZAPI() throws IOException {
+    Runtime runtime = Runtime.getRuntime();
+    runtime.exec(" java -jar " + returnPath() + "\\ExternalTransportAPI.jar");
+    System.out.println("java -jar " + returnPath());
+  }
+
+  public static String returnPath() {
+    String currentPath = System.getProperty("user.dir");
+    if (currentPath.contains("TeamVeganVampires")) {
+      int position = currentPath.indexOf("TeamVeganVampires") + 65;
+      if (currentPath.length() > position) {
+        currentPath = currentPath.substring(0, position);
+      }
+      currentPath += "\\api";
+      System.out.println(currentPath);
+    }
+    return currentPath;
   }
 }

@@ -1,11 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.PathfindingDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
-import edu.wpi.cs3733.d22.teamV.manager.MapManager;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
+import java.util.LinkedList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -14,18 +14,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +30,6 @@ import org.controlsfx.control.CheckComboBox;
 @Setter
 @Getter
 public class MapController extends Controller {
-  protected Floor currFloor = MapManager.getManager().getFloor("1st Floor");
   @FXML protected VBox mapVBox = new VBox(15);
   @FXML protected Button refreshButton = new Button("Refresh");
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
@@ -54,10 +49,30 @@ public class MapController extends Controller {
   @FXML JFXButton floor3 = new JFXButton("Floor 3");
   @FXML JFXButton floor4 = new JFXButton("Floor 4");
   @FXML JFXButton floor5 = new JFXButton("Floor 5");
-  @FXML TextField[] fields = new TextField[10];
-  @FXML JFXComboBox[] comboBoxes = new JFXComboBox[5];
   @FXML Button submitButton = new Button("Submit");
-  private String floorName = "";
+  private String floorName = "1";
+  private String startLocationID = "";
+  private String endLocationID = "";
+  private Button showConnections = new Button("Show all connections");
+
+  @FXML
+  private Label pathfinderInstructions =
+      new Label(
+          "Hold down shift and double-click 2 icons to show a path between them.\n\nTo create a path, hold down alt and double-click the 2 icons you want to connect.");
+
+  @FXML private Label startLocationLabel = new Label("Starting Location: " + startLocationID);
+  @FXML private Label endLocationLabel = new Label("End Location: " + endLocationID);
+
+  @FXML
+  private VBox pathfinderVBox =
+      new VBox(15, pathfinderInstructions, startLocationLabel, endLocationLabel);
+
+  @FXML
+  private Label missingPath =
+      new Label(
+          "Sorry, a path between those locations does not exist. Would you like to create one?");
+
+  @FXML TitledPane pathfinderInfo = new TitledPane("Pathfinder", pathfinderVBox);
 
   ObservableList<String> requestTypes =
       FXCollections.observableArrayList(
@@ -69,7 +84,8 @@ public class MapController extends Controller {
           "Religious Request",
           "Sanitation Request",
           "Internal Patient Transport Request",
-          "Robot Request");
+          "Robot Request",
+          "Computer Request");
 
   @FXML
   ObservableList<String> filterItems =
@@ -94,24 +110,25 @@ public class MapController extends Controller {
           "Religious Requests",
           "Sanitation Requests",
           "Internal Patient Transport Requests",
-          "Robot Request");
+          "Robot Requests",
+          "Computer Requests");
 
-  private static class SingletonHelper {
-    private static final MapController controller = new MapController();
-  }
+  private static MapController controller;
 
   public static MapController getController() {
-    return SingletonHelper.controller;
+    return controller;
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    controller = this;
     init();
   }
 
   @Override
   public void init() {
-    setFloor("1");
+    controller = this;
+    setFloor(floorName);
     mapSetUp();
   }
 
@@ -119,9 +136,15 @@ public class MapController extends Controller {
   protected void mapSetUp() {
     setUpControls();
     zoom();
+    pathfinderInfo.setExpanded(false);
+    missingPath.setWrapText(true);
+    pathfinderInstructions.setWrapText(true);
     filterCheckBox.setMaxWidth(controlsVBox.getWidth() / 3);
     scrollPane.setPrefSize(550, 550);
-    controlsVBox.getChildren().addAll(filterCheckBox, refreshButton);
+    controlsVBox
+        .getChildren()
+        .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
+    showConnections.setOnAction(event -> drawAllConnections());
     mapVBox.getChildren().addAll(scrollPane);
     mapVBox.setAlignment(Pos.CENTER);
     mapVBox.setSpacing(15);
@@ -163,6 +186,7 @@ public class MapController extends Controller {
     scrollPane.addEventFilter(ScrollEvent.ANY, mapEvent.getOnZoomEventHandler());
   }
 
+  /** Sets up the buttons, filter, and the mapPane */
   void setUpControls() {
     System.out.println("setting up controls");
     LL2.setOnAction(event -> setFloor("L2"));
@@ -172,14 +196,7 @@ public class MapController extends Controller {
     floor3.setOnAction(event -> setFloor("3"));
     floor4.setOnAction(event -> setFloor("4"));
     floor5.setOnAction(event -> setFloor("5"));
-    refreshButton.setOnAction(
-        event -> {
-          System.out.println("Refresh");
-          setFloor(floorName);
-        });
-    for (int i = 0; i < 10; i++) {
-      fields[i] = new TextField();
-    }
+    refreshButton.setOnAction(event -> refreshMap());
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -194,13 +211,91 @@ public class MapController extends Controller {
         .getCheckModel()
         .getCheckedItems()
         .addListener((ListChangeListener<String>) change -> checkFilter());
-
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            openIconFormWindow(event);
+            if (!event
+                .getTarget()
+                .getClass()
+                .getTypeName()
+                .equals("javafx.scene.image.ImageView")) {
+
+              PopupController.getController().iconWindow(event);
+            }
           }
         });
+  }
+  /*
+  private Button showNodes = new Button("Toggle show nodes");
+  private boolean showingNodes = false;
+
+  private void setUpNodeControls() {
+    mapPane.setOnMouseClicked(
+        event -> {
+          if (event.getClickCount() == 2) {
+            if (!event
+                .getTarget()
+                .getClass()
+                .getTypeName()
+                .equals("javafx.scene.image.ImageView")) {
+              if (event.isAltDown()) {
+                // Adds a node
+                RequestSystem.getSystem()
+                    .addLocation(
+                        new Location(
+                            RequestSystem.getSystem().getNewNode(),
+                            event.getX() + 7.5,
+                            event.getY() + 7.5,
+                            floorName,
+                            "Tower",
+                            "node",
+                            "node",
+                            "node"));
+                MapManager.getManager().setUpFloors();
+                mapPane.getChildren().clear();
+                setFloor(floorName);
+              } else {
+                PopupController.getController().iconWindow(event);
+              }
+            }
+          }
+        });
+    showNodes.setOnAction(
+        event -> {
+          showingNodes = !showingNodes;
+          for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
+            if (icon.getLocation().getNodeType().equals("node")) {
+              if (showingNodes) {
+                icon.getImage().setOpacity(100);
+              } else {
+                icon.getImage().setOpacity(0);
+              }
+            }
+          }
+          refreshMap();
+        });
+  }*/
+
+  /** Reloads Map */
+  @FXML
+  public void refreshMap() {
+    setFloor(floorName);
+    resetPathFinder();
+    controlsVBox
+        .getChildren()
+        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
+  }
+
+  /** Reset Pathfinder */
+  @FXML
+  private void resetPathFinder() {
+    startLocationID = "";
+    endLocationID = "";
+    pathfinderVBox
+        .getChildren()
+        .retainAll(pathfinderInstructions, startLocationLabel, endLocationLabel);
+    startLocationLabel.setText("Start Location: ");
+    endLocationLabel.setText("End Location: ");
   }
 
   /** Filters out icons based on filterCheckBox */
@@ -220,24 +315,24 @@ public class MapController extends Controller {
     populateFloorIconArr();
   }
 
-  // Sets the mapImage to the corresponding floor dropdown and returns the floor string
+  /** Sets the mapImage to the corresponding floor dropdown and returns the floor string */
   public void setFloor(String floor) {
     floorName = floor;
-    currFloor = MapManager.getManager().getFloor(floorName);
-    mapImage.setImage(currFloor.getMap());
+    mapImage.setImage(MapManager.getManager().getFloor(floorName).getMap());
     populateFloorIconArr();
   }
 
   /** Loads the floor's icons in accordance with filter */
   @FXML
   public void populateFloorIconArr() {
+    System.out.println("populating icons");
     mapPane.getChildren().clear();
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.size() > 0) {
       filterRequestsAndLocations();
       filterEquipment();
     } else {
-      for (Icon icon : currFloor.getIconList()) {
+      for (Icon icon : MapManager.getManager().getFloor(floorName).getIconList()) {
         if (!mapPane.getChildren().contains(icon.getImage())) {
           mapPane.getChildren().add(icon.getImage());
         }
@@ -248,7 +343,7 @@ public class MapController extends Controller {
   private void filterEquipment() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.contains("Equipment")) { // Filter Equipment
-      for (EquipmentIcon icon : currFloor.getEquipmentIcons()) {
+      for (EquipmentIcon icon : MapManager.getManager().getFloor(floorName).getEquipmentIcons()) {
         if (filter.contains("Clean Equipment")) {
           if (icon.hasCleanEquipment()) {
             mapPane.getChildren().add(icon.getImage());
@@ -266,7 +361,7 @@ public class MapController extends Controller {
     if (filter.contains("Service Requests")
         || filter.contains("Locations")
         || filterContainsRequests()) {
-      for (LocationIcon icon : currFloor.getLocationIcons()) {
+      for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
         if ((filter.contains("Service Requests") || filterContainsRequests())
             && icon.getRequestsArr().size() > 0) { // Filter Service Request
           if (filter.contains("Active Requests") && icon.hasActiveRequests()) {
@@ -282,6 +377,9 @@ public class MapController extends Controller {
     }
   }
 
+  /**
+   * Puts location icons on the mapPane if the filter contains a request type that the location has
+   */
   public boolean filterContainsRequests() {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.contains("Lab Requests")
@@ -291,7 +389,9 @@ public class MapController extends Controller {
         || filter.contains("Medicine Delivery Requests")
         || filter.contains("Religious Requests")
         || filter.contains("Sanitation Requests")
-        || filter.contains("Internal Patient Transport Requests")) {
+        || filter.contains("Internal Patient Transport Requests")
+        || filter.contains("Robot Requests")
+        || filter.contains("Computer Requests")) {
       if (!filter.contains("Service Requests")) {
         filterCheckBox.getCheckModel().check("Service Requests");
       }
@@ -327,6 +427,10 @@ public class MapController extends Controller {
     }
   }
 
+  /**
+   * Puts location icons on the map depending on the type of service request they have and their
+   * active status
+   */
   private void filterRequests(String requestType, LocationIcon icon) {
     ObservableList<String> filter = filterCheckBox.getCheckModel().getCheckedItems();
     if (filter.contains("Active Requests")) {
@@ -372,187 +476,103 @@ public class MapController extends Controller {
     }
   }
 
+  /** Draws a path from one location to another */
   @FXML
-  private void addToMapPane(Icon icon) {
-    if (!mapPane.getChildren().contains(icon.getImage())) {
-      mapPane.getChildren().add(icon.getImage());
-    } else {
-      System.out.println("Icon already on map");
-    }
+  public void drawPath(LocationIcon icon, LocationIcon icon1) {
+    double x1 = icon.getImage().getTranslateX() + 7.5;
+    double x2 = icon1.getImage().getTranslateX() + 7.5;
+    double y1 = icon.getImage().getTranslateY() + 7.5;
+    double y2 = icon1.getImage().getTranslateY() + 7.5;
+    Line path = new Line(x1, y1, x2, y2);
+    path.setStrokeWidth(3);
+    path.setStroke(Color.RED);
+    path.setStrokeDashOffset(20d);
+    path.setFill(Color.RED);
+    mapPane.getChildren().add(0, path);
+  }
 
-    if (mapPane.getChildren().contains(icon.getImage())) {
-      System.out.println("In");
+  /** Draws a path between icons you click on */
+  public void drawPath() {
+    System.out.println(startLocationID);
+    System.out.println(endLocationID);
+    if (!startLocationID.isEmpty() && !endLocationID.isEmpty()) {
+      System.out.println("Start: " + startLocationID);
+      System.out.println("End: " + endLocationID);
+      LinkedList<Location> locations =
+          RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
+      if (locations.size() > 1) {
+        Location currLocation = null;
+        Location prevLoc;
+        for (Location location : locations) {
+          Location temp = currLocation;
+          currLocation = location;
+          prevLoc = temp;
+          System.out.println(location.getNodeID());
+          if (prevLoc != null) {
+            drawPath(currLocation.getIcon(), prevLoc.getIcon());
+          }
+        }
+      }
+    }
+    startLocationID = "";
+    endLocationID = "";
+  }
+
+  /** Makes a path between icons you click on. */
+  public void makePath() {
+    if (!startLocationID.equals("") && !endLocationID.equals("")) {
+      RequestSystem.getSystem().makePaths(startLocationID, endLocationID);
+      drawPath();
+      startLocationID = "";
+      endLocationID = "";
     }
   }
 
-  /** Adds the given icon to the map */
+  /** Draws all the paths on the floor */
   @FXML
-  public void addIcon(Icon icon) {
-    MapManager.getManager().getFloor(floorName).addIcon(icon);
-    if (icon.iconType.equals(Icon.IconType.Location)) {
-      RequestSystem.getSystem().getLocationDao().addLocation(icon.getLocation());
-    } else {
-      RequestSystem.getSystem().addEquipment(((EquipmentIcon) icon).getEquipmentList());
-      MapDashboardController.getController().updateCounts();
-    }
-    PopupController.getController().closePopUp();
-    addToMapPane(icon);
-    setFloor(floorName);
-    // populateFloorIconArr();
-  }
-
-  /** Removes Icon from map */
-  @FXML
-  public void deleteIcon(Icon icon) {
-    mapPane.getChildren().remove(icon.getImage());
-    MapManager.getManager().getFloor(floorName).removeIcon(icon);
-    if (PopupController.getController().stage.isShowing()) {
-      PopupController.getController().closePopUp();
-    }
-  }
-
-  public void setSubmitLocation(double xPos, double yPos) {
-    PopupController.getController()
-        .submitIcon
-        .setOnAction(
-            event1 -> {
-              if (PopupController.getController().checkLocationFields()) {
-                addIcon(
-                    new LocationIcon(
-                        PopupController.getController()
-                            .getLocation(xPos + 25, yPos + 15, floorName)));
-              } else {
-                Text missingFields = new Text("Please fill all fields");
-                missingFields.setFill(Color.RED);
-                missingFields.setTextAlignment(TextAlignment.CENTER);
-                PopupController.getController().sceneVbox.getChildren().add(missingFields);
-              }
-            });
-  }
-
-  // Opens and manages the location adding form
-  @FXML
-  public void openIconFormWindow(MouseEvent event) {
-    if (!event.getTarget().getClass().getTypeName().equals("javafx.scene.image.ImageView")) {
-      double xPos = event.getX() - 15;
-      double yPos = event.getY() - 25;
-      PopupController.getController().iconWindow(event);
-      // setSubmitLocation(xPos, yPos);
-      addLocationForm(event);
-    }
-  }
-
-  @FXML
-  public void clearForm() {
-    for (TextField field : fields) {
-      field.setText("");
-    }
-    for (JFXComboBox cb : comboBoxes) {
-      cb = new JFXComboBox<>();
-      cb.setPromptText("Status");
-      cb.setValue(null);
-    }
-    controlsVBox.getChildren().retainAll(filterCheckBox, refreshButton);
-  }
-
-  @FXML
-  private void addAllFields() {
-    controlsVBox.getChildren().add(submitButton);
-    for (TextField field : fields) {
-      if (!field.getPromptText().equals("")) {
-        Label label = new Label(field.getPromptText() + ": ");
-        label.setMinWidth(75);
-        HBox hBox = new HBox(label, field);
-        hBox.setAlignment(Pos.CENTER);
-        controlsVBox.getChildren().add(hBox);
+  private void drawAllConnections() {
+    for (PathfindingDao.Edge edge : PathfindingDao.getEdges()) {
+      if (RequestSystem.getSystem().getLocation(edge.getNodeOne()).getFloor().equals(floorName)) {
+        drawPath(
+            RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
+            RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
       }
     }
   }
 
-  @FXML
-  public void IconForm(MouseEvent event) {
-    clearForm();
-    Button locationButton = new Button("Location");
-    Button equipmentButton = new Button("Equipment");
-    Button closeButton = new Button("close");
-    locationButton.setOnAction(event2 -> addLocationForm(event));
-    equipmentButton.setOnAction(event2 -> addEquipmentForm(event));
-    closeButton.setOnAction(event2 -> clearForm());
-    controlsVBox.getChildren().addAll(locationButton, equipmentButton, closeButton);
-  }
-
-  @FXML
-  public void locationForm(MouseEvent event, LocationIcon icon) {
-    clearForm();
-    Button add;
-    Button modify = new Button("Modify Location");
-    Button delete = new Button("Delete Location");
-    if (icon == null) {
-      add = new Button("Add Location");
-      add.setOnAction(event1 -> addLocationForm(event));
+  /**
+   * Sets the startLocationID and endLocationID with the given nodeID Calls makePaths() if the Alt
+   * key is down DrawPaths() if the Shift key is down RemoveLink() if the Control key is down
+   */
+  public void setPathfinderID(MouseEvent event, String nodeID) {
+    if (startLocationID.isEmpty()) {
+      startLocationID = nodeID;
+      endLocationID = "";
     } else {
-      add = new Button("Add Service Request");
-      add.setOnAction(event1 -> addRequestForm(event));
+      if (!endLocationID.isEmpty()) {
+        startLocationID = endLocationID;
+      }
+      endLocationID = nodeID;
+      // Call relevant functions
+      if (event.isShiftDown() && !event.isAltDown() && !event.isControlDown()) {
+        MapController.getController().drawPath();
+      } else if (event.isAltDown() && !event.isShiftDown() && !event.isControlDown()) {
+        MapController.getController().makePath();
+      } else if (event.isControlDown() && !event.isShiftDown() && !event.isAltDown()) {
+        removeLink(nodeID);
+      }
     }
-    modify.setOnAction(event1 -> {});
-    delete.setOnAction(event1 -> {});
+    startLocationLabel.setText("Starting Location: " + startLocationID);
+    endLocationLabel.setText("End Location: " + endLocationID);
   }
 
-  private void addRequestForm(MouseEvent event) {}
-
-  @FXML
-  public void addLocationForm(MouseEvent event) {
-    clearForm();
-    double xPos = event.getX();
-    double yPos = event.getY();
-    fields[0].setPromptText("Location ID");
-    fields[1].setPromptText("Type");
-    fields[2].setPromptText("Long Name");
-    fields[3].setPromptText("Short Name");
-    submitButton.setOnAction(
-        event1 -> {
-          Location newLocation =
-              new Location(
-                  fields[0].getText(),
-                  xPos + 10,
-                  yPos - 10,
-                  floorName,
-                  "Tower",
-                  fields[1].getText(),
-                  fields[2].getText(),
-                  fields[3].getText());
-          LocationIcon newIcon = new LocationIcon(newLocation);
-          newLocation.setIcon(newIcon);
-          addIcon(newIcon);
-          clearForm();
-        });
-    addAllFields();
-  }
-
-  @FXML
-  public void removeIconForm(Icon icon) {
-    clearForm();
-    System.out.println("Deleting Icon");
-    mapPane.getChildren().remove(icon.getImage());
-    MapManager.getManager().getFloor(floorName).removeIcon(icon);
-    clearForm();
-  }
-
-  @FXML
-  public void addEquipmentForm(MouseEvent event) {
-    clearForm();
-    double xPos = event.getX() - 15;
-    double yPos = event.getY() - 25;
-    fields[0].setPromptText("Node ID");
-    fields[1].setPromptText("Long Name");
-    fields[2].setPromptText("Short Name");
-    submitButton.setOnAction(
-        event1 -> {
-          addIcon(
-              new LocationIcon(
-                  PopupController.getController().getLocation(xPos + 25, yPos + 15, floorName)));
-          clearForm();
-        });
-    addAllFields();
+  /** Removes a link between the given nodeID and either the startLocationID or the endLocationID */
+  private void removeLink(String nodeID) {
+    if (!startLocationID.equals(nodeID)) {
+      RequestSystem.getSystem().getPathfinderDao().removeLink(nodeID, startLocationID);
+    } else {
+      RequestSystem.getSystem().getPathfinderDao().removeLink(nodeID, endLocationID);
+    }
+    refreshMap();
   }
 }

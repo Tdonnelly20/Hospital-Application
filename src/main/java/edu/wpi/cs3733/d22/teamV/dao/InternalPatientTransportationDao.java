@@ -30,23 +30,6 @@ public class InternalPatientTransportationDao extends DaoInterface {
     return allInternalPatientTransportations;
   }
 
-  /**
-   * Receive an internal patient transportation from the controller, store it locally, then send it
-   * to Vdb
-   *
-   * @param patientID
-   * @param nodeID
-   * @param requestDetails
-   */
-  public void addInternalPatientTransportation(
-      String nodeID, int patientID, int hospitalID, String requestDetails) {
-    InternalPatientTransportation newInternalPatientTransportation =
-        new InternalPatientTransportation(nodeID, patientID, hospitalID, requestDetails);
-
-    System.out.println("Adding to local arraylist...");
-    allInternalPatientTransportations.add(newInternalPatientTransportation); // Store a local copy
-  }
-
   @Override
   public void loadFromCSV() {
     try {
@@ -63,11 +46,15 @@ public class InternalPatientTransportationDao extends DaoInterface {
         data = line.split(splitToken);
         InternalPatientTransportation transportation =
             new InternalPatientTransportation(
-                data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3]);
-        transportation.setServiceID(Integer.parseInt(data[4]));
-        transportations.add(transportation);
+                data[0],
+                Integer.parseInt(data[1]),
+                Integer.parseInt(data[2]),
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
+        addServiceRequest(transportation);
       }
-      allInternalPatientTransportations = transportations;
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -80,7 +67,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       FileWriter fw = new FileWriter(VApp.currentPath + "/PatientTransportations.csv");
       BufferedWriter bw = new BufferedWriter(fw);
-      bw.append("location,patientID,hospitalID,requestDetails,serviceID");
+      bw.append("location,patientID,employeeID,requestDetails,serviceID");
 
       for (ServiceRequest request : getAllServiceRequests()) {
 
@@ -92,7 +79,9 @@ public class InternalPatientTransportationDao extends DaoInterface {
           String.valueOf(internalPatientTransportation.getPatientID()),
           String.valueOf(internalPatientTransportation.getEmployeeID()),
           internalPatientTransportation.getRequestDetails(),
-          String.valueOf(internalPatientTransportation.getServiceID())
+          internalPatientTransportation.getStatus(),
+          String.valueOf(internalPatientTransportation.getServiceID()),
+          internalPatientTransportation.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -120,7 +109,7 @@ public class InternalPatientTransportationDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, hospitalID int, requestDetails char(250), serviceID int)";
+            "CREATE TABLE PATIENTTRANSPORTATION(location char(50), patientID int, employeeID int, requestDetails char(250), status char(50),serviceID int,date_time timestamp)";
         exampleStatement.execute(query);
       } else {
         query = "DROP TABLE PATIENTTRANSPORTATION";
@@ -140,31 +129,22 @@ public class InternalPatientTransportationDao extends DaoInterface {
   @Override
   public void addToSQLTable(ServiceRequest request) {
     try {
-
+      //              + "location,patientID,employeeID,requestDetails,status,serviceID,date_time)
+      // VALUES "
+      Connection connection = Vdb.Connect();
       InternalPatientTransportation internalPatientTransportation =
           (InternalPatientTransportation) request;
-
-      String query = "";
-      Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
-
-      query =
-          "INSERT INTO PATIENTTRANSPORTATION("
-              + "location,patientID,hospitalID,requestDetails,serviceID) VALUES "
-              + "('"
-              + internalPatientTransportation.getNodeID()
-              + "', "
-              + internalPatientTransportation.getPatientID()
-              + ", "
-              + internalPatientTransportation.getEmployeeID()
-              + ", '"
-              + internalPatientTransportation.getRequestDetails()
-              + "', "
-              + internalPatientTransportation.getServiceID()
-              + ")";
-
-      statement.execute(query);
+      String query = "INSERT INTO PATIENTTRANSPORTATION VALUES(?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setString(1, internalPatientTransportation.getNodeID());
+      statement.setInt(2, internalPatientTransportation.getPatientID());
+      statement.setInt(3, internalPatientTransportation.getEmployeeID());
+      statement.setString(4, internalPatientTransportation.getRequestDetails());
+      statement.setString(5, internalPatientTransportation.getStatus());
+      statement.setInt(6, internalPatientTransportation.getServiceID());
+      statement.setTimestamp(7, internalPatientTransportation.getTimeMade());
+      statement.executeUpdate();
+      statement.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }

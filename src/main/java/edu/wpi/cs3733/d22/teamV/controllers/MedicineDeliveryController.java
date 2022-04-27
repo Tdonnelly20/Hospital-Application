@@ -1,11 +1,16 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d22.teamV.dao.LocationDao;
 import edu.wpi.cs3733.d22.teamV.dao.MedicineDeliveryDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
+import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import java.awt.*;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -27,7 +32,6 @@ public class MedicineDeliveryController extends RequestController {
 
   @FXML private TreeTableColumn<MedicineDelivery, Integer> hospitalIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, Integer> patientIDCol;
-  @FXML private TreeTableColumn<MedicineDelivery, Integer> serviceIDCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> firstNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> lastNameCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> nodeIDCol;
@@ -35,6 +39,7 @@ public class MedicineDeliveryController extends RequestController {
   @FXML private TreeTableColumn<MedicineDelivery, String> dosageCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
   @FXML private TreeTableColumn<MedicineDelivery, String> otherInfoCol;
+  @FXML private TreeTableColumn<MedicineDelivery, String> timeStampCol;
 
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
@@ -51,6 +56,7 @@ public class MedicineDeliveryController extends RequestController {
       (MedicineDeliveryDao) Vdb.requestSystem.getDao(Dao.MedicineDelivery);
   private boolean updating = false;
   private int updateServiceID;
+  private static final LocationDao LocationDao = Vdb.requestSystem.getLocationDao();
 
   private static class SingletonHelper {
     private static final MedicineDeliveryController controller = new MedicineDeliveryController();
@@ -64,6 +70,8 @@ public class MedicineDeliveryController extends RequestController {
   public void init() {
     setTitleText("Medicine Delivery Request");
     fillTopPane();
+
+    updateTreeTable();
 
     setColumnSizes(910);
 
@@ -91,6 +99,7 @@ public class MedicineDeliveryController extends RequestController {
                 medicineDeliveryTable.setPrefHeight(h - 75);
               }
             });
+    updateTreeTable();
   }
 
   void setColumnSizes(double w) {
@@ -102,8 +111,8 @@ public class MedicineDeliveryController extends RequestController {
     setColumnSize(medicineCol, (w - 30) / 10);
     setColumnSize(dosageCol, (w - 30) / 10);
     setColumnSize(otherInfoCol, (w - 30) / 10);
-    setColumnSize(serviceIDCol, (w - 30) / 10);
     setColumnSize(statusCol, (w - 30) / 10);
+    setColumnSize(timeStampCol, (w - 30) / 10);
   }
 
   /** Update the table with values from fields and the DB */
@@ -111,21 +120,21 @@ public class MedicineDeliveryController extends RequestController {
   public void updateTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
-    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("employeeID"));
-    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientID"));
-    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("serviceID"));
-    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientFirstName"));
-    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory("patientLastName"));
-    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-    medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory("medicineName"));
-    dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory("dosage"));
-    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory("status"));
-    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory("requestDetails"));
+    hospitalIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    medicineCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("medicineName"));
+    dosageCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("dosage"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MedicineDelivery> currMedicineDeliveries =
         (ArrayList<MedicineDelivery>) medicineDeliveryDao.getAllServiceRequests();
     // Create a list for our tree items
-    ArrayList<TreeItem> treeItems = new ArrayList<>();
+    ArrayList<TreeItem<MedicineDelivery>> treeItems = new ArrayList<>();
 
     // Need to make sure the list isn't empty
     if (currMedicineDeliveries.isEmpty()) {
@@ -135,18 +144,44 @@ public class MedicineDeliveryController extends RequestController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (MedicineDelivery delivery : currMedicineDeliveries) {
-      TreeItem<MedicineDelivery> item = new TreeItem(delivery);
+      TreeItem<MedicineDelivery> item = new TreeItem<>(delivery);
       treeItems.add(item);
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
     medicineDeliveryTable.setShowRoot(false);
     // Root is just the first entry in our list
-    TreeItem root = new TreeItem(currMedicineDeliveries.get(0));
+    TreeItem<MedicineDelivery> root = new TreeItem<>(currMedicineDeliveries.get(0));
     // Set the root in the table
     medicineDeliveryTable.setRoot(root);
     // Set the rest of the tree items to the root, including the one we set as the root
     root.getChildren().addAll(treeItems);
+  }
+
+  boolean findPatient() { // returns true if finds patient
+    boolean result = false;
+    if (!patientID.getText().isEmpty() && isInteger(patientID.getText())) {
+      for (Patient p : Vdb.requestSystem.getPatients()) {
+        if (p.getPatientID() == Integer.parseInt(patientID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  boolean findEmployee() { // returns true if finds patient
+    boolean result = false;
+    if (!employeeID.getText().isEmpty() && isInteger(employeeID.getText())) {
+      for (Employee e : Vdb.requestSystem.getEmployees()) {
+        if (e.getEmployeeID() == Integer.parseInt(employeeID.getText())) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
   }
 
   /** Determine whether or not all fields have been filled out, so we can submit the info */
@@ -157,27 +192,31 @@ public class MedicineDeliveryController extends RequestController {
     } else {
       sendRequest.setText("Send Request");
     }
-
     try {
+      statusLabel.setTextFill(Color.web("Black"));
+      sendRequest.setDisable(true);
       if ((employeeID.getText().equals("")
           && patientID.getText().equals("")
           && nodeID.getText().equals("")
           && dosage.getText().equals("")
           && statusDropDown.getValue().equals("Status")
           && medicationDropDown.getValue().equals("Select Medication"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Blank");
-        statusLabel.setTextFill(Color.web("Black"));
       } else if ((employeeID.getText().equals("")
           || patientID.getText().equals("")
           || nodeID.getText().equals("")
           || dosage.getText().equals("")
           || statusDropDown.getValue().equals("Status")
           || medicationDropDown.getValue().equals("Select Medication"))) {
-        sendRequest.setDisable(true);
         statusLabel.setText("Status: Processing");
-        statusLabel.setTextFill(Color.web("Black"));
+      } else if (LocationDao.getLocation(nodeID.getText()) == null) {
+        statusLabel.setText("Status: Needs valid room");
+      } else if (!findEmployee()) {
+        statusLabel.setText("Status: Needs valid employee ID");
+      } else if (!findPatient()) {
+        statusLabel.setText("Status: Needs valid patient ID");
       } else {
+        statusLabel.setText("Status: Good");
         sendRequest.setDisable(false);
       }
     } catch (Exception e) {
@@ -203,8 +242,10 @@ public class MedicineDeliveryController extends RequestController {
               Integer.parseInt(employeeID.getText()),
               medicationDropDown.getValue().toString(),
               dosage.getText(),
+              requestDetails.getText(),
               statusDropDown.getValue().toString(),
-              requestDetails.getText());
+              -1,
+              Timestamp.from(Instant.now()).toString());
       // Send the request to the Dao pattern
       try {
         if (updating) {
@@ -236,6 +277,7 @@ public class MedicineDeliveryController extends RequestController {
     requestDetails.setText("");
     statusDropDown.setValue("Status");
     sendRequest.setDisable(true);
+    validateButton();
   }
 
   @Override

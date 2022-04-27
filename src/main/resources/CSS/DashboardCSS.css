@@ -1,95 +1,121 @@
-.button{
-    -fx-font-size:16px;
+.button {
+    -fx-font-size: 16px;
     -fx-text-fill: #ffffff;
-    -fx-font-family:"Ebrima";
+    -fx-font-family: "Ebrima";
     -fx-background-color: #3b5480;
-    -fx-min-width:50;
-    -fx-min-height:40;
-    -fx-pref-width:90;
-    -fx-pref-height:50;
+    -fx-min-width: 50;
+    -fx-min-height: 40;
+    -fx-pref-width: 90;
+    -fx-pref-height: 50;
 
-    -fx-background-radius: 20;
-    -fx-border-style: outset;
+    -fx-background-radius: 20 20 20 20;
+    -fx-border-style: solid;
+    -fx-border-radius: 20 20 20 20;
+    /*
     -fx-background-image: HomeButton;
+
+     */
 }
 
-.button:hover{
+.button:hover {
     -fx-background-color: #8220a4;
     -fx-font-style: italic;
     -fx-border-color: #1f1c56;
-
 }
 
-.sideViewButtonf5{
+.sideViewButtonf5 {
     -fx-background-color: #6998e0;
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width: 100;
     -fx-pref-height: 50;
+    -fx-border-radius: 0;
 }
 
-.sideViewButtonf4{
+.sideViewButtonf4 {
     -fx-background-color: #1d4382;
     -fx-border-color: black;
     -fx-background-radius: 0;
     -fx-pref-width: 100;
-    -fx-pref-height: 50
+    -fx-pref-height: 50;
+    -fx-border-radius: 0;
 
 }
-.sideViewButtonf3{
+
+.sideViewButtonf3 {
     -fx-background-color: #6998e0;
     -fx-border-color: black;
     -fx-background-radius: 0;
-    -fx-pref-width:150;
-    -fx-pref-height: 50
+    -fx-pref-width: 150;
+    -fx-pref-height: 50;
+    -fx-border-radius: 0;
 }
-.sideViewButtonf2{
+
+.sideViewButtonf2 {
     -fx-background-color: #1d4382;
     -fx-border-color: black;
     -fx-background-radius: 0;
-    -fx-pref-width:150;
+    -fx-pref-width: 150;
+    -fx-border-radius: 0;
 
 }
-.sideViewButtonf1{
+
+.sideViewButtonf1 {
     -fx-background-color: #6998e0;
     -fx-border-color: black;
     -fx-background-radius: 0;
-    -fx-pref-width:150;
+    -fx-pref-width: 150;
+    -fx-border-radius: 0;
 }
-.sideViewButtonll1{
+
+.sideViewButtonll1 {
     -fx-background-color: #1d4382;
     -fx-border-color: black;
     -fx-background-radius: 0;
-    -fx-pref-width:150;
+    -fx-pref-width: 150;
+    -fx-border-radius: 0;
 
 }
-.sideViewButtonll2{
+
+.sideViewButtonll2 {
     -fx-background-color: #6998e0;
     -fx-border-color: black;
     -fx-background-radius: 0;
-    -fx-pref-width:150;
+    -fx-pref-width: 150;
+    -fx-border-radius: 0;
 }
 
-.floorLabelButton{
+.floorLabel {
+    -fx-text-alignment: center;
+    -fx-font-size: 30;
+    -fx-font-family: "Ebrima";
+    -fx-text-fill: white;
+    -fx-background-color: #4a65a1;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+
+}
+
+
+.floorLabelButton {
     -fx-background-color: #c2c2c2;
     -fx-border-color: black;
     -fx-text-fill: black;
     -fx-background-radius: 0;
-    -fx-pref-width:50;
+    -fx-pref-width: 50;
+    -fx-border-radius: 0;
 }
-.floorLabelButton:hover{
+
+.floorLabelButton:hover {
     -fx-background-color: #c2c2c2;
 }
 
-.progress-bar{
-}
-
-
-.tree-table-view{
-    -fx-background-radius: 20;
+.tree-table-view {
     -fx-fit-to-height: border;
     -fx-fit-to-width: border;
     -fx-padding: 10;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
 }
 
 
@@ -97,20 +123,71 @@
     -fx-background-color: #2c2c2c;
 }
 
-.titled-pane{
-    -fx-font-family:"Ebrima";
+.titled-pane {
+    -fx-font-family: "Ebrima";
     -fx-font-style: italic;
-
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
 }
 
-.vbox-label{
-    -fx-font-family:"Ebrima";
+.vbox-label {
+    -fx-font-family: "Ebrima";
     -fx-background-color: #3b5480;
     -fx-text-fill: white;
     -fx-font-size: 15;
     -fx-fill-width: true;
-    -fx-border-style: outset;
+    -fx-border-style: solid;
 }
+
+.count-text-area {
+    -fx-font-family: "Ebrima";
+    -fx-text-alignment: center;
+    -fx-font-size: 15;
+}
+
+.alert-text-area {
+    -fx-font-family: "Ebrima";
+    -fx-font-size: 15;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+
+.chart-bar {
+    -fx-background-color: transparent;
+}
+
+.num-axis{
+    -fx-text-fill: black;
+}
+
+.cat-axis{
+    -fx-text-fill: black;
+}
+
+.data0.chart-bar{
+    -fx-background-color: green;
+}
+
+.data1.chart-bar{
+    -fx-background-color: red;
+}
+
+.data2.chart-bar{
+    -fx-background-color: green;
+}
+
+.data3.chart-bar{
+    -fx-background-color: red;
+}
+
+.chart-legend{
+    -fx-text-alignment: center;
+    -fx-visible:false;
+}
+
+
+
 
 
 

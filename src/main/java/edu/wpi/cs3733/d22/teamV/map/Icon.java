@@ -1,10 +1,11 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.objects.Location;
+import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,49 +18,40 @@ public abstract class Icon {
     Equipment
   }
 
-  public IconType iconType;
-  protected Location location;
-  protected double xCoord;
-  protected double yCoord;
-  @FXML protected ImageView image;
+  public IconType iconType; // Type of icon
+  @FXML protected ImageView image; // Icon's image
+  protected boolean isDrag = false; // If the icon is being dragged
+  protected Floor floor; // The floor the icon is on
 
-  public Icon(Location location) {
-    this.xCoord = location.getXCoord();
-    this.yCoord = location.getYCoord();
-    this.location = location;
+  public Icon() {
     this.image = new ImageView();
-    image.setFitWidth(15);
-    image.setFitHeight(15);
-    image.setTranslateX(xCoord);
-    image.setTranslateY(yCoord);
     image.setOnMousePressed(
-        e -> {
-          // prevent pannable ScrollPane from changing cursor on drag-detected (implementation
-          // detail)
-          e.setDragDetect(false);
-          Point2D offset = new Point2D(e.getX() - image.getX() - 15, e.getY() - image.getY() - 20);
+        event -> {
+          // ScrollPane prevention (Allows you to only drag icon)
+          event.setDragDetect(false);
+          Point2D offset =
+              new Point2D(event.getX() - image.getX() - 15, event.getY() - image.getY() - 20);
           image.setUserData(offset);
-          e.consume(); // prevents MouseEvent from reaching ScrollPane
+          event.consume();
         });
     image.setOnMouseDragged(
-        e -> {
-          // prevent pannable ScrollPane from changing cursor on drag-detected (implementation
-          // detail)
-          e.setDragDetect(false);
-          Point2D offset = (Point2D) image.getUserData();
-          image.setX(e.getX() - offset.getX() - 15);
-          image.setY(e.getY() - offset.getY() - 20);
-          e.consume(); // prevents MouseEvent from reaching ScrollPane
-        });
-    image.setOnMouseEntered(
         event -> {
-          image.setFitWidth(50);
-          image.setFitHeight(50);
+          // ScrollPane prevention (Allows you to only drag icon)
+          isDrag = true;
+          event.setDragDetect(false);
+          Point2D offset = (Point2D) image.getUserData();
+          image.setX(event.getX() - offset.getX() - 15);
+          image.setY(event.getY() - offset.getY() - 20);
+          event.consume();
+          MapController.getController().getMapPane().getChildren().removeIf(Line.class::isInstance);
         });
   }
 
+  /** Returns a VBox with infomation regarding the contents of the icon */
   @FXML
-  public abstract ScrollPane compileList();
+  public abstract VBox compileList();
 
-  public abstract void updateLocation();
+  /** Sets the icon's image depending on it's contents */
+  @FXML
+  public abstract void setImage();
 }

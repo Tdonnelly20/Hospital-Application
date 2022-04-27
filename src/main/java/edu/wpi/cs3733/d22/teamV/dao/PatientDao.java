@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,15 +13,19 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PatientDao {
+  private static final Patient nullPatient = new Patient("Not", "Found");
+  // List of all patients
   private static ArrayList<Patient> allPatients;
 
+  /** Default constructor, loads SQL table then from CSV */
   public PatientDao() {
+    nullPatient.setPatientID(-1);
     allPatients = new ArrayList<>();
-
-    loadFromCSV();
     createSQLTable();
+    loadFromCSV();
   }
 
+  /** Load all the Patients from the CSV to the arraylist, add them to SQL */
   public void loadFromCSV() {
 
     try {
@@ -68,6 +73,7 @@ public class PatientDao {
     }
   }
 
+  /** Save all patients from the arraylist to the CSV */
   public void saveToCSV() {
     try {
       FileWriter fw = new FileWriter(VApp.currentPath + "/Patients.csv");
@@ -108,6 +114,11 @@ public class PatientDao {
     }
   }
 
+  /**
+   * Add a new patient to the arraylist, then to the SQL table, then save to CSV
+   *
+   * @param patient
+   */
   public void addPatient(Patient patient) {
     patient.setPatientID(RequestSystem.getPatientID());
     allPatients.add(patient);
@@ -115,16 +126,39 @@ public class PatientDao {
     saveToCSV();
   }
 
+  /**
+   * Remove a patient from the arraylist then all the associated service requests
+   *
+   * @param patient
+   */
   public void removePatient(Patient patient) {
+    replacePatient(patient);
+    for (ServiceRequest request : patient.getServiceRequestList()) {
+      Vdb.requestSystem.removeServiceRequest(request);
+    }
+  }
+
+  /**
+   * A helper method for updating a patient with new info instead of removing
+   *
+   * @param patient
+   */
+  public void replacePatient(Patient patient) {
     allPatients.removeIf(currPatient -> patient.getPatientID() == currPatient.getPatientID());
     removeFromSQLTable(patient);
     saveToCSV();
   }
 
+  /**
+   * Getter for all patients
+   *
+   * @return all patients
+   */
   public static ArrayList<Patient> getAllPatients() {
     return allPatients;
   }
 
+  /** Create the SQL table for all patients */
   public void createSQLTable() {
     try {
       Connection connection = Vdb.Connect();
@@ -150,6 +184,11 @@ public class PatientDao {
     }
   }
 
+  /**
+   * Add a patient to the SQL table
+   *
+   * @param patient
+   */
   public void addToSQLTable(Patient patient) {
     try {
 
@@ -184,6 +223,11 @@ public class PatientDao {
     }
   }
 
+  /**
+   * Remove a patient from the SQL table
+   *
+   * @param patient
+   */
   public void removeFromSQLTable(Patient patient) {
     try {
       String query = "";
@@ -197,22 +241,32 @@ public class PatientDao {
     }
   }
 
+  /**
+   * Get a patient with a specific ID
+   *
+   * @param patientID
+   * @return a patient if it exists, if not return nullPatient
+   */
   public Patient getPatient(int patientID) {
     for (Patient patient : allPatients) {
       if (patient.getPatientID() == patientID) {
         return patient;
       }
     }
-    // System.out.println("No patient with ID: " + patientID);
-    Patient patient = new Patient("Null", "Null");
-    patient.setPatientID(patientID);
-    return patient;
+    System.out.println("No patient with ID: " + patientID);
+    return nullPatient;
   }
 
+  /**
+   * Update a specific patient with the ID and replace it
+   *
+   * @param patient to replace
+   * @param patientID to replace patientID
+   */
   public void updatePatient(Patient patient, int patientID) {
     Patient oldPatient = getPatient(patientID);
     patient.setPatientID(patientID);
-    removePatient(oldPatient);
+    replacePatient(oldPatient);
     allPatients.add(patient);
     addToSQLTable(patient);
     saveToCSV();

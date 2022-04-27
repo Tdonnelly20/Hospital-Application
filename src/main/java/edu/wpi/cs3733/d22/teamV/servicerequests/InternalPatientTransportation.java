@@ -2,15 +2,11 @@ package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
-import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 public class InternalPatientTransportation extends ServiceRequest {
-  private Patient patient;
-  private Employee employee;
-  private String nodeID, requestDetails;
-  private int employeeID;
 
   /**
    * @param patientID
@@ -19,36 +15,38 @@ public class InternalPatientTransportation extends ServiceRequest {
    * @param requestDetails
    */
   public InternalPatientTransportation(
-      String nodeID, int patientID, int employeeID, String requestDetails) {
+      String nodeID,
+      int patientID,
+      int employeeID,
+      String requestDetails,
+      String status,
+      int serviceID,
+      String date) {
+    if (date != "") {
+      this.timeMade = Timestamp.valueOf(date);
+
+    } else {
+      this.timeMade = Timestamp.from(Instant.now());
+    }
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    System.out.println(employee.getEmployeeID());
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    this.details = requestDetails;
+    this.type = "Internal Patient Transportation Request";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+  }
+
+  public InternalPatientTransportation(
+      String nodeID, int patientID, int employeeID, String requestDetails, String status) {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
-    this.nodeID = nodeID;
-    this.employeeID = employeeID;
-    this.requestDetails = requestDetails;
+    this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
-    this.status = "Not Started";
-    this.dao = RequestSystem.Dao.InternalPatientTransportation;
-  }
-
-  public String getPatientFirstName() {
-    return patient.getFirstName();
-  }
-
-  public String getPatientLastName() {
-    return patient.getLastName();
-  }
-
-  public int getPatientID() {
-    return patient.getPatientID();
-  }
-
-  public int getEmployeeID() {
-    return employee.getEmployeeID();
-  }
-
-  public String getNodeID() {
-    return nodeID;
+    this.status = status;
   }
 
   public void setServiceID(int serviceID) {
@@ -58,7 +56,7 @@ public class InternalPatientTransportation extends ServiceRequest {
   }
 
   public String getRequestDetails() {
-    return requestDetails;
+    return details;
   }
 
   @Override

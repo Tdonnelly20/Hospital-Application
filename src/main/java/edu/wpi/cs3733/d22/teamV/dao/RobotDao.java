@@ -17,6 +17,8 @@ public class RobotDao extends DaoInterface {
   /** Initialize the array list */
   public RobotDao() {
     allRobotRequests = new ArrayList<>();
+    loadFromCSV();
+    createSQLTable();
   }
 
   // DaoInterface Methods
@@ -35,7 +37,13 @@ public class RobotDao extends DaoInterface {
         String[] data = line.split(splitToken);
         RobotRequest newRobot =
             new RobotRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
+                Integer.parseInt(data[0]),
+                Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                Integer.parseInt(data[5]),
+                data[6]);
         newRobot.setServiceID(Integer.parseInt(data[5]));
         allRobotRequests.add(newRobot);
       }
@@ -61,7 +69,8 @@ public class RobotDao extends DaoInterface {
           robotRequest.getNodeID(),
           robotRequest.getDetails(),
           robotRequest.getStatus(),
-          String.valueOf(robotRequest.getServiceID())
+          String.valueOf(robotRequest.getServiceID()),
+          robotRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -85,10 +94,9 @@ public class RobotDao extends DaoInterface {
       DatabaseMetaData meta = connection.getMetaData();
       ResultSet set = meta.getTables(null, null, "ROBOTS", new String[] {"TABLE"});
       String query = "";
-
       if (!set.next()) {
         query =
-            "CREATE TABLE ROBOTS(employeeID int, botID int, nodeID varchar(30), detaisl varchar(30), status varchar(50), serviceID int)";
+            "CREATE TABLE ROBOTS(employeeID int, botID int, nodeID varchar(30), details varchar(30), status varchar(50), serviceID int, date_time timestamp)";
         statement.execute(query);
 
       } else {
@@ -107,32 +115,20 @@ public class RobotDao extends DaoInterface {
   }
 
   public void addToSQLTable(ServiceRequest request) {
+
     try {
-      RobotRequest robotRequest = (RobotRequest) request;
-
-      String query = "";
       Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
-
-      query =
-          "INSERT INTO ROBOTS("
-              + "employeeID,botID,nodeID,details,status,serviceID) VALUES "
-              + "("
-              + robotRequest.getEmployeeID()
-              + ", "
-              + robotRequest.getBotID()
-              + ", '"
-              + robotRequest.getNodeID()
-              + "',' "
-              + robotRequest.getDetails()
-              + "', '"
-              + robotRequest.getStatus()
-              + "',"
-              + robotRequest.getServiceID()
-              + ")";
-
-      statement.execute(query);
+      RobotRequest robotRequest = (RobotRequest) request;
+      String query = "INSERT INTO ROBOTS VALUES(?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, robotRequest.getEmployeeID());
+      statement.setInt(2, robotRequest.getBotID());
+      statement.setString(3, robotRequest.getLocation().getNodeID());
+      statement.setString(4, robotRequest.getDetails());
+      statement.setString(5, robotRequest.getStatus());
+      statement.setInt(6, robotRequest.getServiceID());
+      statement.setTimestamp(7, robotRequest.getTimeMade());
+      statement.executeUpdate(); // uninit params
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -197,23 +193,6 @@ public class RobotDao extends DaoInterface {
       } catch (Exception e) {
         e.printStackTrace();
       }
-    }
-  }
-
-  public void removeLabRequest(int botID) {
-    // System.out.println("Removing from arraylist...");
-    allRobotRequests.removeIf(r -> r.getBotID() == botID);
-
-    try {
-      // System.out.println("Removing from database...");
-      Connection connection;
-      connection = DriverManager.getConnection("jdbc:derby:VDB;create=true", "admin", "admin");
-      Statement exampleStatement = connection.createStatement();
-      for (RobotRequest r : allRobotRequests)
-        exampleStatement.execute("DELETE FROM ROBOTS WHERE botID = r.getBotID()");
-
-    } catch (Exception e) {
-      e.printStackTrace();
     }
   }
 }

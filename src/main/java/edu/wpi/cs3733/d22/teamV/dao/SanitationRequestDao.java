@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.dao;
 
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.VApp;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
@@ -18,7 +17,7 @@ public class SanitationRequestDao extends DaoInterface {
       allSanitationRequests; // A local list of all sanitation requests, updated via Vdb
 
   /** Initialize the arraylist */
-  public SanitationRequestDao() throws SQLException, IOException {
+  public SanitationRequestDao() {
     allSanitationRequests = new ArrayList<SanitationRequest>();
     loadFromCSV();
     createSQLTable();
@@ -40,10 +39,19 @@ public class SanitationRequestDao extends DaoInterface {
       {
         String[] data;
         data = line.split(splitToken);
-        SanitationRequest request =
-            new SanitationRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
-        requests.add(request);
+        if (data.length > 0) {
+          SanitationRequest request =
+              new SanitationRequest(
+                  Integer.parseInt(data[0]),
+                  Integer.parseInt(data[1]),
+                  data[2],
+                  data[3],
+                  data[4],
+                  data[5],
+                  Integer.parseInt(data[6]),
+                  data[7]);
+          requests.add(request);
+        }
       }
       allSanitationRequests = requests;
 
@@ -60,18 +68,19 @@ public class SanitationRequestDao extends DaoInterface {
     try {
       fw = new FileWriter(VApp.currentPath + "/SanitationRequest.csv");
       BufferedWriter bw = new BufferedWriter(fw);
-      bw.append("PatientID,EmpID,Location,Hazard,Details,status,serviceID");
+      bw.append("PatientID,EmpID,Location,Hazard,Details,status,serviceID,Date");
 
       for (ServiceRequest request : getAllServiceRequests()) {
         SanitationRequest sanitationRequest = (SanitationRequest) request;
         String[] outputData = {
           Integer.toString(sanitationRequest.getPatientID()),
-          Integer.toString(sanitationRequest.getHospitalID()),
-          sanitationRequest.getRoomLocation(),
+          Integer.toString(sanitationRequest.getEmployeeID()),
+          sanitationRequest.getNodeID(),
           sanitationRequest.getHazardName(),
-          sanitationRequest.getRequestDetails(),
+          sanitationRequest.getDetails(),
           sanitationRequest.getStatus(),
-          Integer.toString(sanitationRequest.getServiceID())
+          Integer.toString(sanitationRequest.getServiceID()),
+          sanitationRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -98,10 +107,9 @@ public class SanitationRequestDao extends DaoInterface {
       ResultSet set = meta.getTables(null, null, "SANITATIONREQUESTS", new String[] {"TABLE"});
       if (!set.next()) {
         statement.execute(
-            "CREATE TABLE SANITATIONREQUESTS(pID int, empID int, roomLocation char(40), hazard char(30), details char(150), status char(50),serviceID int)");
+            "CREATE TABLE SANITATIONREQUESTS(pID int, empID int, roomLocation char(40), hazard char(30), details char(150), status char(50),serviceID int, date_time timestamp )");
         // System.out.println(r);
       } else {
-        System.out.println("TABLE EXISTS, REMAKING");
         statement.execute("DROP TABLE SANITATIONREQUESTS");
         createSQLTable();
         return;
@@ -120,15 +128,16 @@ public class SanitationRequestDao extends DaoInterface {
     try {
       SanitationRequest newSanitationRequest = (SanitationRequest) Request;
       Connection connection = Vdb.Connect();
-      String query = "INSERT INTO SANITATIONREQUESTS VALUES(?,?,?,?,?,?,?)";
+      String query = "INSERT INTO SANITATIONREQUESTS VALUES(?,?,?,?,?,?,?,?)";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setInt(1, newSanitationRequest.getPatientID());
-      statement.setInt(2, newSanitationRequest.getHospitalID());
-      statement.setString(3, newSanitationRequest.getRoomLocation());
+      statement.setInt(2, newSanitationRequest.getEmployeeID());
+      statement.setString(3, newSanitationRequest.getNodeID());
       statement.setString(4, newSanitationRequest.getHazardName());
-      statement.setString(5, newSanitationRequest.getRequestDetails());
+      statement.setString(5, newSanitationRequest.getDetails());
       statement.setString(6, newSanitationRequest.getStatus());
       statement.setInt(7, newSanitationRequest.getServiceID());
+      statement.setTimestamp(8, newSanitationRequest.getTimeMade());
       statement.executeUpdate();
       statement.close();
 
@@ -141,6 +150,7 @@ public class SanitationRequestDao extends DaoInterface {
   public void updateServiceRequest(ServiceRequest request, int serviceID) {
     SanitationRequest newRequest = (SanitationRequest) request;
     request.setServiceID(serviceID);
+    System.out.println(serviceID);
     int index = -1;
     for (int i = 0; i < allSanitationRequests.size(); i++) {
       if (allSanitationRequests.get(i).getServiceID() == request.getServiceID()) {
@@ -165,15 +175,17 @@ public class SanitationRequestDao extends DaoInterface {
       SanitationRequest newRequest = (SanitationRequest) request;
       Connection connection = Vdb.Connect();
       String query =
-          "UPDATE SANITATIONREQUESTS SET pID=?, empID=?,roomLocation=?,hazard=?,details=?, status=? WHERE serviceID=?";
+          "UPDATE SANITATIONREQUESTS SET pID=?, empID=?,roomLocation=?,hazard=?,details=?, status=?, date_time=? WHERE serviceID=?";
       PreparedStatement statement = connection.prepareStatement(query); // error here?
       statement.setInt(1, newRequest.getPatientID());
-      statement.setInt(2, newRequest.getHospitalID());
-      statement.setString(3, newRequest.getRoomLocation());
+      statement.setInt(2, newRequest.getEmployeeID());
+      statement.setString(3, newRequest.getNodeID());
       statement.setString(4, newRequest.getHazardName());
-      statement.setString(5, newRequest.getRequestDetails());
+      statement.setString(5, newRequest.getDetails());
       statement.setString(6, newRequest.getStatus());
-      statement.setInt(7, newRequest.getServiceID());
+      statement.setTimestamp(7, newRequest.getTimeMade());
+      statement.setInt(8, newRequest.getServiceID());
+
       statement.executeUpdate();
       statement.close();
 
@@ -201,9 +213,10 @@ public class SanitationRequestDao extends DaoInterface {
 
   @Override
   public void addServiceRequest(ServiceRequest request) {
+    System.out.println(request.getDetails());
     SanitationRequest newRequest = (SanitationRequest) request;
-    request.setServiceID(RequestSystem.getServiceID());
-    newRequest.setServiceID(RequestSystem.getServiceID());
+    // details is null here, but why?
+    request.setServiceID(newRequest.getServiceID());
     allSanitationRequests.add(newRequest);
     addToSQLTable(request);
     saveToCSV();

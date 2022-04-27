@@ -20,6 +20,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.MedicineDeliveryController">
   <items>
@@ -116,26 +117,30 @@
                            </content>
                         </ScrollPane>
                      </children></AnchorPane>
-                <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                     <children>
+                <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <content>
                         <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab text="Table View">
+                            <Tab text="Medicine Requests">
                               <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <TreeTableView fx:id="medicineDeliveryTable" layoutX="14.0" layoutY="70.0" prefHeight="794.0" prefWidth="1564.0">
                                              <columns>
                                                 <TreeTableColumn fx:id="hospitalIDCol" prefWidth="78.0" text="Employee ID" />
                                                 <TreeTableColumn fx:id="patientIDCol" minWidth="0.0" prefWidth="71.0" text="Patient ID" />
-                                                <TreeTableColumn fx:id="serviceIDCol" prefWidth="77.0" text="Service ID" />
-                                                <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First Name" />
-                                                <TreeTableColumn fx:id="lastNameCol" text="Last Name" />
-                                                <TreeTableColumn fx:id="nodeIDCol" minWidth="0.0" prefWidth="75.0" text="Location" />
+                                                <TreeTableColumn prefWidth="75.0" text="Patient Name">
+                                                   <columns>
+                                                      <TreeTableColumn fx:id="firstNameCol" maxWidth="200.0" text="First" />
+                                                      <TreeTableColumn fx:id="lastNameCol" text="Last" />
+                                                   </columns>
+                                                </TreeTableColumn>
+                                                <TreeTableColumn fx:id="nodeIDCol" minWidth="0.0" prefWidth="75.0" text="Location ID" />
                                                 <TreeTableColumn fx:id="medicineCol" minWidth="0.0" prefWidth="73.0" text="Medicine" />
                                                 <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="95.0" text="Dosage" />
-                                                <TreeTableColumn fx:id="statusCol" prefWidth="92.0" text="Status" />
                                                 <TreeTableColumn fx:id="otherInfoCol" prefWidth="98.4000244140625" text="Other Info" />
+                                                <TreeTableColumn fx:id="statusCol" prefWidth="92.0" text="Status" />
+                                                <TreeTableColumn fx:id="timeStampCol" minWidth="0.0" prefWidth="150.0" text="Time" />
                                              </columns>
                                           </TreeTableView>
                                           <Button fx:id="removeButton" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
@@ -143,9 +148,28 @@
                                        </children></AnchorPane>
                               </content>
                             </Tab>
+                              <Tab text="Help">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <Text layoutX="28.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help Page">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text layoutX="23.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitting A Request: In order to submit a request of any kind you will need to fill out all required fields (except Request Details) and press the Send Request button." wrappingWidth="873.322265625" />
+                                          <Text layoutX="23.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember To:" />
+                                          <Text layoutX="23.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Input a number, not characters in UserID, PatientID and Room number." />
+                                          <Text layoutX="27.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Select a medice from the drop-down menu and write the dosage and any detasils below." />
+                                          <Text layoutX="23.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Use an actual node ID found in the hospital, not its common name." />
+                                          <Text layoutX="23.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Switch to the Table View tab in order to see any current or previous Service Requests." />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
                           </tabs>
                         </TabPane>
-                     </children></AnchorPane>
+                     </content></ScrollPane>
               </items>
             </SplitPane>
          </children></AnchorPane>

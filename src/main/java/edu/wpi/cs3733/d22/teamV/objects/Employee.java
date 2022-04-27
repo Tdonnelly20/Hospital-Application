@@ -10,13 +10,13 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Employee extends DirectionalAssoc {
-  private int employeeID;
-  private String firstName;
-  private String lastName;
+  private int employeeID = -1;
+  private String firstName = "";
+  private String lastName = "";
   private String employeePosition = "Doctor";
-  private ArrayList<String> specialties;
-  private ArrayList<Integer> patientIDs;
-  private ArrayList<Integer> serviceRequestIDs;
+  private ArrayList<String> specialties = new ArrayList<>();
+  private ArrayList<Integer> patientIDs = new ArrayList<>();
+  private ArrayList<Integer> serviceRequestIDs = new ArrayList<>();
   private boolean isAdmin;
 
   public Employee(

@@ -84,7 +84,20 @@ public class Equipment {
   }
 
   public void updateLocation(double x, double y) {
-    setX(x);
-    setY(y);
+    this.x = x;
+    this.y = y;
+  }
+
+  public String toString() {
+    return "ID: "
+        + ID
+        + "\nX: "
+        + x
+        + "\tY: "
+        + y
+        + "\nFloor: "
+        + floor
+        + "\nDescription: "
+        + description;
   }
 }

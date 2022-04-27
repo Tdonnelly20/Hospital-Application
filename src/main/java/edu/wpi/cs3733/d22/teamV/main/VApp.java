@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.main;
 
+import edu.wpi.cs3733.d22.teamV.controllers.Controller;
 import java.io.IOException;
 import java.util.Objects;
 import javafx.application.Application;
@@ -26,11 +27,13 @@ public class VApp extends Application {
       loader.setLocation(
           Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/Login.fxml")));
       Parent root = loader.load();
+
+      Controller controller = loader.getController();
+      controller.init();
+
       primaryStage.setScene(new Scene(root));
       primaryStage.show();
       currentPath = returnPath();
-      Vdb vdb = new Vdb();
-      vdb.createAllDB();
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();

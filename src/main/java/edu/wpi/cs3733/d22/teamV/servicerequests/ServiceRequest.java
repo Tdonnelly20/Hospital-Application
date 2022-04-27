@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
+import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.Icon;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
@@ -16,18 +17,46 @@ import lombok.Setter;
 @Getter
 public abstract class ServiceRequest extends DirectionalAssoc {
   protected Location location;
-  private int serviceID;
+  protected Floor floor;
+  protected int serviceID;
   public Patient patient;
   protected Employee employee;
   public boolean toBeDeleted = false;
-  protected Timestamp timestamp;
+  protected Timestamp timeMade; // when this was made
   protected String type;
   protected RequestSystem.Dao dao;
-  protected String notes;
+  protected String details;
   protected String status = "Not Started";
+  protected String notes;
   protected Icon icon;
   public Image image;
   private String nodeID;
+
+  public String getTimeString() {
+    return timeMade
+        .toString()
+        .substring(timeMade.toString().indexOf("-") + 1, timeMade.toString().indexOf(".") - 3);
+  }
+
+  public String getFloorName() {
+    return floor.getFloorName();
+  }
+
+  public String getPatientFirstName() {
+    return patient.getFirstName();
+  }
+
+  public String getPatientLastName() {
+    return patient.getLastName();
+  }
+
+  public int getEmployeeID() {
+    return employee.getEmployeeID();
+  }
+
+  public int getPatientID() {
+    return patient.getPatientID();
+  }
 
   public String getRequestName() {
     if (patient != null) {
@@ -41,6 +70,10 @@ public abstract class ServiceRequest extends DirectionalAssoc {
     return location.getNodeID();
   }
 
+  public Timestamp getTimeMade() {
+    return timeMade;
+  }
+
   public void detachAll() {
     toBeDeleted = true;
     updateAllObservers();
@@ -52,18 +85,68 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   }
 
   public String toString() {
-    if (patient == null || employee == null) {
-      return "Location: " + location.getNodeID() + " Service ID: " + serviceID;
+    String detailString;
+    String typeInfo = type;
+    if (details == null || details.equals("null")) {
+      detailString = "N/A";
     } else {
+      detailString = details;
+    }
+    if (notes != null) {
+      typeInfo.concat(" - " + notes);
+    }
+    if (patient == null) {
       return "Location: "
           + location.getNodeID()
-          + " Service ID: "
+          + "\nX: "
+          + getLocation().getXCoord()
+          + "    Y: "
+          + getLocation().getYCoord()
+          + "\nDate Submitted: "
+          + getTimeString()
+          + "\nEmployee: "
+          + employee.getLastName()
+          + ", "
+          + employee.getFirstName()
+          + " (ID: "
+          + employee.getEmployeeID()
+          + ")\nService Request: "
+          + typeInfo
+          + " (ID: "
           + serviceID
-          + " Patient ID: "
-          + patient.getPatientID()
-          + " Employee ID: "
-          + employee.getEmployeeID();
+          + ")\nDetails: "
+          + detailString;
     }
+    return "Location: "
+        + location.getNodeID()
+        + "\nX: "
+        + getLocation().getXCoord()
+        + "    Y: "
+        + getLocation().getYCoord()
+        + "\nDate Submitted: "
+        + getTimeString()
+        + "\nEmployee: "
+        + employee.getLastName()
+        + ", "
+        + employee.getFirstName()
+        + " (ID: "
+        + employee.getEmployeeID()
+        + ")\nPatient: "
+        + patient.getLastName()
+        + ", "
+        + patient.getFirstName()
+        + " (ID: "
+        + patient.getPatientID()
+        + ")\nService Request: "
+        + typeInfo
+        + " (ID: "
+        + serviceID
+        + ")\nDetails: "
+        + detailString;
+  }
+
+  public int getServiceID() {
+    return serviceID;
   }
 
   @Override

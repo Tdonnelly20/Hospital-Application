@@ -35,11 +35,19 @@ public class LabRequestDao extends DaoInterface {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        LabRequest newDelivery =
-            new LabRequest(
-                Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], data[3], data[4]);
-        newDelivery.setServiceID(Integer.parseInt(data[5]));
-        allLabRequests.add(newDelivery);
+        if (data.length > 0) {
+          LabRequest newDelivery =
+              new LabRequest(
+                  Integer.parseInt(data[0]),
+                  Integer.parseInt(data[1]),
+                  data[2],
+                  data[3],
+                  data[4],
+                  Integer.parseInt(data[5]),
+                  data[6]);
+          newDelivery.setServiceID(Integer.parseInt(data[5]));
+          allLabRequests.add(newDelivery);
+        }
       }
       setAllServiceRequests(allLabRequests);
     } catch (IOException e) {
@@ -64,7 +72,8 @@ public class LabRequestDao extends DaoInterface {
           labRequest.getLocation().getNodeID(),
           labRequest.getLab(),
           labRequest.getStatus(),
-          String.valueOf(labRequest.getServiceID())
+          String.valueOf(labRequest.getServiceID()),
+          labRequest.getTimeMade().toString()
         };
         bw.append("\n");
         for (String s : outputData) {
@@ -92,7 +101,7 @@ public class LabRequestDao extends DaoInterface {
 
       if (!set.next()) {
         query =
-            "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int)";
+            "CREATE TABLE LABS(userID int, patientID int, nodeID char(50), lab varchar(50), status varchar(50), serviceID int,date_time timestamp)";
         statement.execute(query);
 
       } else {
@@ -113,31 +122,18 @@ public class LabRequestDao extends DaoInterface {
   public void addToSQLTable(ServiceRequest request) {
     try {
 
-      LabRequest labRequest = (LabRequest) request;
-
-      String query = "";
       Connection connection = Vdb.Connect();
-      assert connection != null;
-      Statement statement = connection.createStatement();
-
-      query =
-          "INSERT INTO LABS("
-              + "userID,patientID,nodeID,lab,status,serviceID) VALUES "
-              + "("
-              + labRequest.getUserID()
-              + ", "
-              + labRequest.getPatientID()
-              + ", '"
-              + labRequest.getLocation().getNodeID()
-              + "', '"
-              + labRequest.getLab()
-              + "', '"
-              + labRequest.getStatus()
-              + "',"
-              + labRequest.getServiceID()
-              + ")";
-
-      statement.execute(query);
+      LabRequest labRequest = (LabRequest) request;
+      String query = "INSERT INTO LABS VALUES(?,?,?,?,?,?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, labRequest.getEmployeeID());
+      statement.setInt(2, labRequest.getPatientID());
+      statement.setString(3, labRequest.getLocation().getNodeID());
+      statement.setString(4, labRequest.getLab());
+      statement.setString(5, labRequest.getStatus());
+      statement.setInt(6, labRequest.getServiceID());
+      statement.setTimestamp(7, labRequest.getTimeMade());
+      statement.executeUpdate(); // uninit params
     } catch (SQLException e) {
       e.printStackTrace();
     }
