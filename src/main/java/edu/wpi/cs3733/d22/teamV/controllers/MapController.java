@@ -152,16 +152,7 @@ public class MapController extends Controller {
         .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections, showNodes);
     showConnections.setOnAction(
         event -> {
-          for (PathfindingDao.Edge edge : PathfindingDao.getEdges()) {
-            if (RequestSystem.getSystem()
-                .getLocation(edge.getNodeOne())
-                .getFloor()
-                .equals(floorName)) {
-              drawPath(
-                  RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
-                  RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
-            }
-          }
+          drawAllConnections();
         });
     mapVBox.getChildren().addAll(scrollPane);
     mapVBox.setAlignment(Pos.CENTER);
@@ -262,8 +253,8 @@ public class MapController extends Controller {
                     .addLocation(
                         new Location(
                             RequestSystem.getSystem().getNewNode(),
-                            event.getX(),
-                            event.getY(),
+                            event.getX() + 7.5,
+                            event.getY() + 7.5,
                             floorName,
                             "Tower",
                             "node",
@@ -273,7 +264,6 @@ public class MapController extends Controller {
                 mapPane.getChildren().clear();
                 setFloor(floorName);
               } else {
-
                 PopupController.getController().iconWindow(event);
                 // IconForm(event);
               }
@@ -531,6 +521,18 @@ public class MapController extends Controller {
       drawPath();
       startLocationID = "";
       endLocationID = "";
+    }
+  }
+
+  /** Draws all the paths on the floor */
+  @FXML
+  private void drawAllConnections() {
+    for (PathfindingDao.Edge edge : PathfindingDao.getEdges()) {
+      if (RequestSystem.getSystem().getLocation(edge.getNodeOne()).getFloor().equals(floorName)) {
+        drawPath(
+            RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
+            RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
+      }
     }
   }
 }
