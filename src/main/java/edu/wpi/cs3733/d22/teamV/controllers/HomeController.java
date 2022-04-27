@@ -2,19 +2,22 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class HomeController extends RequestController {
   @FXML private TreeTableView<ServiceRequest> requestTable;
@@ -27,6 +30,7 @@ public class HomeController extends RequestController {
   @FXML private TreeTableColumn<ServiceRequest, Integer> statusCol;
   @FXML private TreeTableColumn<ServiceRequest, Integer> timeCol;
   @FXML private Pane tablePane;
+  @FXML private Label homeClock;
 
   @FXML private Pane homePane;
   @FXML private ImageView homeImage;
@@ -115,6 +119,7 @@ public class HomeController extends RequestController {
                 requestTable.setPrefHeight(h - 30);
               }
             });
+    initializeClock();
   }
 
   @FXML
@@ -162,5 +167,21 @@ public class HomeController extends RequestController {
     setColumnSize(patientIDCol, (w - 30) / 12);
     setColumnSize(statusCol, (w - 30) / 6);
     setColumnSize(timeCol, (w - 30) / 6);
+  }
+
+  @FXML
+  public void initializeClock() {
+
+    Timeline clock =
+        new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                e ->
+                    homeClock.setText(
+                        LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))),
+            new KeyFrame(Duration.seconds(1)));
+    clock.setCycleCount(Animation.INDEFINITE);
+    clock.play();
   }
 }
