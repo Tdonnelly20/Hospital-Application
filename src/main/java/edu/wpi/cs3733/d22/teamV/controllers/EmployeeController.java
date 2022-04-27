@@ -23,16 +23,13 @@ public class EmployeeController extends RequestController {
   private static final EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
   private int updateID;
-  private boolean isSure = true;
 
   public EmployeeController() {}
 
-  private static class SingletonHelper {
-    private static final EmployeeController controller = new EmployeeController();
-  }
+  private static EmployeeController controller;
 
   public static EmployeeController getController() {
-    return EmployeeController.SingletonHelper.controller;
+    return controller;
   }
 
   @FXML private TreeTableView<Employee> employeeTable;
@@ -229,6 +226,9 @@ public class EmployeeController extends RequestController {
 
   @Override
   public void init() {
+
+    controller = this;
+
     setTitleText("Employee Database");
     fillTopPaneAPI();
 

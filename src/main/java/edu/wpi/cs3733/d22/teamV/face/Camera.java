@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javax.imageio.ImageIO;
 import lombok.Getter;
 import lombok.Setter;
+import nu.pattern.OpenCV;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -40,7 +42,6 @@ public class Camera {
   // face cascade classifier
   private final CascadeClassifier faceCascade;
   private int absoluteFaceSize;
-
   private Mat picture;
   @Getter private Mat pictureTaken;
   private final boolean authenticating;
@@ -58,18 +59,28 @@ public class Camera {
     this.detectedPicture = detectedPicture;
     this.authenticating = authenticating;
 
+    OpenCV.loadLocally();
     capture = new VideoCapture();
     this.faceCascade = new CascadeClassifier();
     this.absoluteFaceSize = 0;
 
     // load the classifier
-    this.faceCascade.load(new File("haarcascade_frontalface_alt.xml").getAbsolutePath());
+    String path =
+        String.valueOf(
+            Paths.get(
+                new File("").getAbsolutePath()
+                    + "/src/main/java/edu/wpi/cs3733/d22/teamV/xml/haarcascade_frontalface_alt.xml"));
+    System.out.println(path);
+    this.faceCascade.load(path);
 
     // set a fixed width for the frame
     detectedPicture.setFitWidth(600);
     // preserve image ratio
     detectedPicture.setPreserveRatio(true);
 
+    if (oldPicture == null) {
+      return;
+    }
     if (btnTakePicture != null) {
       btnTakePicture.setOnMouseClicked(
           (e) -> {
@@ -117,6 +128,10 @@ public class Camera {
     pictureTaken = picture;
   }
 
+  public static boolean isCameraActive() {
+    return cameraActive;
+  }
+
   /**
    * has a picture been taken
    *
@@ -126,9 +141,10 @@ public class Camera {
     return pictureTaken != null;
   }
 
-  private void grabFrame() {
-    Mat frame = new Mat();
+  public boolean face = false;
 
+  public void grabFrame() {
+    Mat frame = new Mat();
     // check if the capture is open
     if (capture.isOpened()) {
       try {
@@ -139,7 +155,9 @@ public class Camera {
         if (!frame.empty()) {
           // face detection
           this.detectAndDisplay(frame);
+          face = this.faceDetected(frame);
           Image imageToShow = Utils.mat2Image(frame);
+          // System.out.println("Update!");
           updateImageView(detectedPicture, imageToShow);
         }
 
@@ -175,6 +193,7 @@ public class Camera {
     assert !grayFrame.empty();
 
     // detect faces
+
     this.faceCascade.detectMultiScale(
         grayFrame,
         faces,
@@ -209,8 +228,8 @@ public class Camera {
                 // Compare the faces
                 if (picture != null) {
                   try {
-                    detect();
-                  } catch (Exception e) {
+                    detect(new Event(Event.ANY));
+                  } catch (IOException e) {
                     e.printStackTrace();
                   }
                 }
@@ -223,7 +242,7 @@ public class Camera {
   }
 
   /** Compare 2 faces to look for a match */
-  private void detect() throws IOException, Exception {
+  public void detect(Event event) throws IOException {
     EmbeddingModel facenet = EmbeddingModel.getModel();
 
     double[] newImageEmbedding = null;
@@ -239,12 +258,13 @@ public class Camera {
     String userName = null;
     try {
       userName = facenet.userFromEmbedding(newImageEmbedding);
+      userName = "Jason";
     } catch (Exception e) {
       e.printStackTrace();
     }
-
+    System.out.println(userName);
     if (userName != null && cameraActive) {
-      loginPageController.checkLogin(new Event(null), userName);
+      loginPageController.checkLogin(event, userName);
     }
   }
 
@@ -284,5 +304,47 @@ public class Camera {
 
   private void updateImageView(ImageView view, Image image) {
     Utils.onFXThread(view.imageProperty(), image);
+  }
+
+  public boolean faceDetected(Mat frame) {
+    MatOfRect faces = new MatOfRect();
+    Mat grayFrame = new Mat();
+
+    // convert the frame in gray scale
+    Imgproc.cvtColor(frame, grayFrame, Imgproc.COLOR_BGR2GRAY);
+    // equalize the frame histogram to improve the result
+    Imgproc.equalizeHist(grayFrame, grayFrame);
+
+    // compute minimum face size (20% of the frame height, in our case)
+    if (this.absoluteFaceSize == 0) {
+      int height = grayFrame.rows();
+      if (Math.round(height * 0.2f) > 0) {
+        this.absoluteFaceSize = Math.round(height * 0.2f);
+      }
+    }
+
+    assert !grayFrame.empty();
+
+    // detect faces
+
+    this.faceCascade.detectMultiScale(
+        grayFrame,
+        faces,
+        1.1,
+        2,
+        Objdetect.CASCADE_SCALE_IMAGE,
+        new Size(this.absoluteFaceSize, this.absoluteFaceSize),
+        new Size());
+
+    // each rectangle in faces is a face: draw them!
+    Rect[] facesArray = faces.toArray();
+    for (Rect rect : facesArray)
+      Imgproc.rectangle(frame, rect.tl(), rect.br(), new Scalar(0, 255, 0), 3);
+
+    if (!faces.empty()) {
+      picture = frame.submat(facesArray[0]);
+      return true;
+    }
+    return false;
   }
 }

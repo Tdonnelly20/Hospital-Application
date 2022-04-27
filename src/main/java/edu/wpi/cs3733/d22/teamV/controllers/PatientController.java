@@ -20,12 +20,10 @@ public class PatientController extends RequestController {
   private static final PatientDao patientDao = Vdb.requestSystem.getPatientDao();
   private boolean updating = false;
 
-  private static class SingletonHelper {
-    private static final PatientController controller = new PatientController();
-  }
+  private static PatientController controller;
 
   public static PatientController getController() {
-    return PatientController.SingletonHelper.controller;
+    return controller;
   }
 
   @FXML private TreeTableView<Patient> patientTable;
@@ -186,6 +184,9 @@ public class PatientController extends RequestController {
 
   @Override
   public void init() {
+
+    controller = this;
+
     setTitleText("Patient Database");
     fillTopPaneAPI();
 
@@ -356,19 +357,24 @@ public class PatientController extends RequestController {
     sendRequest.setDisable(true);
   }
 
-//  @FXML
-//  private void openPopup(ActionEvent event) {
-//    DBPopupController.getController().init();
-//    DBPopupController.getController().iconWindow(new Employee());
-//    // removeSelectedRow();
-//  }
+  @FXML
+  private void openPopup(ActionEvent event) {
+    try {
+      selectedPatient = patientTable.getSelectionModel().getSelectedItem().getValue();
+      Patient lastSelected = selectedPatient;
+      PatientDBPopupController.getController().init();
+      PatientDBPopupController.getController().iconWindow(lastSelected);
+    } catch (NullPointerException e) {
+
+    }
+  }
 
   @FXML
-  public void removeSelectedRow() {
+  public void removeSelectedRow(Patient last) {
 
     try {
-      Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
-      patientDao.removePatient(patient);
+      selectedPatient = last;
+      patientDao.removePatient(selectedPatient);
     } catch (NullPointerException e) {
       e.printStackTrace();
     }
