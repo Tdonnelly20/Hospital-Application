@@ -130,6 +130,8 @@ public class LoginController extends Controller {
   @FXML
   public void keyLogin(KeyEvent event) throws IOException {
     // System.out.println(KeyCode.ENTER);
+    Vdb vdb = new Vdb();
+    vdb.setUpConnection();
     if (event.getCode().equals(KeyCode.ENTER)) {
       checkLogin(event, username.getText());
       // System.out.println("hello");
