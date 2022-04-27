@@ -90,12 +90,15 @@ public class ReligiousRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(patientIDCol, (w - 30) / 6);
-    setColumnSize(religionCol, (w - 30) / 6);
-    setColumnSize(requestDetailsCol, (w - 30) / 6);
-    setColumnSize(employeeIDCol, (w - 30) / 6);
-    setColumnSize(roomCol, (w - 30) / 6);
-    setColumnSize(timeStampCol, (w - 30) / 6);
+    setColumnSize(employeeIDCol, (w - 30) / 9);
+    setColumnSize(patientIDCol, (w - 30) / 9);
+    setColumnSize(roomCol, (w - 30) / 9);
+    setColumnSize(religionCol, (w - 30) / 9);
+    setColumnSize(requestDetailsCol, (w - 30) / 9);
+    setColumnSize(statusCol, (w - 30) / 9);
+    setColumnSize(firstNameCol, (w - 30) / 9);
+    setColumnSize(lastNameCol, (w - 30) / 9);
+    setColumnSize(timeStampCol, (w - 30) / 9);
   }
 
   // empIDCol;

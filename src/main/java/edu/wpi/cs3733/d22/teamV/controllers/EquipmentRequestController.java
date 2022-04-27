@@ -89,7 +89,7 @@ public class EquipmentRequestController extends RequestController {
     setTitleText("Equipment Delivery Request");
     fillTopPane();
 
-    setColumnSizes(910);
+    setColumnSizes(830);
 
     tablePlane
         .widthProperty()
@@ -99,6 +99,7 @@ public class EquipmentRequestController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = tablePlane.getWidth();
+                System.out.println(tablePlane.getWidth());
                 equipmentRequestTable.setPrefWidth(w - 30);
 
                 setColumnSizes(w);
@@ -154,7 +155,7 @@ public class EquipmentRequestController extends RequestController {
     posCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
     equipCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("equipment"));
     quantCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("quantity"));
-    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("notes"));
+    notesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     ArrayList<EquipmentDelivery> currEquipmentDeliveries =
@@ -185,7 +186,7 @@ public class EquipmentRequestController extends RequestController {
     yCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("y"));
     floorCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("floor"));
     buildingCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
-    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
+    nodeTypeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     shortNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("isDirtyString"));
     timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeMade"));
     ArrayList<Equipment> currEquipment = Vdb.requestSystem.getEquipment();

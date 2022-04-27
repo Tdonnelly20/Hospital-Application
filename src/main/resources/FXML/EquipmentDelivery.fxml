@@ -134,22 +134,22 @@
                                                 </GridPane>
                                                 <Pane prefHeight="200.0" prefWidth="200.0">
                                                    <children>
-                                                      <TreeTableView fx:id="equipmentRequestTable" layoutX="15.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="816.0" prefWidth="1520.0">
+                                                      <TreeTableView fx:id="equipmentRequestTable" layoutX="15.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="816.0" prefWidth="800.0">
                                                          <columns>
-                                                            <TreeTableColumn fx:id="employeeIDCol" maxWidth="190.0" minWidth="-1.0" prefWidth="190.0" text="Employee ID" />
-                                                            <TreeTableColumn fx:id="patientIDCol" maxWidth="190.0" minWidth="0.0" prefWidth="190.0" text="Patient ID" />
+                                                            <TreeTableColumn fx:id="employeeIDCol" maxWidth="80.0" minWidth="-1.0" text="Employee ID" />
+                                                            <TreeTableColumn fx:id="patientIDCol" maxWidth="80.0" minWidth="0.0" text="Patient ID" />
                                                             <TreeTableColumn prefWidth="75.0" text="Patient Name">
                                                                <columns>
-                                                                  <TreeTableColumn fx:id="firstNameCol" maxWidth="190.0" minWidth="-Infinity" prefWidth="190.0" text="First" />
-                                                                  <TreeTableColumn fx:id="lastNameCol" maxWidth="190.0" prefWidth="190.0" text="Last" />
+                                                                  <TreeTableColumn fx:id="firstNameCol" maxWidth="80.0" minWidth="-Infinity" text="First" />
+                                                                  <TreeTableColumn fx:id="lastNameCol" maxWidth="80.0" text="Last" />
                                                                </columns>
                                                             </TreeTableColumn>
-                                                            <TreeTableColumn fx:id="posCol" maxWidth="190.0" minWidth="0.0" prefWidth="190.0" text="Location ID" />
-                                                            <TreeTableColumn fx:id="equipCol" maxWidth="190.0" minWidth="0.0" prefWidth="190.0" text="Equipment" />
-                                                            <TreeTableColumn fx:id="quantCol" maxWidth="190.0" minWidth="3.20001220703125" prefWidth="190.0" text="Quantity" />
-                                                            <TreeTableColumn fx:id="notesCol" maxWidth="190.0" minWidth="-1.0" prefWidth="190.0" text="Notes" />
-                                                            <TreeTableColumn fx:id="statusCol" maxWidth="190.0" minWidth="0.0" prefWidth="190.0" text="Status" />
-                                                            <TreeTableColumn fx:id="timeStampCol" minWidth="0.0" prefWidth="150.0" text="Time" />
+                                                            <TreeTableColumn fx:id="posCol" maxWidth="80.0" minWidth="0.0" text="Location ID" />
+                                                            <TreeTableColumn fx:id="equipCol" maxWidth="80.0" minWidth="0.0" text="Equipment" />
+                                                            <TreeTableColumn fx:id="quantCol" maxWidth="190.0" minWidth="3.20001220703125" text="Quantity" />
+                                                            <TreeTableColumn fx:id="notesCol" maxWidth="190.0" minWidth="-1.0" text="Notes" />
+                                                            <TreeTableColumn fx:id="statusCol" maxWidth="190.0" minWidth="0.0" text="Status" />
+                                                            <TreeTableColumn fx:id="timeStampCol" minWidth="0.0" text="Time" />
                                                          </columns>
                                                       </TreeTableView>
                                                    </children>

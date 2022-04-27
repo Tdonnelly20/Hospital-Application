@@ -62,19 +62,18 @@ public class EquipmentDelivery extends ServiceRequest {
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.equipment = equipment;
     this.details = notes;
-    notes = equipment + "x" + quantity;
     this.type = "Equipment Delivery Request";
     this.quantity = quantity;
     this.status = status;
     setServiceID(RequestSystem.getServiceID());
   }
 
-  public String getEquipment() {
-    return equipment;
+  public String getFloorName() {
+    return floor.getFloorName();
   }
 
-  public String getDetails() {
-    return details;
+  public String getEquipment() {
+    return equipment;
   }
 
   public int getQuantity() {
