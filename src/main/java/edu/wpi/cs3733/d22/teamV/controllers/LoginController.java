@@ -30,7 +30,7 @@ public class LoginController extends Controller {
   @Override
   public void init() {
     Camera.stopAcquisition();
-    System.out.println("Login init");
+    //System.out.println("Login init");
 
     ChangeListener<Number> listener =
         new ChangeListener<Number>() {
