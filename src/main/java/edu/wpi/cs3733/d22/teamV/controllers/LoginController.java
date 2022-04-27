@@ -30,7 +30,7 @@ public class LoginController extends Controller {
   @Override
   public void init() {
     Camera.stopAcquisition();
-    //System.out.println("Login init");
+    // System.out.println("Login init");
 
     ChangeListener<Number> listener =
         new ChangeListener<Number>() {
@@ -115,6 +115,8 @@ public class LoginController extends Controller {
 
   @FXML
   public void userLogin(ActionEvent event) throws IOException {
+    Vdb vdb = new Vdb();
+    vdb.setUpConnection();
     checkLogin(event, username.getText());
     if (camera.face) checkLogin(event, "Jason");
   }
