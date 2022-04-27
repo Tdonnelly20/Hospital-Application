@@ -210,29 +210,7 @@ public class EquipmentIcon extends Icon {
       }
     }
   }
-  /*
-    public void alertSixBeds() {
 
-      int alertCounter = 0;
-      boolean alert = false;
-
-      ArrayList<Equipment> equip = new ArrayList<Equipment>();
-      equip = this.getEquipmentList();
-      ArrayList<String> dirtyBedsFloor = new ArrayList<String>();
-
-      for (int i = 0; equip.size() > i; i++) {
-        if (equip.get(i).getName().equals("Bed") && equip.get(i).getIsDirty()) {
-          dirtyBedsFloor.add(String.valueOf(equip.get(i).getFloor()));
-          alertCounter = +1;
-        }
-      }
-      if (alertCounter > 5) {
-        alert = true;
-      }
-
-      MapDashboardController.getController().addBedAlertToArray(alert, dirtyBedsFloor);
-    }
-  */
   public void pumpAlert() {
     int dirty = 0;
     for (Equipment equipment : equipmentList) {
