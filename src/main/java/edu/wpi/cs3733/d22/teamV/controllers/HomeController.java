@@ -119,7 +119,7 @@ public class HomeController extends RequestController {
                 requestTable.setPrefHeight(h - 30);
               }
             });
-    initializeClock();
+    initializeClockHome();
   }
 
   @FXML
@@ -170,7 +170,7 @@ public class HomeController extends RequestController {
   }
 
   @FXML
-  public void initializeClock() {
+  public void initializeClockHome() {
 
     Timeline clock =
         new Timeline(
