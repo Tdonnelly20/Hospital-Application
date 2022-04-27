@@ -450,16 +450,6 @@ public class RequestSystem {
     return null;
   }
 
-  public void removeEquipment(EquipmentIcon icon) {
-    for (Equipment equipment : icon.getEquipmentList()) {
-      removeEquipment(equipment);
-    }
-  }
-
-  public void addEquipment(ArrayList<Equipment> equipment) {
-    equipmentDao.addEquipment(equipment);
-  }
-
   public ArrayList<Patient> getPatients() {
     return patientDao.getAllPatients();
   }
@@ -576,7 +566,7 @@ public class RequestSystem {
     highestID = nodeIDCounter;
 
     for (Location location : locationDao.getAllLocations()) {
-      if (location.getNodeType().equals("Node")) {
+      if (location.getNodeType().equalsIgnoreCase("Node")) {
         highestID++;
       }
     }
@@ -584,6 +574,7 @@ public class RequestSystem {
   }
 
   public static String getNewNode() {
+    nodeIDCounter++;
     return "vNODE" + nodeIDCounter;
   }
 
@@ -599,6 +590,7 @@ public class RequestSystem {
     return employeeIDCounter++;
   }
 
+  /** Updates the location/xy coords of Location and Equipment objects in the icon */
   public void updateLocations(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
       ArrayList<Equipment> equipmentList =

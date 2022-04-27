@@ -230,7 +230,7 @@ public class EmployeeController extends RequestController {
   @Override
   public void init() {
     setTitleText("Employee Database");
-    fillTopPane();
+    fillTopPaneAPI();
 
     setColumnSizes(910);
 
@@ -382,21 +382,25 @@ public class EmployeeController extends RequestController {
 
   @FXML
   private void openPopup(ActionEvent event) {
-    DBPopupController.getController().init();
-    DBPopupController.getController().iconWindow();
-    // removeSelectedRow();
+    try {
+      selectedEmployee = employeeTable.getSelectionModel().getSelectedItem().getValue();
+      Employee lastSelected = selectedEmployee;
+      DBPopupController.getController().init();
+      DBPopupController.getController().iconWindow(lastSelected);
+    } catch (NullPointerException e) {
+
+    }
   }
 
   @FXML
-  public void removeSelectedRow() throws NullPointerException {
-
+  public void removeSelectedRow(Employee last) throws NullPointerException {
     try {
-      Employee employee = employeeTable.getSelectionModel().getSelectedItem().getValue();
-      employeeDao.removeEmployee(employee);
+      selectedEmployee = last;
+      employeeDao.removeEmployee(selectedEmployee);
+      updateEmployeeTreeTable();
     } catch (NullPointerException e) {
       e.printStackTrace();
     }
-    updateEmployeeTreeTable();
   }
 
   @FXML

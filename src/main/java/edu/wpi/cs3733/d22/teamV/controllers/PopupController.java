@@ -85,11 +85,7 @@ public class PopupController {
   public void closePopUp() {
     if (stage.isShowing()) {
       stage.close();
-      MapManager.getManager().setUpFloors();
-      MapController.getController().setFloor(MapController.getController().getFloorName());
-      content.getChildren().clear();
-      clearPopupForm();
-      // MapController.getController().checkDropDown();
+      update();
     }
   }
 
@@ -543,6 +539,7 @@ public class PopupController {
                 .removePathNode(icon.getLocation().getNodeID());
             deleteIcon(icon.getLocation());
             closePopUp();
+            update();
           } else {
             if (checkFields()) {
               String nodeID = fields[0].getText();
@@ -551,6 +548,7 @@ public class PopupController {
                 RequestSystem.getSystem().getPathfinderDao().removePathNode(nodeID);
                 deleteIcon(nodeID);
                 closePopUp();
+                update();
               } else {
                 missingFields.setText("Invalid Location ID");
                 if (!content.getChildren().contains(missingFields)) {

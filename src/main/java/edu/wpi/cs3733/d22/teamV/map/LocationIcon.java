@@ -58,6 +58,11 @@ public class LocationIcon extends Icon {
         });
     if (location.getNodeType().equalsIgnoreCase("node")) {
       image.setOpacity(50);
+      image.setImage(MapManager.getManager().nodeMarker);
+      image.setFitWidth(15);
+      image.setFitHeight(15);
+      image.setTranslateX((location.getXCoord()) - image.getFitWidth());
+      image.setTranslateY((location.getYCoord()) - image.getFitHeight());
     }
   }
 
@@ -165,7 +170,7 @@ public class LocationIcon extends Icon {
   public void addToRequests(ServiceRequest request) {
     if (!location.getNodeType().equalsIgnoreCase("node")) {
       requestsArr.add(request);
-      if (location.getRequests().contains(request)) {
+      if (!location.getRequests().contains(request)) {
         location.getRequests().add(request);
       }
       RequestSystem.getSystem().addServiceRequest(request);

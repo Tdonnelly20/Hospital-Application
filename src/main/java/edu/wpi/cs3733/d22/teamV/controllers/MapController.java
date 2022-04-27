@@ -57,6 +57,9 @@ public class MapController extends Controller {
   private String endLocationID = "";
   private Button showConnections = new Button("Show all connections");
 
+  private Button showNodes = new Button("Toggle show nodes");
+  private boolean showingNodes = false;
+
   @FXML
   private Label pathfinderInstructions =
       new Label(
@@ -146,13 +149,18 @@ public class MapController extends Controller {
     scrollPane.setPrefSize(550, 550);
     controlsVBox
         .getChildren()
-        .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
+        .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections, showNodes);
     showConnections.setOnAction(
         event -> {
           for (PathfindingDao.Edge edge : PathfindingDao.getEdges()) {
-            drawPath(
-                RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
-                RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
+            if (RequestSystem.getSystem()
+                .getLocation(edge.getNodeOne())
+                .getFloor()
+                .equals(floorName)) {
+              drawPath(
+                  RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
+                  RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
+            }
           }
         });
     mapVBox.getChildren().addAll(scrollPane);
@@ -206,6 +214,20 @@ public class MapController extends Controller {
     floor3.setOnAction(event -> setFloor("3"));
     floor4.setOnAction(event -> setFloor("4"));
     floor5.setOnAction(event -> setFloor("5"));
+    showNodes.setOnAction(
+        event -> {
+          showingNodes = !showingNodes;
+          for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
+            if (icon.getLocation().getNodeType().equals("node")) {
+              if (showingNodes) {
+                icon.getImage().setOpacity(0);
+              } else {
+                icon.getImage().setOpacity(100);
+              }
+            }
+          }
+          refreshMap();
+        });
     refreshButton.setOnAction(
         event -> {
           refreshMap();
@@ -267,7 +289,7 @@ public class MapController extends Controller {
     resetPathFinder();
     controlsVBox
         .getChildren()
-        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
+        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections, showNodes);
   }
 
   /** Reset Pathfinder */

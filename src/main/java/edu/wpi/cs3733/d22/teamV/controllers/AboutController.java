@@ -1,13 +1,20 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class AboutController extends RequestController {
   @Override
   public void start(Stage primaryStage) throws Exception {}
+
+  @FXML private AnchorPane aboutPane;
+  @FXML private Group aboutGroup;
 
   @FXML private Label labelM;
   @FXML private Label labelM1;
@@ -124,6 +131,19 @@ public class AboutController extends RequestController {
   @Override
   public void init() {
     setTitleText("About");
+
+    aboutPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = aboutPane.getWidth();
+
+                aboutGroup.setLayoutX(w / 2 - 303);
+              }
+            });
 
     labelM.setVisible(false);
     labelM1.setVisible(false);
