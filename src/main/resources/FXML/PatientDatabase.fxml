@@ -92,6 +92,12 @@
                                           </TreeTableView>
                                           <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#openPopup" text="Remove" />
                                           <Button fx:id="updateButton" layoutX="125.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
+                                          <TextField fx:id="searchBar" layoutX="506.0" layoutY="8.0" prefHeight="40.0" prefWidth="299.0" promptText="Search by name or ID" />
+                                          <Label layoutX="428.0" layoutY="14.0" prefHeight="17.0" prefWidth="76.0" text="Search">
+                                             <font>
+                                                <Font size="21.0" />
+                                             </font>
+                                          </Label>
                                        </children>
                                     </AnchorPane>
                                  </content>

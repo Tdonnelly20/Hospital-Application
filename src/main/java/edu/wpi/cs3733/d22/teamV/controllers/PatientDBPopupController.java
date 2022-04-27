@@ -41,6 +41,7 @@ public class PatientDBPopupController extends Controller {
     if (stage.isShowing()) {
       stage.close();
       sceneVbox.getChildren().clear();
+      content.getChildren().clear();
       // MapController.getController().checkDropDown();
     }
   }
