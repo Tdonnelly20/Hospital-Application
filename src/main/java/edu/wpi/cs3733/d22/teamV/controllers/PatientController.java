@@ -356,12 +356,12 @@ public class PatientController extends RequestController {
     sendRequest.setDisable(true);
   }
 
-  @FXML
-  private void openPopup(ActionEvent event) {
-    DBPopupController.getController().init();
-    DBPopupController.getController().iconWindow(new Employee());
-    // removeSelectedRow();
-  }
+//  @FXML
+//  private void openPopup(ActionEvent event) {
+//    DBPopupController.getController().init();
+//    DBPopupController.getController().iconWindow(new Employee());
+//    // removeSelectedRow();
+//  }
 
   @FXML
   public void removeSelectedRow() {
