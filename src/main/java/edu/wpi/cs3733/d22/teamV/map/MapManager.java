@@ -21,6 +21,7 @@ public class MapManager {
   public Image dirtyEquipment = new Image("dirtyEquipment.png");
   public Image locationMarker = new Image("locationMarker.png");
   public Image requestMarker = new Image("requestMarker.png");
+  public Image nodeMarker = new Image("nodeMarker.png");
 
   /** Gets every service request and sets up the floors */
   public void init() {

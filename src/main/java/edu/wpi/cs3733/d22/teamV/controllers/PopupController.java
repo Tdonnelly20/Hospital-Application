@@ -11,7 +11,6 @@ import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.*;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.LinkedList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -544,6 +543,7 @@ public class PopupController {
                 .removePathNode(icon.getLocation().getNodeID());
             deleteIcon(icon.getLocation());
             closePopUp();
+            update();
           } else {
             if (checkFields()) {
               String nodeID = fields[0].getText();
@@ -552,6 +552,7 @@ public class PopupController {
                 RequestSystem.getSystem().getPathfinderDao().removePathNode(nodeID);
                 deleteIcon(nodeID);
                 closePopUp();
+                update();
               } else {
                 missingFields.setText("Invalid Location ID");
                 if (!content.getChildren().contains(missingFields)) {
@@ -628,7 +629,8 @@ public class PopupController {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
                   && isPatientValid(fields[1].getText())
-                  && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
+                  && (comboBox2.getValue() != null)
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new LabRequest(
@@ -659,7 +661,8 @@ public class PopupController {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
                   && isPatientValid(fields[1].getText())
-                      && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
+                  && (comboBox2.getValue() != null)
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new EquipmentDelivery(
@@ -691,7 +694,9 @@ public class PopupController {
             event1 -> {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
-                  && isPatientValid(fields[1].getText())&& (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox2.getValue() != null)
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new MedicineDelivery(
@@ -716,7 +721,8 @@ public class PopupController {
             event1 -> {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
-                  && isPatientValid(fields[1].getText())&&  (comboBox3.getValue()!=null)) {
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new InternalPatientTransportation(
@@ -739,7 +745,8 @@ public class PopupController {
             event1 -> {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
-                  && isPatientValid(fields[1].getText()) &&  (comboBox3.getValue()!=null)) {
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new LaundryRequest(
@@ -769,7 +776,9 @@ public class PopupController {
             event1 -> {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
-                  && isPatientValid(fields[1].getText()) && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox2.getValue() != null)
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new MealRequest(
@@ -804,7 +813,9 @@ public class PopupController {
             event1 -> {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
-                  && isPatientValid(fields[1].getText()) && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox2.getValue() != null)
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new SanitationRequest(
@@ -830,7 +841,8 @@ public class PopupController {
             event1 -> {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
-                  && isPatientValid(fields[1].getText())&&  (comboBox3.getValue()!=null)) {
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new ReligiousRequest(
@@ -852,7 +864,9 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields() && isEmployeeValid(fields[0].getText()) && (comboBox3.getValue()!=null)) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new RobotRequest(
@@ -876,7 +890,8 @@ public class PopupController {
             event1 -> {
               if (checkFields()
                   && isEmployeeValid(fields[0].getText())
-                  && isPatientValid(fields[1].getText()) &&  (comboBox3.getValue()!=null)) {
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox3.getValue() != null)) {
                 addRequest(
                     icon,
                     new ComputerRequest(
