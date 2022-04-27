@@ -28,7 +28,7 @@
   <items>
     <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0" style="-fx-background-color: #1F355B;" stylesheets="@../CSS/Home.css">
          <children>
-            <GridPane prefHeight="150.0" prefWidth="1198.0">
+            <GridPane prefHeight="150.0" prefWidth="1198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="650.0" minWidth="650.0" prefWidth="650.0" />
@@ -50,12 +50,12 @@
                         <Font size="40.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="switchToHome" fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                      <image>
                         <Image url="@../HomeButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="stop" fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#stop" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                      <image>
                         <Image url="@../ExitButton.png" />
                      </image>
@@ -63,13 +63,13 @@
                </children>
             </GridPane>
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #5f6c83;" stylesheets="@../CSS/DashboardCSS.css">
+    <AnchorPane fx:id="dashboardPane" minHeight="0.0" minWidth="0.0" prefHeight="701.0" prefWidth="1198.0" style="-fx-background-color: #5f6c83;" stylesheets="@../CSS/DashboardCSS.css">
          <children>
-            <VBox layoutX="15.0" prefHeight="642.0" prefWidth="1169.0">
+            <VBox fx:id="dashboardVBox" layoutX="15.0" prefHeight="642.0" prefWidth="1169.0">
                <children>
-                  <HBox fx:id="hBox" prefHeight="714.0" prefWidth="1165.0" style="-fx-background-color: #5f6c83;">
+                  <HBox fx:id="hBox" prefHeight="575.0" prefWidth="1165.0" style="-fx-background-color: #5f6c83;">
                      <children>
-                        <VBox fx:id="centerVBox" prefHeight="536.0" prefWidth="363.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
+                        <VBox fx:id="centerVBox" maxHeight="-Infinity" prefHeight="575.0" prefWidth="362.0" spacing="5.0" style="-fx-background-color: #5f6c83#5f6c83; -fx-padding: 20;">
                            <children>
                               <VBox prefHeight="335.0" prefWidth="323.0">
                                  <children>
@@ -137,7 +137,7 @@
                               <Insets />
                            </HBox.margin>
                         </VBox>
-                        <VBox fx:id="leftVBox" alignment="TOP_CENTER" prefHeight="327.0" prefWidth="400.0">
+                        <VBox fx:id="leftVBox" alignment="TOP_CENTER" maxHeight="-Infinity" prefHeight="500.0" prefWidth="400.0">
                            <children>
                               <Label id="vbox-label" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="21.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Sideview Map" textAlignment="CENTER" VBox.vgrow="NEVER">
                                  <font>
@@ -190,9 +190,9 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </HBox.margin>
                         </VBox>
-                        <VBox fx:id="rightVBox" prefHeight="716.0" prefWidth="370.0" spacing="10.0" style="-fx-background-color: #5f6c83#5f6c83;">
+                        <VBox fx:id="rightVBox" maxHeight="-Infinity" prefHeight="575.0" prefWidth="370.0" spacing="5.0" style="-fx-background-color: #5f6c83#5f6c83;">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="323.0" prefWidth="325.0">
+                              <VBox alignment="TOP_CENTER" prefHeight="323.0" prefWidth="325.0">
                                  <children>
                                     <Label id="vbox-label" alignment="CENTER" maxWidth="301.0" prefHeight="21.0" prefWidth="0.0" styleClass="vbox-label" stylesheets="@../CSS/Map.css" text="Interactive Map" textAlignment="CENTER">
                                        <font>
@@ -232,36 +232,31 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="TOP_CENTER" prefHeight="42.0" prefWidth="1158.0" spacing="50.0" style="-fx-background-color: #5f6c83#5f6c83;">
+                  <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Button fx:id="ll2" mnemonicParsing="false" onAction="#switchToLL2" text="LL2">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="ll1" mnemonicParsing="false" onAction="#switchToLL1" text="LL1">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="f1" mnemonicParsing="false" onAction="#switchToF1" text="1">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="f2" mnemonicParsing="false" onAction="#switchToF2" text="2" />
-                        <Button fx:id="f3" mnemonicParsing="false" onAction="#switchToF3" text="3" />
-                        <Button fx:id="f4" mnemonicParsing="false" onAction="#switchToF4" text="4">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="f5" mnemonicParsing="false" onAction="#switchToF5" text="5" />
+                        <Button fx:id="f4" mnemonicParsing="false" onAction="#switchToF4" text="4" GridPane.columnIndex="5" />
+                        <Button fx:id="ll2" mnemonicParsing="false" onAction="#switchToLL2" text="LL2" GridPane.columnIndex="1" />
+                        <Button fx:id="ll1" mnemonicParsing="false" onAction="#switchToLL1" text="LL1" GridPane.columnIndex="2" />
+                        <Button fx:id="f1" mnemonicParsing="false" onAction="#switchToF1" text="1" GridPane.columnIndex="3" />
+                        <Button fx:id="f2" mnemonicParsing="false" onAction="#switchToF2" text="2" GridPane.columnIndex="6" />
+                        <Button fx:id="f3" mnemonicParsing="false" onAction="#switchToF3" text="3" GridPane.columnIndex="4" />
+                        <Button fx:id="f5" mnemonicParsing="false" onAction="#switchToF5" text="5" GridPane.columnIndex="7" />
                      </children>
-                     <padding>
-                        <Insets bottom="20.0" top="10.0" />
-                     </padding>
-                  </HBox>
+                  </GridPane>
                </children>
             </VBox>
          </children></AnchorPane>

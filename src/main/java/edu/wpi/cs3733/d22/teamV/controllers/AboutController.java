@@ -85,6 +85,7 @@ public class AboutController extends RequestController {
   @FXML private Label labelJO4;
   @FXML private Label labelJO5;
   @FXML private Label labelJO6;
+  @FXML private Label labelJO7;
   @FXML private Pane paneJO;
   private boolean visibleJO = false;
 
@@ -208,6 +209,7 @@ public class AboutController extends RequestController {
     labelJO4.setVisible(false);
     labelJO5.setVisible(false);
     labelJO6.setVisible(false);
+    labelJO7.setVisible(false);
     paneJO.setVisible(false);
 
     labelP.setVisible(false);
@@ -425,6 +427,7 @@ public class AboutController extends RequestController {
     labelJO4.setVisible(visibleJO);
     labelJO5.setVisible(visibleJO);
     labelJO6.setVisible(visibleJO);
+    labelJO7.setVisible(visibleJO);
     paneJO.setVisible(visibleJO);
   }
 
