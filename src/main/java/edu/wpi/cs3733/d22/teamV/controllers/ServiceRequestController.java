@@ -1,5 +1,10 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -9,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class ServiceRequestController extends RequestController {
 
@@ -27,6 +33,7 @@ public class ServiceRequestController extends RequestController {
   @FXML private ImageView serviceImage;
   @FXML private Group buttonGroup;
   @FXML private Button namesButton;
+  @FXML private Label serviceClock;
 
   @FXML private Label l1;
   @FXML private Label l2;
@@ -110,6 +117,7 @@ public class ServiceRequestController extends RequestController {
                 namesButton.setLayoutY(h - 41);
               }
             });
+    initializeClockService();
   }
 
   @Override
@@ -120,4 +128,20 @@ public class ServiceRequestController extends RequestController {
 
   @Override
   void validateButton() {}
+
+  @FXML
+  public void initializeClockService() {
+
+    Timeline clock =
+        new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                e ->
+                    serviceClock.setText(
+                        LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))),
+            new KeyFrame(Duration.seconds(1)));
+    clock.setCycleCount(Animation.INDEFINITE);
+    clock.play();
+  }
 }
