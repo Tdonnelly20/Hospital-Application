@@ -478,7 +478,6 @@ public class AboutController extends RequestController {
     labelTU5.setVisible(visibleTU);
     labelTU6.setVisible(visibleTU);
     paneTU.setVisible(visibleTU);
-
   }
 
   @FXML
@@ -503,6 +502,5 @@ public class AboutController extends RequestController {
     labelTR5.setVisible(visibleTR);
     labelTR6.setVisible(visibleTR);
     paneTR.setVisible(visibleTR);
-
   }
 }
