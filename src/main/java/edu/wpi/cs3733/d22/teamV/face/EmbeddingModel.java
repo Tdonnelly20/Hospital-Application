@@ -63,18 +63,14 @@ public class EmbeddingModel {
             .optProgress(new ai.djl.training.util.ProgressBar())
             .build();
 
-    ZooModel<Image, double[]> model = null;
-
     try {
-      model = ModelZoo.loadModel(criteria);
+      ZooModel<Image, double[]> zooModel = ModelZoo.loadModel(criteria);
+      predictor = zooModel.newPredictor();
+      return zooModel;
     } catch (IOException | MalformedModelException | ModelNotFoundException e) {
       e.printStackTrace();
     }
-
-    ZooModel<Image, double[]> zooModel = model;
-    assert zooModel != null;
-    predictor = zooModel.newPredictor();
-    return zooModel;
+    return null;
   }
 
   public double[] embedding(Image imgIn) {
