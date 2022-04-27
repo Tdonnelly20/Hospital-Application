@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
@@ -78,51 +77,6 @@ public class LocationIcon extends Icon {
             RequestSystem.getSystem().updateLocations(this);
           }
         });
-  }
-
-  /**
-   * Sets the MapController's startLocationID and endLocationID and calls makePaths() if the Alt key
-   * is down or drawPaths() if the Shift key is down
-   */
-  @FXML
-  private void setPathfinder(MouseEvent event) {
-    if (MapController.getController().getStartLocationID().isEmpty()
-        || !MapController.getController().getEndLocationID().isEmpty()) {
-      MapController.getController().setStartLocationID(location.getNodeID());
-      MapController.getController().setEndLocationID("");
-      MapController.getController()
-          .getStartLocationLabel()
-          .setText("Starting Location: " + location.getNodeID());
-      MapController.getController().getEndLocationLabel().setText("End Location: ");
-    } else {
-      MapController.getController().setEndLocationID(location.getNodeID());
-      MapController.getController()
-          .getEndLocationLabel()
-          .setText("End Location: " + location.getNodeID());
-      // Call relevant functions
-      if (event.isShiftDown() && !event.isAltDown() && !event.isControlDown()) {
-        MapController.getController().drawPath();
-      } else if (event.isAltDown() && !event.isShiftDown() && !event.isControlDown()) {
-        MapController.getController().makePath();
-      } else if (event.isControlDown() && !event.isShiftDown() && !event.isAltDown()) {
-        removeLink();
-      }
-    }
-  }
-
-  /** Removes link between 2 nodes */
-  @FXML
-  private void removeLink() {
-    if (!MapController.getController().getStartLocationID().equals(location.getNodeID())) {
-      RequestSystem.getSystem()
-          .getPathfinderDao()
-          .removeLink(location.getNodeID(), MapController.getController().getStartLocationID());
-    } else {
-      RequestSystem.getSystem()
-          .getPathfinderDao()
-          .removeLink(location.getNodeID(), MapController.getController().getEndLocationID());
-    }
-    MapController.getController().refreshMap();
   }
 
   @Override

@@ -11,6 +11,7 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -90,7 +91,7 @@ public class EquipmentIcon extends Icon {
                     .setFloor(MapController.getController().getFloorName());
               }
             });
-        Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
+        //Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
 
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setPromptText(equipment.getIsDirtyString());
@@ -138,14 +139,12 @@ public class EquipmentIcon extends Icon {
     setImage();
     alertSixBeds(equipment, true);
     MapDashboardController.getController().updateCounts();
-    pumpAlert();
   }
 
   /** Removes equipment and calls alerts */
   public void removeEquipment(Equipment equipment) {
     equipmentList.remove(equipment);
     RequestSystem.getSystem().removeEquipment(equipment);
-    pumpAlert();
     if (equipment.getName().equals("Infusion Pump")) {
       if (equipment.getIsDirty()) dirtyPumps--;
       else cleanPumps--;
@@ -211,19 +210,12 @@ public class EquipmentIcon extends Icon {
     }
   }
 
-  public void pumpAlert() {
-    int dirty = 0;
-    for (Equipment equipment : equipmentList) {
-      equipment.updateLocation(getXCoord(), getYCoord());
-    }
-  }
-
   // checks if isAdding is true, if so finds beds that are dirty in the same place.
   // when counter > 5, dirtyBeds increases by 1 and RequestSystem is called (EquipmentDelivery).
   // else, dirtyBeds decreases by 1.
   public void alertSixBeds(Equipment e, boolean isAdding) {
     if (isAdding) {
-      if (e.getIsDirty() && e.getName() == "Bed") {
+      if (e.getIsDirty() && e.getName().equals("Bed")) {
         dirtyBeds += 1;
       }
       if (dirtyBeds > 5) {
