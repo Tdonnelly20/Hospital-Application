@@ -39,6 +39,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableView<Object> serviceRequestTable = new TreeTableView<>();
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol = new TreeTableColumn<>();
   private @FXML TreeTableColumn<ServiceRequest, String> locationCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol = new TreeTableColumn<>();
   private @FXML TreeTableView<Object> patientTable = new TreeTableView<>();
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol = new TreeTableColumn<>();
   private @FXML TreeTableColumn<Patient, String> lastCol = new TreeTableColumn<>();
@@ -341,7 +342,7 @@ public class MapDashboardController extends Controller {
 
       typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
       locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-
+      startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timeMade"));
       ArrayList<ServiceRequest> currRequests =
           (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
       ArrayList<TreeItem> treeItems = new ArrayList<>();
