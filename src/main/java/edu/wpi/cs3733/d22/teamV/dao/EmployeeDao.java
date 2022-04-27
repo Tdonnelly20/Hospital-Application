@@ -8,8 +8,6 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class EmployeeDao {
   private static ArrayList<Employee> allEmployees;
@@ -38,8 +36,8 @@ public class EmployeeDao {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        ArrayList<Integer> patientIDs;
-        ArrayList<Integer> serviceIDs;
+        ArrayList<Integer> patientIDs = new ArrayList<>();
+        ArrayList<Integer> serviceIDs = new ArrayList<>();
         ArrayList<String> specialties;
         // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
 
@@ -47,24 +45,6 @@ public class EmployeeDao {
           specialties = new ArrayList(Arrays.asList(data[4].split(" ")));
         } catch (Exception e) {
           specialties = new ArrayList<>();
-        }
-
-        try {
-          patientIDs =
-              IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
-                  .boxed()
-                  .collect(Collectors.toCollection(ArrayList::new));
-        } catch (Exception e) {
-          patientIDs = new ArrayList<>();
-        }
-
-        try {
-          serviceIDs =
-              IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
-                  .boxed()
-                  .collect(Collectors.toCollection(ArrayList::new));
-        } catch (Exception e) {
-          serviceIDs = new ArrayList<>();
         }
 
         Employee newEmployee =
