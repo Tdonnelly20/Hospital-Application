@@ -90,7 +90,7 @@
                                                 <TreeTableColumn fx:id="patientServiceIDSCol" minWidth="0.0" prefWidth="588.7999877929688" text="Service IDs" />
                                              </columns>
                                           </TreeTableView>
-                                          <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
+                                          <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#openPopup" text="Remove" />
                                           <Button fx:id="updateButton" layoutX="125.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
                                        </children>
                                     </AnchorPane>
