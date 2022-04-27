@@ -29,22 +29,39 @@ public class LocationIcon extends Icon {
     super();
     this.location = location;
     this.iconType = IconType.Location;
-    image.setImage(MapManager.getManager().getLocationMarker());
+    if (location.getNodeType().equalsIgnoreCase("node")) {
+      image.setOpacity(0);
+      image.setImage(MapManager.getManager().nodeMarker);
+      image.setOnMouseClicked(
+          event -> {
+            // Opens the location form in the popup
+            if (event.getClickCount() == 2) {
+              if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
+                setPathfinder(event);
+              } else {
+                PopupController.getController().iconWindow(event);
+              }
+            }
+          });
+    } else {
+      image.setOpacity(100);
+      image.setImage(MapManager.getManager().getLocationMarker());
+      image.setOnMouseClicked(
+          event -> {
+            // Opens the location form in the popup
+            if (event.getClickCount() == 2) {
+              if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
+                setPathfinder(event);
+              } else {
+                PopupController.getController().locationForm(event, this);
+              }
+            }
+          });
+    }
     image.setFitWidth(15);
     image.setFitHeight(15);
     image.setTranslateX((location.getXCoord()) - image.getFitWidth());
     image.setTranslateY((location.getYCoord()) - image.getFitHeight());
-    image.setOnMouseClicked(
-        event -> {
-          // Opens the location form in the popup
-          if (event.getClickCount() == 2) {
-            if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
-              setPathfinder(event);
-            } else {
-              PopupController.getController().locationForm(event, this);
-            }
-          }
-        });
     image.setOnMouseReleased(
         event -> {
           // If released from drag, update the xy coors
@@ -56,14 +73,6 @@ public class LocationIcon extends Icon {
             RequestSystem.getSystem().updateLocations(this);
           }
         });
-    if (location.getNodeType().equalsIgnoreCase("node")) {
-      image.setOpacity(0);
-      image.setImage(MapManager.getManager().nodeMarker);
-      image.setFitWidth(15);
-      image.setFitHeight(15);
-      image.setTranslateX((location.getXCoord()) - image.getFitWidth());
-      image.setTranslateY((location.getYCoord()) - image.getFitHeight());
-    }
   }
 
   /**
