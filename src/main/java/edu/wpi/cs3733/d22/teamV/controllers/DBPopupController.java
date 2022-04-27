@@ -90,9 +90,9 @@ public class DBPopupController extends Controller {
         event1 -> {
           sceneVbox.getChildren().clear();
           content.getChildren().clear();
-          closePopUp();
           System.out.println("########  Before calling removeSelectedRow()" + last);
           EmployeeController.getController().removeSelectedRow(last);
+          closePopUp();
         });
     noButton.setOnAction(
         event2 -> {

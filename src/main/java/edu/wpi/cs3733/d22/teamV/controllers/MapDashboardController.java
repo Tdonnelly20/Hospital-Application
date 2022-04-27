@@ -510,12 +510,13 @@ public class MapDashboardController extends Controller {
                 + e.getXCoord()
                 + ", "
                 + e.getYCoord());
-        for(Equipment equipment : e.getEquipmentList()) {
-          if(equipment.equals("Infusion Pump")) {
+        for (Equipment equipment : e.getEquipmentList()) {
+          if (equipment.equals("Infusion Pump")) {
             EquipmentDelivery request =
-                    new EquipmentDelivery(-1, -1, "West Plaza", equipment.getID(), "none", 1, "Not Started",0, "" );
-            RequestSystem.getSystem().addServiceRequest(request,
-                    RequestSystem.Dao.EquipmentDelivery);
+                new EquipmentDelivery(
+                    -1, -1, "West Plaza", equipment.getID(), "none", 1, "Not Started", 0, "");
+            RequestSystem.getSystem()
+                .addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
           }
         }
       }

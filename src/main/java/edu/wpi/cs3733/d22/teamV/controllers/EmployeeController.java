@@ -27,12 +27,10 @@ public class EmployeeController extends RequestController {
 
   public EmployeeController() {}
 
-  private static class SingletonHelper {
-    private static final EmployeeController controller = new EmployeeController();
-  }
+  private static EmployeeController controller;
 
   public static EmployeeController getController() {
-    return EmployeeController.SingletonHelper.controller;
+    return controller;
   }
 
   @FXML private TreeTableView<Employee> employeeTable;
@@ -229,6 +227,9 @@ public class EmployeeController extends RequestController {
 
   @Override
   public void init() {
+
+    controller = this;
+
     setTitleText("Employee Database");
     fillTopPaneAPI();
 

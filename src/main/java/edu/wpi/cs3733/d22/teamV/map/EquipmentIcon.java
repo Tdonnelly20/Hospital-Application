@@ -7,9 +7,6 @@ import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
-import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -216,32 +213,34 @@ public class EquipmentIcon extends Icon {
     if (isAdding) {
       if (e.getIsDirty() && e.getName().equals("Bed")) {
         dirtyBeds += 1;
-        EquipmentDelivery request =
-                new EquipmentDelivery(
-                        -1,
-                        -1,
-                        "OR",
-                        e.getID(),
-                        e.getID(),
-                        1,
-                        "Not Started",
-                        RequestSystem.getServiceID(),
-                        Timestamp.from(Instant.now()).toString());
-        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+        //        EquipmentDelivery request =
+        //            new EquipmentDelivery(
+        //                -1,
+        //                -1,
+        //                "OR",
+        //                e.getID(),
+        //                e.getID(),
+        //                1,
+        //                "Not Started",
+        //                RequestSystem.getServiceID(),
+        //                Timestamp.from(Instant.now()).toString());
+        //        RequestSystem.getSystem().addServiceRequest(request,
+        // RequestSystem.Dao.EquipmentDelivery);
       }
       if (dirtyBeds > 5) {
-        EquipmentDelivery request =
-                new EquipmentDelivery(
-                        -1,
-                        -1,
-                        "OR",
-                        e.getID(),
-                        e.getID(),
-                        6,
-                        "Not Started",
-                        RequestSystem.getServiceID(),
-                        Timestamp.from(Instant.now()).toString());
-        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+        //        EquipmentDelivery request =
+        //            new EquipmentDelivery(
+        //                -1,
+        //                -1,
+        //                "OR",
+        //                e.getID(),
+        //                e.getID(),
+        //                6,
+        //                "Not Started",
+        //                RequestSystem.getServiceID(),
+        //                Timestamp.from(Instant.now()).toString());
+        //        RequestSystem.getSystem().addServiceRequest(request,
+        // RequestSystem.Dao.EquipmentDelivery);
       }
     } else {
       dirtyBeds--;
