@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class DBPopupController extends Controller {
+public class EmployeeDBPopupController extends Controller {
 
   @FXML Button yesButton = new Button("Yes");
   @FXML Button noButton = new Button("No");
@@ -23,11 +23,11 @@ public class DBPopupController extends Controller {
   @FXML HBox titleBox = new HBox(25, title);
 
   private static class SingletonHelper {
-    private static final DBPopupController controller = new DBPopupController();
+    private static final EmployeeDBPopupController controller = new EmployeeDBPopupController();
   }
 
-  public static DBPopupController getController() {
-    return DBPopupController.SingletonHelper.controller;
+  public static EmployeeDBPopupController getController() {
+    return EmployeeDBPopupController.SingletonHelper.controller;
   }
 
   public void init() {

@@ -446,8 +446,8 @@ public class EmployeeController extends RequestController {
     try {
       selectedEmployee = employeeTable.getSelectionModel().getSelectedItem().getValue();
       Employee lastSelected = selectedEmployee;
-      DBPopupController.getController().init();
-      DBPopupController.getController().iconWindow(lastSelected);
+      EmployeeDBPopupController.getController().init();
+      EmployeeDBPopupController.getController().iconWindow(lastSelected);
     } catch (NullPointerException e) {
 
     }
