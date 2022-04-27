@@ -230,7 +230,7 @@ public class EmployeeController extends RequestController {
   @Override
   public void init() {
     setTitleText("Employee Database");
-    fillTopPane();
+    fillTopPaneAPI();
 
     setColumnSizes(910);
 

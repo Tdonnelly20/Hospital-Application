@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.CreditsController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.CreditsController">
    <items>
       <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -20,23 +21,27 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="background" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" stylesheets="@../CSS/Credits.css">
+      <AnchorPane id="background" fx:id="creditPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" stylesheets="@../CSS/Credits.css">
          <children>
-            <Label id="teamE" layoutX="275.0" layoutY="178.0" text="Team E" />
-            <Label id="teamZ" layoutX="680.0" layoutY="178.0" text="Team Z" textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="285.0" layoutY="507.0" styleClass="text" text="Floral Request" />
-            <Label layoutX="633.0" layoutY="478.0" prefHeight="97.0" prefWidth="301.0" styleClass="text" text=" External Patient Transportation" textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="200.0" layoutY="38.0" prefHeight="97.0" prefWidth="795.0" styleClass="text" text="We would like to formally credit Team E and Team V for their APIs that are implemented in our application." textAlignment="CENTER" wrapText="true" />
-            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="279.0" layoutY="299.0">
-               <image>
-                  <Image url="@../Icons/floral.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="681.0" layoutY="298.0">
-               <image>
-                  <Image url="@../Icons/externalPatient.png" />
-               </image>
-            </ImageView>
+            <Group fx:id="creditGroup" layoutX="200.0" layoutY="38.0">
+               <children>
+                  <Label id="teamE" layoutX="75.0" layoutY="140.0" text="Team E" />
+                  <Label id="teamZ" layoutX="480.0" layoutY="140.0" text="Team Z" textAlignment="CENTER" wrapText="true" />
+                  <Label layoutX="85.0" layoutY="469.0" styleClass="text" text="Floral Request" />
+                  <Label layoutX="433.0" layoutY="440.0" prefHeight="97.0" prefWidth="301.0" styleClass="text" text=" External Patient Transportation" textAlignment="CENTER" wrapText="true" />
+                  <Label prefHeight="97.0" prefWidth="795.0" styleClass="text" text="We would like to formally credit Team E and Team V for their APIs that are implemented in our application." textAlignment="CENTER" wrapText="true" />
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="79.0" layoutY="261.0">
+                     <image>
+                        <Image url="@../Icons/floral.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="481.0" layoutY="260.0">
+                     <image>
+                        <Image url="@../Icons/externalPatient.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children>
       </AnchorPane>
    </items>
