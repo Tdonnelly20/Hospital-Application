@@ -39,6 +39,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableView<Object> serviceRequestTable = new TreeTableView<>();
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol = new TreeTableColumn<>();
   private @FXML TreeTableColumn<ServiceRequest, String> locationCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol = new TreeTableColumn<>();
   private @FXML TreeTableView<Object> patientTable = new TreeTableView<>();
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol = new TreeTableColumn<>();
   private @FXML TreeTableColumn<Patient, String> lastCol = new TreeTableColumn<>();
@@ -341,7 +342,7 @@ public class MapDashboardController extends Controller {
 
       typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
       locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-
+      startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timeMade"));
       ArrayList<ServiceRequest> currRequests =
           (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
       ArrayList<TreeItem> treeItems = new ArrayList<>();
@@ -697,37 +698,8 @@ public class MapDashboardController extends Controller {
       cleanBeds += icon.getCleanBeds();
       dirtyBeds += icon.getDirtyBeds();
     }
-    equipment.getData().add(new XYChart.Data("Clean Beds", cleanBeds));
-    equipment.getData().add(new XYChart.Data("Dirty Beds", dirtyBeds));
-
-    /*
-    bedBarChart.getData().clear();
-    XYChart.Series c = new XYChart.Series();
-    c.setName("Beds");
-    int dirt = 0;
-    int clean = 0;
-    for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
-      for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
-        if (curFloor
-            .getEquipmentIcons()
-            .get(i)
-            .getEquipmentList()
-            .get(j)
-            .getName()
-            .equalsIgnoreCase("bed")) {
-          if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
-            dirt++;
-          } else {
-            clean++;
-          }
-        }
-      }
-    }
-    c.getData().add(new XYChart.Data("Clean", clean));
-    c.getData().add(new XYChart.Data("Dirty", dirt));
-    bedBarChart.getData().add(c);
-
-     */
+    equipment.getData().add(new XYChart.Data("Clean \n" + "Beds", cleanBeds));
+    equipment.getData().add(new XYChart.Data("Dirty \n" + "Beds", dirtyBeds));
   }
 
   /** Updates pump count for bar chart */
@@ -740,8 +712,8 @@ public class MapDashboardController extends Controller {
       cleanPumps += icon.getCleanPumps();
       dirtyPumps += icon.getDirtyPumps();
     }
-    equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
-    equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
+    equipment.getData().add(new XYChart.Data("Clean \n" + "Pumps", cleanPumps));
+    equipment.getData().add(new XYChart.Data("Dirty \n" + "Pumps", dirtyPumps));
 
     /*
     XYChart.Series c = new XYChart.Series();

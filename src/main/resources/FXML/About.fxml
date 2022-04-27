@@ -204,7 +204,7 @@
                                     <Font name="System Bold" size="28.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelB1" layoutX="73.0" layoutY="139.0" text="Major: Place Holder">
+                              <Label fx:id="labelB1" layoutX="170.0" layoutY="139.0" text="Major: CS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -214,12 +214,12 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelB3" layoutX="99.0" layoutY="249.0" text="Place">
+                              <Label fx:id="labelB3" layoutX="110.0" layoutY="249.0" text="Find Employment As a">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelB4" layoutX="176.0" layoutY="284.0" text="Holder">
+                              <Label fx:id="labelB4" layoutX="120.0" layoutY="284.0" text="Software Developer">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -229,7 +229,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelB6" layoutX="43.0" layoutY="389.0" text="&quot;Place Holder&quot; -Benjamin">
+                              <Label fx:id="labelB6" layoutX="120.0" layoutY="389.0" text="&quot;Do You&quot; -Benjamin">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

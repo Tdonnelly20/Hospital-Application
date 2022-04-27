@@ -8,9 +8,6 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class PatientDao {
   private static final Patient nullPatient = new Patient("Not", "Found");
@@ -39,27 +36,9 @@ public class PatientDao {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        ArrayList<Integer> employeeIDs;
-        ArrayList<Integer> serviceIDs;
+        ArrayList<Integer> employeeIDs = new ArrayList<>();
+        ArrayList<Integer> serviceIDs = new ArrayList<>();
         // LOOK AT THIS PIECE OF SHIT CODE I MADE. LOOK AT IT. ITS AMAZING
-
-        try {
-          employeeIDs =
-              IntStream.of(Arrays.stream(data[5].split(" ")).mapToInt(Integer::parseInt).toArray())
-                  .boxed()
-                  .collect(Collectors.toCollection(ArrayList::new));
-        } catch (Exception e) {
-          employeeIDs = new ArrayList<>();
-        }
-
-        try {
-          serviceIDs =
-              IntStream.of(Arrays.stream(data[6].split(" ")).mapToInt(Integer::parseInt).toArray())
-                  .boxed()
-                  .collect(Collectors.toCollection(ArrayList::new));
-        } catch (Exception e) {
-          serviceIDs = new ArrayList<>();
-        }
 
         Patient newPatient = new Patient(data[1], data[2], employeeIDs, serviceIDs);
 
