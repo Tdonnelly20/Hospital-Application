@@ -4,8 +4,10 @@ import edu.wpi.cs3733.d22.teamV.controllers.Controller;
 import edu.wpi.cs3733.d22.teamV.face.Camera;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -40,24 +42,38 @@ public class VApp extends Application {
       currentPath = returnPath();
       Vdb vdb = new Vdb();
       vdb.createAllDB();
-      Files.copy(
-          Objects.requireNonNull(
-              getClass()
-                  .getResourceAsStream(
-                      "/edu/wpi/cs3733/d22/teamV/xml/haarcascade_frontalface_alt.xml")),
-          Path.of(new File("").getAbsolutePath() + "/haarcascade_frontalface_alt.xml"));
-      Files.copy(
-          Objects.requireNonNull(
-              getClass()
-                  .getResourceAsStream(
-                      "/edu/wpi/cs3733/d22/teamV/pytorch_models/facenet/facenet.pt")),
-          Path.of(new File("").getAbsolutePath() + "/facenet/facenet.pt"));
+
+      copy(
+          getClass()
+              .getResourceAsStream(
+                  new File("") + "/edu/wpi/cs3733/d22/teamV/xml/haarcascade_frontalface_alt.xml"),
+          new File("").getAbsolutePath() + "/haarcascade_frontalface_alt.xml");
+      copy(
+          getClass()
+              .getResourceAsStream(
+                  new File("")
+                      + "/edu/wpi/cs3733/d22/teamV/faces/pytorch_models/facenet/facenet.pt"),
+          new File("").getAbsolutePath() + "/facenet/facenet.pt");
+
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public static boolean copy(InputStream source, String destination) {
+    boolean succeess = true;
+
+    try {
+      Files.copy(source, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      succeess = false;
+    }
+
+    return succeess;
   }
 
   public static String returnPath() {

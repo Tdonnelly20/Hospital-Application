@@ -6,8 +6,6 @@ import edu.wpi.cs3733.d22.teamV.face.Camera;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -23,14 +21,15 @@ public class LoginController extends Controller {
 
   public LoginController() {}
 
-  @FXML ImageView faceImage;
+  @FXML private ImageView faceImage;
   private Camera camera;
 
   @Override
   public void init() {
-    Camera.stopAcquisition();
+    // camera.stopAcquisition();
     System.out.println("Login init");
 
+    /*
     ChangeListener<Number> listener =
         new ChangeListener<Number>() {
           @Override
@@ -56,9 +55,13 @@ public class LoginController extends Controller {
           }
         };
 
+
+
     pane.widthProperty().addListener(listener);
     pane.heightProperty().addListener(listener);
-    camera = new Camera(null, faceImage, jfxButton, true);
+
+     */
+    camera = new Camera(null, iv, jfxButton, true);
     camera.setLoginPageController(this);
     camera.toggleCamera();
   }
