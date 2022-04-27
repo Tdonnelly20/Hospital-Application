@@ -161,8 +161,8 @@
                         </ImageView>
                      </children>
                   </Group>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#aaabac" height="39.0" layoutX="523.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="190.0" />
-                  <Label fx:id="serviceClock" layoutX="538.0" layoutY="14.0" prefHeight="30.0" prefWidth="159.0" text="Label">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#aaabac" height="39.0" layoutX="518.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="201.0" />
+                  <Label fx:id="serviceClock" layoutX="528.0" layoutY="14.0" prefHeight="30.0" prefWidth="181.0" text="Label">
                      <font>
                         <Font size="20.0" />
                      </font>
