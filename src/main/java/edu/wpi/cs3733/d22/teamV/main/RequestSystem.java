@@ -468,6 +468,24 @@ public class RequestSystem {
     return employeeDao.getAllEmployees();
   }
 
+  public boolean employeeExists(int id) {
+    for (Employee employee : employeeDao.getAllEmployees()) {
+      if (employee.getEmployeeID() == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean patientExists(int patientID) {
+    for (Patient patient : patientDao.getAllPatients()) {
+      if (patient.getPatientID() == patientID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Returns ALL service requests of EVERY type
    *

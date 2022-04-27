@@ -101,7 +101,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
           + "    Y: "
           + getLocation().getYCoord()
           + "\nDate Submitted: "
-          + timeMade
+          + getTimeString()
           + "\nEmployee: "
           + employee.getLastName()
           + ", "
@@ -122,7 +122,7 @@ public abstract class ServiceRequest extends DirectionalAssoc {
         + "    Y: "
         + getLocation().getYCoord()
         + "\nDate Submitted: "
-        + timeMade
+        + getTimeString()
         + "\nEmployee: "
         + employee.getLastName()
         + ", "

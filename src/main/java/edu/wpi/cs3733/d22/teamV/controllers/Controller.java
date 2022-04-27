@@ -69,13 +69,6 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
-  // Switches scene to the location database
-  @FXML
-  protected void switchToLocationDB(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
-    switchScene(event);
-  }
-
   // Switches scene to the service request page
   @FXML
   protected void switchToServiceRequest(Event event) throws IOException {

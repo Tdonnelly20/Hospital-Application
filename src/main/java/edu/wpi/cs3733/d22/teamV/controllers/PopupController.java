@@ -191,10 +191,57 @@ public class PopupController {
     return true;
   }
 
+  @FXML Label invalidEmployee = new Label("Employee ID is not valid");
+  @FXML Label invalidPatient = new Label("Patient ID is not valid");
+
+  /** Returns true if employeeID is linked to a valid employee */
+  private boolean isEmployeeValid(String employeeID) {
+    if (isInteger(employeeID)) {
+      if (RequestSystem.getSystem().employeeExists(Integer.parseInt(employeeID))) {
+        content.getChildren().remove(invalidEmployee);
+        return true;
+      }
+    }
+    if (!content.getChildren().contains(invalidEmployee)) {
+      content.getChildren().add(invalidEmployee);
+    }
+    return false;
+  }
+
+  /** Returns true if patientID is linked to a valid patient */
+  private boolean isPatientValid(String patientID) {
+    if (isInteger(patientID)) {
+      if (RequestSystem.getSystem().patientExists(Integer.parseInt(patientID))) {
+        content.getChildren().remove(invalidPatient);
+        return true;
+      }
+    }
+    if (!content.getChildren().contains(invalidPatient)) {
+      content.getChildren().add(invalidPatient);
+    }
+    return false;
+  }
+
+  /**
+   * Determines if a String is an integer or not
+   *
+   * @param input is a string
+   * @return true if the string is an integer, false if not
+   */
+  protected boolean isInteger(String input) {
+    try {
+      Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+  /** If floorCB's value represents a floor, returns the valid floor name */
   private String convertFloor() {
     return convertFloor(floorCB.getValue());
   }
 
+  /** If string represents a floor, returns the valid floor name */
   private String convertFloor(String floor) {
     switch (floor) {
       case "Ground Floor":
@@ -602,7 +649,11 @@ public class PopupController {
                 "Religious Request",
                 "Robot Request",
                 "Computer Request"));
-    comboBox1.setOnAction(event1 -> fitServiceRequest(comboBox1.getValue(), icon));
+    comboBox1.setOnAction(
+        event1 -> {
+          String str = comboBox1.getValue();
+          fitServiceRequest(str, icon);
+        });
     content.getChildren().add(comboBox1);
   }
 
@@ -611,7 +662,6 @@ public class PopupController {
   public void fitServiceRequest(String serviceRequest, LocationIcon icon) {
     buttonBox.getChildren().clear();
     content.getChildren().clear();
-    content.getChildren().add(comboBox1);
     submitIcon.setText("Add Request");
     buttonBox.getChildren().addAll(submitIcon, clearResponse, closeButton);
     fields[0].setPromptText("Employee ID");
@@ -637,7 +687,7 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new LabRequest(
@@ -665,7 +715,7 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new EquipmentDelivery(
@@ -695,7 +745,7 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new MedicineDelivery(
@@ -718,7 +768,7 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new InternalPatientTransportation(
@@ -739,7 +789,7 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()&& isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new LaundryRequest(
@@ -767,7 +817,7 @@ public class PopupController {
         content.getChildren().add(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()&& isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new MealRequest(
@@ -800,7 +850,7 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()&& isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new SanitationRequest(
@@ -824,7 +874,7 @@ public class PopupController {
 
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new ReligiousRequest(
@@ -846,7 +896,7 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText())) {
                 addRequest(
                     icon,
                     new RobotRequest(
@@ -868,7 +918,7 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText()) && isPatientValid(fields[1].getText())) {
                 addRequest(
                     icon,
                     new ComputerRequest(
