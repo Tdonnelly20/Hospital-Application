@@ -154,7 +154,7 @@ public class Camera {
           this.detectAndDisplay(frame);
           face = this.faceDetected(frame);
           Image imageToShow = Utils.mat2Image(frame);
-          System.out.println("Update!");
+          //System.out.println("Update!");
           updateImageView(detectedPicture, imageToShow);
         }
 
