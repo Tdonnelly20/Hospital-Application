@@ -11,7 +11,6 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -91,7 +90,7 @@ public class EquipmentIcon extends Icon {
                     .setFloor(MapController.getController().getFloorName());
               }
             });
-        //Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
+        // Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
 
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setPromptText(equipment.getIsDirtyString());
