@@ -30,14 +30,16 @@ public class LocationIcon extends Icon {
     this.location = location;
     this.iconType = IconType.Location;
     if (location.getNodeType().equalsIgnoreCase("node")) {
+      // Nodes aren't visible
       image.setOpacity(0);
       image.setImage(MapManager.getManager().nodeMarker);
       image.setOnMouseClicked(
           event -> {
-            // Opens the location form in the popup
+            // Opens the icon form in the popup
+            // This prevents you from accidentally opening up the node's form
             if (event.getClickCount() == 2) {
               if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
-                setPathfinder(event);
+                MapController.getController().setPathfinderID(event, location.getNodeID());
               } else {
                 PopupController.getController().iconWindow(event);
               }
@@ -48,23 +50,26 @@ public class LocationIcon extends Icon {
       image.setImage(MapManager.getManager().getLocationMarker());
       image.setOnMouseClicked(
           event -> {
-            // Opens the location form in the popup
             if (event.getClickCount() == 2) {
               if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
-                setPathfinder(event);
+                // Allows you to make, draw, and remove paths
+                MapController.getController().setPathfinderID(event, location.getNodeID());
               } else {
+                // Opens the location form in the popup
                 PopupController.getController().locationForm(event, this);
               }
             }
           });
     }
+    // Icon sizing
     image.setFitWidth(15);
     image.setFitHeight(15);
+    // Icon placement on the map
     image.setTranslateX((location.getXCoord()) - image.getFitWidth());
     image.setTranslateY((location.getYCoord()) - image.getFitHeight());
     image.setOnMouseReleased(
         event -> {
-          // If released from drag, update the xy coors
+          // If released from drag, update the xy coords
           if (isDrag) {
             isDrag = false;
             Point2D offset = (Point2D) image.getUserData();
@@ -89,7 +94,7 @@ public class LocationIcon extends Icon {
           .getStartLocationLabel()
           .setText("Starting Location: " + location.getNodeID());
       MapController.getController().getEndLocationLabel().setText("End Location: ");
-    } else if (MapController.getController().getEndLocationID().isEmpty()) {
+    } else {
       MapController.getController().setEndLocationID(location.getNodeID());
       MapController.getController()
           .getEndLocationLabel()

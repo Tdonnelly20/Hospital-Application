@@ -18,6 +18,7 @@ import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -57,8 +58,8 @@ public class MapController extends Controller {
   private String endLocationID = "";
   private Button showConnections = new Button("Show all connections");
 
-  private Button showNodes = new Button("Toggle show nodes");
-  private boolean showingNodes = false;
+  // private Button showNodes = new Button("Toggle show nodes");
+  // private boolean showingNodes = false;
 
   @FXML
   private Label pathfinderInstructions =
@@ -118,7 +119,6 @@ public class MapController extends Controller {
           "Robot Requests",
           "Computer Requests");
 
-  int nodeCounter = 0;
   private static MapController controller;
 
   public static MapController getController() {
@@ -149,7 +149,7 @@ public class MapController extends Controller {
     scrollPane.setPrefSize(550, 550);
     controlsVBox
         .getChildren()
-        .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections, showNodes);
+        .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
     showConnections.setOnAction(
         event -> {
           drawAllConnections();
@@ -205,20 +205,20 @@ public class MapController extends Controller {
     floor3.setOnAction(event -> setFloor("3"));
     floor4.setOnAction(event -> setFloor("4"));
     floor5.setOnAction(event -> setFloor("5"));
-    showNodes.setOnAction(
-        event -> {
-          showingNodes = !showingNodes;
-          for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
-            if (icon.getLocation().getNodeType().equals("node")) {
-              if (showingNodes) {
-                icon.getImage().setOpacity(100);
-              } else {
-                icon.getImage().setOpacity(0);
-              }
-            }
+    /*showNodes.setOnAction(
+    event -> {
+      showingNodes = !showingNodes;
+      for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
+        if (icon.getLocation().getNodeType().equals("node")) {
+          if (showingNodes) {
+            icon.getImage().setOpacity(100);
+          } else {
+            icon.getImage().setOpacity(0);
           }
-          refreshMap();
-        });
+        }
+      }
+      refreshMap();
+    });*/
     refreshButton.setOnAction(
         event -> {
           refreshMap();
@@ -279,7 +279,7 @@ public class MapController extends Controller {
     resetPathFinder();
     controlsVBox
         .getChildren()
-        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections, showNodes);
+        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
   }
 
   /** Reset Pathfinder */
@@ -534,5 +534,41 @@ public class MapController extends Controller {
             RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
       }
     }
+  }
+
+  /**
+   * Sets the startLocationID and endLocationID and calls the relevant function based on what key is
+   * being pushed down
+   */
+  public void setPathfinderID(MouseEvent event, String nodeID) {
+    if (startLocationID.isEmpty()) {
+      startLocationID = nodeID;
+      endLocationID = "";
+    } else {
+      if (!endLocationID.isEmpty()) {
+        startLocationID = endLocationID;
+      }
+      endLocationID = nodeID;
+      // Call relevant functions
+      if (event.isShiftDown() && !event.isAltDown() && !event.isControlDown()) {
+        MapController.getController().drawPath();
+      } else if (event.isAltDown() && !event.isShiftDown() && !event.isControlDown()) {
+        MapController.getController().makePath();
+      } else if (event.isControlDown() && !event.isShiftDown() && !event.isAltDown()) {
+        removeLink(nodeID);
+      }
+    }
+    startLocationLabel.setText("Starting Location: " + startLocationID);
+    endLocationLabel.setText("End Location: " + endLocationID);
+  }
+
+  /** Removes a link between the given nodeID and either the startLocationID or the endLocationID */
+  private void removeLink(String nodeID) {
+    if (!startLocationID.equals(nodeID)) {
+      RequestSystem.getSystem().getPathfinderDao().removeLink(nodeID, startLocationID);
+    } else {
+      RequestSystem.getSystem().getPathfinderDao().removeLink(nodeID, endLocationID);
+    }
+    refreshMap();
   }
 }
