@@ -124,6 +124,7 @@ public class LoginController extends Controller {
 
   @FXML
   public void userLogin(ActionEvent event) throws Exception {
+    Vdb.setUpConnection();
     checkLogin(event, username.getText());
   }
 

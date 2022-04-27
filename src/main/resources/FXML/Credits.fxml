@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.CreditsController">
+   <items>
+      <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
+         <children>
+            <GridPane fx:id="headerPane" layoutX="188.0" layoutY="30.0" prefHeight="150.0" prefWidth="1918.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+            </GridPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="background" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" stylesheets="@../CSS/Credits.css">
+         <children>
+            <Label id="teamE" layoutX="275.0" layoutY="178.0" text="Team E" />
+            <Label id="teamZ" layoutX="680.0" layoutY="178.0" text="Team Z" textAlignment="CENTER" wrapText="true" />
+            <Label layoutX="285.0" layoutY="507.0" styleClass="text" text="Floral Request" />
+            <Label layoutX="633.0" layoutY="478.0" prefHeight="97.0" prefWidth="301.0" styleClass="text" text=" External Patient Transportation" textAlignment="CENTER" wrapText="true" />
+            <Label layoutX="200.0" layoutY="38.0" prefHeight="97.0" prefWidth="795.0" styleClass="text" text="We would like to formally credit Team E and Team V for their APIs that are implemented in our application." textAlignment="CENTER" wrapText="true" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>
