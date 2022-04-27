@@ -191,10 +191,57 @@ public class PopupController {
     return true;
   }
 
+  @FXML Label invalidEmployee = new Label("Employee ID is not valid");
+  @FXML Label invalidPatient = new Label("Patient ID is not valid");
+
+  /** Returns true if employeeID is linked to a valid employee */
+  private boolean isEmployeeValid(String employeeID) {
+    if (isInteger(employeeID)) {
+      if (RequestSystem.getSystem().employeeExists(Integer.parseInt(employeeID))) {
+        content.getChildren().remove(invalidEmployee);
+        return true;
+      }
+    }
+    if (!content.getChildren().contains(invalidEmployee)) {
+      content.getChildren().add(invalidEmployee);
+    }
+    return false;
+  }
+
+  /** Returns true if patientID is linked to a valid patient */
+  private boolean isPatientValid(String patientID) {
+    if (isInteger(patientID)) {
+      if (RequestSystem.getSystem().patientExists(Integer.parseInt(patientID))) {
+        content.getChildren().remove(invalidPatient);
+        return true;
+      }
+    }
+    if (!content.getChildren().contains(invalidPatient)) {
+      content.getChildren().add(invalidPatient);
+    }
+    return false;
+  }
+
+  /**
+   * Determines if a String is an integer or not
+   *
+   * @param input is a string
+   * @return true if the string is an integer, false if not
+   */
+  protected boolean isInteger(String input) {
+    try {
+      Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+  /** If floorCB's value represents a floor, returns the valid floor name */
   private String convertFloor() {
     return convertFloor(floorCB.getValue());
   }
 
+  /** If string represents a floor, returns the valid floor name */
   private String convertFloor(String floor) {
     switch (floor) {
       case "Ground Floor":
@@ -307,12 +354,7 @@ public class PopupController {
       clear("Location", "Location");
       addButton.setOnAction(event1 -> locationAdditionForm(event));
       addButton.setText("Add a Location");
-      buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     } else {
-      Button pathfindingButton = new Button("Pathfinder");
-      pathfindingButton.setOnAction(event1 -> pathfinderForm(icon));
-
-      buttonBox.getChildren().add(pathfindingButton);
       clear(icon.getLocation().getLongName(), icon.getLocation().getShortName());
       // Populates a location icon's popup window with its service requests
       if (icon.getRequestsArr().size() > 0) {
@@ -320,70 +362,13 @@ public class PopupController {
       }
       addButton.setText("Add Request");
       addButton.setOnAction(event1 -> requestAdditionForm(icon));
-
-      HBox hBox1 = new HBox(15, addButton, pathfindingButton, modifyButton);
-      HBox hBox2 = new HBox(15, removeButton, closeButton);
-      hBox1.setAlignment(Pos.CENTER);
-      hBox2.setAlignment(Pos.CENTER);
-      buttonBox.getChildren().addAll(new VBox(15, hBox1, hBox2));
     }
     modifyButton.setOnAction(event1 -> locationModifyForm(event, icon));
     removeButton.setOnAction(event1 -> locationRemoveForm(icon));
+    buttonBox.getChildren().addAll(addButton, modifyButton, removeButton, closeButton);
     if (!stage.isShowing()) {
       showPopUp();
     }
-  }
-
-  private void pathfinderForm(LocationIcon firstLocation) {
-    clear("Pathfinder", "Pathfinder");
-    Button directions = new Button("Get Directions");
-    Button connections = new Button("Make Connections");
-    directions.setOnAction(event -> directionsForm(firstLocation));
-    connections.setOnAction(event -> connectionsForm(firstLocation));
-    buttonBox.getChildren().addAll(directions, connections);
-  }
-
-  /** Opens/sets up the pathfinder form */
-  private void directionsForm(LocationIcon firstLocation) {
-    clear("Get Directions", "Get Directions");
-    buttonBox.getChildren().addAll(submitIcon, addButton, closeButton);
-    fields[0].setPromptText("Destination Node ID");
-    inputGenerator(fields[0].getPromptText(), "Destination", fields[0]);
-    submitIcon.setText("Get Directions");
-    addButton.setText("Add Connection");
-    submitIcon.setOnAction(
-        event -> {
-          if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
-            LinkedList<Location> locations =
-                RequestSystem.getSystem()
-                    .getPaths(
-                        firstLocation.getLocation().getNodeID(),
-                        RequestSystem.getSystem().getLocation(fields[0].getText()).getNodeID());
-            for (int i = 1; i < locations.size(); i++) {
-              MapController.getController()
-                  .drawPath(locations.get(i - 1).getIcon(), locations.get(i).getIcon());
-            }
-            stage.close();
-            clear();
-          }
-        });
-  }
-
-  /** Opens/sets up the pathfinder connection form */
-  private void connectionsForm(LocationIcon firstLocation) {
-    clear("Make Connections", "Make Connections");
-    buttonBox.getChildren().addAll(submitIcon, closeButton);
-    inputGenerator("Other Node ID", "Node ID", fields[0]);
-    submitIcon.setText("Make Connection");
-    submitIcon.setOnAction(
-        event -> {
-          if (checkFields() && RequestSystem.getSystem().getLocation(fields[0].getText()) != null) {
-            /*RequestSystem.getSystem().getPathfinder().
-            firstLocation.getLocation().getNodeID(),
-                    RequestSystem.getSystem().getLocation(fields[0].getText()).getNodeID());*/
-            closePopUp();
-          }
-        });
   }
 
   /** Opens a form that allows users to create a new location */
@@ -602,7 +587,11 @@ public class PopupController {
                 "Religious Request",
                 "Robot Request",
                 "Computer Request"));
-    comboBox1.setOnAction(event1 -> fitServiceRequest(comboBox1.getValue(), icon));
+    comboBox1.setOnAction(
+        event1 -> {
+          String str = comboBox1.getValue();
+          fitServiceRequest(str, icon);
+        });
     content.getChildren().add(comboBox1);
   }
 
@@ -611,7 +600,6 @@ public class PopupController {
   public void fitServiceRequest(String serviceRequest, LocationIcon icon) {
     buttonBox.getChildren().clear();
     content.getChildren().clear();
-    content.getChildren().add(comboBox1);
     submitIcon.setText("Add Request");
     buttonBox.getChildren().addAll(submitIcon, clearResponse, closeButton);
     fields[0].setPromptText("Employee ID");
@@ -637,7 +625,10 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText())
+                  && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new LabRequest(
@@ -665,7 +656,10 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText())
+                      && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new EquipmentDelivery(
@@ -695,7 +689,9 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText())&& (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new MedicineDelivery(
@@ -718,7 +714,9 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText())&&  (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new InternalPatientTransportation(
@@ -739,7 +737,9 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText()) &&  (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new LaundryRequest(
@@ -767,7 +767,9 @@ public class PopupController {
         content.getChildren().add(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText()) && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new MealRequest(
@@ -800,7 +802,9 @@ public class PopupController {
         content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText()) && (comboBox2.getValue()!=null) && (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new SanitationRequest(
@@ -824,7 +828,9 @@ public class PopupController {
 
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText())&&  (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new ReligiousRequest(
@@ -846,7 +852,7 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields() && isEmployeeValid(fields[0].getText()) && (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new RobotRequest(
@@ -868,7 +874,9 @@ public class PopupController {
         insertFields();
         submitIcon.setOnAction(
             event1 -> {
-              if (checkFields()) {
+              if (checkFields()
+                  && isEmployeeValid(fields[0].getText())
+                  && isPatientValid(fields[1].getText()) &&  (comboBox3.getValue()!=null)) {
                 addRequest(
                     icon,
                     new ComputerRequest(

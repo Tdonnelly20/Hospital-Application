@@ -104,6 +104,35 @@ public class MapDashboardController extends Controller {
     }
 
     MapController controller = loader.getController();
+    switch (curFloor.getFloorName()) {
+      case "L1":
+        controller.setFloorName("L1");
+        break;
+
+      case "L2":
+        controller.setFloorName("L2");
+        break;
+
+      case "1":
+        controller.setFloorName("1");
+        break;
+
+      case "2":
+        controller.setFloorName("2");
+        break;
+
+      case "3":
+        controller.setFloorName("3");
+        break;
+
+      case "4":
+        controller.setFloorName("4");
+        break;
+
+      case "5":
+        controller.setFloorName("5");
+        break;
+    }
     controller.init();
 
     PopupController.getController().closePopUp();

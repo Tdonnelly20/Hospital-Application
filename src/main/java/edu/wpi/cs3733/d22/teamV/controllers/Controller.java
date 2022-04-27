@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -66,13 +67,6 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToMap(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/Map.fxml"));
-    switchScene(event);
-  }
-
-  // Switches scene to the location database
-  @FXML
-  protected void switchToLocationDB(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
     switchScene(event);
   }
 
@@ -215,15 +209,16 @@ public abstract class Controller extends Application {
   }
 
   @FXML
-  protected void runOurAPI() throws IOException {
+  protected void runOurAPI() throws IOException, SQLException {
     Runtime runtime = Runtime.getRuntime();
     // Process pr = runtime.exec(" java -jar " + returnPath() + "\\SoftEngRobotAPI.jar");
     String[] cmd = {"java", "-jar", returnPath() + "\\SoftEngRobotAPI.jar"};
     ProcessBuilder pb = new ProcessBuilder(cmd);
-    System.out.println("OUR CMD IS " + cmd);
     pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
     pb.redirectError(ProcessBuilder.Redirect.INHERIT);
     Process p = pb.start();
+
+    System.out.println("\n\n\n Let's start"); // so reaches here now
   }
 
   @FXML
