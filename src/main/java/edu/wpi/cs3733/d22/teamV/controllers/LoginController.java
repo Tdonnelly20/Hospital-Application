@@ -124,7 +124,7 @@ public class LoginController extends Controller {
   @FXML
   public void userLogin(ActionEvent event) throws IOException {
     checkLogin(event, username.getText());
-    if (camera.face) checkLogin(event, "Jason");
+    if (camera.face) checkLogin(event, camera.userName);
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");

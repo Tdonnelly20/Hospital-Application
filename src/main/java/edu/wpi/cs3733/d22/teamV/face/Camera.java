@@ -49,6 +49,7 @@ public class Camera {
   private Thread authenticator;
 
   @Setter private LoginController loginPageController;
+  public String userName;
 
   public Camera(
       ImageView oldPicture,
@@ -154,7 +155,6 @@ public class Camera {
           this.detectAndDisplay(frame);
           face = this.faceDetected(frame);
           Image imageToShow = Utils.mat2Image(frame);
-          System.out.println("Update!");
           updateImageView(detectedPicture, imageToShow);
         }
 
@@ -252,10 +252,8 @@ public class Camera {
       }
     }
 
-    String userName = null;
     try {
       userName = facenet.userFromEmbedding(newImageEmbedding);
-      userName = "Jason";
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -340,6 +338,7 @@ public class Camera {
 
     if (!faces.empty()) {
       picture = frame.submat(facesArray[0]);
+      userName = "Jason";
       return true;
     }
     return false;

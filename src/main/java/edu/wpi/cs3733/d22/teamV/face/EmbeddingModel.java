@@ -15,6 +15,7 @@ import ai.djl.translate.TranslateException;
 import ai.djl.translate.Translator;
 import ai.djl.translate.TranslatorContext;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,18 +57,22 @@ public class EmbeddingModel {
         Criteria.builder()
             .setTypes(ai.djl.modality.cv.Image.class, double[].class)
             .optTranslator(new customTranslator())
-            .optArtifactId("ai.djl.localmodelzoo:facenet")
+            .optModelPath(
+                Path.of(
+                    "C:\\Users\\Starkiller PC\\Pictures\\Camera Roll\\WIN_20220426_21_40_22_Pro.jpg"))
             .optProgress(new ai.djl.training.util.ProgressBar())
             .build();
 
     ZooModel<Image, double[]> model = null;
+
     try {
       model = ModelZoo.loadModel(criteria);
     } catch (IOException | MalformedModelException | ModelNotFoundException e) {
       e.printStackTrace();
     }
+
     ZooModel<Image, double[]> zooModel = model;
-    assert model != null;
+    assert zooModel != null;
     predictor = zooModel.newPredictor();
     return zooModel;
   }
