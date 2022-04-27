@@ -56,6 +56,7 @@ public class PatientController extends RequestController {
   @FXML private Button sendRequest;
   @FXML private Label statusLabel;
   private Patient selectedPatient;
+  @FXML private TextField searchBar;
 
   @FXML
   public void updatePatientTreeTable() {
@@ -82,6 +83,53 @@ public class PatientController extends RequestController {
     for (Patient delivery : currPatients) {
       TreeItem<Patient> item = new TreeItem<Patient>(delivery);
       treeItems.add(item);
+    }
+    // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
+    // we get the standard table functionality
+    patientTable.setShowRoot(false);
+    // Root is just the first entry in our list
+    TreeItem<Patient> root = new TreeItem<>(currPatients.get(0));
+    // Set the root in the table
+    patientTable.setRoot(root);
+    // Set the rest of the tree items to the root, including the one we set as the root
+    root.getChildren().addAll(treeItems);
+  }
+
+  @FXML
+  public void searchPatientTreeTable(String keyword) {
+    // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
+    // name of the variable we are adding to a specific column
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
+    patientEmployeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeIDs"));
+    patientServiceIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceIDs"));
+
+    // Get the current list of medicine deliveries from the DAO
+    ArrayList<Patient> currPatients = patientDao.getAllPatients();
+    // Create a list for our tree items
+    ArrayList<TreeItem<Patient>> treeItems = new ArrayList<>();
+
+    // Need to make sure the list isn't empty
+    if (currPatients.isEmpty()) {
+      patientTable.setRoot(null);
+      return;
+    }
+
+    // for each loop cycling through each medicine delivery currently entered into the system
+    for (Patient delivery : currPatients) {
+      if (delivery.getFirstName().toLowerCase().contains(keyword)) {
+        TreeItem<Patient> item = new TreeItem<Patient>(delivery);
+        treeItems.add(item);
+      } else if (delivery.getLastName().toLowerCase().contains(keyword)) {
+        TreeItem<Patient> item = new TreeItem<Patient>(delivery);
+        treeItems.add(item);
+      } else if (Integer.toString(delivery.getPatientID()).contains(keyword)) {
+        TreeItem<Patient> item = new TreeItem<Patient>(delivery);
+        treeItems.add(item);
+      } else {
+
+      }
     }
     // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
     // we get the standard table functionality
@@ -191,6 +239,17 @@ public class PatientController extends RequestController {
     fillTopPaneAPI();
 
     setColumnSizes(910);
+
+    searchBar
+        .textProperty()
+        .addListener(
+            new ChangeListener<String>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                searchPatientTreeTable(newValue);
+              }
+            });
 
     patientPane
         .widthProperty()
