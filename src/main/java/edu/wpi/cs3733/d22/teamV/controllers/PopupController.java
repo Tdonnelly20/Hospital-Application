@@ -85,11 +85,7 @@ public class PopupController {
   public void closePopUp() {
     if (stage.isShowing()) {
       stage.close();
-      MapManager.getManager().setUpFloors();
-      MapController.getController().setFloor(MapController.getController().getFloorName());
-      content.getChildren().clear();
-      clearPopupForm();
-      // MapController.getController().checkDropDown();
+      update();
     }
   }
 

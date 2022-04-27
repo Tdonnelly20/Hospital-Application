@@ -170,7 +170,7 @@ public class LocationIcon extends Icon {
   public void addToRequests(ServiceRequest request) {
     if (!location.getNodeType().equalsIgnoreCase("node")) {
       requestsArr.add(request);
-      if (location.getRequests().contains(request)) {
+      if (!location.getRequests().contains(request)) {
         location.getRequests().add(request);
       }
       RequestSystem.getSystem().addServiceRequest(request);

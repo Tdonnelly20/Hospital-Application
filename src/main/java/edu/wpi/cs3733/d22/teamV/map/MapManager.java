@@ -123,6 +123,7 @@ public class MapManager {
       for (ServiceRequest serviceRequest : requestSystem.getEveryServiceRequest()) {
         if (serviceRequest.getLocation() != null) {
           if (serviceRequest.getLocation().getNodeID() != null) {
+
             requestSystem
                 .getLocation(serviceRequest.getLocation().getNodeID())
                 .getIcon()
