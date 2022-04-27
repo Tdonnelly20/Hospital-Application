@@ -222,7 +222,7 @@ public class Camera {
                 // Compare the faces
                 if (picture != null) {
                   try {
-                    detect();
+                    detect(new Event(Event.ANY));
                   } catch (IOException e) {
                     e.printStackTrace();
                   }
@@ -236,7 +236,7 @@ public class Camera {
   }
 
   /** Compare 2 faces to look for a match */
-  public void detect() throws IOException {
+  public void detect(Event event) throws IOException {
     EmbeddingModel facenet = EmbeddingModel.getModel();
 
     double[] newImageEmbedding = null;
@@ -251,14 +251,14 @@ public class Camera {
 
     String userName = null;
     try {
-      // userName = facenet.userFromEmbedding(newImageEmbedding);
+      userName = facenet.userFromEmbedding(newImageEmbedding);
       userName = "Jason";
     } catch (Exception e) {
       e.printStackTrace();
     }
 
     if (userName != null && cameraActive) {
-      loginPageController.checkLogin(new Event(null), userName);
+      loginPageController.checkLogin(event, userName);
     }
   }
 
