@@ -67,12 +67,12 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <JFXButton fx:id="button" layoutX="31.0" layoutY="311.0" minWidth="200.0" onAction="#userLogin" ripplerFill="#e8e8e8" style="-fx-background-color: c6c4c4; -fx-background-radius: 20;" text="Login with password" textAlignment="CENTER" textFill="WHITE">
+            <JFXButton fx:id="button" layoutX="31.0" layoutY="311.0" minWidth="200.0" onAction="#userLogin" ripplerFill="#e8e8e8" style="-fx-background-color: c6c4c4; -fx-background-radius: 20;" text="Login" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="jfxButton" layoutX="268.0" layoutY="311.0" minWidth="200.0" onAction="#userLogin" ripplerFill="WHITE" style="-fx-background-color: c6c4c4; -fx-background-radius: 20;" text="Login with camera" textAlignment="CENTER" textFill="WHITE">
+            <JFXButton fx:id="jfxButton" layoutX="268.0" layoutY="311.0" minWidth="200.0" onAction="#toggleCamera" ripplerFill="WHITE" style="-fx-background-color: c6c4c4; -fx-background-radius: 20;" text="Toggle camera" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -90,10 +90,6 @@
       <TextField fx:id="dbPath" layoutX="1033.0" layoutY="751.0" opacity="0.0" promptText="Enter path to database" />
       <TextField fx:id="dbIP" layoutX="848.0" layoutY="751.0" opacity="0.0" promptText="Enter server IP" />
       <Button fx:id="dbButton" layoutX="1100.0" layoutY="647.0" mnemonicParsing="false" onAction="#getDBInfo" opacity="0.0" text="Submit" />
-      <Pane layoutX="389.0" layoutY="14.0">
-         <children>
-            <ImageView fx:id="faceImage" fitHeight="224.0" fitWidth="427.0" layoutX="57.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </Pane>
+      <ImageView fx:id="faceImage" fitHeight="224.0" fitWidth="224.0" layoutX="487.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

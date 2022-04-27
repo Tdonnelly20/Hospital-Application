@@ -24,7 +24,6 @@ public class LoginController extends Controller {
   public LoginController() {}
 
   @FXML private ImageView faceImage;
-  @FXML private ImageView oldImage;
   private Camera camera;
 
   @Override
@@ -49,16 +48,25 @@ public class LoginController extends Controller {
             }
             group.setLayoutX(w / 2 - 249);
             group.setLayoutY(h / 2 - 189);
+            faceImage.setLayoutX(w / 2 - 112);
           }
         };
     dBMenu.getItems().add("Embedded DB");
     dBMenu.getItems().add("Client DB");
     pane.widthProperty().addListener(listener);
     pane.heightProperty().addListener(listener);
+  }
 
-    camera = new Camera(null, faceImage, jfxButton, true);
-    camera.setLoginPageController(this);
-    camera.toggleCamera();
+  public void toggleCamera() {
+    if (!Camera.isCameraActive()) {
+      faceImage.setVisible(true);
+      camera = new Camera(null, faceImage, jfxButton, true);
+      camera.setLoginPageController(this);
+      camera.toggleCamera();
+    } else {
+      camera.stopAcquisition();
+      faceImage.setVisible(false);
+    }
   }
 
   @Override
