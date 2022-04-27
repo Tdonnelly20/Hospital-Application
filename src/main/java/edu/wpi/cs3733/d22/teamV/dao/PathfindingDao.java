@@ -113,7 +113,7 @@ public class PathfindingDao {
       String edgeName = nodeOne + "_" + nodeTwo;
       for (Edge edge : getEdges()) {
         if (edge.getName().equalsIgnoreCase(edgeName)) {
-          System.out.println("Already contains this edge! " + edgeName);
+          // System.out.println("Already contains this edge! " + edgeName);
           return;
         }
       }
@@ -160,7 +160,7 @@ public class PathfindingDao {
         startNode.addLink(new Pathfinder.Link(endNode, distance));
         endNode.addLink(new Pathfinder.Link(startNode, distance));
       } else {
-        System.out.println("Couldn't find node locations");
+        // System.out.println("Couldn't find node locations");
       }
     }
   }

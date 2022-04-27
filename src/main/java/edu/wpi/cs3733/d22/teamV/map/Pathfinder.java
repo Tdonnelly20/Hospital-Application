@@ -108,7 +108,7 @@ public class Pathfinder {
       this.name = name;
       if (!allNodes.contains(getNodeFromName(name))) {
         allNodes.add(this);
-        System.out.println("Node Added");
+        // System.out.println("Node Added");
       }
     }
 
