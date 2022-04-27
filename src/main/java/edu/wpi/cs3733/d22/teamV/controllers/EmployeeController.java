@@ -23,7 +23,6 @@ public class EmployeeController extends RequestController {
   private static final EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
   private int updateID;
-  private boolean isSure = true;
 
   public EmployeeController() {}
 
