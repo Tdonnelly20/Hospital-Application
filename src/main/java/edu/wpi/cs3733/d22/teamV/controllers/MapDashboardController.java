@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -25,6 +27,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -63,6 +66,9 @@ public class MapDashboardController extends Controller {
   private @FXML TitledPane alertsTPane;
 
   private @FXML BarChart bedBarChart;
+
+  private @FXML AnchorPane dashboardPane;
+  private @FXML VBox dashboardVBox;
 
   private Parent root;
   FXMLLoader loader = new FXMLLoader();
@@ -554,6 +560,19 @@ public class MapDashboardController extends Controller {
     setUpButtonSubjects();
     setUpDashboardListeners();
     updateAll();
+
+    dashboardPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = dashboardPane.getWidth();
+
+                dashboardVBox.setLayoutX(w / 2 - 585);
+              }
+            });
   }
 
   @FXML
