@@ -78,6 +78,9 @@ public class Camera {
     // preserve image ratio
     detectedPicture.setPreserveRatio(true);
 
+    if (oldPicture == null) {
+      return;
+    }
     if (btnTakePicture != null) {
       btnTakePicture.setOnMouseClicked(
           (e) -> {
@@ -154,7 +157,7 @@ public class Camera {
           this.detectAndDisplay(frame);
           face = this.faceDetected(frame);
           Image imageToShow = Utils.mat2Image(frame);
-          //System.out.println("Update!");
+          // System.out.println("Update!");
           updateImageView(detectedPicture, imageToShow);
         }
 
