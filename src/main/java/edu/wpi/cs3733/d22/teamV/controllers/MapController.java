@@ -230,27 +230,28 @@ public class MapController extends Controller {
     mapPane.setOnMouseClicked(
         event -> {
           if (event.getClickCount() == 2) {
-            if (event.isAltDown()) {
-              RequestSystem.getSystem()
-                  .addLocation(
-                      new Location(
-                          "node" + nodeCounter,
-                          event.getX(),
-                          event.getY(),
-                          floorName,
-                          "Tower",
-                          "node",
-                          "node",
-                          "node"));
-              MapManager.getManager().setUpFloors();
-              mapPane.getChildren().clear();
-              setFloor(floorName);
-            } else {
-              if (!event
-                  .getTarget()
-                  .getClass()
-                  .getTypeName()
-                  .equals("javafx.scene.image.ImageView")) {
+            if (!event
+                .getTarget()
+                .getClass()
+                .getTypeName()
+                .equals("javafx.scene.image.ImageView")) {
+              if (event.isAltDown()) {
+                RequestSystem.getSystem()
+                    .addLocation(
+                        new Location(
+                            RequestSystem.getSystem().getNewNode(),
+                            event.getX(),
+                            event.getY(),
+                            floorName,
+                            "Tower",
+                            "node",
+                            "node",
+                            "node"));
+                MapManager.getManager().setUpFloors();
+                mapPane.getChildren().clear();
+                setFloor(floorName);
+              } else {
+
                 PopupController.getController().iconWindow(event);
                 // IconForm(event);
               }
@@ -264,7 +265,9 @@ public class MapController extends Controller {
   public void refreshMap() {
     setFloor(floorName);
     resetPathFinder();
-    controlsVBox.getChildren().retainAll(pathfinderInfo, filterCheckBox, refreshButton);
+    controlsVBox
+        .getChildren()
+        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
   }
 
   /** Reset Pathfinder */
