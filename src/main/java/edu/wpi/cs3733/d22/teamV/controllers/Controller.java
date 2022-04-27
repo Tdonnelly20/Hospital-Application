@@ -210,11 +210,12 @@ public abstract class Controller extends Application {
   @FXML
   protected void runOurAPI() throws IOException {
     Runtime runtime = Runtime.getRuntime();
-    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\SoftEngRobotAPI.jar");
+    runtime.exec(" java -jar " + returnPath() + "\\SoftEngRobotAPI.jar");
   }
 
   @FXML
   protected void runEAPI() throws IOException {
+    System.out.println(" java -jar " + returnPath() + "\\TeamE-API.jar");
     Runtime runtime = Runtime.getRuntime();
     runtime.exec(" java -jar " + returnPath() + "\\TeamE-API.jar");
   }
