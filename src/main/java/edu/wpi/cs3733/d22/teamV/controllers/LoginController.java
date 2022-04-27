@@ -63,8 +63,6 @@ public class LoginController extends Controller {
             faceImage.setLayoutX(w / 2 - 112);
           }
         };
-    dBMenu.getItems().add("Embedded DB");
-    dBMenu.getItems().add("Client DB");
     pane.widthProperty().addListener(listener);
     pane.heightProperty().addListener(listener);
   }
@@ -90,7 +88,7 @@ public class LoginController extends Controller {
   @FXML
   public void setDB() {
     System.out.println(dBMenu.getValue().toString());
-    if (dBMenu.getValue().toString().equals("Client DB")) {
+    if (dBMenu.getValue().toString().equals("Server DB")) {
       Vdb.setIsClient(true);
       dbButton.setOpacity(1);
       dbPath.setOpacity(1);
