@@ -20,7 +20,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class HomeController extends RequestController {
+
   @FXML private TreeTableView<ServiceRequest> requestTable;
+
   @FXML private TreeTableColumn<ServiceRequest, Integer> serviceIDCol;
   @FXML private TreeTableColumn<ServiceRequest, String> typeCol;
   @FXML private TreeTableColumn<ServiceRequest, String> floorCol;
@@ -29,6 +31,8 @@ public class HomeController extends RequestController {
   @FXML private TreeTableColumn<ServiceRequest, Integer> patientIDCol;
   @FXML private TreeTableColumn<ServiceRequest, Integer> statusCol;
   @FXML private TreeTableColumn<ServiceRequest, Integer> timeCol;
+  // @FXML private JFXComboBox<String> searchMenu;
+
   @FXML private Pane tablePane;
   @FXML private Label homeClock;
 
@@ -45,6 +49,17 @@ public class HomeController extends RequestController {
   public void init() {
     setTitleText("Home");
     fillTopPaneAPI();
+
+    searchBar
+        .textProperty()
+        .addListener(
+            new ChangeListener<String>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                searchTreeTable(newValue);
+              }
+            });
 
     homePane
         .widthProperty()
@@ -124,6 +139,7 @@ public class HomeController extends RequestController {
 
   @FXML
   void updateTreeTable() {
+
     serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceID"));
     typeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("type"));
     nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
@@ -135,6 +151,9 @@ public class HomeController extends RequestController {
 
     ArrayList<ServiceRequest> serviceRequests =
         (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
+
+    // serviceRequestObservableList = (ObservableList<ServiceRequest>)
+    // Vdb.requestSystem.getEveryServiceRequest();
 
     ArrayList<TreeItem<ServiceRequest>> treeItems = new ArrayList<>();
 
@@ -151,6 +170,60 @@ public class HomeController extends RequestController {
       root.getChildren().addAll(treeItems);
     }
   }
+
+  @FXML
+  void searchTreeTable(String keyword) {
+
+    serviceIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("serviceID"));
+    typeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("type"));
+    nodeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("nodeID"));
+    floorCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("floorName"));
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
+    statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    timeCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
+
+    ArrayList<ServiceRequest> serviceRequests =
+        (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
+
+    // serviceRequestObservableList = (ObservableList<ServiceRequest>)
+    // Vdb.requestSystem.getEveryServiceRequest();
+
+    ArrayList<TreeItem<ServiceRequest>> treeItems = new ArrayList<>();
+
+    if (serviceRequests.isEmpty()) {
+      requestTable.setRoot(null);
+    } else {
+      for (ServiceRequest request : serviceRequests) {
+        // searchBy(request)
+        if (request.getType().contains(keyword)) {
+          TreeItem<ServiceRequest> item = new TreeItem<>(request);
+          treeItems.add(item);
+        }
+      }
+      requestTable.setShowRoot(false);
+      TreeItem<ServiceRequest> root = new TreeItem<>(serviceRequests.get(0));
+      requestTable.setRoot(root);
+      root.getChildren().addAll(treeItems);
+    }
+  }
+
+  //  private String searchBy(ServiceRequest request) {
+  //    if (searchMenu.getValue().equals("Service ID")) {
+  //      Integer.toString(request.getServiceID()).toLowerCase();
+  //    } else if (searchMenu.getValue().equals("Type")) {
+  //      return request.getType().toLowerCase();
+  //    } else if (searchMenu.getValue().equals("Node ID")) {
+  //      return request.getNodeID().toLowerCase();
+  //    } else if (searchMenu.getValue().equals("Employee ID")) {
+  //      return Integer.toString(request.getEmployeeID()).toLowerCase();
+  //    } else if (searchMenu.getValue().equals("Patient ID")) {
+  //      return Integer.toString(request.getPatientID()).toLowerCase();
+  //    } else {
+  //      return request.getFloorName().toLowerCase();
+  //    }
+  //    return request.getType().toLowerCase();
+  //  }
 
   @Override
   void resetForm() {}

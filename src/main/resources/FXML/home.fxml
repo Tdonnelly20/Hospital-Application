@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -104,17 +104,17 @@
                            <children>
                               <TreeTableView fx:id="requestTable" layoutX="15.0" layoutY="70.0" prefHeight="528.0" prefWidth="1168.0">
                                 <columns>
-                                  <TreeTableColumn fx:id="serviceIDCol" prefWidth="75.0" text="Service ID" />
-                                    <TreeTableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
-                                  <TreeTableColumn fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
-                                    <TreeTableColumn fx:id="floorCol" prefWidth="75.0" text="Floor" />
-                                    <TreeTableColumn fx:id="employeeIDCol" prefWidth="75.0" text="Employee ID" />
-                                    <TreeTableColumn fx:id="patientIDCol" prefWidth="75.0" text="Patient ID" />
-                                    <TreeTableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
-                                    <TreeTableColumn fx:id="timeCol" prefWidth="75.0" text="Date and Time" />
+                                  <JFXTreeTableColumn fx:id="serviceIDCol" prefWidth="75.0" text="Service ID" />
+                                    <JFXTreeTableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+                                  <JFXTreeTableColumn fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
+                                    <JFXTreeTableColumn fx:id="floorCol" prefWidth="75.0" text="Floor" />
+                                    <JFXTreeTableColumn fx:id="employeeIDCol" prefWidth="75.0" text="Employee ID" />
+                                    <JFXTreeTableColumn fx:id="patientIDCol" prefWidth="75.0" text="Patient ID" />
+                                    <JFXTreeTableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
+                                    <JFXTreeTableColumn fx:id="timeCol" prefWidth="75.0" text="Date and Time" />
                                 </columns>
                               </TreeTableView>
-                              <TextField fx:id="searchBar" layoutX="15.0" layoutY="15.0" prefHeight="40.0" prefWidth="1168.0" promptText="Search" />
+                              <TextField fx:id="searchBar" layoutX="15.0" layoutY="15.0" prefHeight="40.0" prefWidth="991.0" promptText="Search by Type" />
                            </children></AnchorPane>
                      </content>
                   </Tab>

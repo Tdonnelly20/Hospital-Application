@@ -359,7 +359,7 @@ public class PatientController extends RequestController {
   @FXML
   private void openPopup(ActionEvent event) {
     DBPopupController.getController().init();
-    DBPopupController.getController().iconWindow();
+    DBPopupController.getController().iconWindow(new Employee());
     // removeSelectedRow();
   }
 
@@ -367,7 +367,6 @@ public class PatientController extends RequestController {
   public void removeSelectedRow() {
 
     try {
-
       Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
       patientDao.removePatient(patient);
     } catch (NullPointerException e) {
