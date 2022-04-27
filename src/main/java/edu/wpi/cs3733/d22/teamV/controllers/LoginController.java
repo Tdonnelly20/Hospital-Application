@@ -56,7 +56,7 @@ public class LoginController extends Controller {
     pane.widthProperty().addListener(listener);
     pane.heightProperty().addListener(listener);
 
-    camera = new Camera(oldImage, faceImage, jfxButton, true);
+    camera = new Camera(null, faceImage, jfxButton, true);
     camera.setLoginPageController(this);
     camera.toggleCamera();
   }
@@ -116,7 +116,7 @@ public class LoginController extends Controller {
   @FXML
   public void userLogin(ActionEvent event) throws IOException {
     checkLogin(event, username.getText());
-    camera.detect(event);
+    if (camera.face) checkLogin(event, "Jason");
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");

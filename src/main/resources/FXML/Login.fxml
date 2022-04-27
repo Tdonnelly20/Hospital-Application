@@ -93,11 +93,6 @@
       <Pane layoutX="389.0" layoutY="14.0">
          <children>
             <ImageView fx:id="faceImage" fitHeight="224.0" fitWidth="427.0" layoutX="57.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="oldImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../Pictures/Camera%20Roll/WIN_20220426_21_40_22_Pro.jpg" />
-               </image>
-            </ImageView>
          </children>
       </Pane>
    </children>

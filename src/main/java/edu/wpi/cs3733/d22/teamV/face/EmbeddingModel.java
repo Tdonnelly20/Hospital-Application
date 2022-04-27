@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
-@SuppressWarnings("unchecked")
 public class EmbeddingModel {
 
   private static EmbeddingModel model = null;
@@ -51,7 +50,7 @@ public class EmbeddingModel {
     this.buildModel();
   }
 
-  private ZooModel buildModel() {
+  private ZooModel<Image, double[]> buildModel() {
 
     Criteria<Image, double[]> criteria =
         Criteria.builder()
@@ -61,15 +60,15 @@ public class EmbeddingModel {
             .optProgress(new ai.djl.training.util.ProgressBar())
             .build();
 
-    ZooModel model = null;
+    ZooModel<Image, double[]> model = null;
     try {
       model = ModelZoo.loadModel(criteria);
     } catch (IOException | MalformedModelException | ModelNotFoundException e) {
       e.printStackTrace();
     }
-    ZooModel zooModel = model;
+    ZooModel<Image, double[]> zooModel = model;
     assert model != null;
-    predictor = model.newPredictor();
+    predictor = zooModel.newPredictor();
     return zooModel;
   }
 
