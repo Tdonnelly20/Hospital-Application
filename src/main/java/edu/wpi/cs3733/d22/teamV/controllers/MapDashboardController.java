@@ -474,9 +474,17 @@ public class MapDashboardController extends Controller {
   /
    */
 
+  // gets alert string from alertSixBeds on EquipmentIcon class
+  String tempBedAlertString = "";
+
+  public void addNewBedAlert(String newAlertString) {
+    tempBedAlertString = newAlertString;
+  }
+
   @FXML
   private void updateAlerts() {
     ArrayList<String> alerts = new ArrayList<>();
+    alerts.add(tempBedAlertString);
     ArrayList<EquipmentIcon> pumpList = curFloor.getPumpAlertIcons();
     ArrayList<EquipmentIcon> bedList = curFloor.getBedAlertIcons();
 
