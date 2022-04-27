@@ -34,7 +34,9 @@ public class HomeController extends RequestController {
   // @FXML private JFXComboBox<String> searchMenu;
 
   @FXML private Pane tablePane;
+
   @FXML private Label homeClock;
+  @FXML private Group clockGroup;
 
   @FXML private Pane homePane;
   @FXML private ImageView homeImage;
@@ -82,6 +84,7 @@ public class HomeController extends RequestController {
                 }
 
                 homeGroup.setLayoutX(w / 2 - 603);
+                clockGroup.setLayoutX(w / 2 - 100);
               }
             });
 
