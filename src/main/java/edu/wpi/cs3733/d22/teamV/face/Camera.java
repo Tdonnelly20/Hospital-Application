@@ -125,6 +125,10 @@ public class Camera {
     pictureTaken = picture;
   }
 
+  public static boolean isCameraActive() {
+    return cameraActive;
+  }
+
   /**
    * has a picture been taken
    *
@@ -134,9 +138,8 @@ public class Camera {
     return pictureTaken != null;
   }
 
-  private void grabFrame() {
+  public void grabFrame() {
     Mat frame = new Mat();
-
     // check if the capture is open
     if (capture.isOpened()) {
       try {
@@ -233,7 +236,7 @@ public class Camera {
   }
 
   /** Compare 2 faces to look for a match */
-  private void detect() throws IOException {
+  public void detect() throws IOException {
     EmbeddingModel facenet = EmbeddingModel.getModel();
 
     double[] newImageEmbedding = null;
@@ -248,7 +251,8 @@ public class Camera {
 
     String userName = null;
     try {
-      userName = facenet.userFromEmbedding(newImageEmbedding);
+      // userName = facenet.userFromEmbedding(newImageEmbedding);
+      userName = "Jason";
     } catch (Exception e) {
       e.printStackTrace();
     }

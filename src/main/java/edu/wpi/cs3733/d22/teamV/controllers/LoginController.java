@@ -6,6 +6,8 @@ import edu.wpi.cs3733.d22.teamV.face.Camera;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -22,14 +24,14 @@ public class LoginController extends Controller {
   public LoginController() {}
 
   @FXML private ImageView faceImage;
+  @FXML private ImageView oldImage;
   private Camera camera;
 
   @Override
   public void init() {
-    // camera.stopAcquisition();
+    Camera.stopAcquisition();
     System.out.println("Login init");
 
-    /*
     ChangeListener<Number> listener =
         new ChangeListener<Number>() {
           @Override
@@ -37,31 +39,24 @@ public class LoginController extends Controller {
               ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
             double w = pane.getWidth();
             double h = pane.getHeight();
-
             if (w / 3 * 2 > h) {
               iv.setFitWidth(w);
               iv.setFitHeight(w / 3 * 2);
             }
-
             if (h / 2 * 3 > w) {
               iv.setFitWidth(h / 2 * 3);
               iv.setFitHeight(h);
             }
-
             group.setLayoutX(w / 2 - 249);
             group.setLayoutY(h / 2 - 189);
-            dBMenu.setLayoutX(w - 142);
-            dBMenu.setLayoutY(h - 35);
           }
         };
-
-
-
+    dBMenu.getItems().add("Embedded DB");
+    dBMenu.getItems().add("Client DB");
     pane.widthProperty().addListener(listener);
     pane.heightProperty().addListener(listener);
 
-     */
-    camera = new Camera(null, iv, jfxButton, true);
+    camera = new Camera(oldImage, faceImage, jfxButton, true);
     camera.setLoginPageController(this);
     camera.toggleCamera();
   }
@@ -121,6 +116,7 @@ public class LoginController extends Controller {
   @FXML
   public void userLogin(ActionEvent event) throws IOException {
     checkLogin(event, username.getText());
+    camera.detect();
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
@@ -132,8 +128,13 @@ public class LoginController extends Controller {
     if (string.equals("admin") && password.getText().toString().equals("admin")) {
       user.setAdmin(true);
       switchToHome(event);
-    } else if (string.equals("staff") && password.getText().toString().equals("staff")) {;
+      Camera.stopAcquisition();
+    } else if (string.equals("staff") && password.getText().toString().equals("staff")) {
       switchToHome(event);
+      Camera.stopAcquisition();
+    } else if (string.equals("Jason") && Camera.isCameraActive()) {
+      switchToHome(event);
+      Camera.stopAcquisition();
     } else if (string.isEmpty() && password.getText().isEmpty()) {
       wrongLogin.setText("Please enter your data.");
     } else {

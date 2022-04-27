@@ -68,6 +68,7 @@ public class EmbeddingModel {
       e.printStackTrace();
     }
     ZooModel zooModel = model;
+    assert model != null;
     predictor = model.newPredictor();
     return zooModel;
   }
