@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -25,6 +27,16 @@
             <Label layoutX="285.0" layoutY="507.0" styleClass="text" text="Floral Request" />
             <Label layoutX="633.0" layoutY="478.0" prefHeight="97.0" prefWidth="301.0" styleClass="text" text=" External Patient Transportation" textAlignment="CENTER" wrapText="true" />
             <Label layoutX="200.0" layoutY="38.0" prefHeight="97.0" prefWidth="795.0" styleClass="text" text="We would like to formally credit Team E and Team V for their APIs that are implemented in our application." textAlignment="CENTER" wrapText="true" />
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="279.0" layoutY="299.0">
+               <image>
+                  <Image url="@../Icons/floral.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="681.0" layoutY="298.0">
+               <image>
+                  <Image url="@../Icons/externalPatient.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </items>
