@@ -199,7 +199,7 @@ public class HomeController extends RequestController {
     } else {
       for (ServiceRequest request : serviceRequests) {
         // searchBy(request)
-        if (request.getType().contains(keyword)) {
+        if (request.getType().toLowerCase().contains(keyword)) {
           TreeItem<ServiceRequest> item = new TreeItem<>(request);
           treeItems.add(item);
         }
