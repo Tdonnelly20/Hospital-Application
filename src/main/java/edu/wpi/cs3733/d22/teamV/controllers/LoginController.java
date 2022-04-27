@@ -124,14 +124,14 @@ public class LoginController extends Controller {
 
   @FXML
   public void userLogin(ActionEvent event) throws Exception {
-    Vdb.setUpConnection();
+
     checkLogin(event, username.getText());
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
   public void checkLogin(Event event, String string) throws Exception {
-
+    Vdb.setUpConnection();
     Employee user = new Employee();
 
     if (string.equals("admin") && password.getText().toString().equals("admin")) {
