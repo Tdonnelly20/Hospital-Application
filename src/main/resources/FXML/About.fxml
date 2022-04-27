@@ -165,7 +165,7 @@
                                     <Font name="System Bold" size="28.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJA1" layoutX="73.0" layoutY="139.0" text="Major: Place Holder">
+                              <Label fx:id="labelJA1" layoutX="170.0" layoutY="139.0" text="Major: CS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -175,12 +175,12 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJA3" layoutX="99.0" layoutY="249.0" text="Place">
+                              <Label fx:id="labelJA3" layoutX="99.0" layoutY="249.0" text="Become a Manager of a ">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJA4" layoutX="176.0" layoutY="284.0" text="Holder">
+                              <Label fx:id="labelJA4" layoutX="80.0" layoutY="284.0" text="Software Engineering Team">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -190,7 +190,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJA6" layoutX="43.0" layoutY="389.0" text="&quot;Place Holder&quot; -Jakob">
+                              <Label fx:id="labelJA6" layoutX="80.0" layoutY="389.0" text="&quot;You Know, a Tree?&quot; -Jakob">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -287,22 +287,22 @@
                                     <Font name="System Bold" size="28.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJO1" layoutX="171.0" layoutY="142.0" text="Major: Place Holder">
+                              <Label fx:id="labelJO1" layoutX="171.0" layoutY="142.0" text="Major: CS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJO2" layoutX="157.0" layoutY="214.0" text=" Career Plan:">
+                              <Label fx:id="labelJO2" layoutX="157.0" layoutY="214.0" text=" Career Plan: ">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJO3" layoutX="101.0" layoutY="249.0" text="Place">
+                              <Label fx:id="labelJO3" layoutX="160.0" layoutY="249.0" text="Continue to a">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJO4" layoutX="127.0" layoutY="284.0" text="Holder">
+                              <Label fx:id="labelJO4" layoutX="140.0" layoutY="284.0" text="Master's Degree">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -312,7 +312,12 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelJO6" layoutX="56.0" layoutY="389.0" text="&quot;Place Holder&quot; Jolene">
+                              <Label fx:id="labelJO6" layoutX="100.0" layoutY="389.0" text="&quot;How am I Supposed to">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelJO7" layoutX="110.0" layoutY="430.0" text="DM a Quote?&quot; -Jolene">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -326,7 +331,7 @@
                                     <Font name="System Bold" size="28.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelP1" layoutX="171.0" layoutY="142.0" text="Major: Place Holder">
+                              <Label fx:id="labelP1" layoutX="171.0" layoutY="142.0" text="Major: CS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -336,12 +341,12 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelP3" layoutX="101.0" layoutY="249.0" text="Place">
+                              <Label fx:id="labelP3" layoutX="101.0" layoutY="249.0" text="Continue Working With">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelP4" layoutX="127.0" layoutY="284.0" text="Holder">
+                              <Label fx:id="labelP4" layoutX="127.0" layoutY="284.0" text="Computer Science">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -351,7 +356,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelP6" layoutX="56.0" layoutY="389.0" text="&quot;Place Holder&quot; Parker">
+                              <Label fx:id="labelP6" layoutX="70.0" layoutY="389.0" text="&quot;Chicken Nuggy Error&quot; -Parker">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -390,7 +395,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelD6" layoutX="89.0" layoutY="389.0" text="&quot;I hate innovation&quot; Dylan">
+                              <Label fx:id="labelD6" layoutX="100.0" layoutY="389.0" text="&quot;I'm 90% Cobalt&quot; -Dylan">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -404,7 +409,7 @@
                                     <Font name="System Bold" size="28.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTU1" layoutX="172.0" layoutY="142.0" text="Major:">
+                              <Label fx:id="labelTU1" layoutX="172.0" layoutY="142.0" text="Major: CS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -414,12 +419,12 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTU3" layoutX="101.0" layoutY="249.0" text="Place">
+                              <Label fx:id="labelTU3" layoutX="170.0" layoutY="249.0" text="Work on a">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTU4" layoutX="127.0" layoutY="284.0" text="Holder">
+                              <Label fx:id="labelTU4" layoutX="150.0" layoutY="284.0" text="Software Team">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -429,7 +434,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTU6" layoutX="89.0" layoutY="389.0" text="&quot;Place Holder&quot; Tucker">
+                              <Label fx:id="labelTU6" layoutX="140.0" layoutY="389.0" text="&quot;*Yawn*&quot; -Tucker">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -443,7 +448,7 @@
                                     <Font name="System Bold" size="28.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTR1" layoutX="172.0" layoutY="142.0" text="Major:">
+                              <Label fx:id="labelTR1" layoutX="140.0" layoutY="142.0" text="Major: CS/IMGD">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -453,12 +458,12 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTR3" layoutX="101.0" layoutY="249.0" text="Place">
+                              <Label fx:id="labelTR3" layoutX="101.0" layoutY="249.0" text="Continue Working with">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTR4" layoutX="127.0" layoutY="284.0" text="Holder">
+                              <Label fx:id="labelTR4" layoutX="127.0" layoutY="284.0" text="Computer Science">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -468,7 +473,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTR6" layoutX="89.0" layoutY="389.0" text="&quot;Place Holder&quot; Trevor">
+                              <Label fx:id="labelTR6" layoutX="120.0" layoutY="389.0" text="&quot;Get Money&quot; -Trevor">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
