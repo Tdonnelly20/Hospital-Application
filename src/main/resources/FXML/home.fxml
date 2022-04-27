@@ -120,7 +120,7 @@
                                 </columns>
                               </TreeTableView>
                               <TextField fx:id="searchBar" layoutX="15.0" layoutY="15.0" prefHeight="40.0" prefWidth="991.0" promptText="Search by Type" />
-                              <JFXComboBox fx:id="searchDropDown" layoutX="1050.0" layoutY="23.0" prefHeight="26.0" prefWidth="112.0" promptText="Type" />
+                              <JFXComboBox fx:id="searchDropDown" layoutX="1021.0" layoutY="24.0" prefHeight="26.0" prefWidth="166.0" promptText="Type" />
                            </children></AnchorPane>
                      </content>
                   </Tab>

@@ -510,11 +510,11 @@ public class MapDashboardController extends Controller {
                 + ", "
                 + e.getYCoord());
 
-        //        EquipmentDelivery request =
-        //            new EquipmentDelivery(-1, -1, "OR", "Infusion Pump", "none", 1, "Not
-        // Started");
-        //        RequestSystem.getSystem().addServiceRequest(request,
-        // RequestSystem.Dao.EquipmentDelivery);
+        //                EquipmentDelivery request =
+        //                    new EquipmentDelivery(-1, -1, -1, "Infusion Pump", "none", dirtyPumps,
+        // "Not Started");
+        //                RequestSystem.getSystem().addServiceRequest(request,
+        //         RequestSystem.Dao.EquipmentDelivery);
       }
       // index++;
     }
