@@ -7,7 +7,7 @@ public class CreditsController extends RequestController {
   @Override
   public void init() {
     setTitleText("Credits");
-    fillTopPane();
+    fillTopPaneAPI();
   }
 
   @Override
