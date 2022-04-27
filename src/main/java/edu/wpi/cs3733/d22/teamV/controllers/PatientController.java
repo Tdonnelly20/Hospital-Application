@@ -187,7 +187,7 @@ public class PatientController extends RequestController {
   @Override
   public void init() {
     setTitleText("Patient Database");
-    fillTopPane();
+    fillTopPaneAPI();
 
     setColumnSizes(910);
 
@@ -199,7 +199,7 @@ public class PatientController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = patientPane.getWidth();
-                patientPane.setPrefWidth(w - 30);
+                patientTable.setPrefWidth(w - 30);
                 setColumnSizes(w);
               }
             });
@@ -359,7 +359,7 @@ public class PatientController extends RequestController {
   @FXML
   private void openPopup(ActionEvent event) {
     DBPopupController.getController().init();
-    DBPopupController.getController().iconWindow();
+    DBPopupController.getController().iconWindow(new Employee());
     // removeSelectedRow();
   }
 
@@ -367,7 +367,6 @@ public class PatientController extends RequestController {
   public void removeSelectedRow() {
 
     try {
-
       Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
       patientDao.removePatient(patient);
     } catch (NullPointerException e) {

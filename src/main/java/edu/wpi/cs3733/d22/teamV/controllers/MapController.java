@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.dao.PathfindingDao;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.map.*;
@@ -18,6 +17,7 @@ import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -49,8 +49,6 @@ public class MapController extends Controller {
   @FXML JFXButton floor3 = new JFXButton("Floor 3");
   @FXML JFXButton floor4 = new JFXButton("Floor 4");
   @FXML JFXButton floor5 = new JFXButton("Floor 5");
-  @FXML TextField[] fields = new TextField[10];
-  @FXML JFXComboBox[] comboBoxes = new JFXComboBox[5];
   @FXML Button submitButton = new Button("Submit");
   private String floorName = "1";
   private String startLocationID = "";
@@ -115,7 +113,6 @@ public class MapController extends Controller {
           "Robot Requests",
           "Computer Requests");
 
-  int nodeCounter = 0;
   private static MapController controller;
 
   public static MapController getController() {
@@ -147,14 +144,7 @@ public class MapController extends Controller {
     controlsVBox
         .getChildren()
         .addAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
-    showConnections.setOnAction(
-        event -> {
-          for (PathfindingDao.Edge edge : PathfindingDao.getEdges()) {
-            drawPath(
-                RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
-                RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
-          }
-        });
+    showConnections.setOnAction(event -> drawAllConnections());
     mapVBox.getChildren().addAll(scrollPane);
     mapVBox.setAlignment(Pos.CENTER);
     mapVBox.setSpacing(15);
@@ -206,13 +196,7 @@ public class MapController extends Controller {
     floor3.setOnAction(event -> setFloor("3"));
     floor4.setOnAction(event -> setFloor("4"));
     floor5.setOnAction(event -> setFloor("5"));
-    refreshButton.setOnAction(
-        event -> {
-          refreshMap();
-        });
-    for (int i = 0; i < 10; i++) {
-      fields[i] = new TextField();
-    }
+    refreshButton.setOnAction(event -> refreshMap());
     filterCheckBox = new CheckComboBox<>();
     filterCheckBox.setTitle("Filter Items");
     filterCheckBox.getItems().addAll(filterItems);
@@ -235,13 +219,33 @@ public class MapController extends Controller {
                 .getClass()
                 .getTypeName()
                 .equals("javafx.scene.image.ImageView")) {
+
+              PopupController.getController().iconWindow(event);
+            }
+          }
+        });
+  }
+  /*
+  private Button showNodes = new Button("Toggle show nodes");
+  private boolean showingNodes = false;
+
+  private void setUpNodeControls() {
+    mapPane.setOnMouseClicked(
+        event -> {
+          if (event.getClickCount() == 2) {
+            if (!event
+                .getTarget()
+                .getClass()
+                .getTypeName()
+                .equals("javafx.scene.image.ImageView")) {
               if (event.isAltDown()) {
+                // Adds a node
                 RequestSystem.getSystem()
                     .addLocation(
                         new Location(
                             RequestSystem.getSystem().getNewNode(),
-                            event.getX(),
-                            event.getY(),
+                            event.getX() + 7.5,
+                            event.getY() + 7.5,
                             floorName,
                             "Tower",
                             "node",
@@ -251,14 +255,26 @@ public class MapController extends Controller {
                 mapPane.getChildren().clear();
                 setFloor(floorName);
               } else {
-
                 PopupController.getController().iconWindow(event);
-                // IconForm(event);
               }
             }
           }
         });
-  }
+    showNodes.setOnAction(
+        event -> {
+          showingNodes = !showingNodes;
+          for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
+            if (icon.getLocation().getNodeType().equals("node")) {
+              if (showingNodes) {
+                icon.getImage().setOpacity(100);
+              } else {
+                icon.getImage().setOpacity(0);
+              }
+            }
+          }
+          refreshMap();
+        });
+  }*/
 
   /** Reloads Map */
   @FXML
@@ -486,13 +502,13 @@ public class MapController extends Controller {
           RequestSystem.getSystem().getPaths(startLocationID, endLocationID);
       if (locations.size() > 1) {
         Location currLocation = null;
-        Location prevLoc = null;
+        Location prevLoc;
         for (Location location : locations) {
           Location temp = currLocation;
           currLocation = location;
           prevLoc = temp;
           System.out.println(location.getNodeID());
-          if (currLocation != null && prevLoc != null) {
+          if (prevLoc != null) {
             drawPath(currLocation.getIcon(), prevLoc.getIcon());
           }
         }
@@ -512,21 +528,51 @@ public class MapController extends Controller {
     }
   }
 
-  /** Adds items to pathfinderVBox if no path is found */
+  /** Draws all the paths on the floor */
   @FXML
-  public void noPathFound() {
-    Button yesPath = new Button("Yes");
-    Button noPath = new Button("No");
-    yesPath.setOnAction(
-        event -> {
-          makePath();
-        });
-    noPath.setOnAction(
-        event -> {
-          resetPathFinder();
-        });
-    HBox hbox = new HBox(yesPath, noPath);
-    hbox.setAlignment(Pos.CENTER);
-    pathfinderVBox.getChildren().addAll(missingPath, hbox);
+  private void drawAllConnections() {
+    for (PathfindingDao.Edge edge : PathfindingDao.getEdges()) {
+      if (RequestSystem.getSystem().getLocation(edge.getNodeOne()).getFloor().equals(floorName)) {
+        drawPath(
+            RequestSystem.getSystem().getLocation(edge.getNodeOne()).getIcon(),
+            RequestSystem.getSystem().getLocation(edge.getNodeTwo()).getIcon());
+      }
+    }
+  }
+
+  /**
+   * Sets the startLocationID and endLocationID with the given nodeID Calls makePaths() if the Alt
+   * key is down DrawPaths() if the Shift key is down RemoveLink() if the Control key is down
+   */
+  public void setPathfinderID(MouseEvent event, String nodeID) {
+    if (startLocationID.isEmpty()) {
+      startLocationID = nodeID;
+      endLocationID = "";
+    } else {
+      if (!endLocationID.isEmpty()) {
+        startLocationID = endLocationID;
+      }
+      endLocationID = nodeID;
+      // Call relevant functions
+      if (event.isShiftDown() && !event.isAltDown() && !event.isControlDown()) {
+        MapController.getController().drawPath();
+      } else if (event.isAltDown() && !event.isShiftDown() && !event.isControlDown()) {
+        MapController.getController().makePath();
+      } else if (event.isControlDown() && !event.isShiftDown() && !event.isAltDown()) {
+        removeLink(nodeID);
+      }
+    }
+    startLocationLabel.setText("Starting Location: " + startLocationID);
+    endLocationLabel.setText("End Location: " + endLocationID);
+  }
+
+  /** Removes a link between the given nodeID and either the startLocationID or the endLocationID */
+  private void removeLink(String nodeID) {
+    if (!startLocationID.equals(nodeID)) {
+      RequestSystem.getSystem().getPathfinderDao().removeLink(nodeID, startLocationID);
+    } else {
+      RequestSystem.getSystem().getPathfinderDao().removeLink(nodeID, endLocationID);
+    }
+    refreshMap();
   }
 }

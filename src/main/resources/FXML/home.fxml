@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -88,12 +89,16 @@
                                     </JFXButton>
                                  </children>
                               </Group>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#aaabac" height="39.0" layoutX="507.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="201.0" />
-                              <Label fx:id="homeClock" layoutX="514.0" prefHeight="30.0" prefWidth="177.0" text="Label" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
+                              <Group fx:id="clockGroup" layoutX="507.0">
+                                 <children>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#aaabac" height="39.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="201.0" />
+                                    <Label fx:id="homeClock" layoutX="12.0" layoutY="5.0" prefHeight="30.0" prefWidth="177.0" text="Label" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Century Gothic" size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Group>
                            </children>
                         </AnchorPane>
                      </content>
@@ -104,17 +109,18 @@
                            <children>
                               <TreeTableView fx:id="requestTable" layoutX="15.0" layoutY="70.0" prefHeight="528.0" prefWidth="1168.0">
                                 <columns>
-                                  <TreeTableColumn fx:id="serviceIDCol" prefWidth="75.0" text="Service ID" />
-                                    <TreeTableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
-                                  <TreeTableColumn fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
-                                    <TreeTableColumn fx:id="floorCol" prefWidth="75.0" text="Floor" />
-                                    <TreeTableColumn fx:id="employeeIDCol" prefWidth="75.0" text="Employee ID" />
-                                    <TreeTableColumn fx:id="patientIDCol" prefWidth="75.0" text="Patient ID" />
-                                    <TreeTableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
-                                    <TreeTableColumn fx:id="timeCol" prefWidth="75.0" text="Date and Time" />
+                                  <JFXTreeTableColumn fx:id="serviceIDCol" prefWidth="75.0" text="Service ID" />
+                                    <JFXTreeTableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+                                  <JFXTreeTableColumn fx:id="nodeIDCol" prefWidth="75.0" text="Node ID" />
+                                    <JFXTreeTableColumn fx:id="floorCol" prefWidth="75.0" text="Floor" />
+                                    <JFXTreeTableColumn fx:id="employeeIDCol" prefWidth="75.0" text="Employee ID" />
+                                    <JFXTreeTableColumn fx:id="patientIDCol" prefWidth="75.0" text="Patient ID" />
+                                    <JFXTreeTableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
+                                    <JFXTreeTableColumn fx:id="timeCol" prefWidth="75.0" text="Date and Time" />
                                 </columns>
                               </TreeTableView>
-                              <TextField fx:id="searchBar" layoutX="15.0" layoutY="15.0" prefHeight="40.0" prefWidth="1168.0" promptText="Search" />
+                              <TextField fx:id="searchBar" layoutX="15.0" layoutY="15.0" prefHeight="40.0" prefWidth="991.0" promptText="Search by Type" />
+                              <JFXComboBox fx:id="searchDropDown" layoutX="1021.0" layoutY="24.0" prefHeight="26.0" prefWidth="166.0" promptText="Type" />
                            </children></AnchorPane>
                      </content>
                   </Tab>

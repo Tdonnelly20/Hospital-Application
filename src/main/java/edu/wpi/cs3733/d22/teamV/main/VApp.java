@@ -32,6 +32,8 @@ public class VApp extends Application {
       controller.init();
 
       primaryStage.setScene(new Scene(root));
+      primaryStage.setMinHeight(800);
+      primaryStage.setMinWidth(1200);
       primaryStage.show();
       currentPath = returnPath();
     } catch (IOException e) {

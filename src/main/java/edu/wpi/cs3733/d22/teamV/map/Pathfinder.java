@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.map;
 
-import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -191,7 +190,6 @@ public class Pathfinder {
         return getPath(path, endNode);
       } catch (NullPointerException exception) {
         System.out.println("Big oof, that link doesn't exist");
-        MapController.getController().noPathFound();
       }
     }
     return null;

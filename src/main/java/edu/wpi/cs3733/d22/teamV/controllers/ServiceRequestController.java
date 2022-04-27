@@ -34,6 +34,7 @@ public class ServiceRequestController extends RequestController {
   @FXML private Group buttonGroup;
   @FXML private Button namesButton;
   @FXML private Label serviceClock;
+  @FXML private Group clockGroup;
 
   @FXML private Label l1;
   @FXML private Label l2;
@@ -87,8 +88,8 @@ public class ServiceRequestController extends RequestController {
                 }
 
                 buttonGroup.setLayoutX(w / 2 - 582);
-
                 namesButton.setLayoutX(w - 153);
+                clockGroup.setLayoutX(w / 2 - 100);
               }
             });
 
@@ -139,7 +140,7 @@ public class ServiceRequestController extends RequestController {
                 e ->
                     serviceClock.setText(
                         LocalDateTime.now()
-                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))),
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd   HH:mm")))),
             new KeyFrame(Duration.seconds(1)));
     clock.setCycleCount(Animation.INDEFINITE);
     clock.play();

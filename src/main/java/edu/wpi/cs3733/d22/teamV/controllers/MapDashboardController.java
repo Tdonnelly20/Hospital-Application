@@ -510,11 +510,11 @@ public class MapDashboardController extends Controller {
                 + ", "
                 + e.getYCoord());
 
-        //        EquipmentDelivery request =
-        //            new EquipmentDelivery(-1, -1, "OR", "Infusion Pump", "none", 1, "Not
-        // Started");
-        //        RequestSystem.getSystem().addServiceRequest(request,
-        // RequestSystem.Dao.EquipmentDelivery);
+        //                EquipmentDelivery request =
+        //                    new EquipmentDelivery(-1, -1, -1, "Infusion Pump", "none", dirtyPumps,
+        // "Not Started");
+        //                RequestSystem.getSystem().addServiceRequest(request,
+        //         RequestSystem.Dao.EquipmentDelivery);
       }
       // index++;
     }
@@ -534,7 +534,7 @@ public class MapDashboardController extends Controller {
     updateServiceRequestTable();
     updateCounts();
     updateAlerts();
-    bedBarChart.getData().clear();
+    if (bedBarChart != null) bedBarChart.getData().clear();
     updateBarChart();
   }
 
@@ -654,7 +654,7 @@ public class MapDashboardController extends Controller {
     equipment = new XYChart.Series<>();
     updateBeds();
     updatePumps();
-    bedBarChart.getData().add(equipment);
+    if (bedBarChart != null) bedBarChart.getData().add(equipment);
   }
 
   /** Updates bed counts for bar chart */

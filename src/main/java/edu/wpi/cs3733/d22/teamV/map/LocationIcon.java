@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
@@ -29,25 +28,47 @@ public class LocationIcon extends Icon {
     super();
     this.location = location;
     this.iconType = IconType.Location;
-    image.setImage(MapManager.getManager().getLocationMarker());
+    if (location.getNodeType().equalsIgnoreCase("node")) {
+      // Nodes aren't visible
+      image.setOpacity(0);
+      image.setImage(MapManager.getManager().nodeMarker);
+      image.setOnMouseClicked(
+          event -> {
+            // Opens the icon form in the popup
+            // This prevents you from accidentally opening up the node's form
+            if (event.getClickCount() == 2) {
+              if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
+                MapController.getController().setPathfinderID(event, location.getNodeID());
+              } else {
+                PopupController.getController().iconWindow(event);
+              }
+            }
+          });
+    } else {
+      image.setOpacity(100);
+      image.setImage(MapManager.getManager().getLocationMarker());
+      image.setOnMouseClicked(
+          event -> {
+            if (event.getClickCount() == 2) {
+              if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
+                // Allows you to make, draw, and remove paths
+                MapController.getController().setPathfinderID(event, location.getNodeID());
+              } else {
+                // Opens the location form in the popup
+                PopupController.getController().locationForm(event, this);
+              }
+            }
+          });
+    }
+    // Icon sizing
     image.setFitWidth(15);
     image.setFitHeight(15);
+    // Icon placement on the map
     image.setTranslateX((location.getXCoord()) - image.getFitWidth());
     image.setTranslateY((location.getYCoord()) - image.getFitHeight());
-    image.setOnMouseClicked(
-        event -> {
-          // Opens the location form in the popup
-          if (event.getClickCount() == 2) {
-            if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
-              setPathfinder(event);
-            } else {
-              PopupController.getController().locationForm(event, this);
-            }
-          }
-        });
     image.setOnMouseReleased(
         event -> {
-          // If released from drag, update the xy coors
+          // If released from drag, update the xy coords
           if (isDrag) {
             isDrag = false;
             Point2D offset = (Point2D) image.getUserData();
@@ -56,54 +77,6 @@ public class LocationIcon extends Icon {
             RequestSystem.getSystem().updateLocations(this);
           }
         });
-    if (location.getNodeType().equalsIgnoreCase("node")) {
-      image.setOpacity(50);
-    }
-  }
-
-  /**
-   * Sets the MapController's startLocationID and endLocationID and calls makePaths() if the Alt key
-   * is down or drawPaths() if the Shift key is down
-   */
-  @FXML
-  private void setPathfinder(MouseEvent event) {
-    if (MapController.getController().getStartLocationID().isEmpty()
-        || !MapController.getController().getEndLocationID().isEmpty()) {
-      MapController.getController().setStartLocationID(location.getNodeID());
-      MapController.getController().setEndLocationID("");
-      MapController.getController()
-          .getStartLocationLabel()
-          .setText("Starting Location: " + location.getNodeID());
-      MapController.getController().getEndLocationLabel().setText("End Location: ");
-    } else if (MapController.getController().getEndLocationID().isEmpty()) {
-      MapController.getController().setEndLocationID(location.getNodeID());
-      MapController.getController()
-          .getEndLocationLabel()
-          .setText("End Location: " + location.getNodeID());
-      // Call relevant functions
-      if (event.isShiftDown() && !event.isAltDown() && !event.isControlDown()) {
-        MapController.getController().drawPath();
-      } else if (event.isAltDown() && !event.isShiftDown() && !event.isControlDown()) {
-        MapController.getController().makePath();
-      } else if (event.isControlDown() && !event.isShiftDown() && !event.isAltDown()) {
-        removeLink();
-      }
-    }
-  }
-
-  /** Removes link between 2 nodes */
-  @FXML
-  private void removeLink() {
-    if (!MapController.getController().getStartLocationID().equals(location.getNodeID())) {
-      RequestSystem.getSystem()
-          .getPathfinderDao()
-          .removeLink(location.getNodeID(), MapController.getController().getStartLocationID());
-    } else {
-      RequestSystem.getSystem()
-          .getPathfinderDao()
-          .removeLink(location.getNodeID(), MapController.getController().getEndLocationID());
-    }
-    MapController.getController().refreshMap();
   }
 
   @Override
@@ -165,7 +138,7 @@ public class LocationIcon extends Icon {
   public void addToRequests(ServiceRequest request) {
     if (!location.getNodeType().equalsIgnoreCase("node")) {
       requestsArr.add(request);
-      if (location.getRequests().contains(request)) {
+      if (!location.getRequests().contains(request)) {
         location.getRequests().add(request);
       }
       RequestSystem.getSystem().addServiceRequest(request);

@@ -6,7 +6,6 @@ import edu.wpi.cs3733.d22.teamV.map.Pathfinder;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Queue;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,24 +25,7 @@ public class PathfindingDao {
 
   private boolean loading = true; // To make sure we don't override the CSV when we load in
 
-  public boolean isWriting() {
-    return writing;
-  }
-
-  private boolean writing = false;
-
-  public void pathfind() {
-    Queue<Pathfinder.Node> path = pathfinder.pathfind("vHALL00401", "vSERV00101");
-
-    // Prints out from the destination to the starting position
-    for (Pathfinder.Node node : path) {
-      System.out.println(node.getName());
-    }
-
-    // Polling the first element in the queue gives us the distance of the entire journey
-    System.out.println("Distance = " + path.poll().getWeight());
-  }
-
+  /** Loads in edge information from the CSV */
   public void loadFromCSV() {
     try {
 
@@ -168,7 +150,6 @@ public class PathfindingDao {
   /** Save the contents of the arraylist edges into Pathfinding.CSV */
   public void saveToCSV() {
     try {
-      writing = true;
       FileWriter fw = new FileWriter(VApp.currentPath + "/Pathfinding.csv");
       BufferedWriter bw = new BufferedWriter(fw);
       bw.append("edgeID,startNode,endNode");
@@ -184,13 +165,12 @@ public class PathfindingDao {
 
       bw.close();
       fw.close();
-      writing = false;
-
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
+  /** Removes a node and all links connected to it */
   public void removePathNode(String nodeID) {
     // Get the node in Pathfinder and remove it if it exists
     Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(nodeID);
@@ -203,6 +183,7 @@ public class PathfindingDao {
     saveToCSV();
   }
 
+  /** Removes a link between two nodes with the given names */
   public void removeLink(String nodeID1, String nodeID2) {
     Pathfinder.Node node1 = Pathfinder.getNodeFromName(nodeID1);
     Pathfinder.Node node2 = Pathfinder.getNodeFromName(nodeID2);
