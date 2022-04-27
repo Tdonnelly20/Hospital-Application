@@ -220,9 +220,9 @@ public class MapController extends Controller {
           for (LocationIcon icon : MapManager.getManager().getFloor(floorName).getLocationIcons()) {
             if (icon.getLocation().getNodeType().equals("node")) {
               if (showingNodes) {
-                icon.getImage().setOpacity(0);
-              } else {
                 icon.getImage().setOpacity(100);
+              } else {
+                icon.getImage().setOpacity(0);
               }
             }
           }
@@ -532,23 +532,5 @@ public class MapController extends Controller {
       startLocationID = "";
       endLocationID = "";
     }
-  }
-
-  /** Adds items to pathfinderVBox if no path is found */
-  @FXML
-  public void noPathFound() {
-    Button yesPath = new Button("Yes");
-    Button noPath = new Button("No");
-    yesPath.setOnAction(
-        event -> {
-          makePath();
-        });
-    noPath.setOnAction(
-        event -> {
-          resetPathFinder();
-        });
-    HBox hbox = new HBox(yesPath, noPath);
-    hbox.setAlignment(Pos.CENTER);
-    pathfinderVBox.getChildren().addAll(missingPath, hbox);
   }
 }

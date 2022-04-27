@@ -57,7 +57,7 @@ public class LocationIcon extends Icon {
           }
         });
     if (location.getNodeType().equalsIgnoreCase("node")) {
-      image.setOpacity(50);
+      image.setOpacity(0);
       image.setImage(MapManager.getManager().nodeMarker);
       image.setFitWidth(15);
       image.setFitHeight(15);
