@@ -135,6 +135,13 @@ public abstract class RequestController extends Controller {
     buttonBox.getRowConstraints().add(bRowCons);
 
     // Set the logo size
+    logo.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            switchToHome(event);
+          }
+        });
     logo.setFitHeight(80);
     logo.setFitWidth(80);
 
