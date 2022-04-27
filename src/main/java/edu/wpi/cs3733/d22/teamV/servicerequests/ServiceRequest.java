@@ -33,7 +33,9 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   private String nodeID;
 
   public String getTimeString() {
-    return timeMade.toString().substring(0, timeMade.toString().indexOf(".") - 3);
+    return timeMade
+        .toString()
+        .substring(timeMade.toString().indexOf("-") + 1, timeMade.toString().indexOf(".") - 3);
   }
 
   public String getFloorName() {
