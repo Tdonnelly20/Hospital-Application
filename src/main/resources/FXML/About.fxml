@@ -68,7 +68,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelM6" layoutX="52.0" layoutY="389.0" text="&quot;I want to fist fight Wong&quot; -Matt">
+                              <Label fx:id="labelM6" layoutX="52.0" layoutY="389.0" text="&quot;Just Pick A Quote I've Said&quot; -Matt">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
