@@ -225,19 +225,31 @@ public class EquipmentIcon extends Icon {
     if (isAdding) {
       if (e.getIsDirty() && e.getName() == "Bed") {
         dirtyBeds += 1;
+        EquipmentDelivery request =
+                new EquipmentDelivery(
+                        -1,
+                        -1,
+                        "OR",
+                        e.getID(),
+                        e.getID(),
+                        1,
+                        "Not Started",
+                        RequestSystem.getServiceID(),
+                        Timestamp.from(Instant.now()).toString());
+        RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
       }
       if (dirtyBeds > 5) {
         EquipmentDelivery request =
-            new EquipmentDelivery(
-                -1,
-                -1,
-                "OR",
-                e.getID(),
-                e.getID(),
-                1,
-                "Not Started",
-                RequestSystem.getServiceID(),
-                Timestamp.from(Instant.now()).toString());
+                new EquipmentDelivery(
+                        -1,
+                        -1,
+                        "OR",
+                        e.getID(),
+                        e.getID(),
+                        6,
+                        "Not Started",
+                        RequestSystem.getServiceID(),
+                        Timestamp.from(Instant.now()).toString());
         RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
       }
     } else {
