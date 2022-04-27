@@ -1,0 +1,8 @@
+.button{
+    -fx-font-size:30px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family:"Ebrima";
+    -fx-background-radius: 80px;
+    -fx-arc-width: 80px;
+    -fx-arc-height: 80px;
+}

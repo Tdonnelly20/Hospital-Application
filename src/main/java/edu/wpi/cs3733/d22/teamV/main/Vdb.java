@@ -11,6 +11,7 @@ public class Vdb {
   private static boolean isClient = false;
   private static String ip;
   private static String serverPath;
+  private static Connection connection;
   public static MapManager mapManager = MapManager.getManager();
   public static PopupController popupController = PopupController.getController();
 
@@ -56,6 +57,15 @@ public class Vdb {
    * @return
    */
   public static Connection Connect() {
+    if (connection != null) {
+      return connection;
+    } else {
+      System.out.println("Connection is null");
+      return null;
+    }
+  }
+
+  public static int setUpConnection() {
     String URL;
     try {
       if (!isClient) {
@@ -64,13 +74,14 @@ public class Vdb {
       } else {
         URL = "jdbc:derby://" + ip + "/" + serverPath;
       }
-      Connection connection = DriverManager.getConnection(URL, "admin", "admin");
-      return connection;
+      System.out.println("URL IS " + URL);
+      connection = DriverManager.getConnection(URL, "admin", "admin");
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
       e.printStackTrace();
-      return null;
+      return 0;
     }
+    return 1;
   }
 
   public static void setIsClient(boolean c) {
@@ -82,7 +93,18 @@ public class Vdb {
   }
 
   public static void setServerPath(String server) {
-    serverPath = server;
+    String path = "";
+    for (int i = 0; i < server.length(); i++) {
+      if (Character.compare(server.charAt(i), '\"') != 0) {
+        if (Character.compare(server.charAt(i), '\\') == 0) {
+          path += "//";
+        } else {
+          path += server.charAt(i);
+        }
+      }
+    }
+    serverPath = path;
+    System.out.println("Path is" + path);
   }
 
   public static void setServerIP(String IPV4) {

@@ -15,6 +15,7 @@ public class RequestSystem {
   public static int serviceIDCounter = 0;
   public static int patientIDCounter = 0;
   public static int employeeIDCounter = 0;
+  public static int nodeIDCounter = 0;
 
   private LocationDao locationDao;
   private PatientDao patientDao;
@@ -29,6 +30,7 @@ public class RequestSystem {
   private ReligiousRequestDao religiousRequestDao;
   private RobotDao robotDao;
   private SanitationRequestDao sanitationRequestDao;
+  private ComputerRequestDao computerRequestDao;
   private PathfindingDao pathfindingDao;
 
   public RequestSystem() {}
@@ -48,7 +50,9 @@ public class RequestSystem {
     religiousRequestDao = new ReligiousRequestDao();
     robotDao = new RobotDao();
     sanitationRequestDao = new SanitationRequestDao();
-    // pathfindingDao = new PathfindingDao();
+    pathfindingDao = new PathfindingDao();
+    computerRequestDao = new ComputerRequestDao();
+    pathfindingDao = new PathfindingDao();
 
     triDirectionalityInit();
   }
@@ -59,6 +63,7 @@ public class RequestSystem {
     return equipmentDao;
   }
 
+  /** If two locations are linked, return a list of locations between and including them. */
   public LinkedList<Location> getPaths(String startLocation, String endLocation) {
     LinkedList<Location> locations = new LinkedList<>();
     Queue<Pathfinder.Node> nodes =
@@ -71,10 +76,12 @@ public class RequestSystem {
     return locations;
   }
 
+  /** Makes a link between the start and end locations */
   public void makePaths(String start, String end) {
     pathfindingDao.addPathNode(start, end);
   }
 
+  /** Returns the PathfinderDao */
   public PathfindingDao getPathfinderDao() {
     return pathfindingDao;
   }
@@ -93,7 +100,8 @@ public class RequestSystem {
     MedicineDelivery,
     ReligiousRequest,
     RobotRequest,
-    SanitationRequest
+    SanitationRequest,
+    ComputerRequest
   }
 
   private static class SingletonMaker {
@@ -124,6 +132,8 @@ public class RequestSystem {
         return robotDao;
       case SanitationRequest:
         return sanitationRequestDao;
+      case ComputerRequest:
+        return computerRequestDao;
       default:
         return null;
     }
@@ -164,6 +174,9 @@ public class RequestSystem {
       case SanitationRequest:
         sanitationRequestDao.addServiceRequest(request);
         break;
+      case ComputerRequest:
+        computerRequestDao.addServiceRequest(request);
+        break;
 
       default:
         System.out.println("addServiceRequest error");
@@ -202,6 +215,9 @@ public class RequestSystem {
           break;
         case "Sanitation Request":
           sanitationRequestDao.addServiceRequest(request);
+          break;
+        case "Computer Request":
+          computerRequestDao.addServiceRequest(request);
           break;
         case "Robot Request":
           robotDao.addServiceRequest(request);
@@ -252,6 +268,9 @@ public class RequestSystem {
       case SanitationRequest:
         sanitationRequestDao.removeServiceRequest(request);
         break;
+      case ComputerRequest:
+        computerRequestDao.removeServiceRequest(request);
+        break;
       default:
         System.out.println("RemoveServiceRequest error");
     }
@@ -290,6 +309,9 @@ public class RequestSystem {
       case "Sanitation Request":
         sanitationRequestDao.removeServiceRequest(request);
         break;
+      case "Computer Request":
+        computerRequestDao.removeServiceRequest(request);
+        break;
       case "Robot Request":
         robotDao.removeServiceRequest(request);
         break;
@@ -324,6 +346,8 @@ public class RequestSystem {
         return robotDao.getAllServiceRequests();
       case SanitationRequest:
         return sanitationRequestDao.getAllServiceRequests();
+      case ComputerRequest:
+        return computerRequestDao.getAllServiceRequests();
       default:
         return new ArrayList<>();
     }
@@ -426,22 +450,30 @@ public class RequestSystem {
     return null;
   }
 
-  public void removeEquipment(EquipmentIcon icon) {
-    for (Equipment equipment : icon.getEquipmentList()) {
-      removeEquipment(equipment);
-    }
-  }
-
-  public void addEquipment(ArrayList<Equipment> equipment) {
-    equipmentDao.addEquipment(equipment);
-  }
-
   public ArrayList<Patient> getPatients() {
     return patientDao.getAllPatients();
   }
 
   public ArrayList<Employee> getEmployees() {
     return employeeDao.getAllEmployees();
+  }
+
+  public boolean employeeExists(int id) {
+    for (Employee employee : employeeDao.getAllEmployees()) {
+      if (employee.getEmployeeID() == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean patientExists(int patientID) {
+    for (Patient patient : patientDao.getAllPatients()) {
+      if (patient.getPatientID() == patientID) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -459,6 +491,8 @@ public class RequestSystem {
     allRequests.addAll(medicineDeliveryDao.getAllServiceRequests());
     allRequests.addAll(religiousRequestDao.getAllServiceRequests());
     allRequests.addAll(sanitationRequestDao.getAllServiceRequests());
+    allRequests.addAll(robotDao.getAllServiceRequests());
+    allRequests.addAll(computerRequestDao.getAllServiceRequests());
 
     return allRequests;
   }
@@ -489,6 +523,8 @@ public class RequestSystem {
         robotDao.setAllServiceRequests(serviceRequests);
       case SanitationRequest:
         sanitationRequestDao.setAllServiceRequests(serviceRequests);
+      case ComputerRequest:
+        computerRequestDao.setAllServiceRequests(serviceRequests);
       default:
         System.out.println("SetAllServiceRequests error");
     }
@@ -506,7 +542,6 @@ public class RequestSystem {
       }
     }
     serviceIDCounter = highestID + 1;
-    System.out.println("MAX serviceIDs is " + serviceIDCounter);
 
     // Patients
     highestID = patientIDCounter;
@@ -527,6 +562,20 @@ public class RequestSystem {
       }
     }
     employeeIDCounter = highestID + 1;
+
+    highestID = nodeIDCounter;
+
+    for (Location location : locationDao.getAllLocations()) {
+      if (location.getNodeType().equalsIgnoreCase("Node")) {
+        highestID++;
+      }
+    }
+    nodeIDCounter = highestID++;
+  }
+
+  public static String getNewNode() {
+    nodeIDCounter++;
+    return "vNODE" + nodeIDCounter;
   }
 
   public static int getServiceID() {
@@ -541,6 +590,7 @@ public class RequestSystem {
     return employeeIDCounter++;
   }
 
+  /** Updates the location/xy coords of Location and Equipment objects in the icon */
   public void updateLocations(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Equipment)) {
       ArrayList<Equipment> equipmentList =

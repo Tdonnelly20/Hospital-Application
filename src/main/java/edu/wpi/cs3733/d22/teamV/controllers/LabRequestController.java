@@ -31,6 +31,7 @@ public class LabRequestController extends RequestController {
   @FXML private TreeTableColumn<LabRequest, String> lastNameCol;
   @FXML private TreeTableColumn<LabRequest, String> requestedLabCol;
   @FXML private TreeTableColumn<LabRequest, String> statusCol;
+  @FXML private TreeTableColumn<LabRequest, String> timeStampCol;
   @FXML private Pane tablePlane;
 
   private static final LabRequestDao labRequestDao =
@@ -95,6 +96,7 @@ public class LabRequestController extends RequestController {
     requestedLab.setValue("Select Lab");
     sendRequest.setDisable(true);
     sendRequest.setText("Send Request");
+
     validateButton();
   }
 
@@ -163,7 +165,7 @@ public class LabRequestController extends RequestController {
     lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientLastName"));
     requestedLabCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lab"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
-
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     // Get the current list of lab requests from the DAO
     ArrayList<LabRequest> currLabRequests =
         (ArrayList<LabRequest>) labRequestDao.getAllServiceRequests();
@@ -253,13 +255,14 @@ public class LabRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(nodeIDCol, (w - 30) / 7);
-    setColumnSize(employeeIDCol, (w - 30) / 7);
-    setColumnSize(patientIDCol, (w - 30) / 7);
-    setColumnSize(firstNameCol, (w - 30) / 7);
-    setColumnSize(lastNameCol, (w - 30) / 7);
-    setColumnSize(requestedLabCol, (w - 30) / 7);
-    setColumnSize(statusCol, (w - 30) / 7);
+    setColumnSize(nodeIDCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 8);
+    setColumnSize(patientIDCol, (w - 30) / 8);
+    setColumnSize(firstNameCol, (w - 30) / 8);
+    setColumnSize(lastNameCol, (w - 30) / 8);
+    setColumnSize(requestedLabCol, (w - 30) / 8);
+    setColumnSize(statusCol, (w - 30) / 8);
+    setColumnSize(timeStampCol, (w - 30) / 8);
   }
 
   @Override

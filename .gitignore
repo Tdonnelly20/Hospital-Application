@@ -188,3 +188,10 @@ VDB/seg0/ca1.dat
 VDB/seg0/cb1.dat
 /src/main/resources/edu/wpi/cs3733/d22/teamV/
 *.csv
+externalTransportDB/seg0/README_DO_NOT_TOUCH_FILES.txt
+externalTransportDB/README_DO_NOT_TOUCH_FILES.txt
+externalTransportDB/log/README_DO_NOT_TOUCH_FILES.txt
+externalTransportDB/log/logmirror.ctrl
+externalTransportDB/log/log.ctrl
+externalTransportDB/db.lck
+externalTransportDB/service.properties

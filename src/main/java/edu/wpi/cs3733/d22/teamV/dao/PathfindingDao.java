@@ -6,7 +6,6 @@ import edu.wpi.cs3733.d22.teamV.map.Pathfinder;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Queue;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,24 +25,7 @@ public class PathfindingDao {
 
   private boolean loading = true; // To make sure we don't override the CSV when we load in
 
-  public boolean isWriting() {
-    return writing;
-  }
-
-  private boolean writing = false;
-
-  public void pathfind() {
-    Queue<Pathfinder.Node> path = pathfinder.pathfind("vHALL00401", "vSERV00101");
-
-    // Prints out from the destination to the starting position
-    for (Pathfinder.Node node : path) {
-      System.out.println(node.getName());
-    }
-
-    // Polling the first element in the queue gives us the distance of the entire journey
-    System.out.println("Distance = " + path.poll().getWeight());
-  }
-
+  /** Loads in edge information from the CSV */
   public void loadFromCSV() {
     try {
 
@@ -69,7 +51,7 @@ public class PathfindingDao {
 
   @Getter
   @Setter
-  private class Edge {
+  public class Edge {
     private String name, nodeOne, nodeTwo;
 
     public Edge(String nodeOne, String nodeTwo) {
@@ -79,6 +61,10 @@ public class PathfindingDao {
       edges.add(this);
     }
 
+    public ArrayList<Edge> getEdges() {
+      return edges;
+    }
+
     // remove a selected edge from the list of edges (for removal)
     public void removeEdge() {
       edges.remove(this);
@@ -86,7 +72,13 @@ public class PathfindingDao {
 
     // check if an edge contains a node
     public boolean containsNode(String nodeName) {
-      return nodeOne.equals(nodeName) || nodeTwo.equals(nodeName);
+      return nodeOne.equalsIgnoreCase(nodeName) || nodeTwo.equalsIgnoreCase(nodeName);
+    }
+
+    public boolean equals(String name1, String name2) {
+      String fullName = name1 + "_" + name2;
+      String reverseName = name2 + "_" + name1;
+      return name.equalsIgnoreCase(fullName) || name.equalsIgnoreCase(reverseName);
     }
   }
 
@@ -98,66 +90,66 @@ public class PathfindingDao {
    * @param nodeTwo a location ID
    */
   public void addPathNode(String nodeOne, String nodeTwo) {
-
-    // Scan for duplicates
-    String edgeName = nodeOne + "_" + nodeTwo;
-    for (Edge edge : getEdges()) {
-      if (edge.getName().equals(edgeName)) {
-        System.out.println("Already contains this edge! " + edgeName);
-        return;
+    if ((!nodeOne.isEmpty()) && (!nodeTwo.isEmpty())) {
+      // Scan for duplicates
+      String edgeName = nodeOne + "_" + nodeTwo;
+      for (Edge edge : getEdges()) {
+        if (edge.getName().equalsIgnoreCase(edgeName)) {
+          // System.out.println("Already contains this edge! " + edgeName);
+          return;
+        }
       }
-    }
-    // Create and store the edge
-    Edge edge = new Edge(nodeOne, nodeTwo);
+      // Create and store the edge
+      Edge edge = new Edge(nodeOne, nodeTwo);
 
-    if (!loading) {
-      saveToCSV();
-    }
-
-    // Find the locations
-    Location startLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeOne);
-    Location endLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeTwo);
-
-    if (!(startLocation == null || endLocation == null)) {
-      // Create start and end nodes, where nodeOne is the start and nodeTwo is the end
-      Pathfinder.Node startNode;
-      Pathfinder.Node endNode;
-
-      // Check and see if we already made these nodes before
-      startNode = Pathfinder.getNodeFromName(nodeOne);
-      endNode = Pathfinder.getNodeFromName(nodeTwo);
-
-      // System.out.println(nodeOne + " " + nodeTwo);
-
-      if (startNode == null) {
-        startNode = new Pathfinder.Node(nodeOne);
-        Pathfinder.addNode(startNode);
+      if (!loading) {
+        saveToCSV();
       }
-      if (endNode == null) {
-        endNode = new Pathfinder.Node(nodeTwo);
-        Pathfinder.addNode(endNode);
+
+      // Find the locations
+      Location startLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeOne);
+      Location endLocation = Vdb.requestSystem.getLocationDao().getLocationPathfinding(nodeTwo);
+
+      if (!(startLocation == null || endLocation == null)) {
+        // Create start and end nodes, where nodeOne is the start and nodeTwo is the end
+        Pathfinder.Node startNode;
+        Pathfinder.Node endNode;
+
+        // Check and see if we already made these nodes before
+        startNode = Pathfinder.getNodeFromName(nodeOne);
+        endNode = Pathfinder.getNodeFromName(nodeTwo);
+
+        // System.out.println(nodeOne + " " + nodeTwo);
+
+        if (startNode == null) {
+          startNode = new Pathfinder.Node(nodeOne);
+          Pathfinder.addNode(startNode);
+        }
+        if (endNode == null) {
+          endNode = new Pathfinder.Node(nodeTwo);
+          Pathfinder.addNode(endNode);
+        }
+        // Get the X and Y coordinates
+        double x1 = startLocation.getXCoord();
+        double x2 = endLocation.getXCoord();
+        double y1 = startLocation.getYCoord();
+        double y2 = startLocation.getYCoord();
+
+        // Distance formula
+        double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+
+        // Add a link between the two of them so they can pathfind to each other
+        startNode.addLink(new Pathfinder.Link(endNode, distance));
+        endNode.addLink(new Pathfinder.Link(startNode, distance));
+      } else {
+        // System.out.println("Couldn't find node locations");
       }
-      // Get the X and Y coordinates
-      double x1 = startLocation.getXCoord();
-      double x2 = endLocation.getXCoord();
-      double y1 = startLocation.getYCoord();
-      double y2 = startLocation.getYCoord();
-
-      // Distance formula
-      double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-
-      // Add a link between the two of them so they can pathfind to each other
-      startNode.addLink(new Pathfinder.Link(endNode, distance));
-      endNode.addLink(new Pathfinder.Link(startNode, distance));
-    } else {
-      // Could not find node locations!
     }
   }
 
   /** Save the contents of the arraylist edges into Pathfinding.CSV */
   public void saveToCSV() {
     try {
-      writing = true;
       FileWriter fw = new FileWriter(VApp.currentPath + "/Pathfinding.csv");
       BufferedWriter bw = new BufferedWriter(fw);
       bw.append("edgeID,startNode,endNode");
@@ -173,22 +165,34 @@ public class PathfindingDao {
 
       bw.close();
       fw.close();
-      writing = false;
-
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public void removePathNode(Location location) {
+  /** Removes a node and all links connected to it */
+  public void removePathNode(String nodeID) {
     // Get the node in Pathfinder and remove it if it exists
-    Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(location.getNodeID());
+    Pathfinder.Node nodeToRemove = Pathfinder.getNodeFromName(nodeID);
     if (nodeToRemove != null) {
       Pathfinder.removeNode(nodeToRemove);
     }
     // Remove all edges if it contains the name
-    edges.removeIf(edge -> edge.containsNode(location.getNodeID()));
+    edges.removeIf(edge -> edge.containsNode(nodeID));
     // Save the changes to the CSV
     saveToCSV();
+  }
+
+  /** Removes a link between two nodes with the given names */
+  public void removeLink(String nodeID1, String nodeID2) {
+    Pathfinder.Node node1 = Pathfinder.getNodeFromName(nodeID1);
+    Pathfinder.Node node2 = Pathfinder.getNodeFromName(nodeID2);
+
+    if (node1 != null && node2 != null) {
+      node1.getLinks().removeIf(link -> link.containsNode(node2));
+      node2.getLinks().removeIf(link -> link.containsNode(node1));
+      edges.removeIf(edge -> edge.equals(node1.getName(), node2.getName()));
+      saveToCSV();
+    }
   }
 }

@@ -3,112 +3,136 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.APIController">
-   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" />
-      <ColumnConstraints hgrow="SOMETIMES" prefWidth="700.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="600.0" minHeight="500.0" prefHeight="600.0" vgrow="SOMETIMES" />
-   </rowConstraints>
-   <children>
-      <Pane id="Menu" fx:id="menu" prefHeight="279.0" prefWidth="300.0" style="-fx-background-color: #012D5Aff;" GridPane.rowIndex="1">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/ServiceRequestPage.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.APIController">
+  <items>
+    <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0" style="-fx-background-color: #1F355B;">
          <children>
-            <ImageView fitHeight="48.0" fitWidth="49.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="69.0" layoutY="19.0" prefHeight="17.0" prefWidth="128.0" text="API" textFill="WHITE">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <GridPane alignment="CENTER_RIGHT" prefHeight="76.0" prefWidth="224.0" style="-fx-background-color: #012D5Aff;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="10.0" prefWidth="440.66656494140625" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="0.0" prefWidth="35.33343505859375" />
-            <ColumnConstraints />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.33331298828125" minWidth="10.0" prefWidth="73.88890584309894" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+            <GridPane layoutX="82.0" layoutY="23.0" prefHeight="150.0" prefWidth="1198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                  <ColumnConstraints hgrow="NEVER" maxWidth="650.0" minWidth="650.0" prefWidth="650.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="API" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="switchToHome" fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                     <image>
+                        <Image url="@../HomeButton.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="stop" fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                     <image>
+                        <Image url="@../ExitButton.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <ImageView fx:id="homeFromAPIButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../HomeButton.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="closeFromAPIButton" fitHeight="55.0" fitWidth="55.0" onMouseClicked="#stop" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../ExitButton.png" />
-               </image>
-            </ImageView>
-         </children>
-      </GridPane>
-      <AnchorPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-         <children>
-            <ImageView fitHeight="527.0" fitWidth="888.0" layoutX="-200.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="homeImage" fitHeight="674.0" fitWidth="1198.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../homeHospitalPhoto.jpg" />
                </image>
             </ImageView>
-            <Group layoutX="-152.0" layoutY="84.0">
+            <VBox alignment="CENTER" layoutX="185.0" layoutY="165.0" prefHeight="80.0" prefWidth="378.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="408.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5681a9" height="109.0" layoutX="204.0" layoutY="151.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
-                  <JFXButton fx:id="TeamVAPI" layoutX="204.0" layoutY="151.0" onAction="#runOurAPI" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team V API" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="Team1API" onAction="#runEAPI" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team E API" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="Team2API" layoutX="408.0" onAction="#runZAPI" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="Team Z API" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="28.0" />
-                     </font>
-                  </JFXButton>
-                  <Text layoutX="133.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Floral Request">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="513.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Language Interpreter">
+                  <Group>
+                     <children>
+                        <Rectangle arcHeight="90.0" arcWidth="90.0" fill="#5681a9" height="109.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                        <JFXButton fx:id="TeamVAPI" onAction="#runEAPI" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="   Team E API" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="28.0" />
+                           </font>
+                        </JFXButton>
+                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="39.0" layoutY="14.0">
+                           <image>
+                              <Image url="@../Icons/floral.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floral Request">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
                </children>
-            </Group>
-            <Text layoutX="185.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Robot Request">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-   </children>
-</GridPane>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="655.0" layoutY="165.0" prefHeight="80.0" prefWidth="378.0">
+               <children>
+                  <Group>
+                     <children>
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="109.0" opacity="0.9" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                        <JFXButton fx:id="Team2API" onAction="#runZAPI" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="        Team Z API" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="28.0" />
+                           </font>
+                        </JFXButton>
+                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="40.0" layoutY="15.0">
+                           <image>
+                              <Image url="@../Icons/externalPatient.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="External Patient Transport">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="420.0" layoutY="386.0" prefHeight="125.0" prefWidth="378.0">
+               <children>
+                  <Group>
+                     <children>
+                        <Rectangle arcHeight="80.0" arcWidth="80.0" fill="#5681a9" height="109.0" opacity="0.68" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="378.0" />
+                        <JFXButton fx:id="TeamVAPI1" onAction="#runOurAPI" prefHeight="109.0" prefWidth="378.0" ripplerFill="#e8e8e8" text="       Team V API" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="28.0" />
+                           </font>
+                        </JFXButton>
+                        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="34.0" layoutY="9.0">
+                           <image>
+                              <Image url="@../Icons/robot.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Robot Request">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

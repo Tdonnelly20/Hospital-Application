@@ -1,0 +1,30 @@
+.button{
+    -fx-font-size:20px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family:"Ebrima";
+    -fx-background-radius: 80px;
+    -fx-arc-width: 80px;
+    -fx-arc-height: 80px;
+}
+
+.label{
+    -fx-font-family:"Ebrima";
+}
+
+#names{
+    -fx-font-size:14px;
+    -fx-text-fill: #000000;
+    -fx-font-family:"Ebrima";
+    -fx-background-radius: 80px;
+    -fx-arc-width: 80px;
+    -fx-arc-height: 80px;
+}
+
+#medEquipText{
+    -fx-font-size:18px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family:"Ebrima";
+    -fx-background-radius: 80px;
+    -fx-arc-width: 80px;
+    -fx-arc-height: 80px;
+}

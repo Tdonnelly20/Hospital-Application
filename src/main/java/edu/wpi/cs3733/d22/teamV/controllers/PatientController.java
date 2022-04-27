@@ -8,10 +8,10 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -187,7 +187,7 @@ public class PatientController extends RequestController {
   @Override
   public void init() {
     setTitleText("Patient Database");
-    fillTopPane();
+    fillTopPaneAPI();
 
     setColumnSizes(910);
 
@@ -199,7 +199,7 @@ public class PatientController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = patientPane.getWidth();
-                patientPane.setPrefWidth(w - 30);
+                patientTable.setPrefWidth(w - 30);
                 setColumnSizes(w);
               }
             });
@@ -357,9 +357,16 @@ public class PatientController extends RequestController {
   }
 
   @FXML
-  private void removeSelectedRow(MouseEvent event) {
-    try {
+  private void openPopup(ActionEvent event) {
+    DBPopupController.getController().init();
+    DBPopupController.getController().iconWindow(new Employee());
+    // removeSelectedRow();
+  }
 
+  @FXML
+  public void removeSelectedRow() {
+
+    try {
       Patient patient = patientTable.getSelectionModel().getSelectedItem().getValue();
       patientDao.removePatient(patient);
     } catch (NullPointerException e) {

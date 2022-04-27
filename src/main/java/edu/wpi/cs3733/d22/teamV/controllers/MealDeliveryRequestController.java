@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -21,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -37,6 +40,7 @@ public class MealDeliveryRequestController extends RequestController {
   @FXML private TreeTableColumn<MealRequest, String> allergyCol;
   @FXML private TreeTableColumn<MealRequest, String> statusCol;
   @FXML private TreeTableColumn<MealRequest, String> otherInfoCol;
+  @FXML private TreeTableColumn<MealRequest, String> timeStampCol;
 
   @FXML private TextField patientID;
   @FXML private TextField employeeID;
@@ -47,7 +51,7 @@ public class MealDeliveryRequestController extends RequestController {
   @FXML private Button sendRequest;
   @FXML private TextArea requestDetails;
   @FXML private Label statusLabel;
-
+  @FXML private Pane tablePane;
   // MUST take from Vdb, do NOT create
   private static final MealRequestDao mealRequestDao =
       (MealRequestDao) Vdb.requestSystem.getDao(Dao.MealRequest);
@@ -70,6 +74,30 @@ public class MealDeliveryRequestController extends RequestController {
     setTitleText("Meal Delivery");
     fillTopPane();
     updateTreeTable();
+    tablePane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = tablePane.getWidth();
+                mealDeliveryTable.setPrefWidth(w - 30);
+                setColumnSizes(w);
+              }
+            });
+
+    tablePane
+        .heightProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double h = tablePane.getHeight();
+                mealDeliveryTable.setPrefHeight(h - 75);
+              }
+            });
   }
 
   /** Update the table with values from fields and the DB */
@@ -86,6 +114,7 @@ public class MealDeliveryRequestController extends RequestController {
     allergyCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("allergy"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
     otherInfoCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("requestDetails"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     // Get the current list of medicine deliveries from the DAO
     ArrayList<MealRequest> currMealDeliveries =
         (ArrayList<MealRequest>) mealRequestDao.getAllServiceRequests();
@@ -264,5 +293,18 @@ public class MealDeliveryRequestController extends RequestController {
       e.printStackTrace();
     }
     updateTreeTable();
+  }
+
+  void setColumnSizes(double w) {
+    setColumnSize(hospitalIDCol, (w - 30) / 10);
+    setColumnSize(patientIDCol, (w - 30) / 10);
+    setColumnSize(firstNameCol, (w - 30) / 10);
+    setColumnSize(lastNameCol, (w - 30) / 10);
+    setColumnSize(nodeIDCol, (w - 30) / 10);
+    setColumnSize(mealCol, (w - 30) / 10);
+    setColumnSize(allergyCol, (w - 30) / 10);
+    setColumnSize(statusCol, (w - 30) / 10);
+    setColumnSize(otherInfoCol, (w - 30) / 10);
+    setColumnSize(timeStampCol, (w - 30) / 10);
   }
 }

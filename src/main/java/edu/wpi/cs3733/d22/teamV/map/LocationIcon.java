@@ -28,38 +28,47 @@ public class LocationIcon extends Icon {
     super();
     this.location = location;
     this.iconType = IconType.Location;
-    image.setImage(MapManager.getManager().getLocationMarker());
-    image.setFitWidth(15);
-    image.setFitHeight(15);
-    image.setTranslateX((location.getXCoord()) - image.getFitWidth());
-    image.setTranslateY((location.getYCoord()) - image.getFitHeight());
-    image.setOnMouseClicked(
-        event -> {
-          // Opens the location form in the popup
-          if (event.isShiftDown() || event.isAltDown()) {
+    if (location.getNodeType().equalsIgnoreCase("node")) {
+      // Nodes aren't visible
+      image.setOpacity(0);
+      image.setImage(MapManager.getManager().nodeMarker);
+      image.setOnMouseClicked(
+          event -> {
+            // Opens the icon form in the popup
+            // This prevents you from accidentally opening up the node's form
             if (event.getClickCount() == 2) {
-              if (MapController.getController().getStartLocationID().isEmpty()) {
-                MapController.getController().setStartLocationID(location.getNodeID());
-              } else if (MapController.getController().getEndLocationID().isEmpty()) {
-                MapController.getController().setEndLocationID(location.getNodeID());
-                if (event.isShiftDown()) {
-                  MapController.getController().drawPath();
-                } else {
-                  MapController.getController().makePath();
-                }
-                MapController.getController().setStartLocationID("");
-                MapController.getController().setEndLocationID("");
+              if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
+                MapController.getController().setPathfinderID(event, location.getNodeID());
+              } else {
+                PopupController.getController().iconWindow(event);
               }
             }
-          } else {
+          });
+    } else {
+      image.setOpacity(100);
+      image.setImage(MapManager.getManager().getLocationMarker());
+      image.setOnMouseClicked(
+          event -> {
             if (event.getClickCount() == 2) {
-              PopupController.getController().locationForm(event, this);
+              if (event.isShiftDown() || event.isAltDown() || event.isControlDown()) {
+                // Allows you to make, draw, and remove paths
+                MapController.getController().setPathfinderID(event, location.getNodeID());
+              } else {
+                // Opens the location form in the popup
+                PopupController.getController().locationForm(event, this);
+              }
             }
-          }
-        });
+          });
+    }
+    // Icon sizing
+    image.setFitWidth(15);
+    image.setFitHeight(15);
+    // Icon placement on the map
+    image.setTranslateX((location.getXCoord()) - image.getFitWidth());
+    image.setTranslateY((location.getYCoord()) - image.getFitHeight());
     image.setOnMouseReleased(
         event -> {
-          // If released from drag, update the xy coors
+          // If released from drag, update the xy coords
           if (isDrag) {
             isDrag = false;
             Point2D offset = (Point2D) image.getUserData();
@@ -116,21 +125,25 @@ public class LocationIcon extends Icon {
   /** Sets the icon image depending on the amount of requests */
   @Override
   public void setImage() {
-    if (requestsArr.size() == 0) {
-      image.setImage(MapManager.getManager().getLocationMarker());
-    } else {
-      image.setImage(MapManager.getManager().getRequestMarker());
+    if (!location.getNodeType().equalsIgnoreCase("node")) {
+      if (requestsArr.size() == 0) {
+        image.setImage(MapManager.getManager().getLocationMarker());
+      } else {
+        image.setImage(MapManager.getManager().getRequestMarker());
+      }
     }
   }
 
   /** Adds a request to requestArr and updates the image */
   public void addToRequests(ServiceRequest request) {
-    requestsArr.add(request);
-    if (location.getRequests().contains(request)) {
-      location.getRequests().add(request);
+    if (!location.getNodeType().equalsIgnoreCase("node")) {
+      requestsArr.add(request);
+      if (!location.getRequests().contains(request)) {
+        location.getRequests().add(request);
+      }
+      RequestSystem.getSystem().addServiceRequest(request);
+      setImage();
     }
-    RequestSystem.getSystem().addServiceRequest(request);
-    setImage();
   }
 
   /** Removes a request to requestArr and updates the image */

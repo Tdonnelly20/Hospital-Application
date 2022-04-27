@@ -32,6 +32,16 @@ public abstract class ServiceRequest extends DirectionalAssoc {
   public Image image;
   private String nodeID;
 
+  public String getTimeString() {
+    return timeMade
+        .toString()
+        .substring(timeMade.toString().indexOf("-") + 1, timeMade.toString().indexOf(".") - 3);
+  }
+
+  public String getFloorName() {
+    return floor.getFloorName();
+  }
+
   public String getPatientFirstName() {
     return patient.getFirstName();
   }
@@ -92,12 +102,18 @@ public abstract class ServiceRequest extends DirectionalAssoc {
           + getLocation().getXCoord()
           + "    Y: "
           + getLocation().getYCoord()
-          + "\nEmployee ID: "
+          + "\nDate Submitted: "
+          + getTimeString()
+          + "\nEmployee: "
+          + employee.getLastName()
+          + ", "
+          + employee.getFirstName()
+          + " (ID: "
           + employee.getEmployeeID()
-          + "\nService ID: "
-          + serviceID
-          + " ("
+          + ")\nService Request: "
           + typeInfo
+          + " (ID: "
+          + serviceID
           + ")\nDetails: "
           + detailString;
     }
@@ -107,18 +123,24 @@ public abstract class ServiceRequest extends DirectionalAssoc {
         + getLocation().getXCoord()
         + "    Y: "
         + getLocation().getYCoord()
-        + "\nEmployee ID: "
+        + "\nDate Submitted: "
+        + getTimeString()
+        + "\nEmployee: "
+        + employee.getLastName()
+        + ", "
+        + employee.getFirstName()
+        + " (ID: "
         + employee.getEmployeeID()
-        + "\nPatient ID: "
-        + patient.getPatientID()
-        + " ("
+        + ")\nPatient: "
         + patient.getLastName()
         + ", "
         + patient.getFirstName()
-        + ")\nService ID: "
-        + serviceID
-        + " ("
+        + " (ID: "
+        + patient.getPatientID()
+        + ")\nService Request: "
         + typeInfo
+        + " (ID: "
+        + serviceID
         + ")\nDetails: "
         + detailString;
   }

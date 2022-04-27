@@ -138,7 +138,7 @@
                                                             <TreeTableColumn fx:id="roomNumberCol" minWidth="0.0" prefWidth="55.2000732421875" text="Location ID" />
                                                             <TreeTableColumn fx:id="otherInfoCol" text="Other Info" />
                                                             <TreeTableColumn fx:id="statusCol" text="Status" />
-                                                            <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
+                                                            <TreeTableColumn fx:id="timeStampCol" minWidth="0.0" prefWidth="150.0" text="Time" />
                                                          </columns>
                                                       </TreeTableView>
                                                    </children>

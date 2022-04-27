@@ -11,16 +11,17 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class MedicineDeliveryDao extends DaoInterface {
-  // A local list of all medicine deliveries, updated via Vdb
+  // A local list of all medicine deliveries
   private static ArrayList<MedicineDelivery> allMedicineDeliveries;
-  /** Initialize the arraylist */
-  public MedicineDeliveryDao() {
-    allMedicineDeliveries = new ArrayList<MedicineDelivery>();
 
-    loadFromCSV();
+  /** Create the SQL table, then load all the files into from the CSV */
+  public MedicineDeliveryDao() {
+    allMedicineDeliveries = new ArrayList<>();
     createSQLTable();
+    loadFromCSV();
   }
 
+  /** Load all the service requests from the CSV */
   public void loadFromCSV() {
     try {
 
@@ -57,6 +58,7 @@ public class MedicineDeliveryDao extends DaoInterface {
     }
   }
 
+  /** Save all service requests in the arraylist to the CSV */
   @Override
   public void saveToCSV() {
     try {
@@ -95,6 +97,7 @@ public class MedicineDeliveryDao extends DaoInterface {
     }
   }
 
+  /** Create the SQL table */
   @Override
   public void createSQLTable() {
     try {
@@ -127,6 +130,11 @@ public class MedicineDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Add a specific request to the SQL table
+   *
+   * @param request
+   */
   @Override
   public void addToSQLTable(ServiceRequest request) {
     try {
@@ -146,42 +154,18 @@ public class MedicineDeliveryDao extends DaoInterface {
       statement.setTimestamp(9, medicineDelivery.getTimeMade());
       statement.executeUpdate(); // uninit params
 
-      /*
-           String query = "";
-           Connection connection = Vdb.Connect();
-           assert connection != null;
-           Statement statement = connection.createStatement();
-           query =
-               "INSERT INTO MEDICINES("
-                   + "nodeID,patientID,employeeID,medicineName,dosage,requestDetails,status,serviceID,date_time) VALUES "
-                   + "('"
-                   + medicineDelivery.getLocation().getNodeID()
-                   + "', "
-                   + medicineDelivery.getPatientID()
-                   + ", "
-                   + medicineDelivery.getEmployeeID()
-                   + ", '"
-                   + medicineDelivery.getMedicineName()
-                   + "','"
-                   + medicineDelivery.getDosage()
-                   + "','"
-                   + medicineDelivery.getRequestDetails()
-                   + "','"
-                   + medicineDelivery.getStatus()
-                   + "',"
-                   + medicineDelivery.getServiceID()
-                   + "','"
-                   + medicineDelivery.getTimeMade()
-                   + ")";
-
-           statement.execute(query);
-
-      */
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
+  /**
+   * Replace or update a service request with new info. Will replace the selected serviceID with the
+   * request
+   *
+   * @param request
+   * @param serviceID
+   */
   @Override
   public void updateServiceRequest(ServiceRequest request, int serviceID) {
     MedicineDelivery delivery = (MedicineDelivery) request;
@@ -192,6 +176,11 @@ public class MedicineDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Remove a specific request from the SQL table
+   *
+   * @param request
+   */
   @Override
   public void removeFromSQLTable(ServiceRequest request) {
     try {
@@ -207,6 +196,11 @@ public class MedicineDeliveryDao extends DaoInterface {
     }
   }
 
+  /**
+   * Add a request to the arraylist, then the SQL table, then save to the CSV
+   *
+   * @param request
+   */
   @Override
   public void addServiceRequest(ServiceRequest request) {
     int serviceID = RequestSystem.getServiceID();
@@ -218,6 +212,11 @@ public class MedicineDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Remove a service request from the arraylist, then the SQL table, then save to the CSV
+   *
+   * @param request
+   */
   @Override
   public void removeServiceRequest(ServiceRequest request) {
     MedicineDelivery medicineDelivery = (MedicineDelivery) request;
@@ -228,12 +227,22 @@ public class MedicineDeliveryDao extends DaoInterface {
     saveToCSV();
   }
 
+  /**
+   * Get a list of all medicine deliveries
+   *
+   * @return
+   */
   @Override
   public ArrayList<? extends ServiceRequest> getAllServiceRequests() {
 
     return allMedicineDeliveries;
   }
 
+  /**
+   * Set the list of all service requests
+   *
+   * @param serviceRequests
+   */
   @Override
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     // Set all medicine deliveries

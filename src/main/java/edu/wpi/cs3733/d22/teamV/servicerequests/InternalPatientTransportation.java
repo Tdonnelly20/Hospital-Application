@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class InternalPatientTransportation extends ServiceRequest {
-  private String nodeID;
 
   /**
    * @param patientID
@@ -33,7 +32,6 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
-    this.nodeID = nodeID;
     this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = status;
@@ -46,7 +44,6 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
-    this.nodeID = nodeID;
     this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = status;

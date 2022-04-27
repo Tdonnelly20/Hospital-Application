@@ -8,7 +8,6 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem.Dao;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
-import edu.wpi.cs3733.d22.teamV.servicerequests.MedicineDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.SanitationRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,7 +41,8 @@ public class SanitationRequestController extends RequestController {
   @FXML private TreeTableColumn<SanitationRequest, String> roomLocationCol;
   @FXML private TreeTableColumn<SanitationRequest, String> hazardCol;
   @FXML private TreeTableColumn<SanitationRequest, String> requestDetailsCol;
-  @FXML private TreeTableColumn<MedicineDelivery, String> statusCol;
+  @FXML private TreeTableColumn<SanitationRequest, String> statusCol;
+  @FXML private TreeTableColumn<SanitationRequest, String> timeStampCol;
   @FXML private Pane tablePane;
   private boolean updating = false;
   private int updateServiceID;
@@ -121,7 +121,7 @@ public class SanitationRequestController extends RequestController {
     return result;
   }
 
-  /** Determines if a medical delivery request is valid, and sends it to the Dao */
+  /** Determines if a sanitation request is valid, and sends it to the Dao */
   @FXML
   void validateButton() {
     sendRequest.setDisable(true);
@@ -167,7 +167,7 @@ public class SanitationRequestController extends RequestController {
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {
-      SanitationRequestDao.updateServiceRequest(request, request.getServiceID());
+      SanitationRequestDao.updateServiceRequest(request, updateServiceID);
     } else {
       SanitationRequestDao.addServiceRequest(request);
     }
@@ -186,11 +186,11 @@ public class SanitationRequestController extends RequestController {
     hazardCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("hazardName"));
     requestDetailsCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("details"));
     statusCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+    timeStampCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("timeString"));
     ArrayList<SanitationRequest> currSanitationRequests =
         (ArrayList<SanitationRequest>)
             RequestSystem.getSystem().getAllServiceRequests(Dao.SanitationRequest);
     ArrayList<TreeItem<SanitationRequest>> treeItems = new ArrayList<>();
-
     if (currSanitationRequests.isEmpty()) {
       sanitationRequestTable.setRoot(null);
     } else {
@@ -215,6 +215,7 @@ public class SanitationRequestController extends RequestController {
     requestDetails.setText("");
     statusLabel.setText("");
     sendRequest.setDisable(true);
+    updating = false;
     validateButton();
   }
 
@@ -230,7 +231,7 @@ public class SanitationRequestController extends RequestController {
       patientID.setText(String.valueOf(request.getPatientID()));
       roomLocation.setText(request.getNodeID());
       sanitationDropDown.setValue(request.getHazardName());
-      requestDetails.setText(request.getRequestDetails());
+      requestDetails.setText(request.getDetails());
       updateServiceID = request.getServiceID();
       statusDropDown.setValue(request.getStatus());
       updateTreeTable();
@@ -250,13 +251,14 @@ public class SanitationRequestController extends RequestController {
   }
 
   void setColumnSizes(double w) {
-    setColumnSize(employeeIDCol, (w - 30) / 8);
-    setColumnSize(patientIDCol, (w - 30) / 8);
-    setColumnSize(firstNameCol, (w - 30) / 8);
-    setColumnSize(lastNameCol, (w - 30) / 8);
-    setColumnSize(roomLocationCol, (w - 30) / 8);
-    setColumnSize(hazardCol, (w - 30) / 8);
-    setColumnSize(requestDetailsCol, (w - 30) / 8);
-    setColumnSize(statusCol, (w - 30) / 8);
+    setColumnSize(employeeIDCol, (w - 30) / 9);
+    setColumnSize(patientIDCol, (w - 30) / 9);
+    setColumnSize(firstNameCol, (w - 30) / 9);
+    setColumnSize(lastNameCol, (w - 30) / 9);
+    setColumnSize(roomLocationCol, (w - 30) / 9);
+    setColumnSize(hazardCol, (w - 30) / 9);
+    setColumnSize(requestDetailsCol, (w - 30) / 9);
+    setColumnSize(statusCol, (w - 30) / 9);
+    setColumnSize(timeStampCol, (w - 30) / 9);
   }
 }

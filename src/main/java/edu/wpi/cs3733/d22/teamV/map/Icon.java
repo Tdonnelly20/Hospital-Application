@@ -4,7 +4,6 @@ import edu.wpi.cs3733.d22.teamV.controllers.MapController;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import lombok.Getter;

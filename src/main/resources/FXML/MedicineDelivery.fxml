@@ -117,13 +117,13 @@
                            </content>
                         </ScrollPane>
                      </children></AnchorPane>
-                <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                     <children>
+                <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <content>
                         <TabPane layoutX="121.0" layoutY="62.0" prefHeight="920.0" prefWidth="1610.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
                             <Tab text="Medicine Requests">
                               <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                <AnchorPane fx:id="tablePlane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <TreeTableView fx:id="medicineDeliveryTable" layoutX="14.0" layoutY="70.0" prefHeight="794.0" prefWidth="1564.0">
                                              <columns>
@@ -140,7 +140,7 @@
                                                 <TreeTableColumn fx:id="dosageCol" minWidth="3.20001220703125" prefWidth="95.0" text="Dosage" />
                                                 <TreeTableColumn fx:id="otherInfoCol" prefWidth="98.4000244140625" text="Other Info" />
                                                 <TreeTableColumn fx:id="statusCol" prefWidth="92.0" text="Status" />
-                                                <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
+                                                <TreeTableColumn fx:id="timeStampCol" minWidth="0.0" prefWidth="150.0" text="Time" />
                                              </columns>
                                           </TreeTableView>
                                           <Button fx:id="removeButton" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#removeSelectedRow" prefHeight="25.0" prefWidth="141.0" text="Remove Request" />
@@ -169,7 +169,7 @@
                               </Tab>
                           </tabs>
                         </TabPane>
-                     </children></AnchorPane>
+                     </content></ScrollPane>
               </items>
             </SplitPane>
          </children></AnchorPane>

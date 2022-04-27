@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class MedicineDelivery extends ServiceRequest {
-  private String medicineName, nodeID, dosage, status;
+  private String medicineName, dosage;
   /**
    * @param patientID
    * @param employeeID
@@ -32,7 +32,6 @@ public class MedicineDelivery extends ServiceRequest {
     }
     this.dosage = dosage;
     this.details = requestDetails;
-    this.nodeID = nodeID;
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.status = status;
     this.medicineName = medicineName;

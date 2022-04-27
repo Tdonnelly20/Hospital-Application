@@ -34,20 +34,22 @@ public class MealRequestDao extends DaoInterface {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        MealRequest newDelivery =
-            new MealRequest(
-                data[0],
-                Integer.parseInt(data[1]),
-                Integer.parseInt(data[2]),
-                data[3],
-                data[4],
-                data[5],
-                data[6],
-                Integer.parseInt(data[7]),
-                data[8]);
+        if (data.length > 0) {
+          MealRequest newDelivery =
+              new MealRequest(
+                  data[0],
+                  Integer.parseInt(data[1]),
+                  Integer.parseInt(data[2]),
+                  data[3],
+                  data[4],
+                  data[5],
+                  data[6],
+                  Integer.parseInt(data[7]),
+                  data[8]);
 
-        newDelivery.setServiceID(Integer.parseInt(data[7]));
-        mealDeliveries.add(newDelivery);
+          newDelivery.setServiceID(Integer.parseInt(data[7]));
+          mealDeliveries.add(newDelivery);
+        }
       }
 
       setAllServiceRequests(mealDeliveries);
@@ -143,39 +145,6 @@ public class MealRequestDao extends DaoInterface {
       statement.setInt(8, mealDelivery.getServiceID());
       statement.setTimestamp(9, mealDelivery.getTimeMade());
       statement.executeUpdate(); // uninit params
-
-      /*
-
-           String query = "";
-           Connection connection = Vdb.Connect();
-           assert connection != null;
-           Statement statement = connection.createStatement();
-           query =
-               "INSERT INTO MEALS("
-                   + "nodeID,patientID,employeeID,mealName,allergy,requestDetails,status,serviceID,date_time) VALUES "
-                   + "('"
-                   + mealDelivery.getLocation().getNodeID()
-                   + "', "
-                   + mealDelivery.getPatientID()
-                   + ", "
-                   + mealDelivery.getEmployeeID()
-                   + ", '"
-                   + mealDelivery.getMealName()
-                   + "','"
-                   + mealDelivery.getAllergy()
-                   + "','"
-                   + mealDelivery.getRequestDetails()
-                   + "','"
-                   + mealDelivery.getStatus()
-                   + "',"
-                   + mealDelivery.getServiceID()
-                   + "','"
-                   + mealDelivery.getTimeMade()
-                   + ")";
-
-           statement.execute(query);
-
-      */
 
     } catch (SQLException e) {
       e.printStackTrace();

@@ -149,7 +149,7 @@
                                                             <TreeTableColumn id="nodeID" fx:id="nodeIDCol" editable="false" maxWidth="250.0" prefWidth="75.0" text="Location ID" />
                                                             <TreeTableColumn id="eequestedLab" fx:id="requestedLabCol" editable="false" maxWidth="250.0" prefWidth="100.0" text="Requested Lab" />
                                                             <TreeTableColumn id="status" fx:id="statusCol" prefWidth="86.0" text="Status" />
-                                                            <TreeTableColumn fx:id="timeCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="Time" />
+                                                            <TreeTableColumn fx:id="timeStampCol"  minWidth="0.0" prefWidth="150.0" text="Time" />
                                                          </columns>
                                                       </TreeTableView>
                                                    </children>

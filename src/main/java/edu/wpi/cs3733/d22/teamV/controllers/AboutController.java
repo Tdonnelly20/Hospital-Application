@@ -1,13 +1,20 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class AboutController extends RequestController {
   @Override
   public void start(Stage primaryStage) throws Exception {}
+
+  @FXML private AnchorPane aboutPane;
+  @FXML private Group aboutGroup;
 
   @FXML private Label labelM;
   @FXML private Label labelM1;
@@ -125,6 +132,19 @@ public class AboutController extends RequestController {
   public void init() {
     setTitleText("About");
 
+    aboutPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = aboutPane.getWidth();
+
+                aboutGroup.setLayoutX(w / 2 - 303);
+              }
+            });
+
     labelM.setVisible(false);
     labelM1.setVisible(false);
     labelM2.setVisible(false);
@@ -226,7 +246,7 @@ public class AboutController extends RequestController {
     labelTR6.setVisible(false);
     paneTR.setVisible(false);
 
-    fillTopPane();
+    fillTopPaneAPI();
   }
 
   @Override
@@ -240,6 +260,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoMatt() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleM = !visibleM;
     labelM.setVisible(visibleM);
     labelM1.setVisible(visibleM);
@@ -253,6 +284,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoTate() {
+    if (visibleM) showInfoMatt();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleT = !visibleT;
     labelT.setVisible(visibleT);
     labelT1.setVisible(visibleT);
@@ -266,6 +308,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoJason() {
+    if (visibleT) showInfoTate();
+    if (visibleM) showInfoMatt();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleJ = !visibleJ;
     labelJ.setVisible(visibleJ);
     labelJ1.setVisible(visibleJ);
@@ -280,6 +333,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoJakob() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleM) showInfoMatt();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleJA = !visibleJA;
     labelJA.setVisible(visibleJA);
     labelJA1.setVisible(visibleJA);
@@ -293,6 +357,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoBen() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleM) showInfoMatt();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleB = !visibleB;
     labelB.setVisible(visibleB);
     labelB1.setVisible(visibleB);
@@ -306,6 +381,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoAndres() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleM) showInfoMatt();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleA = !visibleA;
     labelA.setVisible(visibleA);
     labelA1.setVisible(visibleA);
@@ -320,6 +406,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoJolene() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleM) showInfoMatt();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleJO = !visibleJO;
     labelJO.setVisible(visibleJO);
     labelJO1.setVisible(visibleJO);
@@ -333,6 +430,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoParker() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleM) showInfoMatt();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleP = !visibleP;
     labelP.setVisible(visibleP);
     labelP1.setVisible(visibleP);
@@ -346,6 +454,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoDylan() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleM) showInfoMatt();
+    if (visibleTU) showInfoTucker();
+    if (visibleTR) showInfoTrevor();
+
     visibleD = !visibleD;
     labelD.setVisible(visibleD);
     labelD1.setVisible(visibleD);
@@ -359,6 +478,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoTucker() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleM) showInfoMatt();
+    if (visibleTR) showInfoTrevor();
+
     visibleTU = !visibleTU;
     labelTU.setVisible(visibleTU);
     labelTU1.setVisible(visibleTU);
@@ -372,6 +502,17 @@ public class AboutController extends RequestController {
 
   @FXML
   private void showInfoTrevor() {
+    if (visibleT) showInfoTate();
+    if (visibleJ) showInfoJason();
+    if (visibleJA) showInfoJakob();
+    if (visibleB) showInfoBen();
+    if (visibleA) showInfoAndres();
+    if (visibleJO) showInfoJolene();
+    if (visibleP) showInfoParker();
+    if (visibleD) showInfoDylan();
+    if (visibleTU) showInfoTucker();
+    if (visibleM) showInfoMatt();
+
     visibleTR = !visibleTR;
     labelTR.setVisible(visibleTR);
     labelTR1.setVisible(visibleTR);

@@ -59,32 +59,13 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToHome(Event event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
-    try {
-      root = loader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    HomeController controller = loader.getController();
-    controller.init();
-    PopupController.getController().closePopUp();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    switchScene(event);
   }
 
   // Switches scene to the map
   @FXML
   protected void switchToMap(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/Map.fxml"));
-    switchScene(event);
-  }
-
-  // Switches scene to the location database
-  @FXML
-  protected void switchToLocationDB(ActionEvent event) {
-    loader.setLocation(getClass().getClassLoader().getResource("FXML/LocationDatabase.fxml"));
     switchScene(event);
   }
 
@@ -97,7 +78,7 @@ public abstract class Controller extends Application {
 
   // Switches scene to API landing page
   @FXML
-  protected void switchToAPI(ActionEvent event) throws IOException {
+  protected void switchToAPI(Event event) throws IOException {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/APILandingPage.fxml"));
     switchScene(event);
   }
@@ -127,6 +108,13 @@ public abstract class Controller extends Application {
   @FXML
   protected void switchToSanitationRequest(ActionEvent event) {
     loader.setLocation(getClass().getClassLoader().getResource("FXML/SanitationRequest.fxml"));
+    switchScene(event);
+  }
+
+  // Switches scene to the computer page
+  @FXML
+  protected void switchToComputerRequest(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/ComputerRequest.fxml"));
     switchScene(event);
   }
 
@@ -194,6 +182,13 @@ public abstract class Controller extends Application {
     switchScene(event);
   }
 
+  /** Switches to the credits page */
+  @FXML
+  protected void switchToCredits(ActionEvent event) {
+    loader.setLocation(getClass().getClassLoader().getResource("FXML/Credits.fxml"));
+    switchScene(event);
+  }
+
   // Switches scene to the root
   @FXML
   protected void switchScene(Event event) {
@@ -213,20 +208,40 @@ public abstract class Controller extends Application {
   }
 
   @FXML
-  protected void runOurAPI() throws IOException {
-    Runtime runtime = Runtime.getRuntime();
-    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\SoftEngRobotAPI.jar");
+  protected void runOurAPI(ActionEvent event) {
+    switchToRobot(event);
   }
 
   @FXML
   protected void runEAPI() throws IOException {
     Runtime runtime = Runtime.getRuntime();
-    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\TeamE-API.jar");
+    String[] cmd = {"java", "-jar", returnPath() + "\\TeamE-API.jar"};
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+    pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+    Process p = pb.start();
   }
 
   @FXML
   protected void runZAPI() throws IOException {
     Runtime runtime = Runtime.getRuntime();
-    runtime.exec(" java -jar " + "C:\\Users\\jason\\Downloads\\ExternalTransportAPI.jar");
+    String[] cmd = {"java", "-jar", returnPath() + "\\ExternalTransportAPI.jar"};
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+    pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+    Process p = pb.start();
+  }
+
+  public static String returnPath() {
+    String currentPath = System.getProperty("user.dir");
+    if (currentPath.contains("TeamVeganVampires")) {
+      int position = currentPath.indexOf("TeamVeganVampires") + 65;
+      if (currentPath.length() > position) {
+        currentPath = currentPath.substring(0, position);
+      }
+      currentPath += "\\api";
+      System.out.println(currentPath);
+    }
+    return currentPath;
   }
 }

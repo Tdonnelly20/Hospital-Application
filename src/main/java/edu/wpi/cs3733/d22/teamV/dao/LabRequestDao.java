@@ -35,17 +35,19 @@ public class LabRequestDao extends DaoInterface {
       while ((line = br.readLine()) != null) // should create a database based on csv file
       {
         String[] data = line.split(splitToken);
-        LabRequest newDelivery =
-            new LabRequest(
-                Integer.parseInt(data[0]),
-                Integer.parseInt(data[1]),
-                data[2],
-                data[3],
-                data[4],
-                Integer.parseInt(data[5]),
-                data[6]);
-        newDelivery.setServiceID(Integer.parseInt(data[5]));
-        allLabRequests.add(newDelivery);
+        if (data.length > 0) {
+          LabRequest newDelivery =
+              new LabRequest(
+                  Integer.parseInt(data[0]),
+                  Integer.parseInt(data[1]),
+                  data[2],
+                  data[3],
+                  data[4],
+                  Integer.parseInt(data[5]),
+                  data[6]);
+          newDelivery.setServiceID(Integer.parseInt(data[5]));
+          allLabRequests.add(newDelivery);
+        }
       }
       setAllServiceRequests(allLabRequests);
     } catch (IOException e) {
@@ -132,36 +134,6 @@ public class LabRequestDao extends DaoInterface {
       statement.setInt(6, labRequest.getServiceID());
       statement.setTimestamp(7, labRequest.getTimeMade());
       statement.executeUpdate(); // uninit params
-      /*
-           LabRequest labRequest = (LabRequest) request;
-
-           String query = "";
-           Connection connection = Vdb.Connect();
-           assert connection != null;
-           Statement statement = connection.createStatement();
-
-           query =
-               "INSERT INTO LABS("
-                   + "userID,patientID,nodeID,lab,status,serviceID,date_time) VALUES "
-                   + "("
-                   + labRequest.getUserID()
-                   + ", "
-                   + labRequest.getPatientID()
-                   + ", '"
-                   + labRequest.getLocation().getNodeID()
-                   + "', '"
-                   + labRequest.getLab()
-                   + "', '"
-                   + labRequest.getStatus()
-                   + "',"
-                   + labRequest.getServiceID()
-                   + "','"
-                   + labRequest.getTimeMade()
-                   + ")";
-
-           statement.execute(query);
-
-      */
     } catch (SQLException e) {
       e.printStackTrace();
     }

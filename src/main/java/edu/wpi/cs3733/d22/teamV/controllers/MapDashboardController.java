@@ -12,12 +12,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,24 +25,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MapDashboardController extends Controller {
 
-  private @FXML TreeTableView equipmentTable;
-  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol;
-  private @FXML TreeTableColumn<Equipment, String> isDirtyCol;
-  private @FXML TreeTableView serviceRequestTable;
-  private @FXML TreeTableColumn<ServiceRequest, String> typeCol;
-  private @FXML TreeTableColumn<ServiceRequest, String> locationCol;
-  private @FXML TreeTableView patientTable;
-  private @FXML TreeTableColumn<Patient, Integer> patientIDCol;
-  private @FXML TreeTableColumn<Patient, String> lastCol;
-  private @FXML TreeTableColumn<Patient, String> SRCol;
+  private @FXML TreeTableView<Object> equipmentTable = new TreeTableView<>();
+  private @FXML TreeTableColumn<Equipment, Integer> equipmentIDCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<Equipment, String> isDirtyCol = new TreeTableColumn<>();
+  private @FXML TreeTableView<Object> serviceRequestTable = new TreeTableView<>();
+  private @FXML TreeTableColumn<ServiceRequest, String> typeCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<ServiceRequest, String> locationCol = new TreeTableColumn<>();
+  private @FXML TreeTableView<Object> patientTable = new TreeTableView<>();
+  private @FXML TreeTableColumn<Patient, Integer> patientIDCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<Patient, String> lastCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<Patient, String> SRCol = new TreeTableColumn<>();
   private @FXML TextArea countsArea = new TextArea();
-  private @FXML TextArea alertArea;
-  private @FXML TextArea alertsArea = new TextArea();
+  private @FXML TextArea alertArea = new TextArea();
   private @FXML VBox rightVBox;
   private @FXML ImageView mapButton;
   private @FXML ImageView imageView;
@@ -71,11 +65,22 @@ public class MapDashboardController extends Controller {
 
   private Parent root;
   FXMLLoader loader = new FXMLLoader();
+  FXMLLoader loader2 = new FXMLLoader();
 
   public void goHome(javafx.scene.input.MouseEvent event) throws IOException {
     root =
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getClassLoader().getResource("FXML/home.fxml")));
+    loader2.setLocation(getClass().getClassLoader().getResource("FXML/home.fxml"));
+    try {
+      root = loader2.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    HomeController controller = loader2.getController();
+    controller.init();
+
     PopupController.getController().closePopUp();
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
@@ -99,6 +104,35 @@ public class MapDashboardController extends Controller {
     }
 
     MapController controller = loader.getController();
+    switch (curFloor.getFloorName()) {
+      case "L1":
+        controller.setFloorName("L1");
+        break;
+
+      case "L2":
+        controller.setFloorName("L2");
+        break;
+
+      case "1":
+        controller.setFloorName("1");
+        break;
+
+      case "2":
+        controller.setFloorName("2");
+        break;
+
+      case "3":
+        controller.setFloorName("3");
+        break;
+
+      case "4":
+        controller.setFloorName("4");
+        break;
+
+      case "5":
+        controller.setFloorName("5");
+        break;
+    }
     controller.init();
 
     PopupController.getController().closePopUp();
@@ -153,15 +187,7 @@ public class MapDashboardController extends Controller {
 
   @FXML private ArrayList<ButtonSubject> buttonSubjects = new ArrayList<ButtonSubject>();
 
-  public ArrayList<ButtonSubject> getButtonSubjects() {
-    return buttonSubjects;
-  }
-
   @FXML private ArrayList<DashboardListener> listeners = new ArrayList<DashboardListener>();
-
-  public ArrayList getListeners() {
-    return listeners;
-  }
 
   public void setUpButtonSubjects() {
     ButtonSubject ll2sub = new ButtonSubject(ll2, MapManager.getManager().getFloor("L2"));
@@ -380,15 +406,21 @@ public class MapDashboardController extends Controller {
   public void updateCounts() {
     curFloor = MapManager.getManager().getFloor(curFloor.getFloorName());
     int srCount = 0;
-    int dirty = 0;
-    int clean = 0;
+    int cleanBeds = 0;
+    int dirtyBeds = 0;
+    int cleanPumps = 0;
+    int dirtyPumps = 0;
 
     for (Equipment equipment : RequestSystem.getSystem().getEquipment()) {
       if (equipment.getFloor().equals(curFloor.getFloorName())) {
-        if (equipment.getIsDirty()) {
-          dirty++;
+        if (equipment.getIsDirty() && equipment.getName().equals("Infusion Pump")) {
+          dirtyPumps++;
+        } else if (equipment.getIsDirty() && equipment.getName().equals("Bed")) {
+          dirtyBeds++;
+        } else if (!equipment.getIsDirty() && equipment.getName().equals("Infusion Pump")) {
+          cleanPumps++;
         } else {
-          clean++;
+          cleanBeds++;
         }
       }
     }
@@ -406,11 +438,17 @@ public class MapDashboardController extends Controller {
         "Active Service Requests: "
             + srCount
             + "\n"
-            + "Clean Equipment: "
-            + clean
+            + "Clean Beds: "
+            + cleanBeds
             + "\n"
-            + "Dirty Equipment: "
-            + dirty);
+            + "Dirty Beds: "
+            + dirtyBeds
+            + "\n"
+            + "Clean Pumps: "
+            + cleanPumps
+            + "\n"
+            + "Dirty Pumps: "
+            + dirtyPumps);
   }
 
   /* was used to check for beds that are dirty, could be used again if main function has to be changed in the future.
@@ -437,7 +475,7 @@ public class MapDashboardController extends Controller {
 
   @FXML
   private void updateAlerts() {
-    /* ArrayList<String> alerts = new ArrayList<>();
+    ArrayList<String> alerts = new ArrayList<>();
     ArrayList<EquipmentIcon> pumpList = curFloor.getPumpAlertIcons();
     ArrayList<EquipmentIcon> bedList = curFloor.getBedAlertIcons();
 
@@ -450,13 +488,18 @@ public class MapDashboardController extends Controller {
       cleanPumps = e.getCleanPumps();
       dirtyPumps = e.getDirtyPumps();
       if ((cleanPumps < 5)) {
-        alerts.add(
-            "ALERT there are only "
-                + cleanPumps
-                + " clean pumps at location "
-                + e.getXCoord()
-                + ", "
-                + e.getYCoord());
+        if (cleanPumps == 0) {
+          alerts.add(
+              "ALERT there are no clean pumps at location " + e.getXCoord() + ", " + e.getYCoord());
+        } else {
+          alerts.add(
+              "ALERT there are only "
+                  + cleanPumps
+                  + " clean pumps at location "
+                  + e.getXCoord()
+                  + ", "
+                  + e.getYCoord());
+        }
       }
       if (dirtyPumps > 9) {
         alerts.add(
@@ -480,7 +523,7 @@ public class MapDashboardController extends Controller {
       alertText = alertText + a + "\n";
     }
     System.out.println(alertText);
-    alertArea.setText(alertText);*/
+    alertArea.setText(alertText);
   }
 
   /** Updates all information on the map dashboard based on the current floor. */
@@ -491,7 +534,7 @@ public class MapDashboardController extends Controller {
     updateServiceRequestTable();
     updateCounts();
     updateAlerts();
-    bedBarChart.getData().clear();
+    if (bedBarChart != null) bedBarChart.getData().clear();
     updateBarChart();
   }
 
@@ -499,7 +542,6 @@ public class MapDashboardController extends Controller {
   public void init() {
     setUpButtonSubjects();
     setUpDashboardListeners();
-    setUpBarChart();
     updateAll();
   }
 
@@ -604,18 +646,15 @@ public class MapDashboardController extends Controller {
   @FXML XYChart.Series equipment = new XYChart.Series();
 
   /** set up dashboard bar chart. Used in init() */
-  @FXML
-  public void setUpBarChart() {
-    equipment.getData().clear();
-  }
 
   /** updates bar chart on floor switch / equipment change */
   @FXML
   public void updateBarChart() {
+    equipment.getData().clear();
     equipment = new XYChart.Series<>();
     updateBeds();
-    // updatePumps();
-    bedBarChart.getData().add(equipment);
+    updatePumps();
+    if (bedBarChart != null) bedBarChart.getData().add(equipment);
   }
 
   /** Updates bed counts for bar chart */
@@ -662,67 +701,40 @@ public class MapDashboardController extends Controller {
   }
 
   /** Updates pump count for bar chart */
-  /*@FXML
-    public void updatePumps() {
-      int cleanPumps = 0;
-      int dirtyPumps = 0;
-      equipment.setName("Beds");
-      for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
-        cleanPumps += icon.getCleanPumps();
-        dirtyPumps += icon.getDirtyPumps();
-      }
-      equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
-      equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
-  */
-  /*
-  XYChart.Series c = new XYChart.Series();
-  c.setName("Pumps");
-  int dirt = 0;
-  int clean = 0;
-  for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
-    for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
-      if (curFloor
-          .getEquipmentIcons()
-          .get(i)
-          .getEquipmentList()
-          .get(j)
-          .getName()
-          .equalsIgnoreCase("infusion pump")) {
-        if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
-          dirt++;
-        } else {
-          clean++;
+  @FXML
+  public void updatePumps() {
+    int cleanPumps = 0;
+    int dirtyPumps = 0;
+    equipment.setName("Beds");
+    for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
+      cleanPumps += icon.getCleanPumps();
+      dirtyPumps += icon.getDirtyPumps();
+    }
+    equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
+    equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
+
+    /*
+    XYChart.Series c = new XYChart.Series();
+    c.setName("Pumps");
+    int dirt = 0;
+    int clean = 0;
+    for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
+      for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
+        if (curFloor
+            .getEquipmentIcons()
+            .get(i)
+            .getEquipmentList()
+            .get(j)
+            .getName()
+            .equalsIgnoreCase("infusion pump")) {
+          if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
+            dirt++;
+          } else {
+            clean++;
+          }
         }
       }
-    }
 
-   */
-
-  private void displayLabelForData(XYChart.Data<String, Number> data) {
-    final Node node = data.getNode();
-    final Text dataText = new Text(data.getYValue() + "");
-    node.parentProperty()
-        .addListener(
-            new ChangeListener<Parent>() {
-              @Override
-              public void changed(
-                  ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
-                Group parentGroup = (Group) parent;
-                parentGroup.getChildren().add(dataText);
-              }
-            });
-
-    node.boundsInParentProperty()
-        .addListener(
-            new ChangeListener<Bounds>() {
-              @Override
-              public void changed(
-                  ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
-                dataText.setLayoutX(
-                    Math.round(
-                        bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2));
-                dataText.setLayoutY(Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5));
-              }
-            });
+     */
   }
 }
