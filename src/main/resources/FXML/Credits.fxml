@@ -29,7 +29,7 @@
                   <Label id="teamZ" layoutX="480.0" layoutY="140.0" text="Team Z" textAlignment="CENTER" wrapText="true" />
                   <Label layoutX="85.0" layoutY="469.0" styleClass="text" text="Floral Request" />
                   <Label layoutX="433.0" layoutY="440.0" prefHeight="97.0" prefWidth="301.0" styleClass="text" text=" External Patient Transportation" textAlignment="CENTER" wrapText="true" />
-                  <Label prefHeight="97.0" prefWidth="795.0" styleClass="text" text="We would like to formally credit Team E and Team V for their APIs that are implemented in our application." textAlignment="CENTER" wrapText="true" />
+                  <Label prefHeight="97.0" prefWidth="795.0" styleClass="text" text="We would like to formally credit Team E and Team Z for their APIs that are implemented in our application." textAlignment="CENTER" wrapText="true" />
                   <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="79.0" layoutY="261.0">
                      <image>
                         <Image url="@../Icons/floral.png" />
