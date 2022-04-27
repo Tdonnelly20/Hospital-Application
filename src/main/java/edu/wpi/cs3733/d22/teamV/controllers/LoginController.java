@@ -64,7 +64,7 @@ public class LoginController extends Controller {
       camera.setLoginPageController(this);
       camera.toggleCamera();
     } else {
-      camera.stopAcquisition();
+      Camera.stopAcquisition();
       faceImage.setVisible(false);
     }
   }
