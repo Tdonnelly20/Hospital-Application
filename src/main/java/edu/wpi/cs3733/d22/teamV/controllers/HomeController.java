@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.time.LocalDateTime;
@@ -43,6 +44,7 @@ public class HomeController extends RequestController {
   @FXML private Group homeGroup;
 
   @FXML private TextField searchBar;
+  @FXML private JFXComboBox<String> searchDropDown;
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
@@ -51,6 +53,13 @@ public class HomeController extends RequestController {
   public void init() {
     setTitleText("Home");
     fillTopPaneAPI();
+
+    searchDropDown.getItems().add("Type");
+    searchDropDown.getItems().add("Node ID");
+    searchDropDown.getItems().add("Employee ID");
+    searchDropDown.getItems().add("Patient ID");
+    searchDropDown.getItems().add("Floor");
+    searchDropDown.setValue("Type");
 
     searchBar
         .textProperty()
@@ -198,8 +207,7 @@ public class HomeController extends RequestController {
       requestTable.setRoot(null);
     } else {
       for (ServiceRequest request : serviceRequests) {
-        // searchBy(request)
-        if (request.getType().toLowerCase().contains(keyword)) {
+        if (searchBy(request).contains(keyword)) {
           TreeItem<ServiceRequest> item = new TreeItem<>(request);
           treeItems.add(item);
         }
@@ -211,22 +219,27 @@ public class HomeController extends RequestController {
     }
   }
 
-  //  private String searchBy(ServiceRequest request) {
-  //    if (searchMenu.getValue().equals("Service ID")) {
-  //      Integer.toString(request.getServiceID()).toLowerCase();
-  //    } else if (searchMenu.getValue().equals("Type")) {
-  //      return request.getType().toLowerCase();
-  //    } else if (searchMenu.getValue().equals("Node ID")) {
-  //      return request.getNodeID().toLowerCase();
-  //    } else if (searchMenu.getValue().equals("Employee ID")) {
-  //      return Integer.toString(request.getEmployeeID()).toLowerCase();
-  //    } else if (searchMenu.getValue().equals("Patient ID")) {
-  //      return Integer.toString(request.getPatientID()).toLowerCase();
-  //    } else {
-  //      return request.getFloorName().toLowerCase();
-  //    }
-  //    return request.getType().toLowerCase();
-  //  }
+  private String searchBy(ServiceRequest request) {
+    if (searchDropDown.getValue().equals("Type")) {
+      searchBar.setPromptText("Search by Type");
+      return request.getType().toLowerCase();
+    } else if (searchDropDown.getValue().equals("Node ID")) {
+      searchBar.setPromptText("Search by Node ID (case sensitive)");
+      return request.getNodeID();
+    } else if (searchDropDown.getValue().equals("Employee ID")) {
+      searchBar.setPromptText("Search by Emplpoyee ID");
+      return Integer.toString(request.getEmployeeID()).toLowerCase();
+    } else if (searchDropDown.getValue().equals("Patient ID")) {
+      searchBar.setPromptText("Search by Patient ID");
+      return Integer.toString(request.getPatientID()).toLowerCase();
+    } else if (searchDropDown.getValue().equals("Floor")) {
+      searchBar.setPromptText("Search by Floor");
+      return request.getFloorName().toLowerCase();
+    } else {
+      searchBar.setPromptText("Search by Type");
+      return request.getType();
+    }
+  }
 
   @Override
   void resetForm() {}
