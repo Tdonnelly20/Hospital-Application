@@ -152,7 +152,7 @@
                               </Label>
                               <Pane fx:id="sideViewPane" prefHeight="523.0" prefWidth="400.0">
                                  <children>
-                                    <BarChart fx:id="bedBarChart" alternativeRowFillVisible="false" animated="false" layoutX="185.0" layoutY="50.0" legendVisible="false" prefHeight="335.0" prefWidth="215.0" styleClass="bar-chart">
+                                    <BarChart fx:id="bedBarChart" alternativeRowFillVisible="false" animated="false" categoryGap="15.0" layoutX="177.0" layoutY="58.0" legendVisible="false" prefHeight="335.0" prefWidth="246.0" styleClass="bar-chart">
                                        <xAxis>
                                           <CategoryAxis animated="false" side="BOTTOM" tickLabelFill="WHITE" />
                                        </xAxis>
@@ -165,7 +165,7 @@
                                           <Image url="@../SideView.PNG" />
                                        </image>
                                     </ImageView>
-                                    <Group layoutX="25.0" layoutY="34.0">
+                                    <Group layoutX="14.0" layoutY="50.0">
                                        <children>
                                           <Button layoutX="25.0" mnemonicParsing="false" onMouseEntered="#switchToF5" prefWidth="107.0" styleClass="sideViewButtonf5" text="5" />
                                           <Button layoutX="25.0" layoutY="50.0" mnemonicParsing="false" onAction="#switchToF4" onMouseEntered="#switchToF4" styleClass="sideViewButtonf4" text="4" />
