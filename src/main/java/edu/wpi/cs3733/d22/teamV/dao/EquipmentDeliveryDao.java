@@ -159,10 +159,10 @@ public class EquipmentDeliveryDao extends DaoInterface {
               + equipmentDelivery.getStatus()
               + "',"
               + equipmentDelivery.getServiceID()
-              + "','"
+              + ",'"
               + equipmentDelivery.getTimeMade()
-              + ")";
-
+              + "')";
+      System.out.println(query);
       statement.execute(query);
 
     } catch (SQLException e) {

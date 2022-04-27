@@ -7,11 +7,14 @@ import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -24,6 +27,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -35,6 +39,7 @@ public class MapDashboardController extends Controller {
   private @FXML TreeTableView<Object> serviceRequestTable = new TreeTableView<>();
   private @FXML TreeTableColumn<ServiceRequest, String> typeCol = new TreeTableColumn<>();
   private @FXML TreeTableColumn<ServiceRequest, String> locationCol = new TreeTableColumn<>();
+  private @FXML TreeTableColumn<ServiceRequest, String> startTimeCol = new TreeTableColumn<>();
   private @FXML TreeTableView<Object> patientTable = new TreeTableView<>();
   private @FXML TreeTableColumn<Patient, Integer> patientIDCol = new TreeTableColumn<>();
   private @FXML TreeTableColumn<Patient, String> lastCol = new TreeTableColumn<>();
@@ -62,6 +67,9 @@ public class MapDashboardController extends Controller {
   private @FXML TitledPane alertsTPane;
 
   private @FXML BarChart bedBarChart;
+
+  private @FXML AnchorPane dashboardPane;
+  private @FXML VBox dashboardVBox;
 
   private Parent root;
   FXMLLoader loader = new FXMLLoader();
@@ -334,7 +342,7 @@ public class MapDashboardController extends Controller {
 
       typeCol.setCellValueFactory(new TreeItemPropertyValueFactory("type"));
       locationCol.setCellValueFactory(new TreeItemPropertyValueFactory("nodeID"));
-
+      startTimeCol.setCellValueFactory(new TreeItemPropertyValueFactory("timeMade"));
       ArrayList<ServiceRequest> currRequests =
           (ArrayList<ServiceRequest>) Vdb.requestSystem.getEveryServiceRequest();
       ArrayList<TreeItem> treeItems = new ArrayList<>();
@@ -473,9 +481,17 @@ public class MapDashboardController extends Controller {
   /
    */
 
+  // gets alert string from alertSixBeds on EquipmentIcon class
+  String tempBedAlertString = "";
+
+  public void addNewBedAlert(String newAlertString) {
+    tempBedAlertString = newAlertString;
+  }
+
   @FXML
   private void updateAlerts() {
     ArrayList<String> alerts = new ArrayList<>();
+    alerts.add(tempBedAlertString);
     ArrayList<EquipmentIcon> pumpList = curFloor.getPumpAlertIcons();
     ArrayList<EquipmentIcon> bedList = curFloor.getBedAlertIcons();
 
@@ -509,14 +525,16 @@ public class MapDashboardController extends Controller {
                 + e.getXCoord()
                 + ", "
                 + e.getYCoord());
-
-        //        EquipmentDelivery request =
-        //            new EquipmentDelivery(-1, -1, "OR", "Infusion Pump", "none", 1, "Not
-        // Started");
-        //        RequestSystem.getSystem().addServiceRequest(request,
-        // RequestSystem.Dao.EquipmentDelivery);
+        for (Equipment equipment : e.getEquipmentList()) {
+          if (equipment.equals("Infusion Pump")) {
+            EquipmentDelivery request =
+                new EquipmentDelivery(
+                    -1, -1, "West Plaza", equipment.getID(), "none", 1, "Not Started", 0, "");
+            RequestSystem.getSystem()
+                .addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+          }
+        }
       }
-      // index++;
     }
 
     for (String a : alerts) {
@@ -543,6 +561,19 @@ public class MapDashboardController extends Controller {
     setUpButtonSubjects();
     setUpDashboardListeners();
     updateAll();
+
+    dashboardPane
+        .widthProperty()
+        .addListener(
+            new ChangeListener<Number>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double w = dashboardPane.getWidth();
+
+                dashboardVBox.setLayoutX(w / 2 - 585);
+              }
+            });
   }
 
   @FXML
@@ -667,37 +698,8 @@ public class MapDashboardController extends Controller {
       cleanBeds += icon.getCleanBeds();
       dirtyBeds += icon.getDirtyBeds();
     }
-    equipment.getData().add(new XYChart.Data("Clean Beds", cleanBeds));
-    equipment.getData().add(new XYChart.Data("Dirty Beds", dirtyBeds));
-
-    /*
-    bedBarChart.getData().clear();
-    XYChart.Series c = new XYChart.Series();
-    c.setName("Beds");
-    int dirt = 0;
-    int clean = 0;
-    for (int i = 0; i < curFloor.getEquipmentIcons().size(); i++) {
-      for (int j = 0; j < curFloor.getEquipmentIcons().get(i).getEquipmentList().size(); j++) {
-        if (curFloor
-            .getEquipmentIcons()
-            .get(i)
-            .getEquipmentList()
-            .get(j)
-            .getName()
-            .equalsIgnoreCase("bed")) {
-          if (curFloor.getEquipmentIcons().get(i).getEquipmentList().get(j).getIsDirty()) {
-            dirt++;
-          } else {
-            clean++;
-          }
-        }
-      }
-    }
-    c.getData().add(new XYChart.Data("Clean", clean));
-    c.getData().add(new XYChart.Data("Dirty", dirt));
-    bedBarChart.getData().add(c);
-
-     */
+    equipment.getData().add(new XYChart.Data("Clean \n" + "Beds", cleanBeds));
+    equipment.getData().add(new XYChart.Data("Dirty \n" + "Beds", dirtyBeds));
   }
 
   /** Updates pump count for bar chart */
@@ -710,8 +712,8 @@ public class MapDashboardController extends Controller {
       cleanPumps += icon.getCleanPumps();
       dirtyPumps += icon.getDirtyPumps();
     }
-    equipment.getData().add(new XYChart.Data("Clean Pumps", cleanPumps));
-    equipment.getData().add(new XYChart.Data("Dirty Pumps", dirtyPumps));
+    equipment.getData().add(new XYChart.Data("Clean \n" + "Pumps", cleanPumps));
+    equipment.getData().add(new XYChart.Data("Dirty \n" + "Pumps", dirtyPumps));
 
     /*
     XYChart.Series c = new XYChart.Series();

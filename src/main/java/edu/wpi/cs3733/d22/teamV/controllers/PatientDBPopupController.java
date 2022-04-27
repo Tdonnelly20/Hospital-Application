@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d22.teamV.controllers;
 
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
+import edu.wpi.cs3733.d22.teamV.objects.Patient;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class DBPopupController extends Controller {
+public class PatientDBPopupController extends Controller {
 
   @FXML Button yesButton = new Button("Yes");
   @FXML Button noButton = new Button("No");
@@ -23,11 +23,11 @@ public class DBPopupController extends Controller {
   @FXML HBox titleBox = new HBox(25, title);
 
   private static class SingletonHelper {
-    private static final DBPopupController controller = new DBPopupController();
+    private static final PatientDBPopupController controller = new PatientDBPopupController();
   }
 
-  public static DBPopupController getController() {
-    return DBPopupController.SingletonHelper.controller;
+  public static PatientDBPopupController getController() {
+    return PatientDBPopupController.SingletonHelper.controller;
   }
 
   public void init() {
@@ -41,6 +41,7 @@ public class DBPopupController extends Controller {
     if (stage.isShowing()) {
       stage.close();
       sceneVbox.getChildren().clear();
+      content.getChildren().clear();
       // MapController.getController().checkDropDown();
     }
   }
@@ -85,13 +86,13 @@ public class DBPopupController extends Controller {
 
   /** Opens the general icon window and sets up actions */
   @FXML
-  public void iconWindow(Employee last) {
+  public void iconWindow(Patient last) {
     yesButton.setOnAction(
         event1 -> {
           sceneVbox.getChildren().clear();
           content.getChildren().clear();
           System.out.println("########  Before calling removeSelectedRow()" + last);
-          EmployeeController.getController().removeSelectedRow(last);
+          PatientController.getController().removeSelectedRow(last);
           closePopUp();
         });
     noButton.setOnAction(

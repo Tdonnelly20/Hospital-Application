@@ -23,16 +23,13 @@ public class EmployeeController extends RequestController {
   private static final EmployeeDao employeeDao = Vdb.requestSystem.getEmployeeDao();
   private boolean updating = false;
   private int updateID;
-  private boolean isSure = true;
 
   public EmployeeController() {}
 
-  private static class SingletonHelper {
-    private static final EmployeeController controller = new EmployeeController();
-  }
+  private static EmployeeController controller;
 
   public static EmployeeController getController() {
-    return EmployeeController.SingletonHelper.controller;
+    return controller;
   }
 
   @FXML private TreeTableView<Employee> employeeTable;
@@ -150,6 +147,56 @@ public class EmployeeController extends RequestController {
   }
 
   @FXML
+  public void searchEmployeeTreeTable(String keyword) {
+    // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
+    // name of the variable we are adding to a specific column
+    employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
+    patientIDSCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientIDs"));
+    employeePositionCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeePosition"));
+    firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("firstName"));
+    lastNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("lastName"));
+    specialtiesCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("specialties"));
+    employeeServiceRequestIDCol.setCellValueFactory(
+        new TreeItemPropertyValueFactory<>("serviceRequestIDs"));
+
+    // Get the current list of medicine deliveries from the DAO
+    ArrayList<Employee> currEmployees = employeeDao.getAllEmployees();
+    // Create a list for our tree items
+    ArrayList<TreeItem<Employee>> treeItems = new ArrayList<>();
+
+    // Need to make sure the list isn't empty
+    if (currEmployees.isEmpty()) {
+      employeeTable.setRoot(null);
+      return;
+    }
+
+    // for each loop cycling through each medicine delivery currently entered into the system
+    for (Employee delivery : currEmployees) {
+      if ((Integer.toString(delivery.getEmployeeID()).contains(keyword))) {
+        TreeItem<Employee> item = new TreeItem<Employee>(delivery);
+        treeItems.add(item);
+      } else if (delivery.getFirstName().toLowerCase().contains(keyword)) {
+        TreeItem<Employee> item = new TreeItem<Employee>(delivery);
+        treeItems.add(item);
+      } else if (delivery.getLastName().toLowerCase().contains(keyword)) {
+        TreeItem<Employee> item = new TreeItem<Employee>(delivery);
+        treeItems.add(item);
+      } else {
+
+      }
+    }
+    // VERY IMPORTANT: Because this is a Tree Table, we need to create a root, and then hide it so
+    // we get the standard table functionality
+    employeeTable.setShowRoot(false);
+    // Root is just the first entry in our list
+    TreeItem<Employee> root = new TreeItem<Employee>(currEmployees.get(0));
+    // Set the root in the table
+    employeeTable.setRoot(root);
+    // Set the rest of the tree items to the root, including the one we set as the root
+    root.getChildren().addAll(treeItems);
+  }
+
+  @FXML
   public void updateServiceRequestTreeTable() {
     // Set our cell values based on the MedicineDelivery Class, the Strings represent the actual
     // name of the variable we are adding to a specific column
@@ -229,10 +276,24 @@ public class EmployeeController extends RequestController {
 
   @Override
   public void init() {
+
+    controller = this;
+
     setTitleText("Employee Database");
     fillTopPaneAPI();
 
     setColumnSizes(910);
+
+    searchBar
+        .textProperty()
+        .addListener(
+            new ChangeListener<String>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                searchEmployeeTreeTable(newValue);
+              }
+            });
 
     employeePane
         .widthProperty()

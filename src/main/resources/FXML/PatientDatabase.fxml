@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.PatientController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.PatientController">
   <items>
     <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
          <children>
@@ -90,12 +90,12 @@
                                                 <TreeTableColumn fx:id="patientServiceIDSCol" minWidth="0.0" prefWidth="588.7999877929688" text="Service IDs" />
                                              </columns>
                                           </TreeTableView>
-                                          <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeSelectedRow" text="Remove" />
+                                          <Button fx:id="removeButton" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#openPopup" text="Remove" />
                                           <Button fx:id="updateButton" layoutX="125.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateSelectedRow" text="Update" />
-                                          <TextField fx:id="searchBar" layoutX="561.0" layoutY="8.0" maxWidth="435.0" prefHeight="40.0" prefWidth="435.0" promptText="Search by any column" />
-                                          <Label layoutX="499.0" layoutY="17.0" text="Search">
+                                          <TextField fx:id="searchBar" layoutX="506.0" layoutY="8.0" prefHeight="40.0" prefWidth="299.0" promptText="Search by name or ID" />
+                                          <Label layoutX="428.0" layoutY="14.0" prefHeight="17.0" prefWidth="76.0" text="Search">
                                              <font>
-                                                <Font size="19.0" />
+                                                <Font size="21.0" />
                                              </font>
                                           </Label>
                                        </children>
