@@ -248,12 +248,12 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="f4" mnemonicParsing="false" onAction="#switchToF4" text="4" GridPane.columnIndex="5" />
                         <Button fx:id="ll2" mnemonicParsing="false" onAction="#switchToLL2" text="LL2" GridPane.columnIndex="1" />
                         <Button fx:id="ll1" mnemonicParsing="false" onAction="#switchToLL1" text="LL1" GridPane.columnIndex="2" />
                         <Button fx:id="f1" mnemonicParsing="false" onAction="#switchToF1" text="1" GridPane.columnIndex="3" />
-                        <Button fx:id="f2" mnemonicParsing="false" onAction="#switchToF2" text="2" GridPane.columnIndex="6" />
-                        <Button fx:id="f3" mnemonicParsing="false" onAction="#switchToF3" text="3" GridPane.columnIndex="4" />
+                        <Button fx:id="f2" mnemonicParsing="false" onAction="#switchToF2" text="2" GridPane.columnIndex="4" />
+                        <Button fx:id="f3" mnemonicParsing="false" onAction="#switchToF3" text="3" GridPane.columnIndex="5" />
+                        <Button fx:id="f4" mnemonicParsing="false" onAction="#switchToF4" text="4" GridPane.columnIndex="6" />
                         <Button fx:id="f5" mnemonicParsing="false" onAction="#switchToF5" text="5" GridPane.columnIndex="7" />
                      </children>
                   </GridPane>
