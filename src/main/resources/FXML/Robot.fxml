@@ -24,7 +24,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.SplitPane?>
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../../../build/resources/main/CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.RobotController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../../../build/resources/main/CSS/testIndividualService.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d22.teamV.controllers.RobotController">
     <items>
         <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
             <children>

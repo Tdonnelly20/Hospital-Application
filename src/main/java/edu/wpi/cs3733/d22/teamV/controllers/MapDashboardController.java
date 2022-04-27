@@ -7,6 +7,7 @@ import edu.wpi.cs3733.d22.teamV.map.Floor;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Patient;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
@@ -509,14 +510,16 @@ public class MapDashboardController extends Controller {
                 + e.getXCoord()
                 + ", "
                 + e.getYCoord());
-
-        //                EquipmentDelivery request =
-        //                    new EquipmentDelivery(-1, -1, -1, "Infusion Pump", "none", dirtyPumps,
-        // "Not Started");
-        //                RequestSystem.getSystem().addServiceRequest(request,
-        //         RequestSystem.Dao.EquipmentDelivery);
+        for (Equipment equipment : e.getEquipmentList()) {
+          if (equipment.equals("Infusion Pump")) {
+            EquipmentDelivery request =
+                new EquipmentDelivery(
+                    -1, -1, "West Plaza", equipment.getID(), "none", 1, "Not Started", 0, "");
+            RequestSystem.getSystem()
+                .addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+          }
+        }
       }
-      // index++;
     }
 
     for (String a : alerts) {
