@@ -265,7 +265,9 @@ public class MapController extends Controller {
   public void refreshMap() {
     setFloor(floorName);
     resetPathFinder();
-    controlsVBox.getChildren().retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
+    controlsVBox
+        .getChildren()
+        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
   }
 
   /** Reset Pathfinder */
