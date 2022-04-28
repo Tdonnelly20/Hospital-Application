@@ -237,27 +237,14 @@ public class EquipmentIcon extends Icon {
                 + e.getY();
         // the following line sends the string to MapDashboardController so it can be displayed
         MapDashboardController.getController().addNewBedAlert(newAlertString);
-        //        for (Equipment equipment : tempDirtyBedsList) {
-        //          EquipmentDelivery request =
-        //              new EquipmentDelivery(
-        //                  -1,
-        //                  -1,
-        //                  "OR",
-        //                  e.getID(),
-        //                  "Dirty beds",
-        //                  1,
-        //                  "Not Started",
-        //                  Timestamp.from(Instant.now()).toString());
-        //          if (!exists(
-        //
-        // RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.EquipmentDelivery),
-        //              request)) {
-        //            request.setServiceID(RequestSystem.getServiceID());
-        //            RequestSystem.getSystem()
-        //                .addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
-        //          }
-        //          tempDirtyBedsList.remove(equipment);
-        //        }
+        for (Equipment equipment : equipmentList) {
+          if (!floor.exists(e.getID())) {
+            floor.addToRequested(e.getID());
+            RequestSystem.getSystem()
+                .addServiceRequest(new EquipmentDelivery("West Plaza", e.getID()));
+          }
+          tempDirtyBedsList.remove(equipment);
+        }
       }
     } else {
       dirtyBeds--;
