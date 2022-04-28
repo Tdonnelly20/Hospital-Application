@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d22.teamV.face.Camera;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import edu.wpi.cs3733.d22.teamV.objects.Employee;
 import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -145,32 +144,21 @@ public class LoginController extends Controller {
     vdb.setUpConnection();
     checkLogin(event, username.getText());
     try {
-      if (camera.face) checkLogin(event, "Jason");
-    } catch (Exception e) {}
+      if (camera != null) checkLogin(event, "Jason");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
-
-  // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");
 
   public void checkLogin(Event event, String string) {
     try {
-      Employee user = new Employee();
-
-      if (string.equals("admin") && password.getText().toString().equals("admin")) {
-        user.setAdmin(true);
-
-        Vdb vdb = new Vdb();
-        vdb.createAllDB();
+      if (string.equals("admin") && password.getText().equals("admin")) {
         switchToHome(event);
         Camera.stopAcquisition();
-
       } else if (string.equals("staff") && password.getText().toString().equals("staff")) {
-        Vdb vdb = new Vdb();
-        vdb.createAllDB();
         switchToHome(event);
         Camera.stopAcquisition();
       } else if (string.equals("Jason") && Camera.isCameraActive()) {
-        Vdb vdb = new Vdb();
-        vdb.createAllDB();
         switchToHome(event);
         Camera.stopAcquisition();
       } else if (string.isEmpty() && password.getText().isEmpty()) {
