@@ -34,6 +34,7 @@ public class MapController extends Controller {
   @FXML protected Button refreshButton = new Button("Refresh");
   @FXML protected CheckComboBox<String> filterCheckBox = new CheckComboBox<>();
   @FXML protected VBox controlsVBox = new VBox(15);
+  @FXML protected VBox legendBox = new VBox();
   @FXML protected Pane mapPane = new Pane();
   protected final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
   protected final Group group = new Group();
@@ -283,7 +284,7 @@ public class MapController extends Controller {
     resetPathFinder();
     controlsVBox
         .getChildren()
-        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections);
+        .retainAll(pathfinderInfo, filterCheckBox, refreshButton, showConnections, legendBox);
   }
 
   /** Reset Pathfinder */
@@ -293,7 +294,7 @@ public class MapController extends Controller {
     endLocationID = "";
     pathfinderVBox
         .getChildren()
-        .retainAll(pathfinderInstructions, startLocationLabel, endLocationLabel);
+        .retainAll(pathfinderInstructions, startLocationLabel, endLocationLabel, legendBox);
     startLocationLabel.setText("Start Location: ");
     endLocationLabel.setText("End Location: ");
   }
