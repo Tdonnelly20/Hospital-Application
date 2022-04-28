@@ -31,18 +31,22 @@ public class Floor {
   public void addIcon(Icon icon) {
     if (icon.iconType.equals(Icon.IconType.Location)) {
       locationIcons.add((LocationIcon) icon);
-    } else {
+    }
+    else {
       equipmentIcons.add((EquipmentIcon) icon);
       if ((((EquipmentIcon) icon).getCleanPumps() < 5)
           && !pumpAlertIcons.contains((EquipmentIcon) icon)) {
         pumpAlertIcons.add((EquipmentIcon) icon);
-      } else if ((((EquipmentIcon) icon).getDirtyPumps() > 9)
+      }
+      else if ((((EquipmentIcon) icon).getDirtyPumps() > 9)
           && !pumpAlertIcons.contains((EquipmentIcon) icon)) {
         pumpAlertIcons.add((EquipmentIcon) icon);
-      } else if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
+      }
+      else if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
           && !bedAlertIcons.contains((EquipmentIcon) icon)) {
         bedAlertIcons.add((EquipmentIcon) icon);
-      } else System.out.println("uh oh");
+      }
+      else System.out.println("uh oh");
     }
   }
 
