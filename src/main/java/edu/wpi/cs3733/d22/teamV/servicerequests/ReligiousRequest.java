@@ -22,13 +22,11 @@ public class ReligiousRequest extends ServiceRequest {
       String specialRequests,
       String status,
       String date) {
-    if (date != "") {
+    if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
-
     } else {
       this.timeMade = Timestamp.from(Instant.now());
     }
-    this.timeMade = Timestamp.from(Instant.now());
     this.location = Vdb.requestSystem.getLocation(roomLocation);
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);

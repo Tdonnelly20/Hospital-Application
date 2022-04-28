@@ -24,7 +24,7 @@ public class MedicineDelivery extends ServiceRequest {
       String requestDetails,
       String status,
       String date) {
-    if (date != "") {
+    if (date.equals("")) {
       this.timeMade = Timestamp.from(Instant.now());
     } else {
       this.timeMade = Timestamp.valueOf(date);

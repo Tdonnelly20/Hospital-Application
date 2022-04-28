@@ -21,7 +21,7 @@ public class InternalPatientTransportation extends ServiceRequest {
       String requestDetails,
       String status,
       String date) {
-    if (date != "") {
+    if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
 
     } else {
@@ -40,11 +40,11 @@ public class InternalPatientTransportation extends ServiceRequest {
       String nodeID, int patientID, int employeeID, String requestDetails, String status) {
     this.location = Vdb.requestSystem.getLocationDao().getLocation(nodeID);
     this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
-    System.out.println(employee.getEmployeeID());
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = status;
+    this.timeMade = Timestamp.from(Instant.now());
     setServiceID(RequestSystem.getServiceID());
   }
 

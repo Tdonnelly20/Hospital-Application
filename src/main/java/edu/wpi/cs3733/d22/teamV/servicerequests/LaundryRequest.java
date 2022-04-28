@@ -10,7 +10,7 @@ public class LaundryRequest extends ServiceRequest {
 
   public LaundryRequest(
       int employeeID, int patientID, String nodeID, String details, String status, String date) {
-    if (date != "") {
+    if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
     } else {
       this.timeMade = Timestamp.from(Instant.now());

@@ -14,7 +14,7 @@ public class RobotRequest extends ServiceRequest {
   public RobotRequest(
       int hospitalID, int botID, String nodeID, String details, String status, String date) {
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
-    if (date != "") {
+    if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
 
     } else {
@@ -42,7 +42,6 @@ public class RobotRequest extends ServiceRequest {
   public RobotRequest(int hospitalID, int botID, String nodeID, String details, String status) {
     this.timeMade = Timestamp.from(Instant.now());
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
-    this.timeMade = Timestamp.from(Instant.now());
     this.location = RequestSystem.getSystem().getLocation(nodeID);
     this.botID = botID;
     this.nodeID = nodeID;
