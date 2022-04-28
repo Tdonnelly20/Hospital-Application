@@ -48,8 +48,8 @@ public class SanitationRequestDao extends DaoInterface {
                   data[3],
                   data[4],
                   data[5],
-                  Integer.parseInt(data[6]),
                   data[7]);
+          request.setServiceID(Integer.parseInt(data[6]));
           requests.add(request);
         }
       }

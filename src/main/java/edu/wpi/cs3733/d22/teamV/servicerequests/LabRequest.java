@@ -21,13 +21,7 @@ public class LabRequest extends ServiceRequest {
   private String lastName;
 
   public LabRequest(
-      int userID,
-      int patientID,
-      String nodeID,
-      String lab,
-      String status,
-      int serviceID,
-      String date) {
+      int userID, int patientID, String nodeID, String lab, String status, String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
 
@@ -44,7 +38,6 @@ public class LabRequest extends ServiceRequest {
     this.userID = userID;
     this.type = "Lab Request";
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
   }
 
   public LabRequest(int userID, int patientID, String nodeID, String lab, String status) {

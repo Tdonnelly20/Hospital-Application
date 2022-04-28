@@ -140,11 +140,13 @@ public class LoginController extends Controller {
   }
 
   @FXML
-  public void userLogin(ActionEvent event) throws IOException {
+  public void userLogin(ActionEvent event) {
     Vdb vdb = new Vdb();
     vdb.setUpConnection();
     checkLogin(event, username.getText());
-    if (camera.face) checkLogin(event, "Jason");
+    try {
+      if (camera.face) checkLogin(event, "Jason");
+    } catch (Exception e) {}
   }
 
   // private Map<String, String> UserTable = Map.of("admin", "admin", "staff", "staff");

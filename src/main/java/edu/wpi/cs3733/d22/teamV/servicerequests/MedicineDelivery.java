@@ -23,7 +23,6 @@ public class MedicineDelivery extends ServiceRequest {
       String dosage,
       String requestDetails,
       String status,
-      int serviceID,
       String date) {
     if (date != "") {
       this.timeMade = Timestamp.from(Instant.now());
@@ -40,7 +39,6 @@ public class MedicineDelivery extends ServiceRequest {
     patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
   }
 
   public MedicineDelivery(

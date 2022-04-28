@@ -163,7 +163,6 @@ public class SanitationRequestController extends RequestController {
             sanitationDropDown.getValue().toString(),
             requestDetails.getText(),
             statusDropDown.getValue().toString(),
-            -1,
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {

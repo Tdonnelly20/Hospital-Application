@@ -11,6 +11,8 @@ import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.beans.value.ChangeListener;
@@ -531,7 +533,14 @@ public class MapDashboardController extends Controller {
           if (equipment.equals("Infusion Pump")) {
             EquipmentDelivery request =
                 new EquipmentDelivery(
-                    -1, -1, "West Plaza", equipment.getID(), "none", 1, "Not Started", -1, "");
+                    -1,
+                    -1,
+                    "West Plaza",
+                    equipment.getID(),
+                    "none",
+                    1,
+                    "Not Started",
+                    Timestamp.from(Instant.now()).toString());
             RequestSystem.getSystem()
                 .addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
           }

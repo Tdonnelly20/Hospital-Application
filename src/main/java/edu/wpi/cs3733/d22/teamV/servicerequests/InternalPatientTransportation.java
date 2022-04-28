@@ -20,7 +20,6 @@ public class InternalPatientTransportation extends ServiceRequest {
       int employeeID,
       String requestDetails,
       String status,
-      int serviceID,
       String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
@@ -35,7 +34,6 @@ public class InternalPatientTransportation extends ServiceRequest {
     this.details = requestDetails;
     this.type = "Internal Patient Transportation Request";
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
   }
 
   public InternalPatientTransportation(

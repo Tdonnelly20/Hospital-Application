@@ -9,13 +9,7 @@ import java.time.Instant;
 public class LaundryRequest extends ServiceRequest {
 
   public LaundryRequest(
-      int employeeID,
-      int patientID,
-      String nodeID,
-      String details,
-      String status,
-      int serviceID,
-      String date) {
+      int employeeID, int patientID, String nodeID, String details, String status, String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
     } else {
@@ -26,7 +20,6 @@ public class LaundryRequest extends ServiceRequest {
     this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
     this.details = details;
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
     this.type = "Laundry Request";
   }
 

@@ -45,7 +45,6 @@ public class EquipmentDeliveryDao extends DaoInterface {
                 data[4],
                 Integer.parseInt(data[5]),
                 data[6],
-                Integer.parseInt(data[7]),
                 data[8]);
         equipmentDelivery.setServiceID(Integer.parseInt(data[7]));
         deliveries.add(equipmentDelivery);

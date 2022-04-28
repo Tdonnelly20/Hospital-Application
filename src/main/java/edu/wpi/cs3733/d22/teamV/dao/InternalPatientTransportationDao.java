@@ -51,8 +51,8 @@ public class InternalPatientTransportationDao extends DaoInterface {
                 Integer.parseInt(data[2]),
                 data[3],
                 data[4],
-                Integer.parseInt(data[5]),
-                data[6]);
+                data[5]);
+        transportation.setServiceID(Integer.parseInt(data[6]));
         addServiceRequest(transportation);
       }
 

@@ -227,7 +227,6 @@ public class ReligiousRequestController extends RequestController {
             religion.getText(),
             details.getText(),
             statusDropDown.getValue().toString(),
-            -1,
             Timestamp.from(Instant.now()).toString());
     request.setStatus(statusDropDown.getValue().toString());
     if (updating) {

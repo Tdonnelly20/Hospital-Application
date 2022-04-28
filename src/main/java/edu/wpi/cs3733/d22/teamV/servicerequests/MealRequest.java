@@ -23,7 +23,6 @@ public class MealRequest extends ServiceRequest {
       String allergy,
       String requestDetails,
       String status,
-      int serviceID,
       String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
@@ -41,7 +40,6 @@ public class MealRequest extends ServiceRequest {
     this.type = "Meal Delivery Request";
     this.dao = RequestSystem.Dao.MealRequest;
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
   }
 
   public MealRequest(

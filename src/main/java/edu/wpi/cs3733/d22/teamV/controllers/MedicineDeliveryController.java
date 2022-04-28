@@ -244,7 +244,6 @@ public class MedicineDeliveryController extends RequestController {
               dosage.getText(),
               requestDetails.getText(),
               statusDropDown.getValue().toString(),
-              -1,
               Timestamp.from(Instant.now()).toString());
       // Send the request to the Dao pattern
       try {

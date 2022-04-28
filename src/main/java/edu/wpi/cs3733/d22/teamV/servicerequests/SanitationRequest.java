@@ -25,7 +25,6 @@ public class SanitationRequest extends ServiceRequest {
       String hazardName,
       String requestDetails,
       String status,
-      int serviceID,
       String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
@@ -40,12 +39,6 @@ public class SanitationRequest extends ServiceRequest {
     this.hazardName = hazardName;
     this.type = "Sanitation Request";
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
-    if (serviceID < 0) { // calls system to set id
-      // setServiceID(RequestSystem.getServiceID());
-    } else {
-      // setServiceID(serviceID);
-    }
   }
 
   public SanitationRequest(

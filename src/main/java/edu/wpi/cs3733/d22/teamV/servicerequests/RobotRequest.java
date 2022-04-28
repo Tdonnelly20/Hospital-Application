@@ -12,13 +12,7 @@ public class RobotRequest extends ServiceRequest {
   private int botID;
 
   public RobotRequest(
-      int hospitalID,
-      int botID,
-      String nodeID,
-      String details,
-      String status,
-      int serviceID,
-      String date) {
+      int hospitalID, int botID, String nodeID, String details, String status, String date) {
     employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);

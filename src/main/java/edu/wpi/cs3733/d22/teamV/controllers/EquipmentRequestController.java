@@ -307,7 +307,6 @@ public class EquipmentRequestController extends RequestController {
             notes.getText(),
             Integer.parseInt(quant.getText()),
             status.getText(),
-            -1,
             Timestamp.from(Instant.now()).toString());
 
     try {

@@ -45,7 +45,6 @@ public class MedicineDeliveryDao extends DaoInterface {
                 data[4],
                 data[5],
                 data[6],
-                Integer.parseInt(data[7]),
                 data[8]);
 
         newDelivery.setServiceID(Integer.parseInt(data[7]));

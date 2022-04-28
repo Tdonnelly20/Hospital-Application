@@ -43,7 +43,6 @@ public class LabRequestDao extends DaoInterface {
                   data[2],
                   data[3],
                   data[4],
-                  Integer.parseInt(data[5]),
                   data[6]);
           newDelivery.setServiceID(Integer.parseInt(data[5]));
           allLabRequests.add(newDelivery);

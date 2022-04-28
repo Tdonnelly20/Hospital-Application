@@ -636,7 +636,6 @@ public class PopupController {
                         locationID,
                         comboBox2.getValue(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -669,7 +668,6 @@ public class PopupController {
                         fields[3].getText(),
                         Integer.parseInt(fields[2].getText()),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -702,7 +700,6 @@ public class PopupController {
                         fields[2].getText(),
                         fields[3].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -725,7 +722,6 @@ public class PopupController {
                         Integer.parseInt(fields[0].getText()),
                         fields[2].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -748,7 +744,6 @@ public class PopupController {
                         locationID,
                         fields[2].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -781,7 +776,6 @@ public class PopupController {
                         fields[2].getText(),
                         fields[3].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -816,7 +810,6 @@ public class PopupController {
                         comboBox2.getValue(),
                         fields[2].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -842,7 +835,6 @@ public class PopupController {
                         fields[2].getText(),
                         fields[3].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -864,7 +856,6 @@ public class PopupController {
                         locationID,
                         fields[2].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });
@@ -889,7 +880,6 @@ public class PopupController {
                         fields[2].getText(),
                         fields[3].getText(),
                         comboBox3.getValue(),
-                        -1,
                         Timestamp.from(Instant.now()).toString()));
               }
             });

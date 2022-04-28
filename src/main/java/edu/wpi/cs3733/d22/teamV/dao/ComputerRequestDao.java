@@ -47,9 +47,9 @@ public class ComputerRequestDao extends DaoInterface {
                 data[3],
                 data[4],
                 data[5],
-                Integer.parseInt(data[6]),
                 data[7]);
         requests.add(request);
+        request.setServiceID(Integer.parseInt(data[6]));
       }
       allComputerRequests = requests;
 

@@ -208,7 +208,6 @@ public class LabRequestController extends RequestController {
               nodeID.getText(),
               requestedLab.getValue().toString(),
               statusDropDown.getValue().toString(),
-              -1,
               Timestamp.from(Instant.now()).toString());
       try {
         if (updating) {

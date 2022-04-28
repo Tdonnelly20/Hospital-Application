@@ -21,7 +21,6 @@ public class ReligiousRequest extends ServiceRequest {
       String religion,
       String specialRequests,
       String status,
-      int serviceID,
       String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
@@ -38,7 +37,6 @@ public class ReligiousRequest extends ServiceRequest {
     this.type = "Religious Request";
     notes = religion;
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
     this.dao = RequestSystem.Dao.ReligiousRequest;
   }
 

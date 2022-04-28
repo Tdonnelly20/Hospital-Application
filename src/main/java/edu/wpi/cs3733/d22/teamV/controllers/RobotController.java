@@ -163,7 +163,6 @@ public class RobotController extends RequestController {
               nodeID.getText(),
               details.getText(),
               statusDropDown.getValue().toString(),
-              -1,
               Timestamp.from(Instant.now()).toString());
       try {
         if (updating) {

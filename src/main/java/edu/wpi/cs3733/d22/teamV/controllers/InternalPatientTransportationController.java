@@ -216,7 +216,6 @@ public class InternalPatientTransportationController extends RequestController {
               Integer.parseInt(employeeID.getText()),
               requestDetails.getText(),
               statusDropDown.getValue().toString(),
-              -1,
               Timestamp.from(Instant.now()).toString());
 
       try {

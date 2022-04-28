@@ -236,11 +236,11 @@ public class EquipmentIcon extends Icon {
                   -1,
                   "OR",
                   e.getID(),
-                  e.getID(),
+                  "Dirty beds",
                   1,
                   "Not Started",
-                  RequestSystem.getServiceID(),
                   Timestamp.from(Instant.now()).toString());
+          request.setServiceID(RequestSystem.getServiceID());
           RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
           tempDirtyBedsList.remove(equipment);
         }

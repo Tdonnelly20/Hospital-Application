@@ -42,7 +42,6 @@ public class RobotDao extends DaoInterface {
                 data[2],
                 data[3],
                 data[4],
-                Integer.parseInt(data[5]),
                 data[6]);
         newRobot.setServiceID(Integer.parseInt(data[5]));
         allRobotRequests.add(newRobot);

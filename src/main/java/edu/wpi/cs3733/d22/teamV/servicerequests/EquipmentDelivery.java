@@ -20,7 +20,6 @@ public class EquipmentDelivery extends ServiceRequest {
       String notes,
       int quantity,
       String status,
-      int serviceID,
       String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
@@ -35,7 +34,6 @@ public class EquipmentDelivery extends ServiceRequest {
     this.details = notes;
     this.type = "Equipment Delivery";
     this.status = status;
-    setServiceID(serviceID);
     this.quantity = quantity;
     this.status = status;
     this.dao = RequestSystem.Dao.EquipmentDelivery;
@@ -49,7 +47,6 @@ public class EquipmentDelivery extends ServiceRequest {
       String notes,
       int quantity,
       String status,
-      int serviceID,
       String date) {
     if (date != "") {
       this.timeMade = Timestamp.valueOf(date);
@@ -65,7 +62,6 @@ public class EquipmentDelivery extends ServiceRequest {
     this.type = "Equipment Delivery Request";
     this.quantity = quantity;
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
   }
 
   public String getFloorName() {
