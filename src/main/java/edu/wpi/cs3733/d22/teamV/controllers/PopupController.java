@@ -617,8 +617,6 @@ public class PopupController {
                 FXCollections.observableArrayList(
                     "Blood Sample", "Urine Sample", "X-Ray", "CAT", "MRI"));
         comboBox2.setPromptText("Lab");
-        insertFields();
-        content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -646,8 +644,6 @@ public class PopupController {
                 FXCollections.observableArrayList(
                     "Bed", "Portable X-Ray", "Blood Infusion Machine", "Patient Recliner"));
         comboBox2.setPromptText("Equipment");
-        insertFields();
-        content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -672,13 +668,11 @@ public class PopupController {
         fields[1].setPromptText("Patient ID");
         fields[2].setPromptText("Dosage");
         fields[3].setPromptText("Request Details");
-        insertFields();
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
                     "Tylenol", "Morphine", "Epinephrine", "Adderall", "Cyclosporine"));
         comboBox2.setPromptText("Medicine");
-        content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -702,7 +696,7 @@ public class PopupController {
       case "Internal Patient Transport Request":
         fields[1].setPromptText("Patient ID");
         fields[2].setPromptText("Notes");
-        insertFields();
+        comboBox2.setPromptText("");
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -723,7 +717,7 @@ public class PopupController {
       case "Laundry Request":
         fields[1].setPromptText("Patient ID");
         fields[2].setPromptText("Notes");
-        insertFields();
+        comboBox2.setPromptText("");
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -750,8 +744,6 @@ public class PopupController {
                 FXCollections.observableArrayList(
                     "Cheeseburger", "Chicken Nuggies", "Hot Dog", "Fries", "Crackers"));
         comboBox2.setPromptText("Meal");
-        insertFields();
-        content.getChildren().add(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -775,7 +767,6 @@ public class PopupController {
       case "Sanitation Request":
         fields[1].setPromptText("Patient ID");
         fields[2].setPromptText("Notes");
-        insertFields();
         comboBox2 =
             new JFXComboBox<>(
                 FXCollections.observableArrayList(
@@ -785,7 +776,6 @@ public class PopupController {
                     "Broken Glass",
                     "No Hazard/General Mess"));
         comboBox2.setPromptText("Reason");
-        content.getChildren().addAll(comboBox2);
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -809,8 +799,7 @@ public class PopupController {
         fields[1].setPromptText("Patient ID");
         fields[2].setPromptText("Religion");
         fields[3].setPromptText("Special Requests");
-        insertFields();
-
+        comboBox2.setPromptText("");
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -832,7 +821,7 @@ public class PopupController {
       case "Robot Request":
         fields[1].setPromptText("Bot ID");
         fields[2].setPromptText("Details");
-        insertFields();
+        comboBox2.setPromptText("");
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -853,7 +842,7 @@ public class PopupController {
         fields[1].setPromptText("Patient ID");
         fields[2].setPromptText("Type");
         fields[3].setPromptText("Request Details");
-        insertFields();
+        comboBox2.setPromptText("");
         submitIcon.setOnAction(
             event1 -> {
               if (checkFields()
@@ -873,7 +862,12 @@ public class PopupController {
             });
         break;
     }
-    content.getChildren().addAll(comboBox3);
+    insertFields();
+    if (!comboBox2.getPromptText().isEmpty()) {
+      content.getChildren().add(comboBox2);
+    }
+    comboBox3.setValue("Not Started");
+    content.getChildren().add(comboBox3);
   }
 
   /** Add request and update the map */

@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d22.teamV.servicerequests;
 
-import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
 import edu.wpi.cs3733.d22.teamV.observer.DirectionalAssoc;
 import java.sql.Timestamp;
@@ -55,7 +54,7 @@ public class SanitationRequest extends ServiceRequest {
     this.hazardName = hazardName;
     this.type = "Sanitation Request";
     this.status = status;
-    setServiceID(RequestSystem.getServiceID());
+    setServiceID(serviceID);
   }
 
   public void setServiceID(int serviceID) {

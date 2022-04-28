@@ -4,6 +4,7 @@ import edu.wpi.cs3733.d22.teamV.dao.*;
 import edu.wpi.cs3733.d22.teamV.interfaces.DaoInterface;
 import edu.wpi.cs3733.d22.teamV.map.*;
 import edu.wpi.cs3733.d22.teamV.objects.*;
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -398,6 +399,11 @@ public class RequestSystem {
    */
   public ArrayList<Location> getLocations() {
     return locationDao.getAllLocations();
+  }
+
+  public boolean exists(EquipmentDelivery request) {
+
+    return true;
   }
 
   public Location getLocation(String nodeID) {

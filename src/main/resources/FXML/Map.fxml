@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -18,52 +19,57 @@
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
-            <StackPane maxHeight="100.0" minWidth="100.0" prefHeight="100.0" prefWidth="200.0" styleClass="header" stylesheets="@../CSS/Map.css" BorderPane.alignment="CENTER">
+            <StackPane maxHeight="100.0" minWidth="100.0" prefHeight="100.0" prefWidth="1200.0" styleClass="header" stylesheets="@../CSS/Map.css" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane>
-                    <columnConstraints>
-                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="297.3333282470703" minWidth="10.0" prefWidth="266.66664632161456" />
-                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="870.3333536783855" minWidth="10.0" prefWidth="744.999979654948" />
-                      <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="1175.3333435058594" minWidth="10.0" prefWidth="301.66668701171886" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="29.33333396911621" minHeight="7.999999046325684" prefHeight="7.999999046325684" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="83.99998982747397" minHeight="10.0" prefHeight="83.99998982747397" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="27.333343505859375" minHeight="7.333343505859375" prefHeight="7.333343505859375" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                  <AnchorPane maxWidth="1200.0" minWidth="1200.0" prefHeight="200.0" prefWidth="1200.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                        <GridPane prefHeight="100.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="297.3333282470703" minWidth="10.0" prefWidth="266.66664632161456" />
+                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="870.3333536783855" minWidth="10.0" prefWidth="600.0" />
+                            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="1175.3333435058594" minWidth="10.0" prefWidth="301.66668701171886" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="29.33333396911621" minHeight="7.999999046325684" prefHeight="7.999999046325684" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="83.99998982747397" minHeight="10.0" prefHeight="83.99998982747397" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="27.333343505859375" minHeight="7.333343505859375" prefHeight="7.333343505859375" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <ImageView fitHeight="101.0" fitWidth="79.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
-                                 </image>
-                              </ImageView>
-                              <Label text="Map" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="44.0" />
-                                 </font>
-                              </Label>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                                 <children>
+                                    <ImageView fitHeight="101.0" fitWidth="79.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Brigham_and_Womens_Hospital_logo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label text="Map" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="44.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="25.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                                 <children>
+                                    <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../HomeButton.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#stop" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../ExitButton.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets right="25.0" />
+                                 </GridPane.margin>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="25.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
-                           <children>
-                              <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../HomeButton.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="55.0" fitWidth="55.0" onMouseClicked="#stop" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../ExitButton.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <GridPane.margin>
-                              <Insets right="25.0" />
-                           </GridPane.margin></HBox>
+                        </GridPane>
                      </children>
-                  </GridPane>
+                  </AnchorPane>
                </children></StackPane>
          </top>
          <center>

@@ -99,7 +99,6 @@ public class EquipmentRequestController extends RequestController {
               public void changed(
                   ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 double w = tablePlane.getWidth();
-                System.out.println(tablePlane.getWidth());
                 equipmentRequestTable.setPrefWidth(w - 30);
 
                 setColumnSizes(w);
@@ -147,7 +146,6 @@ public class EquipmentRequestController extends RequestController {
   /** This function is used to update the request tree table for this page */
   @FXML
   void updateTreeTable() {
-    // TODO add status, and date and time column
     employeeIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("employeeID"));
     patientIDCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientID"));
     firstNameCol.setCellValueFactory(new TreeItemPropertyValueFactory<>("patientFirstName"));
