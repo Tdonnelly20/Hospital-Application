@@ -48,6 +48,24 @@ public class ComputerRequest extends ServiceRequest {
     }
   }
 
+  public ComputerRequest(
+      int patientID,
+      int employeeID,
+      String roomLocation,
+      String typeName,
+      String requestDetails,
+      String status) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.details = requestDetails;
+    this.location = Vdb.requestSystem.getLocation(roomLocation);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.typeName = typeName;
+    this.type = "Computer Request";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+  }
+
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);

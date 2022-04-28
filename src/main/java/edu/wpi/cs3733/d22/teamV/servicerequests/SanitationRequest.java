@@ -48,6 +48,24 @@ public class SanitationRequest extends ServiceRequest {
     }
   }
 
+  public SanitationRequest(
+      int patientID,
+      int employeeID,
+      String roomLocation,
+      String hazardName,
+      String requestDetails,
+      String status) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.details = requestDetails;
+    this.location = Vdb.requestSystem.getLocation(roomLocation);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.hazardName = hazardName;
+    this.type = "Sanitation Request";
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+  }
+
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);

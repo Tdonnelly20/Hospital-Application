@@ -42,6 +42,26 @@ public class ReligiousRequest extends ServiceRequest {
     this.dao = RequestSystem.Dao.ReligiousRequest;
   }
 
+  public ReligiousRequest(
+      int patientID,
+      int employeeID,
+      String roomLocation,
+      String religion,
+      String specialRequests,
+      String status) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.location = Vdb.requestSystem.getLocation(roomLocation);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.religion = religion;
+    this.details = specialRequests;
+    this.type = "Religious Request";
+    notes = religion;
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+    this.dao = RequestSystem.Dao.ReligiousRequest;
+  }
+
   public void setServiceID(int serviceID) {
     super.setServiceID(serviceID);
     DirectionalAssoc.link(employee, patient, this);

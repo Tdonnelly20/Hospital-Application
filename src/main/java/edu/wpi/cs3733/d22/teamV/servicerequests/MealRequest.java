@@ -44,6 +44,28 @@ public class MealRequest extends ServiceRequest {
     setServiceID(RequestSystem.getServiceID());
   }
 
+  public MealRequest(
+      String nodeID,
+      int patientID,
+      int employeeID,
+      String mealName,
+      String allergy,
+      String requestDetails,
+      String status) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.allergy = allergy;
+    this.details = requestDetails;
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
+    patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.mealName = mealName;
+    notes = "Meal: " + mealName + " Allergies: " + allergy;
+    this.type = "Meal Delivery Request";
+    this.dao = RequestSystem.Dao.MealRequest;
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+  }
+
   public String getMealName() {
     return mealName;
   }

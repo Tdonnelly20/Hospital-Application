@@ -43,6 +43,28 @@ public class MedicineDelivery extends ServiceRequest {
     setServiceID(RequestSystem.getServiceID());
   }
 
+  public MedicineDelivery(
+      String nodeID,
+      int patientID,
+      int employeeID,
+      String medicineName,
+      String dosage,
+      String requestDetails,
+      String status) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.dosage = dosage;
+    this.details = requestDetails;
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
+    this.status = status;
+    this.medicineName = medicineName;
+    this.type = "Medicine Delivery Request";
+    notes = medicineName + ": " + dosage;
+    patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+  }
+
   public String getMedicineName() {
     return medicineName;
   }

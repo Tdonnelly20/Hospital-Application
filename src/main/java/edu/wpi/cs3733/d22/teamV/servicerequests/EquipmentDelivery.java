@@ -72,6 +72,41 @@ public class EquipmentDelivery extends ServiceRequest {
     return floor.getFloorName();
   }
 
+  public EquipmentDelivery(
+      int employeeID,
+      int patientID,
+      String nodeID,
+      String equipment,
+      String notes,
+      int quantity,
+      String status) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(employeeID);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(patientID);
+    this.equipment = equipment;
+    this.details = notes;
+    notes = equipment + "x" + quantity;
+    this.type = "Equipment Delivery Request";
+    this.quantity = quantity;
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+  }
+
+  public EquipmentDelivery(String nodeID, String equipment) {
+    this.timeMade = Timestamp.from(Instant.now());
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
+    this.employee = Vdb.requestSystem.getEmployeeDao().getEmployee(-1);
+    this.patient = Vdb.requestSystem.getPatientDao().getPatient(-1);
+    this.equipment = equipment;
+    this.details = notes;
+    notes = equipment + "x" + 1;
+    this.type = "Equipment Delivery Request";
+    this.quantity = 1;
+    this.status = "Not Started";
+    setServiceID(RequestSystem.getServiceID());
+  }
+
   public String getEquipment() {
     return equipment;
   }

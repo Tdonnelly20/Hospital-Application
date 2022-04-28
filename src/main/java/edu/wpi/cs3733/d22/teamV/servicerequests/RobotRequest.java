@@ -45,6 +45,29 @@ public class RobotRequest extends ServiceRequest {
     this.type = "Robot Request";
   }
 
+  public RobotRequest(int hospitalID, int botID, String nodeID, String details, String status) {
+    this.timeMade = Timestamp.from(Instant.now());
+    employee = Vdb.requestSystem.getEmployeeDao().getEmployee(hospitalID);
+    this.timeMade = Timestamp.from(Instant.now());
+    this.location = RequestSystem.getSystem().getLocation(nodeID);
+    this.botID = botID;
+    this.nodeID = nodeID;
+    if (details != "") {
+      this.details = details;
+    } else {
+      this.details = "";
+    }
+
+    this.status = status;
+    setServiceID(RequestSystem.getServiceID());
+    if (serviceID < 0) { // calls system to set id
+      // setServiceID(RequestSystem.getServiceID());
+    } else {
+      // setServiceID(serviceID);
+    }
+    this.type = "Robot Request";
+  }
+
   public Employee getEmployee() {
     return employee;
   }
