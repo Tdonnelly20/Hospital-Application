@@ -253,7 +253,6 @@ public class EquipmentDeliveryDao extends DaoInterface {
   @Override
   public void setAllServiceRequests(ArrayList<? extends ServiceRequest> serviceRequests) {
     allEquipmentDeliveries = new ArrayList<>();
-
     // Convert to subtype
     for (ServiceRequest request : serviceRequests) {
       // Cast to subtype

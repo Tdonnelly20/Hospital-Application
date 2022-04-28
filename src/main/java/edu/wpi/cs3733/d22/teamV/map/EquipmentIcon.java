@@ -7,9 +7,8 @@ import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
-import java.util.ArrayList;
-
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -90,8 +89,6 @@ public class EquipmentIcon extends Icon {
                     .setFloor(MapController.getController().getFloorName());
               }
             });
-        // Label locationLabel = new Label("X: " + xCoord + " Y: " + yCoord);
-
         JFXComboBox<String> updateStatus = new JFXComboBox<>(statusStrings);
         updateStatus.setPromptText(equipment.getIsDirtyString());
         updateStatus.setValue(equipment.getIsDirtyString());
@@ -116,8 +113,6 @@ public class EquipmentIcon extends Icon {
                         + "): "
                         + equipment.getID(),
                     new VBox(15, idLabel, description, hbox)));
-
-        // accordion.width
         vBox.getChildren().add(accordion);
       }
       return vBox;
@@ -213,8 +208,8 @@ public class EquipmentIcon extends Icon {
   public void createRequests() {
     for (Equipment e : equipmentList) {
       if (!e.getIsRequested()) {
-                e.setIsRequested(true);
-                RequestSystem.getSystem().addServiceRequest(new EquipmentDelivery("West Plaza", e.getID()));
+        e.setIsRequested(true);
+        RequestSystem.getSystem().addServiceRequest(new EquipmentDelivery("West Plaza", e.getID()));
       }
     }
   }

@@ -44,6 +44,11 @@ public class InternalPatientTransportationDao extends DaoInterface {
       {
         String[] data;
         data = line.split(splitToken);
+        int i = 0;
+        for (String d : data) {
+          System.out.println(i + " " + d);
+          i++;
+        }
         InternalPatientTransportation transportation =
             new InternalPatientTransportation(
                 data[0],
@@ -51,8 +56,8 @@ public class InternalPatientTransportationDao extends DaoInterface {
                 Integer.parseInt(data[2]),
                 data[3],
                 data[4],
-                data[5]);
-        transportation.setServiceID(Integer.parseInt(data[6]));
+                data[6]);
+        transportation.setServiceID(Integer.parseInt(data[5]));
         addServiceRequest(transportation);
       }
 

@@ -23,7 +23,6 @@ public class InternalPatientTransportation extends ServiceRequest {
       String date) {
     if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
-
     } else {
       this.timeMade = Timestamp.from(Instant.now());
     }
