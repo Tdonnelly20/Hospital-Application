@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d22.teamV.controllers;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d22.teamV.face.Camera;
 import edu.wpi.cs3733.d22.teamV.main.Vdb;
-import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -125,12 +124,13 @@ public class LoginController extends Controller {
   }
 
   @FXML
-  public void keyLogin(KeyEvent event) throws IOException {
+  public void keyLogin(KeyEvent event) throws Exception {
     // System.out.println(KeyCode.ENTER);
 
     if (event.getCode().equals(KeyCode.ENTER)) {
       Vdb vdb = new Vdb();
       vdb.setUpConnection();
+      vdb.createAllDB();
       checkLogin(event, username.getText());
       // System.out.println("hello");
     } else {
@@ -139,9 +139,10 @@ public class LoginController extends Controller {
   }
 
   @FXML
-  public void userLogin(ActionEvent event) {
+  public void userLogin(ActionEvent event) throws Exception {
     Vdb vdb = new Vdb();
     vdb.setUpConnection();
+    vdb.createAllDB();
     checkLogin(event, username.getText());
     try {
       if (camera != null) checkLogin(event, "Jason");
