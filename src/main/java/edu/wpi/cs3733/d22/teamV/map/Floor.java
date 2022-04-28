@@ -39,7 +39,8 @@ public class Floor {
       } else if ((((EquipmentIcon) icon).getDirtyPumps() > 9)
           && !pumpAlertIcons.contains((EquipmentIcon) icon)) {
         pumpAlertIcons.add((EquipmentIcon) icon);
-      } else if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
+      }
+      if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
           && !bedAlertIcons.contains((EquipmentIcon) icon)) {
         bedAlertIcons.add((EquipmentIcon) icon);
       } else System.out.println("uh oh");
