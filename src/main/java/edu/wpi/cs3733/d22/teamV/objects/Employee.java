@@ -43,6 +43,16 @@ public class Employee extends DirectionalAssoc {
 
   public Employee() {}
 
+  public ArrayList<Integer> getPatientIDs() {
+    ArrayList<Integer> patientIDList = new ArrayList<>();
+
+    for (Patient patient : getPatientList()) {
+      patientIDList.add(patient.getPatientID());
+    }
+
+    return patientIDList;
+  }
+
   public int getPatientListSize() {
     return patientIDs.size();
   }

@@ -12,9 +12,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class RequestSystem {
-  public static int serviceIDCounter = 0;
-  public static int patientIDCounter = 0;
-  public static int employeeIDCounter = 0;
+  public static int serviceIDCounter = 1;
+  public static int patientIDCounter = 1;
+  public static int employeeIDCounter = 1;
   public static int nodeIDCounter = 0;
 
   private LocationDao locationDao;

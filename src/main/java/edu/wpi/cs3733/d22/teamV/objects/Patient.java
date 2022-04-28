@@ -57,7 +57,13 @@ public class Patient extends DirectionalAssoc {
   }
 
   public ArrayList<Integer> getEmployeeIDs() {
-    return employeeIDs;
+    ArrayList<Integer> employeeIDList = new ArrayList<>();
+
+    for (Employee employee : getEmployeeList()) {
+      employeeIDList.add(employee.getEmployeeID());
+    }
+
+    return employeeIDList;
   }
 
   public ArrayList<Integer> getServiceRequestIDs() {
