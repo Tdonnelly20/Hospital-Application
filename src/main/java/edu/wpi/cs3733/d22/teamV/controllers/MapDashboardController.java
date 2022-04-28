@@ -531,7 +531,7 @@ public class MapDashboardController extends Controller {
           if (equipment.equals("Infusion Pump")) {
             EquipmentDelivery request =
                 new EquipmentDelivery(
-                    -1, -1, "West Plaza", equipment.getID(), "none", 1, "Not Started", 0, "");
+                    -1, -1, "West Plaza", equipment.getID(), "none", 1, "Not Started", -1, "");
             RequestSystem.getSystem()
                 .addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
           }
