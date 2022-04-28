@@ -682,7 +682,6 @@ public class MapDashboardController extends Controller {
   /** Updates bed counts for bar chart */
   @FXML
   public void updateBeds(int[] beds) {
-    System.out.println("Updating beds");
     int cleanBeds = beds[0];
     int dirtyBeds = beds[1];
     equipment.getData().add(new XYChart.Data("Clean \n" + "Beds", cleanBeds));

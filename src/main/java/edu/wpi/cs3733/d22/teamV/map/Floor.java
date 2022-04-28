@@ -57,7 +57,7 @@ public class Floor {
       if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
           && !bedAlertIcons.contains((EquipmentIcon) icon)) {
         bedAlertIcons.add((EquipmentIcon) icon);
-      } else System.out.println("uh oh");
+      }
     }
   }
 
