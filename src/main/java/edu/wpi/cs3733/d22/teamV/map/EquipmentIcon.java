@@ -7,11 +7,9 @@ import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
-import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
-import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
+
+import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -211,27 +209,14 @@ public class EquipmentIcon extends Icon {
     }
   }
 
+  // checks to see a service request already exists and creates one if it doesn't
   public void createRequests() {
     for (Equipment e : equipmentList) {
-      if (e.getName().equals("Infusion Pump") && e.getIsDirty()) {
-        EquipmentDelivery request =
-            new EquipmentDelivery(-1, -1, "West Plaza", e.getID(), "none", 1, "Not Started", "");
-        if (!exists(
-            RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.EquipmentDelivery),
-            request)) {
-          RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
-        }
+      if (!e.getIsRequested()) {
+                e.setIsRequested(true);
+                RequestSystem.getSystem().addServiceRequest(new EquipmentDelivery("West Plaza", e.getID()));
       }
     }
-  }
-
-  // checks to see a service request already exists
-  public boolean exists(
-      ArrayList<? extends ServiceRequest> allServiceRequests, EquipmentDelivery request) {
-    for (EquipmentDelivery r : (ArrayList<EquipmentDelivery>) allServiceRequests) {
-      if (r.getServiceID() == request.getServiceID()) return true;
-    }
-    return false;
   }
 
   // checks if isAdding is true, if so finds beds that are dirty in the same place.
@@ -253,21 +238,27 @@ public class EquipmentIcon extends Icon {
                 + e.getY();
         // the following line sends the string to MapDashboardController so it can be displayed
         MapDashboardController.getController().addNewBedAlert(newAlertString);
-        for (Equipment equipment : tempDirtyBedsList) {
-          EquipmentDelivery request =
-              new EquipmentDelivery(
-                  -1,
-                  -1,
-                  "OR",
-                  e.getID(),
-                  "Dirty beds",
-                  1,
-                  "Not Started",
-                  Timestamp.from(Instant.now()).toString());
-          request.setServiceID(RequestSystem.getServiceID());
-          RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
-          tempDirtyBedsList.remove(equipment);
-        }
+        //        for (Equipment equipment : tempDirtyBedsList) {
+        //          EquipmentDelivery request =
+        //              new EquipmentDelivery(
+        //                  -1,
+        //                  -1,
+        //                  "OR",
+        //                  e.getID(),
+        //                  "Dirty beds",
+        //                  1,
+        //                  "Not Started",
+        //                  Timestamp.from(Instant.now()).toString());
+        //          if (!exists(
+        //
+        // RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.EquipmentDelivery),
+        //              request)) {
+        //            request.setServiceID(RequestSystem.getServiceID());
+        //            RequestSystem.getSystem()
+        //                .addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+        //          }
+        //          tempDirtyBedsList.remove(equipment);
+        //        }
       }
     } else {
       dirtyBeds--;

@@ -13,6 +13,7 @@ public class Equipment {
   private String description;
   private boolean isDirty;
   private EquipmentIcon icon;
+  private boolean isRequested = false;
 
   public Equipment(
       String ID,
@@ -86,6 +87,14 @@ public class Equipment {
   public void updateLocation(double x, double y) {
     this.x = x;
     this.y = y;
+  }
+
+  public boolean getIsRequested() {
+    return isRequested;
+  }
+
+  public void setIsRequested(boolean b) {
+    isRequested = b;
   }
 
   public String toString() {
