@@ -19,6 +19,7 @@ public class Floor {
   private ArrayList<EquipmentIcon> bedAlertIcons = new ArrayList<>();
   private ArrayList<EquipmentIcon> dirtyLocations = new ArrayList<>();
   private ArrayList<EquipmentIcon> cleanLocations = new ArrayList<>();
+  private ArrayList<String> requested = new ArrayList<>();
   private int numIcons;
 
   public Floor(String floorName, Image map) {
@@ -26,6 +27,19 @@ public class Floor {
     this.map = map;
     this.dirtyEquipmentCount = 0;
     this.activeRequestCount = 0;
+  }
+
+  public void addToRequested(String equipment) {
+    requested.add(equipment);
+  }
+
+  public boolean exists(String id) {
+    for (String e : requested) {
+      if (e.equals(id)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public void addIcon(Icon icon) {
