@@ -8,6 +8,7 @@ import edu.wpi.cs3733.d22.teamV.main.RequestSystem;
 import edu.wpi.cs3733.d22.teamV.objects.Equipment;
 import edu.wpi.cs3733.d22.teamV.objects.Location;
 import edu.wpi.cs3733.d22.teamV.servicerequests.EquipmentDelivery;
+import edu.wpi.cs3733.d22.teamV.servicerequests.ServiceRequest;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -208,6 +209,29 @@ public class EquipmentIcon extends Icon {
         }
       }
     }
+  }
+
+  public void createRequests() {
+    for (Equipment e : equipmentList) {
+      if (e.getName().equals("Infusion Pump") && e.getIsDirty()) {
+        EquipmentDelivery request =
+            new EquipmentDelivery(-1, -1, "West Plaza", e.getID(), "none", 1, "Not Started", "");
+        if (!exists(
+            RequestSystem.getSystem().getAllServiceRequests(RequestSystem.Dao.EquipmentDelivery),
+            request)) {
+          RequestSystem.getSystem().addServiceRequest(request, RequestSystem.Dao.EquipmentDelivery);
+        }
+      }
+    }
+  }
+
+  // checks to see a service request already exists
+  public boolean exists(
+      ArrayList<? extends ServiceRequest> allServiceRequests, EquipmentDelivery request) {
+    for (EquipmentDelivery r : (ArrayList<EquipmentDelivery>) allServiceRequests) {
+      if (r.getServiceID() == request.getServiceID()) return true;
+    }
+    return false;
   }
 
   // checks if isAdding is true, if so finds beds that are dirty in the same place.
