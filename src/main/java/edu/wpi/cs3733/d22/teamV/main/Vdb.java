@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d22.teamV.main;
 
 import edu.wpi.cs3733.d22.teamV.controllers.PopupController;
 import edu.wpi.cs3733.d22.teamV.map.MapManager;
+import java.io.File;
 import java.sql.*;
 
 public class Vdb {
@@ -75,6 +76,7 @@ public class Vdb {
         URL = "jdbc:derby://" + ip + "/" + serverPath;
       }
       System.out.println("URL IS " + URL);
+      System.out.println(new File(URL).getAbsolutePath());
       connection = DriverManager.getConnection(URL, "admin", "admin");
     } catch (SQLException e) {
       System.out.println("Connection failed. Check output console.");
