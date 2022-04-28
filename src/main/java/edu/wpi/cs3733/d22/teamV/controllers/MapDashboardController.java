@@ -457,6 +457,8 @@ public class MapDashboardController extends Controller {
             + "\n"
             + "Dirty Pumps: "
             + dirtyPumps);
+    if (bedBarChart != null) bedBarChart.getData().clear();
+    updateBarChart(new int[] {cleanBeds, dirtyBeds}, new int[] {cleanPumps, dirtyPumps});
   }
 
   /* was used to check for beds that are dirty, could be used again if main function has to be changed in the future.
@@ -552,8 +554,6 @@ public class MapDashboardController extends Controller {
     updateServiceRequestTable();
     updateCounts();
     updateAlerts();
-    if (bedBarChart != null) bedBarChart.getData().clear();
-    updateBarChart();
   }
 
   @Override
@@ -680,38 +680,29 @@ public class MapDashboardController extends Controller {
 
   /** updates bar chart on floor switch / equipment change */
   @FXML
-  public void updateBarChart() {
+  public void updateBarChart(int[] beds, int pumps[]) {
     equipment.getData().clear();
     equipment = new XYChart.Series<>();
-    updateBeds();
-    updatePumps();
+    updateBeds(beds);
+    updatePumps(pumps);
     if (bedBarChart != null) bedBarChart.getData().add(equipment);
   }
 
   /** Updates bed counts for bar chart */
   @FXML
-  public void updateBeds() {
+  public void updateBeds(int[] beds) {
     System.out.println("Updating beds");
-    int cleanBeds = 0;
-    int dirtyBeds = 0;
-    for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
-      cleanBeds += icon.getCleanBeds();
-      dirtyBeds += icon.getDirtyBeds();
-    }
+    int cleanBeds = beds[0];
+    int dirtyBeds = beds[1];
     equipment.getData().add(new XYChart.Data("Clean \n" + "Beds", cleanBeds));
     equipment.getData().add(new XYChart.Data("Dirty \n" + "Beds", dirtyBeds));
   }
 
   /** Updates pump count for bar chart */
   @FXML
-  public void updatePumps() {
-    int cleanPumps = 0;
-    int dirtyPumps = 0;
-    equipment.setName("Beds");
-    for (EquipmentIcon icon : curFloor.getEquipmentIcons()) {
-      cleanPumps += icon.getCleanPumps();
-      dirtyPumps += icon.getDirtyPumps();
-    }
+  public void updatePumps(int[] pumps) {
+    int cleanPumps = pumps[0];
+    int dirtyPumps = pumps[1];
     equipment.getData().add(new XYChart.Data("Clean \n" + "Pumps", cleanPumps));
     equipment.getData().add(new XYChart.Data("Dirty \n" + "Pumps", dirtyPumps));
 
