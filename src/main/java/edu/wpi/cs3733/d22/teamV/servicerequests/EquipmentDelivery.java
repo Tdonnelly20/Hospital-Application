@@ -48,9 +48,8 @@ public class EquipmentDelivery extends ServiceRequest {
       int quantity,
       String status,
       String date) {
-    if (date != "") {
+    if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
-
     } else {
       this.timeMade = Timestamp.from(Instant.now());
     }

@@ -22,7 +22,7 @@ public class LabRequest extends ServiceRequest {
 
   public LabRequest(
       int userID, int patientID, String nodeID, String lab, String status, String date) {
-    if (date != "") {
+    if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
 
     } else {

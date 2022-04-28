@@ -26,9 +26,8 @@ public class ComputerRequest extends ServiceRequest {
       String requestDetails,
       String status,
       String date) {
-    if (date != "") {
+    if (!date.equals("")) {
       this.timeMade = Timestamp.valueOf(date);
-
     } else {
       this.timeMade = Timestamp.from(Instant.now());
     }
