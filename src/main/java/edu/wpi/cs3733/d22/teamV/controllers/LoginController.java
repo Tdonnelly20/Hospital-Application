@@ -128,6 +128,12 @@ public class LoginController extends Controller {
     // System.out.println(KeyCode.ENTER);
 
     if (event.getCode().equals(KeyCode.ENTER)) {
+      try {
+        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName("org.apache.derby.jdbc.ClientDriver");
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      }
       Vdb vdb = new Vdb();
       vdb.setUpConnection();
       vdb.createAllDB();
@@ -140,6 +146,12 @@ public class LoginController extends Controller {
 
   @FXML
   public void userLogin(ActionEvent event) throws Exception {
+    try {
+      Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      Class.forName("org.apache.derby.jdbc.ClientDriver");
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
     Vdb vdb = new Vdb();
     vdb.setUpConnection();
     vdb.createAllDB();
