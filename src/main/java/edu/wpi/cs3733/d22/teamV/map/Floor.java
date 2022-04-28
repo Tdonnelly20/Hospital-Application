@@ -42,7 +42,7 @@ public class Floor {
           && !pumpAlertIcons.contains((EquipmentIcon) icon)) {
         pumpAlertIcons.add((EquipmentIcon) icon);
       }
-      else if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
+      if ((((EquipmentIcon) icon).getDirtyBeds() > 5)
           && !bedAlertIcons.contains((EquipmentIcon) icon)) {
         bedAlertIcons.add((EquipmentIcon) icon);
       }
