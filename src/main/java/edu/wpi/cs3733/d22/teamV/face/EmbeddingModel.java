@@ -6,10 +6,7 @@ import ai.djl.modality.cv.Image;
 import ai.djl.modality.cv.transform.Resize;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDList;
-import ai.djl.repository.zoo.Criteria;
-import ai.djl.repository.zoo.ModelNotFoundException;
-import ai.djl.repository.zoo.ModelZoo;
-import ai.djl.repository.zoo.ZooModel;
+import ai.djl.repository.zoo.*;
 import ai.djl.translate.Batchifier;
 import ai.djl.translate.TranslateException;
 import ai.djl.translate.Translator;
@@ -18,6 +15,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 public class EmbeddingModel {
@@ -51,7 +50,6 @@ public class EmbeddingModel {
   }
 
   private ZooModel<Image, double[]> buildModel() {
-
     Criteria<Image, double[]> criteria =
         Criteria.builder()
             .setTypes(ai.djl.modality.cv.Image.class, double[].class)

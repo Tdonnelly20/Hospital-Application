@@ -122,7 +122,12 @@ public class PopupController {
     stage.setMaxHeight(400);
     stage.setMinHeight(400);
     contentScrollPane.setMinHeight(stage.getHeight() - header.getHeight());
-    sceneVbox.getChildren().addAll(header, contentScrollPane);
+    if (!sceneVbox.getChildren().contains(header)) {
+      sceneVbox.getChildren().addAll(header);
+    }
+    if (!sceneVbox.getChildren().contains(contentScrollPane)) {
+      sceneVbox.getChildren().addAll(contentScrollPane);
+    }
     sceneVbox.setAlignment(Pos.TOP_CENTER);
 
     for (int i = 0; i < fields.length; i++) {

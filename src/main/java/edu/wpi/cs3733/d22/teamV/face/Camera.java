@@ -60,7 +60,7 @@ public class Camera {
     this.authenticating = authenticating;
 
     OpenCV.loadLocally();
-    capture = new VideoCapture();
+    capture = new VideoCapture(0);
     this.faceCascade = new CascadeClassifier();
     this.absoluteFaceSize = 0;
 
@@ -276,15 +276,6 @@ public class Camera {
   public static void stopAcquisition() {
     if (Camera.timer != null && !Camera.timer.isShutdown()) {
       Camera.timer.shutdownNow();
-      //            try {
-      //                // stop the timer
-      //                Camera.timer.shutdownNow();
-      ////                Camera.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
-      //            } catch (InterruptedException e) {
-      //                // log any exception
-      //                System.err.println("Exception in stopping the frame capture, trying to
-      // release the camera now... " + e);
-      //            }
     }
 
     if (capture != null) {

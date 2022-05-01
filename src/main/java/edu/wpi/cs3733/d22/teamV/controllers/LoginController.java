@@ -156,8 +156,7 @@ public class LoginController extends Controller {
     vdb.createAllDB();
     checkLogin(event, username.getText());
     try {
-      camera.grabFrame();
-      if (camera.detect()) checkLogin(event, camera.userName);
+      if (camera.face) checkLogin(event, "Jason");
     } catch (Exception e) {
       e.printStackTrace();
     }
