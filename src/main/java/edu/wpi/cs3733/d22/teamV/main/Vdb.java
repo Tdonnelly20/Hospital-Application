@@ -11,7 +11,6 @@ public class Vdb {
   private static String line; // receives a line from b
   private static boolean isClient = false;
   private static String ip;
-  private static String serverPath;
   private static Connection connection;
   public static MapManager mapManager = MapManager.getManager();
   public static PopupController popupController = PopupController.getController();
@@ -73,7 +72,7 @@ public class Vdb {
         URL = "jdbc:derby:VDB";
 
       } else {
-        URL = "jdbc:derby://" + ip + "/" + serverPath;
+        URL = "jdbc:derby://" + ip + ":1527/VDB";
       }
       System.out.println("URL IS " + URL);
       System.out.println(new File(URL).getAbsolutePath());
@@ -92,21 +91,6 @@ public class Vdb {
 
   public static void setIP(String IPV4) {
     ip = IPV4;
-  }
-
-  public static void setServerPath(String server) {
-    String path = "";
-    for (int i = 0; i < server.length(); i++) {
-      if (Character.compare(server.charAt(i), '\"') != 0) {
-        if (Character.compare(server.charAt(i), '\\') == 0) {
-          path += "//";
-        } else {
-          path += server.charAt(i);
-        }
-      }
-    }
-    serverPath = path;
-    System.out.println("Path is" + path);
   }
 
   public static void setServerIP(String IPV4) {

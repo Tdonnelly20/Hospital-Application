@@ -26,7 +26,6 @@ public class LoginController extends Controller {
   @FXML private Pane pane;
   @FXML private ComboBox<String> dBMenu;
   @FXML private TextField dbIP;
-  @FXML private TextField dbPath;
   @FXML private Button dbButton;
   @FXML private Group group;
   @FXML private JFXButton jfxButton;
@@ -89,13 +88,13 @@ public class LoginController extends Controller {
     if (dBMenu.getValue().toString().equals("Server DB")) {
       Vdb.setIsClient(true);
       dbButton.setOpacity(1);
-      dbPath.setOpacity(1);
       dbIP.setOpacity(1);
+      connectionFail.setOpacity(0);
     } else if (dBMenu.getValue().toString().equals("Embedded DB")) {
       Vdb.setIsClient(false);
       dbButton.setOpacity(0);
-      dbPath.setOpacity(0);
       dbIP.setOpacity(0);
+      connectionFail.setOpacity(0);
       Vdb.setUpConnection();
     } else {
       System.out.println("No database was selected");
@@ -107,20 +106,17 @@ public class LoginController extends Controller {
   @FXML
   public void getDBInfo() throws Exception {
     Vdb.setIP(dbIP.getText());
-    Vdb.setServerPath(dbPath.getText());
     System.out.println("IP :" + dbIP.getText());
-    System.out.println(dbPath.getText());
     if (Vdb.setUpConnection() == 0) {
       connectionFail.setOpacity(1);
+      connectionFail.setText("Database not found");
     } else {
       connectionFail.setText("Database found!");
       connectionFail.setOpacity(1);
       dbButton.setOpacity(0);
-      dbPath.setOpacity(0);
       dbIP.setOpacity(0);
     }
     dbIP.setText("");
-    dbPath.setText("");
   }
 
   @FXML
