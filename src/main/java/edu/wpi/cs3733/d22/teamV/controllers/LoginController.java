@@ -149,11 +149,12 @@ public class LoginController extends Controller {
       e.printStackTrace();
     }
     Vdb vdb = new Vdb();
-    vdb.setUpConnection();
+    Vdb.setUpConnection();
     vdb.createAllDB();
     checkLogin(event, username.getText());
     try {
-      if (camera != null) checkLogin(event, "Jason");
+      camera.grabFrame();
+      if (camera.detect()) checkLogin(event, "Jason");
     } catch (Exception e) {
       e.printStackTrace();
     }
