@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import javafx.event.Event;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -45,6 +44,7 @@ public class Camera {
   private Mat picture;
   @Getter private Mat pictureTaken;
   private final boolean authenticating;
+  public String userName;
 
   private Thread authenticator;
 
@@ -255,7 +255,6 @@ public class Camera {
       }
     }
 
-    String userName = null;
     try {
       userName = facenet.userFromEmbedding(newImageEmbedding);
       userName = "Jason";

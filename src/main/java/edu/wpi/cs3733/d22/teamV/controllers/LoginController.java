@@ -58,6 +58,9 @@ public class LoginController extends Controller {
             group.setLayoutX(w / 2 - 249);
             group.setLayoutY(h / 2 - 189);
             faceImage.setLayoutX(w / 2 - 112);
+            dbIP.setLayoutX(4 * w / 5 - 66);
+            dBMenu.setLayoutX(4 * w / 5 - 66);
+            dbButton.setLayoutX(9 * w / 10 - 26);
           }
         };
     pane.widthProperty().addListener(listener);
@@ -154,7 +157,7 @@ public class LoginController extends Controller {
     checkLogin(event, username.getText());
     try {
       camera.grabFrame();
-      if (camera.detect()) checkLogin(event, "Jason");
+      if (camera.detect()) checkLogin(event, camera.userName);
     } catch (Exception e) {
       e.printStackTrace();
     }
