@@ -172,13 +172,13 @@ public class EmployeeController extends RequestController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (Employee delivery : currEmployees) {
-      if ((Integer.toString(delivery.getEmployeeID()).contains(keyword))) {
+      if ((Integer.toString(delivery.getEmployeeID()).contains(keyword.toLowerCase()))) {
         TreeItem<Employee> item = new TreeItem<Employee>(delivery);
         treeItems.add(item);
-      } else if (delivery.getFirstName().toLowerCase().contains(keyword)) {
+      } else if (delivery.getFirstName().toLowerCase().contains(keyword.toLowerCase())) {
         TreeItem<Employee> item = new TreeItem<Employee>(delivery);
         treeItems.add(item);
-      } else if (delivery.getLastName().toLowerCase().contains(keyword)) {
+      } else if (delivery.getLastName().toLowerCase().contains(keyword.toLowerCase())) {
         TreeItem<Employee> item = new TreeItem<Employee>(delivery);
         treeItems.add(item);
       } else {

@@ -118,13 +118,13 @@ public class PatientController extends RequestController {
 
     // for each loop cycling through each medicine delivery currently entered into the system
     for (Patient delivery : currPatients) {
-      if (delivery.getFirstName().toLowerCase().contains(keyword)) {
+      if (delivery.getFirstName().toLowerCase().contains(keyword.toLowerCase())) {
         TreeItem<Patient> item = new TreeItem<Patient>(delivery);
         treeItems.add(item);
-      } else if (delivery.getLastName().toLowerCase().contains(keyword)) {
+      } else if (delivery.getLastName().toLowerCase().contains(keyword.toLowerCase())) {
         TreeItem<Patient> item = new TreeItem<Patient>(delivery);
         treeItems.add(item);
-      } else if (Integer.toString(delivery.getPatientID()).contains(keyword)) {
+      } else if (Integer.toString(delivery.getPatientID()).contains(keyword.toLowerCase())) {
         TreeItem<Patient> item = new TreeItem<Patient>(delivery);
         treeItems.add(item);
       } else {

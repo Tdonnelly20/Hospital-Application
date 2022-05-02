@@ -61,6 +61,19 @@ public class HomeController extends RequestController {
     searchDropDown.getItems().add("Floor");
     searchDropDown.setValue("Type");
 
+
+    //    searchDropDown
+    //        .valueProperty()
+    //        .addListener(
+    //            new ChangeListener<String>() {
+    //              @Override
+    //              public void changed(
+    //                  ObservableValue<? extends String> observable, String oldValue, String
+    // newValue) {
+    //                searchDropDown.setPromptText("Search by " + newValue);
+    //              }
+    //            });
+
     searchBar
         .textProperty()
         .addListener(
@@ -207,7 +220,7 @@ public class HomeController extends RequestController {
       requestTable.setRoot(null);
     } else {
       for (ServiceRequest request : serviceRequests) {
-        if (searchBy(request).contains(keyword)) {
+        if (searchBy(request).contains(keyword.toLowerCase())) {
           TreeItem<ServiceRequest> item = new TreeItem<>(request);
           treeItems.add(item);
         }
@@ -221,23 +234,17 @@ public class HomeController extends RequestController {
 
   private String searchBy(ServiceRequest request) {
     if (searchDropDown.getValue().equals("Type")) {
-      searchBar.setPromptText("Search by Type");
       return request.getType().toLowerCase();
     } else if (searchDropDown.getValue().equals("Node ID")) {
-      searchBar.setPromptText("Search by Node ID (case sensitive)");
-      return request.getNodeID();
+      return request.getNodeID().toLowerCase();
     } else if (searchDropDown.getValue().equals("Employee ID")) {
-      searchBar.setPromptText("Search by Emplpoyee ID");
       return Integer.toString(request.getEmployeeID()).toLowerCase();
     } else if (searchDropDown.getValue().equals("Patient ID")) {
-      searchBar.setPromptText("Search by Patient ID");
       return Integer.toString(request.getPatientID()).toLowerCase();
     } else if (searchDropDown.getValue().equals("Floor")) {
-      searchBar.setPromptText("Search by Floor");
       return request.getFloorName().toLowerCase();
     } else {
-      searchBar.setPromptText("Search by Type");
-      return request.getType();
+      return request.getType().toLowerCase();
     }
   }
 
