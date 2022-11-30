@@ -1,5 +1,5 @@
 # Team Vegan Vampires Hospital System
-This is a demo hospital system created for the Brigham and Women's hopsital.
+This hospital workflow and equipment tracking application was created for Brigham and Women's Hospital. It includes a hospital dashboard, an interactive floor map with pathfinding, and multiple integrated service request modules. The development team followed Agile Scrum methodologies and applied multiple software design patterns (Facade, observer, singleton, etc.) to create an application that would improve Brigham and Women's Hospital's workflow and efficiency. 
 
 To assemble a jar file for your project, run the "jar" gradle task, either through IntelliJ or by doing
 `gradle jar` on a terminal. Gradle will automatically download all dependencies needed to compile your jar file,
